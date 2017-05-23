@@ -1,0 +1,17 @@
+<div id="myfooter" class="container">
+<hr>
+<p id="mylicense">
+This package is built and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>, with contributions from others.<br>
+All text and figures are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. Software/Code is licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GPL-3</a>.
+</p>
+</div>
+
+<!--custom javascript to open links in new tabs instead of the same. needed to work on eLC -->
+<script type="text/javascript" charset="utf-8">
+var links = document.links;
+for (var i = 0, linksLength = links.length; i < linksLength; i++) {
+   if (links[i].hostname != window.location.hostname) {
+       links[i].target = '_blank';
+   } 
+}
+</script>

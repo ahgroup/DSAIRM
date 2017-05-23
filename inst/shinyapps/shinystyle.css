@@ -1,0 +1,195 @@
+/* Handel midifications for shiny apps
+ * Last Modified: 2016-06-06
+------------------------------------------- */
+
+
+/* Color Glossary for easy changing of colors later
+ * grey:  #403c3d 
+ * dark grey:  #333
+ * light grey: #ccc
+ * near white: #f9f9f9
+ * light blue: #3388CC
+ * blue: #005599
+ * red: #FF0000
+------------------------------------------------ */
+
+
+/* Image
+---------------*/
+img {
+	max-width: 100%;
+	max-height: 90%;
+	padding: 6px;
+	
+}
+.image {
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+	max-width: 100%;
+	max-height: 90%;
+	padding: 0;  
+	text-align: center;
+  
+  /* Visual */
+	border-radius: 5px;
+	border: 1px solid #ccc;  /* light grey */
+}
+.figure {
+	margin-left: 10px;
+	margin-right: 10px;
+	padding: 0;  
+	text-align: center;
+  
+  /* Visual */
+	border-radius: 5px;
+	border: 1px solid #ccc;  /* light grey */
+}
+.caption {
+	padding: 0;
+	margin: auto;
+	margin-bottom: 6px;
+}
+
+/* ------- Tables ------- */
+table {
+	margin: 20px;
+	border-spacing: 0;
+}
+table th { 
+ /* Box-model */
+	height: 36px;
+	padding: 5px;
+  
+  /* Typography */
+	font-size: 16px;
+	line-height: 36px;
+  
+  /* Visual */
+	background-color: #403c3d;
+	color: #fff;
+	border: 1px solid #ccc; /* light grey */
+  border-bottom: 0;
+}
+table thead th:empty {
+	background: transparent;
+	border: none;
+}
+table caption {
+	font-weight: bold;
+}
+tr:nth-child(2n+1) {
+  /* Visual */
+	background-color: #f9f9f9;  /* near white */
+	color: #000; /* black */
+}
+table td {
+	padding: 5px;
+	border-collapse: collapse;
+	border: 1px solid #ccc; /* light grey */
+}
+
+
+/* My additions
+-------------------- */
+
+#shinyheadertitle
+{
+	color: #123c66;  
+	font-weight: bold;
+	text-align: center;
+	font-size: 120%;
+}
+
+#shinyheadertext
+{
+	color: #123c66;  
+	text-align: center;
+	font-size: 100%;
+}
+
+
+#classauthor
+{
+	color: black;  
+	font-weight: normal;
+	text-align: center;
+	
+}
+
+#mylicense
+{
+	text-align: center;
+	font-size: 70%;
+	
+}
+
+iframe {
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+#mytextbox
+{
+	border: 10px solid #cfd7e0; 
+	color: black;  
+	font-weight: normal;
+}
+
+.MathJax {
+	font-size: 2em;
+}
+
+
+.shiny-progress-container {
+	top: 40px;
+}
+
+.progress-message {
+	color: red;
+}
+
+
+
+.mainbutton {
+	text-align: center;
+	color: #000000; 
+	background-color: #D2FFE2;
+	border-spacing: 10px;
+	width: 200px;
+}
+
+.submitbutton {
+	text-align: center;
+	color: #000000; 
+	background-color: #D2FFE2;
+	border-spacing: 20px;
+	width: 200px;
+}
+
+.exitbutton {
+	text-align: center;
+	color: #000000; 
+	background-color: #FF0000;	
+	width: 200px;
+}
+
+.mainmenurow {
+	text-align: center;
+	padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+.maintext {
+	text-align: center;
+	color: #2a3f9e; 
+	font-weight: bold;
+}
+
+.infotext {
+	text-align: center;
+	color: #2a3f9e; 
+	
+}
+

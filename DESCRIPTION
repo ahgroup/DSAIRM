@@ -1,0 +1,34 @@
+Package: DSAIRM
+Type: Package
+Title: Dynamical Systems Approach to Immune Response Modeling
+Description: A collection of Shiny apps that allow for the simulation and
+    exploration of various within-host immune response scenarios.
+    The purpose of the package is to help individuals learn 
+    about within-host infection and immune response modeling from a dynamical systems perspective.
+    All apps include explanations of the underlying models and instructions on
+    what to do with the models. 
+Version: 0.1.0
+Date: 2017-05-23
+Authors@R: c(
+    person("Andreas", "Handel", email = "ahandel@uga.edu", 
+    role = c("aut", "cre")),
+    person("Sina", "Solaimanpour",  role = "ctb") )
+Maintainer: Andreas Handel <ahandel@uga.edu>
+License: GPL-3
+Encoding: UTF-8
+LazyData: TRUE
+Imports:
+    deSolve (>= 1.13),
+    knitr (>= 1.15),
+    adaptivetau (>= 2.2),
+    utils
+Depends:
+    shiny (>= 1.0)
+Suggests:
+    rmarkdown
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr
+URL: https://github.com/ahgroup/DSAIRM
+BugReports: https://github.com/ahgroup/DSAIRM/issues
+
+
