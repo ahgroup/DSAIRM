@@ -22,12 +22,11 @@ dsairmmenu <- function() {
 
     if (op == "X") {cond = 0} #leave while loop/menu
     if (op == "A") {appname = "BasicBacteria"}
-    #if (op == "B") {appname = "CharacteristicsofID"}
-    #if (op == "C") {appname = "IDPatterns"}
-    #if (op == "D") {appname = "ReproductiveNumber"}
-    #if (op == "E") {appname = "DirectTransmission"}
-    #if (op == "F") {appname = "EnvironmentalTransmission"}
-    #if (op == "G") {appname = "VectorTransmission"}
+    if (op == "B") {appname = "BasicVirus"}
+    if (op == "C") {appname = "BasicHIV"}
+    if (op == "D") {appname = "ComplexHIV"}
+    if (op == "E") {appname = "HCVandIFN"}
+    if (op == "F") {appname = "HCVandPKPD"}
 
     if (!is.null(appname))     #run the shiny app chosen
     {

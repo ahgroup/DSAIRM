@@ -15,20 +15,20 @@ refresh <- function(input, output){
 
 
     # Read all the input values from the UI
-    B0 = isolate(input$S0);
+    B0 = isolate(input$B0);
     I0 = isolate(input$I0);
 
     b = isolate(input$b);
-    Bmax = isolate(input$Bmax);
+    Bmax = 10^isolate(input$Bmax);
     d = isolate(input$d);
-    k = isolate(input$k);
+    k = 10^isolate(input$k);
     g = isolate(input$g);
-    r = isolate(input$r);
+    r = 10^isolate(input$r);
     delta = isolate(input$delta);
     tmax = isolate(input$tmax);
 
     # Call the ODE solver with the given parameters
-    result <- simulate_introduction(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, d=d, k=k, r=r, delta=delta)
+    result <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, d=d, k=k, r=r, delta=delta)
 
     return(list(result)) #this is returned as the res variable
   })
@@ -92,41 +92,39 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(4,
-                    sliderInput("B0", "Initial number of bacteria", min = 500, max = 5000, value = 1000, step = 500)
+                    sliderInput("B0", "Initial number of bacteria", min = 0, max = 1000, value = 100, step = 50)
              ),
              column(4,
-                    sliderInput("I0", "Initial number of immune cells", min = 0, max = 100, value = 0, step = 1)
+                    sliderInput("I0", "Initial number of immune cells", min = 0, max = 100, value = 10, step = 1)
              ),
              column(4,
-                    sliderInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 300, step = 10)
+                    sliderInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
              column(4,
-                    sliderInput("g", "Rate of bacteria growth", min = 0, max = 0.01, value = 0, step = 0.0001, sep ='')
+                    sliderInput("g", "Rate of bacteria growth", min = 0, max = 10, value = 1, step = 0.1, sep ='')
              ),
              column(4,
-                    sliderInput("Bmax", "carrying capacity", min = 0, max = 2, value = 0.5, step = 0.1)
+                    sliderInput("Bmax", "carrying capacity (10^X)", min = 1, max = 10, value = 5, step = 1)
              ),
              column(4,
-                    sliderInput("d", "bacteria death rate", min = 0, max = 2, value = 0.5, step = 0.1)
+                    sliderInput("d", "bacteria death rate", min = 0, max = 10, value = 1, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
-           g=1, Bmax=1e6, d=1e-1, k=1e-7, r=1e-3, delta=1
-
            fluidRow(class = 'myrow',
                     column(4,
-                           sliderInput("k", "immune response kill rate", min = 0, max = 0.01, value = 0, step = 0.0001, sep ='')
+                           sliderInput("k", "immune response kill rate (10^X)", min = -10, max = 2, value = -4, step = 0.5, sep ='')
                     ),
                     column(4,
-                           sliderInput("r", "immune respone activation rate", min = 0, max = 2, value = 0.5, step = 0.1)
+                           sliderInput("r", "immune respone activation rate (10^X)", min = -10, max = 2, value = -5, step = 0.5)
                     ),
                     column(4,
-                           sliderInput("delta", "Immune response death rate", min = 0, max = 2, value = 0.5, step = 0.1)
+                           sliderInput("delta", "Immune response death rate", min = 0, max = 10, value = 2, step = 0.1)
                     ),
                     align = "center"
            ) #close fluidRow structure for input
