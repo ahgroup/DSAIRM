@@ -14,11 +14,13 @@
 #' @author Andreas Handel
 #' @export
 
-
 generate_simoutput <- function(input,output,allres,varlist = NULL)
 {
   
-  #check if user provided list of variables to be processed separately
+  #nplots contains the number of plots to be produced. 
+  #Buy default it's a single plot
+  #some apps ask for more than 1 plot, this is then sent in as a list to this function
+  #check if user provided a list of variables to be processed separately
   nplots = 1; 
   if (!is.null(varlist))
   {
@@ -48,11 +50,10 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
       
       #process first simulation to build plot
       res = allres()[[1]]      
-      ymax = max(res[,-1])
+      ymax = max(res[,varnames]) #each subplot gets a separate ymax
       tvec = res[,1]
 
-      #browser()
-      
+    
       mycols=c("blue",'orange','red','green','black','magenta','cyan')
       #plot the 1st line
       graphics::plot(tvec,res[,varnames[1]],type="l",xlab="time",ylab="",col=mycols[1],lwd=1,log="",xlim=c(0,tmax),ylim=c(0,ymax),main="Time Series")
@@ -90,9 +91,9 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
      
     } #finish render-plot statement
     , width = 'auto', height = 'auto'
-  ) #end plot
+  ) #end the output$plot function which produces the plot
   
-  # Use the result "res" returned from the simulator to compute and some text results
+  # Use the result "res" returned from the simulator to compute some text results
   # the text should be formatted as HTML and placed in the "text" placeholder of the UI
   output$text <- renderUI({
 
@@ -103,31 +104,53 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
     #process sets of variables independently
     alltext <- ""
     
-    for (vn in 1:nplots)
+    #if multiple plots are requested, text output for variables will be processed 
+    #using the same variable groupings as for the plots
+    for (vn in 1:nplots) 
     {    
       #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise names are just all column names (minus time) 
       ifelse(nplots>1, varnames <- unlist(varlist[vn]), varnames <- colnames(allres()[[1]])[-1] )
       
       resfinal = rep(0,length(varnames)) 
+      resmax = rep(0,length(varnames))
+      resmin = rep(0,length(varnames))
       resfracfinal = rep(0,length(varnames)) 
       for (n1 in 1:nreps) #add all final values
       {
         currentsim = allres()[[n1]]
         nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
         currfinal = currentsim[nrows,varnames] #final number for each variable of interest
+        #min and max for each variable
+        if (length(varnames)>1)
+        {
+          resmax = resmax + apply(currentsim[,varnames],2,max);
+          resmin = resmin + apply(currentsim[,varnames],2,min);
+        }
+        if (length(varnames)==1) #for a single variable, we have a vector and the apply function does not work
+        {
+          resmax = resmax + max(currentsim[,varnames]);
+          resmin = resmin + min(currentsim[,varnames]);
+        }
+        
         resfinal = resfinal + currfinal #total numbers
         resfracfinal = resfracfinal + currfinal / sum(currfinal) #add up fractions
       }  
-      resfinal = resfinal/nreps #mean for each variable, take out time
-      resfracfinal = resfracfinal/nreps #mean for each variable, take out time
+      resmax = resmax/nreps; #mean across simulations (for stochastic models)
+      resmin = resmin/nreps; #mean across simulations (for stochastic models)
+      resfinal = resfinal/nreps #mean for each variable
+      resfracfinal = resfracfinal/nreps #mean for each variable
       
-      txt <- ""
+     
       for (nn in 1:length(varnames))
       {
-        numfinal = round(resfinal[nn], 2);
+        maxval = round(resmax[nn],2)
+        minval = round(resmin[nn],2)
+        numfinal = round(resfinal[nn], 2)
         fracfinal = round(resfracfinal[nn], 2)
-        newtxt <- paste('Number and Fraction of ',varnames[nn],' at end of simulation: ',numfinal,' and ',fracfinal,sep='')
-        txt <- paste(txt, newtxt, sep = "<br/>")
+        newtxt1 <- paste('Minimum and Maximum of ',varnames[nn],' during simulation: ',minval,' and ', maxval,sep='')
+        newtxt2 <- paste('Number and Fraction of ',varnames[nn],' at end of simulation: ',numfinal,' and ',fracfinal,sep='')
+        if (nn == 1) {txt <- paste(newtxt1, newtxt2, sep = "<br/>")}
+        if (nn > 1) {txt <- paste(txt, newtxt1, newtxt2, sep = "<br/>")}
       }
     alltext <- paste(alltext, txt, sep = "<hr>" ) #add text blocks together
       
