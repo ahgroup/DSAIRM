@@ -1,15 +1,32 @@
 library("XML")
+library("knitr")
+
+
+#run through all Rmd files in current folder, knit them into HTML files
+processAllRmdFiles <-function() 
+{
+  files = list.files(".", pattern = "\\.Rmd$")
+  
+  for (i in seq(length(files)))
+  {
+    #get name of file currently to be processed
+    current_filename = files[i]
+    rmarkdown::render(current_filename)
+  }    
+  
+}  
 
 #for each HTML file in the folder where this script resides
 #call the separate() function to split into individual html files
 #save the individual files in the www subfolder of each shiny app
-processAllFiles <- function(){
+processAllHTMLFiles <- function(){
   files = list.files(".", pattern = "\\.html$")
 
   for (i in seq(length(files)))
   {
     #get name of file currently to be processed
     current_filename = files[i]
+    print(sprintf('processing file %s',current_filename))
     #strip out the _4_Practice.html part to create the right folders for the shiny app
     #in general, the name before the first underscore needs to correspond to the anme of the app
     #all information past the underscore is stripped
@@ -30,12 +47,14 @@ processAllFiles <- function(){
     #the UI of each app then loads and displays (some of) those HTML files 
     pathToDir <- separate(current_filename,shinyapp.path)
     
+    #browser()
+    
   } #finish loop over all files in folder
 } #end of function
 
 
-# This function will read a R markdown file, find the Practice section and
-#   separate all the sub-sections from that part on.
+# This function will read a documentation file in HTML and
+# separate the sub-sections into individual files
 #
 # Parameters,
 #   input: The main HTML file that needs to be separated
@@ -74,6 +93,10 @@ separate <- function(input,foldername){
   #html.body.script <- xpathApply(html.raw, "//script[@type[starts-with(., 'text/javascript')]]", saveXML)
   html.body.script <- xpathApply(html.raw, "//script", xmlValue) #there is some weird CDATA field coming along if I use saveXML. not sure how to get rid, so just extract inside and slap script tag on again later
 
+  # Find the script in the footer
+  html.footer.script <- xpathApply(html.raw, "//script", xmlValue) 
+  #html.footer.script <- xpathApply(html.raw, "//script", saveXML)
+  
   # Static text to end a Body TAG
   html.body.end <- '</body>'
 
@@ -83,6 +106,8 @@ separate <- function(input,foldername){
   script.start.tag <- '<script>'
   script.end.tag <- '</script>'
 
+  #browser()
+  
   # Now loop over the tabs and create an HTML file for each one
   # Files are named simply as shinytab1.html, shinytab2.html, etc.
   # That's done because names of specific tabs can change between apps
@@ -101,8 +126,9 @@ separate <- function(input,foldername){
     #content <- xpathApply(subDoc, "//div[@id[starts-with(., 'shinytab')]]")
 
     # Structure all the text that needs to be saved in the file
-    # for each Shinytab.html file, we need to include the MathJax script bit at the end to allow equations to render ok
-    # that should be script #2 in the html.body.script list
+    # for each Shinytab.html file, 
+    # we need to include the MathJax script bit at the end to allow equations to render ok
+    # that should be html.footer.script[[1]]
     toWrite <- paste(#html.head.start,
                      #html.head.content[[1]],
                      #html.head.end,
@@ -110,10 +136,6 @@ separate <- function(input,foldername){
                      #html.body.label[[1]],
                      #html.body.header[[1]],
                      content[[1]],
-                     #html.body.footer[[1]],
-                     #script.start.tag,
-                     #html.body.script[[2]], #including MathJax script here doesn't seem to work with shiny, so leave it out for now
-                     #script.end.tag,
                      html.body.end
                      #html.html.end
     )
@@ -166,6 +188,9 @@ separate <- function(input,foldername){
                    #html.body.header[[1]],
                    #content[[1]],
                    html.body.footer[[1]],
+                   script.start.tag,
+                   html.footer.script[[1]], #including MathJax script here doesn't seem to work with shiny, so leave it out for now
+                   script.end.tag,
                    #html.body.script[[1]],
                    html.body.end,
                    html.html.end
@@ -178,8 +203,24 @@ separate <- function(input,foldername){
   return (sprintf("%s/%s", dirname(input), foldername))
 }
 
+
+#after HTML files have been processed, go ahead and remove them
+removeAllHTMLFiles <-function() 
+{
+  files = list.files(".", pattern = "\\.html$")
+  
+  for (i in seq(length(files)))
+  {
+    #get name of file currently to be processed
+    current_filename = files[i]
+    unlink(current_filename)
+  }    
+  
+}  
+
 ################################################
 #main program
 #run the functions above to process all files
-processAllFiles()
-
+processAllRmdFiles() #turns Rmd files into HTML - uncomment if not needed/wanted
+processAllHTMLFiles() #turns HTML documentation files into individual HTML files for loading/display inside each app
+removeAllHTMLFiles() #deletes the HTML files from this folder - uncomment if you want to keep them

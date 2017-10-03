@@ -12,8 +12,8 @@ bacteriaode <- function(t, y, parms)
     {
 
       #these are the differential equations
-      dB=g*B*(1-B/Bmax)-d*B-k*B*I;
-      dI=r*B*I-delta*I;
+      dB=g*B*(1-B/Bmax)-dB*B-k*B*I;
+      dI=r*B*I-dI*I;
 
 	 	  list(c(dB, dI))
     }
@@ -34,10 +34,10 @@ bacteriaode <- function(t, y, parms)
 #' @param I0 initial number/strength of immune response
 #' @param g rate of bacteria growth
 #' @param Bmax carrying capacity for bacteria
-#' @param d death rate of bacteria
+#' @param dB death rate of bacteria
 #' @param k rate at which bacteria are killed by immune response
 #' @param r rate at which immune response is induced by bacteria
-#' @param delta death rate of immune response
+#' @param dI death rate of immune response
 #'
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
@@ -61,14 +61,14 @@ bacteriaode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_basicbacteria <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, d=1e-1, k=1e-7, r=1e-3, delta=1)
+simulate_basicbacteria <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1)
 {
   Y0 = c(B = B0, I = I0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(g=g,Bmax=Bmax,d=d,k=k,r=r,delta=delta);
+  pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, the 2nd, 3rd, 4th column the variables S, I, R

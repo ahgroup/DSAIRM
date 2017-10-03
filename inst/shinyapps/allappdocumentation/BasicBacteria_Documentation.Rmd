@@ -1,54 +1,55 @@
 ---
-title: ID Dynamics Introduction - Practice
+title: Basic Bacteria and Immune Response Model
 output:
   html_document:
     theme: null
     highlight: null
-    css: ../styles/handelshiny.css
+    css: ../styles/dsairm.css
     fig_caption: true
     mathjax: default 
     keep_md: false
     includes:
       #in_header: in_header.txt
-      before_body: ../styles/before_shiny_body.txt
-      after_body: ../styles/after_shiny_body.txt 
+      before_body: ../styles/dsairm_before_body.txt
+      after_body: ../styles/dsairm_after_body.txt 
 bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-This app allows exploration of a very basic infectious disease simulation. The main goal is to get you familiar with the overall setup and ideas behind using these simulations, and how to run them. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of a very basic bacteria infection model, with one compartment for bacteria and one compartment for the immune response. The main goal is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
 ##The Model {#shinytab2}
 
 ###Model Overview
-This model is a compartmental SIR model. Compartmental means that we place individuals into distinct compartments, according to some characteristics. We then only track the total number of individuals in each of these compartments. In the simplest model, the only characteristic we track is a person's infection status. We allow for 3 different stages/compartments: 
+This model is a compartmental model. Compartmental means that we place the agents/players/entities/individuals of interest into distinct compartments. We then only track the total number of individuals in each of these compartments. In the simplest model, we track bacteria and some (fairly abstract) notion of immune response strength, using the following notation:
 
-* **S** - uninfected and susceptible individuals 
-* **I** - infected and infectious individuals (note that these terms are often used interchangably, but technically we are talking about someone who is infected **and** is infectious, i.e. can infect others)
-* **R** - recovered/removed individuals. Those are individuals that do not further participate, either because they are now immune or because they died.
+* **B** - bacteria 
+* **I** - immune response
 
-The SIR model is very basic. It could be extendend by introducing further compartments. For instance we could stratify according to gender, which would give us 2 sets of SIR compartments, one for males and one for females. Some of these extensions are implemented in some of the other apps.
+This model is of course very simple and abstract. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could of course be extendend by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. Some of these extensions and more detailed models are implemented in some of the other apps.
 
-In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the number of individuals in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
-For our system, we specify only 2 processes/flows: 
+For our system, we specify the follwoing processes/flows: 
 
-1. A susceptible individual (S) can become infected by an infectious individual (I) at some rate (which is usually labeled b or $\beta$). This leads to the susceptible individual leaving the S compartment and entering the I compartment.   
-2. An infected individual dies or recovers and enters the recovered/removed (R) compartment at some rate (often labeled as $\gamma$).
+1. Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, B~max~. 
+2. Bacteria die at a natural death rate (which we label _dB_).
+3. Bacteria are killed by the immune response at some rate _k_.
+4. The immune response is triggered and grows proportional to the number of bacteria and itself, at some rate _r_.
+5. The immune response decays at some rate (which we label _dI_).
 
-As with the compartments, we can extend the model and allow other processes to occur. For instance we could allow for natural births and deaths, waning immunity, deaths due to disease, etc. We will do that soon. For now, we keep the model as simple as possible.
 
 ###Model Implementation
 To allow us to simulate and study this model, we need to implement it on the computer. For that purpose, it is often useful to write the model as mathematical equations (this is not strictly needed, some computer simluation models are never formulated as mathematical models). One way to formulate the simple SIR model is with a set of ordinary differential equations. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
 
-$$\dot S = -\beta SI$$ 
-$$\dot I = \beta S I - \gamma I$$
-$$\dot R = \gamma I$$
+$$\dot B = g(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
+$$\dot I = r B I - d_I I$$
+
 
 Since not everyone likes equations :) a very good way to describe compartmental models is by showing a flow diagram. Such a diagram consists of a box for each compartment, and arrows pointing in and out of boxes to describe flows and interactions. For the simple SIR model, the flow diagram looks as follows:
 
-![Flow diagram for simple SIR model. ](../media/SIRdiagram.png)
+![Flow diagram for simple bacteria infection model. ](../media/BIdiagram.png)
 
 
 ###Some notes
