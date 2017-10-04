@@ -14,8 +14,8 @@
    viewBox="0 0 744.09448 524.40944"
    id="svg8179"
    version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="SIRdiagram.svg">
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="bacteriamodel.svg">
   <defs
      id="defs8181">
     <marker
@@ -189,7 +189,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4254587"
-     inkscape:cx="179.52358"
+     inkscape:cx="271.4977"
      inkscape:cy="290.48197"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -232,20 +232,20 @@
        inkscape:export-ydpi="300.207" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;line-height:125%;font-family:Calibri;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       style="font-style:normal;font-variant:normal;font-weight:400;line-height:0%;font-family:Calibri;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        x="117.59397"
        y="446.96173"
        id="text12797"
-       sodipodi:linespacing="125%"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"><tspan
          sodipodi:role="line"
-         x="0"
-         y="0"
-         id="tspan12799"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;font-family:Calibri;fill:#ffffff"
-           id="tspan12801" /></tspan></text>
+         x="117.59397"
+         y="446.96173"
+         id="tspan12799"
+         style="font-size:22.5px;line-height:1.25"> <tspan
+   style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;font-family:Calibri;fill:#ffffff"
+   id="tspan12801" /></tspan></text>
     <path
        style="fill:none;stroke:none;marker-end:"
        clip-path="url(#clipEmfPath2)"
@@ -276,20 +276,20 @@
        inkscape:export-ydpi="300.207" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;line-height:125%;font-family:'Cambria Math';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
+       style="font-style:normal;font-variant:normal;font-weight:400;line-height:0%;font-family:'Cambria Math';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        x="455.80414"
        y="400.91351"
        id="text13077"
-       sodipodi:linespacing="125%"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"><tspan
          sodipodi:role="line"
-         x="0"
-         y="0"
-         id="tspan13079"><tspan
-           style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;font-family:'Cambria Math';fill:#000000"
-           id="tspan13081" /></tspan></text>
+         x="455.80414"
+         y="400.91351"
+         id="tspan13079"
+         style="font-size:22.5px;line-height:1.25"> <tspan
+   style="font-style:normal;font-variant:normal;font-weight:400;font-size:22.5px;font-family:'Cambria Math';fill:#000000"
+   id="tspan13081" /></tspan></text>
     <rect
        style="opacity:0.3;fill:#0089ff;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect8292"
@@ -302,11 +302,10 @@
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="12.072403"
        y="779.87463"
        id="text8294"
-       sodipodi:linespacing="125%"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"><tspan
@@ -335,11 +334,10 @@
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="290.65329"
        y="759.72498"
        id="text8294-3-1-1"
-       sodipodi:linespacing="125%"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"><tspan
@@ -370,11 +368,10 @@
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="488.16089"
        y="762.38306"
        id="text8294-3-1-2"
-       sodipodi:linespacing="125%"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"><tspan
@@ -395,11 +392,10 @@
          id="tspan8972">R</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:27.32454491px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="139.72055"
        y="765.84387"
        id="text13516"
-       sodipodi:linespacing="125%"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"><tspan
@@ -407,14 +403,13 @@
          id="tspan13522"
          x="139.72055"
          y="765.84387"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-size:17.5px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">βSI</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start">βSI</tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:27.32454491px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="375.78214"
        y="761.81976"
        id="text13516-6"
-       sodipodi:linespacing="125%"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"><tspan
@@ -422,6 +417,6 @@
          id="tspan13542"
          x="375.78214"
          y="761.81976"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';font-size:17.5px;text-anchor:start;text-align:start;writing-mode:lr;line-height:125%">γI</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start">γI</tspan></text>
   </g>
 </svg>
