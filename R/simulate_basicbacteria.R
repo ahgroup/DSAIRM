@@ -1,6 +1,6 @@
 ############################################################
-##a simple model for a simple bacteria infection model
-##written by Andreas Handel (ahandel@uga.edu), last change 6/20/12
+##a simple model for a simple bacteria infection model, implemented as ODE
+##written by Andreas Handel (ahandel@uga.edu), last change 12/6/17
 ############################################################
 
 

@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Basic Bacteria App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 5/23/2017
+#last updated 12/6/2017
 ############################################################
 
 #the server-side function with the main functionality
@@ -13,11 +13,9 @@ refresh <- function(input, output){
   res <- reactive({
     input$submitBtn
 
-
     # Read all the input values from the UI
     B0 = isolate(input$B0);
     I0 = isolate(input$I0);
-
     b = isolate(input$b);
     Bmax = 10^isolate(input$Bmax);
     dB = isolate(input$dB);
@@ -26,16 +24,48 @@ refresh <- function(input, output){
     r = 10^isolate(input$r);
     dI = isolate(input$dI);
     tmax = isolate(input$tmax);
+    dt = isolate(input$dt)
+    models = as.numeric(isolate(input$models))
+
+    #save to a list for processing as plots
+    result <- list()
+    # Call the discrete model with the given parameters
+    if (models == 1 | models == 3)
+    {
+      result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
+      colnames(result_discrete) = c('time','Bd','Id')
+      result[[1]] = result_discrete
+    }
 
     # Call the ODE solver with the given parameters
-    result <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+    if (models == 2 | models == 3)
+    {
+      result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+      colnames(result_ode) = c('time','Bc','Ic')
+      result[[models-1]] = result_ode #if we run both models, stick ODE in 2nd slot, otherwise in 1st slot
+    }
 
-    return(list(result)) #this is returned as the res variable
+    #if the app doesn't have an nreps setting, assign repetition = 1, otherwise use nreps setting
+    result$nreps = ifelse(is.null(isolate(input$nreps)),1,isolate(input$nreps))
+
+    #for this specific app, if both models should be run, set nreps to 2 so they are shown on same graph
+    #result$nreps = ifelse(models == 3,2,1)
+
+    #set list for variables to be plotted in separate plots
+    #set to NULL for all in one plot
+    if (models == 1) {varlist = list( c('Bd','Id')) }
+    if (models == 2) {varlist = list( c('Bc','Ic')) }
+    if (models == 3) {varlist = list( c('Bd','Id'), c('Bc','Ic')) }
+    #browser()
+
+    result$varlist = varlist
+
+    return(result) #this is returned as the res variable, needs to be a list structure
   })
 
-  #function that takes result saved in res and produces output
-  #output (plots, text, warnings) is stored in and modifies the global variable 'output'
-  generate_simoutput(input,output,res)
+  #function that takes result saved in reactive expression called rres and produces output
+  #output (plots, text, warnings) is stored in variable 'output'
+  output <- generate_simoutput(input,output, res)
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function
@@ -61,7 +91,7 @@ server <- function(input, output, session) {
 
 #This is the UI part of the shiny App
 ui <- fluidPage(
-  includeCSS("../shinystyle.css"),
+  includeCSS("../styles/dsairm.css"),
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
@@ -104,8 +134,18 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
+                    column(6,
+                           numericInput("dt", "Discrete time step", min = 0.001, max = 10, value = 0.1, step = 0.001)
+                    ),
+                    column(6,
+                           selectInput("models", "Models to run:",c("discrete time" = 1, 'continuous time' = 2, 'both' = 3))
+                    ),
+              align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
              column(4,
-                    numericInput("g", "Rate of bacteria growth", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("g", "Rate of bacteria growth", min = 0, max = 10, value = 1.5, step = 0.1)
              ),
              column(4,
                     numericInput("Bmax", "carrying capacity (10^X)", min = 1, max = 10, value = 5, step = 1)
@@ -121,7 +161,7 @@ ui <- fluidPage(
                            numericInput("k", "immune response kill rate (10^X)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
-                           numericInput("r", "immune respone activation rate (10^X)", min = -10, max = 2, value = -5, step = 0.5)
+                           numericInput("r", "immune respone activation rate (10^X)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
                            numericInput("dI", "Immune response death rate", min = 0, max = 10, value = 2, step = 0.1)

@@ -13,16 +13,16 @@ generate_simoutput(input, output, allres, varlist = NULL)
 
 \item{allres}{multiple runs of the simulation, supplied as a list. each entry in the list is expected to be a matrix}
 
-\item{varlist}{an optional list of vectors containing the names of variables 
+\item{varlist}{an optional list of vectors containing the names of variables
 that should be plotted and processed independently. if not supplied, all variables will be shown in one plot.
-Also, final results for all variables will either be computed according to the groups of variable/compartment 
+Also, final results for all variables will either be computed according to the groups of variable/compartment
 names provided in varlist or if not provided, all variables will be used.}
 }
 \value{
 output a list with plot, text and warn elements for display in a shiny UI
 }
 \description{
-This function generates plots and text to be displayed in the Shiny UI. 
+This function generates plots and text to be displayed in the Shiny UI.
 This is a helper function. This function processes multiple simulation runs, supplied as a list
 }
 \details{

@@ -1,63 +1,68 @@
 #' @title A helper function that takes result from the simulators and produces plots and text output
 #'
-#' @description This function generates plots and text to be displayed in the Shiny UI. 
+#' @description This function generates plots and text to be displayed in the Shiny UI.
 #' This is a helper function. This function processes multiple simulation runs, supplied as a list
 #' @param input the shiny app input structure
 #' @param output the shiny app output structure
-#' @param allres multiple runs of the simulation, supplied as a list. each entry in the list is expected to be a matrix 
-#' @param varlist an optional list of vectors containing the names of variables 
+#' @param allres multiple runs of the simulation, supplied as a list. each entry in the list is expected to be a matrix
+#' @param varlist an optional list of vectors containing the names of variables
 #'    that should be plotted and processed independently. if not supplied, all variables will be shown in one plot.
-#'    Also, final results for all variables will either be computed according to the groups of variable/compartment 
-#'    names provided in varlist or if not provided, all variables will be used. 
+#'    Also, final results for all variables will either be computed according to the groups of variable/compartment
+#'    names provided in varlist or if not provided, all variables will be used.
 #' @return output a list with plot, text and warn elements for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
 #' @export
 
-generate_simoutput <- function(input,output,allres,varlist = NULL)
+#general thoughts: structure it such that simulator/app code produces a nested list at the top level, each plot to be produced is a list
+#each plot-list is itself a list consisting of nx2 matrices for x and y axes. All of those sub-list items will be placed in the same plot
+
+generate_simoutput <- function(input,output,allres)
 {
-  
-  #nplots contains the number of plots to be produced. 
-  #Buy default it's a single plot
-  #some apps ask for more than 1 plot, this is then sent in as a list to this function
-  #check if user provided a list of variables to be processed separately
-  nplots = 1; 
-  if (!is.null(varlist))
-  {
-    nplots = length(varlist)
-  }
-  
-      
+
+
   # Here, we use the result returned from the ode solver to produce the plot
   # the resulting plot is saved in the "plot" placeholder of the output variable
   output$plot <- renderPlot({
     input$submitBtn
-    
+
     tmax = isolate(input$tmax)
+
+    #number of repeats/time-series for a given plot
+    nreps = allres()$nreps
+
+    #nplots contains the number of plots to be produced.
+    #Buy default it's a single plot
+    #some apps ask for more than 1 plot, this is then sent in as a list to this function
+    #check if user provided a list of variables to be processed separately
+    nplots = 1;
+    varlist = allres()$varlist
+    if (!is.null(varlist))
+    {
+      nplots = length(varlist)
+    }
+
 
     #make potentially more than one plot
     graphics::par(mfrow=c(nplots,1))
-    
+
     #loop over variable sets for which to produce plots
     for (vn in 1:nplots)
     {
-      #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise naems are just all column names (minus time) 
+      #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise naems are just all column names (minus time)
       #for some reason only the <- operator works, not the = operator
       ifelse(nplots>1, varnames <- unlist(varlist[vn]), varnames <- colnames(allres()[[1]])[-1] )
 
-      #if the app doesn't have an nreps setting, assign repetition = 1, otherwise use nreps setting
-      nreps = ifelse(is.null(isolate(input$nreps)),1,isolate(input$nreps)) 
-      
+
       #process first simulation to build plot
-      res = allres()[[1]]      
+      res = allres()[[1]]
       ymax = max(res[,varnames]) #each subplot gets a separate ymax
       tvec = res[,1]
 
-    
       mycols=c("blue",'orange','red','green','black','magenta','cyan')
       #plot the 1st line
       graphics::plot(tvec,res[,varnames[1]],type="l",xlab="time",ylab="",col=mycols[1],lwd=1,log="",xlim=c(0,tmax),ylim=c(0,ymax),main="Time Series")
-      
+
       if (length(varnames)>1) #plot additional lines if there is more than 1 variable to be plotted
       {
         for (nn in 2:length(varnames))
@@ -66,15 +71,16 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
         }
       }
       graphics::legend("right", varnames,col = mycols,lty=c(1),lwd=2)
-      
-      
+
+
       #loop over each additional simulation
       if (nreps>1)
       {
         #results are added to plot
         for (n1 in 2:nreps)
         {
-          res = allres()[[n1]]      
+          #browser()
+          res = allres()[[n1]]
           tvec = res[,1]
           graphics::lines(tvec,res[,varnames[1]],type="l",col=mycols[1],lwd=1,lty=1) #first variable for each new simulation
           if (length(varnames)>1) #plot additional lines if there is more than 1 variable to be plotted
@@ -86,37 +92,49 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
           } #done adding additional variables
         } #done additing lines from additional runs
       } #end loop over addition simulation replications
-   
+
     } #end loop over individual plots
-     
+
     } #finish render-plot statement
     , width = 'auto', height = 'auto'
   ) #end the output$plot function which produces the plot
-  
+
   # Use the result "res" returned from the simulator to compute some text results
   # the text should be formatted as HTML and placed in the "text" placeholder of the UI
   output$text <- renderUI({
 
-    
-    #if the app doesn't have an nreps setting, assign repetition = 1, otherwise use nreps setting
-    nreps = ifelse(is.null(isolate(input$nreps)),1,isolate(input$nreps)) 
-    
+    #number of repetitions for a given setting
+    nreps = allres()$nreps
+
+    #nplots contains the number of plots to be produced.
+    #Buy default it's a single plot
+    #some apps ask for more than 1 plot, this is then sent in as a list to this function
+    #check if user provided a list of variables to be processed separately
+    nplots = 1;
+    varlist = allres()$varlist
+    if (!is.null(varlist))
+    {
+      nplots = length(varlist)
+    }
+
+
     #process sets of variables independently
     alltext <- ""
-    
-    #if multiple plots are requested, text output for variables will be processed 
+
+    #if multiple plots are requested, text output for variables will be processed
     #using the same variable groupings as for the plots
-    for (vn in 1:nplots) 
-    {    
-      #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise names are just all column names (minus time) 
+    for (vn in 1:nplots)
+    {
+      #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise names are just all column names (minus time)
       ifelse(nplots>1, varnames <- unlist(varlist[vn]), varnames <- colnames(allres()[[1]])[-1] )
-      
-      resfinal = rep(0,length(varnames)) 
+
+      resfinal = rep(0,length(varnames))
       resmax = rep(0,length(varnames))
       resmin = rep(0,length(varnames))
-      resfracfinal = rep(0,length(varnames)) 
+      resfracfinal = rep(0,length(varnames))
       for (n1 in 1:nreps) #add all final values
       {
+
         currentsim = allres()[[n1]]
         nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
         currfinal = currentsim[nrows,varnames] #final number for each variable of interest
@@ -131,16 +149,16 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
           resmax = resmax + max(currentsim[,varnames]);
           resmin = resmin + min(currentsim[,varnames]);
         }
-        
+
         resfinal = resfinal + currfinal #total numbers
         resfracfinal = resfracfinal + currfinal / sum(currfinal) #add up fractions
-      }  
+      }
       resmax = resmax/nreps; #mean across simulations (for stochastic models)
       resmin = resmin/nreps; #mean across simulations (for stochastic models)
       resfinal = resfinal/nreps #mean for each variable
       resfracfinal = resfracfinal/nreps #mean for each variable
-      
-     
+
+
       for (nn in 1:length(varnames))
       {
         maxval = round(resmax[nn],2)
@@ -153,20 +171,20 @@ generate_simoutput <- function(input,output,allres,varlist = NULL)
         if (nn > 1) {txt <- paste(txt, newtxt1, newtxt2, sep = "<br/>")}
       }
     alltext <- paste(alltext, txt, sep = "<hr>" ) #add text blocks together
-      
+
     } #finishes loop over sets of variables
-    
+
     finaltxt <- '<hr> <i> For stochastic simulation scenarios, values shown are the mean over all simulations. </i>'
     resulttxt <- paste(alltext, finaltxt, sep = "")
     HTML(resulttxt)
   }) #end text output
-    
+
   # At last, if we have any warnings or error from the simulator we can show them here
   # That text will be shown in red in the UI ("warn" placeholder will be used)
   output$warn <- renderUI({
     warntxt <- ""
     if(length(utils::data()$warns) == 0){
-      
+
     }else{
       warntxt <- paste(warntxt, "Warnings:", sep = "<br/>")
       for (i in 1:length(utils::data()$warns)){

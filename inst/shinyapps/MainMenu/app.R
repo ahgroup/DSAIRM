@@ -49,7 +49,7 @@ server <- function(input, output, session) {
 
 #This is the UI for the Main Menu of DSAIRM
 ui <- fluidPage(
-  includeCSS("../shinystyle.css"),
+  includeCSS("../styles/dsairm.css"),
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   div( includeHTML("www/header.html"), align = "center"),
