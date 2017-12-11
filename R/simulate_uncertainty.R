@@ -1,12 +1,12 @@
 ############################################################
-##simulation of the simple bacteri infection model
-##this code does uncertainty and sensitivity analysis
+##simulation of the simple bacterial infection model
+##this code does uncertainty analysis
 ##written by Andreas Handel (ahandel@uga.edu), last change 12/6/17
 ############################################################
 
 
 
-#' Simulation of a basic viral infection model without an immune response
+#' Simulation to do an uncertainty analysis of a simple model
 #'
 #' @description This function runs a simulation of a 3 compartment model
 #' using a set of ordinary differential equations.
@@ -46,7 +46,7 @@
 #' @author Andreas Handel
 #' @export
 
-simulate_uncertainty <- function(B0 = 10, I0 = 1, tmax = 30, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dIlow=1, dIhigh=2, gmean=0.5, gSD=0.1, samplemax = 10)
+simulate_uncertainty <- function(B0 = 10, I0 = 1, tmax = 30, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dIlow=1, dIhigh=2, gmean=0.5, gvar=0.1, samplemax = 10)
   {
 
     #this creates a LHS with samplemax samples for 2 parameters, drawn from a uniform distribution between zero and one
@@ -55,9 +55,10 @@ simulate_uncertainty <- function(B0 = 10, I0 = 1, tmax = 30, Bmax=1e6, dB=1e-1, 
     #transforming parameter dI to uniform between dIlow and dIhigh
     dIvec=qunif(lhssample[,2],min = dIlow, max=dIhigh)
 
-    #transforming parameter g to a log-normal distribution with mean gmean and SD gsd
-    gvec=qlnorm(lhssample[,2], meanlog = gmean, sdlog= gsd);
+    #transforming parameter g to a gamma distribution with mean gmean and variance gvar
+    gvec=qgamma(lhssample[,2], shape = gmean^2/gvar, scale = gvar/gmean);
 
+    Bpeak=rep(0,samplemax); #initialize vector that will contain the solution
 
     for (nsample in 1:samplemax)
     {
@@ -69,8 +70,8 @@ simulate_uncertainty <- function(B0 = 10, I0 = 1, tmax = 30, Bmax=1e6, dB=1e-1, 
         #all other parameters remain fixed
         odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
 
+        Bpeak[nsample]=max(odeoutput[,"B"]); #get the peak for B
 
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+        return(odeoutput)
 }
