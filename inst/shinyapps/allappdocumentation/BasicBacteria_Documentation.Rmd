@@ -22,7 +22,7 @@ This app allows exploration of a very basic bacteria infection model, with one c
 ##The Model {#shinytab2}
 
 ###Model Overview
-This model is a compartmental model. Compartmental means that we place the agents/players/entities/individuals of interest into distinct compartments. We then only track the total number of individuals in each of these compartments. In the simplest model, we track bacteria and some (fairly abstract) notion of immune response strength, using the following notation:
+This model is a compartmental model. Compartmental means that we place the agents/players/entities/individuals of interest into distinct compartments. We then only track the total number of individuals in each of these compartments. In this simple model, we track bacteria and some (fairly abstract) notion of immune response strength, using the following notation:
 
 * **B** - bacteria 
 * **I** - immune response
@@ -40,66 +40,56 @@ For our system, we specify the follwoing processes/flows:
 5. The immune response decays at some rate (which we label _dI_).
 
 
-###Model Implementation
-To allow us to simulate and study this model, we need to implement it on the computer. For that purpose, it is often useful to write the model as mathematical equations (this is not strictly needed, some computer simluation models are never formulated as mathematical models). One way to formulate the simple SIR model is with a set of ordinary differential equations. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
+###Model Diagram
+A very good way to describe compartmental models and move from a verbal description to a more abstract and quantitative one is by showing a flow diagram. Such a diagram consists of a box for each compartment (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
+
+
+```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE}
+knitr::include_graphics("../media/BIdiagram.png")
+```
+
+Next, we need to implement this model and flow diagram in a way that it can be run on a computer. Two ways to do so are described next.
+
+
+###Model Implementation I
+The most common way to implement compartmental models is as a continuous time process, formulated as a set of ordinary differential equations. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
 
 $$\dot B = g(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
 
+###Model Implementation II
+Continouus time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One simple formulation is a discrete time-step equivalent to the ODE model. For such an implementation, the equations are:
 
-Since not everyone likes equations :) a very good way to describe compartmental models is by showing a flow diagram. Such a diagram consists of a box for each compartment, and arrows pointing in and out of boxes to describe flows and interactions. For the simple SIR model, the flow diagram looks as follows:
+$$B_{t+dt} = B_t + (g(1-\frac{B}{B_{max}})-d_B - k I_t)B_t dt$$ 
+$$ I_{t+dt} = (r B_t - d_I) I_t dt$$
+In words, the number of bacteria and immune response at a time step dt in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continous time model above.
 
-![Flow diagram for simple bacteria infection model. ](../media/BIdiagram.png)
 
 
 ###Some notes
-* For many of the models, I will show their underlying equations. But you are not expected to know them or "do anything" with them.
-* You will see the term *host* used instead of *individuals*. In general, while we most often think of humans, the host can be any kind of animal (or even a plant).
-* In general, the entities that change in our model (i.e. here the number of individuals in compartments S, I and R) are called variables: They are variable and change during the simulation. 
-* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are the infection rate $\beta$ and the recovery rate $\gamma$.
-* We would usually choose the parameter such that they match the specific disease we want to study. We'll get to that soon. For now, you'll just play around with the model without trying to relate it to some specific ID.
-
+* In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called _initial conditions_.
+* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _dB_, _k_, _r_ and _dI_. We would usually choose the parameter such that they match the specific disease/scenario we want to study. 
+ 
 
 
 ##What to do {#shinytab3}
 
 ###Task 1: 
-* Run the simulation with a population size of 1000, 1 initially infected host, simulation duration 100 days, recovery rate gamma=0.5 per day, and infectiousness beta=0.001. You will get an outbreak of some - currently unspecified - infectious disease. 
-* Record the number and fraction of susceptible/infected/recovered remaining at the end of the outbreak.    
-* From the graph, get a (rough) estimate of the day at which the outbreak peaks.
-* Contemplate the fact that the outbreak ends even though there are still a good number of susceptible remaining, i.e. not everyone got infected. 
-* Run the simulation again, with the same values you just had. Does anything change? Why (not)?
+*
 
 ###Task 2: 
-* Double the value of the transmission rate, beta. Leave everything else the same. 
-* What do you expect to get for the number/fraction of S/I/R at the end of the outbreak and the time at which the outbreak peaks?
-* Run the simulation with the doubled transmission rate, record the same values (final S/I/R and outbreak peak) as above.
-* Compare your expectations with the results. How do they agree/disagree? Does it make sense? Anything surprising happening?
 
 ###Task 3: 
-* Now, double the rate of recovery (gamma), leave everything as in #2.
-* How do you expect the results to change? (Try to make your prediction as precise/quantitative as you can)
-* Run the simulation with these new parameter settings, record the same values as above.
-* Compare your expectations with the results. How do they agree/disagree? Does it make sense? Anything surprising happening?
+
 
 ###Task 4: 
-* Now, double the number of susceptibles (i.e. the population size), leave everything as in #3.
-* How do you expect the results to change?
-* Run the simulation with these new parameter settings, record the same values as above.
-* Compare your expectations with what results. How do they agree/disagree? Does it make sense? Anything surprising happening?
-
-###Task 5: 
-* Keep playing around with changing any of the parameters and starting conditions.
-* Every time, think about what you expect to get, then run the simulation, compare your expectations with the results. Then make sense of it.
-* What is the minimum and maximum number of outbreaks you can get? Why is that?
-
 
 
 
 
 
 ##Further Information {#shinytab4}
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script which runs the simulation for the model of interest and returns the results.
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
 * For this app, the underlying function running the simulation is called `simulate_introduction.R`. You can call this function directly, without going through the shiny app. Type `?simulate_introduction` into the R console for more information. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
 * You could also modify this R function for your own purposes - though that requires R coding knowledge.
 * Some useful books which cover the material of this and most of the other apps (though often a somewhat more mathematical level) are [@vynnycky10] and [@keeling08].
