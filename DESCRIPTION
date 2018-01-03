@@ -8,7 +8,7 @@ Description: A collection of Shiny apps that allow for the simulation and
     All apps include explanations of the underlying models and instructions on
     what to do with the models. 
 Version: 0.1.0
-Date: 2017-05-23
+Date: 2018-01-21
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre")),
@@ -21,6 +21,8 @@ Imports:
     deSolve (>= 1.13),
     knitr (>= 1.15),
     adaptivetau (>= 2.2),
+    ggplot2 (>= 2.2),
+    ggpubr (>= 0.1.6),
     utils
 Depends:
     shiny (>= 1.0)

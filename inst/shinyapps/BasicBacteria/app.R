@@ -33,44 +33,29 @@ refresh <- function(input, output){
     if (models == 1 | models == 3)
     {
       result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
-      colnames(result_discrete) = c('time','Bd','Id')
-      result[[1]] = result_discrete
+      colnames(result_discrete) = c('xvals','Bd','Id')
+      #reformat data to be in the right format for plotting
+      #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
+      dat = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
+
+      result[[1]]$type = "line"
+      result[[1]]$dat = dat
     }
 
     # Call the ODE solver with the given parameters
     if (models == 2 | models == 3)
     {
       result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
-      colnames(result_ode) = c('time','Bc','Ic')
-      result[[models-1]] = result_ode #if we run both models, stick ODE in 2nd slot, otherwise in 1st slot
+      colnames(result_ode) = c('xvals','Bc','Ic')
+      dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+      result[[models-1]]$type = "line"
+      result[[models-1]]$dat = dat #if we run both models, stick ODE in 2nd slot, otherwise in 1st slot
     }
-
-    #number of plots
-    result$nplots =
-
-    #list of data frames in form x-val, y-val, stratifications for each plot
-
-
-
-
-    #if the app doesn't have an nreps setting, assign repetition = 1, otherwise use nreps setting
-    result$nreps = ifelse(is.null(isolate(input$nreps)),1,isolate(input$nreps))
-
-    #for this specific app, if both models should be run, set nreps to 2 so they are shown on same graph
-    #result$nreps = ifelse(models == 3,2,1)
-
-    #set list for variables to be plotted in separate plots
-    #set to NULL for all in one plot
-    if (models == 1) {varlist = list( c('Bd','Id')) }
-    if (models == 2) {varlist = list( c('Bc','Ic')) }
-    if (models == 3) {varlist = list( c('Bd','Id'), c('Bc','Ic')) }
-    #browser()
-
-    result$varlist = varlist
-
 
     return(result) #this is returned as the res variable, needs to be a list structure
   })
+
+  browser()
 
   #function that takes result saved in reactive expression called res and produces output
   #to produce figures, the function generate_simoutput needs the number of panels to produce
