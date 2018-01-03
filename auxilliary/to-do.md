@@ -4,30 +4,27 @@
 #List of apps to implement
 
 
-The basics
-* Basic bacteria + IR model in discrete and continuous time
-* Basic virus model - including birth/death of cells to do steady state
-* Model variants for an HIV model
+The basics (SISMID U2 models)
+1. Basic bacteria + IR model in discrete and continuous time
+2. Basic virus model - including birth/death of cells to do steady state
+3. Virus and IR model
 
-U/S analysis and stochastic
-* uncertainty and LHS with basic bacteria model - provide ranges for parameters and distributions
-* sensitivity and LHS with basic bacteria model - provide ranges for parameters and distributions
-* stochastic/adaptivetau model
+What influences model results
+3. Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
+4. U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
+5. stochastic/adaptivetau model
 
-Using data
+Using models to explore and predict
+* Demo model (SISMID U6-model)
+7. Kirschner 2001 TB model
+8. Handel flu evolutionary model
+
+Using models with data
 * data comparing example - HCV
 * data fitting example - flu
 
-Specific topics
+Further topics
 * PK/PD
-* evolutionary model
+* Discrete time models with noise
 
 
-
-
-#List of apps to maybe implement
-* HCV model 3 & 4 - maybe do, maybe not?
-* HIV model 1 & 2 - maybe do, maybe not?
-
-
-* Kirschner 2001 TB model?

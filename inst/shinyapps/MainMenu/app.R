@@ -58,6 +58,8 @@ ui <- fluidPage(
   #specify name of App below, will show up in title
   h1('DSAIRM - Main Menu', align = "center", style = "background-color:#123c66; color:#fff"),
 
+  p('The Basics', class='mainsectionheader'),
+
   fluidRow(
     column(4,
            actionButton("BasicBacteria", "Basic Bacterium Model", class="mainbutton")
@@ -66,23 +68,59 @@ ui <- fluidPage(
            actionButton("BasicVirus", "Basic Virus Model", class="mainbutton")
     ),
     column(4,
-           actionButton("BasicHIV", "Simple HIV Model", class="mainbutton")
+           actionButton("VirusandIR", "Virus and Immune Response Model", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input
+
+  p('What influences model results', class='mainsectionheader'),
+
   fluidRow(
     column(4,
-           actionButton("ComplexHIV", "Complex HIV Model", class="mainbutton")
+           actionButton("ModelVariants", "Model formulation", class="mainbutton")
     ),
     column(4,
-         actionButton("HCVandIFN", "HCV and IFN treatment", class="mainbutton")
+           actionButton("USanalysis", "Parameter Uncertainty", class="mainbutton")
     ),
     column(4,
-           actionButton("HCVandPKPD", "HCV with PK/PD", class="mainbutton")
+         actionButton("StochasticModel", "Model Stochasticity", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input
+
+  p('Using models to explore and predict', class='mainsectionheader'),
   fluidRow(
+    column(6,
+           actionButton("TBExperiments", "Simulated TB experiments", class="mainbutton")
+    ),
+    column(6,
+           actionButton("InfluenzaResistance", "Influenza antivirals and drug resistance", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+  p('Using models with data', class='mainsectionheader'),
+  fluidRow(
+    column(6,
+           actionButton("HCVmodel", "Comparing an HCV model to data", class="mainbutton")
+    ),
+    column(6,
+           actionButton("InfluenzaFitting", "Fitting an Influenza model to data", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+  p('Further Topics', class='mainsectionheader'),
+  fluidRow(
+    column(6,
+           actionButton("TBExperiments", "PKPD", class="mainbutton")
+    ),
+    column(6,
+           actionButton("InfluenzaResistance", "Discrete time models and noise", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
+
+    fluidRow(
 
     column(12,
            actionButton("Exit", "Exit", class="exitbutton")

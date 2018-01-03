@@ -4,7 +4,7 @@
 
 
 /* Color Glossary for easy changing of colors later
- * grey:  #403c3d 
+ * grey:  #403c3d
  * dark grey:  #333
  * light grey: #ccc
  * near white: #f9f9f9
@@ -20,7 +20,7 @@ img {
 	max-width: 100%;
 	max-height: 90%;
 	padding: 6px;
-	
+
 }
 .image {
 	display: inline-block;
@@ -28,9 +28,9 @@ img {
 	margin-right: 10px;
 	max-width: 100%;
 	max-height: 90%;
-	padding: 0;  
+	padding: 0;
 	text-align: center;
-  
+
   /* Visual */
 	border-radius: 5px;
 	border: 1px solid #ccc;  /* light grey */
@@ -38,9 +38,9 @@ img {
 .figure {
 	margin-left: 10px;
 	margin-right: 10px;
-	padding: 0;  
+	padding: 0;
 	text-align: center;
-  
+
   /* Visual */
 	border-radius: 5px;
 	border: 1px solid #ccc;  /* light grey */
@@ -56,15 +56,15 @@ table {
 	margin: 20px;
 	border-spacing: 0;
 }
-table th { 
+table th {
  /* Box-model */
 	height: 36px;
 	padding: 5px;
-  
+
   /* Typography */
 	font-size: 16px;
 	line-height: 36px;
-  
+
   /* Visual */
 	background-color: #403c3d;
 	color: #fff;
@@ -95,7 +95,7 @@ table td {
 
 #shinyheadertitle
 {
-	color: #123c66;  
+	color: #123c66;
 	font-weight: bold;
 	text-align: center;
 	font-size: 120%;
@@ -103,7 +103,7 @@ table td {
 
 #shinyheadertext
 {
-	color: #123c66;  
+	color: #123c66;
 	text-align: center;
 	font-size: 100%;
 }
@@ -111,17 +111,17 @@ table td {
 
 #classauthor
 {
-	color: black;  
+	color: black;
 	font-weight: normal;
 	text-align: center;
-	
+
 }
 
 #mylicense
 {
 	text-align: center;
 	font-size: 70%;
-	
+
 }
 
 iframe {
@@ -132,8 +132,8 @@ iframe {
 
 #mytextbox
 {
-	border: 10px solid #cfd7e0; 
-	color: black;  
+	border: 10px solid #cfd7e0;
+	color: black;
 	font-weight: normal;
 }
 
@@ -154,7 +154,7 @@ iframe {
 
 .mainbutton {
 	text-align: center;
-	color: #000000; 
+	color: #000000;
 	background-color: #D2FFE2;
 	border-spacing: 10px;
 	width: 200px;
@@ -162,7 +162,7 @@ iframe {
 
 .submitbutton {
 	text-align: center;
-	color: #000000; 
+	color: #000000;
 	background-color: #D2FFE2;
 	border-spacing: 20px;
 	width: 200px;
@@ -170,8 +170,8 @@ iframe {
 
 .exitbutton {
 	text-align: center;
-	color: #000000; 
-	background-color: #FF0000;	
+	color: #000000;
+	background-color: #FF0000;
 	width: 200px;
 }
 
@@ -183,13 +183,21 @@ iframe {
 
 .maintext {
 	text-align: center;
-	color: #2a3f9e; 
+	color: #2a3f9e;
 	font-weight: bold;
 }
 
+.mainsectionheader {
+	text-align: left;
+	color: green;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+
 .infotext {
 	text-align: center;
-	color: #2a3f9e; 
-	
+	color: #2a3f9e;
+
 }
 

@@ -45,6 +45,14 @@ refresh <- function(input, output){
       result[[models-1]] = result_ode #if we run both models, stick ODE in 2nd slot, otherwise in 1st slot
     }
 
+    #number of plots
+    result$nplots =
+
+    #list of data frames in form x-val, y-val, stratifications for each plot
+
+
+
+
     #if the app doesn't have an nreps setting, assign repetition = 1, otherwise use nreps setting
     result$nreps = ifelse(is.null(isolate(input$nreps)),1,isolate(input$nreps))
 
@@ -60,10 +68,15 @@ refresh <- function(input, output){
 
     result$varlist = varlist
 
+
     return(result) #this is returned as the res variable, needs to be a list structure
   })
 
-  #function that takes result saved in reactive expression called rres and produces output
+  #function that takes result saved in reactive expression called res and produces output
+  #to produce figures, the function generate_simoutput needs the number of panels to produce
+  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
+  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
+  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
   #output (plots, text, warnings) is stored in variable 'output'
   output <- generate_simoutput(input,output, res)
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
