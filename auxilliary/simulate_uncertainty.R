@@ -4,8 +4,6 @@
 ##written by Andreas Handel (ahandel@uga.edu), last change 12/6/17
 ############################################################
 
-
-
 #' Simulation to do an uncertainty analysis of a simple model
 #'
 #' @description This function runs a simulation of a 3 compartment model
@@ -71,7 +69,6 @@ simulate_uncertainty <- function(B0 = 10, I0 = 1, tmax = 30, Bmax=1e6, dB=1e-1, 
         odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
 
         Bpeak[nsample]=max(odeoutput[,"B"]); #get the peak for B
-
-
-        return(odeoutput)
+    }
+    return(Bpeak)
 }

@@ -23,6 +23,9 @@ Imports:
     adaptivetau (>= 2.2),
     ggplot2 (>= 2.2),
     ggpubr (>= 0.1.6),
+    lhs (>= 0.15),
+    sensitivity (>= 1.15),
+    tidyr (>= 0.7),
     utils
 Depends:
     shiny (>= 1.0)

@@ -16,52 +16,45 @@
 generate_simoutput <- function(input,output,allres)
 {
 
-
   # this function produces all plots
   # the resulting plot is a ggplot/ggpubr object and saved in the "plot" placeholder of the output variable
   output$plot <- renderPlot({
     input$submitBtn
 
+    res=isolate(allres()) #get results for processing
+
     #nplots contains the number of plots to be produced.
-    nplots = length(allres) #length of list
+    nplots = length(res) #length of list
 
-    allplots=list() #will hold all plots
-
-    browser()
+    allplots=vector("list",nplots) #will hold all plots
 
     for (n in 1:nplots) #loop to create each plot
     {
-      plottype = allres[[n]]$type
-      dat = allres[[n]]$dat
-      allplots[n] = ggpubr::ggline(dat, aes(x=xvals, y=yvals, color=variables))
-      #keep working here
-
+      plottype = res[[n]]$type
+      dat = res[[n]]$dat
+      allplots[[n]] = ggplot(dat, aes(x = xvals, y = yvals, color = varnames) ) + geom_line() + labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
     } #end loop over individual plots
 
-    ggarrange(allplots)
+    plot_grid(plotlist = allplots)
 
     } #finish render-plot statement
     , width = 'auto', height = 'auto'
   ) #end the output$plot function which produces the plot
 
-  # Use the result "res" returned from the simulator to compute some text results
-  # the text should be formatted as HTML and placed in the "text" placeholder of the UI
-  output$text <- renderUI({
 
-    #number of repetitions for a given setting
-    nreps = allres()$nreps
+  # Use the result returned from the simulator to compute some text results
+  # the text should be formatted as HTML and placed in the "text" placeholder of the UI
+  output$text <- renderText({
+
+    input$submitBtn
+
+    res=isolate(allres())
 
     #nplots contains the number of plots to be produced.
-    #Buy default it's a single plot
-    #some apps ask for more than 1 plot, this is then sent in as a list to this function
-    #check if user provided a list of variables to be processed separately
-    nplots = 1;
-    varlist = allres()$varlist
-    if (!is.null(varlist))
-    {
-      nplots = length(varlist)
-    }
+    #for each plot, text output is produced separately
+    nplots = length(res) #length of list
 
+    #browser()
 
     #process sets of variables independently
     alltext <- ""
@@ -70,53 +63,47 @@ generate_simoutput <- function(input,output,allres)
     #using the same variable groupings as for the plots
     for (vn in 1:nplots)
     {
-      #for multiple plots, names of variables to be plotted as passed in by varlist, otherwise names are just all column names (minus time)
-      ifelse(nplots>1, varnames <- unlist(varlist[vn]), varnames <- colnames(allres()[[1]])[-1] )
+      #for each plot, get names of variables
+      dat <- res[[vn]]$dat
+      allvarnames = unique(dat$varnames)
+      nvars = length(allvarnames)
 
-      resfinal = rep(0,length(varnames))
-      resmax = rep(0,length(varnames))
-      resmin = rep(0,length(varnames))
-      resfracfinal = rep(0,length(varnames))
-      for (n1 in 1:nreps) #add all final values
+
+
+      #for each plot, process each variable by looping over them
+      for (nn in  1:nvars)
       {
+        #data for a given variable
+        currentvar = allvarnames[[nn]]
+        vardat = dplyr::filter(dat, varnames == currentvar)
+        #check if multiple runs are done
+        #unless the data frame has a column indicating the number of runs, assume it's 1
+        nreps = 1
+        if ('nreps' %in% colnames(dat) ) {nreps=max(dat$nreps)}
 
-        currentsim = allres()[[n1]]
-        nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
-        currfinal = currentsim[nrows,varnames] #final number for each variable of interest
-        #min and max for each variable
-        if (length(varnames)>1)
+        resmax = 0; resmin = 0; resfinal = 0;
+        for (n1 in 1:nreps) #average over reps (if there are any)
         {
-          resmax = resmax + apply(currentsim[,varnames],2,max);
-          resmin = resmin + apply(currentsim[,varnames],2,min);
-        }
-        if (length(varnames)==1) #for a single variable, we have a vector and the apply function does not work
-        {
-          resmax = resmax + max(currentsim[,varnames]);
-          resmin = resmin + min(currentsim[,varnames]);
-        }
+          #pull out each simulation/repetition
+          currentsim = dplyr::filter(vardat, nreps == n1)
+          nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
 
-        resfinal = resfinal + currfinal #total numbers
-        resfracfinal = resfracfinal + currfinal / sum(currfinal) #add up fractions
-      }
-      resmax = resmax/nreps; #mean across simulations (for stochastic models)
-      resmin = resmin/nreps; #mean across simulations (for stochastic models)
-      resfinal = resfinal/nreps #mean for each variable
-      resfracfinal = resfracfinal/nreps #mean for each variable
+          resmax = resmax + max(currentsim$yvals)
+          resmin = resmin + min(currentsim$yvals)
+          resfinal = resfinal + currentsim$yvals[nrows]
+        } #finish loop over reps
 
+        #store values for each variable
+        maxvals = round(resmax/nreps,2) #mean across simulations (for stochastic models)
+        minvals = round(resmin/nreps,2) #mean across simulations (for stochastic models)
+        numfinal = round(resfinal/nreps,2) #mean for each variable
 
-      for (nn in 1:length(varnames))
-      {
-        maxval = round(resmax[nn],2)
-        minval = round(resmin[nn],2)
-        numfinal = round(resfinal[nn], 2)
-        fracfinal = round(resfracfinal[nn], 2)
-        newtxt1 <- paste('Minimum and Maximum of ',varnames[nn],' during simulation: ',minval,' and ', maxval,sep='')
-        newtxt2 <- paste('Number and Fraction of ',varnames[nn],' at end of simulation: ',numfinal,' and ',fracfinal,sep='')
+        newtxt1 <- paste('Minimum and Maximum of ',currentvar,' during simulation: ',minvals,' and ', maxvals,sep='')
+        newtxt2 <- paste('Number of ',currentvar,' at end of simulation: ',numfinal,sep='')
         if (nn == 1) {txt <- paste(newtxt1, newtxt2, sep = "<br/>")}
         if (nn > 1) {txt <- paste(txt, newtxt1, newtxt2, sep = "<br/>")}
-      }
+      } #end loop over all variables
     alltext <- paste(alltext, txt, sep = "<hr>" ) #add text blocks together
-
     } #finishes loop over sets of variables
 
     finaltxt <- '<hr> <i> For stochastic simulation scenarios, values shown are the mean over all simulations. </i>'
@@ -127,7 +114,10 @@ generate_simoutput <- function(input,output,allres)
   # At last, if we have any warnings or error from the simulator we can show them here
   # That text will be shown in red in the UI ("warn" placeholder will be used)
   output$warn <- renderUI({
+    input$submitBtn
+
     warntxt <- ""
+
     if(length(utils::data()$warns) == 0){
 
     }else{

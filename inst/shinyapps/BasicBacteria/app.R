@@ -6,14 +6,13 @@
 
 #the server-side function with the main functionality
 #this function is wrapped inside the shiny server function below to allow return to main menu when window is closed
-refresh <- function(input, output){
+refresh <- function(input, output)
+  {
 
-  # This reactive takes the input data and sends it over to the simulator
-  # Then it will get the results back and return it as the "res" variable
-  res <- reactive({
+  result <- reactive({
     input$submitBtn
 
-    # Read all the input values from the UI
+  # Read all the input values from the UI
     B0 = isolate(input$B0);
     I0 = isolate(input$I0);
     b = isolate(input$b);
@@ -27,35 +26,52 @@ refresh <- function(input, output){
     dt = isolate(input$dt)
     models = as.numeric(isolate(input$models))
 
-    #save to a list for processing as plots
-    result <- list()
+    #save all results to a list for processing plots and text
+    listlength = 1; #here we do all simulations in the same figure
+    result = vector("list", listlength) #create empty list of right size for results
+
     # Call the discrete model with the given parameters
-    if (models == 1 | models == 3)
+    if (models == 1)
     {
       result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
       colnames(result_discrete) = c('xvals','Bd','Id')
       #reformat data to be in the right format for plotting
       #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
       dat = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
-
-      result[[1]]$type = "line"
-      result[[1]]$dat = dat
-    }
+     }
 
     # Call the ODE solver with the given parameters
-    if (models == 2 | models == 3)
+    if (models == 2)
     {
       result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
       colnames(result_ode) = c('xvals','Bc','Ic')
       dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
-      result[[models-1]]$type = "line"
-      result[[models-1]]$dat = dat #if we run both models, stick ODE in 2nd slot, otherwise in 1st slot
     }
 
-    return(result) #this is returned as the res variable, needs to be a list structure
-  })
+    # Call both solvers with the given parameters
+    if (models == 3)
+    {
+      result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
+      result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+      colnames(result_discrete) = c('xvals','Bd','Id')
+      colnames(result_ode) = c('xvals','Bc','Ic')
+      dat_disc = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
+      dat_disc$setting = 'discrete'
+      dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+      dat_ode$setting = 'ode'
+      dat <- dplyr::full_join(dat_disc,dat_ode)
+    }
 
-  browser()
+    result[[1]]$type = "line"
+    result[[1]]$dat = dat
+    result[[1]]$xlab = "Time"
+    result[[1]]$ylab = "Numbers"
+    result[[1]]$legend = "Compartments"
+
+
+
+  return(result)
+  })
 
   #function that takes result saved in reactive expression called res and produces output
   #to produce figures, the function generate_simoutput needs the number of panels to produce
@@ -63,7 +79,7 @@ refresh <- function(input, output){
   #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
   #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
   #output (plots, text, warnings) is stored in variable 'output'
-  output <- generate_simoutput(input,output, res)
+  output <- generate_simoutput(input,output, result)
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function

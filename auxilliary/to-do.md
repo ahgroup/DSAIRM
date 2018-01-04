@@ -1,5 +1,11 @@
 ## Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
-##To-do list 
+## To-do list 
+
+
+#Next steps
+* Fix/finish text output code in generate_simoutput
+* Implement US app
+
 
 #List of apps to implement
 

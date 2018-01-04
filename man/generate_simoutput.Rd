@@ -4,26 +4,24 @@
 \alias{generate_simoutput}
 \title{A helper function that takes result from the simulators and produces plots and text output}
 \usage{
-generate_simoutput(input, output, allres, varlist = NULL)
+generate_simoutput(input, output, allres)
 }
 \arguments{
 \item{input}{the shiny app input structure}
 
 \item{output}{the shiny app output structure}
 
-\item{allres}{multiple runs of the simulation, supplied as a list. each entry in the list is expected to be a matrix}
-
-\item{varlist}{an optional list of vectors containing the names of variables
-that should be plotted and processed independently. if not supplied, all variables will be shown in one plot.
-Also, final results for all variables will either be computed according to the groups of variable/compartment
-names provided in varlist or if not provided, all variables will be used.}
+\item{allres}{a list containing all simulation results.
+the length of the list indicates number of separate outputs (plots and text) to make, each list entry is one plot and one set of text output
+for each list entry (e.g. allres[[i]]$type), 'type' specifies the kind of plot
+allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals, one column yvals, further columns are stratifiers/aesthetics, e.g. names of variables or number of run for a given variable}
 }
 \value{
 output a list with plot, text and warn elements for display in a shiny UI
 }
 \description{
 This function generates plots and text to be displayed in the Shiny UI.
-This is a helper function. This function processes multiple simulation runs, supplied as a list
+This is a helper function. This function processes results returned from the simulation, supplied as a list
 }
 \details{
 This function is called by the shiny server to produce output returned to the shiny UI
