@@ -1,11 +1,11 @@
-#' @title A helper function that takes result from the simulators and produces plots and text output
+#' @title A helper function that takes result from the simulators and produces text output
 #'
-#' @description This function generates plots and text to be displayed in the Shiny UI.
+#' @description This function generates text to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list
 #' @param input the shiny app input structure
 #' @param output the shiny app output structure
 #' @param allres a list containing all simulation results.
-#'    the length of the list indicates number of separate outputs (plots and text) to make, each list entry is one plot and one set of text output
+#'    the length of the list indicates number of separate text blocks to make (one for each figure), each list entry contains the data is one plot and one set of text output
 #'    for each list entry (e.g. allres[[i]]$type), 'type' specifies the kind of plot
 #'    allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals, one column yvals, further columns are stratifiers/aesthetics, e.g. names of variables or number of run for a given variable
 #' @return output a list with plot, text and warn elements for display in a shiny UI
@@ -13,34 +13,8 @@
 #' @author Andreas Handel
 #' @export
 
-generate_simoutput <- function(input,output,allres)
+generate_text <- function(input,output,allres)
 {
-
-  # this function produces all plots
-  # the resulting plot is a ggplot/ggpubr object and saved in the "plot" placeholder of the output variable
-  output$plot <- renderPlot({
-    input$submitBtn
-
-    res=isolate(allres()) #get results for processing
-
-    #nplots contains the number of plots to be produced.
-    nplots = length(res) #length of list
-
-    allplots=vector("list",nplots) #will hold all plots
-
-    for (n in 1:nplots) #loop to create each plot
-    {
-      plottype = res[[n]]$type
-      dat = res[[n]]$dat
-      allplots[[n]] = ggplot(dat, aes(x = xvals, y = yvals, color = varnames) ) + geom_line() + labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
-    } #end loop over individual plots
-
-    plot_grid(plotlist = allplots)
-
-    } #finish render-plot statement
-    , width = 'auto', height = 'auto'
-  ) #end the output$plot function which produces the plot
-
 
   # Use the result returned from the simulator to compute some text results
   # the text should be formatted as HTML and placed in the "text" placeholder of the UI
@@ -111,21 +85,4 @@ generate_simoutput <- function(input,output,allres)
     HTML(resulttxt)
   }) #end text output
 
-  # At last, if we have any warnings or error from the simulator we can show them here
-  # That text will be shown in red in the UI ("warn" placeholder will be used)
-  output$warn <- renderUI({
-    input$submitBtn
-
-    warntxt <- ""
-
-    if(length(utils::data()$warns) == 0){
-
-    }else{
-      warntxt <- paste(warntxt, "Warnings:", sep = "<br/>")
-      for (i in 1:length(utils::data()$warns)){
-        warntxt <- paste(warntxt, utils::data()$warns[[i]], sep = "<br/>")
-      }
-    }
-    HTML(warntxt)
-  })
 }

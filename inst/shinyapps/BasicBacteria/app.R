@@ -79,7 +79,10 @@ refresh <- function(input, output)
   #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
   #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
   #output (plots, text, warnings) is stored in variable 'output'
-  output <- generate_simoutput(input,output, result)
+  output$plot <- generate_plots(input,output, result)
+  output$text <- generate_text(input,output, result)
+  output$warn <- generate_warnings(input,output)
+
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function

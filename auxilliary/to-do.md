@@ -3,8 +3,9 @@
 
 
 #Next steps
-* Fix/finish text output code in generate_simoutput
-* Implement US app
+* Implement US app. By doing so, figure out how finish output functions generate_XXX
+
+* Can one make generate_XXX functions non-reactive?
 
 
 #List of apps to implement

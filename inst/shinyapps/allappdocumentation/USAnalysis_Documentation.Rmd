@@ -1,0 +1,76 @@
+---
+title: Uncertainty and Sensitivity Analysis
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: ../styles/dsairm.css
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+    includes:
+      #in_header: in_header.txt
+      before_body: ../styles/dsairm_before_body.txt
+      after_body: ../styles/dsairm_after_body.txt 
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of the concept of uncertainty and sensitivity analysis. 
+For this purpose, we use the basic bacteria infection model introduced in the app so named. 
+
+, with one compartment for bacteria and one compartment for the immune response. The main goal is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+##The Model {#shinytab2}
+
+###Model Overview
+The model is the continous time model in the 'basic bacteria model' app. See the documentation there for the model description.
+
+
+
+For our system, we specify the follwoing processes/flows: 
+
+1. Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, B~max~. 
+2. Bacteria die at a natural death rate (which we label _dB_).
+3. Bacteria are killed by the immune response at some rate _k_.
+4. The immune response is triggered and grows proportional to the number of bacteria and itself, at some rate _r_.
+5. The immune response decays at some rate (which we label _dI_).
+
+
+
+###Uncertainty and Sensitivity analysis
+
+
+
+###Some notes
+* In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called _initial conditions_.
+* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _dB_, _k_, _r_ and _dI_. We would usually choose the parameter such that they match the specific disease/scenario we want to study. 
+ 
+
+
+##What to do {#shinytab3}
+
+###Task 1: 
+*
+
+###Task 2: 
+
+###Task 3: 
+
+
+###Task 4: 
+
+
+
+
+
+##Further Information {#shinytab4}
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called `simulate_introduction.R`. You can call this function directly, without going through the shiny app. Type `?simulate_introduction` into the R console for more information. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify this R function for your own purposes - though that requires R coding knowledge.
+* Some useful books which cover the material of this and most of the other apps (though often a somewhat more mathematical level) are [@vynnycky10] and [@keeling08].
+
+### References
+
+

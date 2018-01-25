@@ -2,7 +2,9 @@
 
 export(dsairmmenu)
 export(generate_instruction_tabs)
-export(generate_simoutput)
+export(generate_plots)
+export(generate_text)
+export(generate_warnings)
 export(simulate_basicbacteria)
 export(simulate_basicbacteria_discrete)
 export(simulate_basicvirus)

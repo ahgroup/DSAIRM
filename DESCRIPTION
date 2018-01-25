@@ -20,14 +20,16 @@ LazyData: TRUE
 Imports:
     deSolve (>= 1.13),
     knitr (>= 1.15),
+    dplyr (>= 0.7.4),
     adaptivetau (>= 2.2),
-    ggplot2 (>= 2.2),
     ggpubr (>= 0.1.6),
+    cowplot (>= 0.8.0),
     lhs (>= 0.15),
     sensitivity (>= 1.15),
     tidyr (>= 0.7),
     utils
 Depends:
+    ggplot2 (>= 2.2),
     shiny (>= 1.0)
 Suggests:
     rmarkdown
