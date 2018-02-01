@@ -27,9 +27,9 @@ Imports:
     lhs (>= 0.15),
     sensitivity (>= 1.15),
     tidyr (>= 0.7),
+    ggplot2 (>= 2.2),
     utils
 Depends:
-    ggplot2 (>= 2.2),
     shiny (>= 1.0)
 Suggests:
     rmarkdown

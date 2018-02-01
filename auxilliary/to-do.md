@@ -3,7 +3,10 @@
 
 
 #Next steps
-* Implement US app. By doing so, figure out how finish output functions generate_XXX
+* Continue on plot generation function: implement legends/on-off, implement boxplot, further additions
+* update text output generation functions to work for US app 
+
+* make sure both existing apps and output functions work robustly, then implement the nex app
 
 * Can one make generate_XXX functions non-reactive?
 

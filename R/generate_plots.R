@@ -30,12 +30,27 @@ generate_plots <- function(input,output,allres)
 
     for (n in 1:nplots) #loop to create each plot
     {
-      plottype = res[[n]]$type
+      plottype = res[[n]]$plottype
       dat = res[[n]]$dat
-      allplots[[n]] = ggplot(dat, aes(x = xvals, y = yvals, color = varnames) ) + geom_line() + labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
+      p1 = ggplot2::ggplot(dat, aes(x = xvals, y = yvals, color = varnames) )
+
+
+      if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point() }
+      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line() }
+      if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
+
+      p3 = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
+      #p4 = p3 +
+
+      pfinal = p3
+      allplots[[n]] = pfinal
+
+
+
     } #end loop over individual plots
 
-    cowplot::plot_grid(plotlist = allplots)
+    #number of columns needs to be stored in 1st list element
+    cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
 
     } #finish render-plot statement
     , width = 'auto', height = 'auto'

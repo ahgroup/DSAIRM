@@ -23,10 +23,10 @@ dsairmmenu <- function() {
     if (op == "X") {cond = 0} #leave while loop/menu
     if (op == "A") {appname = "BasicBacteria"}
     if (op == "B") {appname = "BasicVirus"}
-    if (op == "C") {appname = "BasicHIV"}
-    if (op == "D") {appname = "ComplexHIV"}
-    if (op == "E") {appname = "HCVandIFN"}
-    if (op == "F") {appname = "HCVandPKPD"}
+    if (op == "C") {appname = "VirusandIR"}
+    if (op == "D") {appname = "ModelVariants"}
+    if (op == "E") {appname = "USAnalysis"}
+    if (op == "F") {appname = "StochasticModel"}
 
     if (!is.null(appname))     #run the shiny app chosen
     {

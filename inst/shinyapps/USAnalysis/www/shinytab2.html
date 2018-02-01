@@ -1,0 +1,21 @@
+<body> <div id="shinytab2" class="section level2">&#13;
+<h2>The Model</h2>&#13;
+<div id="model-overview" class="section level3">&#13;
+<h3>Model Overview</h3>&#13;
+<p>The model is the continous time model in the ‘basic bacteria model’ app. See the documentation there for the model description.</p>&#13;
+<p>For our system, we specify the follwoing processes/flows:</p>&#13;
+<ol style="list-style-type: decimal"><li>Bacteria grow/divide at some maximum rate (which we label <em>g</em>) and saturate as they approach some maximum carrying capacity, B<sub>max</sub>.</li>&#13;
+<li>Bacteria die at a natural death rate (which we label <em>dB</em>).</li>&#13;
+<li>Bacteria are killed by the immune response at some rate <em>k</em>.</li>&#13;
+<li>The immune response is triggered and grows proportional to the number of bacteria and itself, at some rate <em>r</em>.</li>&#13;
+<li>The immune response decays at some rate (which we label <em>dI</em>).</li>&#13;
+</ol></div>&#13;
+<div id="uncertainty-and-sensitivity-analysis" class="section level3">&#13;
+<h3>Uncertainty and Sensitivity analysis</h3>&#13;
+</div>&#13;
+<div id="some-notes" class="section level3">&#13;
+<h3>Some notes</h3>&#13;
+<ul><li>In general, the entities that change in our model (i.e. here <strong>B</strong> and <strong>I</strong>) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called <em>initial conditions</em>.</li>&#13;
+<li>In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are <em>g</em>, <em>dB</em>, <em>k</em>, <em>r</em> and <em>dI</em>. We would usually choose the parameter such that they match the specific disease/scenario we want to study.</li>&#13;
+</ul></div>&#13;
+</div> </body>

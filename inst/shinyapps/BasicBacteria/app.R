@@ -62,7 +62,7 @@ refresh <- function(input, output)
       dat <- dplyr::full_join(dat_disc,dat_ode)
     }
 
-    result[[1]]$type = "line"
+    result[[1]]$type = "lineplot"
     result[[1]]$dat = dat
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"

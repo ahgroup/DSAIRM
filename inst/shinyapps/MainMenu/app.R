@@ -13,21 +13,21 @@ server <- function(input, output, session) {
     stopApp(returnValue = 'B')
   })
 
-  observeEvent(input$BasicHIV, {
+  observeEvent(input$VirusandIR, {
     input$BasicHIV
     stopApp(returnValue = 'C')
   })
 
-  observeEvent(input$ComplexHIV, {
+  observeEvent(input$ModelVariants, {
     input$ComplexHIV
     stopApp(returnValue = 'D')
   })
 
-  observeEvent(input$HCVandIFN, {
+  observeEvent(input$USAnalysis, {
     input$HCVandIFN
     stopApp(returnValue = 'E')
   })
-  observeEvent(input$HCVandPKPD, {
+  observeEvent(input$StochasticModel, {
     input$HCVandPKPD
     stopApp(returnValue = 'F')
   })
@@ -80,7 +80,7 @@ ui <- fluidPage(
            actionButton("ModelVariants", "Model formulation", class="mainbutton")
     ),
     column(4,
-           actionButton("USanalysis", "Parameter Uncertainty", class="mainbutton")
+           actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
     ),
     column(4,
          actionButton("StochasticModel", "Model Stochasticity", class="mainbutton")

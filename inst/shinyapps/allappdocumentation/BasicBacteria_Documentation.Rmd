@@ -45,7 +45,7 @@ A very good way to describe compartmental models and move from a verbal descript
 
 
 ```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE}
-knitr::include_graphics("../media/BIdiagram.png")
+knitr::include_graphics("../media/bacteriamodel.png")
 ```
 
 Next, we need to implement this model and flow diagram in a way that it can be run on a computer. Two ways to do so are described next.
