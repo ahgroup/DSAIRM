@@ -61,14 +61,16 @@ refresh <- function(input, output)
       dat_ode$setting = 'ode'
       dat <- dplyr::full_join(dat_disc,dat_ode)
     }
-
-    result[[1]]$type = "lineplot"
+    #data for plots and text
+    #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
+    #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = dat
+
+    #Meta-information for each plot
+    result[[1]]$plottype = "Lineplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
-
-
 
   return(result)
   })

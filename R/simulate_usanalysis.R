@@ -67,17 +67,17 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
     lhssample=lhs::randomLHS(samples,8);
 
     #transforming parameters to be  uniform between their low and high values
-    B0vec=qunif(lhssample[,1],min = B0min, max = B0max)
-    I0vec=qunif(lhssample[,2],min = I0min, max= I0max)
-    Bmaxvec=qunif(lhssample[,3],min = Bmaxmin, max = Bmaxmax)
-    dBvec=qunif(lhssample[,4],min = dBmin, max = dBmax)
-    kvec=qunif(lhssample[,5],min = kmin, max = kmax)
-    rvec=qunif(lhssample[,6],min = rmin, max = rmax)
-    dIvec=qunif(lhssample[,7],min = dImin, max = dImax)
+    B0vec = stats::qunif(lhssample[,1],min = B0min, max = B0max)
+    I0vec = stats::qunif(lhssample[,2],min = I0min, max= I0max)
+    Bmaxvec = stats::qunif(lhssample[,3],min = Bmaxmin, max = Bmaxmax)
+    dBvec   = stats::qunif(lhssample[,4],min = dBmin, max = dBmax)
+    kvec = stats::qunif(lhssample[,5],min = kmin, max = kmax)
+    rvec = stats::qunif(lhssample[,6],min = rmin, max = rmax)
+    dIvec = stats::qunif(lhssample[,7],min = dImin, max = dImax)
 
     #transforming parameter g to a gamma distribution with mean gmean and variance gvar
     #this is just to illustrate how different assumptions of parameter distributions can be implemented
-    gvec=qgamma(lhssample[,8], shape = gmean^2/gvar, scale = gvar/gmean);
+    gvec = stats::qgamma(lhssample[,8], shape = gmean^2/gvar, scale = gvar/gmean);
 
 
     Bpeak=rep(0,samples) #initialize vectors that will contain the solution
@@ -101,8 +101,8 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
         odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
 
         Bpeak[n]=max(odeoutput[,"B"]); #get the peak for B
-        Bsteady[n]=tail(odeoutput[,"B"],1)
-        Isteady[n]=tail(odeoutput[,"I"],1)
+        Bsteady[n] = utils::tail(odeoutput[,"B"],1)
+        Isteady[n] = utils::tail(odeoutput[,"I"],1)
     }
 
     results = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec)

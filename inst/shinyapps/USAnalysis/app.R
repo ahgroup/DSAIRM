@@ -75,7 +75,7 @@ refresh <- function(input, output)
       result[[ct]]$plottype = plottype
       result[[ct]]$xlab = xvalname
       result[[ct]]$ylab = yvalname
-      result[[ct]]$legend = ""
+      result[[ct]]$legend = FALSE #set to either false or provide the label for legends
       ct = ct + 1
       } #inner loop
     } #outer loop
@@ -250,7 +250,7 @@ ui <- fluidPage(
            #################################
            #Start with results on top
            h2('Simulation Results'),
-           plotOutput(outputId = "plot", height = "500px"),
+           plotOutput(outputId = "plot", height = "800px"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
            #Placeholder for any possible warning or error messages (this will be shown in red)

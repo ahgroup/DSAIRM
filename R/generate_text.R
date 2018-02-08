@@ -28,12 +28,9 @@ generate_text <- function(input,output,allres)
     #for each plot, text output is produced separately
     nplots = length(res) #length of list
 
-    #browser()
+    alltext <- vector("list",nplots) #will hold all text outputs
 
-    #process sets of variables independently
-    alltext <- ""
-
-    #if multiple plots are requested, text output for variables will be processed
+    #each plot will be processed separately and text for each produced and placed in a list entry
     #using the same variable groupings as for the plots
     for (vn in 1:nplots)
     {
