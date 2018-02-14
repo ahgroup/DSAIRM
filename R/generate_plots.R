@@ -28,22 +28,29 @@ generate_plots <- function(input,output,allres)
 
     allplots=vector("list",nplots) #will hold all plots
 
+    #browser()
+
     for (n in 1:nplots) #loop to create each plot
     {
       plottype = res[[n]]$plottype
       dat = res[[n]]$dat
       legend = res[[n]]$legend
-      p1 = ggplot2::ggplot(dat, aes(x = xvals, y = yvals, color = varnames) )
+      xscale = res[[n]]$xscale
+      yscale = res[[n]]$yscale
+      p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames) )
 
 
       if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point() }
-      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line() }
+      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line()  }
       if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
 
-      p3 = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
+      p2a = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
 
-      if (legend == FALSE) { p4 = p3 + theme(legend.position="none") }
+      p3 = p2a + ggplot2::scale_x_continuous(trans = xscale) + ggplot2::scale_y_continuous(trans = yscale)
+
+      if (legend == FALSE) { p4 = p3 + ggplot2::theme(legend.position="none") }
       else { p4 = p3 }
+
 
       pfinal = p4
       allplots[[n]] = pfinal

@@ -6,7 +6,7 @@
 \usage{
 simulate_usanalysis(B0min = 10, B0max = 10, I0min = 1, I0max = 1,
   Bmaxmin = 1e+06, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
-  kmin = 1e-07, kmax = 1 - 7, rmin = 0.001, rmax = 0.001, dImin = 1,
+  kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001, dImin = 1,
   dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10)
 }
 \arguments{
@@ -78,9 +78,9 @@ also returned are all parameter values as individual columns
 # To run the simulation with default parameters just call this function
 result <- simulate_usanalysis()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_uncertainty(dIlow = 0.1, dIhigh = 10, tmax = 100)
+result <- simulate_usanalysis(dImin = 0.1, dImax = 10, tmax = 100)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,"d"],result[,"Bpeak"],xlab='values for parameter d',ylab='Peak Bacteria Number',type='l')
+plot(result[,"dI"],result[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria Number',type='l')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

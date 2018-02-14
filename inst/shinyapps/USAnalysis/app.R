@@ -34,6 +34,8 @@ refresh <- function(input, output)
     tmax = isolate(input$tmax);
     samples = isolate(input$samples)
     plottype = isolate(input$plottype)
+    plotscale = isolate(input$plotscale)
+
 
     sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples)
 
@@ -76,6 +78,15 @@ refresh <- function(input, output)
       result[[ct]]$xlab = xvalname
       result[[ct]]$ylab = yvalname
       result[[ct]]$legend = FALSE #set to either false or provide the label for legends
+
+
+      result[[ct]]$xscale = 'identity'
+      result[[ct]]$yscale = 'identity'
+      if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
+      if (plotscale == 'y' | plotscale == 'both') { result[[ct]]$yscale = 'log10'}
+
+
+
       ct = ct + 1
       } #inner loop
     } #outer loop
@@ -84,11 +95,8 @@ refresh <- function(input, output)
 
   #functions that take result saved in reactive expression and produces output
   #for structure needed to generate plots and text, see above
-  #warnings function does not process the result
   output$plot <- generate_plots(input,output, result)
-  #output$text <- generate_text(input,output, result)
-  #output$text <- 'hello'
-  output$warn <- generate_warnings(input,output)
+  output$text <-  generate_text(input,output, result)
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
@@ -146,10 +154,10 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(6,
-                    numericInput("B0min", "Initial number of bacteria (lower bound)", min = 0, max = 1000, value = 100, step = 50)
+                    numericInput("B0min", "Initial number of bacteria, B0 (lower bound)", min = 0, max = 1000, value = 100, step = 50)
              ),
              column(6,
-                    numericInput("B0max", "Initial number of bacteria (upper bound)", min = 0, max = 1000, value = 100, step = 50)
+                    numericInput("B0max", "Initial number of bacteria, B0 (upper bound)", min = 0, max = 1000, value = 100, step = 50)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -157,10 +165,10 @@ ui <- fluidPage(
 
              fluidRow( class = 'myrow',
              column(6,
-                    numericInput("I0min", "Initial number of immune cells (lower bound)", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("I0min", "Initial number of immune cells, I0 (lower bound)", min = 0, max = 100, value = 10, step = 1)
              ),
              column(6,
-                    numericInput("I0max", "Initial number of immune cells (upper bound)", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("I0max", "Initial number of immune cells, I0 (upper bound)", min = 0, max = 100, value = 10, step = 1)
              ),
                    align = "center"
            ), #close fluidRow structure for input
@@ -168,60 +176,60 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                column(6,
-                    numericInput("Bmaxmin", "carrying capacity (10^X, lower bound)", min = 1, max = 10, value = 5, step = 1)
+                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 5, step = 1)
              ),
              column(6,
-                    numericInput("Bmaxmax", "carrying capacity (10^X, upper bound)", min = 1, max = 10, value = 5, step = 1)
+                    numericInput("Bmaxmax", "carrying capacity, Bmax (10^Bmax, upper bound)", min = 1, max = 10, value = 5, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
              fluidRow(class = 'myrow',
              column(6,
-                    numericInput("dBmin", "bacteria death rate (lower bound)", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("dBmin", "bacteria death rate, dB (lower bound)", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(6,
-                    numericInput("dBmax", "bacteria death rate (upper bound)", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("dBmax", "bacteria death rate, dB (upper bound)", min = 0, max = 10, value = 1, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("kmin", "immune response kill rate (10^X, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("kmin", "immune response kill rate, k (10^k, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(6,
-                           numericInput("kmax", "immune response kill rate (10^X, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("kmax", "immune response kill rate, k (10^k, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("rmin", "immune respone activation rate (10^X, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
+                  numericInput("rmin", "immune respone activation rate, r (10^r, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
            ),
            column(6,
-                  numericInput("rmax", "immune respone activation rate (10^X, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
-           ),
-           align = "center"
-           ), #close fluidRow structure for input
-
-           fluidRow(class = 'myrow',
-           column(6,
-                  numericInput("dImin", "Immune response death rate (lower bound)", min = 0, max = 10, value = 2, step = 0.1)
-           ),
-           column(6,
-                  numericInput("dImax", "Immune response death rate (upper bound)", min = 0, max = 10, value = 2, step = 0.1)
+                  numericInput("rmax", "immune respone activation rate, r (10^r, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
            ),
            align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("gmean", "Rate of bacteria growth (mean)", min = 0, max = 10, value = 1.5, step = 0.1)
+                  numericInput("dImin", "Immune response death rate, dI (lower bound)", min = 0, max = 10, value = 2, step = 0.1)
            ),
            column(6,
-                  numericInput("gvar", "Rate of bacteria growth (variance)", min = 0, max = 10, value = 1.5, step = 0.1)
+                  numericInput("dImax", "Immune response death rate, dI (upper bound)", min = 0, max = 10, value = 2, step = 0.1)
+           ),
+           align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
+           column(6,
+                  numericInput("gmean", "Rate of bacteria growth, g (mean)", min = 0, max = 10, value = 1.5, step = 0.1)
+           ),
+           column(6,
+                  numericInput("gvar", "Rate of bacteria growth, g (variance)", min = 0, max = 10, value = 1.5, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input
@@ -236,8 +244,11 @@ ui <- fluidPage(
                     align = "center"
            ), #close fluidRow structure for input
            fluidRow(class = 'myrow',
-                    column(12,
+                    column(6,
                            selectInput("plottype", "Plot type for output", c("Boxplot", "Scatterplot"), selected = "Scatterplot" )
+                    ),
+                    column(6,
+                           selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
                     ),
                     align = "center"
            ) #close fluidRow structure for input

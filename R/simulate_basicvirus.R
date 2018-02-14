@@ -1,6 +1,6 @@
 ############################################################
 ##simulation of a simple viral infection model, implemented as ODE
-##written by Andreas Handel (ahandel@uga.edu), last change 12/6/17
+##written by Andreas Handel (ahandel@uga.edu), last change 2/6/18
 ############################################################
 
 
@@ -13,7 +13,7 @@ virusode <- function(t, y, parms)
 
       dU = n - dU*U - b*V*U
       dI = b*V*U - dI*I
-      dV = p*I - dV*V - b*V*U
+      dV = p*I - dV*V - b*g*V*U
 
 	 	  list(c(dU, dI, dV))
     }
@@ -32,12 +32,13 @@ virusode <- function(t, y, parms)
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
 #' @param V0 initial number of infectious virions
-#' @param n rate of new uinfected cell replenishment
+#' @param n rate of new uninfected cell replenishment
 #' @param dU rate at which uninfected cells die
 #' @param dI rate at which infected cells die
 #' @param dV rate at which infectious virus is cleared
 #' @param b rate at which virus infects cells
 #' @param p rate at which infected cells produce virus
+#' @param g possible conversion factor for virus units
 #'
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
@@ -61,14 +62,14 @@ virusode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5)
+simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, g = 1)
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p);
+  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,g=g);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables

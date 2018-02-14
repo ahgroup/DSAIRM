@@ -5,7 +5,7 @@
 \title{Simulation of a basic viral infection model without an immune response}
 \usage{
 simulate_basicvirus(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
-  dU = 0, dI = 1, dV = 2, b = 2e-07, p = 5)
+  dU = 0, dI = 1, dV = 2, b = 2e-07, p = 5, g = 1)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -17,7 +17,7 @@ simulate_basicvirus(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
 \item{tmax}{maximum simulation time, units depend on choice of units for your
 parameters}
 
-\item{n}{rate of new uinfected cell replenishment}
+\item{n}{rate of new uninfected cell replenishment}
 
 \item{dU}{rate at which uninfected cells die}
 
@@ -28,6 +28,8 @@ parameters}
 \item{b}{rate at which virus infects cells}
 
 \item{p}{rate at which infected cells produce virus}
+
+\item{g}{possible conversion factor for virus units}
 }
 \value{
 The function returns the output from the odesolver as a matrix,

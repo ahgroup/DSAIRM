@@ -12,12 +12,17 @@ generate_text(input, output, allres)
 \item{output}{the shiny app output structure}
 
 \item{allres}{a list containing all simulation results.
-the length of the list indicates number of separate text blocks to make (one for each figure), each list entry contains the data is one plot and one set of text output
+the length of the list indicates number of separate text blocks to make (one for each figure)
 for each list entry (e.g. allres[[i]]$type), 'type' specifies the kind of plot
-allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals, one column yvals, further columns are stratifiers/aesthetics, e.g. names of variables or number of run for a given variable}
+allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals,
+one column yvals, further columns are stratifiers/aesthetics,
+e.g. names of variables or number of run for a given variable
+the default is to return min, max and final value for each variable shown in a plot
+the default can be overwritten by manually supplying - from the shiny app - the output
+in that case, it is simply passed through and this function doesn't do much}
 }
 \value{
-output a list with plot, text and warn elements for display in a shiny UI
+output a list with  text for display in a shiny UI
 }
 \description{
 This function generates text to be displayed in the Shiny UI.
