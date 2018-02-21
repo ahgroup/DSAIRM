@@ -24,9 +24,9 @@ dsairmmenu <- function() {
     if (op == "A") {appname = "BasicBacteria"}
     if (op == "B") {appname = "BasicVirus"}
     if (op == "C") {appname = "VirusandIR"}
-    if (op == "D") {appname = "ModelVariants"}
-    if (op == "E") {appname = "USAnalysis"}
-    if (op == "F") {appname = "StochasticModel"}
+    if (op == "D") {appname = "ModelExploration"}
+    #if (op == "E") {appname = "USAnalysis"}
+    #if (op == "F") {appname = "StochasticModel"}
 
     if (!is.null(appname))     #run the shiny app chosen
     {

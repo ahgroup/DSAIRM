@@ -18,7 +18,7 @@ server <- function(input, output, session) {
     stopApp(returnValue = 'C')
   })
 
-  observeEvent(input$ModelVariants, {
+  observeEvent(input$ModelExploration, {
     input$ComplexHIV
     stopApp(returnValue = 'D')
   })
@@ -73,6 +73,17 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
+  p('Using models to explore and predict', class='mainsectionheader'),
+  fluidRow(
+    column(6,
+           actionButton("ModelExploration", "Bacteria Model Exploration", class="mainbutton")
+    ),
+    column(6,
+           actionButton("InfluenzaResistance", "Influenza antivirals and drug resistance", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
   p('What influences model results', class='mainsectionheader'),
 
   fluidRow(
@@ -88,16 +99,6 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
-  p('Using models to explore and predict', class='mainsectionheader'),
-  fluidRow(
-    column(6,
-           actionButton("TBExperiments", "Simulated TB experiments", class="mainbutton")
-    ),
-    column(6,
-           actionButton("InfluenzaResistance", "Influenza antivirals and drug resistance", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
   p('Using models with data', class='mainsectionheader'),
   fluidRow(
     column(6,
