@@ -12,10 +12,10 @@ bacteriaode <- function(t, y, parms)
     {
 
       #these are the differential equations
-      dB=g*B*(1-B/Bmax)-dB*B-k*B*I;
-      dI=r*B*I-dI*I;
+      dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I;
+      dIdt = r*B*I - dI*I;
 
-	 	  list(c(dB, dI))
+	 	  list(c(dBdt, dIdt))
     }
    ) #close with statement
 } #end function specifying the ODEs

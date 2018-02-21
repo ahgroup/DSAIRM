@@ -11,11 +11,11 @@ virusode <- function(t, y, parms)
     as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
     {
 
-      dU = n - dU*U - b*V*U
-      dI = b*V*U - dI*I
-      dV = p*I - dV*V - b*g*V*U
+      dUdt = n - dU*U - b*V*U
+      dIdt = b*V*U - dI*I
+      dVdt = p*I - dV*V - b*g*V*U
 
-	 	  list(c(dU, dI, dV))
+	 	  list(c(dUdt, dIdt, dVdt))
     }
    ) #close with statement
 } #end function specifying the ODEs
