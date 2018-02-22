@@ -30,7 +30,9 @@
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
 #' @return The function returns the output as a data frame,
-#' with sample values for each parameter as columns, followed by columns for the results.
+#' The first column is called xvals and contains the values of the
+#' parameter that has been varied.
+#' The remaining columns contain Bpeak, Ipeak, Bsteady and Isteady
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' The user can specify which parameter is sampled
@@ -45,7 +47,7 @@
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,"dI"],result[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria Number',type='l')
+#' plot(result[,"xvals"],result[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model.
 #' @author Andreas Handel

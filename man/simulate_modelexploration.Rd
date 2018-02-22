@@ -6,7 +6,8 @@
 \usage{
 simulate_modelexploration(B0 = 10, I0 = 1, tmax = 30, g = 1,
   Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1,
-  samplepar = "k", pmin = 1e-08, pmax = 1e-05, samples = 10)
+  samplepar = "k", pmin = 1e-08, pmax = 1e-05, samples = 10,
+  pardist = "lin")
 }
 \arguments{
 \item{B0}{initial number of bacteria}
@@ -35,10 +36,14 @@ parameters}
 \item{pmax}{upper value for varied parameter}
 
 \item{samples}{number of values to run between pmin and pmax}
+
+\item{pardist}{spacing of parameter values, can be either 'lin' or 'log'}
 }
 \value{
 The function returns the output as a data frame,
-with sample values for each parameter as columns, followed by columns for the results.
+The first column is called xvals and contains the values of the
+parameter that has been varied.
+The remaining columns contain Bpeak, Ipeak, Bsteady and Isteady
 }
 \description{
 This function simulates the simple bacteria model
@@ -62,9 +67,9 @@ also returned is the varied parameter
 # To run the simulation with default parameters just call this function
 result <- simulate_modelexploration()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_modelexploration(dImin = 0.1, dImax = 10, tmax = 100)
+result <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,"dI"],result[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria Number',type='l')
+plot(result[,"xvals"],result[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator
