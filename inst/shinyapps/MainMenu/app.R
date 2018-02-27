@@ -5,31 +5,31 @@ server <- function(input, output, session) {
 
   observeEvent(input$BasicBacteria, {
     input$BasicBacteria
-    stopApp(returnValue = 'A')
+    stopApp(returnValue = 'BasicBacteria')
   })
 
   observeEvent(input$BasicVirus, {
     input$BasicVirus
-    stopApp(returnValue = 'B')
+    stopApp(returnValue = 'BasicVirus')
   })
 
   observeEvent(input$VirusandIR, {
-    input$BasicHIV
-    stopApp(returnValue = 'C')
+    input$VirusandIR
+    stopApp(returnValue = 'VirusandIR')
   })
 
   observeEvent(input$ModelExploration, {
-    input$ComplexHIV
-    stopApp(returnValue = 'D')
+    input$ModelExploration
+    stopApp(returnValue = 'ModelExploration')
   })
 
   observeEvent(input$USAnalysis, {
-    input$HCVandIFN
-    stopApp(returnValue = 'E')
+    input$USAnalysis
+    stopApp(returnValue = 'USAnalysis')
   })
   observeEvent(input$StochasticModel, {
-    input$HCVandPKPD
-    stopApp(returnValue = 'F')
+    input$StochasticModel
+    stopApp(returnValue = 'StochasticModel')
   })
 
 
@@ -73,6 +73,20 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
+  p('What influences model results', class='mainsectionheader'),
+  fluidRow(
+    column(4,
+           actionButton("ModelVariants", "Model formulation", class="mainbutton")
+    ),
+    column(4,
+           actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
+    ),
+    column(4,
+           actionButton("StochasticModel", "Model Stochasticity", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
   p('Using models to explore and predict', class='mainsectionheader'),
   fluidRow(
     column(6,
@@ -84,20 +98,6 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
-  p('What influences model results', class='mainsectionheader'),
-
-  fluidRow(
-    column(4,
-           actionButton("ModelVariants", "Model formulation", class="mainbutton")
-    ),
-    column(4,
-           actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
-    ),
-    column(4,
-         actionButton("StochasticModel", "Model Stochasticity", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
 
   p('Using models with data', class='mainsectionheader'),
   fluidRow(

@@ -21,12 +21,12 @@ dsairmmenu <- function() {
     op = shiny::runApp(appDir = appDir)
 
     if (op == "X") {cond = 0} #leave while loop/menu
-    if (op == "A") {appname = "BasicBacteria"}
-    if (op == "B") {appname = "BasicVirus"}
-    if (op == "C") {appname = "VirusandIR"}
-    if (op == "D") {appname = "ModelExploration"}
-    #if (op == "E") {appname = "USAnalysis"}
-    #if (op == "F") {appname = "StochasticModel"}
+    if (op == "BasicBacteria") {appname = "BasicBacteria"}
+    if (op == "BasicVirus") {appname = "BasicVirus"}
+    if (op == "VirusandIR") {appname = "VirusandIR"}
+    if (op == "ModelExploration") {appname = "ModelExploration"}
+    if (op == "USAnalysis") {appname = "USAnalysis"}
+    if (op == "StochasticModel") {appname = "StochasticModel"}
 
     if (!is.null(appname))     #run the shiny app chosen
     {
