@@ -57,15 +57,16 @@ refresh <- function(input, output)
   return(result)
   })
 
-  #function that takes result saved in reactive expression called res and produces output
-  #to produce figures, the function generate_simoutput needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
+  #function that takes result saved in reactive expression called result and produces output
+  #to produce figures, the function generate_plots needs the number of panels to produce
+  #the resulting plot is returned in potential multi-panel ggplot/cowplot structure
   #output (plots, text) is stored in variable 'output'
   output$plot <- generate_plots(input, output, result)
   output$text <- generate_text(input, output, result)
 
+  #for a single plot it is possible to include interactivity to click on plot and get value
+  #not working, might be because it returns a line plot? not sure
+  #output$info <- renderPrint({ nearPoints(result()[[1]]$dat, input$plot_click, xvar='xvals',yvar='yvals')  })
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
@@ -187,10 +188,12 @@ ui <- fluidPage(
            #Start with results on top
            h2('Simulation Results'),
            plotOutput(outputId = "plot", height = "500px"),
+           #plotOutput(outputId = "plot", height = "500px", click = "plot_click"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
-           #Placeholder for any possible warning or error messages (this will be shown in red)
-           htmlOutput(outputId = "warn"),
+           #last one is meant to display the coordinates of a point clicked on the plot
+           #currently not working
+           #verbatimTextOutput(outputId = "info"),
 
            tags$head(tags$style("#warn{color: red;
                                 font-style: italic;

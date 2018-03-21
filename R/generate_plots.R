@@ -17,7 +17,7 @@ generate_plots <- function(input,output,allres)
 {
 
   # this function produces all plots
-  # the resulting plot is a ggplot/ggpubr object and saved in the "plot" placeholder of the output variable
+  # the resulting plot is a ggplot object and saved in the "plot" placeholder of the output variable
   output$plot <- renderPlot({
     input$submitBtn
 
@@ -59,10 +59,20 @@ generate_plots <- function(input,output,allres)
 
     } #end loop over individual plots
 
-    #number of columns needs to be stored in 1st list element
-    cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
+    #using cowplot for multiple plots, ggplot for a single one
+    #potential advantage is that for a single ggplot, one could use interactive features
+    #such as klicking on point and displaying value
+    #some code for that is in the basi virus app, but currently not working
 
-    } #finish render-plot statement
-    , width = 'auto', height = 'auto'
-  ) #end the function which produces the plots
+    if (n>1)
+    {
+      #number of columns needs to be stored in 1st list element
+      cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
+    }
+    if (n==1)
+    {
+      plot(pfinal)
+    }
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
 }

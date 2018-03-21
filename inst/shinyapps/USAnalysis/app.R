@@ -98,6 +98,7 @@ refresh <- function(input, output)
   output$plot <- generate_plots(input,output, result)
   output$text <-  generate_text(input,output, result)
 
+
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function
@@ -264,8 +265,7 @@ ui <- fluidPage(
            plotOutput(outputId = "plot", height = "800px"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
-           #Placeholder for any possible warning or error messages (this will be shown in red)
-           htmlOutput(outputId = "warn"),
+
 
            tags$head(tags$style("#warn{color: red;
                                 font-style: italic;
