@@ -5,43 +5,56 @@ server <- function(input, output, session) {
 
   observeEvent(input$BasicBacteria, {
     input$BasicBacteria
-    stopApp(returnValue = 'A')
+    stopApp(returnValue = 'BasicBacteria')
   })
 
   observeEvent(input$BasicVirus, {
     input$BasicVirus
-    stopApp(returnValue = 'B')
+    stopApp(returnValue = 'BasicVirus')
   })
 
   observeEvent(input$VirusandIR, {
-    input$BasicHIV
-    stopApp(returnValue = 'C')
+    input$VirusandIR
+    stopApp(returnValue = 'VirusandIR')
   })
 
   observeEvent(input$ModelExploration, {
-    input$ComplexHIV
-    stopApp(returnValue = 'D')
+    input$ModelExploration
+    stopApp(returnValue = 'ModelExploration')
+  })
+
+  observeEvent(input$HCVmodel, {
+    input$HCVmodel
+    stopApp(returnValue = 'HCVmodel')
+  })
+
+  observeEvent(input$InfluenzaResistance, {
+    input$InfluenzaResistance
+    stopApp(returnValue = 'InfluenzaResistance')
+  })
+
+  observeEvent(input$ModelVariants, {
+    input$ModelVariants
+    stopApp(returnValue = 'ModelVariants')
+  })
+  observeEvent(input$BasicVirusStochastic, {
+    input$BasicVirusStochastic
+    stopApp(returnValue = 'BasicVirusStochastic')
   })
 
   observeEvent(input$USAnalysis, {
-    input$HCVandIFN
-    stopApp(returnValue = 'E')
+    input$USAnalysis
+    stopApp(returnValue = 'USAnalysis')
   })
-  observeEvent(input$StochasticModel, {
-    input$HCVandPKPD
-    stopApp(returnValue = 'F')
-  })
-
-
 
   observeEvent(input$Exit, {
     input$Exit
     print ("Exiting")
-    stopApp(returnValue = 'X')
+    stopApp(returnValue = 'Exit')
   })
 
   session$onSessionEnded(function(){
-    stopApp(returnValue = 'X')
+    stopApp(returnValue = 'Exit')
   })
 
 }
@@ -75,10 +88,13 @@ ui <- fluidPage(
 
   p('Using models to explore and predict', class='mainsectionheader'),
   fluidRow(
-    column(6,
+    column(4,
            actionButton("ModelExploration", "Bacteria Model Exploration", class="mainbutton")
     ),
-    column(6,
+    column(4,
+           actionButton("HCVmodel", "Comparing an HCV model to data", class="mainbutton")
+    ),
+    column(4,
            actionButton("InfluenzaResistance", "Influenza antivirals and drug resistance", class="mainbutton")
     ),
     class = "mainmenurow"
@@ -94,31 +110,11 @@ ui <- fluidPage(
            actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
     ),
     column(4,
-         actionButton("StochasticModel", "Model Stochasticity", class="mainbutton")
+         actionButton("BasicVirusStochastic", "Model Stochasticity", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
-  p('Using models with data', class='mainsectionheader'),
-  fluidRow(
-    column(6,
-           actionButton("HCVmodel", "Comparing an HCV model to data", class="mainbutton")
-    ),
-    column(6,
-           actionButton("InfluenzaFitting", "Fitting an Influenza model to data", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
-  p('Further Topics', class='mainsectionheader'),
-  fluidRow(
-    column(6,
-           actionButton("TBExperiments", "PKPD", class="mainbutton")
-    ),
-    column(6,
-           actionButton("InfluenzaResistance", "Discrete time models and noise", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
 
 
     fluidRow(

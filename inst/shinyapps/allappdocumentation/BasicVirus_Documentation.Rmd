@@ -1,5 +1,5 @@
 ---
-title: Basic VirusModel
+title: Basic Virus Model
 output:
   html_document:
     theme: null
@@ -22,7 +22,7 @@ This app allows exploration of a very basic virus infection model, with compartm
 ##The Model {#shinytab2}
 
 ###Model Overview
-This model consists of 3 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities, by assigning each to a copartment:
+This model consists of 3 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities, by assigning each to a compartment:
 
 * **U** - uninfected cells 
 * **I** - infected cells
@@ -42,8 +42,7 @@ For our system, we specify the following processes/flows:
 ###Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-
-```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model..',  echo=FALSE}
+```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
 knitr::include_graphics("../media/virusdiagram.png")
 ```
 

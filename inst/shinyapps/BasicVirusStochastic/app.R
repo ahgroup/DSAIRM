@@ -1,7 +1,7 @@
 ############################################################
-#This is the Shiny file for the Basic Virus App
+#This is the Shiny file for the Stochastic version of the Basic Virus App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 2/16/2018
+#last updated 3/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -19,7 +19,6 @@ refresh <- function(input, output)
     b = 10^isolate(input$b)
     p = 10^isolate(input$p)
     n = isolate(input$n)
-    g = isolate(input$g)
     dU = isolate(input$dU)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
@@ -29,7 +28,7 @@ refresh <- function(input, output)
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
-    simresult <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
+    simresult <- simulate_basicvirus_stochastic(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, b = b, dI = dI, p = p, dV = dV)
     colnames(simresult) = c('xvals','U','I','V')
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
@@ -163,9 +162,6 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("g", "Unit conversion factor, g", min = 0, max = 100, value = 1, step = 1)
-                    ),
                     column(4,
                            numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
                     ),
