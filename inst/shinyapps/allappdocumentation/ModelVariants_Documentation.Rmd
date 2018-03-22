@@ -1,0 +1,47 @@
+---
+title: Different Model Formulations
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: ../styles/dsairm.css
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+    includes:
+      #in_header: in_header.txt
+      before_body: ../styles/dsairm_before_body.txt
+      after_body: ../styles/dsairm_after_body.txt 
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+##The Model {#shinytab2}
+
+###Model Overview
+
+###Model Diagram
+
+###Model Equations
+
+
+
+##What to do {#shinytab3}
+
+###Task 1: 
+*
+
+###Task 2: 
+
+###Task 3: 
+
+
+
+##Further Information {#shinytab4}
+
+### References
+
+

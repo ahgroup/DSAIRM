@@ -1,0 +1,84 @@
+---
+title: HCV and Interferon Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: ../styles/dsairm.css
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+    includes:
+      #in_header: in_header.txt
+      before_body: ../styles/dsairm_before_body.txt
+      after_body: ../styles/dsairm_after_body.txt 
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of a basic virus infection model in the presence of a drug. The model is loosely meant to simulate interferon treatment for HCV infections. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
+
+
+##The Model {#shinytab2}
+
+###Model Overview
+This model consists of 3 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities, by assigning each to a compartment:
+
+* **U** - uninfected cells 
+* **I** - infected cells
+* **V** - (free) virus
+
+
+For our system, we specify the following processes/flows: 
+
+1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _dU_.
+2. Virus infects cells at rate _b_.
+3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
+4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
+5. The drug can reduce infection of uninfected cells at a strength/efficacy given by _f_. This value is between 0 (completely ineffective) and 1 (100% effective).
+5. The drug can reduce production of progeny virus at a strength/efficacy given by _e_. This value is between 0 (completely ineffective) and 1 (100% effective).
+
+**Notes:** 
+* While this model also includes drug treatment, the drug is not explicitly modeled here (i.e. it is not given its own compartment). Instead, we will model the potential impact of the drug by its effects on some of the model parameters.
+* In contrast to the simple virus model, in this model we ignore the term representing virus outflow due to infection of new cells. This is often done in these kinds of models and justified if this term of virus loss is much smaller than the other term(s) - here the _dV*V_ term. 
+
+
+###Model Diagram
+The diagram illustrating this compartmental model is shown in the figure.
+
+```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
+knitr::include_graphics("../media/hcvifndiagram.png")
+```
+
+
+###Model Equations
+Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
+
+$$\dot U = n - dU - (1-f)bUV$$ 
+$$\dot I = (1-f)bUV - d_I I$$
+$$\dot V = (1-e)pI - d_V V$$
+
+
+
+
+##What to do {#shinytab3}
+
+###Task 1: 
+*
+
+###Task 2: 
+
+###Task 3: 
+
+
+###Task 4: 
+
+
+
+
+
+##Further Information {#shinytab4}
+
+### References
+
+

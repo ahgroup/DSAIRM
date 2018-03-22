@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_basicvirus_stochastic.R
 \name{simulate_basicvirus_stochastic}
 \alias{simulate_basicvirus_stochastic}
-\title{Stochastic simulation of an SEIR-type model}
+\title{Stochastic simulation of a virus infection model}
 \usage{
 simulate_basicvirus_stochastic(U0 = 10000, I0 = 0, V0 = 10, tmax = 100,
   n = 0, dU = 0, b = 0.001, dI = 1, p = 2, dV = 2)
@@ -14,8 +14,7 @@ simulate_basicvirus_stochastic(U0 = 10000, I0 = 0, V0 = 10, tmax = 100,
 
 \item{V0}{initial number of virions}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for
-your parameters}
+\item{tmax}{maximum simulation time, units depend on choice of units for parameters}
 
 \item{n}{rate of uninfected cell production}
 
@@ -57,8 +56,7 @@ A compartmental, stochastic model with several states/compartments is
 result <- simulate_basicvirus_stochastic()
 # To choose parameter values other than the standard one, specify them e.g. like this
 result <- simulate_basicvirus_stochastic(V0 = 100,  tmax = 200, dI = 2)
-
-# You can display or further process the result, e.g. like this
+#You can display or further process the result, e.g. like this
 plot(result[,'time'],result[,'V'],xlab='Time',ylab='Virus',type='l')
 print(paste('Peak number of virus:',max(result[,'V'])))
 }

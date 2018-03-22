@@ -21,7 +21,7 @@ stochasticratefunc <- function(y, parms, t)
 } #end function specifying rates used by adaptivetau
 
 
-#' Stochastic simulation of an SEIR-type model
+#' Stochastic simulation of a virus infection model
 #'
 #' @description  Simulation of a stochastic simple virus infection model with the following
 #'   compartments: Uninfected cells (U), Infected cells (I), free virus (V)
@@ -29,14 +29,13 @@ stochasticratefunc <- function(y, parms, t)
 #' @param U0 initial number of uninfected cells
 #' @param I0 initial number of infected cells
 #' @param V0 initial number of virions
+#' @param tmax maximum simulation time, units depend on choice of units for parameters
 #' @param n rate of uninfected cell production
 #' @param dU rate of uninfected cell death (the inverse is the average lifespan)
 #' @param b rate of cell infection
 #' @param dI rate of infected cell death (the inverse is the average lifespan)
 #' @param p rate of new virus production
 #' @param dV rate of virus removal (the inverse is the average lifespan)
-#' @param tmax maximum simulation time, units depend on choice of units for
-#' your parameters
 #' @return The function returns the time series of the simulated model as
 #'   matrix, with one column per compartment/variable. The first column is time.
 #' @details A compartmental, stochastic model with several states/compartments is
@@ -54,8 +53,7 @@ stochasticratefunc <- function(y, parms, t)
 #' result <- simulate_basicvirus_stochastic()
 #' # To choose parameter values other than the standard one, specify them e.g. like this
 #' result <- simulate_basicvirus_stochastic(V0 = 100,  tmax = 200, dI = 2)
-#'
-#' # You can display or further process the result, e.g. like this
+#' #You can display or further process the result, e.g. like this
 #' plot(result[,'time'],result[,'V'],xlab='Time',ylab='Virus',type='l')
 #' print(paste('Peak number of virus:',max(result[,'V'])))
 #' @seealso See the shiny app documentation corresponding to this simulator

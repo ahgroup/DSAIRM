@@ -1,7 +1,8 @@
 ############################################################
-#This is the Shiny file for the Bacteria Exploration App
+#This is the Shiny file for the HCV model and treatment App
+#inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 3/26/2018
+#last updated 3/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -12,31 +13,31 @@ refresh <- function(input, output)
   result <- reactive({
     input$submitBtn
 
-  # Read all the input values from the UI
-    B0 = isolate(input$B0);
+    #Read all the input values from the UI
+    U0 = 10^isolate(input$U0);
     I0 = isolate(input$I0);
-    b = isolate(input$b);
-    Bmax = 10^isolate(input$Bmax);
-    dB = isolate(input$dB);
-    k = 10^isolate(input$k);
-    g = isolate(input$g);
-    r = 10^isolate(input$r);
-    dI = isolate(input$dI);
-    samplepar = isolate(input$samplepar)
-    pmax = isolate(input$pmax);
-    pmin = isolate(input$pmin)
-    samples = isolate(input$samples)
-    tmax = isolate(input$tmax)
+    V0 = isolate(input$V0);
+    b = 10^isolate(input$b)
+    p = 10^isolate(input$p)
+    n = isolate(input$n)
+    dU = isolate(input$dU)
+    dI = isolate(input$dI)
+    dV = isolate(input$dV)
+    f = isolate(input$f)
+    e = isolate(input$e)
+    tmax = isolate(input$tmax);
     plotscale = isolate(input$plotscale)
-    pardist = isolate(input$pardist)
+    steadystate = as.logical(as.numeric(isolate(input$steadystate)))
 
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
+    simresult <- simulate_virus_tx(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, f = f, e = e, steadystate = steadystate)
+    colnames(simresult) = c('xvals','U','I','V')
+    #reformat data to be in the right format for plotting
+    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
+    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
 
-
-    result_ode <- simulate_modelexploration(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, samplepar=samplepar, pmin=pmin, pmax=pmax,  samples = samples, pardist = pardist)
-    dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -44,10 +45,11 @@ refresh <- function(input, output)
     result[[1]]$dat = dat
 
     #Meta-information for each plot
-    result[[1]]$plottype = "Scatterplot"
-    result[[1]]$xlab = samplepar
-    result[[1]]$ylab = "Outcomes"
-    result[[1]]$legend = "Outcomes"
+    result[[1]]$plottype = "Lineplot"
+    result[[1]]$xlab = "Time"
+    result[[1]]$ylab = "Numbers"
+    result[[1]]$yscale = "log"
+    result[[1]]$legend = "Compartments"
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
@@ -58,16 +60,16 @@ refresh <- function(input, output)
   return(result)
   })
 
-  #function that takes result saved in reactive expression called res and produces output
-  #to produce figures, the function generate_simoutput needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
+  #function that takes result saved in reactive expression called result and produces output
+  #to produce figures, the function generate_plots needs the number of panels to produce
+  #the resulting plot is returned in potential multi-panel ggplot/cowplot structure
   #output (plots, text) is stored in variable 'output'
   output$plot <- generate_plots(input, output, result)
-  #no text return for this app
-  #output$text <- ""
-  #output$text <- generate_text(input, output, result)
+  output$text <- generate_text(input, output, result)
+
+  #for a single plot it is possible to include interactivity to click on plot and get value
+  #not working, might be because it returns a line plot? not sure
+  #output$info <- renderPrint({ nearPoints(result()[[1]]$dat, input$plot_click, xvar='xvals',yvar='yvals')  })
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
@@ -100,8 +102,8 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Bacteria Model Exploration App', align = "center", style = "background-color:#123c66; color:#fff"),
-  h5('The fixed value is ignored for the parameter you vary. Make sure the max value is larger than the min and the range is reasonable. The app does not check if your choices make sense and thus might produce an error or nonsensical results.'),
+  h1('Basic Virus App', align = "center", style = "background-color:#123c66; color:#fff"),
+
   #section to add buttons
   fluidRow(
     column(6,
@@ -125,69 +127,70 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(4,
-                    numericInput("B0", "Initial number of bacteria,  B0", min = 0, max = 1000, value = 100, step = 50)
+                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 5, step = 0.1)
              ),
              column(4,
-                    numericInput("I0", "Initial number of immune cells, I0", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("I0", "Initial number of infected cells, I0", min = 0, max = 100, value = 0, step = 1)
              ),
              column(4,
-                    numericInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)
-             ),
-             align = "center"
-           ), #close fluidRow structure for input
-
-
-           fluidRow(class = 'myrow',
-             column(4,
-                    numericInput("g", "Rate of bacteria growth, g", min = 0, max = 10, value = 1.5, step = 0.1)
-             ),
-             column(4,
-                    numericInput("Bmax", "carrying capacity, Bmax (10^Bmax)", min = 1, max = 10, value = 5, step = 1)
-             ),
-             column(4,
-                    numericInput("dB", "bacteria death rate, dB", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("V0", "Initial number of virus, V0", min = 0, max = 100, value = 10, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
+             column(4,
+                    numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0, step = 0.1)
+             ),
+             column(4,
+                    numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
+             ),
+             column(4,
+                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+             ),
+             align = "center"
+           ), #close fluidRow structure for input
+
+
+
+           fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("k", "immune response kill rate, k (10^k)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("r", "immune respone activation rate, r (10^r)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
                     ),
                     column(4,
-                           numericInput("dI", "Immune response death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           selectInput("samplepar", "Parameter to vary:",c("g" = "g", 'Bmax' = 'Bmax', 'dB' = 'dB', 'k'='k','r'='r','dI'='dI'))
+                    column(6,
+                           numericInput("f", "strength of cell infection reduction by drug", min = 0, max = 1, value = 0, step = 0.01)
                     ),
-                    column(4,
-                           numericInput("pmin", "Minimum parameter value", min = 0, max = 1000, value = 1, step = 1)
+                    column(6,
+                           numericInput("e", "strength of virus production reduction by drug", min = 0, max = 1, value = 0, step = 0.01)
                     ),
-                    column(4,
-                           numericInput("pmax", "Maximum parameter value", min = 0, max = 1000, value = 5, step = 1)
-                    ),
+
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("samples", "Number of parameter values to run", min = 1, max = 100, value = 10, step = 1)
-                    ),
-                    column(4,
-                           selectInput("pardist", "Spacing of parameter values", c('linear' = 'lin', 'logartihmic' = 'log'))
+                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
                     ),
                     column(4,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
                     ),
+                    column(4,
+                           selectInput("steadystate", "Start at steady state",c("yes" = 1, 'no' = 0), selected = 0)
+                    ),
+
                     align = "center"
            ) #close fluidRow structure for input
+
 
 
     ), #end sidebar column for inputs
@@ -199,10 +202,12 @@ ui <- fluidPage(
            #Start with results on top
            h2('Simulation Results'),
            plotOutput(outputId = "plot", height = "500px"),
+           #plotOutput(outputId = "plot", height = "500px", click = "plot_click"),
            # PLaceholder for results of type text
-           #htmlOutput(outputId = "text"),
-           #Placeholder for any possible warning or error messages (this will be shown in red)
-           #htmlOutput(outputId = "warn"),
+           htmlOutput(outputId = "text"),
+           #last one is meant to display the coordinates of a point clicked on the plot
+           #currently not working
+           #verbatimTextOutput(outputId = "info"),
 
            tags$head(tags$style("#warn{color: red;
                                 font-style: italic;

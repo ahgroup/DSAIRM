@@ -1,5 +1,5 @@
 ---
-title: Basic VirusModel
+title: Virus and Immune Response Model
 output:
   html_document:
     theme: null
@@ -16,17 +16,21 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-This app allows exploration of a very basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of a virus infection model that includes several components of the immune response. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
 ##The Model {#shinytab2}
 
 ###Model Overview
-This model consists of 3 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities, by assigning each to a copartment:
+This model consists of several compartments that capture some of the basic dynamics of virus and immune response during an infection. In this model, we track the following entities, by assigning each to a compartment:
 
 * **U** - uninfected cells 
 * **I** - infected cells
 * **V** - (free) virus
+* **F** - innate immune response
+* **T** - CD8 T-cells
+* **B** - B-cells
+* **A** - Antibodies
 
 
 In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
@@ -37,14 +41,14 @@ For our system, we specify the following processes/flows:
 2. Virus infects cells at rate _b_.
 3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
 4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
-5. To convert from infectious virus units in the model to some experimental units (e.g. plaque forming units), an addtional conversion factor, _g_, is included in the model.
+
+
 
 ###Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
 
 ```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model..',  echo=FALSE}
-knitr::include_graphics("../media/virusdiagram.png")
 ```
 
 
@@ -61,14 +65,10 @@ $$\dot V = pI - d_V V - gb UV$$
 ##What to do {#shinytab3}
 
 ###Task 1: 
-*
 
 ###Task 2: 
 
 ###Task 3: 
-
-
-###Task 4: 
 
 
 

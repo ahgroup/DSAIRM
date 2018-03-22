@@ -1,0 +1,68 @@
+---
+title: Resistance generation during influenza infection and treatment
+output:
+  html_document:
+    theme: null
+    highlight: null
+    css: ../styles/dsairm.css
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+    includes:
+      #in_header: in_header.txt
+      before_body: ../styles/dsairm_before_body.txt
+      after_body: ../styles/dsairm_after_body.txt 
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of a stochastic model that simulates emergence of drug resistance during an acute virus infection (e.g. influenza) in the presence of an antiviral. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+##The Model {#shinytab2}
+
+###Model Description
+
+
+###Model Diagram
+
+
+###Model Equations
+*If* we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
+
+
+*However* we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their propensities (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:
+
+Event type              |  Transitions                  |   Propensity      |
+----------              |  -----------                  |   ----------      |
+Production of U         |  U => U+1                     |   n*U            |
+death/removal of U      |  U => U-1                     |   dU*U           |
+infection               |  U => U-1, V => V-1, I => I+1 |   b*U*V           |
+death if I              |  I => I-1                     |   dI*I          |
+production of V         |  V => V+1                     |   p*I          |
+removal of V            |  V => V-1                     |   dV*V          | 
+
+
+
+
+##What to do {#shinytab3}
+
+###Task 1: 
+*
+
+###Task 2: 
+
+###Task 3: 
+
+
+###Task 4: 
+
+
+
+
+
+##Further Information {#shinytab4}
+
+### References
+
+

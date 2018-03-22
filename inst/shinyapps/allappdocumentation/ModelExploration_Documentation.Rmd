@@ -1,5 +1,5 @@
 ---
-title: Basic VirusModel
+title: Exploring the impact of parameter changes for the Simple Bacteria Model
 output:
   html_document:
     theme: null
@@ -16,45 +16,29 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-This app allows exploration of a very basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows you to explore the effect of specific model parameters on some outcomes of interest for the simple bacteria model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
 ##The Model {#shinytab2}
 
 ###Model Overview
-This model consists of 3 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities, by assigning each to a copartment:
+This is the same model as the one used for the 'Simple Bacteria Model' app. Check out and explore that app first. Here' we are only considering the continuous time, ordinary differential equation implementation of the model.
 
-* **U** - uninfected cells 
-* **I** - infected cells
-* **V** - (free) virus
+What's different here compared to the 'Simple Bacteria Model' app is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we consider the maximum number of bacteria and immune response, and their values at the end of the simulation, when the system has settled down to a steady state (which assumes you run the simulation long enough). This corresponds biologically to a chronic infection condition.
 
-
-In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
-
-For our system, we specify the following processes/flows: 
-
-1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _dU_.
-2. Virus infects cells at rate _b_.
-3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
-4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
-5. To convert from infectious virus units in the model to some experimental units (e.g. plaque forming units), an addtional conversion factor, _g_, is included in the model.
-
-###Model Diagram
-The diagram illustrating this compartmental model is shown in the figure.
+In the app, those 4 outcomes of interest are labeled _Bppeak_, _Ipeak_, _Bsteady_ and _Isteady_. You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the 4 outcomes of interest computed. The resulting plot is one showing how those 4 outcomes of interest vary with the parameter you investigated.
 
 
-```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model..',  echo=FALSE}
-knitr::include_graphics("../media/virusdiagram.png")
+
+###Model Diagram and equations
+As mentioned, this is the same model as used in the 'Simple Bacteria Model' app. Go through that app and read the documentation to familiarize yourself with the model. For ease of reference, the flow diagram and the equations of the continuous model are shown again here:
+
+```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics("../media/bacteriamodel.png")
 ```
 
-
-###Model Equations
-Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
-
-$$\dot U = n - dU - bUV$$ 
-$$\dot I = bUV - d_I I$$
-$$\dot V = pI - d_V V - gb UV$$
-
+$$\dot B = g(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
+$$\dot I = r B I - d_I I$$
 
 
 
@@ -66,12 +50,6 @@ $$\dot V = pI - d_V V - gb UV$$
 ###Task 2: 
 
 ###Task 3: 
-
-
-###Task 4: 
-
-
-
 
 
 ##Further Information {#shinytab4}

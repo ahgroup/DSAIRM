@@ -32,6 +32,7 @@ virusode <- function(t, y, parms)
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
 #' @param V0 initial number of infectious virions
+#' @param tmax maximum simulation time, units depend on choice of units for parameters
 #' @param n rate of new uninfected cell replenishment
 #' @param dU rate at which uninfected cells die
 #' @param dI rate at which infected cells die
@@ -39,9 +40,6 @@ virusode <- function(t, y, parms)
 #' @param b rate at which virus infects cells
 #' @param p rate at which infected cells produce virus
 #' @param g possible conversion factor for virus units
-#'
-#' @param tmax maximum simulation time, units depend on choice of units for your
-#'   parameters
 #' @return The function returns the output from the odesolver as a matrix,
 #' with one column per compartment/variable. The first column is time.
 #' @details A simple compartmental model is simulated as a set of ordinary differential

@@ -14,41 +14,20 @@ dsairmmenu <- function() {
 
   cond <- 1
 
-    while (cond == 1){
-
-    appname <- NULL
-    appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
-    op = shiny::runApp(appDir = appDir)
-
-<<<<<<< HEAD
-    if (op == "Exit") {cond = 0} #leave while loop/menu
-
-    if (op == "BasicBacteria") {appname = "BasicBacteria"}
-    if (op == "BasicVirus") {appname = "BasicVirus"}
-    if (op == "VirusandIR") {appname = "VirusandIR"}
-
-    if (op == "ModelExploration") {appname = "ModelExploration"}
-    if (op == "HCVmodel") {appname = "HCVmodel"}
-    if (op == "InfluenzaResistance") {appname = "InfluenzaResistance"}
-
-    if (op == "ModelVariants") {appname = "ModelVariants"}
-    if (op == "USAnalysis") {appname = "USAnalysis"}
-    if (op == "BasicVirusStochastic") {appname = "BasicVirusStochastic"}
-=======
-    if (op == "X") {cond = 0} #leave while loop/menu
-    if (op == "BasicBacteria") {appname = "BasicBacteria"}
-    if (op == "BasicVirus") {appname = "BasicVirus"}
-    if (op == "VirusandIR") {appname = "VirusandIR"}
-    if (op == "ModelExploration") {appname = "ModelExploration"}
-    if (op == "USAnalysis") {appname = "USAnalysis"}
-    if (op == "StochasticModel") {appname = "StochasticModel"}
->>>>>>> origin/master
-
-    if (!is.null(appname))     #run the shiny app chosen
+    while (cond == 1)
     {
-        appDir <- system.file("shinyapps", appname, package = "DSAIRM")
-        shiny::runApp(appDir = appDir)
-    }
+
+      appname <- NULL
+      appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
+      appname = shiny::runApp(appDir = appDir)
+
+      if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
+      {
+          appDir <- system.file("shinyapps", appname, package = "DSAIRM")
+          shiny::runApp(appDir = appDir)
+      }
+
+      if (appname == "Exit") {cond = 0} #leave while loop/menu
 
   }
   print('*************************************************')
