@@ -24,7 +24,8 @@ refresh <- function(input, output)
     dI = isolate(input$dI);
     samplepar = isolate(input$samplepar)
     pmax = isolate(input$pmax);
-    pmin = isolate(input$pmin)
+    pmin = isolate(input$pmin);
+    if (samplepar %in% c("Bmax",'k','r')) {pmax=10^pmax; pmin=10^pmin} #those parms are defined on log scale
     samples = isolate(input$samples)
     tmax = isolate(input$tmax)
     plotscale = isolate(input$plotscale)

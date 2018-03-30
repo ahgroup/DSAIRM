@@ -66,11 +66,11 @@ virustxode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 2e-7, p = 5, f = 0, e = 0, steadystate = FALSE)
+simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, f = 0, e = 0, steadystate = FALSE)
 {
 
   #override user-supplied initial conditions and instead start with steady state values
-  if (steadystate == TRUE) {U0 = dV*dI/(b*p); I0 = n/dI - dU*dV/(b*p); V0 = p*n/(dV*dI)-dU/b}
+  if (steadystate == TRUE) {U0 = max(0,dV*dI/(b*p)); I0 = max(0,n/dI - dU*dV/(b*p)); V0 = max(0,p*n/(dV*dI)-dU/b)}
 
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back

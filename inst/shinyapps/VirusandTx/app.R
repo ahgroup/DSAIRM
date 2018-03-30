@@ -19,7 +19,7 @@ refresh <- function(input, output)
     V0 = isolate(input$V0);
     b = 10^isolate(input$b)
     p = 10^isolate(input$p)
-    n = isolate(input$n)
+    n = 10^isolate(input$n)
     dU = isolate(input$dU)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
@@ -102,7 +102,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Basic Virus App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Virus and Drug Treatment App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(
@@ -140,13 +140,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
              column(4,
-                    numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0, step = 0.1)
+                    numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0.1, step = 0.1)
              ),
              column(4,
                     numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(4,
-                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 2, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -155,13 +155,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
+                           numericInput("n", "uninfected cell birth rate (10^n), n", min = 0, max = 10, value = 4, step = .1)
                     ),
                     column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

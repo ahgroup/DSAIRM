@@ -5,7 +5,7 @@
 \title{Simulation of a basic viral infection model without an immune response}
 \usage{
 simulate_virus_tx(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, n = 10000,
-  dU = 0.1, dI = 1, dV = 2, b = 2e-07, p = 5, f = 0, e = 0,
+  dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, f = 0, e = 0,
   steadystate = FALSE)
 }
 \arguments{
