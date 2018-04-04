@@ -31,8 +31,17 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
-    # Call the discrete model with the given parameters
+
+    # Call the ODE solver with the given parameters
     if (models == 1)
+    {
+      result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+      colnames(result_ode) = c('xvals','Bc','Ic')
+      dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+    }
+
+    # Call the discrete model with the given parameters
+    if (models == 2)
     {
       result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
       colnames(result_discrete) = c('xvals','Bd','Id')
@@ -41,13 +50,6 @@ refresh <- function(input, output)
       dat = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
      }
 
-    # Call the ODE solver with the given parameters
-    if (models == 2)
-    {
-      result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
-      colnames(result_ode) = c('xvals','Bc','Ic')
-      dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
-    }
 
     # Call both solvers with the given parameters
     if (models == 3)
@@ -158,18 +160,7 @@ ui <- fluidPage(
              align = "center"
            ), #close fluidRow structure for input
 
-           fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("dt", "Discrete time step, dt", min = 0.001, max = 10, value = 0.1, step = 0.001)
-                    ),
-                    column(4,
-                           selectInput("models", "Models to run:",c("discrete time" = 1, 'continuous time' = 2, 'both' = 3))
-                    ),
-                    column(4,
-                           selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
-                    ),
-                    align = "center"
-           ), #close fluidRow structure for input
+
 
            fluidRow(class = 'myrow',
              column(4,
@@ -193,6 +184,19 @@ ui <- fluidPage(
                     ),
                     column(4,
                            numericInput("dI", "Immune response death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
+                    column(4,
+                           numericInput("dt", "Discrete time step, dt", min = 0.001, max = 10, value = 0.1, step = 0.001)
+                    ),
+                    column(4,
+                           selectInput("models", "Models to run:",c("continuous time" = 1, 'discrete time' = 2, 'both' = 3), selected = '1')
+                    ),
+                    column(4,
+                           selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'none')
                     ),
                     align = "center"
            ) #close fluidRow structure for input
