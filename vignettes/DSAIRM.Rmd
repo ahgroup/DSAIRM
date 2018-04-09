@@ -35,7 +35,7 @@ Each app is meant to be fully self-explanatory and contains a description of the
 ## Intended audience and goal of the package
 
 
-
+TO BE WRITTEN
 
 
 ## Using the package
@@ -50,6 +50,9 @@ The interactive exploration of the models and infectious disease concepts throug
 #### Install the package 
 
 From CRAN, the package can be installed via
+
+NOT YET ON CRAN
+
 ```{r, eval=FALSE, echo=TRUE}
 install.packages('DSAIRM')
 ```
@@ -95,7 +98,7 @@ help('simulate_basicbacteria.R')
 The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the duration for which the simulation should be run, and the different model parameters. Unless explicitly specified, the models do not have inherent time units. Instead, those are set by the user based on choices for parameters. Each parameter has some default, which is used if one calls the fuction without any additional information. The user can modify those default settings. For instance one can call the simulator with the following settings, overwriting the defaults for some of the parameters, while using the default values for the remainder:  
 
 ```{r, eval=TRUE, echo=TRUE}
-result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 1,  r =0.002)
+result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 0.5,  r = 0.002)
 ```
 
 Calling the simulation function execuctes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. Users can produce their own plots, e.g. plotting bacteria as function of time:
@@ -108,12 +111,12 @@ The ability to call the simulation functions directly instead of going through t
 
 
 ```{r, eval=TRUE, echo=TRUE}
-rvec = 10^seq(-4,2,length=10) #values of immune activation rate, r, for which to run the simulation 
+rvec = 10^seq(-5,-2,length=20) #values of log immune activation rate, r, for which to run the simulation 
 peak = rep(0,length(rvec)) #this will record the peak values for each r
 for (n in 1:length(rvec))
 {
   #call the simulator function with different values of g each time
-  result <- simulate_basicbacteria(B0 = 10, I0 = 1, tmax = 100, r = rvec[n])
+  result <- simulate_basicbacteria(B0 = 10, I0 = 1, tmax = 200, r = rvec[n])
   peak[n] <- max(result[,"B"]) #record max number of infected for each value of r
 }
 #plot final result
@@ -124,26 +127,22 @@ Thus, the user can add their own custom code to the existing simulator functions
 
 
 ### Level 3: Modifying the simulation functions
-As a next step, it is possible to not only interact with the simulation functions, but instead directly access the code and modify the underlying simulator functions. To make this easy, copies of all simulator functions are in a subdirectory called _simulatorfunctions_ inside the DSAIDE package folder. Each function in that folder starts with `simulate_`. To find the location where R installed the package, a search on your computer might be needed. 
+As a next step, it is possible to not only interact with the simulation functions, but instead directly access the code and modify the underlying simulator functions. To make this easy, copies of all simulator functions are in a subdirectory called _simulatorfunctions_ inside the DSAIRM package folder. Each function in that folder starts with `simulate_`. To find the location where R installed the package, a search on your computer might be needed. 
 
 While the functions in this subfolder are not used to run the code in the DSAIDE package, and one could therefore edit them without breaking the package, it is better to make a copy of the whole folder somewhere else. This way the chance of overwriting any modifications - if for instance the package is being re-installed - are reduced.
 
 All simulator functions are (hopefully) well documented. Some basic to intermediate level of R coding experience is likely required to successfully modify the functions. In addition to modifying the simulator function of interest, some additional code to interact with the modified function (as described in _Level 2_) is likely required.
 
 
+The following provides a simple example of this process of modifying a simulator function and exploring its results. Assume that we want to modify the simple bacteria model encoded in `simulate_basicbacteria.R`. After finding the file and making a copy (let's call the modified function `mysimulator.R`), we can make modifications. Say we want to change the immune activation/growth term by including saturation at some maximum rate when bacteria numbers are high, i.e. we want to change the term $rBI$ to $rBI/(B+s)$, which leads to a growth at rate $rI$ if $B$ is much larger than $s$.
 
-#########################
-#All DSAIDE stuff below here
-#########################
+We will need to modify the following lines of code in the R script:
 
-
-The following provides a simple example of this process of modifying a simulator function and exploring its results. Assume that we want to modify the simple SIR model encoded in `simulate_introduction.R`. After finding the file and making a copy (let's call the modified function `mysimulator.R`), we can make modifications. Say we want to include waning immunity with recovered returning to the susceptible class at rate _w_. 
-
-We will need to modify the following lines of code:
+***CONTIUNE BELOW***
 
 old:
 ```{r eval=FALSE, echo=TRUE}
-simulate_introduction <- function(S0 = 1000, I0 = 1, tmax = 300, g = 0.5, b = 1/1000)
+simulate_basicbacteria <- function()
 ```
 
 new:

@@ -55,7 +55,7 @@ A simple 2 compartment model is simulated as a discrete time model.
 # To run the simulation with default parameters just call this function
 result <- simulate_basicbacteria_discrete()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_basicbacteria_discrete(B0 = 100, I0 = 10, tmax = 100, g = 10)
+result <- simulate_basicbacteria_discrete(B0 = 100, I0 = 10, tmax = 100, g = 0.5)
 # You should then use the simulation result returned from the function, e.g. like this:
 plot(result[,1],result[,2],xlab='Time',ylab='Bacteria Number',type='l')
 }
