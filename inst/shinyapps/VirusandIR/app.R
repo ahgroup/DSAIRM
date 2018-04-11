@@ -16,7 +16,9 @@ refresh <- function(input, output)
     U0 = 10^isolate(input$U0);
     I0 = isolate(input$I0);
     V0 = isolate(input$V0);
+    T0 = isolate(input$T0);
     B0 = isolate(input$B0);
+    A0 = isolate(input$A0);
     Fmax = 10^isolate(input$Fmax)
     n = isolate(input$n)
     dU = isolate(input$dU)
@@ -34,6 +36,7 @@ refresh <- function(input, output)
     hF = 10^isolate(input$hF)
     gB = isolate(input$gB)
     gT = isolate(input$gT)
+    rT = isolate(input$rT)
     rA = isolate(input$rA)
     dA = isolate(input$dA)
 
@@ -45,7 +48,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
 
-    simresult <- simulate_virusandir(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p,sF=sF,kA=kA,kT=kT,pF=pF,dF=dF,gF=gF,Fmax=Fmax,hV=hV,hF=hF,gB=gB,gT=gT,rA=rA,dA=dA)
+    simresult <- simulate_virusandir(U0 = U0, I0 = I0, V0 = V0, T0=T0, B0=B0, A0=A0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p,sF=sF,kA=kA,kT=kT,pF=pF,dF=dF,gF=gF,Fmax=Fmax,hV=hV,hF=hF,gB=gB,rT=rT,gT=gT,rA=rA,dA=dA)
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
@@ -67,8 +70,14 @@ refresh <- function(input, output)
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
 
-    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
-    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = 0
+    result[[1]]$ymax = max(simresult)
+    result[[1]]$xmin = 0
+    result[[1]]$xmax = tmax
+
+    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
+    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
 
   return(result)
   })
@@ -151,27 +160,40 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-             column(4,
-                    numericInput("B0", "Initial number of B-cells, B0", min = 0, max = 100, value = 1, step = 1)
-             ),
-             column(4,
-                    numericInput("Fmax", "max level of innate response, Fmax (10^Fmax)", min = 0, max = 6, value = 3, step = 0.1)
-             ),
-             column(4,
-                    numericInput("sF", "virus reduction strength by innate, sF (10^sF)", min = -6, max = 6, value = -1.5, step = 0.1)
-             ),
+                    column(4,
+                           numericInput("T0", "Initial number of T-cells, T0", min = 0, max = 100, value = 1, step = 1)
+                    ),
+                    column(4,
+                           numericInput("B0", "Initial number of B-cells, B0", min = 0, max = 100, value = 1, step = 1)
+                    ),
+                    column(4,
+                           numericInput("A0", "initial number of antibodies, A0", min = 0, max = 100, value = 1, step = 1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
+
+            fluidRow(class = 'myrow',
+                     column(4,
+                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
+                     ),
+                     column(4,
+                            numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0, step = 0.1)
+                     ),
+                     column(4,
+                            numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                     ),
              align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0, step = 0.1)
-                    ),
-                    column(4,
                            numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
                     ),
                     column(4,
                            numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -179,13 +201,26 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
+                           numericInput("pF", "innate production rate, pF", min = 0, max = 100, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
+                           numericInput("dF", "innate removal rate, dF", min = 0, max = 100, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                           numericInput("gF", "innate growth rate, gF", min = 0, max = 10, value = 1, step = 0.1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
+                    column(4,
+                           numericInput("hV", "innate growth saturation, hV (10^hV)", min = -10, max = 10, value = -6, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("Fmax", "max level of innate response, Fmax (10^Fmax)", min = 0, max = 6, value = 3, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("sF", "virus reduction strength by innate, sF (10^sF)", min = -6, max = 6, value = -1.5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -198,54 +233,39 @@ ui <- fluidPage(
                            numericInput("kT", "infected cell killing by T cells, kT (10^kT)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("pF", "innate production rate, pF", min = 0, max = 100, value = 1, step = 0.1)
+                           numericInput("hF", "B-cell growth saturation constant, hF (10^hF)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
-
            fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("dF", "innate removal rate, dF", min = 0, max = 100, value = 1, step = 0.1)
-                    ),
-                    column(4,
-                           numericInput("gF", "innate growth rate, gF", min = 0, max = 10, value = 1, step = 0.1)
-                    ),
-                    column(4,
-                           numericInput("hV", "innate growth induction by virus, hV (10^hV)", min = -10, max = 10, value = -6, step = 0.1)
-                    ),
-                    align = "center"
-           ), #close fluidRow structure for input
-
-
-           fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("hF", "adaptive response induction, hF (10^hF)", min = -10, max = 10, value = -5, step = 0.1)
-                    ),
                     column(4,
                            numericInput("gB", "B-cell growth rate, gB", min = 0, max = 10, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("gT", "T-cell growth rate, gT", min = 0, max = 10, value = 0.5, step = 0.1)
+                           numericInput("rT", "T-cell expansion rate, rT", min = 0, max = 10, value = 0.5, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("gT", "T-cell induction rate, gT", min = 0, max = 10, value = 0.5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(4,
+                    column(6,
                            numericInput("rA", "antibody production rate, rA", min = 0, max = 1000, value = 10, step = 1)
                     ),
-                    column(4,
+                    column(6,
                            numericInput("dA", "antibody removal rate, dA", min = 0, max = 10, value = 0.2, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(4,
+                    column(6,
                            numericInput("tmax", "Maximum simulation time", min = 1, max = 100, value = 20, step = 1)
                     ),
-                    column(4,
+                    column(6,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')
                     ),
 

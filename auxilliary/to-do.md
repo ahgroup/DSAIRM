@@ -19,7 +19,7 @@
 The basics 
 * COMPLETELY DONE Basic bacteria + IR model in discrete and continuous time 
 * COMPLETELY DONE Basic virus model - including birth/death of cells to do steady state
-* DONE Virus and IR model
+* COMPLETELY DONE Virus and IR model
 
 Using models to explore and predict
 * DONE Bacteria model with scan over a parameter

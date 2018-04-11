@@ -4,10 +4,11 @@
 \alias{simulate_virusandir}
 \title{Simulation of a viral infection model with an immune response}
 \usage{
-simulate_virusandir(U0 = 1e+05, I0 = 0, V0 = 10, B0 = 1, tmax = 20,
-  n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000, sF = 0.01,
-  kA = 1e-05, kT = 1e-05, pF = 1, dF = 1, gF = 1, Fmax = 1000,
-  hV = 1e-06, hF = 1e-05, gB = 1, gT = 0.5, rA = 10, dA = 0.2)
+simulate_virusandir(U0 = 1e+05, I0 = 0, V0 = 10, T0 = 0, B0 = 1,
+  A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05,
+  p = 1000, sF = 0.01, kA = 1e-05, kT = 1e-05, pF = 1, dF = 1,
+  gF = 1, Fmax = 1000, hV = 1e-06, hF = 1e-05, gB = 1, gT = 1e-04,
+  rT = 0.5, rA = 10, dA = 0.2)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -16,7 +17,11 @@ simulate_virusandir(U0 = 1e+05, I0 = 0, V0 = 10, B0 = 1, tmax = 20,
 
 \item{V0}{initial number of infectious virions}
 
+\item{T0}{initial number of T cells}
+
 \item{B0}{initial number of B cells}
+
+\item{A0}{initial number of antibodies}
 
 \item{tmax}{maximum simulation time, units depend on choice of units for your
 parameters}
@@ -47,13 +52,15 @@ parameters}
 
 \item{Fmax}{maximum level of innate response}
 
-\item{hV}{strength of innate growth induction by virus}
+\item{hV}{innate growth saturation constant}
 
-\item{hF}{strength of adaptive response growth induced by innate response and virus}
+\item{hF}{B-cell growth saturation constant}
 
 \item{gB}{maximum growth rate of B cells}
 
-\item{gT}{clonal expansion rate of T cells}
+\item{gT}{T-cell induction rate}
+
+\item{rT}{T-cell expansion rate}
 
 \item{rA}{rate of antibody production by B cells}
 
@@ -84,7 +91,7 @@ equations, using an ode solver from the deSolve package.
 # To run the simulation with default parameters just call this function
 result <- simulate_virusandir()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_virusandir(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2, kT=1e-7)
+result <- simulate_virusandir(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
 # You should then use the simulation result returned from the function, e.g. like this:
 plot(result[,"time"],result[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }

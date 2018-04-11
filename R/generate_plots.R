@@ -40,13 +40,22 @@ generate_plots <- function(input,output,allres)
       p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames) )
 
 
+      #use limits for axes plotting if provided by shiny app
+      xmin=res[[n]]$xmin;
+      xmax=res[[n]]$xmax;
+      ymin=res[[n]]$ymin;
+      ymax=res[[n]]$ymax;
+
+
       if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point() }
-      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line()  }
+      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line(size = 1.5)  }
       if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
 
       p2a = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
 
-      p3 = p2a + ggplot2::scale_x_continuous(trans = xscale) + ggplot2::scale_y_continuous(trans = yscale)
+      p3 = p2a + ggplot2::scale_x_continuous(trans = xscale, limits = c(xmin,xmax)) + ggplot2::scale_y_continuous(trans = yscale, limits = c(ymin,ymax))
+
+
 
       if (legend == FALSE) { p4 = p3 + ggplot2::theme(legend.position="none") }
       else { p4 = p3 }
