@@ -34,8 +34,7 @@ Each app is meant to be fully self-explanatory and contains a description of the
 
 ## Intended audience and goal of the package
 
-
-TO BE WRITTEN
+The main audience are individuals who want to learn how modeling can be used for the study of within-host infection dynamics. While the ideal use of this package is likely as component of a class on this topic, it might also be possible to learn the material on your own. Each app contains a fair amount of documentation and description of the model. By reading the model description, doing the tasks and probably also reading some of the papers in the future information section, it might be possible to teach yourself the beginnings of within-host modeling on your own.
 
 
 ## Using the package
@@ -117,10 +116,10 @@ for (n in 1:length(rvec))
 {
   #call the simulator function with different values of g each time
   result <- simulate_basicbacteria(B0 = 10, I0 = 1, tmax = 200, r = rvec[n])
-  peak[n] <- max(result[,"B"]) #record max number of infected for each value of r
+  peak[n] <- max(result[,"B"]) #record max number of bacteria for each value of r
 }
 #plot final result
-plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria')
+plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria',log='xy')
 ```
 
 Thus, the user can add their own custom code to the existing simulator functions and with a few lines of extra code analyze and explore many more questions and scenarios than those accessible through the graphical interface. This provides a lot more flexibility, but requires writing some R code to interface with the supplied simulator functions. 
@@ -138,34 +137,58 @@ The following provides a simple example of this process of modifying a simulator
 
 We will need to modify the following lines of code in the R script:
 
-***CONTIUNE BELOW***
 
 old:
 ```{r eval=FALSE, echo=TRUE}
-simulate_basicbacteria <- function()
+simulate_basicbacteria <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1)
 ```
 
 new:
 ```{r eval=FALSE, echo=TRUE}
-mysimulator <- function(S0 = 1000, I0 = 1, tmax = 300, g = 0.5, b = 1/1000, w = 0)
+mysimulator <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e3, dI=1, s=1E3)
+```
+
+Note that we changed the default value for _r_ to ensure the immune response is sufficiently triggered.
+
+
+old:
+```{r eval=FALSE, echo=TRUE}
+pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI)
+```
+
+new:
+```{r eval=FALSE, echo=TRUE, color='red'}
+pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI,s=s)
 ```
 
 
-We could now for instance explore how different rates of waning immunity impact the maximum peak size over all outbreaks. This requires a slight modification of the code shown above in _Level 2_ as follows:
+old:
+```{r eval=FALSE, echo=TRUE}
+dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
+dIdt = r*B*I - dI*I
+```
+
+new:
+```{r eval=FALSE, echo=TRUE}
+dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
+dIdt = r*B*I/(s+B) - dI*I
+```
+
+
+We could now for instance explore how different values of the saturation parameter _s_ immunity impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
 
 
 ```{r eval=TRUE, echo=TRUE}
-#source('mysimulator.R') #to initialize the new function - it needs to be in same directory as this code
-#wvec = seq(0,1,by=0.02) #values of immunity loss rate, w, for which to run the simulation 
-#peak = rep(0,length(wvec)) #this will record the peak values for each g
-#for (n in 1:length(wvec))
-#{
-#  result <- mysimulator(S0 = 1000, I0 = 1, tmax = 300, g = 0.5,  b = 1/1000, w = wvec[n])
-#  peak[n] <- max(result[,"I"])
-#}
-#plot(wvec,peak,type='p',xlab='Rate of waning immunity',ylab='Max number of infected')
+source('mysimulator.R') #to initialize the new function - it needs to be in same directory as this code
+svec = 10^seq(-3,3,length=20) #values of saturation parameter 
+Imax = rep(0,length(svec)) #this will record the final immune response level
+for (n in 1:length(svec))
+{
+  result <- mysimulator(s = svec[n])
+  Imax[n] <- max(result[,"I"])
+}
+plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response level',log='xy')
 ```
-
 
 
 
@@ -178,7 +201,6 @@ The information in the _docsfordevelopers_ folder contains more details and is h
 
 ## Acknowledgements
  
-The following individuals contributed to this package: 
 
 
 ## References
