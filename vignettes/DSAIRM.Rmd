@@ -16,7 +16,7 @@ bibliography: vignetterefs.bib
 
 
 ## Summary
-_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows individuals to explore and learn about dynamical systems modeling of within-host infection and immune repsonse dynamics, without the need to read or write computer code.
+_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows individuals to explore and learn about dynamical systems modeling of within-host infection and immune response dynamics, without the need to read or write computer code.
 The idea behind the specific structure of the package is that it provides a gentle introduction to immune response modeling that starts with a graphical user interface and takes student slowly to more advanced levels.
 
 The different use cases for the package are described below.
@@ -175,7 +175,7 @@ dIdt = r*B*I/(s+B) - dI*I
 ```
 
 
-We could now for instance explore how different values of the saturation parameter _s_ immunity impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
+We could now for instance explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
 
 
 ```{r eval=TRUE, echo=TRUE}
