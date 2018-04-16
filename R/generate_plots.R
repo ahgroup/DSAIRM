@@ -5,13 +5,25 @@
 #' @param input the shiny app input structure
 #' @param output the shiny app output structure
 #' @param allres a list containing all simulation results.
-#'    the length of the list indicates number of separate plots to make, each list entry is one plot and one set of text output
-#'    for each list entry (e.g. allres[[i]]$type), 'type' specifies the kind of plot
-#'    allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals, one column yvals, further columns are stratifiers/aesthetics, e.g. names of variables or number of run for a given variable
+#'    the length of the list indicates the number of separate plots to make
+#'    each list entry corresponds to one plot
+#'    each list entry needs to contain the following information
+#'    1. a data frame called dat with one column called xvals, one column yvals,
+#'    one column called varnames that contains names for different variables
+#'    and one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
+#'    supplying IDvar is optional, if it is missing, this grouping is ignored
+#'    2. meta-data for the plot, provided in the following variables:
+#'    plottype - one of "Lineplot","Scatterplot","Boxplot"
+#'    xlab, ylab - strings to label axes
+#'    xscale, yscale - scaling of axes, e.g. "identity" or "log10"
+#'    legend - string for legend title
+#'    linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied
+#'
 #' @return output a list with plots for display in a shiny UI
 #' @details This function is called by the shiny server to produce plots returned to the shiny UI
 #' @author Andreas Handel
 #' @export
+
 
 generate_plots <- function(input,output,allres)
 {
@@ -23,12 +35,11 @@ generate_plots <- function(input,output,allres)
 
     res=isolate(allres()) #get results for processing
 
+
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
 
     allplots=vector("list",nplots) #will hold all plots
-
-    #browser()
 
     for (n in 1:nplots) #loop to create each plot
     {
@@ -37,8 +48,19 @@ generate_plots <- function(input,output,allres)
       legend = res[[n]]$legend
       xscale = res[[n]]$xscale
       yscale = res[[n]]$yscale
-      p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames) )
 
+      #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
+      if (is.null(dat$IDvar))
+      {
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames) )
+      }
+      if (!is.null(dat$IDvar))
+      {
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, group = IDvar) )
+      }
+
+
+      #browser()
 
       #use limits for axes plotting if provided by shiny app
       xmin=res[[n]]$xmin;
@@ -46,25 +68,22 @@ generate_plots <- function(input,output,allres)
       ymin=res[[n]]$ymin;
       ymax=res[[n]]$ymax;
 
+      #set line size as given by app or to 1.5 by default
+      linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)
 
       if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point() }
-      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line(size = 1.5)  }
+      if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line(size = linesize)  }
       if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
 
       p2a = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
 
       p3 = p2a + ggplot2::scale_x_continuous(trans = xscale, limits = c(xmin,xmax)) + ggplot2::scale_y_continuous(trans = yscale, limits = c(ymin,ymax))
 
-
-
       if (legend == FALSE) { p4 = p3 + ggplot2::theme(legend.position="none") }
       else { p4 = p3 }
 
-
       pfinal = p4
       allplots[[n]] = pfinal
-
-
 
     } #end loop over individual plots
 

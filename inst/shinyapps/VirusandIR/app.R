@@ -64,7 +64,6 @@ refresh <- function(input, output)
     result[[1]]$plottype = "Lineplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
-    result[[1]]$yscale = "log"
     result[[1]]$legend = "Compartments"
 
     result[[1]]$xscale = 'identity'

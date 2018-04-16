@@ -3,13 +3,10 @@
 #Next steps
 * add refs to all models
 
-* Write flu drug resistance app
+* write stochastic app
 * write model variant/formulation app
 * debug U/S app
-
-
-* get plotting to work on all apps
-* write task tab and complete other tab for all apps
+* write docs and task tabs for all apps
 
 #Questions-todo
 * Can one make generate_XXX functions non-reactive?

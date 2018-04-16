@@ -28,9 +28,9 @@ server <- function(input, output, session) {
     stopApp(returnValue = 'VirusandTx')
   })
 
-  observeEvent(input$InfluenzaResistance, {
-    input$InfluenzaResistance
-    stopApp(returnValue = 'InfluenzaResistance')
+  observeEvent(input$DrugResistance, {
+    input$DrugResistance
+    stopApp(returnValue = 'DrugResistance')
   })
 
   observeEvent(input$ModelVariants, {
@@ -96,7 +96,7 @@ ui <- fluidPage(
            actionButton("VirusandTx", "Virus and drug treatment model", class="mainbutton")
     ),
     column(4,
-           actionButton("InfluenzaResistance", "Influenza antivirals and resistance", class="mainbutton")
+           actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input
