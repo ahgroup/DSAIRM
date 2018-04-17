@@ -130,7 +130,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Basic Bacteria App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Uncertainty and Sensitivity Analysis App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(

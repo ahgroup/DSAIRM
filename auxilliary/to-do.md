@@ -21,7 +21,7 @@ The basics
 Using models to explore and predict
 * DONE Bacteria model with scan over a parameter
 * DONE data comparing example - Virus and drug (HCV)
-* flu drug stochastic evolutionary model
+* DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
 
 What influences model results
 * Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
