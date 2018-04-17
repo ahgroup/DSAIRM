@@ -7,7 +7,7 @@ with treatment and drug resistant strain}
 \usage{
 simulate_resistance(U0 = 1e+05, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 = 0,
   tmax = 100, b = 1e-05, dI = 1, e = 0, m = 1e-04, p = 100, c = 4,
-  f = 0.1)
+  f = 0.1, rngseed = 100)
 }
 \arguments{
 \item{U0}{initial number of taget cells}
@@ -19,9 +19,6 @@ simulate_resistance(U0 = 1e+05, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 = 0,
 \item{Vs0}{initial number of wild-type virus}
 
 \item{Vr0}{initial number of resistant virus}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
 
 \item{b}{level/rate of infection of cells}
 
@@ -36,6 +33,10 @@ parameters}
 \item{c}{virus removal rate}
 
 \item{f}{fitness cost of resistant virus}
+
+\item{rngseed}{seed for random number generator to allow reproducibility
+#' @param tmax maximum simulation time, units depend on choice of units for your
+  parameters}
 }
 \value{
 This function returns the simulation result as obtained from a call
