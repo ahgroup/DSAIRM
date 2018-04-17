@@ -5,6 +5,30 @@
 ############################################################
 
 
+
+#this specifies the rates used by the adapativetau routine
+#needs to be before main function so it's clear where description belongs to
+evolutionratefunc <- function(y, parms, t)
+{
+  with(as.list(c(y, parms)),
+       {
+
+         #specify each rate/transition/reaction that can happen in the system
+         rates=c(  b*U*Vs,
+                   b*U*Vr,
+                   dI*Is,
+                   dI*Ir,
+                   (1-e)*(1-m)*p*Is,
+                   c*Vs,
+                   (1-e)*m*p*Is+(1-f)*p*Ir,
+                   c*Vr
+         ) #end specification of each rate/transition/reaction
+         return(rates)
+       })
+} #end function specifying rates used by adaptivetau
+
+
+
 #' Stochastic simulation of a compartmental acute virus infection model
 #' with treatment and drug resistant strain
 #'
@@ -24,7 +48,8 @@
 #' @param p virus production rate
 #' @param c virus removal rate
 #' @param f fitness cost of resistant virus
-#' @param tmax maximum simulation time, units depend on choice of units for your
+#' @param rngseed seed for random number generator to allow reproducibility
+#' #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
 #' @return This function returns the simulation result as obtained from a call
 #'   to the adaptivetau integrator
@@ -53,31 +78,10 @@
 
 
 
-#this specifies the rates used by the adapativetau routine
-evolutionratefunc <- function(y, parms, t)
-{
-  with(as.list(c(y, parms)),
-       {
-
-         #specify each rate/transition/reaction that can happen in the system
-         rates=c(  b*U*Vs,
-                   b*U*Vr,
-                   dI*Is,
-                   dI*Ir,
-                   (1-e)*(1-m)*p*Is,
-                   c*Vs,
-                   (1-e)*m*p*Is+(1-f)*p*Ir,
-                   c*Vr
-         ) #end specification of each rate/transition/reaction
-         return(rates)
-       })
-} #end function specifying rates used by adaptivetau
 
 
 
-
-
-simulate_resistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0, tmax = 100, b = 1e-5, dI = 1, e = 0, m = 1e-4, p = 1e2, c = 4, f = 0.1 )
+simulate_resistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0, tmax = 100, b = 1e-5, dI = 1, e = 0, m = 1e-4, p = 1e2, c = 4, f = 0.1, rngseed = 100)
 {
   Y0 = c(U = U0, Is = Is0,  Ir = Ir0, Vs = Vs0, Vr = Vr0);  #combine initial conditions into a vector
   dt = tmax / 1000; #time step for which to get results back
@@ -101,6 +105,7 @@ simulate_resistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0, tm
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, the 2nd, 3rd, 4th column the variables S, I, R
+  set.seed(rngseed) # to allow reproducibility
   output = adaptivetau::ssa.adaptivetau(init.values = Y0, transitions = transitions,  rateFunc = evolutionratefunc, params = pars, tf = tmax)
 
   #The output produced by a call to the odesolver is odeoutput matrix is returned by the function

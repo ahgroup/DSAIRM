@@ -22,11 +22,47 @@ This app allows exploration of the impact of different model formulations on the
 ##The Model {#shinytab2}
 
 ###Model Overview
+This model consists of several compartments that capture some of the basic dynamics of virus and immune response during an infection. In this model, we track the following entities, by assigning each to a compartment:
+
+* **U** - uninfected cells 
+* **I** - infected cells
+* **V** - (free) virus
+* **F** - innate immune response
+* **A** - adaptive immune response
+
+Both the innate and adaptive response are modeled in a rather abstract sense. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon and CD8 T-cells. 
+
+In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+
+For the purpose of this app, we specify several alternative processes that allow us to explore different model variants by 'turning on and off' specific components of the model.
+
+We specify the following processes/flows: 
+
+1. Uninfected cells become infected at rate _b_.
+2. Infected cells die at rate _dI_ and produce virus at rate _p_.
+3. Free virus is removed at rate _dV_ due to any unmodeled processes, or goes on to infect further uninfected cells at rate _b_. 
+
+4. In the absence of virus, the inate response is produced at a rate *p_F_* and removed at a rate *d_F_*. In the presence of virus, the innate response additionally grows according to 3 alternative model formulations. 1) Proportional to virus at rate *f_1_* and saturating at a maximum level **F_max_**. 2) Proportional to virus at rate *f_2_*, with a growth rate saturating at high levels of virus, determined by the saturation constant *s_V*, 3) Proportional to both virus and infected cells at rate *f_3_*, with a growth rate saturating at high levels of virus and infected cells, determined by the saturation constant *s_V*.
+5. The innate response can also act on the system in 3 different ways: 1) By moving target cells into a "protected" state at rate *k_1* where those cells can not become infected any longer. 2) By inducing death of infected cells at rate *k_2*. 3) By reducing production of virus particles at strength *k_3*.
+6. The adaptive response growth is also modeled according to 3 alternative model formulations. 1) Proportional to the innate response at rate *a_1*. 2) Proportional to virus at rate *a_2_*, with a growth rate saturating at high levels of virus, determined by the saturation constant *h_V*, 3) Proportional to both virus and innate response at rate *a_3_*, with a growth rate saturating at high levels of virus and innate response, determined by the saturation constant *h_V*.
+7. The adaptive response can act on the system in 3 ways: 1) By killing infected cells at rate *k_4*. 2) By killing infected cells at rate *k_5*, with saturation of the maximum killing rate for high adaptive response levels, determined by the saturation constant *s_A*. 3) By killing virus at rate *k_6*.
+
+The idea for this model is that by selectively setting certain parameters describing alternative processes to a non-zero value, and all others to zero, we can explore different, biologically reasonable assumptions regarding the processes governing the infection dynamics, and study how different model alternatives affect the outcome.
+
+Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
 
 ###Model Diagram
 
+
+
 ###Model Equations
 
+
+$$\dot U = - bVU - k_1FU $$
+$$\dot I = bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A}$$
+$$\dot V = \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV$$
+$$\dot F = p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F$$
+$$\dot A = + a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A $$
 
 
 ##What to do {#shinytab3}
@@ -41,6 +77,8 @@ This app allows exploration of the impact of different model formulations on the
 
 
 ##Further Information {#shinytab4}
+Explorations of different models and their impacts on outcomes for acute virus infections in general can be found in e.g. [@li14] and a more detailed discussion of previously published models and comparison to data for influenza can be found in [@dobrovolny13]. 
+
 
 ### References
 

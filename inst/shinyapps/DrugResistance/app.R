@@ -29,6 +29,9 @@ refresh <- function(input, output)
     c = isolate(input$c);
     f = isolate(input$f);
 
+    rngseed = isolate(input$rngseed);
+
+
     nreps = isolate(input$nreps)
     plotscale = isolate(input$plotscale)
 
@@ -41,7 +44,8 @@ refresh <- function(input, output)
     # simulation will be run multiple times based on value of nreps
     for (nn in 1:nreps)
     {
-      simresult <- simulate_resistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f)
+      #add number of rep to seed, otherwise it's exactly the same trajectory each time
+      simresult <- simulate_resistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
 
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
@@ -205,6 +209,13 @@ ui <- fluidPage(
               column(4,
                          numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1)
               ),
+             align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(
+             column(4,
+                    numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 100, step = 1)
+             ),
              column(4,
                     selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'none')
              ),
