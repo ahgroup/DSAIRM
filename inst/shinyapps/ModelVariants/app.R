@@ -16,7 +16,7 @@ refresh <- function(input, output)
     U0 = 10^isolate(input$U0);
     I0 = isolate(input$I0);
     V0 = isolate(input$V0);
-    F0 = isolate(input$T0);
+    F0 = isolate(input$F0);
     A0 = isolate(input$A0);
 
     b = 10^isolate(input$b)
@@ -222,13 +222,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("k1", "innate growth action 1, k1", min = 0, max = 1000, value = 0.1, step = 0.001)
+                           numericInput("k1", "innate action 1, k1", min = 0, max = 1000, value = 0.1, step = 0.001)
                     ),
                     column(4,
-                           numericInput("k2", "innate growth action 2, k2", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("k2", "innate action 2, k2", min = 0, max = 1000, value = 0, step = 0.001)
                     ),
                     column(4,
-                           numericInput("k3", "innate growth action 3, k3", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("k3", "innate action 3, k3", min = 0, max = 1000, value = 0, step = 0.001)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -248,13 +248,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("k4", "adaptive growth action 1, k4", min = 0, max = 1000, value = 0.1, step = 0.001)
+                           numericInput("k4", "adaptive action 1, k4", min = 0, max = 1000, value = 0.1, step = 0.001)
                     ),
                     column(4,
-                           numericInput("k5", "adaptive growth action 2, k5", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("k5", "adaptive action 2, k5", min = 0, max = 1000, value = 0, step = 0.001)
                     ),
                     column(4,
-                           numericInput("k6", "adaptive growth action 3, k6", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("k6", "adaptive action 3, k6", min = 0, max = 1000, value = 0, step = 0.001)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

@@ -49,7 +49,7 @@ evolutionratefunc <- function(y, parms, t)
 #' @param c virus removal rate
 #' @param f fitness cost of resistant virus
 #' @param rngseed seed for random number generator to allow reproducibility
-#' #' @param tmax maximum simulation time, units depend on choice of units for your
+#' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
 #' @return This function returns the simulation result as obtained from a call
 #'   to the adaptivetau integrator
@@ -64,9 +64,9 @@ evolutionratefunc <- function(y, parms, t)
 #' the code will likely abort with an error message
 #' @examples
 #' # To run the simulation with default parameters just call this function
-#' result <- simulate_resistance()
+#' result <- simulate_drugresistance()
 #' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- simulate_resistance(tmax = 200, e = 0.5)
+#' result <- simulate_drugresistance(tmax = 200, e = 0.5)
 #' # You should then use the simulation result returned from the function, e.g. like this:
 #' plot(result[,1],result[,2],xlab='Time',ylab='Uninfected cells',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
@@ -81,7 +81,7 @@ evolutionratefunc <- function(y, parms, t)
 
 
 
-simulate_resistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0, tmax = 100, b = 1e-5, dI = 1, e = 0, m = 1e-4, p = 1e2, c = 4, f = 0.1, rngseed = 100)
+simulate_drugresistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0, tmax = 100, b = 1e-5, dI = 1, e = 0, m = 1e-4, p = 1e2, c = 4, f = 0.1, rngseed = 100)
 {
   Y0 = c(U = U0, Is = Is0,  Ir = Ir0, Vs = Vs0, Vr = Vr0);  #combine initial conditions into a vector
   dt = tmax / 1000; #time step for which to get results back

@@ -45,7 +45,7 @@ refresh <- function(input, output)
     for (nn in 1:nreps)
     {
       #add number of rep to seed, otherwise it's exactly the same trajectory each time
-      simresult <- simulate_resistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
+      simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
 
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
