@@ -3,8 +3,6 @@
 #Next steps
 * add refs to all models
 
-
-* write model variant/formulation app
 * write fitting apps
 * write pkpd app
 * debug U/S app
