@@ -3,8 +3,10 @@
 #Next steps
 * add refs to all models
 
-* write stochastic app
+
 * write model variant/formulation app
+* write fitting apps
+* write pkpd app
 * debug U/S app
 * write docs and task tabs for all apps
 
@@ -18,18 +20,17 @@ The basics
 * COMPLETELY DONE Basic virus model - including birth/death of cells to do steady state
 * COMPLETELY DONE Virus and IR model
 
+What influences model results
+* DONE Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
+* DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
+* DONE stochastic virus model, also run deterministic for comparison
+
 Using models to explore and predict
 * DONE Bacteria model with scan over a parameter
 * DONE data comparing example - Virus and drug (HCV)
-* DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
-
-What influences model results
-* Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
-* U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
-* stochastic virus model, also run deterministic for comparison
+* Fitting to data
 
 Further topics
 * PK/PD
-* Discrete time models with noise
-* Fitting to flu data
-* ...
+* Advanced fitting to data
+* DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT

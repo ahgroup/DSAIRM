@@ -33,37 +33,30 @@ refresh <- function(input, output)
 
 
     # Call the ODE solver with the given parameters
-    if (models == 1)
+    if (models == 1 | models == 3)
     {
       result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
       colnames(result_ode) = c('xvals','Bc','Ic')
-      dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+      dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+      dat_ode$setting = 'ode'
     }
 
     # Call the discrete model with the given parameters
-    if (models == 2)
+    if (models == 2 | models == 3)
     {
       result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
       colnames(result_discrete) = c('xvals','Bd','Id')
       #reformat data to be in the right format for plotting
       #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-      dat = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
-     }
-
-
-    # Call both solvers with the given parameters
-    if (models == 3)
-    {
-      result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
-      result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
-      colnames(result_discrete) = c('xvals','Bd','Id')
-      colnames(result_ode) = c('xvals','Bc','Ic')
       dat_disc = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
       dat_disc$setting = 'discrete'
-      dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
-      dat_ode$setting = 'ode'
-      dat <- dplyr::full_join(dat_disc,dat_ode)
     }
+
+    #depending on if user wants only 1 model or both
+    if (models == 1) { dat = dat_ode}
+    if (models == 2) { dat = dat_disc}
+    if (models == 3) { dat <- dplyr::full_join(dat_disc,dat_ode)  }
+
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text

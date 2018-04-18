@@ -53,12 +53,11 @@ img {
 
 /* ------- Tables ------- */
 table {
-	margin: 20px;
+	margin: 10px;
 	border-spacing: 0;
 }
 table th {
  /* Box-model */
-	height: 36px;
 	padding: 5px;
 
   /* Typography */
@@ -84,7 +83,7 @@ tr:nth-child(2n+1) {
 	color: #000; /* black */
 }
 table td {
-	padding: 5px;
+	padding: 2px;
 	border-collapse: collapse;
 	border: 1px solid #ccc; /* light grey */
 }
@@ -156,8 +155,8 @@ iframe {
 	text-align: center;
 	color: #000000;
 	background-color: #D2FFE2;
-	border-spacing: 10px;
-	width: 200px;
+	border-spacing: 5px;
+	width: 250px;
 }
 
 .submitbutton {

@@ -47,6 +47,21 @@ server <- function(input, output, session) {
     stopApp(returnValue = 'USAnalysis')
   })
 
+  observeEvent(input$ModelFit, {
+    input$ModelFit
+    stopApp(returnValue = 'ModelFit')
+  })
+
+  observeEvent(input$PkPdModel, {
+    input$PkPdModel
+    stopApp(returnValue = 'PkPdModel')
+  })
+
+  observeEvent(input$AdvancedFit, {
+    input$AdvancedFit
+    stopApp(returnValue = 'AdvancedFit')
+  })
+
   observeEvent(input$Exit, {
     input$Exit
     print ("Exiting")
@@ -87,21 +102,6 @@ ui <- fluidPage(
   ), #close fluidRow structure for input
 
 
-  p('Using models to explore and predict', class='mainsectionheader'),
-  fluidRow(
-    column(4,
-           actionButton("ModelExploration", "Bacterium Model Exploration", class="mainbutton")
-    ),
-    column(4,
-           actionButton("VirusandTx", "Virus and drug treatment model", class="mainbutton")
-    ),
-    column(4,
-           actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
-
-
   p('What influences model results', class='mainsectionheader'),
   fluidRow(
     column(4,
@@ -117,6 +117,35 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
+
+  p('Model use examples', class='mainsectionheader'),
+  fluidRow(
+    column(4,
+           actionButton("ModelExploration", "Bacterium Model Exploration", class="mainbutton")
+    ),
+    column(4,
+           actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
+    ),
+    column(4,
+           actionButton("ModelFit", "Model fitting", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
+
+  p('Further topics', class='mainsectionheader'),
+  fluidRow(
+    column(4,
+           actionButton("PkPdModel", "Pharacokinetics and Pharmacodynamics", class="mainbutton")
+    ),
+    column(4,
+           actionButton("AdvancedFit", "Advanced model fitting", class="mainbutton")
+    ),
+    column(4,
+           actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
 
     fluidRow(
 
