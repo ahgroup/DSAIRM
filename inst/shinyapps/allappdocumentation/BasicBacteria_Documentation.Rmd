@@ -34,10 +34,10 @@ In addition to specifying the *compartments* of a model, we need to specify the 
 For our system, we specify the follwoing processes/flows: 
 
 1. Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, _B~max~_. 
-2. Bacteria die at a natural death rate (which we label _dB_).
+2. Bacteria die at a natural death rate (which we label _d~B~_).
 3. Bacteria are killed by the immune response at some rate _k_.
 4. The immune response grows proportional to the number of bacteria and itself at some rate _r_.
-5. The immune response decays at some rate (which we label _dI_).
+5. The immune response decays at some rate (which we label _d~I~_).
 
 
 ###Model Diagram
@@ -56,7 +56,7 @@ Next, we need to implement this verbal model and flow diagram in a way that it c
 
 
 ###Model Implementation I
-The most common way to implement compartmental models is as a **continuous-time, deterministic process, formulated as a set of ordinary differential equations**. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
+The most common way to implement compartmental models is as a **continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)**. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
 
 $$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
@@ -77,7 +77,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 
 ###Some notes
 * In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called _initial conditions_.
-* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _dB_, _k_, _r_ and _dI_. We would usually choose the parameter such that they match the specific disease/scenario we want to study. 
+* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _d~B~_, _k_, _r_ and _d~I~_. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour. 
  
 
 
@@ -89,7 +89,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 
 * This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months..., based on what's most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones.
 
-**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).**
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a cell lives for a week, you need to convert it to 7 days, then take the inverse if you want a death rate, which is what usually goes into the model).**
 
 
 ###Task 1: 
@@ -153,8 +153,9 @@ You should get a plot where bacteria numbers drop to below 10^-4^. Contemplate w
 ##Further Information {#shinytab4}
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
 * For this app, the underlying functions running the simulations are called `simulate_basicbacteria.R` and `simulate_basicbacteria_discrete.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_basicbacteria` or `?simulate_basicbacteria_discrete` into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify this R function for your own purposes - though that requires R coding knowledge.
-* The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [REFS]. The models in those references are described in the context of ecology, but results transfer to within-host situation.
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a subfolder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+* The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [@]. The models in those references are described in the context of ecology, but results transfer to within-host situation. For a similar model in the context of a within-host system, see e.g. [@handel09b].
 
 ### References
 
