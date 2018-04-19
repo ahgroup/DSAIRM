@@ -155,7 +155,7 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(6,
-                    numericInput("B0min", "Initial number of bacteria, B0 (lower bound)", min = 0, max = 1000, value = 100, step = 50)
+                    numericInput("B0min", "Initial number of bacteria, B0 (lower bound)", min = 0, max = 1000, value = 10, step = 50)
              ),
              column(6,
                     numericInput("B0max", "Initial number of bacteria, B0 (upper bound)", min = 0, max = 1000, value = 100, step = 50)
@@ -169,7 +169,7 @@ ui <- fluidPage(
                     numericInput("I0min", "Initial number of immune cells, I0 (lower bound)", min = 0, max = 100, value = 10, step = 1)
              ),
              column(6,
-                    numericInput("I0max", "Initial number of immune cells, I0 (upper bound)", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("I0max", "Initial number of immune cells, I0 (upper bound)", min = 0, max = 100, value = 20, step = 1)
              ),
                    align = "center"
            ), #close fluidRow structure for input
@@ -177,7 +177,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                column(6,
-                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 5, step = 1)
+                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 2, step = 1)
              ),
              column(6,
                     numericInput("Bmaxmax", "carrying capacity, Bmax (10^Bmax, upper bound)", min = 1, max = 10, value = 5, step = 1)
@@ -190,14 +190,14 @@ ui <- fluidPage(
                     numericInput("dBmin", "bacteria death rate, dB (lower bound)", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(6,
-                    numericInput("dBmax", "bacteria death rate, dB (upper bound)", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("dBmax", "bacteria death rate, dB (upper bound)", min = 0, max = 10, value = 2, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("kmin", "immune response kill rate, k (10^k, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("kmin", "immune response kill rate, k (10^k, lower bound)", min = -10, max = 2, value = -6, step = 0.5)
                     ),
                     column(6,
                            numericInput("kmax", "immune response kill rate, k (10^k, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
@@ -207,7 +207,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("rmin", "immune respone activation rate, r (10^r, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
+                  numericInput("rmin", "immune respone activation rate, r (10^r, lower bound)", min = -10, max = 2, value = -5, step = 0.5)
            ),
            column(6,
                   numericInput("rmax", "immune respone activation rate, r (10^r, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
@@ -227,10 +227,10 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("gmean", "Rate of bacteria growth, g (mean)", min = 0, max = 10, value = 1.5, step = 0.1)
+                  numericInput("gmean", "Rate of bacteria growth, g (mean)", min = 0, max = 10, value = 0.5, step = 0.1)
            ),
            column(6,
-                  numericInput("gvar", "Rate of bacteria growth, g (variance)", min = 0, max = 10, value = 1.5, step = 0.1)
+                  numericInput("gvar", "Rate of bacteria growth, g (variance)", min = 0, max = 10, value = 2.5, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input
@@ -263,6 +263,7 @@ ui <- fluidPage(
            #Start with results on top
            h2('Simulation Results'),
            plotOutput(outputId = "plot", height = "800px"),
+           #plotOutput(outputId = "plot"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
 

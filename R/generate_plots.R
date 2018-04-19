@@ -39,7 +39,8 @@ generate_plots <- function(input,output,allres)
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
 
-    allplots=vector("list",nplots) #will hold all plots
+    #allplots=vector("list",nplots) #will hold all plots
+    allplots=list() #will hold all plots
 
     for (n in 1:nplots) #loop to create each plot
     {
@@ -60,7 +61,6 @@ generate_plots <- function(input,output,allres)
       }
 
 
-      #browser()
 
       #use limits for axes plotting if provided by shiny app
       xmin=res[[n]]$xmin;
@@ -71,7 +71,7 @@ generate_plots <- function(input,output,allres)
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)
 
-      if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point() }
+      if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point()  }
       if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line(size = linesize)  }
       if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
 
@@ -95,7 +95,12 @@ generate_plots <- function(input,output,allres)
     if (n>1)
     {
       #number of columns needs to be stored in 1st list element
-      cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
+      gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
+      #cowplot::plot_grid(my_grobs, ncol = res[[1]]$ncol)
+      #gridExtra::grid.arrange(allplots, ncol = res[[1]]$ncol)
+      #my_grobs = lapply(allplots, ggplotGrob)
+      #cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
+
     }
     if (n==1)
     {

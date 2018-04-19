@@ -4,7 +4,6 @@
 * add refs to all models
 
 * write fitting apps
-* write pkpd app
 * debug U/S app
 * write docs and task tabs for all apps
 
@@ -29,6 +28,6 @@ Using models to explore and predict
 * Fitting to data
 
 Further topics
-* PK/PD
+* DONE PK/PD
 * Advanced fitting to data
 * DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
