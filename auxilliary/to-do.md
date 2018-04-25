@@ -1,11 +1,10 @@
 ## Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
 
 #Next steps
-* add refs to all models
 
 * write fitting apps
-* debug U/S app
 * write docs and task tabs for all apps
+* add refs to all models
 
 #Questions-todo
 * Can one make generate_XXX functions non-reactive?
