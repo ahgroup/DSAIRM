@@ -9,8 +9,8 @@ By manipulating the models through the Shiny UI interface and working through th
 
 *The package is under development and not yet on CRAN. Install with devtools from github. Some parts of the package might not be functional yet.*
 
-1. Install the CRAN release in the usual way with install.packages()
-2. The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don't have it, install the devtools package. Then, install DSAIRM through `devtools::install_github("ahgroup/DSAIRM")`.
+**1.** Install the CRAN release in the usual way with install.packages()
+**2.** The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don't have it, install the devtools package. Then, install DSAIRM through `devtools::install_github("ahgroup/DSAIRM")`.
 
 ## Basic Use
 * After loading the package, run `dsairmmenu()` to start the main menu. 
