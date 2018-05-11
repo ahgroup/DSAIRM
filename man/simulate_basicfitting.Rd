@@ -25,19 +25,18 @@ parameters}
 
 \item{p}{rate at which infected cells produce virus}
 
-\item{f}{strength of cell infection reduction by drug (0-1)}
-
-\item{e}{strength of virus production reduction by drug (0-1)}
-
 \item{X0}{initial level of immune response}
 
-\item{n}{rate of new uninfected cell replenishment}
+\item{k}{rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)}
 
-\item{dU}{rate at which uninfected cells die}
+\item{a}{activation of T-cells (model 1) or growth of antibodies (model 2)}
+
+\item{r}{rate of T-cell expansion (model 1)}
+
+\item{dX}{rate at which antibodies decay (model 2)}
 }
 \value{
-The function returns the output from the odesolver as a matrix,
-with one column per compartment/variable. The first column is time.
+The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
 }
 \description{
 This function runs a simulation of a compartment model
@@ -48,8 +47,8 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 The function returns a matrix containing time-series of each variable and time.
 }
 \details{
-A simple compartmental model is simulated as a set of ordinary differential
-equations, using an ode solver from the deSolve package.
+2 simple compartmental ODE models mimicking acute viral infection
+with T-cells (model 1) or antibodies (model 2) are fitted to data
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -58,17 +57,14 @@ equations, using an ode solver from the deSolve package.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
-result <- simulate_virus_tx()
+# To run the code with default parameters just call this function
+result <- simulate_basicfitting()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_virus_tx(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
-# You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,1],result[,4],xlab='Time',ylab='Virus',type='l',log='y')
+result <- simulate_basicfitting(U0 = 1e6, tmax = 100, dI = 2)
 }
 \seealso{
-See the shiny app documentation corresponding to this simulator
-function for more details on this model. See the manual for the deSolve
-package for details on the underlying ODE simulator algorithm.
+See the shiny app documentation corresponding to this
+function for more details on this model.
 }
 \author{
 Andreas Handel

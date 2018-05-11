@@ -1537,7 +1537,7 @@
   timestamp       = {2018.04.09},
 }
 
-@Article{handel09,
+@Article{handel09b,
   author          = {Handel, Andreas and Margolis, Elisa and Levin, Bruce R},
   title           = {Exploring the role of the immune response in preventing antibiotic resistance.},
   journal         = {Journal of theoretical biology},
