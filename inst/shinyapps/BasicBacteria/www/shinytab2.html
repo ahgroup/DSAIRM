@@ -1,3 +1,15 @@
+<html>
+   <head>
+  <script type="text/x-mathjax-config">MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  jax: ["input/TeX","input/MathML","output/HTML-CSS","output/NativeMML"],
+  extensions: ["tex2jax.js","mml2jax.js","MathMenu.js","MathZoom.js"],
+  TeX: {
+    extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+  }
+});</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>&#13;
 <body> <div id="shinytab2" class="section level2">&#13;
 <h2>The Model</h2>&#13;
 <div id="model-overview" class="section level3">&#13;
@@ -41,3 +53,9 @@ Flow diagram for simple bacteria infection model..&#13;
 <li>In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are <em>g</em>, <em>d<sub>B</sub></em>, <em>k</em>, <em>r</em> and <em>d<sub>I</sub></em>. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour.</li>&#13;
 </ul></div>&#13;
 </div> </body>
+<script type="text/javascript">
+  MathJax.Hub.Configured()
+</script>
+
+<!-- this is the website i used to fit the math display problem
+	https://stackoverflow.com/questions/29682207/unable-to-render-mathml-content-in-google-chrome-->
