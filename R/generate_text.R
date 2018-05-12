@@ -87,8 +87,8 @@ generate_text <- function(input,output,allres)
 
         if (plottype == 'Scatterplot' )
         {
-            rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
-            newtxt = paste('RCC between',xlabel,' and ',ylabel,' is:',as.character(round(rcc$estimate,3)))
+          rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
+          newtxt = paste('RCC between',xlabel,' and ',ylabel,' is:',as.character(round(rcc$estimate,3)))
         }
 
         if (plottype == 'Boxplot' )
@@ -99,9 +99,19 @@ generate_text <- function(input,output,allres)
 
         if (nn == 1) {txt <- paste(newtxt)}
         if (nn > 1) {txt <- paste(txt, newtxt, sep = "<br/>")}
-      } #end loop over all variables
-    alltext <- paste(alltext, txt, sep = "<br/>" ) #add text blocks together
-    } #finishes loop over sets of variables
+      } #end loop over all variables for a given plot
+
+      #if the result structure has a text entry for a given plot, that will be used instead of anything else
+      if (!is.null(res[[vn]]$text))
+      {
+        txt = res[[vn]]$text
+      }
+
+      alltext <- paste(alltext, txt, sep = "<br/>" ) #add text blocks together
+
+
+
+    } #finishes loop over all plots
 
     finaltxt <- '<hr> <i> For stochastic simulation scenarios, values shown are the mean over all simulations. </i>'
     resulttxt <- paste(alltext, finaltxt, sep = "")

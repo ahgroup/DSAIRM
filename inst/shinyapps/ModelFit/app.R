@@ -26,7 +26,7 @@ refresh <- function(input, output)
 
     a = isolate(input$a)
     alow = isolate(input$alow)
-    ahigh = isolate(input$a)
+    ahigh = isolate(input$ahigh)
     r = isolate(input$r)
     rlow = isolate(input$rlow)
     rhigh = isolate(input$rhigh)
@@ -34,15 +34,18 @@ refresh <- function(input, output)
     dXlow = isolate(input$dXlow)
     dXhigh = isolate(input$dXhigh)
 
-    modeltype = isolate(input$modeltype);
+    modeltype = as.numeric(isolate(input$modeltype));
     plotscale = isolate(input$plotscale)
 
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
+    #browser()
+
     #result is returned as list
     simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype)
+
 
     simresult = simresultlist$timeseries
 
@@ -50,12 +53,16 @@ refresh <- function(input, output)
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+    dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresultlist$data
-    colnames(fitdata) = c('xvals','vals')
+    colnames(fitdata) = c('xvals','yvals')
     fitdata$varnames = 'Data'
-    dat = cbind(dat,fitdata)
+    fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
+    fitdata$style = 'point'
+    dat = rbind(dat,fitdata)
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -63,7 +70,7 @@ refresh <- function(input, output)
     result[[1]]$dat = dat
 
     #Meta-information for each plot
-    result[[1]]$plottype = "Lineplot"
+    result[[1]]$plottype = "Mixedplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
@@ -72,13 +79,19 @@ refresh <- function(input, output)
     result[[1]]$yscale = 'identity'
 
     #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 0
+    result[[1]]$ymin = 0.1
     result[[1]]$ymax = max(simresult)
     result[[1]]$xmin = 0
-    result[[1]]$xmax = 10
+    result[[1]]$xmax = 9
 
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
+
+    #add text for output, this will be used by the generate_text function
+
+    outtext = print(sprintf('Best fit values for parameters %s and %s are %f and %f. AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$AICc))
+
+    result[[1]]$text = outtext
 
   return(result)
   })
@@ -91,9 +104,7 @@ refresh <- function(input, output)
   #output (plots, text) is stored in variable 'output'
   output$plot <- generate_plots(input, output, result)
 
-  #instead of having generate_text create the text output, do it by hand here
-  outtext = paste('Best fit values for parameters are',simresultlist$bestpars,'. AICc is',simresultlist$AICc)
-  output$text <- outtext
+  output$text <- generate_text(input, output, result)
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
@@ -199,7 +210,7 @@ ui <- fluidPage(
                            numericInput("alow", "activation rate lower bound, alow", min = 0, max = 0.1, value = 0.5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("ahigh", "activation rate upper bound, ahigh", min = 10, max = 100, value = 0.5, step = 0.1)
+                           numericInput("ahigh", "activation rate upper bound, ahigh", min = 10, max = 100, value = 5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -213,7 +224,7 @@ ui <- fluidPage(
                            numericInput("rlow", "growth rate lower bound, rlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("rhigh", "growth rate upper bound, rhigh", min = 10, max = 100, value = 0.5, step = 0.1)
+                           numericInput("rhigh", "growth rate upper bound, rhigh", min = 10, max = 100, value = 5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -226,7 +237,7 @@ ui <- fluidPage(
                            numericInput("dXlow", "decay rate lower bound, dXlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("dXhigh", "decay rate upper bound, dXhigh", min = 10, max = 100, value = 0.5, step = 0.1)
+                           numericInput("dXhigh", "decay rate upper bound, dXhigh", min = 10, max = 100, value = 5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -234,7 +245,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(6,
-                           selectInput("modeltype", "Model to fit",c(1 = 1, 2 = 2), selected = 1)
+                           selectInput("modeltype", "Model to fit",c("1" = 1, "2" = 2), selected = 1)
                     ),
                     column(6,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')

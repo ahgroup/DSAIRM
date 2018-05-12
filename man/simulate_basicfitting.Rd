@@ -4,8 +4,10 @@
 \alias{simulate_basicfitting}
 \title{Fitting 2 simple viral infection models to influenza data}
 \usage{
-simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, dI = 1,
-  dV = 2, b = 1e-05, p = 10, f = 0, e = 0, steadystate = FALSE)
+simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
+  dV = 2, b = 1e-05, p = 10, k = 1e-06, a = 1e-05, alow = 1e-06,
+  ahigh = 1e-04, r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1,
+  dXhigh = 10, modeltype = 1)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -14,8 +16,7 @@ simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, dI = 1,
 
 \item{V0}{initial number of infectious virions}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{X0}{initial level of immune response}
 
 \item{dI}{rate at which infected cells die}
 
@@ -25,15 +26,27 @@ parameters}
 
 \item{p}{rate at which infected cells produce virus}
 
-\item{X0}{initial level of immune response}
-
 \item{k}{rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)}
 
 \item{a}{activation of T-cells (model 1) or growth of antibodies (model 2)}
 
+\item{alow}{lower bound for activation rate}
+
+\item{ahigh}{upper bound for activation rate}
+
 \item{r}{rate of T-cell expansion (model 1)}
 
+\item{rlow}{lower bound for expansion rate}
+
+\item{rhigh}{upper bound for expansion rate}
+
 \item{dX}{rate at which antibodies decay (model 2)}
+
+\item{dXlow}{lower bound for decay rate}
+
+\item{dXhigh}{upper bound for decay rate}
+
+\item{modeltype}{fitting model 1 or 2}
 }
 \value{
 The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
@@ -60,7 +73,7 @@ with T-cells (model 1) or antibodies (model 2) are fitted to data
 # To run the code with default parameters just call this function
 result <- simulate_basicfitting()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_basicfitting(U0 = 1e6, tmax = 100, dI = 2)
+result <- simulate_basicfitting(U0 = 1e6, dI = 2, modeltype = 2)
 }
 \seealso{
 See the shiny app documentation corresponding to this

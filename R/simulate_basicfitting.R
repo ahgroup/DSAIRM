@@ -155,17 +155,17 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
 
   if (modeltype == 1)
   {
-    par_ini = c(a=a, r=r);
-    lb = c(alow, rlow)
-    ub = c(ahigh, rhigh)
+    par_ini = as.numeric(c(a=a, r=r))
+    lb = as.numeric(c(alow, rlow))
+    ub = as.numeric(c(ahigh, rhigh))
     fitparnames = c('a','r')
   }
 
   if (modeltype == 2)
   {
-    par_ini = c(a=a, dX=dX);
-    lb = c(alow, dXlow)
-    ub = c(ahigh, dXhigh)
+    par_ini = as.numeric(c(a=a, dX=dX))
+    lb = as.numeric(c(alow, dXlow))
+    ub = as.numeric(c(ahigh, dXhigh))
     fitparnames = c('a','dX')
   }
 
@@ -173,7 +173,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_COBYLA",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames);
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_COBYLA",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer
