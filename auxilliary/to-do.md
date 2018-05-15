@@ -2,9 +2,9 @@
 
 #Next steps
 
-* write fitting apps
 * write docs and task tabs for all apps
 * add refs to all models
+* write advanced fitting app
 
 #Questions-todo
 * Can one make generate_XXX functions non-reactive?

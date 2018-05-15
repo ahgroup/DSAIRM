@@ -6,10 +6,11 @@
 The simulation illustrates different alternative models}
 \usage{
 simulate_modelvariants(U0 = 1e+05, I0 = 0, V0 = 10, F0 = 0, A0 = 0,
-  tmax = 20, dI = 1, dV = 4, b = 1e-05, p = 1000, pF = 1, dF = 1,
-  f1 = 1e-04, f2 = 0, f3 = 0, Fmax = 1000, sV = 1e-10, k1 = 0.001,
-  k2 = 0, k3 = 0, a1 = 1000, a2 = 0, a3 = 0, hV = 1e-10,
-  k4 = 0.001, k5 = 0, k6 = 0, sA = 1e-10)
+  tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000,
+  pF = 1, dF = 1, f1 = 1e-04, f2 = 0, f3 = 0, Fmax = 1000,
+  sV = 1e-10, k1 = 0.001, k2 = 0, k3 = 0, a1 = 1000, a2 = 0,
+  a3 = 0, hV = 1e-10, k4 = 0.001, k5 = 0, k6 = 0, sA = 1e-10,
+  dA = 0.1)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -24,6 +25,10 @@ simulate_modelvariants(U0 = 1e+05, I0 = 0, V0 = 10, F0 = 0, A0 = 0,
 
 \item{tmax}{maximum simulation time, units depend on choice of units for your
 parameters}
+
+\item{n}{rate of uninfected cell production}
+
+\item{dU}{rate of natural death of uninfected cells}
 
 \item{dI}{rate at which infected cells die}
 
@@ -68,6 +73,8 @@ parameters}
 \item{k6}{action of adaptive response alternative 3}
 
 \item{sA}{saturation of adaptive response killing for alternative action 2}
+
+\item{dA}{adaptive immune response decay}
 }
 \value{
 The function returns the output from the odesolver as a matrix,

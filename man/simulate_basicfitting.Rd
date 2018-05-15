@@ -7,7 +7,7 @@
 simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
   dV = 2, b = 1e-05, p = 10, k = 1e-06, a = 1e-05, alow = 1e-06,
   ahigh = 1e-04, r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1,
-  dXhigh = 10, modeltype = 1)
+  dXhigh = 10, modeltype = 1, iter = iter)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -47,6 +47,8 @@ simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
 \item{dXhigh}{upper bound for decay rate}
 
 \item{modeltype}{fitting model 1 or 2}
+
+\item{iter}{max number of steps to be taken by optimizer}
 }
 \value{
 The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model

@@ -12,11 +12,11 @@ modelvariantode <- function(t, y, parms)
     as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
     {
 
-      dUdt = - b*V*U - k1*F*U
+      dUdt = n - dU*U - b*V*U - k1*F*U
       dIdt = b*V*U - dI*I - k2*F*I - k4*A*I - k5*A*I/(A+sA)
       dVdt = p*I/(1+k3*F) - dV*V - b*V*U - k6*A*V
       dFdt = pF - dF*F + f1 *V*(Fmax - F) + f2 * V / (V+sV)*F + f3 *V*I / (V*I+sV)*F
-      dAdt = a1*F*A + a2*V/(V+hV)*F + a3 * F * V / (F * V + hV) * A
+      dAdt = a1*F*A + a2*V/(V+hV)*F + a3 * F * V / (F * V + hV) * A - dA * A
 
 	 	  list(c(dUdt, dIdt, dVdt, dFdt, dAdt))
     }
@@ -37,6 +37,8 @@ modelvariantode <- function(t, y, parms)
 #' @param V0 initial number of infectious virions
 #' @param F0 initial level of innate response
 #' @param A0 initial level of adaptive response
+#' @param n rate of uninfected cell production
+#' @param dU rate of natural death of uninfected cells
 #' @param b rate at which virus infects cells
 #' @param dI rate at which infected cells die
 #' @param dV rate at which infectious virus is cleared
@@ -59,6 +61,7 @@ modelvariantode <- function(t, y, parms)
 #' @param k5 action of adaptive response alternative 2
 #' @param k6 action of adaptive response alternative 3
 #' @param sA saturation of adaptive response killing for alternative action 2
+#' @param dA adaptive immune response decay
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
 #' @return The function returns the output from the odesolver as a matrix,
@@ -82,7 +85,7 @@ modelvariantode <- function(t, y, parms)
 #' @export
 
 
-simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10)
+simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1)
 {
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app
@@ -91,7 +94,7 @@ simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax =
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(dI=dI,dV=dV,b=b,p=p,pF=pF,dF=dF,f1=f1,f2=f2,f3=f3,Fmax=Fmax,sV=sV,k1=k1,k2=k2,k3=k3,a1=a1,a2=a2,a3=a3,hV=hV,k4=k4,k5=k5,k6=k6,sA=sA);
+  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,pF=pF,dF=dF,f1=f1,f2=f2,f3=f3,Fmax=Fmax,sV=sV,k1=k1,k2=k2,k3=k3,a1=a1,a2=a2,a3=a3,hV=hV,k4=k4,k5=k5,k6=k6,sA=sA, dA = dA);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables

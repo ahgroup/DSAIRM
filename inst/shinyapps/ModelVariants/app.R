@@ -19,6 +19,8 @@ refresh <- function(input, output)
     F0 = isolate(input$F0);
     A0 = isolate(input$A0);
 
+    n = isolate(input$n)
+    dU = isolate(input$dU)
     b = 10^isolate(input$b)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
@@ -46,6 +48,7 @@ refresh <- function(input, output)
     k5 = isolate(input$k5)
     k6 = isolate(input$k6)
     sA = 10^isolate(input$sA)
+    dA = isolate(input$dA)
 
     tmax = isolate(input$tmax);
     plotscale = isolate(input$plotscale)
@@ -55,7 +58,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
 
-    simresult <- simulate_modelvariants(U0 = U0, I0 = I0, V0 = V0, F0=F0, A0=A0, tmax = tmax, dI=dI,dV=dV,b=b,p=p,pF=pF,dF=dF,f1=f1,f2=f2,f3=f3,Fmax=Fmax,sV=sV,k1=k1,k2=k2,k3=k3,a1=a1,a2=a2,a3=a3,hV=hV,k4=k4,k5=k5,k6=k6,sA=sA)
+    simresult <- simulate_modelvariants(U0 = U0, I0 = I0, V0 = V0, F0=F0, A0=A0, tmax = tmax, n=n, dU=dU, dI=dI,dV=dV,b=b,p=p,pF=pF,dF=dF,f1=f1,f2=f2,f3=f3,Fmax=Fmax,sV=sV,k1=k1,k2=k2,k3=k3,a1=a1,a2=a2,a3=a3,hV=hV,k4=k4,k5=k5,k6=k6,sA=sA,dA=dA)
 
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -168,13 +171,27 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("F0", "Initial level of innate response,FT0", min = 0, max = 100, value = 1, step = 1)
+                           numericInput("F0", "Initial level of innate response, F0", min = 0, max = 100, value = 1, step = 1)
                     ),
                     column(4,
                            numericInput("A0", "initial level of adaptive response, A0", min = 0, max = 100, value = 1, step = 1)
                     ),
                     column(4,
                            numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
+                    column(4,
+                           numericInput("n", "rate of uninfected cell production, n", min = 0, max = 1000, value = 0, step = 1)
+                    ),
+
+                    column(4,
+                           numericInput("dU", "rate of uninfected cell death, dU", min = 0, max = 100, value = 0, step = 1)
+                    ),
+                    column(4,
+                           numericInput("dA", "rate of adaptive immune response decay, dA", min = 0, max = 100, value = 0.1, step = 1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

@@ -30,7 +30,7 @@ This model consists of several compartments that capture some of the basic dynam
 * **F** - innate immune response
 * **A** - adaptive immune response
 
-Both the innate and adaptive response are modeled in a rather abstract sense. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon and CD8 T-cells. 
+Both the innate and adaptive response are modeled in a rather abstract manner. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon for the innate and CD8 T-cells for the adaptive response. 
 
 In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
@@ -38,27 +38,43 @@ For the purpose of this app, we specify several alternative processes that allow
 
 We specify the following processes/flows: 
 
-1. Uninfected cells become infected at rate _b_.
-2. Infected cells die at rate *d_I_* and produce virus at rate _p_.
-3. Free virus is removed at rate _dV_ due to any unmodeled processes, or goes on to infect further uninfected cells at rate _b_. 
+* Uninfected cells are produced at rate _n_, die naturally at rate _d~U~_ and become infected at rate _b_.
+* Infected cells die at rate *d~I~* and produce virus at rate _p_.
+* Free virus is removed at rate _d~V~_ due to any unmodeled processes, or goes on to infect further uninfected cells at rate _b_. 
+* In the absence of virus, the inate response is produced at a rate *p~F~* and removed at a rate *d~F~*. In the presence of virus, the innate response additionally *grows* according to 3 alternative model formulations:
+    A) Proportional to virus at rate *f~1~* and saturating at a maximum level *F~max~*. 
+    B) Proportional to virus at rate *f~2~*, with a growth rate saturating at high levels of virus, determined by the saturation constant *s~V~*. 
+    C) Proportional to both virus and infected cells at rate *f~3~*, with a growth rate saturating at high levels of virus and infected cells, determined by the saturation constant *s~V~*.
+* The innate response can also *act* on the system in 3 different ways: 
+    A) By moving target cells into a "protected" state at rate *k~1~* where those cells can not become infected any longer.
+    B) By inducing death of infected cells at rate *k~2~*. 
+    C) By reducing production of virus particles at strength *k~3~*.
+* The adaptive response *growth* is also modeled according to 3 alternative model formulations:
+    A) Proportional to the innate response at rate *a~1~*. 
+    B) Proportional to virus at rate *a~2~*, with a growth rate saturating at high levels of virus, determined by the saturation constant *h~V~*.
+    C) Proportional to both virus and innate response at rate *a~3~*, with a growth rate saturating at high levels of virus and innate response, determined by the saturation constant *h~V*~.
+* The adaptive response can *act* on the system in 3 ways: 
+    A) By killing infected cells at rate *k~4~*. 
+    B) By killing infected cells at rate *k~5~*, with saturation of the maximum killing rate for high adaptive response levels, determined by the saturation constant *s~A~*. 
+    C) By killing virus at rate *k~6~*.
+* Adaptive immune response decays at a rate *d~A~*.
 
-4. In the absence of virus, the inate response is produced at a rate *p_F* and removed at a rate *d_F_*. In the presence of virus, the innate response additionally grows according to 3 alternative model formulations. 1) Proportional to virus at rate *f_1_* and saturating at a maximum level **F_max_**. 2) Proportional to virus at rate *f_2*, with a growth rate saturating at high levels of virus, determined by the saturation constant *s_V*, 3) Proportional to both virus and infected cells at rate *f_3_*, with a growth rate saturating at high levels of virus and infected cells, determined by the saturation constant *s_V*.
-5. The innate response can also act on the system in 3 different ways: 1) By moving target cells into a "protected" state at rate *k_1* where those cells can not become infected any longer. 2) By inducing death of infected cells at rate *k_2*. 3) By reducing production of virus particles at strength *k_3*.
-6. The adaptive response growth is also modeled according to 3 alternative model formulations. 1) Proportional to the innate response at rate *a_1*. 2) Proportional to virus at rate *a_2_*, with a growth rate saturating at high levels of virus, determined by the saturation constant *h_V*, 3) Proportional to both virus and innate response at rate *a_3_*, with a growth rate saturating at high levels of virus and innate response, determined by the saturation constant *h_V*.
-7. The adaptive response can act on the system in 3 ways: 1) By killing infected cells at rate *k_4*. 2) By killing infected cells at rate *k_5*, with saturation of the maximum killing rate for high adaptive response levels, determined by the saturation constant *s_A*. 3) By killing virus at rate *k_6*.
-
-The idea for this model is that by selectively setting certain parameters describing alternative processes to a non-zero value, and all others to zero, we can explore different, biologically reasonable assumptions regarding the processes governing the infection dynamics, and study how different model alternatives affect the outcome.
+The idea explored in this app and implemented by this model is that selecting different (biologically reasonable) ways the immune response is modeled, results sometimes, but not always, change. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
 
 Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
 
 ###Model Diagram
 
 
+```{r modelvariants,  fig.cap='Flow diagram for the model with different innate and adaptive response variants.',  echo=FALSE, out.width = "60%"}
+knitr::include_graphics("../media/modelvariants.png")
+```
+
 
 ###Model Equations
 
 
-$$\dot U = - bVU - k_1FU $$
+$$\dot U =n - d_U U - bVU - k_1FU $$
 $$\dot I = bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A}$$
 $$\dot V = \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV$$
 $$\dot F = p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F$$

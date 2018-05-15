@@ -113,6 +113,7 @@ fitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitpa
 #' @param dXlow lower bound for decay rate
 #' @param dXhigh upper bound for decay rate
 #' @param modeltype fitting model 1 or 2
+#' @param iter max number of steps to be taken by optimizer
 #' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
 #' @details 2 simple compartmental ODE models mimicking acute viral infection
 #' with T-cells (model 1) or antibodies (model 2) are fitted to data
@@ -129,7 +130,7 @@ fitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitpa
 #' @author Andreas Handel
 #' @export
 
-simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV = 2, b = 1e-5, p = 10, k = 1e-6, a = 1e-5, alow = 1e-6, ahigh = 1e-4, r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1)
+simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV = 2, b = 1e-5, p = 10, k = 1e-6, a = 1e-5, alow = 1e-6, ahigh = 1e-4, r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
 {
 
   #will contain final result
@@ -138,7 +139,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   #some settings for ode solver and optimizer
   #those are hardcoded here, could in principle be rewritten to allow user to pass it into function
   atolv=1e-8; rtolv=1e-8; #accuracy settings for the ODE solver routine
-  maxsteps = 5000;
+  maxsteps = iter #number of steps/iterations for algorithm
 
   #load data
   #This data is from Hayden et al 1996 JAMA

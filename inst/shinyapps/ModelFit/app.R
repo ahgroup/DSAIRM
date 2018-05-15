@@ -9,6 +9,7 @@
 refresh <- function(input, output)
   {
 
+
   result <- reactive({
     input$submitBtn
 
@@ -34,6 +35,7 @@ refresh <- function(input, output)
     dXlow = isolate(input$dXlow)
     dXhigh = isolate(input$dXhigh)
 
+    iter = isolate(input$iter)
     modeltype = as.numeric(isolate(input$modeltype));
     plotscale = isolate(input$plotscale)
 
@@ -44,7 +46,7 @@ refresh <- function(input, output)
     #browser()
 
     #result is returned as list
-    simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype)
+    simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
 
 
     simresult = simresultlist$timeseries
@@ -105,6 +107,7 @@ refresh <- function(input, output)
   output$plot <- generate_plots(input, output, result)
 
   output$text <- generate_text(input, output, result)
+  output$simrun <- renderText({ HTML('Simulation Done') })
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
@@ -116,6 +119,10 @@ server <- function(input, output, session) {
   observeEvent(input$exitBtn, {
     input$exitBtn
     stopApp(returnValue = 0)
+  })
+
+  observeEvent(input$submitBtn, {
+    output$simrun <- renderText({ HTML('Simulation Running') })
   })
 
   # This function is called to refresh the content of the Shiny App
@@ -150,6 +157,14 @@ ui <- fluidPage(
     ),
     align = "center"
   ), #end section to add buttons
+
+  fluidRow(
+    column(12,
+           htmlOutput(outputId = "simrun")
+           ),
+           align = "center"
+    ),
+    # PLaceholder for simulation run message
 
   tags$hr(),
 
@@ -244,10 +259,13 @@ ui <- fluidPage(
 
 
            fluidRow(class = 'myrow',
-                    column(6,
+                    column(4,
                            selectInput("modeltype", "Model to fit",c("1" = 1, "2" = 2), selected = 1)
                     ),
-                    column(6,
+                    column(4,
+                           numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
+                    ),
+                    column(4,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')
                     ),
 
@@ -267,12 +285,6 @@ ui <- fluidPage(
            plotOutput(outputId = "plot", height = "500px"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
-           #Placeholder for any possible warning or error messages (this will be shown in red)
-           htmlOutput(outputId = "warn"),
-
-           tags$head(tags$style("#warn{color: red;
-                                font-style: italic;
-                                }")),
            tags$hr()
 
            ) #end main panel column with outcomes
