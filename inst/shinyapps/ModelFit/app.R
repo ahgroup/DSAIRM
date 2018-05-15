@@ -45,8 +45,12 @@ refresh <- function(input, output)
 
     #browser()
 
-    #result is returned as list
-    simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
+    #shows a 'running simulation' message
+    withProgress(message = 'Runnig Simulation', value = 0, {
+      #result is returned as list
+      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
+    })
+
 
 
     simresult = simresultlist$timeseries
@@ -121,9 +125,10 @@ server <- function(input, output, session) {
     stopApp(returnValue = 0)
   })
 
-  observeEvent(input$submitBtn, {
-    output$simrun <- renderText({ HTML('Simulation Running') })
-  })
+
+  #observeEvent(input$submitBtn, {
+  #  output$simrun <- renderText({ HTML('Simulation Running') })
+  #})
 
   # This function is called to refresh the content of the Shiny App
   refresh(input, output)
@@ -157,14 +162,6 @@ ui <- fluidPage(
     ),
     align = "center"
   ), #end section to add buttons
-
-  fluidRow(
-    column(12,
-           htmlOutput(outputId = "simrun")
-           ),
-           align = "center"
-    ),
-    # PLaceholder for simulation run message
 
   tags$hr(),
 

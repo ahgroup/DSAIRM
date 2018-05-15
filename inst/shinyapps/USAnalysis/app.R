@@ -36,8 +36,9 @@ refresh <- function(input, output)
     plottype = isolate(input$plottype)
     plotscale = isolate(input$plotscale)
 
-
-    sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples)
+    withProgress(message = 'Runnig Simulation', value = 0, {
+      sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples)
+    })
 
       #reformat data to be in the right format for plotting
       #the structure for plotting is a nested list

@@ -141,6 +141,10 @@ iframe {
 }
 
 
+/* shiny progress bar
+-------------------- */
+
+
 .shiny-progress-container {
 	top: 40px;
 }
@@ -149,6 +153,12 @@ iframe {
 	color: red;
 }
 
+.shiny-notification{
+  position: fixed;
+  top: 33%;
+  left: 33%;
+  right: 33%;
+}
 
 
 .mainbutton {
