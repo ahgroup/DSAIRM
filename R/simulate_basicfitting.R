@@ -145,7 +145,9 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   #We only use some of the data here
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata=read.csv(filename)
-  mydata = alldata %>% dplyr::filter(Condition == 'notx') %>% dplyr::rename(time = DaysPI, outcome = LogVirusLoad) %>% dplyr::select(time, outcome)
+  mydata = dplyr::filter(alldata, Condition == 'notx')
+  mydata = dplyr::rename(mydata, time = DaysPI, outcome = LogVirusLoad)
+  mydata =  dplyr::select(mydata, time, outcome)
 
   Y0 = c(U = U0, I = I0, V = V0, X = X0);  #combine initial conditions into a vector
   timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
@@ -173,7 +175,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_COBYLA",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_SBPLX",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer
@@ -208,6 +210,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   output$bestpars = params
   output$AICc = AICc
   output$data = mydata
+  output$SSR = ssrfinal
 
   #The output produced by the fitting routine
   return(output)

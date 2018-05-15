@@ -95,7 +95,10 @@ generate_text <- function(input,output,allres)
         {
           newtxt = ""
         }
-
+        if (plottype == 'Mixedplot' )
+        {
+          newtxt = ""
+        }
 
         if (nn == 1) {txt <- paste(newtxt)}
         if (nn > 1) {txt <- paste(txt, newtxt, sep = "<br/>")}

@@ -73,10 +73,12 @@ generate_plots <- function(input,output,allres)
       if (plottype == 'Scatterplot') {p2 = p1 + ggplot2::geom_point()  }
       if (plottype == 'Lineplot') {p2 = p1 + ggplot2::geom_line(size = linesize)  }
       if (plottype == 'Boxplot') {p2 = p1 + ggplot2::geom_boxplot()}
-      if (plottype == 'Mixedplot') #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
+      #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
+      if (plottype == 'Mixedplot')
       {
-        p2a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style = line), size = linesize)
-        p2 = p2a + ggplot2::geom_point(data = dplyr::filter(dat,style = point))
+        #browser()
+        p1b = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
+        p2 = p1b + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = linesize)
       }
 
       p2a = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)

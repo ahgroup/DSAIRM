@@ -85,11 +85,11 @@ refresh <- function(input, output)
     result[[1]]$xmax = 9
 
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
-    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
+    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10' }
 
     #add text for output, this will be used by the generate_text function
 
-    outtext = print(sprintf('Best fit values for parameters %s and %s are %f and %f. AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$AICc))
+    outtext = print(sprintf('Best fit values for parameters %s and %s are %f and %f. SSR is %f, AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$SSR,simresultlist$AICc))
 
     result[[1]]$text = outtext
 

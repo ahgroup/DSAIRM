@@ -22,6 +22,7 @@ Imports:
     adaptivetau (>= 2.2),
     lhs (>= 0.15),
     sensitivity (>= 1.15),
+    nloptr (>= 1.0.4),
     knitr (>= 1.15),
     tidyr (>= 0.7),
     dplyr (>= 0.7.4),
