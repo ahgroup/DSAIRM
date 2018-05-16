@@ -61,7 +61,11 @@ refresh <- function(input, output)
     #depending on if user wants only 1 model or both
     if (models == 1) { dat = dat_ode}
     if (models == 2) { dat = dat_disc}
-    if (models == 3) { dat <- dplyr::full_join(dat_disc,dat_ode)  }
+    if (models == 3) { dat = rbind(dat_ode, dat_disc)  }
+
+    #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals

@@ -38,7 +38,7 @@ generate_text <- function(input,output,allres)
     {
       #for each plot, get names of variables
       dat <- res[[vn]]$dat
-      allvarnames = unique(dat$varnames)
+      allvarnames = levels(dat$varnames)
       nvars = length(allvarnames)
       plottype = res[[vn]]$plottype
       xlabel =  res[[vn]]$xlab

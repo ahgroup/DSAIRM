@@ -9,7 +9,7 @@
 #'    each list entry corresponds to one plot
 #'    each list entry needs to contain the following information
 #'    1. a data frame called dat with one column called xvals, one column yvals,
-#'    one column called varnames that contains names for different variables
+#'    one column called varnames that contains names for different variables, needs to be a factor variable
 #'    and one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
 #'    supplying IDvar is optional, if it is missing, this grouping is ignored
 #'    if plottype is 'mixedplot' and additional column called 'style' indicating line or point is needed
@@ -47,6 +47,14 @@ generate_plots <- function(input,output,allres)
       plottype = res[[n]]$plottype
       dat = res[[n]]$dat
 
+      #if min/max axes values are supplied by app, make sure they are not crazy high or low
+
+      xmin <- if(is.null(res[[n]]$xmin)) NULL else  {max(1e-12, res[[n]]$xmin)}        #make sure it's non-zero for log plots
+      xmax <- if(is.null(res[[n]]$xmax)) NULL else  {min(1e15, res[[n]]$xmax)}       #prevent crazy large x-axis
+      ymin <- if(is.null(res[[n]]$ymin)) NULL else  {max(1e-12, res[[n]]$ymin)}        #make sure it's non-zero for log plots
+      ymax <- if(is.null(res[[n]]$ymax)) NULL else  {min(1e15, res[[n]]$ymax)}       #prevent crazy large y-axis
+
+
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)
 
@@ -64,15 +72,15 @@ generate_plots <- function(input,output,allres)
       {
         p2 = p1 + ggplot2::geom_point()
         p3 = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
-        p4 = p3 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(res[[n]]$xmin,res[[n]]$xmax))
-        p5 = p4 + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(res[[n]]$ymin,res[[n]]$ymax))
+        p4 = p3 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(xmin,xmax))
+        p5 = p4 + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(ymin,ymax))
       }
       if (plottype == 'Lineplot')
       {
         p2 = p1 + ggplot2::geom_line(size = linesize)
         p3 = p2 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
-        p4 = p3 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(res[[n]]$xmin,res[[n]]$xmax))
-        p5 = p4 + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(res[[n]]$ymin,res[[n]]$ymax))
+        p4 = p3 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(xmin,xmax))
+        p5 = p4 + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(ymin,ymax))
       }
       if (plottype == 'Boxplot')
       {
@@ -84,8 +92,8 @@ generate_plots <- function(input,output,allres)
         p2 = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
         p3 = p2 + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = linesize)
         p4 = p3 + ggplot2::labs(x = res[[n]]$xlab, y = res[[n]]$ylab)
-        p4a = p4 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(res[[n]]$xmin,res[[n]]$xmax))
-        p5 = p4a + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(res[[n]]$ymin,res[[n]]$ymax))
+        p4a = p4 + ggplot2::scale_x_continuous(trans = res[[n]]$xscale, limits = c(xmin,xmax))
+        p5 = p4a + ggplot2::scale_y_continuous(trans = res[[n]]$yscale, limits = c(ymin,ymax))
       }
 
       if (is.null(res[[n]]$legend))
