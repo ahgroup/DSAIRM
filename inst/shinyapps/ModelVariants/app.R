@@ -82,6 +82,8 @@ refresh <- function(input, output)
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
+    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
+    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
 
     #set min and max for scales. If not provided ggplot will auto-set
     result[[1]]$ymin = 0
@@ -89,8 +91,11 @@ refresh <- function(input, output)
     result[[1]]$xmin = 0
     result[[1]]$xmax = tmax
 
-    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
-    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
+    #the following are for text display for each plot
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
 
   return(result)
   })

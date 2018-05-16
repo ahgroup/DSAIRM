@@ -98,7 +98,8 @@ refresh <- function(input, output)
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
-    result[[1]]$finaltext = '' #the 1st plot can have a field with text that is displayed once at the end of the text block.
+    #the 1st plot can have a field with text that is displayed once at the end of the text block.
+    result[[1]]$finaltext = 'For stochastic simulation scenarios, values shown are the mean over all simulations.'
 
   return(result)
   })

@@ -2,18 +2,15 @@
 #'
 #' @description This function generates text to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list
-#' @param input the shiny app input structure
-#' @param output the shiny app output structure
-#' @param allres a list containing all simulation results.
-#'    the length of the list indicates number of separate text blocks to make (one for each figure)
-#'    for each list entry (e.g. allres[[i]]$type), 'type' specifies the kind of plot
-#'    allres[[i]]$dat contains a dataframe in tidy/ggplot format for plotting. one column is called xvals,
-#'    one column yvals, further columns are stratifiers/aesthetics,
-#'    e.g. names of variables or number of run for a given variable
-#'    the default is to return min, max and final value for each variable shown in a plot
-#'    the default can be overwritten by manually supplying - from the shiny app - the output
-#'    in that case, it is simply passed through and this function doesn't do much
-#' @return output a list with  text for display in a shiny UI
+#' @param input the shiny app input structure, mainly as a pass-through
+#' @param output the shiny app output structure, mainly as a pass-through
+#' @param allres a list containing all simulation results and other information
+#'    if the list entry 'maketext'  exists for a given plot (list element in allres)
+#'    the data needs to follow the structure described in the generate_plots function
+#'    if 'maketext' is false, this function only uses - if present' the entries 'showtext'
+#'    for each plot and finaltext of the 1st list elemnt for an overall message/text
+#'    see the generate_plots function for more details on the structure of the list
+#' @return HTML formatted text for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
 #' @export
@@ -81,9 +78,9 @@ generate_text <- function(input,output,allres)
             #for scatterplots, report correlation between x and every y-value
 
             #store values for each variable
-            maxvals = round(resmax/nreps,2) #mean across simulations (for stochastic models)
-            minvals = round(resmin/nreps,2) #mean across simulations (for stochastic models)
-            numfinal = round(resfinal/nreps,2) #mean for each variable
+            maxvals = format(resmax/nreps, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+            minvals = format(resmin/nreps, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+            numfinal = format(resfinal/nreps, digits =2, nsmall = 2) #mean for each variable
             newtxt <- paste('Minimum / Maximum / Final value of ',currentvar,': ',minvals,' / ', maxvals,' / ',numfinal,sep='')
           } #finish creating text outpot for lineplot/time-series
 
@@ -117,11 +114,13 @@ generate_text <- function(input,output,allres)
 
     } #finishes loop over all plots
 
+    #as requested by app, add additional final text at bottom
     if (!is.null(res[[1]]$finaltext))
     {
-      resulttxt <- paste(alltext, finaltxt, sep = "<br/>")
+      finaltext <- res[[1]]$finaltext
+      alltext <- paste(alltext, finaltext, sep = "<hr/>")
     }
-    HTML(resulttxt)
+    HTML(alltext)
   }) #end text output
 
 }

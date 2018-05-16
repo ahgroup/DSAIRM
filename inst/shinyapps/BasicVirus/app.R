@@ -29,12 +29,18 @@ refresh <- function(input, output)
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
-    simresult <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
+    #shows a 'running simulation' message
+    withProgress(message = 'Runnig Simulation', value = 0,
+    {
+      simresult <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
+    })
     colnames(simresult) = c('xvals','U','I','V')
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
 
+    #code variable names as factor and level them so they show up right in plot
+    dat$varnames = factor(dat$varnames, labels = unique(dat$varnames))
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -45,14 +51,25 @@ refresh <- function(input, output)
     result[[1]]$plottype = "Lineplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
-    result[[1]]$yscale = "log"
     result[[1]]$legend = "Compartments"
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
+
+
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = 0
+    result[[1]]$ymax = max(simresult)
+    result[[1]]$xmin = 0
+    result[[1]]$xmax = tmax
+
+    #the following are for text display for each plot
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
 
   return(result)
   })
