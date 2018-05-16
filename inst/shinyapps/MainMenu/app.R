@@ -105,14 +105,14 @@ ui <- fluidPage(
   p('What influences model results', class='mainsectionheader'),
   fluidRow(
     column(4,
-           actionButton("ModelVariants", "Model formulation", class="mainbutton")
+           actionButton("ModelVariants", "Model variation", class="mainbutton")
     ),
     column(4,
            actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
     ),
     column(4,
 
-         actionButton("BasicVirusStochastic", "Model Stochasticity", class="mainbutton")
+         actionButton("BasicVirusStochastic", "Model stochasticity", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input

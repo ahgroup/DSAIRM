@@ -7,11 +7,11 @@
 generate_plots(input, output, allres)
 }
 \arguments{
-\item{input}{the shiny app input structure}
+\item{input}{the shiny app input structure, mainly as a pass-through}
 
-\item{output}{the shiny app output structure}
+\item{output}{the shiny app output structure, mainly as a pass-through}
 
-\item{allres}{a list containing all simulation results.
+\item{allres}{a list containing all simulation results that are to be plotted
 the length of the list indicates the number of separate plots to make
 each list entry corresponds to one plot
 each list entry needs to contain the following information
@@ -19,12 +19,14 @@ each list entry needs to contain the following information
 one column called varnames that contains names for different variables
 and one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
 supplying IDvar is optional, if it is missing, this grouping is ignored
+if plottype is 'mixedplot' and additional column called 'style' indicating line or point is needed
 2. meta-data for the plot, provided in the following variables:
-plottype - one of "Lineplot","Scatterplot","Boxplot"
-xlab, ylab - strings to label axes
-xscale, yscale - scaling of axes, e.g. "identity" or "log10"
-legend - string for legend title
-linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied}
+plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot" - required
+xlab, ylab - strings to label axes - required
+xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10" - required
+xmin, xmax, ymin, ymax - min and max for axes - optional, if not provided will be set automatically
+legendtitle - legend title - if not suppied a legend will not be plotted
+linesize - width of line, numeric, i.e. 1.5, 2, etc. - optional, set to 1.5 if not supplied}
 }
 \value{
 output a list with plots for display in a shiny UI

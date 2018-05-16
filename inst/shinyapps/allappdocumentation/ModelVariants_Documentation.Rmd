@@ -83,8 +83,12 @@ $$\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A $$
 
 ##What to do {#shinytab3}
 
+_It is recommended that you before working your way through this app and tasks, you first explore and do the tasks in the "Basic Virus Model" and "Virus and Immune Response Model" apps._ 
+
+
 ###Task 1: 
-*
+* Try to figure out how to set parameter values such that you get a single acute virus infection with no immune response present.
+* 
 
 ###Task 2: 
 

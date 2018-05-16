@@ -95,7 +95,10 @@ refresh <- function(input, output)
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-2}
 
 
-
+    #the following are for text display for each plot
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = '' #the 1st plot can have a field with text that is displayed once at the end of the text block.
 
   return(result)
   })

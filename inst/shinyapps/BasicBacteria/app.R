@@ -31,6 +31,9 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
+    #shows a 'running simulation' message
+    withProgress(message = 'Runnig Simulation', value = 0,
+    {
 
     # Call the ODE solver with the given parameters
     if (models == 1 | models == 3)
@@ -51,6 +54,9 @@ refresh <- function(input, output)
       dat_disc = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
       dat_disc$setting = 'discrete'
     }
+
+    }) #end the 'with progress' wrapper
+
 
     #depending on if user wants only 1 model or both
     if (models == 1) { dat = dat_ode}
@@ -73,6 +79,11 @@ refresh <- function(input, output)
 
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
+
+    #the following are for text display for each plot
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = 'For stochastic simulation scenarios, values shown are the mean over all simulations.' #the 1st plot can have a field with text that is displayed once at the end of the text block.
 
   return(result)
   })
@@ -206,12 +217,6 @@ ui <- fluidPage(
            plotOutput(outputId = "plot", height = "500px"),
            # PLaceholder for results of type text
            htmlOutput(outputId = "text"),
-           #Placeholder for any possible warning or error messages (this will be shown in red)
-           htmlOutput(outputId = "warn"),
-
-           tags$head(tags$style("#warn{color: red;
-                                font-style: italic;
-                                }")),
            tags$hr()
 
            ) #end main panel column with outcomes

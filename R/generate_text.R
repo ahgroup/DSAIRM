@@ -47,77 +47,80 @@ generate_text <- function(input,output,allres)
       xlabel =  res[[vn]]$xlab
       ylabel =  res[[vn]]$ylab
 
+      txt = '' #no text to start out
 
-      #for each plot, process each variable by looping over them
-      for (nn in  1:nvars)
+      if (res[[vn]]$maketext == TRUE) #if the plot wants text display based on result processing, do the stuff below
       {
-        #data for a given variable
-        currentvar = allvarnames[[nn]]
-        vardat = dplyr::filter(dat, varnames == currentvar)
-
-
-        if (plottype == 'Lineplot')
+        #for each plot, process each variable by looping over them
+        for (nn in  1:nvars)
         {
-          #check if multiple runs are done
-          #unless the data frame has a column indicating the number of runs, assume it's 1
-          nreps = 1
-          if ('nreps' %in% colnames(dat) ) {nreps=max(dat$nreps)}
+          #data for a given variable
+          currentvar = allvarnames[[nn]]
+          vardat = dplyr::filter(dat, varnames == currentvar)
 
-          resmax = 0; resmin = 0; resfinal = 0;
-          for (n1 in 1:nreps) #average over reps (if there are any)
+          if (plottype == 'Lineplot')
           {
-            #pull out each simulation/repetition
-            currentsim = dplyr::filter(vardat, nreps == n1)
-            nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
+            #check if multiple runs are done
+            #unless the data frame has a column indicating the number of runs, assume it's 1
+            nreps = 1
+            if ('nreps' %in% colnames(dat) ) {nreps=max(dat$nreps)}
 
-            resmax = resmax + max(currentsim$yvals)
-            resmin = resmin + min(currentsim$yvals)
-            resfinal = resfinal + currentsim$yvals[nrows]
-          } #finish loop over reps
+            resmax = 0; resmin = 0; resfinal = 0;
+            for (n1 in 1:nreps) #average over reps (if there are any)
+            {
+              #pull out each simulation/repetition
+              currentsim = dplyr::filter(vardat, nreps == n1)
+              nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
 
-          #produce 2 types of text outcomes: for time-series/lineplots, report min/max/final of each plotted variable
-          #for scatterplots, report correlation between x and every y-value
+              resmax = resmax + max(currentsim$yvals)
+              resmin = resmin + min(currentsim$yvals)
+              resfinal = resfinal + currentsim$yvals[nrows]
+            } #finish loop over reps
 
-          #store values for each variable
-          maxvals = round(resmax/nreps,2) #mean across simulations (for stochastic models)
-          minvals = round(resmin/nreps,2) #mean across simulations (for stochastic models)
-          numfinal = round(resfinal/nreps,2) #mean for each variable
-          newtxt <- paste('Minimum / Maximum / Final value of ',currentvar,': ',minvals,' / ', maxvals,' / ',numfinal,sep='')
-        } #finish creating text outpot for lineplot/time-series
+            #produce 2 types of text outcomes: for time-series/lineplots, report min/max/final of each plotted variable
+            #for scatterplots, report correlation between x and every y-value
 
-        if (plottype == 'Scatterplot' )
-        {
-          rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
-          newtxt = paste('RCC between',xlabel,' and ',ylabel,' is:',as.character(round(rcc$estimate,3)))
-        }
+            #store values for each variable
+            maxvals = round(resmax/nreps,2) #mean across simulations (for stochastic models)
+            minvals = round(resmin/nreps,2) #mean across simulations (for stochastic models)
+            numfinal = round(resfinal/nreps,2) #mean for each variable
+            newtxt <- paste('Minimum / Maximum / Final value of ',currentvar,': ',minvals,' / ', maxvals,' / ',numfinal,sep='')
+          } #finish creating text outpot for lineplot/time-series
 
-        if (plottype == 'Boxplot' )
-        {
-          newtxt = ""
-        }
-        if (plottype == 'Mixedplot' )
-        {
-          newtxt = ""
-        }
+          if (plottype == 'Scatterplot' )
+          {
+            rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
+            newtxt = paste('RCC between',xlabel,' and ',ylabel,' is:',as.character(round(rcc$estimate,3)))
+          }
 
-        if (nn == 1) {txt <- paste(newtxt)}
-        if (nn > 1) {txt <- paste(txt, newtxt, sep = "<br/>")}
-      } #end loop over all variables for a given plot
+          if (plottype == 'Boxplot' )
+          {
+            newtxt = ""
+          }
+          if (plottype == 'Mixedplot' )
+          {
+            newtxt = ""
+          }
 
-      #if the result structure has a text entry for a given plot, that will be used instead of anything else
-      if (!is.null(res[[vn]]$text))
+          txt <- paste(txt, newtxt, sep = "<br/>")
+        } #end loop over all variables for a given plot
+
+      } #ends maketext block which is only entered if TRUE
+
+      #if the result structure has a text entry for a given plot, use that in addition to the
+      if (!is.null(res[[vn]]$showtext))
       {
-        txt = res[[vn]]$text
+        txt = paste(txt, res[[vn]]$showtext, sep = "<br/>" )
       }
 
       alltext <- paste(alltext, txt, sep = "<br/>" ) #add text blocks together
 
-
-
     } #finishes loop over all plots
 
-    finaltxt <- '<hr> <i> For stochastic simulation scenarios, values shown are the mean over all simulations. </i>'
-    resulttxt <- paste(alltext, finaltxt, sep = "")
+    if (!is.null(res[[1]]$finaltext))
+    {
+      resulttxt <- paste(alltext, finaltxt, sep = "<br/>")
+    }
     HTML(resulttxt)
   }) #end text output
 

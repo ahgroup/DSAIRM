@@ -65,6 +65,9 @@ refresh <- function(input, output)
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
 
+    #code variable names as factor and level them so they show up right in plot
+    dat$varnames = factor(dat$varnames, labels = unique(dat$varnames))
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -75,7 +78,7 @@ refresh <- function(input, output)
     result[[1]]$plottype = "Lineplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
-    result[[1]]$legend = "Compartments"
+    result[[1]]$legendtitle = "Compartments"
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
@@ -280,7 +283,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("sV", "innate growth saturation for versin 2 and 3, sV (10^sV)", min = -10, max = 10, value = -10, step = 0.1)
+                           numericInput("sV", "innate growth saturation for version 2 and 3, sV (10^sV)", min = -10, max = 10, value = -10, step = 0.1)
                     ),
                     column(4,
                            numericInput("hV", "adaptive growth saturation for version 3, hV (10^hV)", min = -10, max = 10, value = -10, step = 0.1)
