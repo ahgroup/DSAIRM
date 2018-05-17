@@ -227,11 +227,12 @@ ui <- fluidPage(
 
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 100, step = 1)
+                    column(6,
+                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
                     ),
-                    column(4,
-                           selectInput("models", "Models to run:",c("deterministic" = 1, 'stochastic' = 2, 'both' = 3), selected = '1')
+                    column(6,
+                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 100, step = 1)
+
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -241,11 +242,11 @@ ui <- fluidPage(
                     column(4,
                            numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1)
                     ),
-                      column(4,
-                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
+                    column(4,
+                       selectInput("models", "Models to run",c("deterministic" = 1, 'stochastic' = 2, 'both' = 3), selected = '1')
                     ),
                     column(4,
-                           selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+                           selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
                     ),
 
                     align = "center"

@@ -35,9 +35,16 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
-
+    withProgress(message = 'Running Simulation', value = 0, {
     result_ode <- simulate_modelexploration(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, samplepar=samplepar, pmin=pmin, pmax=pmax,  samples = samples, pardist = pardist)
+    })
+
     dat = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
+
+    #code variable names as factor and level them so they show up right in plot
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -49,6 +56,8 @@ refresh <- function(input, output)
     result[[1]]$xlab = samplepar
     result[[1]]$ylab = "Outcomes"
     result[[1]]$legend = "Outcomes"
+    result[[1]]$legend = "Outcomes"
+    result[[1]]$linesize = 2
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
@@ -56,19 +65,36 @@ refresh <- function(input, output)
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 
+
+    #the following are for text display for each plot
+    result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+
+
+
   return(result)
   })
 
-  #function that takes result saved in reactive expression called res and produces output
-  #to produce figures, the function generate_simoutput needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
-  #output (plots, text) is stored in variable 'output'
-  output$plot <- generate_plots(input, output, result)
-  #no text return for this app
-  #output$text <- ""
-  #output$text <- generate_text(input, output, result)
+  #functions below take result saved in reactive expression result and produce output
+  #to produce figures, the function generate_plot is used
+  #function generate_text produces text
+  #data needs to be in a specific structure for processing
+  #see information for those functions to learn how data needs to look like
+  #output (plots, text) is stored in reactive variable 'output'
+
+  output$plot  <- renderPlot({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_plots(res) #create plots with a non-reactive function
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
+
+  output$text <- renderText({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_text(res) #create text for display with a non-reactive function
+  })
+
+
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 

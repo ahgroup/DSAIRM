@@ -53,7 +53,7 @@ generate_plots <- function(res)
 
       if (plottype == 'Scatterplot')
       {
-        p2 = p1 + ggplot2::geom_point()
+        p2 = p1 + ggplot2::geom_point( size = linesize)
       }
       if (plottype == 'Lineplot')
       {
@@ -67,7 +67,7 @@ generate_plots <- function(res)
       {
         #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
         p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
-        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = linesize)
+        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = 2*linesize)
       }
 
       #if exist, apply user-supplied x- and y-axis limits

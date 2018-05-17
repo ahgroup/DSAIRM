@@ -5,9 +5,10 @@
 \title{Fitting 2 simple viral infection models to influenza data}
 \usage{
 simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
-  dV = 2, b = 1e-05, p = 10, k = 1e-06, a = 1e-05, alow = 1e-06,
-  ahigh = 1e-04, r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1,
-  dXhigh = 10, modeltype = 1, iter = 100)
+  dV = 2, p = 10, k = 1e-06, a = 1e-05, alow = 1e-06, ahigh = 1e-04,
+  b = 1e-05, blow = 1e-06, bhigh = 0.001, r = 1, rlow = 0.1,
+  rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1,
+  iter = 100)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -22,8 +23,6 @@ simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
 
 \item{dV}{rate at which infectious virus is cleared}
 
-\item{b}{rate at which virus infects cells}
-
 \item{p}{rate at which infected cells produce virus}
 
 \item{k}{rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)}
@@ -33,6 +32,12 @@ simulate_basicfitting(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, dI = 1,
 \item{alow}{lower bound for activation rate}
 
 \item{ahigh}{upper bound for activation rate}
+
+\item{b}{rate at which virus infects cells}
+
+\item{blow}{lower bound for infection rate}
+
+\item{bhigh}{upper bound for infection rate}
 
 \item{r}{rate of T-cell expansion (model 1)}
 

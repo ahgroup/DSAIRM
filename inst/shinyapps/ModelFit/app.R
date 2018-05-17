@@ -21,13 +21,18 @@ refresh <- function(input, output)
 
     dI = isolate(input$dI)
     dV = isolate(input$dV)
-    b = 10^isolate(input$b)
     p = 10^isolate(input$p)
     k = 10^isolate(input$k)
 
-    a = isolate(input$a)
-    alow = isolate(input$alow)
-    ahigh = isolate(input$ahigh)
+
+    b = 10^isolate(input$b)
+    blow = 10^isolate(input$blow)
+    bhigh = 10^isolate(input$bhigh)
+
+    a = 10^isolate(input$a)
+    alow = 10^isolate(input$alow)
+    ahigh = 10^isolate(input$ahigh)
+
     r = isolate(input$r)
     rlow = isolate(input$rlow)
     rhigh = isolate(input$rhigh)
@@ -48,7 +53,7 @@ refresh <- function(input, output)
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, b = b, p = p, k = k, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
+      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, p = p, k = k, b = b, blow = blow, bhigh = bhigh, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
     })
 
 
@@ -69,6 +74,10 @@ refresh <- function(input, output)
     fitdata$style = 'point'
     dat = rbind(dat,fitdata)
 
+    #code variable names as factor and level them so they show up right in plot
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -81,37 +90,48 @@ refresh <- function(input, output)
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
 
-    result[[1]]$xscale = 'identity'
-    result[[1]]$yscale = 'identity'
 
     #set min and max for scales. If not provided ggplot will auto-set
     result[[1]]$ymin = 0.1
     result[[1]]$ymax = max(simresult)
-    result[[1]]$xmin = 0
+    result[[1]]$xmin = 1e-12
     result[[1]]$xmax = 9
 
+    result[[1]]$xscale = 'identity'
+    result[[1]]$yscale = 'identity'
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10' }
 
     #add text for output, this will be used by the generate_text function
 
-    outtext = print(sprintf('Best fit values for parameters %s and %s are %f and %f. SSR is %f, AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$SSR,simresultlist$AICc))
+    #the following are for text display for each plot
+    result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$finaltext = print(sprintf('Best fit values for parameters %s / %s / %s are %f / %f / %f. SSR is %f, AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],names(simresultlist$bestpars)[3],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$bestpars[3],simresultlist$SSR,simresultlist$AICc))
 
-    result[[1]]$text = outtext
 
   return(result)
   })
 
-  #function that takes result saved in reactive expression called res and produces output
-  #to produce figures, the function generate_simoutput needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
-  #output (plots, text) is stored in variable 'output'
-  output$plot <- generate_plots(input, output, result)
+  #functions below take result saved in reactive expression result and produce output
+  #to produce figures, the function generate_plot is used
+  #function generate_text produces text
+  #data needs to be in a specific structure for processing
+  #see information for those functions to learn how data needs to look like
+  #output (plots, text) is stored in reactive variable 'output'
 
-  output$text <- generate_text(input, output, result)
-  output$simrun <- renderText({ HTML('Simulation Done') })
+  output$plot  <- renderPlot({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_plots(res) #create plots with a non-reactive function
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
+
+  output$text <- renderText({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_text(res) #create text for display with a non-reactive function
+  })
+
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
@@ -191,9 +211,6 @@ ui <- fluidPage(
                            numericInput("X0", "Initial strength of immune response, X0", min = 0, max = 100, value = 1, step = 1)
                     ),
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
-                    ),
-                    column(4,
                            numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
                     ),
 
@@ -216,17 +233,29 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("a", "immune response activation rate, a", min = 0.1, max = 10, value = 1, step = 0.1)
+                           numericInput("a", "immune response activation rate, (10^a)", min = -8, max = 6, value = -1, step = 1)
                     ),
                     column(4,
-                           numericInput("alow", "activation rate lower bound, alow", min = 0, max = 0.1, value = 0.5, step = 0.1)
+                           numericInput("alow", "activation rate lower bound, (10^alow)", min = -12, max = -8, value = -12)
                     ),
                     column(4,
-                           numericInput("ahigh", "activation rate upper bound, ahigh", min = 10, max = 100, value = 5, step = 0.1)
+                           numericInput("ahigh", "activation rate upper bound, (10^ahigh)", min = 3, max = 6, value = 2)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
+           fluidRow(class = 'myrow',
+                    column(4,
+                           numericInput("b", "infection rate, b (10^b)", min = -7, max = 7, value = -5, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("blow", "infection rate lower bound, (10^blow)", min = -10, max = -7, value = -6, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("bhigh", "infection rate upper bound, (10^bhigh)", min = 7, max = 10, value = -1, step = 0.1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
@@ -263,7 +292,7 @@ ui <- fluidPage(
                            numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
                     ),
                     column(4,
-                           selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')
+                           selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')
                     ),
 
                     align = "center"
