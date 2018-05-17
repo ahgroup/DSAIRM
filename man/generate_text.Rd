@@ -4,14 +4,10 @@
 \alias{generate_text}
 \title{A helper function that takes result from the simulators and produces text output}
 \usage{
-generate_text(input, output, allres)
+generate_text(res)
 }
 \arguments{
-\item{input}{the shiny app input structure, mainly as a pass-through}
-
-\item{output}{the shiny app output structure, mainly as a pass-through}
-
-\item{allres}{a list containing all simulation results and other information
+\item{res}{a list containing all simulation results and other information
 if the list entry 'maketext'  exists for a given plot (list element in allres)
 the data needs to follow the structure described in the generate_plots function
 if 'maketext' is false, this function only uses - if present' the entries 'showtext'

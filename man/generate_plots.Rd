@@ -4,32 +4,28 @@
 \alias{generate_plots}
 \title{A helper function that takes result from the simulators and produces plots}
 \usage{
-generate_plots(input, output, allres)
+generate_plots(res)
 }
 \arguments{
-\item{input}{the shiny app input structure, mainly as a pass-through}
-
-\item{output}{the shiny app output structure, mainly as a pass-through}
-
-\item{allres}{a list containing all simulation results that are to be plotted
+\item{res}{a list structure containing all simulation results that are to be plotted
 the length of the list indicates the number of separate plots to make
 each list entry corresponds to one plot
-each list entry needs to contain the following information
-1. a data frame called dat with one column called xvals, one column yvals,
-one column called varnames that contains names for different variables
-and one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
-supplying IDvar is optional, if it is missing, this grouping is ignored
-if plottype is 'mixedplot' and additional column called 'style' indicating line or point is needed
+each list entry needs to contain the following information/elements
+1. a data frame called "dat" with one column called xvals, one column yvals,
+one column called varnames that contains names for different variables, needs to be a factor variable
+and - optional - one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
+if plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
+for each variable is needed
 2. meta-data for the plot, provided in the following variables:
-plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot" - required
-xlab, ylab - strings to label axes - required
-xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10" - required
-xmin, xmax, ymin, ymax - min and max for axes - optional, if not provided will be set automatically
-legendtitle - legend title - if not suppied a legend will not be plotted
-linesize - width of line, numeric, i.e. 1.5, 2, etc. - optional, set to 1.5 if not supplied}
+required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot"
+optional: xlab, ylab - strings to label axes
+optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10"
+optional: xmin, xmax, ymin, ymax - manual min and max for axes
+optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted
+optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied}
 }
 \value{
-output a list with plots for display in a shiny UI
+a plot structure for display in a shiny UI
 }
 \description{
 This function generates plots to be displayed in the Shiny UI.

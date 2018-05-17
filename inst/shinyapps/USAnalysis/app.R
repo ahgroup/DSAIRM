@@ -32,12 +32,13 @@ refresh <- function(input, output)
     gmean = isolate(input$gmean)
     gvar = isolate(input$gvar)
     tmax = isolate(input$tmax);
+    rngseed = isolate(input$rngseed);
     samples = isolate(input$samples)
     plottype = isolate(input$plottype)
     plotscale = isolate(input$plotscale)
 
-    withProgress(message = 'Runnig Simulation', value = 0, {
-      sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples)
+    withProgress(message = 'Running Simulation', value = 0, {
+      sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples, rngseed=rngseed)
     })
 
       #reformat data to be in the right format for plotting
@@ -78,7 +79,7 @@ refresh <- function(input, output)
       result[[ct]]$plottype = plottype
       result[[ct]]$xlab = xvalname
       result[[ct]]$ylab = yvalname
-      result[[ct]]$legend = FALSE #set to either false or provide the label for legends
+      result[[ct]]$legend = NULL #set to either false or provide the label for legends
 
 
       result[[ct]]$xscale = 'identity'
@@ -86,7 +87,9 @@ refresh <- function(input, output)
       if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
       if (plotscale == 'y' | plotscale == 'both') { result[[ct]]$yscale = 'log10'}
 
-
+      #the following are for text display for each plot
+      result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+      result[[ct]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
 
       ct = ct + 1
       } #inner loop
@@ -94,10 +97,30 @@ refresh <- function(input, output)
   return(result) #result returned as list structure
   })
 
-  #functions that take result saved in reactive expression and produces output
-  #for structure needed to generate plots and text, see above
-  output$plot <- generate_plots(input,output, result)
-  output$text <-  generate_text(input,output, result)
+
+  #functions below take result saved in reactive expression result and produce output
+  #to produce figures, the function generate_plot is used
+  #function generate_text produces text
+  #data needs to be in a specific structure for processing
+  #see information for those functions to learn how data needs to look like
+  #output (plots, text) is stored in reactive variable 'output'
+
+  output$plot  <- renderPlot({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    withProgress(message = 'Making Plots', value = 0,
+   {
+       generate_plots(res) #create plots with a non-reactive function
+   }) #finish progress wrapper
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
+
+
+  output$text <- renderText({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_text(res) #create text for display with a non-reactive function
+  })
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
@@ -237,11 +260,14 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(6,
+                    column(4,
                            numericInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)
                     ),
-                    column(6,
+                    column(4,
                            numericInput("samples", "Number of samples to run", min = 10, max = 10000, value = 20, step = 10)
+                    ),
+                    column(4,
+                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 100, step = 1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

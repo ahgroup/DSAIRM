@@ -30,7 +30,7 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
     #shows a 'running simulation' message
-    withProgress(message = 'Runnig Simulation', value = 0,
+    withProgress(message = 'Running Simulation', value = 0,
     {
       simresult <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
     })
@@ -40,7 +40,8 @@ refresh <- function(input, output)
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
 
     #code variable names as factor and level them so they show up right in plot
-    dat$varnames = factor(dat$varnames, labels = unique(dat$varnames))
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -70,20 +71,29 @@ refresh <- function(input, output)
     result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
     result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
 
-
   return(result)
   })
 
-  #function that takes result saved in reactive expression called result and produces output
-  #to produce figures, the function generate_plots needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/cowplot structure
-  #output (plots, text) is stored in variable 'output'
-  output$plot <- generate_plots(input, output, result)
-  output$text <- generate_text(input, output, result)
+  #functions below take result saved in reactive expression result and produce output
+  #to produce figures, the function generate_plot is used
+  #function generate_text produces text
+  #data needs to be in a specific structure for processing
+  #see information for those functions to learn how data needs to look like
+  #output (plots, text) is stored in reactive variable 'output'
 
-  #for a single plot it is possible to include interactivity to click on plot and get value
-  #not working, might be because it returns a line plot? not sure
-  #output$info <- renderPrint({ nearPoints(result()[[1]]$dat, input$plot_click, xvar='xvals',yvar='yvals')  })
+  output$plot  <- renderPlot({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_plots(res) #create plots with a non-reactive function
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
+
+  output$text <- renderText({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_text(res) #create text for display with a non-reactive function
+  })
+
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 

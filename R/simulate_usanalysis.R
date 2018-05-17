@@ -30,8 +30,8 @@
 #' @param gmean mean for bacteria growth rate
 #' @param gvar variance for bacteria growth rate
 #' @param samples number of LHS samples to run
-#' @param tmax maximum simulation time, units depend on choice of units for your
-#'   parameters
+#' @param tmax maximum simulation time, units depend on choice of units for model parameters
+#' @param rngseed seed for random number generator#'
 #' @return The function returns the output as a data frame,
 #' with sample values for each parameter as columns, followed by columns for the results.
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
@@ -58,12 +58,13 @@
 #' @export
 
 
-simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bmaxmin=1e6, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10)
+simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bmaxmin=1e6, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100)
   {
 
     #this creates a LHS with the specified number of samples for all 8 parameters
     #drawn from a uniform distribution between zero and one
     #if a parameter should be kept fixed, simply set min and max to the same value
+    set.seed(rngseed)
     lhssample=lhs::randomLHS(samples,8);
 
     #transforming parameters to be  uniform between their low and high values

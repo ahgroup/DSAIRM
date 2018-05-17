@@ -2,9 +2,7 @@
 #'
 #' @description This function generates text to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list
-#' @param input the shiny app input structure, mainly as a pass-through
-#' @param output the shiny app output structure, mainly as a pass-through
-#' @param allres a list containing all simulation results and other information
+#' @param res a list containing all simulation results and other information
 #'    if the list entry 'maketext'  exists for a given plot (list element in allres)
 #'    the data needs to follow the structure described in the generate_plots function
 #'    if 'maketext' is false, this function only uses - if present' the entries 'showtext'
@@ -15,16 +13,8 @@
 #' @author Andreas Handel
 #' @export
 
-generate_text <- function(input,output,allres)
+generate_text <- function(res)
 {
-
-  # Use the result returned from the simulator to compute some text results
-  # the text should be formatted as HTML and placed in the "text" placeholder of the UI
-  output$text <- renderText({
-
-    input$submitBtn
-
-    res=isolate(allres())
 
     #nplots contains the number of plots to be produced.
     #for each plot, text output is produced separately
@@ -55,7 +45,7 @@ generate_text <- function(input,output,allres)
           currentvar = allvarnames[[nn]]
           vardat = dplyr::filter(dat, varnames == currentvar)
 
-          if (plottype == 'Lineplot')
+          if (plottype == 'Lineplot') #for lineplots, we show the min/max/final for each variable
           {
             #check if multiple runs are done
             #unless the data frame has a column indicating the number of runs, assume it's 1
@@ -65,6 +55,7 @@ generate_text <- function(input,output,allres)
             resmax = 0; resmin = 0; resfinal = 0;
             for (n1 in 1:nreps) #average over reps (if there are any)
             {
+
               #pull out each simulation/repetition
               currentsim = dplyr::filter(vardat, nreps == n1)
               nrows = nrow(currentsim) #number of entries in time-series matrix - can be different for every run
@@ -87,12 +78,16 @@ generate_text <- function(input,output,allres)
           if (plottype == 'Scatterplot' )
           {
             rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
-            newtxt = paste('RCC between',xlabel,' and ',ylabel,' is:',as.character(round(rcc$estimate,3)))
+            newtxt = paste('Rank Cor. Coef. between',xlabel,' and ',ylabel,' is:',format(rcc$estimate, digits =3, nsmall = 2))
           }
 
           if (plottype == 'Boxplot' )
           {
-            newtxt = ""
+            mymin = format(min(vardat$yvals), digits =2, nsmall = 2)
+            mymean = format(mean(vardat$yvals), digits =2, nsmall = 2)
+            mymedian = format(median(vardat$yvals), digits =2, nsmall = 2)
+            mymax = format(max(vardat$yvals), digits =2, nsmall = 2)
+            newtxt = paste('Min/Mean/Median/Max for ',xlabel,' / ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
           }
           if (plottype == 'Mixedplot' )
           {
@@ -100,9 +95,11 @@ generate_text <- function(input,output,allres)
           }
 
           txt <- paste(txt, newtxt, sep = "<br/>")
+          #browser()
         } #end loop over all variables for a given plot
 
       } #ends maketext block which is only entered if TRUE
+
 
       #if the result structure has a text entry for a given plot, use that in addition to the
       if (!is.null(res[[vn]]$showtext))
@@ -110,7 +107,7 @@ generate_text <- function(input,output,allres)
         txt = paste(txt, res[[vn]]$showtext, sep = "<br/>" )
       }
 
-      alltext <- paste(alltext, txt, sep = "<br/>" ) #add text blocks together
+      alltext <- paste(alltext, txt, sep = " " ) #add text blocks together
 
     } #finishes loop over all plots
 
@@ -121,6 +118,4 @@ generate_text <- function(input,output,allres)
       alltext <- paste(alltext, finaltext, sep = "<hr/>")
     }
     HTML(alltext)
-  }) #end text output
-
-}
+} #end function

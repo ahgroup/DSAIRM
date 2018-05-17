@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Stochastic version of the Basic Virus App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 3/16/2018
+#last updated 5/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -32,6 +32,9 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
+    #show progress bar during simulation run
+    withProgress(message = 'Running Simulation', value = 0, {
+
     if (models == 1 | models == 3) #deterministic model
     {
       result_ode <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = 1)
@@ -61,12 +64,17 @@ refresh <- function(input, output)
       }
     } #end stochastic model
 
-
+    }) #end progress bar wrapper
 
     #depending on if user wants only 1 model or both
     if (models == 1) { dat = dat_ode}
     if (models == 2) { dat = datall}
     if (models == 3) { dat <- dplyr::full_join(dat_ode,datall)  }
+
+    #code variable names as factor and level them so they show up right in plot
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -82,36 +90,44 @@ refresh <- function(input, output)
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-
-
-
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 0
-    result[[1]]$ymax = max(result[[1]]$dat$yvals)
-    result[[1]]$xmin = 0
-    result[[1]]$xmax = tmax
-
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-2}
+
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = 1e-12
+    result[[1]]$ymax = max(result[[1]]$dat$yvals)
+    result[[1]]$xmin = 1e-12
+    result[[1]]$xmax = tmax
 
 
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
     #the 1st plot can have a field with text that is displayed once at the end of the text block.
     result[[1]]$finaltext = 'For stochastic simulation scenarios, values shown are the mean over all simulations.'
 
   return(result)
   })
 
-  #function that takes result saved in reactive expression called res and produces output
-  #to produce figures, the function generate_simoutput needs the number of panels to produce
-  #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-  #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-  #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
-  #output (plots, text) is stored in variable 'output'
-  output$plot <- generate_plots(input, output, result)
-  output$text <- generate_text(input, output, result)
+
+  #functions below take result saved in reactive expression result and produce output
+  #to produce figures, the function generate_plot is used
+  #function generate_text produces text
+  #data needs to be in a specific structure for processing
+  #see information for those functions to learn how data needs to look like
+  #output (plots, text) is stored in reactive variable 'output'
+
+  output$plot  <- renderPlot({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_plots(res) #create plots with a non-reactive function
+  }, width = 'auto', height = 'auto'
+  ) #finish render-plot statement
+
+  output$text <- renderText({
+    input$submitBtn
+    res=isolate(result()) #list of all results that are to be turned into plots
+    generate_text(res) #create text for display with a non-reactive function
+  })
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output

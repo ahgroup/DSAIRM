@@ -7,7 +7,8 @@
 simulate_usanalysis(B0min = 10, B0max = 10, I0min = 1, I0max = 1,
   Bmaxmin = 1e+06, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
   kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001, dImin = 1,
-  dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10)
+  dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10,
+  rngseed = 100)
 }
 \arguments{
 \item{B0min}{lower bound for initial bacteria numbers}
@@ -42,10 +43,11 @@ simulate_usanalysis(B0min = 10, B0max = 10, I0min = 1, I0max = 1,
 
 \item{gvar}{variance for bacteria growth rate}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{tmax}{maximum simulation time, units depend on choice of units for model parameters}
 
 \item{samples}{number of LHS samples to run}
+
+\item{rngseed}{seed for random number generator#'}
 }
 \value{
 The function returns the output as a data frame,
