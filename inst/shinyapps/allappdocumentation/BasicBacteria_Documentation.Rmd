@@ -56,9 +56,12 @@ Next, we need to implement this verbal model and flow diagram in a way that it c
 
 
 ###Model Implementation I
-The most common way to implement compartmental models is as a **continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)**. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
+The most common way to implement compartmental models is as a **continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)**. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this: 
 
-$$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
+Some of the equations might not be displayed and we are working to fix it.
+
+
+$$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$
 $$\dot I = r B I - d_I I$$
 We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:
 $$\frac{d}{dt}B(t) = gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t)$$ 
