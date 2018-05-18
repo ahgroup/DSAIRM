@@ -12,9 +12,11 @@ virustxode <- function(t, y, parms)
     as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
     {
 
-      dUdt = n - dU*U - (1-f)*b*V*U
-      dIdt = (1-f)*b*V*U - dI*I
-      dVdt = (1-e)*p*I - dV*V
+      enow = ifelse(t>txstart,e,0) #turn on drug at time txstart
+      fnow = ifelse(t>txstart,f,0) #turn on drug at time txstart
+      dUdt = n - dU*U - (1-fnow)*b*V*U
+      dIdt = (1-fnow)*b*V*U - dI*I
+      dVdt = (1-enow)*p*I - dV*V
 
 	 	  list(c(dUdt, dIdt, dVdt))
     }
@@ -44,6 +46,7 @@ virustxode <- function(t, y, parms)
 #' @param e strength of virus production reduction by drug (0-1)
 #' @param steadystate if this is set to TRUE, the starting values for U, I and V are set
 #' to their steady state values. User supplied values for U0, I0, V0 are ignored.
+#' @param txstart time at which treatment starts
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
 #' @return The function returns the output from the odesolver as a matrix,
@@ -66,7 +69,7 @@ virustxode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, f = 0, e = 0, steadystate = FALSE)
+simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, f = 0, e = 0, steadystate = FALSE, txstart = 0)
 {
 
   #override user-supplied initial conditions and instead start with steady state values
@@ -77,7 +80,7 @@ simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,f=f,e=e);
+  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,f=f,e=e,txstart = txstart);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables

@@ -139,10 +139,10 @@ ui <- fluidPage(
            actionButton("PkPdModel", "Pharacokinetics and Pharmacodynamics", class="mainbutton")
     ),
     column(4,
-           actionButton("AdvancedFit", "Advanced model fitting", class="mainbutton")
+           actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
     ),
     column(4,
-           actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
+           actionButton("AdvancedFit", "Advanced model fitting", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input

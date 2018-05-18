@@ -2,7 +2,7 @@
 #This is the Shiny file for the HCV model and treatment App
 #inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 3/16/2018
+#last updated 5/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -25,6 +25,7 @@ refresh <- function(input, output)
     dV = isolate(input$dV)
     f = isolate(input$f)
     e = isolate(input$e)
+    txstart = isolate(input$txstart)
     tmax = isolate(input$tmax);
     plotscale = isolate(input$plotscale)
     steadystate = as.logical(as.numeric(isolate(input$steadystate)))
@@ -34,7 +35,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
-    simresult <- simulate_virus_tx(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, f = f, e = e, steadystate = steadystate)
+    simresult <- simulate_virus_tx(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, f = f, e = e, steadystate = steadystate, txstart = txstart)
     })
 
     colnames(simresult) = c('xvals','U','I','V')
@@ -192,13 +193,15 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(6,
-                           numericInput("f", "strength of cell infection reduction by drug", min = 0, max = 1, value = 0, step = 0.01)
+                    column(4,
+                           numericInput("f", "strength of cell infection reduction by drug, f", min = 0, max = 1, value = 0, step = 0.01)
                     ),
-                    column(6,
-                           numericInput("e", "strength of virus production reduction by drug", min = 0, max = 1, value = 0, step = 0.01)
+                    column(4,
+                           numericInput("e", "strength of virus production reduction by drug, e", min = 0, max = 1, value = 0, step = 0.01)
                     ),
-
+                    column(4,
+                           numericInput("txstart", "Time of treatment start, txstart", min = 0, max = 100, value = 10)
+                    ),
                     align = "center"
            ), #close fluidRow structure for input
 

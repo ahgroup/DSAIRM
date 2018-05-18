@@ -6,7 +6,7 @@
 \usage{
 simulate_virus_tx(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, n = 10000,
   dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, f = 0, e = 0,
-  steadystate = FALSE)
+  steadystate = FALSE, txstart = 0)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -36,6 +36,8 @@ parameters}
 
 \item{steadystate}{if this is set to TRUE, the starting values for U, I and V are set
 to their steady state values. User supplied values for U0, I0, V0 are ignored.}
+
+\item{txstart}{time at which treatment starts}
 }
 \value{
 The function returns the output from the odesolver as a matrix,

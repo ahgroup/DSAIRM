@@ -39,25 +39,32 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
-    datall = NULL
+    dat = NULL
     # Call the adaptivetau simulator with the given parameters
     # simulation will be run multiple times based on value of nreps
     for (nn in 1:nreps)
     {
       #add number of rep to seed, otherwise it's exactly the same trajectory each time
-      simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
+      withProgress(message = 'Running Simulation', value = 0, {
+        simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
+    }) #end progress wrapper
 
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
-      dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-      dat$IDvar = paste(dat$varnames,nn,sep='') #trying to make a variable for plotting same color lines for each run in ggplot2. doesn't work yet.
-      datall = rbind(datall,dat)
+      datnew = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+      datnew$IDvar = paste(datnew$varnames,nn,sep='') #trying to make a variable for plotting same color lines for each run in ggplot2. doesn't work yet.
+      dat = rbind(dat, datnew)
     }
+
+    #code variable names as factor and level them so they show up right in plot
+    mylevels = unique(dat$varnames)
+    dat$varnames = factor(dat$varnames, levels = mylevels)
+
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = datall
+    result[[1]]$dat = dat
 
     #Meta-information for each plot
     result[[1]]$plottype = "Lineplot"
@@ -66,31 +73,44 @@ refresh <- function(input, output)
     result[[1]]$legend = "Compartments"
     result[[1]]$linesize = 1
 
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = 1e-12
+    result[[1]]$ymax = max(result[[1]]$dat$yvals)
+    result[[1]]$xmin = 1e-12
+    result[[1]]$xmax = tmax
+
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-
-
-
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 0
-    result[[1]]$ymax = max(result[[1]]$dat$yvals)
-    result[[1]]$xmin = 0
-    result[[1]]$xmax = tmax
 
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-2}
 
+    #the following are for text display for each plot
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
     return(result)
     })
 
-    #function that takes result saved in reactive expression called res and produces output
-    #to produce figures, the function generate_simoutput needs the number of panels to produce
-    #the resulting plot is returned in potential multi-panel ggplot/ggpubr structure
-    #inputs needed are: number of plots to create; for each plot, the type of plot to create; for each plot, X-axis, y-axis and aesthetics/stratifications.
-    #for time-series, x-axis is time, y-axis is value, and aesthetics/stratification is the name of the variable (S/I/V/U, etc.) and/or the number of replicates for a given variable
-    #output (plots, text) is stored in variable 'output'
-    output$plot <- generate_plots(input, output, result)
-    output$text <- generate_text(input, output, result)
+    #functions below take result saved in reactive expression result and produce output
+    #to produce figures, the function generate_plot is used
+    #function generate_text produces text
+    #data needs to be in a specific structure for processing
+    #see information for those functions to learn how data needs to look like
+    #output (plots, text) is stored in reactive variable 'output'
+
+    output$plot  <- renderPlot({
+      input$submitBtn
+      res=isolate(result()) #list of all results that are to be turned into plots
+      generate_plots(res) #create plots with a non-reactive function
+    }, width = 'auto', height = 'auto'
+    ) #finish render-plot statement
+
+    output$text <- renderText({
+      input$submitBtn
+      res=isolate(result()) #list of all results that are to be turned into plots
+      generate_text(res) #create text for display with a non-reactive function
+    })
 
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
