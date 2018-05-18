@@ -116,6 +116,7 @@ refresh <- function(input, output)
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function
+
 server <- function(input, output, session) {
 
   # Waits for the Exit Button to be pressed to stop the app and return to main menu
@@ -162,11 +163,13 @@ ui <- fluidPage(
   ################################
   #Split screen with input on left, output on right
   fluidRow(
+
     #all the inputs in here
-    column(6,
+    column(6, align="center",
            #################################
            # Inputs section
            h2('Simulation Settings'),
+
            fluidRow( class = 'myrow',
              column(4,
                     numericInput("B0", "Initial number of bacteria,  B0", min = 0, max = 1000, value = 100, step = 50)
@@ -200,7 +203,7 @@ ui <- fluidPage(
                            numericInput("k", "immune response kill rate, k (10^k)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
-                           numericInput("r", "immune respone activation rate, r (10^r)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("r", "immune respone activation rate, r(10^r)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
                            numericInput("dI", "Immune response death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
@@ -225,7 +228,7 @@ ui <- fluidPage(
     ), #end sidebar column for inputs
 
     #all the outcomes here
-    column(6,
+    column(6, align="center",
 
            #################################
            #Start with results on top
