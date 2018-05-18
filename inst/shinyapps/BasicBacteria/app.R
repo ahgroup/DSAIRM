@@ -104,6 +104,7 @@ refresh <- function(input, output)
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 
 #main shiny server function
+
 server <- function(input, output, session) {
 
   # Waits for the Exit Button to be pressed to stop the app and return to main menu
@@ -152,7 +153,7 @@ ui <- fluidPage(
   fluidRow(
 
     #all the inputs in here
-    column(6,
+    column(6, align="center",
            #################################
            # Inputs section
            h2('Simulation Settings'),
@@ -215,7 +216,7 @@ ui <- fluidPage(
     ), #end sidebar column for inputs
 
     #all the outcomes here
-    column(6,
+    column(6, align="center",
 
            #################################
            #Start with results on top
