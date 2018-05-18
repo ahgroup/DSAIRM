@@ -150,7 +150,7 @@ ui <- fluidPage(
   #Split screen with input on left, output on right
   fluidRow(
     #all the inputs in here
-    column(4,
+    column(4, align="center",
            #################################
            # Inputs section
            h2('Simulation Settings'),
@@ -258,7 +258,7 @@ ui <- fluidPage(
     ), #end sidebar column for inputs
 
     #all the outcomes here
-    column(8,
+    column(8, align="center",
 
            #################################
            #Start with results on top
