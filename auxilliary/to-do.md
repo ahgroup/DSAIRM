@@ -7,6 +7,8 @@
 
 * write advanced fitting app - (cover simulate and test U8-testing) or bootstrapping U8-boot
 
+* Write up all solutions into the DSAIRMsolutions repository
+
 
 #List of apps to implement
 The basics 
