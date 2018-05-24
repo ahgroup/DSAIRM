@@ -47,19 +47,31 @@ server <- function(input, output, session) {
     stopApp(returnValue = 'USAnalysis')
   })
 
-  observeEvent(input$ModelFit, {
-    input$ModelFit
-    stopApp(returnValue = 'ModelFit')
-  })
-
   observeEvent(input$PkPdModel, {
     input$PkPdModel
     stopApp(returnValue = 'PkPdModel')
   })
 
-  observeEvent(input$AdvancedFit, {
-    input$AdvancedFit
-    stopApp(returnValue = 'AdvancedFit')
+
+  observeEvent(input$BasicModelFit, {
+    input$BasicModelFit
+    stopApp(returnValue = 'BasicModelFit')
+  })
+
+  observeEvent(input$ConfIntFit, {
+    input$ConfIntFit
+    stopApp(returnValue = 'ConfIntFit')
+  })
+
+  observeEvent(input$ModelComparison, {
+    input$ModelComparison
+    stopApp(returnValue = 'ModelComparison')
+  })
+
+
+  observeEvent(input$MultiDataFit, {
+    input$MultiDataFit
+    stopApp(returnValue = 'MultiDataFit')
   })
 
   observeEvent(input$Exit, {
@@ -127,7 +139,22 @@ ui <- fluidPage(
            actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
     ),
     column(4,
-           actionButton("ModelFit", "Model fitting", class="mainbutton")
+           actionButton("BasicModelFit", "Basic model fitting", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
+
+  p('Model fitting topics', class='mainsectionheader'),
+  fluidRow(
+    column(4,
+           actionButton("ConfIntFit", "Confidence Intervals", class="mainbutton")
+    ),
+    column(4,
+           actionButton("ModelComparison", "Model comparison", class="mainbutton")
+    ),
+    column(4,
+           actionButton("MultiDataFit", "Multi-data fitting", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input
@@ -135,14 +162,11 @@ ui <- fluidPage(
 
   p('Further topics', class='mainsectionheader'),
   fluidRow(
-    column(4,
+    column(6,
            actionButton("PkPdModel", "Pharacokinetics and Pharmacodynamics", class="mainbutton")
     ),
-    column(4,
+    column(6,
            actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
-    ),
-    column(4,
-           actionButton("AdvancedFit", "Advanced model fitting", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input

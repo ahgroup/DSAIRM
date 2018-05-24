@@ -1,5 +1,5 @@
 ############################################################
-#This is the Shiny file for the Basic fitting app
+#This is the Shiny file for the Model Comparison app
 #written and maintained by Andreas Handel (ahandel@uga.edu)
 #last updated 5/16/2018
 ############################################################

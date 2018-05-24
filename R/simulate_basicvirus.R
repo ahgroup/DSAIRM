@@ -64,7 +64,10 @@ simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back
-  timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  timevec = sort(unique(c(seq(0, tmax, dt), 1:ceiling(tmax))))
+  #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  #the additional inclusion of 1:celining(tmax) is so we ensure when this function is called by the fitting routines
+  #it returns values at times at which data is available
 
   #combining parameters into a parameter vector
   pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,g=g);
