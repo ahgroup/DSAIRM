@@ -65,15 +65,15 @@ fitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames)
 #'   the code will likely abort with an error message
 #' @examples
 #' # To run the code with default parameters just call this function
-#' result <- simulate_basicfitting()
+#' result <- simulate_basicmodelfit()
 #' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- simulate_basicfitting(U0 = 1e6, dI = 2, modeltype = 2)
+#' result <- simulate_basicmodelfit(U0 = 1e6, dI = 2)
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @export
 
-simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, bsim = 1e-5, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVsim = 2, dVlow = 1e-3, dVhigh = 1e3, usesimdata = 1, noise = 0, iter = 100)
+simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, bsim = 1e-5, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVsim = 2, dVlow = 1e-3, dVhigh = 1e3, usesimdata = 1, noise = 0, iter = 100)
 {
 
   #will contain final result
@@ -116,7 +116,8 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 
   #fit simulated data
   if (usesimdata == 1)
   {
-    mydata = simdata + noise*runif(length(simdata),0,1)
+    mydata = simdata + noise*runif(length(simdata),0,1)*simdata
+    browser()
   }
 
 
@@ -131,7 +132,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=2), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer

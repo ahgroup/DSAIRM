@@ -18,19 +18,24 @@ refresh <- function(input, output)
     I0 = isolate(input$I0);
     V0 = isolate(input$V0);
 
+    n = isolate(input$n)
+    dU = isolate(input$dU)
     dI = isolate(input$dI)
     p = 10^isolate(input$p)
     g = isolate(input$g)
 
     b = 10^isolate(input$b)
+    bsim = 10^isolate(input$bsim)
     blow = 10^isolate(input$blow)
     bhigh = 10^isolate(input$bhigh)
 
     dV = isolate(input$dV)
+    dVsim = isolate(input$dVsim)
     dVlow = isolate(input$dVlow)
     dVhigh = isolate(input$dVhigh)
 
     iter = isolate(input$iter)
+    noise = isolate(input$noise)
     usesimdata = as.numeric(isolate(input$usesimdata));
     plotscale = isolate(input$plotscale)
 
@@ -41,7 +46,7 @@ refresh <- function(input, output)
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, bsim = bsim, blow = blow, bhigh = bhigh,  dV = dV,  dVsim = dVsim,  dVlow = dVlow, dVhigh = dVhigh, usesimdata = usesimdata, iter = iter)
+      simresultlist <- simulate_basicmodelfit(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, bsim = bsim, blow = blow, bhigh = bhigh,  dV = dV,  dVsim = dVsim,  dVlow = dVlow, dVhigh = dVhigh, usesimdata = usesimdata, iter = iter, noise = noise)
     })
 
 
@@ -251,11 +256,14 @@ ui <- fluidPage(
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
-                    column(6,
+                    column(4,
                            numericInput("bsim", "value of b for simulated data, (10^bsim)", min = -7, max = 6, value = -4, step = 0.1)
                     ),
-                    column(6,
+                    column(4,
                            numericInput("dVsim", "value of dV for simulated data, dVsim", min = 0.1, max = 10, value = 2, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("noise", "noise added to simulated data, dVsim", min = 0, max = 1, value = 0, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -263,7 +271,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           selectInput("usesimdata", "Fit to simulated data",c("0" = 0, "1" = 1), selected = 0)
+                           selectInput("usesimdata", "Fit to simulated data",c("Yes" = 1, "No" = 0), selected = 0)
                     ),
                     column(4,
                            numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
