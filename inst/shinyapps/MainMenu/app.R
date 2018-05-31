@@ -3,80 +3,63 @@
 #this function is the server part of the app
 server <- function(input, output, session) {
 
-  observeEvent(input$BasicBacteria, {
-    input$BasicBacteria
+  observeEvent(input$BasicBacteria,  {
     stopApp(returnValue = 'BasicBacteria')
   })
 
-  observeEvent(input$BasicVirus, {
-    input$BasicVirus
+  observeEvent(input$BasicVirus,  {
     stopApp(returnValue = 'BasicVirus')
   })
 
   observeEvent(input$VirusandIR, {
-    input$VirusandIR
     stopApp(returnValue = 'VirusandIR')
   })
 
   observeEvent(input$ModelExploration, {
-    input$ModelExploration
     stopApp(returnValue = 'ModelExploration')
   })
 
   observeEvent(input$VirusandTx, {
-    input$VirusandTx
     stopApp(returnValue = 'VirusandTx')
   })
 
   observeEvent(input$DrugResistance, {
-    input$DrugResistance
     stopApp(returnValue = 'DrugResistance')
   })
 
   observeEvent(input$ModelVariants, {
-    input$ModelVariants
     stopApp(returnValue = 'ModelVariants')
   })
+
   observeEvent(input$BasicVirusStochastic, {
-    input$BasicVirusStochastic
     stopApp(returnValue = 'BasicVirusStochastic')
   })
 
   observeEvent(input$USAnalysis, {
-    input$USAnalysis
     stopApp(returnValue = 'USAnalysis')
   })
 
   observeEvent(input$PkPdModel, {
-    input$PkPdModel
     stopApp(returnValue = 'PkPdModel')
   })
 
-
   observeEvent(input$BasicModelFit, {
-    input$BasicModelFit
     stopApp(returnValue = 'BasicModelFit')
   })
 
   observeEvent(input$ConfIntFit, {
-    input$ConfIntFit
     stopApp(returnValue = 'ConfIntFit')
   })
 
   observeEvent(input$ModelComparison, {
-    input$ModelComparison
     stopApp(returnValue = 'ModelComparison')
   })
 
-
   observeEvent(input$MultiDataFit, {
-    input$MultiDataFit
     stopApp(returnValue = 'MultiDataFit')
   })
 
   observeEvent(input$Exit, {
-    input$Exit
-    print ("Exiting")
     stopApp(returnValue = 'Exit')
   })
 
