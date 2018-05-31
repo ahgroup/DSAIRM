@@ -121,6 +121,6 @@ generate_plots <- function(res)
     }
     if (n==1)
     {
-      plot(pfinal)
+      graphics::plot(pfinal)
     }
 }

@@ -1,7 +1,7 @@
 ##################################################################################
 ##fitting influenza virus load data to 2 simple ODE models
 ##illustrates model comparison and parameter estimation
-##written by Andreas Handel, ahandel@uga.edu, last change 4/25/18
+##written by Andreas Handel, ahandel@uga.edu, last change 5/25/18
 
 ##all sub-functions are specified first
 
@@ -177,7 +177,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=2), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer

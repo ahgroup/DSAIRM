@@ -106,8 +106,18 @@ refresh <- function(input, output)
 
     #the following are for text display for each plot
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-    result[[1]]$finaltext = print(sprintf('Best fit values for parameters %s / %s / %s are %f / %f / %f. SSR is %f, AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],names(simresultlist$bestpars)[3],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$bestpars[3],simresultlist$SSR,simresultlist$AICc))
 
+    #store values for each variable
+    aicc = format(simresultlist$AICc, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+    ssr = format(simresultlist$SSR, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+    afinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2) #mean for each variable
+    dXfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2) #mean for each variable
+    bfinal = format(simresultlist$bestpars[3], digits =2, nsmall = 2) #mean for each variable
+
+    txt1 <- paste('Best fit values for parameters a / dX / b are ',afinal,'/',dXfinal,'/',bfinal)
+    txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+
+    result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
 
   return(result)
   })
@@ -170,7 +180,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Basic Fitting App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Model Comparison App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(

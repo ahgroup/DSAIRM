@@ -36,7 +36,7 @@ refresh <- function(input, output)
 
     iter = isolate(input$iter)
     noise = isolate(input$noise)
-    usesimdata = as.numeric(isolate(input$usesimdata));
+    usesimdata = as.logical(isolate(input$usesimdata));
     plotscale = isolate(input$plotscale)
 
     #save all results to a list for processing plots and text
@@ -98,8 +98,17 @@ refresh <- function(input, output)
 
     #the following are for text display for each plot
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-    result[[1]]$finaltext = print(sprintf('Best fit values for parameters %s / %s / %s are %f / %f / %f. SSR is %f, AICc is %f',names(simresultlist$bestpars)[1],names(simresultlist$bestpars)[2],names(simresultlist$bestpars)[3],simresultlist$bestpars[1], simresultlist$bestpars[2],simresultlist$bestpars[3],simresultlist$SSR,simresultlist$AICc))
 
+    #store values for each variable
+    aicc = format(simresultlist$AICc, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+    ssr = format(simresultlist$SSR, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
+    dVfinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2) #mean for each variable
+    bfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2) #mean for each variable
+
+    txt1 <- paste('Best fit values for parameters dV and b are ',dVfinal,' and ',bfinal)
+    txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+
+    result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
 
   return(result)
   })
@@ -200,13 +209,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("n", "uninfected cell production, n", min = 0, max = 100, value = 1, step = 1)
+                           numericInput("n", "uninfected cell production, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 100, value = 1, step = 1)
+                           numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
+                           numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
                     ),
 
                     align = "center"
@@ -218,7 +227,7 @@ ui <- fluidPage(
                            numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
                     ),
                     column(4,
-                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
+                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     column(4,
                     numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
@@ -263,7 +272,7 @@ ui <- fluidPage(
                            numericInput("dVsim", "value of dV for simulated data, dVsim", min = 0.1, max = 10, value = 2, step = 0.1)
                     ),
                     column(4,
-                           numericInput("noise", "noise added to simulated data, dVsim", min = 0, max = 1, value = 0, step = 0.1)
+                           numericInput("noise", "noise added to simulated data", min = 0, max = 1, value = 0, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -271,7 +280,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           selectInput("usesimdata", "Fit to simulated data",c("Yes" = 1, "No" = 0), selected = 0)
+                           selectInput("usesimdata", "Fit to simulated data",c("Yes" = TRUE, "No" = FALSE), selected = TRUE)
                     ),
                     column(4,
                            numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)

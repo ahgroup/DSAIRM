@@ -27,6 +27,7 @@ Imports:
     tidyr (>= 0.7),
     dplyr (>= 0.7.4),
     gridExtra (>= 2.3),
+    boot, 
     utils
 Depends:
     ggplot2 (>= 2.0),
