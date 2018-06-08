@@ -60,7 +60,6 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$Exit, {
-    input$Exit
     stopApp(returnValue = 'Exit')
   })
 
