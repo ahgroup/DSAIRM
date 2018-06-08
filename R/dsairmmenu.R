@@ -25,7 +25,6 @@ dsairmmenu <- function() {
       if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
       {
           appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
-          browser()
           shiny::runApp(appDir = appDirname)
       }
 
