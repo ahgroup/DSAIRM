@@ -2,11 +2,7 @@
 
 #Next steps
 * write docs and task tabs for all apps
-* work on fitting app, parts seem to not work
 * add refs to all models
-
-* write advanced fitting app - (cover simulate and test U8-testing) or bootstrapping U8-boot
-
 * Write up all solutions into the DSAIRMsolutions repository
 
 

@@ -10,7 +10,7 @@ dsairmmenu()
 This function opens a Shiny App menu that will allow the user to run the different simulation apps
 }
 \details{
-Run this function with no arguments to start the main menu
+Run this function with no arguments to start the main menu (a shiny App) for DSAIRM
 }
 \examples{
 \dontrun{dsairmmenu()}

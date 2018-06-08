@@ -2,7 +2,7 @@
 #'
 #' @description This function opens a Shiny App menu that will allow the user to run the different simulation apps
 #'
-#' @details Run this function with no arguments to start the main menu
+#' @details Run this function with no arguments to start the main menu (a shiny App) for DSAIRM
 #' @examples
 #' \dontrun{dsairmmenu()}
 #' @author Andreas Handel
@@ -21,10 +21,12 @@ dsairmmenu <- function() {
       appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
       appname = shiny::runApp(appDir = appDir)
 
+
       if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
       {
-          appDir <- system.file("shinyapps", appname, package = "DSAIRM")
-          shiny::runApp(appDir = appDir)
+          appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
+          browser()
+          shiny::runApp(appDir = appDirname)
       }
 
       if (appname == "Exit") {cond = 0} #leave while loop/menu
@@ -40,4 +42,3 @@ dsairmmenu <- function() {
 .onAttach <- function(libname, pkgname){
   packageStartupMessage("Welcome to the DSAIRM package. Type dsairmmenu() to get started.")
 }
-

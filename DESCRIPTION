@@ -30,8 +30,8 @@ Imports:
     boot, 
     utils
 Depends:
-    ggplot2 (>= 2.0),
-    shiny (>= 1.0)
+    ggplot2 (>= 2.2.1),
+    shiny (>= 1.1.0)
 Suggests:
     rmarkdown
 RoxygenNote: 6.0.1

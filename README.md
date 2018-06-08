@@ -17,7 +17,8 @@ install_github('ahgroup/DSAIRM')
 ```
 
 ## Basic Use
-* After loading the package, run `dsairmmenu()` to start the main menu. 
+* After install (which you need to do only once), load the package by runing `library('DSAIRM')` 
+* You should receive a short greeting. Now you can open the DSAIRM main menu by running `dsairmmenu()`. 
 * From the main menu, choose the different apps corresponding to different within-host modeling topics and scenarios.
 * Each app contains a description of the model and scenario that is implemented. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic.
 * Once done exploring the apps, close the main menu to exit back to the R console.
