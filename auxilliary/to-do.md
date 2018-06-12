@@ -5,7 +5,6 @@
 * add refs to all models
 * Write up all solutions into the DSAIRMsolutions repository
 
-
 #List of apps to implement
 The basics 
 * COMPLETELY DONE Basic bacteria + IR model in discrete and continuous time 
@@ -20,16 +19,21 @@ What influences model results
 Using models to explore and predict
 * DONE Bacteria model with scan over a parameter
 * DONE data comparing example - Virus and drug (HCV)
-* DONE Fitting to data
+* DONE simulating data and fitting to it
+
+Fitting Topics
+* bootstrapping for fitting - include possibility to fit in linear or log space
+* DONE fitting to do model comparison
 
 Further topics
 * DONE PK/PD
 * DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
-* Advanced fitting to data
 
 #Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-hcv3/4)
 * US using regression instead of correlation (U6-us3)
-* bootstrapping for fitting (U8-boot)
 * models with memory/dummy compartments (U9-memory)
 * discrete-time model with noise (U9-noise)
+* fitting of multiple datasets and types of data, e.g. Pawelek 2016 model
+* fitting of multiple-condition datasets, (find old R code for this) 
+* fitting using different likelihood approaches (instead of just SSR)

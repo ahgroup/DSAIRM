@@ -130,14 +130,11 @@ ui <- fluidPage(
 
   p('Model fitting topics', class='mainsectionheader'),
   fluidRow(
-    column(4,
+    column(6,
            actionButton("ConfIntFit", "Confidence Intervals", class="mainbutton")
     ),
-    column(4,
+    column(6,
            actionButton("ModelComparison", "Model comparison", class="mainbutton")
-    ),
-    column(4,
-           actionButton("MultiDataFit", "Multi-data fitting", class="mainbutton")
     ),
     class = "mainmenurow"
   ), #close fluidRow structure for input

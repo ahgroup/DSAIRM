@@ -1,8 +1,8 @@
 ##################################################################################
 ##fitting influenza virus load data to a simple ODE model
 ##model used is the one in "simulate_basicvirus.R"
-##illustrates fitting and testing if parameters can be identified
-##written by Andreas Handel, ahandel@uga.edu, last change 4/25/18
+##illustrates bootstrapping to compute CI
+##written by Andreas Handel, ahandel@uga.edu, last change 5/25/18
 
 ##all sub-functions are specified first
 
@@ -10,14 +10,15 @@
 ###################################################################
 #function that fits the ODE model to data
 ###################################################################
-basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames)
+cifitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames, parscale)
 {
 
-   names(params) = fitparnames #for some reason nloptr strips names from parameters
-   allpars = c(Y0,max(timevec),params,fixedpars)
+  if (parscale == 'log') {parms = e^parms} #for simulation, need to move parameters back to original scale
+  names(params) = fitparnames #for some reason nloptr strips names from parameters
+  allpars = c(Y0,max(timevec),params,fixedpars)
 
     #this function catches errors
-    odeout <- try(do.call(simulate_basicvirus, as.list(allpars)));
+    odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
 
     #extract values for virus load at time points where data is available
     modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
@@ -33,6 +34,23 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
     return(sum((logvirus-mydata$outcome)^2))
 
 } #end function that fits the ODE model to the data
+
+###################################################################
+#function to do the bootstraps
+###################################################################
+#this extra function is needed for the bootstrap routine.
+#it basically calls the optimization routine and returns the best fit parameter values (stored in finalparams) to the bootstrap function
+#the bootstrap routine is called in the main program below
+bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitparnames, maxsteps, parscale)
+{
+  mydata = mydata[indi,] #get samples
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames, parscale =parscale)
+  #extract best fit parameter values and from the result returned by the optimizer
+  finalparams=bestfit$solution;
+  return(finalparams)
+}
+
+
 
 ############################################################
 #the main part, which calls the fit function
@@ -55,14 +73,12 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @param b rate at which virus infects cells
 #' @param blow lower bound for infection rate
 #' @param bhigh upper bound for infection rate
-#' @param bsim rate at which virus infects cells for simulated data
 #' @param dV rate at which infectious virus is cleared
 #' @param dVlow lower bound for virus clearance rate
 #' @param dVhigh upper bound for virus clearance rate
-#' @param dVsim rate at which infectious virus is cleared for simulated data
-#' @param usesimdata set to TRUE if simulated data should be fitted, FALSE otherwise
-#' @param noise noise to be added to simulated data
+#' @param parscale 'lin' or 'log' to fit parameters in linear or log space
 #' @param iter max number of steps to be taken by optimizer
+#' @param nsample number of samples for conf int determination
 #' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
 #' @details a simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data
@@ -73,13 +89,13 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #'   the code will likely abort with an error message
 #' @examples
 #' # To run the code with default parameters just call this function
-#' \dontrun{result <- simulate_basicmodelfit()}
+#' \dontrun{result <- simulate_fitconfint()}
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @export
 
-simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, bsim = 1e-5, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVsim = 2, dVlow = 1e-3, dVhigh = 1e3, usesimdata = TRUE, noise = 1e-3, iter = 100)
+simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 100, nsample = 10)
 {
 
   #will contain final result
@@ -103,52 +119,39 @@ simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters and to be estimated parameters into a vector
-  modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=p,g=g);
-
-
-  allpars = c(Y0,tmax=max(mydata$time),modelpars)
-
-  #simulate model with known parameters to get artifitial data
-  #not sure why R needs it in such a weird form
-  #but supplying vector of values to function directly doesn't work
-  odeout <- do.call(simulate_basicvirus, as.list(allpars))
-
-
-  #extract values for virus load at time points where data is available
-  simdata = data.frame(odeout[match(mydata$time,odeout[,"time"]),])
-  simdata = dplyr::mutate(simdata, outcome = log10(simdata[,'V']))
-  simdata = dplyr::select(simdata, time, outcome)
-
-  #fit simulated data
-  if (usesimdata == 1)
-  {
-    mydata$outcome = simdata$outcome + noise*stats::runif(length(simdata$outcome),-1,1)*simdata$outcome
-  }
-
-
-  #combining fixed parameters and to be estimated parameters into a vector
   fixedpars = c(n=n,dU=dU,dI=dI,p=p,g=g);
 
-  par_ini = as.numeric(c(dV, b))
-  lb = as.numeric(c(dVlow, blow))
-  ub = as.numeric(c(dVhigh, bhigh))
-  fitparnames = c('dV','b')
+  par_ini = as.numeric(c(b, dV))
+  lb = as.numeric(c(blow, dVlow))
+  ub = as.numeric(c(bhigh, dVhigh))
+  fitparnames = c('b', 'dV')
+
+  if (parscale == 'log') #fitting parameters log scale
+  {
+    par_ini = log(par_ini)
+    lb = log(lb)
+    ub = log(ub)
+  }
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale)
 
+  #compute confidence intervals using bootstrap sampling
+  bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = par_ini, lb = lb, ub = ub, Y0 = Y0, timevec = timevec, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
+
+  #calculate the 95% confidence intervals for parameters
+  ci.b=boot::boot.ci(bssample,index=1,type = "perc")
+  ci.dV=boot::boot.ci(bssample,index=2, type = "perc")
+  ciall = c(blow = ci.b$perc[4], bhigh = ci.b$perc[5], dVlow = ci.dV$perc[4], dVhigh = ci.dV$perc[5])
 
   #extract best fit parameter values and from the result returned by the optimizer
   params = bestfit$solution
   names(params) = fitparnames #for some reason nloptr strips names from parameters
   modelpars = c(params,fixedpars)
-
   allpars = c(Y0,tmax=max(mydata$time),modelpars)
-
-  odeout <- do.call(simulate_basicvirus, as.list(allpars))
-
+  odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
 
   #compute sum of square residuals (SSR) for initial guess and final solution
   modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
@@ -167,6 +170,7 @@ simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   output$AICc = AICc
   output$data = mydata
   output$SSR = ssrfinal
+  output$confint = ciall
 
   #The output produced by the fitting routine
   return(output)
