@@ -6,8 +6,6 @@
 #' @examples
 #' \dontrun{dsairmmenu()}
 #' @author Andreas Handel
-#' @import shiny
-#' @importFrom knitr knit
 #' @export
 
 dsairmmenu <- function() {

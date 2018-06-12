@@ -1,6 +1,8 @@
 #' @title A function that lets you run a specific DSAIRM without going through the main menu
 #'
 #' @description This function opens the specified DSAIRM Shiny App
+#' @param appname a string (with quotation marks) indicating the name of the app to run.
+#' Leave empty to get a list of all available apps.
 #'
 #' @details Run this function with no arguments to list all apps. Specify the name of an app (with quotation marks) to start that app
 #' @examples
