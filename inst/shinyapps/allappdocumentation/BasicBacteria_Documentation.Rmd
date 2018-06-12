@@ -27,11 +27,11 @@ This model is a compartmental model. Compartmental means that we place the agent
 * **B** - bacteria 
 * **I** - immune response
 
-This model is of course very simple and abstract. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extendend by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
+This model is of course very simple and abstract. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
 
 In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
-For our system, we specify the follwoing processes/flows: 
+For our system, we specify the following processes/flows: 
 
 1. Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, _B~max~_. 
 2. Bacteria die at a natural death rate (which we label _d~B~_).
@@ -41,7 +41,7 @@ For our system, we specify the follwoing processes/flows:
 
 
 ###Model Diagram
-A very good way to describe compartmental models and move from a verbal description toward a mathematical/computational formulation is by using diagrams. Being able to go back and forth between verbal description, diagram and mathematicla/computatinal model is a crucial skill when building models. 
+A very good way to describe compartmental models and move from a verbal description toward a mathematical/computational formulation is by using diagrams. Being able to go back and forth between verbal description, diagram and mathematical/computational model is a crucial skill when building models. 
 The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
 
 
@@ -60,6 +60,8 @@ The most common way to implement compartmental models is as a **continuous-time,
 
 $$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
+**Note that if the equations don't display properly, open the app in a browser, they should look ok there. For some reason, on some systems, the Rstudio internal viewer doesn't render the equations right. If you know how to fix it, let me know!**
+
 We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:
 $$\frac{d}{dt}B(t) = gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t)$$ 
 $$\frac{d}{dt} I(t) = r B(t) I(t) - d_I I(t)$$
@@ -67,11 +69,11 @@ This notation specifies explicitly that $B$ and $I$ are functions of time, and t
 
 
 ###Model Implementation II
-Continouus time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a **discrete-time deterministic** equivalent to the ODE model. For such an implementation, the equations are:
+Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a **discrete-time deterministic** equivalent to the ODE model. For such an implementation, the equations are:
 
 $$B_{t+dt} = B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) $$ 
 $$ I_{t+dt} = I_t + dt \left( r I_t B_t - d_I I_t \right)$$
-In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a "smart" version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the 'deSolve' R package documentation, which we use to run our simulations. 
+In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a "smart" version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the 'deSolve' R package documentation, which we use to run our simulations. 
 
 
 
@@ -153,7 +155,7 @@ You should get a plot where bacteria numbers drop to below 10^-4^. Contemplate w
 ##Further Information {#shinytab4}
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
 * For this app, the underlying functions running the simulations are called `simulate_basicbacteria.R` and `simulate_basicbacteria_discrete.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_basicbacteria` or `?simulate_basicbacteria_discrete` into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a subfolder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
 * For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [@otto11]. The models in those references are described in the context of ecology, but results transfer to within-host situation. 
 * For somewhat similar within-host models (applied to TB and antibiotic resistance), see [@antia96; @handel09b].

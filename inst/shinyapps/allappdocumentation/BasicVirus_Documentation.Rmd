@@ -50,7 +50,7 @@ knitr::include_graphics("../media/virusdiagram.png")
 ###Model Equations
 Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
 
-$$\dot U = n - dU - bUV$$ 
+$$\dot U = n - d_U U - bUV$$ 
 $$\dot I = bUV - d_I I$$
 $$\dot V = pI - d_V V - gb UV$$
 
