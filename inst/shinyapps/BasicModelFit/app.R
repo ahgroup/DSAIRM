@@ -46,7 +46,7 @@ refresh <- function(input, output)
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_basicmodelfit(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, bsim = bsim, blow = blow, bhigh = bhigh,  dV = dV,  dVsim = dVsim,  dVlow = dVlow, dVhigh = dVhigh, usesimdata = usesimdata, iter = iter, noise = noise)
+      simresultlist <- simulate_fitbasicmodel(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, bsim = bsim, blow = blow, bhigh = bhigh,  dV = dV,  dVsim = dVsim,  dVlow = dVlow, dVhigh = dVhigh, usesimdata = usesimdata, iter = iter, noise = noise)
     })
 
 

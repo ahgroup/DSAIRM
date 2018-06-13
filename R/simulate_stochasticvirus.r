@@ -3,8 +3,6 @@
 ##written by Andreas Handel (ahandel@uga.edu), last change 5/1/18
 ############################################################
 
-
-
 #this specifies the rates used by the adapativetau routine
 #needs to be before main function so it's clear where description belongs to
 stochasticratefunc <- function(y, parms, t)

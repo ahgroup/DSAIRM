@@ -2,7 +2,7 @@
 % Please edit documentation in R/dsairmapps.R
 \name{dsairmapps}
 \alias{dsairmapps}
-\title{A function that lets you run a specific DSAIRM without going through the main menu}
+\title{A function that lets you run a specific DSAIRM app without going through the main menu}
 \usage{
 dsairmapps(appname = NULL)
 }

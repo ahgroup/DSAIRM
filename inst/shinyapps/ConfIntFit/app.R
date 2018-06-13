@@ -1,7 +1,7 @@
 ############################################################
-#This is the Shiny file for the Model Comparison app
+#This is the Shiny file for the Confidence Interval fitting app
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 5/16/2018
+#last updated 6/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -17,46 +17,37 @@ refresh <- function(input, output)
     U0 = 10^isolate(input$U0);
     I0 = isolate(input$I0);
     V0 = isolate(input$V0);
-    X0 = isolate(input$X0);
 
+    n = isolate(input$n)
+    dU = isolate(input$dU)
     dI = isolate(input$dI)
-    dV = isolate(input$dV)
     p = 10^isolate(input$p)
-    k = 10^isolate(input$k)
+    g = isolate(input$g)
 
     b = 10^isolate(input$b)
     blow = 10^isolate(input$blow)
     bhigh = 10^isolate(input$bhigh)
 
-    a = 10^isolate(input$a)
-    alow = 10^isolate(input$alow)
-    ahigh = 10^isolate(input$ahigh)
+    dV = isolate(input$dV)
+    dVlow = isolate(input$dVlow)
+    dVhigh = isolate(input$dVhigh)
 
-    r = isolate(input$r)
-    rlow = isolate(input$rlow)
-    rhigh = isolate(input$rhigh)
-    dX = isolate(input$dX)
-    dXlow = isolate(input$dXlow)
-    dXhigh = isolate(input$dXhigh)
-
+    parscale = isolate(input$parscale)
     iter = isolate(input$iter)
-    modeltype = as.numeric(isolate(input$modeltype));
+    nsample = isolate(input$nsample)
     plotscale = isolate(input$plotscale)
 
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
-    #browser()
-
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, p = p, k = k, b = b, blow = blow, bhigh = bhigh, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
+      simresultlist <- simulate_fitconfint(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, blow = blow, bhigh = bhigh, dV = dV, dVlow = dVlow, dVhigh = dVhigh, parscale = parscale, iter = iter, nsample = nsample)
     })
 
-
-
+    #extract the time series from the list returned by the fitting routine
     simresult = simresultlist$timeseries
 
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
@@ -109,22 +100,21 @@ refresh <- function(input, output)
     #store values for each variable
     aicc = format(simresultlist$AICc, digits =2, nsmall = 2)
     ssr = format(simresultlist$SSR, digits =2, nsmall = 2)
-    afinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2)
-    r_or_dXfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2)
-    bfinal = format(simresultlist$bestpars[3], digits =2, nsmall = 2)
+    bfinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2)
+    blowfit = format(simresultlist$confint[1], digits =2, nsmall = 2)
+    bhighfit = format(simresultlist$confint[2], digits =2, nsmall = 2)
+    dVfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2)
+    dVlowfit = format(simresultlist$confint[3], digits =2, nsmall = 2)
+    dVhighfit = format(simresultlist$confint[4], digits =2, nsmall = 2)
 
-    if (modeltype == 1)
-    {
-      txt1 <- paste('Best fit values for parameters a / r / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
-    }
-    if (modeltype == 2)
-    {
-      txt1 <- paste('Best fit values for parameters a / dX / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
-    }
 
-    txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
 
-    result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+    txt1 <- paste('Best fit values for parameters b and dV are ',bfinal,' and ',dVfinal)
+    txt2 <- paste('Lower and upper bounds for b are ',blowfit,' and ',bhighfit)
+    txt3 <- paste('Lower and upper bounds for dV are ',dVlowfit,' and ',dVhighfit)
+    txt4 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+
+    result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
 
   return(result)
   })
@@ -187,7 +177,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Model Comparison App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Bootstrapped Confidence Intervals Fitting App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(
@@ -225,10 +215,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("X0", "Initial strength of immune response, X0", min = 0, max = 100, value = 1, step = 1)
+                           numericInput("n", "uninfected cell production, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
+                           numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 100, value = 0, step = 1)
+                    ),
+                    column(4,
+                           numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
                     ),
 
                     align = "center"
@@ -237,29 +230,15 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     column(4,
-                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
-                    ),
-                    column(4,
-                    numericInput("k", "IR killing rate, k (10^k)", min = -10, max = 10, value = -6, step = 0.1)
+                    numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input
 
-           fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("a", "immune response activation rate, (10^a)", min = -8, max = 6, value = -1, step = 1)
-                    ),
-                    column(4,
-                           numericInput("alow", "activation rate lower bound, (10^alow)", min = -12, max = -8, value = -12)
-                    ),
-                    column(4,
-                           numericInput("ahigh", "activation rate upper bound, (10^ahigh)", min = 3, max = 6, value = 2)
-                    ),
-                    align = "center"
-           ), #close fluidRow structure for input
+
 
            fluidRow(class = 'myrow',
                     column(4,
@@ -274,37 +253,33 @@ ui <- fluidPage(
                     align = "center"
            ), #close fluidRow structure for input
 
+
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("r", "T-cell growth rate, r", min = 0.1, max = 10, value = 1, step = 0.1)
+                           numericInput("dV", "virus decay rate, dV", min = 0.1, max = 10, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("rlow", "growth rate lower bound, rlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
+                           numericInput("dVlow", "virus rate lower bound, dVlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("rhigh", "growth rate upper bound, rhigh", min = 10, max = 100, value = 5, step = 0.1)
+                           numericInput("dVhigh", "virus rate upper bound, dVhigh", min = 10, max = 100, value = 5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("dX", "antibody decay rate, dX", min = 0.1, max = 10, value = 1, step = 0.1)
+                           numericInput("nsample", "Number of bootstrap samples, nsample", min = 1, max = 100, value = 5)
                     ),
                     column(4,
-                           numericInput("dXlow", "decay rate lower bound, dXlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
-                    ),
-                    column(4,
-                           numericInput("dXhigh", "decay rate upper bound, dXhigh", min = 10, max = 100, value = 5, step = 0.1)
+                           selectInput("parscale", "Scale for parameter fitting",c("Linear" = 'lin', "Logarithmic" = 'log'), selected = TRUE)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           selectInput("modeltype", "Model to fit",c("1" = 1, "2" = 2), selected = 1)
-                    ),
+
                     column(4,
                            numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
                     ),
