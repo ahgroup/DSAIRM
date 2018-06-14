@@ -1,9 +1,7 @@
 # DSAIRM
 Dynamical Systems Approach to Immune Response Modeling
 
-**The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). Some parts/apps of the package might not be functional yet.**
-
-**Shiny 1.1.0 broke part of the package, specifically the communication between the main menu and each app. For the time being, onle use the 'alternative use' approach described below.**
+**The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). All apps should work at this point, but currently only the first few have complete documentation and instructions.**
 
 
 ## Description
@@ -27,7 +25,7 @@ install_github('ahgroup/DSAIRM')
 * Once done exploring the apps, close the main menu to exit back to the R console.
 
 ## Alternative Use
-* If you don't want or can't use the main menu (e.g. because of the shiny issue mentioned above), there is another way to run each app.
+* If you don't want to use the main menu, there is another way to run each app.
 * Run the function `dsairmapps()` to get a list of all available apps.
 * Run the same function specifying an app (with quotation marks), e.g. `dsairmapps('BasicBacteria')` to run that specific app. Once you close the app, you'll be back at the `R` console, then use the same function to run a different app. 
 

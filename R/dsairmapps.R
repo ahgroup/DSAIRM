@@ -23,7 +23,7 @@ dsairmapps <- function(appname = NULL)
     applist = applist[applist != 'MainMenu'] #remove main menu entry from list of apps
     upcasewords = grepl("^[[:upper:]]", applist) #anything starting with a lower case letter is not an app
     applist = applist[upcasewords] #remove all non-apps
-    print(paste('Currently existing apps:', paste(applist, collapse =', ')))
+    paste(applist, collapse =', ')
   }
   else
   {

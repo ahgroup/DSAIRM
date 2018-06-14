@@ -3,68 +3,22 @@
 #this function is the server part of the app
 server <- function(input, output, session) {
 
-  observeEvent(input$BasicBacteria,  {
-    stopApp(returnValue = 'BasicBacteria')
-  })
 
-  observeEvent(input$BasicVirus,  {
-    stopApp(returnValue = 'BasicVirus')
-  })
+  appNames <- c(unlist(strsplit(DSAIRM::dsairmapps(),', ')),'Exit') #get list of all existing apps
 
-  observeEvent(input$VirusandIR, {
-    stopApp(returnValue = 'VirusandIR')
-  })
+  stopping <- FALSE
 
-  observeEvent(input$ModelExploration, {
-    stopApp(returnValue = 'ModelExploration')
-  })
-
-  observeEvent(input$VirusandTx, {
-    stopApp(returnValue = 'VirusandTx')
-  })
-
-  observeEvent(input$DrugResistance, {
-    stopApp(returnValue = 'DrugResistance')
-  })
-
-  observeEvent(input$ModelVariants, {
-    stopApp(returnValue = 'ModelVariants')
-  })
-
-  observeEvent(input$BasicVirusStochastic, {
-    stopApp(returnValue = 'BasicVirusStochastic')
-  })
-
-  observeEvent(input$USAnalysis, {
-    stopApp(returnValue = 'USAnalysis')
-  })
-
-  observeEvent(input$PkPdModel, {
-    stopApp(returnValue = 'PkPdModel')
-  })
-
-  observeEvent(input$BasicModelFit, {
-    stopApp(returnValue = 'BasicModelFit')
-  })
-
-  observeEvent(input$ConfIntFit, {
-    stopApp(returnValue = 'ConfIntFit')
-  })
-
-  observeEvent(input$ModelComparison, {
-    stopApp(returnValue = 'ModelComparison')
-  })
-
-  observeEvent(input$MultiDataFit, {
-    stopApp(returnValue = 'MultiDataFit')
-  })
-
-  observeEvent(input$Exit, {
-    stopApp(returnValue = 'Exit')
+  lapply(appNames, function(appName) {
+    observeEvent(input[[appName]], {
+      stopping <<- TRUE
+      stopApp(appName)
+    })
   })
 
   session$onSessionEnded(function(){
-    stopApp(returnValue = 'Exit')
+    if (!stopping) {
+      stopApp('Exit')
+    }
   })
 
 }
