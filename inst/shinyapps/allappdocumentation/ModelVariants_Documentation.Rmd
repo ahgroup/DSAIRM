@@ -83,17 +83,34 @@ $$\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A $$
 
 ##What to do {#shinytab3}
 
-_It is recommended that you before working your way through this app and tasks, you first explore and do the tasks in the "Basic Virus Model" and "Virus and Immune Response Model" apps._ 
+_It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the "Basic Virus Model" and "Virus and Immune Response Model" apps._ 
 
+_For the tasks below, it is assumed that the model is ruin in units of days_
 
 ###Task 1: 
-* Try to figure out how to set parameter values such that you get a single acute virus infection with no immune response present.
-* 
+* We'll begin with the basic virus model by turning off any immune response related component.
+* Set all parameter values related to the immune response such that there is no _F_ and _A_ present at any time during the simulation.
+* Set target cell and virus starting conditions to 10^5^ initial uninfected cells, no infected cells, 10 virions. 
+* Set infection rate to 10^-5^, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours respectively. Rate of virus production should be 100 per day.
+* You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells.
 
 ###Task 2: 
+* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all inate growth parameters (the _f~i~_) and all innate actions (the _k~1~_ - _k~3~_) to 0. 
+* Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn't change (i.e. you should get the same maximum number of infected cells as above).
 
 ###Task 3: 
+* Now explore the different types of innate response induction by playing with the _f~i~_ parameters and the saturation parameter, _s~V~_. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the _k~i~_ at 0. This means the rest of the variables should not change.
 
+###Task 4: 
+* Now explore what happens when you have non-zero _k~i~_. You'll find that the action of the innate response impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex.
+* Pay attention to how different processes of innate activation and innate action do or don't produce different overall dynamics.
+
+###Task 5: 
+* Finally turn on the adaptive response. Note that in this model, there is no adaptive response without innate response (check it by setting the innate response to 0 while having non-zero adaptive growth rates, _a~i~_).
+* Turn the innate response back on and xxplore how different non-zero adaptive growth rates, _a~i~_, affect the adaptive response dynamics. Start by leaving the adaptive action parameters at 0. Then play with those parameters as well and set them to non-zero values. Also explore the impact of the saturation constants.
+
+###Task 6: 
+* As you'll notice, some of the specific model choices (i.e. specific parameters/terms in the model being turned on or off) lead to similar results, while other times results are quite different. For a specific system under study, some ways to formulate the immune response and the dynamics one gets might be better than others. Think about a system you are familiar with and consider which (if any) of the possible mechanisms implemented in this model might best describe that system.
 
 
 ##Further Information {#shinytab4}

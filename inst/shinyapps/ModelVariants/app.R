@@ -220,7 +220,7 @@ ui <- fluidPage(
                            numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
                     ),
                     column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -241,20 +241,20 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("f1", "innate growth version 1, f1", min = 0, max = 1000, value = 0.1, step = 0.001)
+                           numericInput("f1", "innate growth version 1, f1", min = 0, max = 100, value = 0.1, step = 0.001)
                     ),
                     column(4,
-                           numericInput("f2", "innate growth version 2, f2", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("f2", "innate growth version 2, f2", min = 0, max = 100, value = 0, step = 0.001)
                     ),
                     column(4,
-                           numericInput("f3", "innate growth version 3, f3", min = 0, max = 1000, value = 0, step = 0.001)
+                           numericInput("f3", "innate growth version 3, f3", min = 0, max = 100, value = 0, step = 0.001)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("k1", "innate action 1, k1", min = 0, max = 1000, value = 0.1, step = 0.001)
+                           numericInput("k1", "innate action 1, k1", min = 0, max = 1000, value = 0.001, step = 0.001)
                     ),
                     column(4,
                            numericInput("k2", "innate action 2, k2", min = 0, max = 1000, value = 0, step = 0.001)
@@ -267,7 +267,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("a1", "adaptive growth version 1, a1", min = 0, max = 1000, value = 0.1, step = 0.001)
+                           numericInput("a1", "adaptive growth version 1, a1", min = 0, max = 1000, value = 0.001, step = 0.001)
                     ),
                     column(4,
                            numericInput("a2", "adaptive growth version 2, a2", min = 0, max = 1000, value = 0, step = 0.001)
@@ -298,10 +298,10 @@ ui <- fluidPage(
                            numericInput("sV", "innate growth saturation for version 2 and 3, sV (10^sV)", min = -10, max = 10, value = -10, step = 0.1)
                     ),
                     column(4,
-                           numericInput("hV", "adaptive growth saturation for version 3, hV (10^hV)", min = -10, max = 10, value = -10, step = 0.1)
+                           numericInput("hV", "adaptive growth saturation for version 2 and 3, hV (10^hV)", min = -10, max = 10, value = -10, step = 0.1)
                     ),
                     column(4,
-                           numericInput("sA", "saturaion of adaptive action, version 2, sA (10^sA)", min = -10, max = 10, value = -10, step = 0.1)
+                           numericInput("sA", "saturation of adaptive action, version 2, sA (10^sA)", min = -10, max = 10, value = -10, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

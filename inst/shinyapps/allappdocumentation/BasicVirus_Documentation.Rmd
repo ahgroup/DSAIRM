@@ -113,7 +113,7 @@ Now we'll explore an infection in the presence of uninfected cell birth and deat
 Repeat the explorations you did above for the parameters _b_, _p_, _d~V~_ and _d~I~_ and investigate how the steady state values for _U_, _I_ and _V_ depend on those parameters. You might need to increase the simulation time to ensure the system has settled down.
 
 Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
-$0 = n - d_U - bUV$, $0 = bUV - d_I I$, $0 = pI - d_V V - gb UV$. One can solve those equations for each of the compartments to get a mathematical expression of what _U_, _I_ and _V_ are at steady state. Try to do this. You should find that $U_s = d_I d_V/(bp)$ and similar equations for $I_s$ and $V_s$.
+$0 = n - d_U U - bUV$, $0 = bUV - d_I I$, $0 = pI - d_V V - gb UV$. One can solve those equations for each of the compartments to get a mathematical expression of what _U_, _I_ and _V_ are at steady state. Try to do this. You should find that $U_s = d_I d_V/(b(p- d_I g))$ and similar equations for $I_s$ and $V_s$.
 
 Check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if that value is the same as you get as steady state value from the simulation. If that's not the case, it means your equations aren't right yet.
 
