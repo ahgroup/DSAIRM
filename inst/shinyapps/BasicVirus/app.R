@@ -59,12 +59,11 @@ refresh <- function(input, output)
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 
-
     #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 1e-12
-    result[[1]]$ymax = max(simresult)
-    result[[1]]$xmin = 1e-12
-    result[[1]]$xmax = tmax
+    result[[1]]$ymin = max(1e-10,min(dat$yvals))
+    result[[1]]$ymax = max(dat$yvals)
+    result[[1]]$xmin = max(1e-10,min(dat$xvals))
+    result[[1]]$xmax = max(dat$xvals)
 
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text

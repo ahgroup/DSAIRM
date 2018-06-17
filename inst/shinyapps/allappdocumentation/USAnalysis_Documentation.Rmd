@@ -26,6 +26,7 @@ For this purpose, we use the basic bacteria infection model introduced in the ap
 The model is the continous time model in the 'basic bacteria model' app. See the documentation there for the model description. For convenience, here is a quick summary and the equations again.
 
 We model 2 compartments:
+
 * **B** - bacteria 
 * **I** - immune response
 
@@ -44,11 +45,13 @@ $$\dot I = r B I - d_I I$$
 
 
 ###Uncertainty and Sensitivity analysis
-To run this model, we need to specify values for the 2 initial conditions, _B~0~_ and _I~0~_, and the 6 model parameters _g_, _B~max~_, _d~B~_, _k_, _r_, _d~I~_. Often, for a given system we want to model, we only have rough estimates for these values. Instead of specifying a fixed value in our model (which results in a single time-series), we can instead specify parameter ranges, choose sets of parameter values from these ranges, and run the model for multiple sets of parameters and record outcomes. The simplest way of specifying parameter ranges is to set an upper and lower bound (based on what we know about the biology of the system) and randomly choose any value within those bounds. We can almost always set bounds even if we know very little about a system. Assume we want to model the death rate of some cell type (e.g. NK cells) in humans. We might not know anything, but we can still be fairly confident that their lifespan is at least 1 second and less than 100 years. That's of course a wide range and we should and usually can narrow ranges further, based on biological knowledge of a given system.
+Often, for a given system we want to model, we only have rough estimates for the model parameters and starting values. Instead of specifying fixed values (which results in a single time-series), we can instead specify parameter ranges, choose sets of parameter values from these ranges, and run the model for multiple sets of parameters. 
+
+The simplest way of specifying parameter ranges is to set an upper and lower bound (based on what we know about the biology of the system) and randomly choose any value within those bounds. We can almost always set bounds even if we know very little about a system. Assume we want to model the death rate of some cell type (e.g. NK cells) in humans. We might not know anything, but we can still be fairly confident that their lifespan is at least 1 second and less than 100 years. That's of course a wide range and we should and usually can narrow ranges further, based on biological knowledge of a given system.
 
 If we are fairly certain that values are close to some quantity, instead of specifying a uniform distribution, we can choose one that is more peaked around the most likely value. Normal distributions are not ideal since they allow negative values, which doesn't make sense for our parameters. The gamma distribution is a better idea, since it leads to only positive values.
 
-In the model here, all parameters are sampled uniformly between the specified upper and lower bound, apart from the bacteria growth rate, which is given by a gamma distribution, with user-specified mean and variance (for this teaching app, there is no biological reason for making bacterial growth different, I just picked one parameter and decided to make it non-uniformly distributed to show you different ways one can implement distributions from which to draw parameter samples.)
+To run the model for this app, we need to specify values for the 2 initial conditions, _B~0~_ and _I~0~_, and the 6 model parameters _g_, _B~max~_, _d~B~_, _k_, _r_, _d~I~_. All initial conditions and parameters are sampled uniformly between the specified upper and lower bound, apart from the bacteria growth rate, which is given by a gamma distribution, with user-specified mean and variance. For this teaching app, there is no biological reason for making bacterial growth different, I just picked one parameter and decided to make it non-uniformly distributed to show you different ways one can implement distributions from which to draw parameter samples.
 
 The way the samples are drawn could be done completely randomly, but that would lead to inefficient sampling. A smarter method exists, known as Latin Hypercube sampling (LHS). It essentially ensures that we sample the full range of possible parameter combinations in an efficient manner. For more technical details, see [@]. For this app, we use LHS.
 

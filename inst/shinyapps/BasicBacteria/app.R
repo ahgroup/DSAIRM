@@ -78,9 +78,14 @@ refresh <- function(input, output)
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
 
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = max(1e-10,min(dat$yvals))
+    result[[1]]$ymax = max(dat$yvals)
+    result[[1]]$xmin = max(1e-10,min(dat$xvals))
+    result[[1]]$xmax = max(dat$xvals)
+
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 

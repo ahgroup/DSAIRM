@@ -44,7 +44,7 @@ generate_plots <- function(res)
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
       if (is.null(dat$IDvar))
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames) )
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
       }
       if (!is.null(dat$IDvar))
       {
@@ -96,7 +96,7 @@ generate_plots <- function(res)
       }
       else
       {
-        p6 = p5 + theme(legend.key.width = unit(3,"line")) + scale_colour_discrete(name  = res[[n]]$legend) + scale_linetype_discrete(name = res[[n]]$legend)
+        p6 = p5 + theme(legend.key.width = unit(3,"line")) + scale_colour_discrete(name  = res[[n]]$legend) + scale_linetype_discrete(name = res[[n]]$legend) + scale_shape_discrete(name = res[[n]]$legend)
       }
 
       #browser()

@@ -50,6 +50,20 @@ ui <- fluidPage(
     class = "mainmenurow"
   ), #close fluidRow structure for input
 
+  p('Model use examples', class='mainsectionheader'),
+  fluidRow(
+    column(4,
+           actionButton("ModelExploration", "Bacterium Model Exploration", class="mainbutton")
+    ),
+    column(4,
+           actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
+    ),
+    column(4,
+           actionButton("BasicModelFit", "Basic model fitting", class="mainbutton")
+    ),
+    class = "mainmenurow"
+  ), #close fluidRow structure for input
+
 
   p('What influences model results', class='mainsectionheader'),
   fluidRow(
@@ -67,19 +81,6 @@ ui <- fluidPage(
   ), #close fluidRow structure for input
 
 
-  p('Model use examples', class='mainsectionheader'),
-  fluidRow(
-    column(4,
-           actionButton("ModelExploration", "Bacterium Model Exploration", class="mainbutton")
-    ),
-    column(4,
-           actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
-    ),
-    column(4,
-           actionButton("BasicModelFit", "Basic model fitting", class="mainbutton")
-    ),
-    class = "mainmenurow"
-  ), #close fluidRow structure for input
 
 
   p('Model fitting topics', class='mainsectionheader'),

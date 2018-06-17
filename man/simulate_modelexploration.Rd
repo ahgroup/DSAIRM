@@ -44,6 +44,7 @@ The function returns the output as a data frame,
 The first column is called xvals and contains the values of the
 parameter that has been varied.
 The remaining columns contain Bpeak, Ipeak, Bsteady and Isteady
+A final variable nosteady is true if at least one simulation didn't reach steady state
 }
 \description{
 This function simulates the simple bacteria model

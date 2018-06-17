@@ -33,6 +33,7 @@
 #' The first column is called xvals and contains the values of the
 #' parameter that has been varied.
 #' The remaining columns contain Bpeak, Ipeak, Bsteady and Isteady
+#' A final variable nosteady is true if at least one simulation didn't reach steady state
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' The user can specify which parameter is sampled
@@ -70,6 +71,7 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
     if (pardist == 'log') {parvec=10^seq(log10(pmin),log10(pmax),length=samples)}
 
 
+    nosteady = rep(FALSE,samples) #indicates if steady state has not been reached
     for (n in 1:samples)
     {
         #replace value of parameter we want to vary
@@ -78,7 +80,7 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
         if (samplepar == 'dB') {dB = parvec[n]}
         if (samplepar == 'k') {k = parvec[n]}
         if (samplepar == 'r') {r = parvec[n]}
-      if (samplepar == 'dI') {dI = parvec[n]}
+        if (samplepar == 'dI') {dI = parvec[n]}
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
@@ -88,9 +90,18 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
         Ipeak[n]=max(odeoutput[,"I"]);
         Bsteady[n] = utils::tail(odeoutput[,"B"],1)
         Isteady[n] = utils::tail(odeoutput[,"I"],1)
+
+        #a quick check to make sure the system is at steady state,
+        #i.e. the value for B at the final time is not more than
+        #1% different than B several time steps earlier
+        vl=nrow(odeoutput);
+        if ((abs(odeoutput[vl,"B"]-odeoutput[vl-10,"B"])/odeoutput[vl,"B"])>1e-2)
+        {
+          nosteady[n] = TRUE
+        }
     }
 
-    results = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady)
+    results = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady, nosteady = nosteady)
 
     return(results)
 }

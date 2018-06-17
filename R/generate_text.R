@@ -111,6 +111,7 @@ generate_text <- function(res)
 
     } #finishes loop over all plots
 
+
     #as requested by app, add additional final text at bottom
     if (!is.null(res[[1]]$finaltext))
     {

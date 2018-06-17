@@ -18,7 +18,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE
 Imports:
-    deSolve (>= 1.21),
+    deSolve (>= 1.20),
     adaptivetau (>= 2.2),
     lhs (>= 0.15),
     sensitivity (>= 1.15),
