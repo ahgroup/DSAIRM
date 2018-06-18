@@ -16,7 +16,7 @@ virustxode <- function(t, y, parms)
       fnow = ifelse(t>txstart,f,0) #turn on drug at time txstart
       dUdt = n - dU*U - (1-fnow)*b*V*U
       dIdt = (1-fnow)*b*V*U - dI*I
-      dVdt = (1-enow)*p*I - dV*V
+      dVdt = (1-enow)*p*I - dV*V - g*b*U*V
 
 	 	  list(c(dUdt, dIdt, dVdt))
     }
@@ -42,6 +42,7 @@ virustxode <- function(t, y, parms)
 #' @param dV rate at which infectious virus is cleared
 #' @param b rate at which virus infects cells
 #' @param p rate at which infected cells produce virus
+#' @param g conversion between experimental and model virus units
 #' @param f strength of cell infection reduction by drug (0-1)
 #' @param e strength of virus production reduction by drug (0-1)
 #' @param steadystate if this is set to TRUE, the starting values for U, I and V are set
@@ -69,18 +70,18 @@ virustxode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, f = 0, e = 0, steadystate = FALSE, txstart = 0)
+simulate_virus_tx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0)
 {
 
   #override user-supplied initial conditions and instead start with steady state values
-  if (steadystate == TRUE) {U0 = max(0,dV*dI/(b*p)); I0 = max(0,n/dI - dU*dV/(b*p)); V0 = max(0,p*n/(dV*dI)-dU/b)}
+  if (steadystate == TRUE) {U0 = max(0,dV*dI/(b*(p-dI*g))); I0 = max(0, (b*n*(dI*g-p)+dI*dU*dV) /(b * (dI^2*g - dI*p))); V0 = max(0,  - (b*n*(dI*g-p)+dI*dU*dV) /  (b*dV*dI))}
 
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,f=f,e=e,txstart = txstart);
+  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,g=g,f=f,e=e,txstart = txstart);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables

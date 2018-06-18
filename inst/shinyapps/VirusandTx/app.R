@@ -19,10 +19,11 @@ refresh <- function(input, output)
     V0 = isolate(input$V0);
     b = 10^isolate(input$b)
     p = 10^isolate(input$p)
-    n = 10^isolate(input$n)
+    n = isolate(input$n)
     dU = isolate(input$dU)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
+    g = isolate(input$g)
     f = isolate(input$f)
     e = isolate(input$e)
     txstart = isolate(input$txstart)
@@ -35,7 +36,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
-    simresult <- simulate_virus_tx(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, f = f, e = e, steadystate = steadystate, txstart = txstart)
+    simresult <- simulate_virus_tx(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g, f = f, e = e, steadystate = steadystate, txstart = txstart)
     })
 
     colnames(simresult) = c('xvals','U','I','V')
@@ -63,9 +64,15 @@ refresh <- function(input, output)
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
+
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$ymin = max(1e-10,min(dat$yvals))
+    result[[1]]$ymax = max(dat$yvals)
+    result[[1]]$xmin = max(1e-10,min(dat$xvals))
+    result[[1]]$xmax = max(dat$xvals)
+
 
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
@@ -174,24 +181,32 @@ ui <- fluidPage(
 
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("n", "uninfected cell birth rate (10^n), n", min = 0, max = 10, value = 4, step = .1)
+                    column(6,
+                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 1000, value = 1, step = 1)
                     ),
-                    column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
-                    ),
-                    column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                    column(6,
+                           numericInput("p", "virus production rate, (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
+                    column(6,
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                    ),
+                    column(6,
+                           numericInput("g", "conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
+                    ),
+                    align = "center"
+           ), #close fluidRow structure for input
+
+
+           fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("f", "strength of cell infection reduction by drug, f", min = 0, max = 1, value = 0, step = 0.01)
+                           numericInput("f", "cell infection reduction by drug, f", min = 0, max = 1, value = 0, step = 0.01)
                     ),
                     column(4,
-                           numericInput("e", "strength of virus production reduction by drug, e", min = 0, max = 1, value = 0, step = 0.01)
+                           numericInput("e", "virus production reduction by drug, e", min = 0, max = 1, value = 0, step = 0.01)
                     ),
                     column(4,
                            numericInput("txstart", "Time of treatment start, txstart", min = 0, max = 100, value = 10)
