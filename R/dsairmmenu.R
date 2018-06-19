@@ -10,17 +10,17 @@
 
 dsairmmenu <- function() {
   cond <- 1
-    while (cond == 1)
+  while (cond == 1)
+  {
+    appname <- NULL
+    appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
+    appname = shiny::runApp(appDir = appDir)
+    if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
     {
-      appname <- NULL
-      appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
-      appname = shiny::runApp(appDir = appDir)
-      if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
-      {
-          appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
-          shiny::runApp(appDir = appDirname)
-      }
-      if (appname == "Exit") {cond = 0} #leave while loop/menu
+      appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
+      shiny::runApp(appDir = appDirname)
+    }
+    if (appname == "Exit") {cond = 0} #leave while loop/menu
   }
   print('*************************************************')
   print('Exiting the DSAIRM main menu.')

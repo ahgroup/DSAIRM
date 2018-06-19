@@ -3,7 +3,6 @@
 #this function is the server part of the app
 server <- function(input, output, session) {
 
-
   appNames <- c(unlist(strsplit(DSAIRM::dsairmapps(),', ')),'Exit') #get list of all existing apps
 
   stopping <- FALSE
