@@ -175,10 +175,10 @@ ui <- fluidPage(
                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

@@ -12,7 +12,8 @@ Date: 2018-04-11
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre")),
-    person("Sina", "Solaimanpour",  role = "ctb") )
+    person("Sina", "Solaimanpour",  role = "ctb"),
+    person("Henok", "Woldu",  role = "ctb") )
 Maintainer: Andreas Handel <ahandel@uga.edu>
 License: GPL-3
 Encoding: UTF-8

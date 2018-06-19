@@ -5,8 +5,8 @@
 \title{Simulation of a basic viral infection model without an immune response}
 \usage{
 simulate_virus_tx(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, n = 10000,
-  dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, f = 0, e = 0,
-  steadystate = FALSE, txstart = 0)
+  dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, g = 1, f = 0,
+  e = 0, steadystate = FALSE, txstart = 0)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -29,6 +29,8 @@ parameters}
 \item{b}{rate at which virus infects cells}
 
 \item{p}{rate at which infected cells produce virus}
+
+\item{g}{conversion between experimental and model virus units}
 
 \item{f}{strength of cell infection reduction by drug (0-1)}
 

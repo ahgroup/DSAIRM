@@ -11,15 +11,17 @@ The basics
 * COMPLETELY DONE Basic virus model - including birth/death of cells to do steady state
 * COMPLETELY DONE Virus and IR model
 
+Using models to explore and predict
+* DONE Bacteria model with scan over a parameter
+* DONE data comparing example - Virus and drug (HCV)
+* DONE simulating data and fitting to it
+
+
 What influences model results
 * DONE Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
 * DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
 * DONE stochastic virus model, also run deterministic for comparison
 
-Using models to explore and predict
-* DONE Bacteria model with scan over a parameter
-* DONE data comparing example - Virus and drug (HCV)
-* DONE simulating data and fitting to it
 
 Fitting Topics
 * bootstrapping for fitting - include possibility to fit in linear or log space

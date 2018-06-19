@@ -45,7 +45,7 @@ A very good way to describe compartmental models and move from a verbal descript
 The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
 
 
-```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE, out.width = "60%"}
+```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model.',  echo=FALSE, out.width = "60%"}
 knitr::include_graphics("../media/bacteriamodel.png")
 ```
 
@@ -60,6 +60,7 @@ The most common way to implement compartmental models is as a **continuous-time,
 
 $$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
+
 **Note that if the equations don't display properly, open the app in a browser, they should look ok there. For some reason, on some systems, the Rstudio internal viewer doesn't render the equations right. If you know how to fix it, let me know!**
 
 We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:

@@ -92,7 +92,7 @@ refresh <- function(input, output)
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
-    result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = 'Bc/Ic are bacteria and immune response from the continuous model, Bd/Id are from the discrete time model. Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
 
   return(result)
   })
@@ -143,7 +143,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Basic Bacteria App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Basic Bacterium App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(

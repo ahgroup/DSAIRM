@@ -80,7 +80,12 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 For the next few tasks, we consider a chronic viral infection and treatment (e.g. HCV or HIV). The model is assumed to run in units of days.
 
 * Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.1)
+* Run the simulation for 100 days. You should reach a steady state with 35000 virions present.
+* Set set 'start at steady state' to 'yes', confirm that all your variables stay at the steady state level they reached in the previous setting.
 * 
+
+###Task 5: 
+
 
 
 ##Further Information {#shinytab4}

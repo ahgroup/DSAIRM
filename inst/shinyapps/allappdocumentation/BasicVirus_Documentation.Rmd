@@ -65,8 +65,9 @@ $$\dot V = pI - d_V V - gb UV$$
 
 ###Task 1: 
 * Set the initial conditions to 10^5^ uninfected cells, no infected cells and 10 virus particles.
-* Assume that uninfected cells do not die, infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.
-* Assume that there are no uninfected cells produced/born, that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^.
+* We start by considering an acute viral infection. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
+*A ssume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours.
+* Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^.
 * Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1).
 * Run the simulation for 50 days, produce plots with and without log-scales.  
 
@@ -81,18 +82,18 @@ You should get a single, acute infection with virus and infected cells rising an
 * You can also repeat this process for the infected cell death rate and the infection rate.
 
 ###Task 4: 
-A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells), *R~0~* = *bpV~0~*/(*d~V~ d~I~*). 
+A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. _n=d~U~=0_), *R~0~* = *bpU~0~*/(*d~V~ d~I~*). 
 
-* Given this equation for *R~0~* and the simulations you performed in the previous tasks, figure out what the threshold value for *R~0~* is below which no infection occurs.
+* Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for *R~0~* to figure out what value *R~0~* needs to be for there (not) to be an infection. Figure out the threshold value for *R~0~* at which you go from no infection to having an infection.
 
 To learn more about *R~0~*, see e.g. [@heffernan05a; @roberts07; @beauchemin08]. Some of those references describe *R~0~* in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.
 
 ###Task 5: 
-Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it's impossible to produce a chronic infection, play around with the model.
+Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep _n=0_).
 
 Production of new uninfected cells is an example of _resource replenishment_. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). 
 
-Let's explore the model with uninfected cell prodution. 
+Let's explore the model with uninfected cell prodution, i.e. resource replenishment. 
 
 ###Task 6: 
 * We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10^5^, set birth and death of uninfected cells to zero.
@@ -110,17 +111,15 @@ Now we'll explore an infection in the presence of uninfected cell birth and deat
 * Run the simulation. You should get an initial large increase in virus load, which then settles down and reaches a steady state of around 295000.
 
 ###Task 8: 
-Repeat the explorations you did above for the parameters _b_, _p_, _d~V~_ and _d~I~_ and investigate how the steady state values for _U_, _I_ and _V_ depend on those parameters. You might need to increase the simulation time to ensure the system has settled down.
-
-Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
+* Change around values of the parameters _b_, _p_, _d~V~_ and _d~I~_ and investigate how the steady state values for _U_, _I_ and _V_ depend on those parameters. You might need to increase the simulation time to ensure the system has settled down.
+* Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
 $0 = n - d_U U - bUV$, $0 = bUV - d_I I$, $0 = pI - d_V V - gb UV$. One can solve those equations for each of the compartments to get a mathematical expression of what _U_, _I_ and _V_ are at steady state. Try to do this. You should find that $U_s = d_I d_V/(b(p- d_I g))$ and similar equations for $I_s$ and $V_s$.
-
-Check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if that value is the same as you get as steady state value from the simulation. If that's not the case, it means your equations aren't right yet.
+* Check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values $U_s$, $I_s$ and $V_s$ you computed with the equations is the same as you get as steady state value from the simulation. If that's not the case, it means your equations aren't right yet.
 
 It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change.
 
 ###Task 9: 
-Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is virus kinetics data (that is likely very noisy), we are likely able to capture that dynamics with many different types of models, incuding a simple one like this that is likely not too realistic for any given pathogen. 
+Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, incuding a simple one like this that is likely not too realistic for any given pathogen. 
 
 ##Further Information {#shinytab4}
 

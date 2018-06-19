@@ -167,7 +167,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
              column(4,
-                    numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0.1, step = 0.1)
+                    numericInput("dU", "uninfected cell death rate, dU", min = 0, max = 10, value = 0, step = 0.1)
              ),
              column(4,
                     numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
@@ -182,7 +182,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 1000, value = 1, step = 1)
+                           numericInput("n", "uninfected cell birth rate, n", min = 0, max = 1000, value = 0, step = 1)
                     ),
                     column(6,
                            numericInput("p", "virus production rate, (10^p)", min = -5, max = 5, value = 1, step = 0.1)

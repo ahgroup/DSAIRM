@@ -39,7 +39,7 @@ ui <- fluidPage(
 
   fluidRow(
     column(4,
-           actionButton("BasicBacteria", "Basic Bactera Model", class="mainbutton")
+           actionButton("BasicBacteria", "Basic Bacterium Model", class="mainbutton")
     ),
     column(4,
            actionButton("BasicVirus", "Basic Virus Model", class="mainbutton")
