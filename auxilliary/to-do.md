@@ -12,7 +12,7 @@ The basics
 * COMPLETELY DONE Virus and IR model
 
 Using models to explore and predict
-* DONE Bacteria model with scan over a parameter
+* COMPLETELY DONE Bacteria model with scan over a parameter
 * DONE data comparing example - Virus and drug (HCV)
 * DONE simulating data and fitting to it
 
@@ -32,10 +32,10 @@ Further topics
 * DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
 
 #Further apps that could be implemented
-* More complicated HCV PK/PD (SISMID-U4-hcv3/4)
+* More complicated HCV PK/PD (SISMID-U4-3/4)
 * US using regression instead of correlation (U6-us3)
 * models with memory/dummy compartments (U9-memory)
 * discrete-time model with noise (U9-noise)
 * fitting of multiple datasets and types of data, e.g. Pawelek 2016 model
-* fitting of multiple-condition datasets, (find old R code for this) 
+* fitting of multiple-condition datasets, e.g. with and without drug present (find old R code for this) 
 * fitting using different likelihood approaches (instead of just SSR)

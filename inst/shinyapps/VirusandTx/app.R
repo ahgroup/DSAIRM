@@ -129,7 +129,7 @@ ui <- fluidPage(
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
   div( includeHTML("www/header.html"), align = "center"),
   #specify name of App below, will show up in title
-  h1('Virus and Drug Treatment App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Antiviral Treatment App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #section to add buttons
   fluidRow(
@@ -185,14 +185,14 @@ ui <- fluidPage(
                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 1000, value = 0, step = 1)
                     ),
                     column(6,
-                           numericInput("p", "virus production rate, (10^p)", min = -5, max = 5, value = 1, step = 0.1)
+                           numericInput("p", "virus production rate, (10^p)", min = -5, max = 5, value = 2, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
                     ),
                     column(6,
                            numericInput("g", "conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)

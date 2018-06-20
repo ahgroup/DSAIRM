@@ -23,10 +23,6 @@ This app allows exploration of a basic virus infection model in the presence of 
 
 ###Model Overview
 This model is a variation of the 'Basic Virus" model. Details on that model can be found in the corresponding app. The model has changed some to include drug treatment. 
-The flow diagram and the equations are as follows:
-
-
-
 ###Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
@@ -44,10 +40,11 @@ $$\dot V = (1-e)pI - d_V V - gbUV$$
 
 ###Drug treatment modeling
 This model differs from the basic virus model in the following ways:
+
 * The drug can reduce infection of uninfected cells at a strength/efficacy given by _f_. This value is between 0 (completely ineffective) and 1 (100% effective).
 * The drug can reduce production of progeny virus at a strength/efficacy given by _e_. This value is between 0 (completely ineffective) and 1 (100% effective).
 
-Note that the drug is not explicitly modeled here (i.e. it is not given its own compartment). Instead, we will model the potential impact of the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The pharmacokinetics and pharacodynamics provides a model that includes explicit modeling of drug uptake and decay.
+Note that the drug is not explicitly modeled here (i.e. it is not given its own compartment/equation). Instead, we model the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The "Pharmacokinetics and pharacodynamics" app provides a model that includes explicit modeling of drug uptake and decay.
 
 
 ##What to do {#shinytab3}
@@ -71,25 +68,36 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 
 ###Task 3: 
 * If you knew the drug would be administered at day 4 and it reduced infection of cells by 50%, what do you predict the maximum number of infected cells would be?
-* If you could decide to design a drug to either reduce cell infection by 50% or virus production by 50% (and that drug was given on day 4), which drug would you prefer?
-* If you could decide to either double drug efficacy for reducing virus production from 40% to 80%, or decide to give drug on day 2 instead of day 4, which alternative would you prefer?
-* Can you find a scenario (i.e. values for the different model parameters) in which the 2 instead of 4 day approach beats the 40% vs 80% approach?
+* Use the model to predict if it would be better to design a drug that either reduces cell infection by 50% or virus production by 50% (and that drug was given on day 4)
+* Use the model to predict if it would be better to double drug efficacy for reducing virus production from 40% to 80%, or decide to give drug on day 2 instead of day 4.
+* Can you find a scenario (i.e. values for the different model parameters) in which giving drug at day 2 instead of day 4 beats the 40% vs 80% approach?
 
 
 ###Task 4: 
 For the next few tasks, we consider a chronic viral infection and treatment (e.g. HCV or HIV). The model is assumed to run in units of days.
 
-* Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.1)
-* Run the simulation for 100 days. You should reach a steady state with 35000 virions present.
+* Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.001)
+* Run the simulation for 100 days. You should reach a steady state with 44900 virions present.
 * Set set 'start at steady state' to 'yes', confirm that all your variables stay at the steady state level they reached in the previous setting.
-* 
+
+If you need an introduction or refresher on what the steady state means and how one could compute it, see the "Basic Virus" app.
 
 ###Task 5: 
+A model like this has been applied to study the interferon treatment for Hepatitis C Virus [@neumann98]. (Today's standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to know is if one of the 2 mechanisms, i.e. reduction of cell infecton (parameter _f_) or reduction of virus production (parameter _e_) is better at explaining/predicting observed viral kinetics.
 
+* Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, 10^7^ uninfected cells, infection rate 10^-7^, no treatment. Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation.
+
+###Task 5: 
+* Now start at steady state, run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres _f_ and _e_).
+* If you learned that the observed viral load kinetics after treatment start was a fast decline followed by a slower decline, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic virus load decline? 
+
+###Task 6: 
 
 
 ##Further Information {#shinytab4}
+* For this app, the underlying script and function running the simulation is called `simulate_virus_tx.R`. Read the help file for the function to see how you can call it directly.
+* For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. [@handel07; @beauchemin08jtb; @canini14].
+* For some examples of models that were applied to antiviral treatment in chronic infections (HIV, HCV), see e.g. [@neumann98; @dixit04].
 
 ### References
-
 
