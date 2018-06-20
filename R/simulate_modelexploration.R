@@ -10,9 +10,8 @@
 #' Simulation to illustrate a simple use of a simple model
 #'
 #'
-#' @description This function simulates the simple bacteria model
-#' for a range of parameters
-#' The function returns a data frame containing values for each sample and results
+#' @description This function simulates the simple bacteria model for a range of parameters.
+#' The function returns a data frame containing the parameter that has been varied and the outcomes (see details)
 #'
 #' @param B0 initial number of bacteria
 #' @param I0 initial number/strength of immune response
@@ -31,9 +30,11 @@
 #'   parameters
 #' @return The function returns the output as a data frame,
 #' The first column is called xvals and contains the values of the
-#' parameter that has been varied.
-#' The remaining columns contain Bpeak, Ipeak, Bsteady and Isteady
-#' A final variable nosteady is true if at least one simulation didn't reach steady state
+#' parameter that has been varied as specified by 'samplepar'.
+#' The remaining columns contain peak and steady state values of bacteria and immune response,
+#' Bpeak, Ipeak, Bsteady and Isteady.
+#' A final variable 'nosteady' is returned for each simulation.
+#' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' The user can specify which parameter is sampled

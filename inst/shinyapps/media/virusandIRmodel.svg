@@ -14,8 +14,11 @@
    viewBox="0 0 744.09448 524.40944"
    id="svg8179"
    version="1.1"
-   inkscape:version="0.92.1 r15371"
-   sodipodi:docname="virusandIRmodel.svg">
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="virusandIRmodel.svg"
+   inkscape:export-filename="C:\data\Git\DSAIRM\inst\shinyapps\media\virusandIRmodel.png"
+   inkscape:export-xdpi="300.207"
+   inkscape:export-ydpi="300.207">
   <defs
      id="defs8181">
     <marker
@@ -579,13 +582,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4254587"
-     inkscape:cx="181.62626"
+     inkscape:cx="251.74679"
      inkscape:cy="290.48197"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="3440"
-     inkscape:window-height="1377"
+     inkscape:window-width="1920"
+     inkscape:window-height="1137"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1">
@@ -1127,7 +1130,7 @@
        inkscape:export-ydpi="300.207" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.62500042, 1.87500014;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8623-0-2-9)"
-       d="m 200.41037,790.6535 h -65.625 v 0"
+       d="m 209.78537,785.0285 h -65.625 v 0"
        id="path9572-4-5"
        inkscape:connector-curvature="0"
        inkscape:export-xdpi="300.207"
@@ -1152,7 +1155,7 @@
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="135.21005"
-       y="813.4845"
+       y="800.3595"
        id="text13516-3-8-1-4"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
        inkscape:export-xdpi="300.207"
@@ -1160,13 +1163,13 @@
          sodipodi:role="line"
          id="tspan13522-4-3-3-6"
          x="135.21005"
-         y="813.4845"
+         y="800.3595"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.50000381px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px">VFg<tspan
    style="font-size:64.99999762%;baseline-shift:sub"
    id="tspan7781">B</tspan>B/</tspan><tspan
          sodipodi:role="line"
          x="135.21005"
-         y="836.70898"
+         y="823.58398"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.50000381px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px"
          id="tspan7783">(FV+h<tspan
    style="font-size:11.37500286px;baseline-shift:sub;stroke-width:1px"

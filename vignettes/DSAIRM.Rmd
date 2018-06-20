@@ -16,7 +16,8 @@ bibliography: vignetterefs.bib
 
 
 ## Summary
-_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows individuals to explore and learn about dynamical systems modeling of within-host infection and immune response dynamics, without the need to read or write computer code.
+_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows individuals to explore and learn about dynamical systems modeling of within-host infection and immune response dynamics, by interacting with models through a graphical user interface. It is not necessary - though possible - to read or write computer code.
+
 The idea behind the specific structure of the package is that it provides a gentle introduction to immune response modeling that starts with a graphical user interface and takes student slowly to more advanced levels.
 
 The different use cases for the package are described below.
@@ -34,7 +35,7 @@ Each app is meant to be fully self-explanatory and contains a description of the
 
 ## Intended audience and goal of the package
 
-The main audience are individuals who want to learn how modeling can be used for the study of within-host infection dynamics. While the ideal use of this package is likely as component of a class on this topic, it might also be possible to learn the material on your own. Each app contains a fair amount of documentation and description of the model. By reading the model description, doing the tasks and probably also reading some of the papers in the future information section, it might be possible to teach yourself the beginnings of within-host modeling on your own.
+The main audience are individuals who want to learn how mechanistic, dynamical systems models can be used to study within-host infection dynamics. While the ideal use of this package is likely as component of a class on this topic, self-learning might also be possible. Each app contains a fair amount of documentation and description of the model. By reading the model description, doing the tasks and probably also reading some of the papers in the future information section, it might be possible to teach yourself the beginnings of within-host modeling on your own.
 
 
 ## Using the package
@@ -78,15 +79,26 @@ dsairmmenu()
 
 This will bring up a graphical menu from which one can select each app. Each app contains the information needed to understand the underlying model, and has a list of (non exhaustive) suggested tasks to learn about the topic covered by the app. After exploring an app, the user returns to the main menu and eventually exits the main menu and closes the R session. No code needs to be written at this level of exploration and learning.
 
+#### Alternative app use
+If for some reason you do not want to go through the main menu, you can call individual apps directly with the function `dsaideapps()`. By typing
+```{r, eval=FALSE, echo=TRUE}
+dsaideapps()
+```
+you will get a list of available apps. To start a specific app, supply its name in quotation marks to this function, e.g. if you wanted to call the basic bacteria app, you'd call
+```{r, eval=FALSE, echo=TRUE}
+dsaideapps('BasicBacteria')
+```
+Once you exit the app, you are back at the R console and can call the next app.
+
 
 ### Level 2: Directly interacting with the simulation functions
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
 library('DSAIRM')
 ```
 
-The exploration of the models through the graphical interface is the first intended use of the package. Once a student is comfortable interacting with the models and has a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the code more directly. This will provide more flexibility but will require writing some code.
+The exploration of the models through the graphical interface is the first and main intended use of the package. Once you are comfortable interacting with the models and has a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the code more directly. This will provide more flexibility but will require writing some code.
 
-To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. This simulator function can be called directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding simulator function.
+To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved, for instance the fitting function call one of the model simulation functions. You can call/use any of these functions directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding simulator function.
 
 
 Consider as example the first app, called "Basic Bacterium Model". The simulator function for this model is called `simulate_basicbacteria.R`, the user can learn about the inputs and outputs of the function by looking at its documentation 
@@ -100,7 +112,7 @@ The help file explains that one can run the simulation by specifying initial num
 result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 0.5,  r = 0.002)
 ```
 
-Calling the simulation function execuctes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. Users can produce their own plots, e.g. plotting bacteria as function of time:
+Calling the simulation function executes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. Users can produce their own plots, e.g. plotting bacteria as function of time:
 
 ```{r, eval=TRUE, echo=TRUE}
 plot(result[,"time"],result[,"B"],xlab='Time',ylab='Bacteria Numbers',type='l')
@@ -196,11 +208,14 @@ plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response le
 
 The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. In brief, each app consists of a simulator function and a shiny app function which calls the simulator function. AN R Markdown file, which is turned into multiple HTML files by a provided script, should include the documentation displayed in each app. Developing a new app consists of writing (at least) 2 R functions (_simulate_NNNNNN.R_ and the corresponding _app.R_) and filling the provided RMarkdown template for the documentation, then running a few functions to process everything. 
 
-The information in the _docsfordevelopers_ folder contains more details and is hopefully complete enough to allow fairly easy development and contribution to the package. If you are interested in contributing further apps, I suggest you get in touch with me, either by email (ahandel@uga.edu) or through the github site for the package (https://github.com/ahgroup/DSAIRM).
+The information in the _docsfordevelopers_ folder contains more details and is hopefully complete enough to allow fairly easy development and contribution to the package. If you are interested in contributing further apps, I suggest you get in touch with me, either by email (ahandel@uga.edu) or through [the github site for the package.](https://github.com/ahgroup/DSAIRM)
+
+## Further Information
+A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. DSAIDE can be installed from CRAN and can be found [on Github.](https://github.com/ahgroup/DSAIDE)
 
 
 ## Acknowledgements
- 
+This package is written and maintained by [Andreas Handel](http://handelgroup.uga.edu), with contributions from [others](https://github.com/ahgroup/DSAIRM#contributors). 
 
 
 ## References
