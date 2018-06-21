@@ -49,9 +49,12 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @param X0 initial level of immune response
 #' @param n rate of uninfected cell production
 #' @param dU rate at which uninfected cells die
-#' @param p rate at which infected cells produce virus
 #' @param dI rate at which infected cells die
 #' @param g unit conversion factor
+#' @param p rate at which infected cells produce virus
+#' @param plow lower bound for p
+#' @param phigh upper bound for p
+#' @param psim rate at which infected cells produce virus for simulated data
 #' @param b rate at which virus infects cells
 #' @param blow lower bound for infection rate
 #' @param bhigh upper bound for infection rate
@@ -63,11 +66,16 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @param usesimdata set to TRUE if simulated data should be fitted, FALSE otherwise
 #' @param noise noise to be added to simulated data
 #' @param iter max number of steps to be taken by optimizer
+#' @param solvertype the type of solver/optimizer to use, can be 1,2 or 3. See details below.
 #' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
 #' @details a simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
 #' determine if the model parameters can be identified
+#' The fitting is done using solvers/optimizers from the nloptr package (which is a wrapper for the nlopt library).
+#' The package provides access to a large number of solvers.
+#' Here, we only implement 3 solvers, namely 1 = NLOPT_LN_COBYLA, 2 = NLOPT_LN_NELDERMEAD, 3 = NLOPT_LN_SBPLX
+#' For details on what those optimizers are and how they work, see the nlopt/nloptr documentation
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
 #'   the code will likely abort with an error message
@@ -79,7 +87,7 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @author Andreas Handel
 #' @export
 
-simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, bsim = 1e-4, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVsim = 10, dVlow = 1e-3, dVhigh = 1e3, usesimdata = TRUE, noise = 1e-3, iter = 100)
+simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 2, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 10, usesimdata = TRUE, noise = 1e-3, iter = 100, solvertype = 1)
 {
 
   #will contain final result
@@ -107,7 +115,7 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   {
 
     #combining fixed parameters and to be estimated parameters into a vector
-    modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=p,g=g);
+    modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=psim,g=g);
 
     allpars = c(Y0,tmax=max(mydata$time),modelpars)
     #simulate model with known parameters to get artifitial data
@@ -125,17 +133,21 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
 
 
   #combining fixed parameters and to be estimated parameters into a vector
-  fixedpars = c(n=n,dU=dU,dI=dI,p=p,g=g);
+  fixedpars = c(n=n,dU=dU,dI=dI,g=g)
 
-  par_ini = as.numeric(c(b, dV))
-  lb = as.numeric(c(blow, dVlow))
-  ub = as.numeric(c(bhigh, dVhigh))
-  fitparnames = c('b', 'dV')
+  par_ini = as.numeric(c(p, b, dV))
+  lb = as.numeric(c(plow, blow, dVlow))
+  ub = as.numeric(c(phigh, bhigh, dVhigh))
+  fitparnames = c('p', 'b', 'dV')
+
+  if (solvertype == 1) {algname = "NLOPT_LN_COBYLA"}
+  if (solvertype == 2) {algname = "NLOPT_LN_NELDERMEAD"}
+  if (solvertype == 3) {algname = "NLOPT_LN_SBPLX"}
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_SBPLX",xtol_rel=1e-10,maxeval=maxsteps,print_level=2), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"=algname,xtol_rel=1e-10,maxeval=maxsteps,print_level=2), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer

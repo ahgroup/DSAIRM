@@ -37,7 +37,7 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 $$
 where $Vm_t$ is the virus load (in log units) predicted from the model simulation at days $t=1..8$ and $Vd_t$ is the data, reported in those units and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit. 
 
-In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 2, the rate of infection of cells, _b_, and the rate of virus death/removal, _d~V~_ are being estimated.
+In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 3, the rate of virus production, _p_, the rate of infection of cells, _b_, and the rate of virus death/removal, _d~V~_ can be estimated. The app also allows to keep some of those parameters fixed, we'll explore this in the tasks.
 
 
 ##What to do {#shinytab3}
@@ -45,15 +45,19 @@ In general, with enough data, one could fit/estimate every parameter in the mode
 The model is assumed to run in units of days.
 
 ###Task 1 
-* Start with 10^6^ uninfected cells, no infected cells, 100 virions.
-* No uninfected cell birth and deaths, lifespan of infected cells 12, virus production rate of 10, unit conversion 1.
-* For the 2 parameter that are fit, set infection rate to 10^-6^ with lower and upper bounds to reasonable values. If the lower bound is not lower and the upper not higher than the rate, you will get an error message when you try to run the model.
-
-FIGURE OUT WHY FITTING DOESN"T SEEM TO WORK/CONVERGE IN APP
+* Start with 10^6^ uninfected cells, no infected cells, 10 virions.
+* No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 1.
+* For the parameter that are fit, set virus production rate to 10, infection rate to 10^-6^ and virus decay rate to 4. These parameters are being fit, the values we specify here are the starting conditions for the optimizer. 
+* Set all "fitted" switches to YES to make sure the parameters are being fit. For each parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.
+* Ignore the values for simulated data for now, set "fit to simulated data" to NO. 
+* Start with a 100 fitting iterations and solver type 1. Run the simulation, it will take some time.
+* Look at the results. The plot shows the final fit. It will be poor, i.e. the model virus load curve will not be close to the data. You will also see the values of the 'best fit' parameters. Since this is a bad fit, these values are not meaningful yet. We'll get to that below.
 
 ###Task 2 
+* Switch around the solvers/optimizers to use for fitting, run each for 100 iterations. They will provide different fits but none will be good.
+* Increase number of iterations to 200 or 500 or 1000. This will take more time to run. Results should get better.
 
-
+FITTING NOT WORKING ON REAL DATA, NEED TO DEBUG/RESOLVE
 
 ##Further Information {#shinytab4}
 * The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_basicvirus.R` during the fitting. Check the help file for both functions to see how to use them.
