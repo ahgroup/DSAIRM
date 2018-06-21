@@ -106,7 +106,7 @@ refresh <- function(input, output)
     bfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2) #mean for each variable
 
     txt1 <- paste('Best fit values for parameters dV and b are ',dVfinal,' and ',bfinal)
-    txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+    txt2 <- paste('Final SSR is ',ssr)
 
     result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
 
@@ -217,13 +217,10 @@ ui <- fluidPage(
 
 
            fluidRow(class = 'myrow',
-                    column(4,
-                           numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                    column(6,
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
-                    column(4,
-                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
-                    ),
-                    column(4,
+                    column(6,
                     numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
            ),
            align = "center"
@@ -274,7 +271,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           selectInput("usesimdata", "Fit to simulated data",c("Yes" = TRUE, "No" = FALSE), selected = TRUE)
+                           selectInput("usesimdata", "Fit to simulated data",c("Yes" = TRUE, "No" = FALSE), selected = FALSE)
                     ),
                     column(4,
                            numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)

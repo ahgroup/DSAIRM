@@ -102,26 +102,24 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
   timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
-  #combining fixed parameters and to be estimated parameters into a vector
-  modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=p,g=g);
-
-
-  allpars = c(Y0,tmax=max(mydata$time),modelpars)
-
-  #simulate model with known parameters to get artifitial data
-  #not sure why R needs it in such a weird form
-  #but supplying vector of values to function directly doesn't work
-  odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
-
-
-  #extract values for virus load at time points where data is available
-  simdata = data.frame(odeout[match(mydata$time,odeout[,"time"]),])
-  simdata = dplyr::mutate(simdata, outcome = log10(simdata[,'V']))
-  simdata = dplyr::select(simdata, time, outcome)
-
-  #fit simulated data
+  #if we want to fit simulated data
   if (usesimdata == 1)
   {
+
+    #combining fixed parameters and to be estimated parameters into a vector
+    modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=p,g=g);
+
+    allpars = c(Y0,tmax=max(mydata$time),modelpars)
+    #simulate model with known parameters to get artifitial data
+    #not sure why R needs it in such a weird form
+    #but supplying vector of values to function directly doesn't work
+    odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+
+    #extract values for virus load at time points where data is available
+    simdata = data.frame(odeout[match(mydata$time,odeout[,"time"]),])
+    simdata = dplyr::mutate(simdata, outcome = log10(simdata[,'V']))
+    simdata = dplyr::select(simdata, time, outcome)
+
     mydata$outcome = simdata$outcome + noise*stats::runif(length(simdata$outcome),-1,1)*simdata$outcome
   }
 
@@ -137,7 +135,7 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_SBPLX",xtol_rel=1e-10,maxeval=maxsteps,print_level=2), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer

@@ -56,8 +56,8 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
 * Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
 * Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1. 
-* Set simulation time to 20 days, both drug effects to 0, 'start at steady state' should be set to 'no'. 
-* Run the simulation. You should get a 28694 infected cells at the peak.
+* Set simulation time to 20 days, both drug effects to 0, 'start at steady state' should be set to 'no'.  
+* Run the simulation. You should get 28694 infected cells at the peak.
 * Just for fun, set 'start at steady state' to 'yes', think about your expectations, run simulation and ensure your expectation and result agree.
 
 ###Task 2: 
@@ -88,15 +88,22 @@ A model like this has been applied to study the interferon treatment for Hepatit
 * Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, 10^7^ uninfected cells, infection rate 10^-7^, no treatment. Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation.
 
 ###Task 5: 
-* Now start at steady state, run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres _f_ and _e_).
+* Now start at steady state, run the simulation for 30 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres _f_ and _e_). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.
 * If you learned that the observed viral load kinetics after treatment start was a fast decline followed by a slower decline, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic virus load decline? 
 
 ###Task 6: 
+* Keep parameter settings as in the previous task. For a drug that reduced the rate of infection of cells by 80%, what virus load do you predict on day 30 (with treatment start on day 10)?  
+* If you were told that the virus load you just found was reached with a drug that reduced viral production, approximately what drug efficacy would you predict? (Answer 0.63, confirm that you get this).  
+
+###Task 7: 
+* Run the simulations from task 5 for a longer time and observe what the different variables do.
+* Change some of the other model parameters around and investigate how this affects the impact of the drug treatment in the model.
+
 
 
 ##Further Information {#shinytab4}
 * For this app, the underlying script and function running the simulation is called `simulate_virus_tx.R`. Read the help file for the function to see how you can call it directly.
-* For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. [@handel07; @beauchemin08jtb; @canini14].
+* For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. [@handel07; @beauchemin08; @canini14a].
 * For some examples of models that were applied to antiviral treatment in chronic infections (HIV, HCV), see e.g. [@neumann98; @dixit04].
 
 ### References

@@ -13,7 +13,7 @@ The basics
 
 Using models to explore and predict
 * COMPLETELY DONE Bacteria model with scan over a parameter
-* DONE data comparing example - Virus and drug (HCV)
+* COMPLETELY DONE data comparing example - Virus and drug (HCV)
 * DONE simulating data and fitting to it
 
 

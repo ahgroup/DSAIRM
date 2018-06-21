@@ -1,6 +1,16 @@
 <body> <div id="shinytab4" class="section level2">&#13;
 <h2>Further Information</h2>&#13;
-<div id="references" class="section level3">&#13;
+<ul><li>For this app, the underlying function running the loop over different parameter values is called <code>simulate_modelexploration.R</code>. This function in turn calls the bacteria model simulator <code>simulate_basicbacteria.R</code>.</li>&#13;
+<li>You could for instance write your own function with that loops over some parameter and for each parameter calls one of the model simulator, e.g. <code>simulate_basicbacteria.R</code> or <code>simulate_basicvirus.R</code> or <code>simulate_virusandIR.R</code>. See the package vignette for an example.</li>&#13;
+<li>You can also call the <code>simulate_modelexploration.R</code> function directly, and as needed embed it in further R code.</li>&#13;
+<li>You could also modify the <code>simulate_modelexploration.R</code>, e.g. such that it uses the virus model for model exploration.</li>&#13;
+<li>Some ‘real world’ examples where models have been used to explore outcomes of interest as function of parameters for simple models applied to TB, see e.g. <span class="citation">(Antia, Koella, and Perrot 1996)</span> (specifically Figure 2B) or Malaria, see e.g. [@].</li>&#13;
+</ul><div id="references" class="section level3 unnumbered">&#13;
 <h3>References</h3>&#13;
+<div id="refs" class="references">&#13;
+<div id="ref-antia96">&#13;
+<p>Antia, R, J C Koella, and V Perrot. 1996. “Models of the Within-Host Dynamics of Persistent Mycobacterial Infections.” <em>Proceedings. Biological Sciences</em> 263 (1368): 257–63. doi:<a href="https://doi.org/10.1098/rspb.1996.0040">10.1098/rspb.1996.0040</a>.</p>&#13;
+</div>&#13;
+</div>&#13;
 </div>&#13;
 </div> </body>

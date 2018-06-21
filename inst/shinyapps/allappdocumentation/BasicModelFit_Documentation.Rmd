@@ -1,5 +1,5 @@
 ---
-title: Template  Model
+title: Basic Model Fit 
 output:
   html_document:
     theme: null
@@ -16,32 +16,48 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-
+This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model.
 
 
 ##The Model {#shinytab2}
 
-###Model Overview
+###Data
+For this app, viral load data from patients infected with influenza is being fit. The data is average log viral titer on days 1-8 post infection. The data comes from [@hayden96], specifically the 'no treatment' group shown in Figure 2 of this paper.
 
-###Model Diagram
+Another source of 'data' is by using our simulation to produce artificial data.
+
+###Simulation Model 
+The underlying model that is being fit to the data is the basic virus model used in the app of this name. See that app for a description of the model.
 
 
-###Model Equations
+###Fitting Model
+This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points, i.e.
+$$
+SSR= \sum_t (Vm_t - Vd_t)^2
+$$
+where $Vm_t$ is the virus load (in log units) predicted from the model simulation at days $t=1..8$ and $Vd_t$ is the data, reported in those units and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit. 
 
+In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 2, the rate of infection of cells, _b_, and the rate of virus death/removal, _d~V~_ are being estimated.
 
 
 ##What to do {#shinytab3}
 
+The model is assumed to run in units of days.
 
+###Task 1 
+* Start with 10^6^ uninfected cells, no infected cells, 100 virions.
+* No uninfected cell birth and deaths, lifespan of infected cells 12, virus production rate of 10, unit conversion 1.
+* For the 2 parameter that are fit, set infection rate to 10^-6^ with lower and upper bounds to reasonable values. If the lower bound is not lower and the upper not higher than the rate, you will get an error message when you try to run the model.
 
+FIGURE OUT WHY FITTING DOESN"T SEEM TO WORK/CONVERGE IN APP
 
-###Task 1: 
+###Task 2 
 
 
 
 ##Further Information {#shinytab4}
-
-
+* The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_basicvirus.R` during the fitting. Check the help file for both functions to see how to use them.
+* 
 
 ### References
 
