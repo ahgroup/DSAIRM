@@ -110,11 +110,11 @@ refresh <- function(input, output)
     #store values for each variable
     aicc = format(simresultlist$AICc, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
     ssr = format(simresultlist$SSR, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
-    pfinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2)
-    bfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2)
+    pfinal = format(log10(simresultlist$bestpars[1]), digits =2, nsmall = 2)
+    bfinal = format(log10(simresultlist$bestpars[2]), digits =2, nsmall = 2)
     dVfinal = format(simresultlist$bestpars[3], digits =2, nsmall = 2)
 
-    txt1 <- paste('Best fit values for parameters p / b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
+    txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
     txt2 <- paste('Final SSR is ',ssr)
 
     result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
