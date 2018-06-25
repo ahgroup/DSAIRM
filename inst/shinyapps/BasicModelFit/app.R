@@ -199,13 +199,13 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(4,
-                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 5, step = 0.1)
+                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 7, step = 0.1)
              ),
              column(4,
                     numericInput("I0", "Initial number of infected cells, I0", min = 0, max = 100, value = 0, step = 1)
              ),
              column(4,
-                    numericInput("V0", "Initial number of virus, V0", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("V0", "Initial number of virus, V0", min = 0, max = 100, value = 1, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input

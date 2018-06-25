@@ -45,19 +45,44 @@ In general, with enough data, one could fit/estimate every parameter in the mode
 The model is assumed to run in units of days.
 
 ###Task 1 
-* Start with 10^6^ uninfected cells, no infected cells, 10 virions.
-* No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 1.
-* For the parameter that are fit, set virus production rate to 10, infection rate to 10^-6^ and virus decay rate to 4. These parameters are being fit, the values we specify here are the starting conditions for the optimizer. 
+* Start with 10^6^ uninfected cells, no infected cells, 1 virion (assumed to be in the same units of the data, TCID50/ml).
+* No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 0.
+* For the parameter that are fit, set virus production rate to 10^-3^, infection rate to 10^-1^ and virus decay rate to 1. These parameters are being fit, the values we specify here are the starting conditions for the optimizer. 
 * Set all "fitted" switches to YES to make sure the parameters are being fit. For each parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.
 * Ignore the values for simulated data for now, set "fit to simulated data" to NO. 
-* Start with a 100 fitting iterations and solver type 1. Run the simulation, it will take some time.
-* Look at the results. The plot shows the final fit. It will be poor, i.e. the model virus load curve will not be close to the data. You will also see the values of the 'best fit' parameters. Since this is a bad fit, these values are not meaningful yet. We'll get to that below.
+* Start with a 1 fitting step/iteration and solver type 1. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with these starting conditions. Notice that the virus load predicted by the model and the data are already fairly close. Also record the SSR so you can compare it with the value after the fit.
+* Now fit for 100 iterations. Look at the results. The plot shows the final fit. It will be a bit better. Also, the SSR value should have gone down, indicating a better fit. Also printed below the figure are the values of the fitted parameters for this fit.
+* Repeat the same process, now fitting for 200 iterations. You should see some further improvement in SSR. That indicates the previous fit was not the 'best' fit. (The best fit is the one with the lowest possible SSR).
 
 ###Task 2 
-* Switch around the solvers/optimizers to use for fitting, run each for 100 iterations. They will provide different fits but none will be good.
-* Increase number of iterations to 200 or 500 or 1000. This will take more time to run. Results should get better.
+* Repeat the fit, now using the solvers/optimizers "2" and "3" for fitting. Also change the number of iterations. If you computer is fast enough, keep increasing them.
+* See what the lowest SSR is you can get and record the parameter values for which you get it.
 
-FITTING NOT WORKING ON REAL DATA, NEED TO DEBUG/RESOLVE
+Generally, with increasing iterations, the fits get better. An iteration is essentially a 'try' of the underlying code to find the best possible model. Increasing the tries usually improves the fit. In any kind of 'real world' setting, one should have the tries large enough that the solver reaches a point where any further iterations don't improve the fit (don't further reduce the SSR). The technical expression for this is that the solver has converged to the solution. 
+
+###Task 3 
+Ideally, with enough iterations, all solvers should reach the best fit with the lowest possible SSR. In practice, that does not always happen, often it depends on the starting conditions. Let's explore this idea that starting values matter.
+
+* Set everything as in task 1, but choose a starting value for virus production rate as 10^-2^, starting infection rate the same value, and virus decay rate of 5. 
+* Run simulation for 1 fitting step. You should see a virus load curve that has the up and down seen in the real data, but it's shifted and the SSR is higher (around 15.6) than in the previous starting condition.
+* Try the different solvers for 100 or more iterations. You'll likely find that while the fits always improve, and they look pretty decent when graphically compared with the data, they are not quite as good (the SSR is not as low) as in the previous task, even after 1000 steps (if your computer is not fast enough, do fewer steps).
+
+Myabe, if we ran one of the solvers long enough, it will reach the solution we found previously. But it could also be that the solver got 'stuck' in what's called a local optimum. It found a good fit, and now as it varies parameters, each new fit is worse, so the solver "thinks" it's found the best fit, even though there are better ones further away in parameter space. Many solvers - even so-called 'global' solvers - can get stuck. Unfortunately, we never know if the solution is real or if the solver is stuck in a local optimum. One way to figure this out is to try different solvers and different starting conditions, and let each one run for a long time. If all return the same answer, it's quite likely (though not guaranteed) that we found the overall best fit (lowest SSR).
+
+###Task 4 
+* Without much comment, we set the unit conversion factor to 0 above. That essentially means that we think this process of virions being lost due to entering infected cells is negligible compared to the other process, clearance of virus due to other mechanisms at rate _d~V~_. Let's change this assumption and turn that term back on by setting _g=1_.
+* Try the above settings, running a single iteration. You'll find a very poor fit. 
+* Play around with the starting values for the fitted parameters to see if you can get an ok looking starting simulation. 
+* Once you have a decent starting simulation, try the different solvers for different interations and see how good you can get. A 'trick' for fitting is to run for some iterations and use the reported best-fit values as new starting conditions, then do another fit with the same or a different solver. 
+* The best fit I was able to find was an SSR of X. You might be able to find something better. It might depend on the bounds for the parameters. If the best-fit value reported from the optimizer is the same as the lower or upper bound for that parameter, it likely means if you broaden the bounds the fits will get better. However, the parameters have biological meanings and certain values do not make sense. For instance a lower bound for the virus decay rate of 0.001/day would mean an average lifespan of 1000 days or around 3 years, which is not reasonable for flu.  
+
+Best fit values for parameters 10^p / 10^b / dV are 1.12 / -1.00 / 281.68
+Final SSR is 4.21
+
+
+###Task 5 
+
+
 
 ##Further Information {#shinytab4}
 * The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_basicvirus.R` during the fitting. Check the help file for both functions to see how to use them.
