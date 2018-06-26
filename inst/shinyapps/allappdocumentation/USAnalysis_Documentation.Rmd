@@ -67,10 +67,20 @@ This simulation (as well as some of the others) involves sampling. This leads to
 
 ##What to do {#shinytab3}
 
+First, familiarize yourself with the setup of the app, it looks different from most others. Parameters are not set to specific values. Instead, most parameters have a lower and upper bound. For each simulation that is run, random values for the parameter are chosen  uniformly between those bounds. The parameter _g_ does not have a uniform but instead a gamma distribution, you can specify its mean and variance to determine the distribution from which values are sampled. 
+
+The default outcome plots are boxplots, which show the distribution of the 3 outcomes of interest, given the different parameter samples. You can set the number of samples you want to run. Samples are constructed using the latin hypercube method to efficiently span the space of possible parameter values. In general, more samples are better, but of course take longer to run.
+
 ###Task 1: 
-*
+* Leave all settings as they are, run 20 samples twice with the same random number seed, check to make sure you get exactly the same result twice.
+* Now change the random number seed to a different value, run again. You should see results slighly changed.
+* The more samples you have, the more robust the results are to changes in the underlying sample generation (determined by the random number seed). Try checking this by running 10 samples with 2 different random number seeds, then running 100+ samples with 2 different seeds. You should see less variability in the central quantities (mean, median) the larger your sample size.
+
+Note that each sample means one simulation of the underlying dynamical model, so as sample numbers increase, things slow down.
 
 ###Task 2: 
+* Recall the model and its behavior. If you can't, revisit the "Basic Bacteria" app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the bacteria carrying capacity, _Bmax_. Which of the outcomes do you expect to change, and in which direction?
+* Test your assumption my increasing both lower and upper bound for _Bmax_ by 2 orders of magnitude and run the simulation.
 
 ###Task 3: 
 

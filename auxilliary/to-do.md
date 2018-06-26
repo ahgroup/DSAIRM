@@ -14,11 +14,11 @@ The basics
 Using models to explore and predict
 * COMPLETELY DONE Bacteria model with scan over a parameter
 * COMPLETELY DONE data comparing example - Virus and drug (HCV)
-* DONE simulating data and fitting to it
+* COMPLETELY DONE simulating data and fitting to it
 
 
 What influences model results
-* DONE Model variants for an HIV model - the impact of model formulation (HIV mod 1 and 2)
+* COMPLETELY DONE Model variants - the impact of model formulation 
 * DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
 * DONE stochastic virus model, also run deterministic for comparison
 

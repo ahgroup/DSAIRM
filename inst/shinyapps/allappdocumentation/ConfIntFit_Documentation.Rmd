@@ -16,31 +16,32 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-
+This app illustrates the method of boostrapping data, which is one way one can obtain confidence intervals for parameters when fitting mechanistic models to data.
 
 
 ##The Model {#shinytab2}
 
-###Model Overview
-
-###Model Diagram
+The data, the underlying simulation model and the way the data fitting is done are all the same as in the 'Basic model fitting' app. If you haven't worked your way through that app, do that first.
 
 
-###Model Equations
+###Bootstrapping
+What's new in this model is the process of bootstrapping the data to obtain confidence intervals. The basic approach goes like this:
+* Resample your data (with replaclement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you'll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data.
+* Fit your model to this 'new' dataset you obtained through sampling. Record the best-fit estimates for your parameters.
+* Do this 'sample, then fit' approach multiple times (generally 100s or more) to obtain distribution for your parameter estimates.
+* From these distributions, extract e.g. 95% confidence intervals.
 
+Bootstrapping is conceptually in technically easy to understand. The big drawback is that it takes time. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers and simple models. We don't have that here for our teaching model, so we'll need to keep things simpler than one would usually do in practice.
 
 
 ##What to do {#shinytab3}
 
-
-
-
-###Task 1: 
+_To come_
 
 
 
 ##Further Information {#shinytab4}
-
+* There are different versions of bootstrapping, i.e. data sampling. Some are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance.
 
 
 ### References

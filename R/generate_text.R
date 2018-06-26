@@ -118,5 +118,5 @@ generate_text <- function(res)
       finaltext <- res[[1]]$finaltext
       alltext <- paste(alltext, finaltext, sep = "<hr/>")
     }
-    HTML(alltext)
+    shiny::HTML(alltext)
 } #end function

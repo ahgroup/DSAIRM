@@ -66,19 +66,7 @@ Where *t~n~* is the time since the last dose was given. Prior to treatment start
 
 *The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
 
-
-
-###Task 1: 
-* Set the initial conditions to 10^5^ uninfected cells, no infected cells and 10 virus particles.
-* Assume that uninfected cells do not die, infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.
-* Assume that there are no uninfected cells produced/born, that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^.
-* Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1).
-* Run the simulation for 50 days, produce plots with and without log-scales.  
-
-You should get a single, acute infection with virus and infected cells rising and declining. At the end you should be left with around 11068 uninfected cells (and no infected cells and virus).
-
-
-###Task 2: 
+_To come_
 
 ##Further Information {#shinytab4}
 

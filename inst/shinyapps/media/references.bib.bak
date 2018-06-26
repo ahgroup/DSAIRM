@@ -1760,4 +1760,29 @@
   timestamp       = {2018.06.20},
 }
 
+@Book{hilborn97,
+  author        = {Hilborn, Ray and Mangel, Marc},
+  publisher     = {Princeton University Press},
+  title         = {{The ecological detective : confronting models with data}},
+  year          = {1997},
+  series        = {Monographs in population biology 28},
+  address       = {Princeton, N.J.},
+  date-modified = {2008-03-06 11:53:09 -0500},
+  owner         = {andreas},
+  timestamp     = {2018.06.25},
+}
+
+@Book{bolker08,
+  author    = {Bolker, Benjamin M.},
+  publisher = {Princeton University Press},
+  title     = {Ecological Models and Data in R},
+  year      = {2008},
+  month     = jul,
+  issn      = {0691125228},
+  owner     = {andreas},
+  pages     = {--},
+  refid     = {6225},
+  timestamp = {2012.09.17},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

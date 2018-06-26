@@ -7,8 +7,8 @@
 <li>We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption.</li>&#13;
 <li>Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.</li>&#13;
 <li>Set virus production rate to 10, infection rate to 10<sup>-5</sup> and conversion factor to 1.</li>&#13;
-<li>Set simulation time to 20 days, both drug effects to 0, ‘start at steady state’ should be set to ‘no’.</li>&#13;
-<li>Run the simulation. You should get a 28694 infected cells at the peak.</li>&#13;
+<li>Set simulation time to 20 days, both drug effects to 0, ‘start at steady state’ should be set to ‘no’.<br/></li>&#13;
+<li>Run the simulation. You should get 28694 infected cells at the peak.</li>&#13;
 <li>Just for fun, set ‘start at steady state’ to ‘yes’, think about your expectations, run simulation and ensure your expectation and result agree.</li>&#13;
 </ul></div>&#13;
 <div id="task-2" class="section level3">&#13;
@@ -35,15 +35,22 @@
 </div>&#13;
 <div id="task-5" class="section level3">&#13;
 <h3>Task 5:</h3>&#13;
-<p>A model like this has been applied to study the interferon treatment for Hepatitis C Virus <span class="citation">(<span class="citeproc-not-found" data-reference-id="neumann98"><strong>???</strong></span>)</span>. (Today’s standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to know is if one of the 2 mechanisms, i.e. reduction of cell infecton (parameter <em>f</em>) or reduction of virus production (parameter <em>e</em>) is better at explaining/predicting observed viral kinetics.</p>&#13;
+<p>A model like this has been applied to study the interferon treatment for Hepatitis C Virus <span class="citation">(Neumann et al. 1998)</span>. (Today’s standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to know is if one of the 2 mechanisms, i.e. reduction of cell infecton (parameter <em>f</em>) or reduction of virus production (parameter <em>e</em>) is better at explaining/predicting observed viral kinetics.</p>&#13;
 <ul><li>Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, 10<sup>7</sup> uninfected cells, infection rate 10<sup>-7</sup>, no treatment. Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation.</li>&#13;
 </ul></div>&#13;
 <div id="task-5-1" class="section level3">&#13;
 <h3>Task 5:</h3>&#13;
-<ul><li>Now start at steady state, run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres <em>f</em> and <em>e</em>).</li>&#13;
+<ul><li>Now start at steady state, run the simulation for 30 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres <em>f</em> and <em>e</em>). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.</li>&#13;
 <li>If you learned that the observed viral load kinetics after treatment start was a fast decline followed by a slower decline, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic virus load decline?</li>&#13;
 </ul></div>&#13;
 <div id="task-6" class="section level3">&#13;
 <h3>Task 6:</h3>&#13;
-</div>&#13;
+<ul><li>Keep parameter settings as in the previous task. For a drug that reduced the rate of infection of cells by 80%, what virus load do you predict on day 30 (with treatment start on day 10)?<br/></li>&#13;
+<li>If you were told that the virus load you just found was reached with a drug that reduced viral production, approximately what drug efficacy would you predict? (Answer 0.63, confirm that you get this).</li>&#13;
+</ul></div>&#13;
+<div id="task-7" class="section level3">&#13;
+<h3>Task 7:</h3>&#13;
+<ul><li>Run the simulations from task 5 for a longer time and observe what the different variables do.</li>&#13;
+<li>Change some of the other model parameters around and investigate how this affects the impact of the drug treatment in the model.</li>&#13;
+</ul></div>&#13;
 </div> </body>

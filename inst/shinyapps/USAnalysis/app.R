@@ -82,6 +82,7 @@ refresh <- function(input, output)
       result[[ct]]$legend = NULL #set to either false or provide the label for legends
 
 
+
       result[[ct]]$xscale = 'identity'
       result[[ct]]$yscale = 'identity'
       if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
@@ -94,6 +95,14 @@ refresh <- function(input, output)
       ct = ct + 1
       } #inner loop
     } #outer loop
+
+    #if we look at uncertainty/boxplots, we don't need results stratified by parameter
+    #since all the plots and printout contain repeated information, we'll just retain the first 3 ones
+    if (plottype == "Boxplot")
+    {
+      result <- result[c(1:3)]
+    }
+
   return(result) #result returned as list structure
   })
 

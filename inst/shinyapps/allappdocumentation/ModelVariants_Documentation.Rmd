@@ -85,7 +85,7 @@ $$\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A $$
 
 _It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the "Basic Virus Model" and "Virus and Immune Response Model" apps._ 
 
-_For the tasks below, it is assumed that the model is ruin in units of days_
+_For the tasks below, it is assumed that the model is run in units of days_
 
 ###Task 1: 
 * We'll begin with the basic virus model by turning off any immune response related component.
@@ -95,7 +95,7 @@ _For the tasks below, it is assumed that the model is ruin in units of days_
 * You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells.
 
 ###Task 2: 
-* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all inate growth parameters (the _f~i~_) and all innate actions (the _k~1~_ - _k~3~_) to 0. 
+* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all inate growth parameters (the _f~i~_) and all innate actions (_k~1~_, _k~2~_, _k~3~_) to 0. 
 * Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn't change (i.e. you should get the same maximum number of infected cells as above).
 
 ###Task 3: 

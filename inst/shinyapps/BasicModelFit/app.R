@@ -281,7 +281,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(3,
-                           numericInput("psim", "value of p for simulated data, (10^p)", min = -7, max = 6, value = 1, step = 0.1)
+                           numericInput("psim", "value of p for simulated data, (10^psim)", min = -7, max = 6, value = 1, step = 0.1)
                     ),
                     column(3,
                            numericInput("bsim", "value of b for simulated data, (10^bsim)", min = -7, max = 6, value = -4, step = 0.1)

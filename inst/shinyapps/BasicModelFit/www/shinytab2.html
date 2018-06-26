@@ -1,12 +1,19 @@
 <body> <div id="shinytab2" class="section level2">&#13;
 <h2>The Model</h2>&#13;
-<div id="model-overview" class="section level3">&#13;
-<h3>Model Overview</h3>&#13;
+<div id="data" class="section level3">&#13;
+<h3>Data</h3>&#13;
+<p>For this app, viral load data from patients infected with influenza is being fit. The data is average log viral titer on days 1-8 post infection. The data comes from <span class="citation">(Hayden et al. 1996)</span>, specifically the ‘no treatment’ group shown in Figure 2 of this paper.</p>&#13;
+<p>Another source of ‘data’ is by using our simulation to produce artificial data.</p>&#13;
 </div>&#13;
-<div id="model-diagram" class="section level3">&#13;
-<h3>Model Diagram</h3>&#13;
+<div id="simulation-model" class="section level3">&#13;
+<h3>Simulation Model</h3>&#13;
+<p>The underlying model that is being fit to the data is the basic virus model used in the app of this name. See that app for a description of the model.</p>&#13;
 </div>&#13;
-<div id="model-equations" class="section level3">&#13;
-<h3>Model Equations</h3>&#13;
+<div id="fitting-model" class="section level3">&#13;
+<h3>Fitting Model</h3>&#13;
+<p>This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points, i.e. <span class="math display">\[&#13;
+SSR= \sum_t (Vm_t - Vd_t)^2&#13;
+\]</span> where <span class="math inline">\(Vm_t\)</span> is the virus load (in log units) predicted from the model simulation at days <span class="math inline">\(t=1..8\)</span> and <span class="math inline">\(Vd_t\)</span> is the data, reported in those units and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit.</p>&#13;
+<p>In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 3, the rate of virus production, <em>p</em>, the rate of infection of cells, <em>b</em>, and the rate of virus death/removal, <em>d<sub>V</sub></em> can be estimated. The app also allows to keep some of those parameters fixed, we’ll explore this in the tasks.</p>&#13;
 </div>&#13;
 </div> </body>
