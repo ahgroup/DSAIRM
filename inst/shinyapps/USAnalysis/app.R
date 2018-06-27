@@ -32,7 +32,7 @@ refresh <- function(input, output)
     gmean = isolate(input$gmean)
     gvar = isolate(input$gvar)
     tmax = isolate(input$tmax);
-    rngseed = isolate(input$rngseed);
+    rngseed = isolate(input$rngseed)
     samples = isolate(input$samples)
     plottype = isolate(input$plottype)
     plotscale = isolate(input$plotscale)
@@ -56,6 +56,10 @@ refresh <- function(input, output)
 
       #the first list element also needs to contain a variable for the number of columns in the grid plot
       #it's ok if all list elements/plots save that variable but only the information from the first will be used
+
+    #pull the indicator for non-steady state out of the dataframe, process separately
+    nosteady = sim_result$nosteady
+    sim_result$nosteady <- NULL
 
     result <- vector("list", 24) #set up a list structure with as many elements as plots
     #loop over each outer list element corresponding to a plot and fill it with another list
@@ -90,7 +94,7 @@ refresh <- function(input, output)
 
       #the following are for text display for each plot
       result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-      result[[ct]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+      result[[ct]]$finaltext = paste("System might not have reached steady state", sum(nosteady), "times")
 
       ct = ct + 1
       } #inner loop
@@ -182,10 +186,10 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(6,
-                    numericInput("B0min", "Initial number of bacteria, B0 (lower bound)", min = 0, max = 1000, value = 1, step = 50)
+                    numericInput("B0min", "Initial number of bacteria, B0 (lower bound)", min = 0, max = 1000, value = 1, step = 1)
              ),
              column(6,
-                    numericInput("B0max", "Initial number of bacteria, B0 (upper bound)", min = 0, max = 1000, value = 100, step = 50)
+                    numericInput("B0max", "Initial number of bacteria, B0 (upper bound)", min = 0, max = 1000, value = 10, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -196,7 +200,7 @@ ui <- fluidPage(
                     numericInput("I0min", "Initial number of immune cells, I0 (lower bound)", min = 0, max = 100, value = 1, step = 1)
              ),
              column(6,
-                    numericInput("I0max", "Initial number of immune cells, I0 (upper bound)", min = 0, max = 100, value = 100, step = 1)
+                    numericInput("I0max", "Initial number of immune cells, I0 (upper bound)", min = 0, max = 100, value = 10, step = 1)
              ),
                    align = "center"
            ), #close fluidRow structure for input
@@ -204,20 +208,20 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                column(6,
-                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 2, step = 0.1)
+                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 3, step = 0.1)
              ),
              column(6,
-                    numericInput("Bmaxmax", "carrying capacity, Bmax (10^Bmax, upper bound)", min = 1, max = 10, value = 4, step = 0.1)
+                    numericInput("Bmaxmax", "carrying capacity, Bmax (10^Bmax, upper bound)", min = 1, max = 10, value = 5, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
 
              fluidRow(class = 'myrow',
              column(6,
-                    numericInput("dBmin", "bacteria death rate, dB (lower bound)", min = 0, max = 10, value = 0.1, step = 0.1)
+                    numericInput("dBmin", "bacteria death rate, dB (lower bound)", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(6,
-                    numericInput("dBmax", "bacteria death rate, dB (upper bound)", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("dBmax", "bacteria death rate, dB (upper bound)", min = 0, max = 100, value = 2, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -244,20 +248,20 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("dImin", "Immune response death rate, dI (lower bound)", min = 0, max = 10, value = 0.1, step = 0.1)
+                  numericInput("dImin", "Immune response death rate, dI (lower bound)", min = 0, max = 10, value = 1, step = 0.1)
            ),
            column(6,
-                  numericInput("dImax", "Immune response death rate, dI (upper bound)", min = 0, max = 10, value = 1, step = 0.1)
+                  numericInput("dImax", "Immune response death rate, dI (upper bound)", min = 0, max = 10, value = 2, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("gmean", "Rate of bacteria growth, g (mean)", min = 0, max = 10, value = 1, step = 0.1)
+                  numericInput("gmean", "Rate of bacteria growth, g (mean)", min = 0, max = 10, value = 5, step = 0.1)
            ),
            column(6,
-                  numericInput("gvar", "Rate of bacteria growth, g (variance)", min = 0, max = 10, value = 0.5, step = 0.1)
+                  numericInput("gvar", "Rate of bacteria growth, g (variance)", min = 0, max = 10, value = 1, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input

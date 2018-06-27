@@ -1,12 +1,9 @@
 <body> <div id="shinytab2" class="section level2">&#13;
 <h2>The Model</h2>&#13;
-<div id="model-overview" class="section level3">&#13;
-<h3>Model Overview</h3>&#13;
-</div>&#13;
-<div id="model-diagram" class="section level3">&#13;
-<h3>Model Diagram</h3>&#13;
-</div>&#13;
-<div id="model-equations" class="section level3">&#13;
-<h3>Model Equations</h3>&#13;
+<p>The data, the underlying simulation model and the way the data fitting is done are all the same as in the ‘Basic model fitting’ app. If you haven’t worked your way through that app, do that first.</p>&#13;
+<div id="bootstrapping" class="section level3">&#13;
+<h3>Bootstrapping</h3>&#13;
+<p>What’s new in this model is the process of bootstrapping the data to obtain confidence intervals. The basic approach goes like this: * Resample your data (with replaclement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you’ll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data. * Fit your model to this ‘new’ dataset you obtained through sampling. Record the best-fit estimates for your parameters. * Do this ‘sample, then fit’ approach multiple times (generally 100s or more) to obtain distribution for your parameter estimates. * From these distributions, extract e.g. 95% confidence intervals.</p>&#13;
+<p>Bootstrapping is conceptually in technically easy to understand. The big drawback is that it takes time. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers and simple models. We don’t have that here for our teaching model, so we’ll need to keep things simpler than one would usually do in practice.</p>&#13;
 </div>&#13;
 </div> </body>

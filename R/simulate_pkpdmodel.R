@@ -15,13 +15,13 @@ pkpdode <- function(t, y, parms)
       #instead it is directly specified as a time-dependent function
       if (t>txstart)
       {
-        C = gC  * (t %% txinterval) * exp( - dC * (t %% txinterval) )
+        C = rC  * (t %% txinterval) * exp( - dC * (t %% txinterval) )
         e=Emax*C^k/(C^k + C50)
       }
 
       dUdt = n - dU*U - b*V*U
       dIdt = b*V*U - dI*I
-      dVdt = (1-e)*p*I - dV*V - b*V*U
+      dVdt = (1-e)*p*I - dV*V - g*b*V*U
 
 	 	  list(c(dUdt, dIdt, dVdt))
     }
@@ -46,8 +46,9 @@ pkpdode <- function(t, y, parms)
 #' @param dI rate at which infected cells die
 #' @param dV rate at which infectious virus is cleared
 #' @param b rate at which virus infects cells
+#' @param g unit conversion factor
 #' @param p rate at which infected cells produce virus
-#' @param gC drug concentration increase rate
+#' @param rC drug concentration increase rate
 #' @param dC drug concentration decay rate
 #' @param C50 drug concentration at which effect is half maximum
 #' @param k steepness of concentration-dependent drug effect
@@ -74,14 +75,14 @@ pkpdode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, gC = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
+simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, rC = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vecto
   dt = min(0.1, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,gC=gC,dC=dC,C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval);
+  pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b, g=g, p=p, rC=rC,dC=dC,C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval);
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
@@ -89,7 +90,7 @@ simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0,
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = pkpdode, parms=pars, atol=1e-12, rtol=1e-12);
 
   #add concentration to return matrix
-  C = gC  * (timevec %% txinterval) * exp( - dC * (timevec %% txinterval) )
+  C = rC  * (timevec %% txinterval) * exp( - dC * (timevec %% txinterval) )
   C[timevec<txstart] = 0
   odeoutput = cbind(odeoutput, C)
 

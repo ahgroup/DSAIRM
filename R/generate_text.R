@@ -87,7 +87,7 @@ generate_text <- function(res)
             mymean = format(mean(vardat$yvals), digits =2, nsmall = 2)
             mymedian = format(median(vardat$yvals), digits =2, nsmall = 2)
             mymax = format(max(vardat$yvals), digits =2, nsmall = 2)
-            newtxt = paste('Min/Mean/Median/Max for ',xlabel,' / ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
+            newtxt = paste('Min/Mean/Median/Max for ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
           }
           if (plottype == 'Mixedplot' )
           {

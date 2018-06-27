@@ -18,11 +18,12 @@ refresh <- function(input, output)
     V0 = isolate(input$V0);
     b = 10^isolate(input$b)
     p = 10^isolate(input$p)
+    g = isolate(input$g)
     n = isolate(input$n)
     dU = isolate(input$dU)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
-    gC = isolate(input$gC)
+    rC = isolate(input$rC)
     dC = isolate(input$dC)
     C50 = isolate(input$C50)
     k = isolate(input$k)
@@ -39,7 +40,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
-    simresult <- simulate_pkpdmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p,  gC=gC,dC=dC,C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval)
+    simresult <- simulate_pkpdmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g=g, rC=rC, dC=dC, C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval)
     }) #end progress wrapper
 
     colnames(simresult) = c('xvals','U','I','V','C')
@@ -174,24 +175,30 @@ ui <- fluidPage(
 
 
            fluidRow(class = 'myrow',
-                    column(4,
+                    column(6,
                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
                     ),
-                    column(4,
+                    column(6,
                            numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
                     ),
-                    column(4,
+                    align = "center"
+           ), #close fluidRow structure for input
+
+           fluidRow(class = 'myrow',
+                    column(6,
                            numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
+                    ),
+                    column(6,
+                           numericInput("g", "unit conversion factor, g", min = 0, max = 100, value = 0, step = 1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
 
 
-
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("gC", "drug increase rate, gC", min = 0, max = 100, value = 5, step = 1)
+                           numericInput("rC", "drug increase rate, rC", min = 0, max = 100, value = 5, step = 1)
                     ),
                     column(4,
                            numericInput("dC", "drug decay rate, dC ", min = 0, max = 100, value = 0.1, step = 1)
@@ -245,15 +252,7 @@ ui <- fluidPage(
            plotOutput(outputId = "plot", height = "500px"),
            #plotOutput(outputId = "plot", height = "500px", click = "plot_click"),
            # PLaceholder for results of type text
-           htmlOutput(outputId = "text"),
-           #last one is meant to display the coordinates of a point clicked on the plot
-           #currently not working
-           #verbatimTextOutput(outputId = "info"),
-
-           tags$head(tags$style("#warn{color: red;
-                                font-style: italic;
-                                }")),
-           tags$hr()
+           htmlOutput(outputId = "text")
 
            ) #end main panel column with outcomes
   ), #end layout with side and main panel

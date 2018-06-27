@@ -24,12 +24,12 @@ What influences model results
 
 
 Fitting Topics
-* bootstrapping for fitting - include possibility to fit in linear or log space
-* DONE fitting to do model comparison
+* DONE, no TASKS yet - bootstrapping for fitting - include possibility to fit in linear or log space
+* DONE, no TASKS yet - fitting to do model comparison
 
 Further topics
-* DONE PK/PD
-* DONE flu drug stochastic evolutionary model - DO TEXT OUTPUT
+* DONE, no TASKS yet - PK/PD
+* DONE, no TASKS yet - flu drug stochastic evolutionary model - DO TEXT OUTPUT
 
 #Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)

@@ -8,7 +8,7 @@ Description: A collection of Shiny apps that allow for the simulation and
     All apps include explanations of the underlying models and instructions on
     what to do with the models. 
 Version: 0.1.0
-Date: 2018-04-11
+Date: 2018-07-01
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre")),
@@ -19,21 +19,19 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE
 Imports:
-    deSolve (>= 1.20),
     adaptivetau (>= 2.2),
-    lhs (>= 0.15),
-    sensitivity (>= 1.15),
-    nloptr (>= 1.0.4),
-    knitr (>= 1.15),
-    tidyr (>= 0.7),
-    dplyr (>= 0.7.4),
-    gridExtra (>= 2.3),
     boot (>= 1.3-20),
-    ggplot2 (>= 2.2.1),
-    utils
+    deSolve (>= 1.20),
+    dplyr (>= 0.7.4),
+    knitr (>= 1.15),
+    lhs (>= 0.15),
+    nloptr (>= 1.0.4),
+    sensitivity (>= 1.15),
+    tidyr (>= 0.7),
+    utils (>= 3.4)
 Depends:
-    R (>= 3.5),
-    shiny 
+    R (>= 3.4),
+    shiny (>= 1.0)
 Suggests:
     rmarkdown
 RoxygenNote: 6.0.1

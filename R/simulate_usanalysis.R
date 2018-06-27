@@ -34,6 +34,8 @@
 #' @param rngseed seed for random number generator#'
 #' @return The function returns the output as a data frame,
 #' with sample values for each parameter as columns, followed by columns for the results.
+#' A final variable 'nosteady' is returned for each simulation.
+#' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' Parameters are sampled via latin hypercube sampling.
@@ -42,6 +44,7 @@
 #' which is assumed to be gamma distributed with the specified mean and variance
 #' the simulation returns for each parameter sample the peak and final value for B and I
 #' also returned are all parameter values as individual columns
+#' also returned is an indicator if steady state was reached
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter values
 #'   or fractions > 1), the code will likely abort with an error message
@@ -85,6 +88,7 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
     Bsteady=rep(0,samples)
     Isteady=rep(0,samples)
 
+    nosteady = rep(FALSE,samples) #indicates if steady state has not been reached
     for (n in 1:samples)
     {
         #values for sampled parameters
@@ -104,9 +108,18 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
         Bpeak[n]=max(odeoutput[,"B"]); #get the peak for B
         Bsteady[n] = utils::tail(odeoutput[,"B"],1)
         Isteady[n] = utils::tail(odeoutput[,"I"],1)
+
+        #a quick check to make sure the system is at steady state,
+        #i.e. the value for B at the final time is not more than
+        #1% different than B several time steps earlier
+        vl=nrow(odeoutput);
+        if ((abs(odeoutput[vl,"B"]-odeoutput[vl-10,"B"])/odeoutput[vl,"B"])>1e-2)
+        {
+          nosteady[n] = TRUE
+        }
     }
 
-    results = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec)
+    results = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
 
     return(results)
 }
