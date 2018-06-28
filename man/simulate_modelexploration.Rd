@@ -57,7 +57,7 @@ A simple 2 compartment ODE model (the simple bacteria model introduced in the ap
 is simulated for different parameter values.
 The user can specify which parameter is sampled
 the simulation returns for each parameter sample the peak and final value for B and I
-also returned is the varied parameter
+also returned is the varied parameter and an indicator if steady state was reached
 }
 \section{Warning}{
  This function does not perform any error checking. So if

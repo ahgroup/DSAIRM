@@ -61,7 +61,7 @@
 #' @export
 
 
-simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bmaxmin=1e6, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100)
+simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100)
   {
 
     #this creates a LHS with the specified number of samples for all 8 parameters
@@ -82,7 +82,6 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
     #transforming parameter g to a gamma distribution with mean gmean and variance gvar
     #this is just to illustrate how different assumptions of parameter distributions can be implemented
     gvec = stats::qgamma(lhssample[,8], shape = gmean^2/gvar, scale = gvar/gmean);
-
 
     Bpeak=rep(0,samples) #initialize vectors that will contain the solution
     Bsteady=rep(0,samples)
@@ -108,6 +107,7 @@ simulate_usanalysis <- function(B0min = 10, B0max = 10, I0min = 1, I0max = 1, Bm
         Bpeak[n]=max(odeoutput[,"B"]); #get the peak for B
         Bsteady[n] = utils::tail(odeoutput[,"B"],1)
         Isteady[n] = utils::tail(odeoutput[,"I"],1)
+
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than

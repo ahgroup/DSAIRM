@@ -208,7 +208,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                column(6,
-                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 3, step = 0.1)
+                    numericInput("Bmaxmin", "carrying capacity, Bmax (10^Bmax, lower bound)", min = 1, max = 10, value = 4, step = 0.1)
              ),
              column(6,
                     numericInput("Bmaxmax", "carrying capacity, Bmax (10^Bmax, upper bound)", min = 1, max = 10, value = 5, step = 0.1)
@@ -228,20 +228,20 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("kmin", "immune response kill rate, k (10^k, lower bound)", min = -10, max = 2, value = -5, step = 0.5)
+                           numericInput("kmin", "immune response kill rate, k (10^k, lower bound)", min = -10, max = 2, value = -8, step = 0.5)
                     ),
                     column(6,
-                           numericInput("kmax", "immune response kill rate, k (10^k, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("kmax", "immune response kill rate, k (10^k, upper bound)", min = -10, max = 2, value = -7, step = 0.5)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
            column(6,
-                  numericInput("rmin", "immune respone activation rate, r (10^r, lower bound)", min = -10, max = 2, value = -4, step = 0.5)
+                  numericInput("rmin", "immune respone activation rate, r (10^r, lower bound)", min = -10, max = 2, value = -5, step = 0.5)
            ),
            column(6,
-                  numericInput("rmax", "immune respone activation rate, r (10^r, upper bound)", min = -10, max = 2, value = -3, step = 0.5)
+                  numericInput("rmax", "immune respone activation rate, r (10^r, upper bound)", min = -10, max = 2, value = -4, step = 0.5)
            ),
            align = "center"
            ), #close fluidRow structure for input
@@ -268,7 +268,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)
+                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 200, step = 10)
                     ),
                     column(4,
                            numericInput("samples", "Number of samples to run", min = 10, max = 10000, value = 20, step = 10)

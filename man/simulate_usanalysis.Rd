@@ -4,8 +4,8 @@
 \alias{simulate_usanalysis}
 \title{Simulation to do an uncertainty and sensitivity analysis using the simple bacteria model}
 \usage{
-simulate_usanalysis(B0min = 10, B0max = 10, I0min = 1, I0max = 1,
-  Bmaxmin = 1e+06, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
+simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
+  Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
   kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001, dImin = 1,
   dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10,
   rngseed = 100)
@@ -52,6 +52,8 @@ simulate_usanalysis(B0min = 10, B0max = 10, I0min = 1, I0max = 1,
 \value{
 The function returns the output as a data frame,
 with sample values for each parameter as columns, followed by columns for the results.
+A final variable 'nosteady' is returned for each simulation.
+It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 }
 \description{
 This function performs latin hypercube sampling of parameters
@@ -69,6 +71,7 @@ The only exception is the bacteria growth parameter,
 which is assumed to be gamma distributed with the specified mean and variance
 the simulation returns for each parameter sample the peak and final value for B and I
 also returned are all parameter values as individual columns
+also returned is an indicator if steady state was reached
 }
 \section{Warning}{
  This function does not perform any error checking. So if
