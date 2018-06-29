@@ -19,7 +19,7 @@ Using models to explore and predict
 
 What influences model results
 * COMPLETELY DONE Model variants - the impact of model formulation 
-* DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
+* COMPLETELY DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
 * DONE stochastic virus model, also run deterministic for comparison
 
 

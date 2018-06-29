@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Stochastic version of the Basic Virus App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 5/16/2018
+#last updated 6/16/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -54,7 +54,7 @@ refresh <- function(input, output)
       {
         #add number of rep to seed, otherwise it's exactly the same trajectory each time
 
-        simresult <- simulate_stochasticvirus(U0 = U0, I0 = I0, V0 = V0, tmax = 100, n=n, dU=dU, b = b, dI = dI, p = p, dV = dV, rngseed = rngseed+nn)
+        simresult <- simulate_stochasticvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU=dU, b = b, dI = dI, p = p, dV = dV, rngseed = rngseed+nn)
 
         colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
         #reformat data to be in the right format for plotting
@@ -69,12 +69,11 @@ refresh <- function(input, output)
     #depending on if user wants only 1 model or both
     if (models == 1) { dat = dat_ode}
     if (models == 2) { dat = datall}
-    if (models == 3) { dat <- dplyr::full_join(dat_ode,datall)  }
+    if (models == 3) { dat <- rbind(dat_ode,datall) }
 
     #code variable names as factor and level them so they show up right in plot
     mylevels = unique(dat$varnames)
     dat$varnames = factor(dat$varnames, levels = mylevels)
-
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -88,16 +87,17 @@ refresh <- function(input, output)
     result[[1]]$legend = "Compartments"
     result[[1]]$linesize = 1
 
+    #set min and max for scales. If not provided ggplot will auto-set
+    result[[1]]$xmin = 0
+    result[[1]]$ymin = 0
+    result[[1]]$xmax = tmax
+    result[[1]]$ymax = max(result[[1]]$dat$yvals)
+
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
-    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-2}
+    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
+    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 1e-12
-    result[[1]]$ymax = max(result[[1]]$dat$yvals)
-    result[[1]]$xmin = 1e-12
-    result[[1]]$xmax = tmax
 
 
     #the following are for text display for each plot
@@ -181,13 +181,13 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(4,
-                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 5, step = 0.1)
+                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 4, step = 0.1)
              ),
              column(4,
                     numericInput("I0", "Initial number of infected cells, I0", min = 0, max = 100, value = 0, step = 1)
              ),
              column(4,
-                    numericInput("V0", "Initial number of virus, V0", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("V0", "Initial number of virus, V0", min = 0, max = 100, value = 5, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -200,7 +200,7 @@ ui <- fluidPage(
                     numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(4,
-                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 2, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -212,10 +212,10 @@ ui <- fluidPage(
                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(4,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -4, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -223,10 +223,10 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
+                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 30, step = 10)
                     ),
                     column(6,
-                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 100, step = 1)
+                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1)
 
                     ),
                     align = "center"
