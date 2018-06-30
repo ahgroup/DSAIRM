@@ -36,7 +36,7 @@ generate_text <- function(res)
 
       txt = '' #no text to start out
 
-      if (res[[vn]]$maketext == TRUE) #if the plot wants text display based on result processing, do the stuff below
+      if (res[[vn]]$maketext == TRUE) #if the app wants text display based on result processing, do the stuff below
       {
         #for each plot, process each variable by looping over them
         for (nn in  1:nvars)
@@ -45,12 +45,13 @@ generate_text <- function(res)
           currentvar = allvarnames[[nn]]
           vardat = dplyr::filter(dat, varnames == currentvar)
 
-          if (plottype == 'Lineplot') #for lineplots, we show the min/max/final for each variable
+            #for lineplots, we show the min/max/final for each variable
+          if (plottype == 'Lineplot')
           {
             #check if multiple runs are done
             #unless the data frame has a column indicating the number of runs, assume it's 1
             nreps = 1
-            if ('nreps' %in% colnames(dat) ) {nreps=max(dat$nreps)}
+            if ('nreps' %in% colnames(vardat) ) {nreps=max(vardat$nreps)}
 
             resmax = 0; resmin = 0; resfinal = 0;
             for (n1 in 1:nreps) #average over reps (if there are any)
@@ -65,8 +66,6 @@ generate_text <- function(res)
               resfinal = resfinal + currentsim$yvals[nrows]
             } #finish loop over reps
 
-            #produce 2 types of text outcomes: for time-series/lineplots, report min/max/final of each plotted variable
-            #for scatterplots, report correlation between x and every y-value
 
             #store values for each variable
             maxvals = format(resmax/nreps, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
@@ -75,6 +74,7 @@ generate_text <- function(res)
             newtxt <- paste('Minimum / Maximum / Final value of ',currentvar,': ',minvals,' / ', maxvals,' / ',numfinal,sep='')
           } #finish creating text outpot for lineplot/time-series
 
+          #for scatterplots, report correlation between x and every y-value
           if (plottype == 'Scatterplot' )
           {
             rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))

@@ -92,8 +92,18 @@ removal of V            |  V => V-1                     |   dV*V          |
 ###Task 4: 
 * Turn off the deterministic model, keep all parameter values as before (if you changed them, exit the app and reload). Set number of simulations to 2, random number seed to 100.
 * Run simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
+* Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again.
+* From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative? 
 
-CHECK HOW MEAN IS COMPUTED, REPORT NUMBER OF SIMULATIONS WHERE NO INFECTION OCCURED. EDIT generate_text for THIS.
+
+###Task 5: 
+* Currently, stochasticity/randomness is a determining factor for the take-off or not of an infection. Once an infection has started, the resulting time-series look fairly smooth and not too noisy. Play around with the model parameters to try and find a regime where the whole infection dynamics looks stochastic/noisy.
+
+
+###Task 6: 
+* In doing the last task, you likely figured out that for small numbers, you get more noisy results. Set the number of uninfected cells to 100 and the infection rate to 10^-2^. Run several stochastic outbreaks. You should see fairly random virus and infected cell plots. 
+
+The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) 
 
 
 ##Further Information {#shinytab4}

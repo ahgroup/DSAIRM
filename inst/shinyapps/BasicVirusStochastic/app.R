@@ -13,9 +13,9 @@ refresh <- function(input, output)
     input$submitBtn
 
     #Read all the input values from the UI
-    U0 = 10^isolate(input$U0);
-    I0 = isolate(input$I0);
-    V0 = isolate(input$V0);
+    U0 = round(10^isolate(input$U0));
+    I0 = round(isolate(input$I0));
+    V0 = round(isolate(input$V0));
     b = 10^isolate(input$b)
     p = 10^isolate(input$p)
     n = isolate(input$n)
@@ -40,7 +40,8 @@ refresh <- function(input, output)
       result_ode <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = 1)
       colnames(result_ode) = c('xvals','Udet','Idet','Vdet')
       dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
-      dat_ode$IDvar = paste(dat_ode$varnames,sep='')
+      dat_ode$IDvar = dat_ode$varnames
+      dat_ode$nreps = 1
     }
 
     # stochastic model
@@ -59,7 +60,8 @@ refresh <- function(input, output)
         colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
         #reformat data to be in the right format for plotting
         dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-        dat$IDvar = paste(dat$varnames,nn,sep='') #trying to make a variable for plotting same color lines for each run in ggplot2. doesn't work yet.
+        dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
+        dat$nreps = nn
         datall = rbind(datall,dat)
       }
     } #end stochastic model
