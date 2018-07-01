@@ -100,19 +100,19 @@ refresh <- function(input, output)
     #store values for each variable
     aicc = format(simresultlist$AICc, digits =2, nsmall = 2)
     ssr = format(simresultlist$SSR, digits =2, nsmall = 2)
-    bfinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2)
-    blowfit = format(simresultlist$confint[1], digits =2, nsmall = 2)
-    bhighfit = format(simresultlist$confint[2], digits =2, nsmall = 2)
+    bfinal = format(log10(simresultlist$bestpars[1]), digits =2, nsmall = 2)
+    blowfit = format(log10(simresultlist$confint[1]), digits =2, nsmall = 2)
+    bhighfit = format(log10(simresultlist$confint[2]), digits =2, nsmall = 2)
     dVfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2)
     dVlowfit = format(simresultlist$confint[3], digits =2, nsmall = 2)
     dVhighfit = format(simresultlist$confint[4], digits =2, nsmall = 2)
 
 
 
-    txt1 <- paste('Best fit values for parameters b and dV are ',bfinal,' and ',dVfinal)
-    txt2 <- paste('Lower and upper bounds for b are ',blowfit,' and ',bhighfit)
+    txt1 <- paste('Best fit values for parameters 10^b and dV are ',bfinal,' and ',dVfinal)
+    txt2 <- paste('Lower and upper bounds for 10^b are ',blowfit,' and ',bhighfit)
     txt3 <- paste('Lower and upper bounds for dV are ',dVlowfit,' and ',dVhighfit)
-    txt4 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+    txt4 <- paste('SSR is ',ssr)
 
     result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
 
@@ -219,10 +219,10 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
+                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = -2, step = 0.1)
                     ),
                     column(4,
-                    numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
+                    numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 0, step = 0.1)
            ),
            align = "center"
            ), #close fluidRow structure for input
@@ -231,7 +231,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -7, max = 7, value = -5, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -7, max = 7, value = -2, step = 0.1)
                     ),
                     column(4,
                            numericInput("blow", "infection rate lower bound, (10^blow)", min = -10, max = -7, value = -6, step = 0.1)
@@ -245,13 +245,13 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("dV", "virus decay rate, dV", min = 0.1, max = 10, value = 1, step = 0.1)
+                           numericInput("dV", "virus decay rate, dV", min = 0.1, max = 10, value = 2, step = 0.1)
                     ),
                     column(4,
                            numericInput("dVlow", "virus rate lower bound, dVlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("dVhigh", "virus rate upper bound, dVhigh", min = 10, max = 100, value = 5, step = 0.1)
+                           numericInput("dVhigh", "virus rate upper bound, dVhigh", min = 20, max = 100, value = 10, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -270,7 +270,7 @@ ui <- fluidPage(
            fluidRow(class = 'myrow',
 
                     column(4,
-                           numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
+                           numericInput("iter", "Number of fitting steps, iter", min = 1, max = 1000, value = 10)
                     ),
                     column(4,
                            selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')

@@ -8,11 +8,11 @@ simulate_stochasticvirus(U0 = 10000, I0 = 0, V0 = 5, tmax = 30, n = 0,
   dU = 0, b = 1e-04, dI = 1, p = 10, dV = 2, rngseed = 100)
 }
 \arguments{
-\item{U0}{initial number of taget cells}
+\item{U0}{initial number of taget cells. Needs to be an integer.}
 
-\item{I0}{initial number of wild-type infected cells}
+\item{I0}{initial number of wild-type infected cells. Needs to be an integer.}
 
-\item{V0}{initial number of resistant virus}
+\item{V0}{initial number of resistant virus. Needs to be an integer.}
 
 \item{tmax}{maximum simulation time, units depend on choice of units for your
 parameters}

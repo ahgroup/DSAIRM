@@ -115,6 +115,7 @@ Note that since you now change your data after you simulated it, you don't expec
 * A good source for fitting models in `R` is [@bolker08]. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.
 * This book [@hilborn97] has nice explanations of data fitting, model comparison, etc. but is more theoretical.
 * Lot's of good online material exists on fitting/inference. Most of the material is explained in the context of static, non-mechanistical, statistical or machine learning models, but a lot of the principles apply equally to ODEs.
+* A discussion of overfitting (also called 'identifiability problem') for ODEs is [@miao11a].
 * Advanced functionality to fit stochastic models can be found in the `pomp` package in R. (If you don't know what stochastic models are, check out the app by that name in DSAIRM.)
 
 

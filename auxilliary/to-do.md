@@ -20,11 +20,11 @@ Using models to explore and predict
 What influences model results
 * COMPLETELY DONE Model variants - the impact of model formulation 
 * COMPLETELY DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
-* DONE stochastic virus model, also run deterministic for comparison
+* COMPLETELY DONE stochastic virus model, also run deterministic for comparison
 
 
 Fitting Topics
-* DONE, no TASKS yet - bootstrapping for fitting - include possibility to fit in linear or log space
+* DONE, no TASKS yet - bootstrapping for fitting - FIT IN LOG SPACE NOT WORKING
 * DONE, no TASKS yet - fitting to do model comparison
 
 Further topics

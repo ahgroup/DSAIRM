@@ -105,9 +105,12 @@ removal of V            |  V => V-1                     |   dV*V          |
 
 The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) 
 
+###Task 7: 
+* Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations.
 
 ##Further Information {#shinytab4}
 * The code running the model is in the function/script `simulate_stochastivirus.R`. Check the help file for both functions to see how to use them.
+* The stochastic simulation is implemented using the `adaptivetau` package.
 
 
 ### References

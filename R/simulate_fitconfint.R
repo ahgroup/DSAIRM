@@ -13,7 +13,7 @@
 cifitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames, parscale)
 {
 
-  if (parscale == 'log') {parms = e^parms} #for simulation, need to move parameters back to original scale
+  if (parscale == 'log') {params = exp(params)} #for simulation, need to move parameters back to original scale
   names(params) = fitparnames #for some reason nloptr strips names from parameters
   allpars = c(Y0,max(timevec),params,fixedpars)
 
