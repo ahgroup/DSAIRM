@@ -51,16 +51,12 @@ generate_plots <- function(res)
       if (yscaletrans !='identity') {dat$yvals[dat$yvals<=0]=lb}
 
       #if exist, apply user-supplied x- and y-axis limits
-      #if min/max axes values are supplied by app, make sure they are not crazy high or low
-      xmin <- res[[n]]$xmin
-      ymin <- res[[n]]$ymin
-      #if we want a plot on log scale, set lower scale limits to lowest value
-      if (xscaletrans !='identity') {xmin = lb}
-      if (yscaletrans !='identity') {ymin = lb}
-      xmax <- if(is.null(res[[n]]$xmax)) NULL else  {min(ub, res[[n]]$xmax)}       #prevent crazy large x-axis
-      ymax <- if(is.null(res[[n]]$ymax)) NULL else  {min(ub, res[[n]]$ymax)}       #prevent crazy large y-axis
-
-
+      #if min/max axes values are not supplied
+      #we'll set them here to make sure they are not crazy high or low
+      xmin <- if(is.null(res[[n]]$xmin)) {lb} else  {res[[n]]$xmin}
+      ymin <- if(is.null(res[[n]]$ymin)) {lb} else  {res[[n]]$ymin}
+      xmax <- if(is.null(res[[n]]$xmax)) {ub} else  {res[[n]]$xmax}
+      ymax <- if(is.null(res[[n]]$ymax)) {ub} else  {res[[n]]$ymax}
 
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)

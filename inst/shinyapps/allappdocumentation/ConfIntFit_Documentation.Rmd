@@ -40,10 +40,13 @@ Bootstrapping is conceptually easy to understand and also fairly easy to impleme
 
 
 ##What to do {#shinytab3}
+The fit is run multiple times. First, the model is fit to the actual data. Then, the model is fit again for the specified number of times to data created by bootstrap sampling. Note that the default for the number of fitting iterations and the number of bootstrap samples are both very low. Usually, we might want 100s or 1000s for each, or in the case of the actual fitting, we want to take as many steps as it takes until we found the best fit. Unfortunately, that would take very long, so for the purposes of this teaching app, we'll keep both iterations and bootstrap samples at values less than you should use in a 'real world' situation.
 
-_To come_
+###Task 1: 
+* Since bootstrapping involves sampling, different random number seeds will lead to different results. Try by running the simulation for 2 different seeds. Note that the best fit value does not change. This could either be because we let the solver run long enough to find the best fit (not the case here), or because the underlying solver is deterministic. The latter is the case here. Some optimizers have a random component, then setting a seed for them is also important. 
 
-
+###Task 2: 
+* 
 
 ##Further Information {#shinytab4}
 * The R script running the simulation for this app is called `simulate_fitconfint.R`. See its help file for information on how to call and use it directly.

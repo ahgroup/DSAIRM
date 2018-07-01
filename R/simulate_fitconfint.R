@@ -2,7 +2,7 @@
 ##fitting influenza virus load data to a simple ODE model
 ##model used is the one in "simulate_basicvirus.R"
 ##illustrates bootstrapping to compute CI
-##written by Andreas Handel, ahandel@uga.edu, last change 5/25/18
+##written by Andreas Handel, ahandel@uga.edu, last change 7/1/18
 
 ##all sub-functions are specified first
 
@@ -64,7 +64,6 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitpar
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
 #' @param V0 initial number of infectious virions
-#' @param X0 initial level of immune response
 #' @param n rate of uninfected cell production
 #' @param dU rate at which uninfected cells die
 #' @param p rate at which infected cells produce virus
@@ -79,6 +78,7 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitpar
 #' @param parscale 'lin' or 'log' to fit parameters in linear or log space
 #' @param iter max number of steps to be taken by optimizer
 #' @param nsample number of samples for conf int determination
+#' @param rngseed seed for random number generator to allow reproducibility
 #' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
 #' @details a simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data
@@ -95,11 +95,11 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitpar
 #' @author Andreas Handel
 #' @export
 
-simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, p = 10, g = 1, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 100, nsample = 10)
+simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 100, nsample = 10, rngseed = 100)
 {
 
-  #will contain final result
-  output <- list()
+  set.seed(rngseed) # to allow reproducibility
+  output <- list() #will contain final result
 
   #some settings for ode solver and optimizer
   #those are hardcoded here, could in principle be rewritten to allow user to pass it into function
@@ -138,20 +138,33 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0,
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale)
 
+  #extract best fit parameter values and from the result returned by the optimizer
+
+  params = bestfit$solution
+  if (parscale == 'log') #fitting parameters log scale
+  {
+    params = exp(bestfit$solution)
+  }
+
+  names(params) = fitparnames #for some reason nloptr strips names from parameters
+  #run model to get trajectory for plotting
+  modelpars = c(params,fixedpars)
+  allpars = c(Y0,tmax=max(mydata$time),modelpars)
+  odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+
   #compute confidence intervals using bootstrap sampling
-  bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = par_ini, lb = lb, ub = ub, Y0 = Y0, timevec = timevec, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
+  bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = bestfit$solution, lb = lb, ub = ub, Y0 = Y0, timevec = timevec, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
+
 
   #calculate the 95% confidence intervals for parameters
   ci.b=boot::boot.ci(bssample,index=1,type = "perc")
   ci.dV=boot::boot.ci(bssample,index=2, type = "perc")
   ciall = c(blow = ci.b$perc[4], bhigh = ci.b$perc[5], dVlow = ci.dV$perc[4], dVhigh = ci.dV$perc[5])
+  if (parscale == 'log') #fitting parameters log scale
+  {
+    ciall = exp(ciall)
+  }
 
-  #extract best fit parameter values and from the result returned by the optimizer
-  params = bestfit$solution
-  names(params) = fitparnames #for some reason nloptr strips names from parameters
-  modelpars = c(params,fixedpars)
-  allpars = c(Y0,tmax=max(mydata$time),modelpars)
-  odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
 
   #compute sum of square residuals (SSR) for initial guess and final solution
   modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];

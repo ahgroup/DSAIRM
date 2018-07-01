@@ -97,10 +97,16 @@ refresh <- function(input, output)
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
-    if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
-    if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
-
-
+    if (plotscale == 'x' | plotscale == 'both')
+        {
+          result[[1]]$xscale = 'log10'
+          result[[1]]$xmin = 1e-12
+        }
+    if (plotscale == 'y' | plotscale == 'both')
+    {
+      result[[1]]$yscale = 'log10'
+      result[[1]]$ymin = 1e-12
+    }
 
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text

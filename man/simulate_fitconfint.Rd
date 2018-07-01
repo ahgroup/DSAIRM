@@ -4,10 +4,10 @@
 \alias{simulate_fitconfint}
 \title{Fitting a simple viral infection models to influenza data}
 \usage{
-simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, n = 0,
-  dU = 0, dI = 1, p = 10, g = 1, b = 1e-05, blow = 1e-06,
-  bhigh = 0.001, dV = 2, dVlow = 0.001, dVhigh = 1000,
-  parscale = "lin", iter = 100, nsample = 10)
+simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 10, n = 0, dU = 0,
+  dI = 2, p = 0.01, g = 0, b = 0.01, blow = 1e-06, bhigh = 1000,
+  dV = 2, dVlow = 0.001, dVhigh = 1000, parscale = "lin", iter = 100,
+  nsample = 10, rngseed = 100)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -15,8 +15,6 @@ simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, n = 0,
 \item{I0}{initial number of infected target cells}
 
 \item{V0}{initial number of infectious virions}
-
-\item{X0}{initial level of immune response}
 
 \item{n}{rate of uninfected cell production}
 
@@ -45,6 +43,8 @@ simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, n = 0,
 \item{iter}{max number of steps to be taken by optimizer}
 
 \item{nsample}{number of samples for conf int determination}
+
+\item{rngseed}{seed for random number generator to allow reproducibility}
 }
 \value{
 The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model

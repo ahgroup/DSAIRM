@@ -36,6 +36,7 @@ refresh <- function(input, output)
     iter = isolate(input$iter)
     nsample = isolate(input$nsample)
     plotscale = isolate(input$plotscale)
+    rngseed = isolate(input$rngseed)
 
     #save all results to a list for processing plots and text
     listlength = 1; #here we do all simulations in the same figure
@@ -44,7 +45,7 @@ refresh <- function(input, output)
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_fitconfint(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, blow = blow, bhigh = bhigh, dV = dV, dVlow = dVlow, dVhigh = dVhigh, parscale = parscale, iter = iter, nsample = nsample)
+      simresultlist <- simulate_fitconfint(U0 = U0, I0 = I0, V0 = V0, n = n, dU = dU, dI = dI,p = p, g = g, b = b, blow = blow, bhigh = bhigh, dV = dV, dVlow = dVlow, dVhigh = dVhigh, parscale = parscale, iter = iter, nsample = nsample, rngseed = rngseed)
     })
 
     #extract the time series from the list returned by the fitting routine
@@ -263,6 +264,10 @@ ui <- fluidPage(
                     column(4,
                            selectInput("parscale", "Scale for parameter fitting",c("Linear" = 'lin', "Logarithmic" = 'log'), selected = TRUE)
                     ),
+                    column(4,
+                           numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1)
+                    ),
+
                     align = "center"
            ), #close fluidRow structure for input
 
