@@ -41,7 +41,6 @@ refresh <- function(input, output)
       result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
       colnames(result_ode) = c('xvals','Bc','Ic')
       dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
-      dat_ode$setting = 'ode'
     }
 
     # Call the discrete model with the given parameters
@@ -50,9 +49,7 @@ refresh <- function(input, output)
       result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
       colnames(result_discrete) = c('xvals','Bd','Id')
       #reformat data to be in the right format for plotting
-      #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
       dat_disc = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
-      dat_disc$setting = 'discrete'
     }
 
     }) #end the 'with progress' wrapper

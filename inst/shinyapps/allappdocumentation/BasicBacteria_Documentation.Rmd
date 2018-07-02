@@ -115,7 +115,7 @@ Run the simulation, see what you get. You should see some oscillations and then 
 
 ###Task 3: 
 * Go back to both linear scales for plotting.
-* Set plotting now to 'both', which runs and shows both the continuous-time and discrete-time models.
+* Set "plotting"Models to run" now to 'both', which runs and shows both the continuous-time and discrete-time models.
 * Start with a discrete-time step of 0.01.
 * Leave all other settings as before.
 
@@ -149,7 +149,7 @@ You should notice that as _dt_ gets larger, the differences between discrete-tim
 * Set y-axis to log for the plot.
 * Set immune response death rate to 0.1.
 
-You should get a plot where bacteria numbers drop to below 10^-4^. Contemplate what that means. This is one of the draw-backs of ODE based models, and we'll revisit this topic in the stochastic apps.
+You should get a plot where bacteria numbers drop to below 1 and take on fractional values (e.g. 10^-4^ or less). Contemplate what that means. This is one of the draw-backs of ODE based models, and we'll revisit this topic in the stochastic apps.
 
 ###Task 9: 
 * Go crazy :) change any parameters you want to change, see how it affects the results.

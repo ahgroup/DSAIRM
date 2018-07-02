@@ -7,12 +7,27 @@
 generate_text(res)
 }
 \arguments{
-\item{res}{a list containing all simulation results and other information
-if the list entry 'maketext'  exists for a given plot (list element in allres)
-the data needs to follow the structure described in the generate_plots function
+\item{res}{a list structure containing all simulation results that are to be processed
+this function is meant to be used together with generate_plots and requires similar information
+the length of the list indicates the number of separate plots to make, and for each plot this function produces text
+each list entry needs to contain the following information/elements:
+1. a data frame called "dat" with one column called xvals, one column yvals,
+one column called varnames that contains names for different variables.
+varnames needs to be a factor variable or will be converted to one.
+Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
+If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
+for each variable is needed.
+For stochastic simulations that require averaging, an variable called nreps is needed,
+which should indicate the number of simulation.
+2. meta-data for the plot, provided in the following variables:
+required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot"
+the plottype determines what kind of text is generated.
+For lineplots and mixedplot, min/max/final values of each line are shown
+for scatterplots, a correlation coefficient is computed
+boxplots show min/max/median/average
+if the list entry 'maketext'  exists for a given plot the just described outputs will be generated
 if 'maketext' is false, this function only uses - if present' the entries 'showtext'
-for each plot and finaltext of the 1st list elemnt for an overall message/text
-see the generate_plots function for more details on the structure of the list}
+for each plot and finaltext of the 1st list element for an overall message/text}
 }
 \value{
 HTML formatted text for display in a shiny UI

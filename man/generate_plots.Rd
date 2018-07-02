@@ -10,19 +10,20 @@ generate_plots(res)
 \item{res}{a list structure containing all simulation results that are to be plotted
 the length of the list indicates the number of separate plots to make
 each list entry corresponds to one plot
-each list entry needs to contain the following information/elements
+each list entry needs to contain the following information/elements:
 1. a data frame called "dat" with one column called xvals, one column yvals,
-one column called varnames that contains names for different variables, needs to be a factor variable
-and - optional - one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations)
-if plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
-for each variable is needed
+one column called varnames that contains names for different variables.
+varnames needs to be a factor variable or will be converted to one.
+Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
+If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
+for each variable is needed.
 2. meta-data for the plot, provided in the following variables:
-required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot"
-optional: xlab, ylab - strings to label axes
-optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10"
-optional: xmin, xmax, ymin, ymax - manual min and max for axes
-optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted
-optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied}
+required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot".
+optional: xlab, ylab - strings to label axes.
+optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
+optional: xmin, xmax, ymin, ymax - manual min and max for axes.
+optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted.
+optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.}
 }
 \value{
 a plot structure for display in a shiny UI
