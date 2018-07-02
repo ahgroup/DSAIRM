@@ -5,7 +5,7 @@
 \title{Fitting 2 simple viral infection models to influenza data}
 \usage{
 simulate_fitmodelcomparison(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1,
-  dI = 1, dV = 2, g = g, p = 10, k = 1e-06, a = 1e-05,
+  dI = 1, dV = 2, g = 0, p = 10, k = 1e-06, a = 1e-05,
   alow = 1e-06, ahigh = 1e-04, b = 1e-05, blow = 1e-06, bhigh = 0.001,
   r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10,
   modeltype = 1, iter = 100)
@@ -58,7 +58,8 @@ simulate_fitmodelcomparison(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1,
 \item{iter}{max number of steps to be taken by optimizer}
 }
 \value{
-The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+The function returns a list containing the best fit timeseries,
+the best fit parameters, the data and the AICc for the model
 }
 \description{
 This function runs a simulation of a compartment model
@@ -80,9 +81,7 @@ with T-cells (model 1) or antibodies (model 2) are fitted to data
 
 \examples{
 # To run the code with default parameters just call this function
-result <- simulate_basicfitting()
-# To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_basicfitting(U0 = 1e6, dI = 2, modeltype = 2)
+\dontrun{result <- simulate_fitmodelcomparison()}
 }
 \seealso{
 See the shiny app documentation corresponding to this

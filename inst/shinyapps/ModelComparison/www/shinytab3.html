@@ -3,5 +3,22 @@
 <p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>&#13;
 <div id="task-1" class="section level3">&#13;
 <h3>Task 1:</h3>&#13;
-</div>&#13;
+<ul><li>Take a look at the inputs and outputs for the app. It’s similar to the “Basic Fitting” app (which you should do before this one).</li>&#13;
+<li>Each model has 3 parameters that are being estimated, the best fit estimates are shown under the figure, together with the SSR and AICc. Swich to model 2, run and compare how it differs from model 1.</li>&#13;
+</ul></div>&#13;
+<div id="task-2" class="section level3">&#13;
+<h3>Task 2:</h3>&#13;
+<ul><li>You probably noticed that the default setting is only 10 iterations for the solver. That’s way too few to find the best fit, so comparing the 2 models after such few iterations is not very meaningful. Increase the interations to 100 or more and re-run both models.</li>&#13;
+</ul></div>&#13;
+<div id="task-3" class="section level3">&#13;
+<h3>Task 3:</h3>&#13;
+<ul><li>Based on the AICc for both models after 100 or more interations, what do you conclude regarding the quality of each model?</li>&#13;
+<li>Take a look at SSR for both models. You should see the model with the lower AICc also have the lower SSR. Why is that so? Is that always true for any 2 models? (Hint, it’s not: The 2 models here are in some sense special, understand how/why.)</li>&#13;
+<li>If you haven’t figured out the last question, and also for a general check, compute AICc ‘by hand’ for each of the models using the reported SSR and the formula given in the “Models” section. You sould of course find the values shown below the plot.</li>&#13;
+</ul></div>&#13;
+<div id="task-4" class="section level3">&#13;
+<h3>Task 4:</h3>&#13;
+<ul><li>Explore how different starting conditions might lead to differing performance of the 2 models.</li>&#13;
+<li>Explore how different values for the fixed parameters might alter the performance of the 2 models.</li>&#13;
+</ul></div>&#13;
 </div> </body>

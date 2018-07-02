@@ -62,14 +62,12 @@ Where *t~n~* is the time since the last dose was given. Prior to treatment start
 
 ##What to do {#shinytab3}
 
-*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
 
 _To come_
 
 ##Further Information {#shinytab4}
 
-* For this app, the underlying function running the simulation is called `simulate_pkpdmodels.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_pkpdmodel` into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify this R function for your own purposes - though that requires R coding knowledge.
+* For this app, the underlying function running the simulation is called `simulate_pkpdmodels.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_pkpdmodel` into the R console for more information on how to use the functions directly.  
 * If you want to learn a bit more about these kinds of models, see e.g. [@powers03; @talal06; @handel09b; @canini14a]. 
 
 

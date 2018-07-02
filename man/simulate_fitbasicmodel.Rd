@@ -60,7 +60,8 @@ simulate_fitbasicmodel(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, n = 0,
 \item{solvertype}{the type of solver/optimizer to use, can be 1,2 or 3. See details below.}
 }
 \value{
-The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+The function returns a list containing the best fit timeseries, the best fit parameters
+the data and the final SSR
 }
 \description{
 This function runs a simulation of a compartment model

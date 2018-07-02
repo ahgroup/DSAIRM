@@ -67,7 +67,8 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @param noise noise to be added to simulated data
 #' @param iter max number of steps to be taken by optimizer
 #' @param solvertype the type of solver/optimizer to use, can be 1,2 or 3. See details below.
-#' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+#' @return The function returns a list containing the best fit timeseries, the best fit parameters
+#' the data and the final SSR
 #' @details a simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
@@ -159,22 +160,15 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
 
   odeout <- do.call(simulate_basicvirus, as.list(allpars))
 
-
   #compute sum of square residuals (SSR) for initial guess and final solution
   modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))
 
-  #compute AICc
-  N=length(mydata$outcome) #number of datapoints
-  K=length(par_ini); #fitted parameters for model 1
-  AICc=N*log(ssrfinal/N)+2*(K+1)+(2*(K+1)*(K+2))/(N-K)
-
   #list structure that contains all output
   output$timeseries = odeout
   output$bestpars = params
-  output$AICc = AICc
   output$data = mydata
   output$SSR = ssrfinal
 

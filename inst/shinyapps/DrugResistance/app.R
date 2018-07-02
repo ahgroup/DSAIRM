@@ -46,13 +46,14 @@ refresh <- function(input, output)
     {
       #add number of rep to seed, otherwise it's exactly the same trajectory each time
       withProgress(message = 'Running Simulation', value = 0, {
-        simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = 100, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
+        simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = tmax, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
     }) #end progress wrapper
 
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
       datnew = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
       datnew$IDvar = paste(datnew$varnames,nn,sep='') #trying to make a variable for plotting same color lines for each run in ggplot2. doesn't work yet.
+      datnew$nreps = nn
       dat = rbind(dat, datnew)
     }
 
@@ -73,11 +74,6 @@ refresh <- function(input, output)
     result[[1]]$legend = "Compartments"
     result[[1]]$linesize = 1
 
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 1e-12
-    result[[1]]$ymax = max(result[[1]]$dat$yvals)
-    result[[1]]$xmin = 1e-12
-    result[[1]]$xmax = tmax
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
@@ -138,7 +134,7 @@ ui <- fluidPage(
   #add header and title
 
   div( includeHTML("www/header.html"), align = "center"),
-  h1('Evolutionary Dynamics App', align = "center", style = "background-color:#123c66; color:#fff"),
+  h1('Drug Resistance Emergence App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #start section to add buttons
   fluidRow(
@@ -163,7 +159,7 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow(
              column(4,
-                    numericInput("U0", "initial number of target cells (U0)", min = 100, max = 3000, value = 1000, step = 50)
+                    numericInput("U0", "initial number of target cells (U0)", min = 100, max = 30000, value = 10000, step = 50)
              ),
              column(4,
                     numericInput("Is0", "initial number of wild-type infected cells  (Is0)", min = 0, max = 100, value = 0, step = 1)
@@ -183,7 +179,7 @@ ui <- fluidPage(
                     numericInput("Vr0", "initial number of resistant virus (Vr0)", min = 0, max = 100, value = 0, step = 1)
              ),
              column(4,
-                    numericInput("tmax", "Maximum simulation time (tmax)", min = 1, max = 1200, value = 100, step = 1)
+                    numericInput("tmax", "Maximum simulation time (tmax)", min = 1, max = 1200, value = 30, step = 1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -197,7 +193,7 @@ ui <- fluidPage(
                     numericInput("dI", "Cell death rate (dI)", min = 0, max = 10, value = 1, step = 0.1  )
              ),
              column(4,
-                    numericInput("p", "Virus production rate (10^p)", min = -10, max = 10, value = 2, step = 0.1)
+                    numericInput("p", "Virus production rate (10^p)", min = -10, max = 10, value = 1, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input

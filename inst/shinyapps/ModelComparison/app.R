@@ -85,7 +85,7 @@ refresh <- function(input, output)
     #set min and max for scales. If not provided ggplot will auto-set
     result[[1]]$ymin = 0.1
     result[[1]]$ymax = max(simresult)
-    result[[1]]$xmin = 1e-12
+    result[[1]]$xmin = 0
     result[[1]]$xmax = 9
 
     result[[1]]$xscale = 'identity'
@@ -101,17 +101,17 @@ refresh <- function(input, output)
     #store values for each variable
     aicc = format(simresultlist$AICc, digits =2, nsmall = 2)
     ssr = format(simresultlist$SSR, digits =2, nsmall = 2)
-    afinal = format(simresultlist$bestpars[1], digits =2, nsmall = 2)
+    afinal = format(log10(simresultlist$bestpars[1]), digits =2, nsmall = 2)
+    bfinal = format(log10(simresultlist$bestpars[3]), digits =2, nsmall = 2)
     r_or_dXfinal = format(simresultlist$bestpars[2], digits =2, nsmall = 2)
-    bfinal = format(simresultlist$bestpars[3], digits =2, nsmall = 2)
 
     if (modeltype == 1)
     {
-      txt1 <- paste('Best fit values for model 1 parameters a / r / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
+      txt1 <- paste('Best fit values for model 1 parameters 10^a / 10^b / r  are ',afinal,'/',bfinal,'/',r_or_dXfinal)
     }
     if (modeltype == 2)
     {
-      txt1 <- paste('Best fit values for model 2 parameters a / dX / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
+      txt1 <- paste('Best fit values for model 2 parameters 10^a / 10^b / dX are ',afinal,'/',bfinal,'/',r_or_dXfinal)
     }
 
     txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
@@ -224,7 +224,7 @@ ui <- fluidPage(
                            numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
                     ),
                     column(4,
-                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 3, step = 0.1)
+                             numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = -2, step = 0.1)
                     ),
                     column(4,
                     numericInput("k", "IR killing rate, k (10^k)", min = -10, max = 10, value = -6, step = 0.1)
@@ -247,23 +247,23 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("b", "infection rate, b (10^b)", min = -7, max = 7, value = -5, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -7, max = 7, value = -2, step = 0.1)
                     ),
                     column(4,
                            numericInput("blow", "infection rate lower bound, (10^blow)", min = -10, max = -7, value = -6, step = 0.1)
                     ),
                     column(4,
-                           numericInput("bhigh", "infection rate upper bound, (10^bhigh)", min = 7, max = 10, value = -1, step = 0.1)
+                           numericInput("bhigh", "infection rate upper bound, (10^bhigh)", min = 7, max = 10, value = 1, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("r", "T-cell growth rate, r", min = 0.1, max = 10, value = 1, step = 0.1)
+                           numericInput("r", "T-cell growth rate, r", min = 0, max = 10, value = 0.1, step = 0.1)
                     ),
                     column(4,
-                           numericInput("rlow", "growth rate lower bound, rlow", min = 0, max = 0.1, value = 0.5, step = 0.1)
+                           numericInput("rlow", "growth rate lower bound, rlow", min = 0, max = 0.1, value = 0, step = 0.1)
                     ),
                     column(4,
                            numericInput("rhigh", "growth rate upper bound, rhigh", min = 10, max = 100, value = 5, step = 0.1)
@@ -290,7 +290,7 @@ ui <- fluidPage(
                            selectInput("modeltype", "Model to fit",c("1" = 1, "2" = 2), selected = 1)
                     ),
                     column(4,
-                           numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 100)
+                           numericInput("iter", "Number of fitting steps, iter", min = 10, max = 10000, value = 10)
                     ),
                     column(4,
                            selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = 'y')

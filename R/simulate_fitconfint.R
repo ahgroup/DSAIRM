@@ -79,7 +79,8 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitpar
 #' @param iter max number of steps to be taken by optimizer
 #' @param nsample number of samples for conf int determination
 #' @param rngseed seed for random number generator to allow reproducibility
-#' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+#' @return The function returns a list containing the best fit timeseries, the best fit parameters
+#' the data, the final SSR and the bootstrapped confidence intervals
 #' @details a simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
@@ -172,15 +173,9 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))
 
-  #compute AICc
-  N=length(mydata$outcome) #number of datapoints
-  K=length(par_ini); #fitted parameters for model 1
-  AICc=N*log(ssrfinal/N)+2*(K+1)+(2*(K+1)*(K+2))/(N-K)
-
   #list structure that contains all output
   output$timeseries = odeout
   output$bestpars = params
-  output$AICc = AICc
   output$data = mydata
   output$SSR = ssrfinal
   output$confint = ciall

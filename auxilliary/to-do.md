@@ -23,12 +23,12 @@ What influences model results
 * COMPLETELY DONE stochastic virus model, also run deterministic for comparison
 
 Fitting Topics
-* COMPLETELY DONE, add bootstrap ref - bootstrapping for fitting 
-* DONE, no TASKS yet - fitting to do model comparison
+* COMPLETELY DONE, bootstrapping for fitting 
+* COMPLETELY DONE, fitting to do model comparison
 
 Further topics
 * DONE, no TASKS yet - PK/PD
-* DONE, no TASKS yet - flu drug stochastic evolutionary model - DO TEXT OUTPUT
+* COMPLETELY DONE,  flu drug stochastic evolutionary model 
 
 
 #Further apps that could be implemented

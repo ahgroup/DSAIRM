@@ -116,7 +116,8 @@ modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpa
 #' @param dXhigh upper bound for decay rate
 #' @param modeltype fitting model 1 or 2
 #' @param iter max number of steps to be taken by optimizer
-#' @return The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+#' @return The function returns a list containing the best fit timeseries,
+#' the best fit parameters, the data and the AICc for the model
 #' @details 2 simple compartmental ODE models mimicking acute viral infection
 #' with T-cells (model 1) or antibodies (model 2) are fitted to data
 #' @section Warning: This function does not perform any error checking. So if
@@ -203,7 +204,8 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   #compute AICc
   N=length(mydata$outcome) #number of datapoints
   K=length(par_ini); #fitted parameters for model
-  AICc=N*log(ssrfinal/N)+2*(K+1)+(2*(K+1)*(K+2))/(N-K)
+  AICc= N * log(ssrfinal/N) + 2*(K+1)+(2*(K+1)*(K+2))/(N-K)
+
 
   #list structure that contains all output
   output$timeseries = odeout

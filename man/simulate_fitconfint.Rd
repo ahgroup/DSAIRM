@@ -47,7 +47,8 @@ simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 10, n = 0, dU = 0,
 \item{rngseed}{seed for random number generator to allow reproducibility}
 }
 \value{
-The function returns a list containing the best fit timeseries, the best fit parameters, and AICc for the model
+The function returns a list containing the best fit timeseries, the best fit parameters
+the data, the final SSR and the bootstrapped confidence intervals
 }
 \description{
 This function runs a simulation of a compartment model
