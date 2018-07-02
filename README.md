@@ -1,11 +1,11 @@
 # DSAIRM
 Dynamical Systems Approach to Immune Response Modeling
 
-**The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). All apps should work at this point, but currently only the first few have complete documentation and instructions.**
+**The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). All apps should work at this point, but there might still be bugs. Let me know if you find any!**
 
 
 ## Description
-This is an R package consisting of a set of Shiny Apps to learn within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through the Shiny UI interface and working through the instructions provided within the Shiny UI, you can learn about some important concepts of within-host and immmune response modeling. 
+This R package consists of a set of Shiny Apps to learn within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through the Shiny UI interface and working through the instructions provided within the Shiny UI, you can learn about some important concepts of within-host and immmune response modeling. 
 
 ## Installing
 1. **Not yet available -** Install the CRAN release in the usual way with `install.packages('DSAIRM')`.
@@ -24,7 +24,7 @@ After install (which you need to do only once), load the package by runing `libr
 If you don't want to use the main menu, there is another way to run each app: Run the function `dsairmapps()` to get a list of all available apps. Run the same function specifying an app (with quotation marks), e.g. `dsairmapps('BasicBacteria')` to run that specific app. Once you close the app, you'll be back at the `R` console, then use the same function to run a different app. 
 
 ## Advanced Use
-The vignette (currently only partly complete) illustrates ways to interact with and modify the underlying models without the use of the Shiny UI.
+You can call the underlying simulation functions directly from the `R` console. You can also access all functions and modify them to your own needs. See the package vignette for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
 
 ## Further information
 The vignette provides additional details about the different ways the package can be used.

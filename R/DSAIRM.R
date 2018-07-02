@@ -10,25 +10,23 @@
 #'
 #' @section Package Structure:
 #'   The package is structured in a modular way. Each
-#'   Shiny App runs a single model. The underlying models are
-#'   encoded as functions, which are called by the Shiny app. The structure of the
-#'   package allows you to interact with the models in 3 ways:
+#'   Shiny App calls an underlying function (which in turn might call other functions).
+#'   The structure of the package allows you to interact with the models in 3 ways:
 #'
 #'   1. Start the main menu of the package by calling dsairmmenu(). Pick a shiny
-#'   app corresponding to a model, and explore the model through the
+#'   app corresponding to a model/topic, explore it through the
 #'   corresponding shiny UI. The UI contains information about the model
 #'   and a list of tasks to try. This is the main intended use of this package.
 #'
 #'   2. Call each simulator function directly from the R console, without going
 #'   through the shiny app. Each model simulator function is called simulate_XXX
-#'   and is documented. See the documentation for the package to find the names
-#'   of the different simulation functions, or check the 'further information'
-#'   tab for a given shiny app.
-#'   You can call the functions with different initial condition and parameter values.
-#'   This allows you to for instance write a few
+#'   and is documented. See the 'further information' tab for a given shiny app
+#'   to find the names of the different simulation functions.
+#'
+#'   Calling the functions directly allows you more flexibility.
+#'   For instance you could write a few
 #'   lines of extra R code to loop over some model parameter, instead of the manual setting
-#'   through the sliders in the shiny app. This gives you
-#'   some more flexibility in what you can do with these functions, but requires
+#'   through the sliders in the shiny app. This gives you more options, but requires
 #'   being able to write a little bit of R code.
 #'
 #'   3. Find the code for a simulator function you are interested in and modify
