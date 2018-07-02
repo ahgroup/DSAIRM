@@ -22,14 +22,14 @@ What influences model results
 * COMPLETELY DONE U/S and LHS with basic bacteria model - provide ranges for parameters and distributions
 * COMPLETELY DONE stochastic virus model, also run deterministic for comparison
 
-
 Fitting Topics
-* DONE, no TASKS yet - bootstrapping for fitting - FIT IN LOG SPACE NOT WORKING
+* COMPLETELY DONE, add bootstrap ref - bootstrapping for fitting 
 * DONE, no TASKS yet - fitting to do model comparison
 
 Further topics
 * DONE, no TASKS yet - PK/PD
 * DONE, no TASKS yet - flu drug stochastic evolutionary model - DO TEXT OUTPUT
+
 
 #Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)

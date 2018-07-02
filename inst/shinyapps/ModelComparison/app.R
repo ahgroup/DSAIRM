@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Model Comparison app
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 5/16/2018
+#last updated 7/2/2018
 ############################################################
 
 #the server-side function with the main functionality
@@ -23,6 +23,7 @@ refresh <- function(input, output)
     dV = isolate(input$dV)
     p = 10^isolate(input$p)
     k = 10^isolate(input$k)
+    g = isolate(input$g)
 
     b = 10^isolate(input$b)
     blow = 10^isolate(input$blow)
@@ -47,15 +48,11 @@ refresh <- function(input, output)
     listlength = 1; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
-    #browser()
-
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0, {
       #result is returned as list
-      simresultlist <- simulate_basicfitting(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, p = p, k = k, b = b, blow = blow, bhigh = bhigh, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
+      simresultlist <- simulate_fitmodelcomparison(U0 = U0, I0 = I0, V0 = V0, X0=X0, dI = dI, dV = dV, p = p, k = k, b = b, blow = blow, bhigh = bhigh, a = a, alow=alow, ahigh=ahigh, r = r, rlow = rlow, rhigh = rhigh, dX = dX, dXlow = dXlow, dXhigh = dXhigh, modeltype = modeltype, iter = iter)
     })
-
-
 
     simresult = simresultlist$timeseries
 
@@ -72,11 +69,6 @@ refresh <- function(input, output)
     fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
     fitdata$style = 'point'
     dat = rbind(dat,fitdata)
-
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
-
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -115,11 +107,11 @@ refresh <- function(input, output)
 
     if (modeltype == 1)
     {
-      txt1 <- paste('Best fit values for parameters a / r / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
+      txt1 <- paste('Best fit values for model 1 parameters a / r / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
     }
     if (modeltype == 2)
     {
-      txt1 <- paste('Best fit values for parameters a / dX / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
+      txt1 <- paste('Best fit values for model 2 parameters a / dX / b are ',afinal,'/',r_or_dXfinal,'/',bfinal)
     }
 
     txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
@@ -218,6 +210,9 @@ ui <- fluidPage(
                     ),
                     column(4,
                            numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
+                    ),
+                    column(4,
+                           numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 0, step = 0.1)
                     ),
 
                     align = "center"

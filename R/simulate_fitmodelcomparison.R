@@ -1,7 +1,7 @@
 ##################################################################################
 ##fitting influenza virus load data to 2 simple ODE models
 ##illustrates model comparison and parameter estimation
-##written by Andreas Handel, ahandel@uga.edu, last change 5/25/18
+##written by Andreas Handel, ahandel@uga.edu, last change 7/2/18
 
 ##all sub-functions are specified first
 
@@ -15,7 +15,7 @@ model1ode <- function(t, y, parms)
 
       dUdt = -b*V*U
       dIdt = b*V*U - dI*I - k*X*I
-      dVdt = p*I - dV*V - b*V*U
+      dVdt = p*I - dV*V - g*b*V*U
       dXdt = a*V + r*X
 
       list(c(dUdt, dIdt, dVdt,dXdt))
@@ -33,7 +33,7 @@ model2ode <- function(t, y, parms)
 
       dUdt = -b*V*U
       dIdt = b*V*U - dI*I
-      dVdt = p*I - dV*V - k*X*V - b*V*U
+      dVdt = p*I - dV*V - k*X*V - g*b*V*U
       dXdt = a*V*X - dX*X
 
       list(c(dUdt, dIdt, dVdt, dXdt))
@@ -46,7 +46,7 @@ model2ode <- function(t, y, parms)
 ###################################################################
 #function that fits the ODE model to data
 ###################################################################
-fitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitparnames)
+modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitparnames)
 {
 
    names(params) = fitparnames #for some reason nloptr strips names from parameters
@@ -100,6 +100,7 @@ fitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitpa
 #' @param p rate at which infected cells produce virus
 #' @param dI rate at which infected cells die
 #' @param dV rate at which infectious virus is cleared
+#' @param g unit conversion factor
 #' @param k rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)
 #' @param a activation of T-cells (model 1) or growth of antibodies (model 2)
 #' @param alow lower bound for activation rate
@@ -123,15 +124,13 @@ fitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitpa
 #'   the code will likely abort with an error message
 #' @examples
 #' # To run the code with default parameters just call this function
-#' result <- simulate_basicfitting()
-#' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- simulate_basicfitting(U0 = 1e6, dI = 2, modeltype = 2)
+#' \dontrun{result <- simulate_fitmodelcomparison()}
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @export
 
-simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV = 2, p = 10, k = 1e-6, a = 1e-5, alow = 1e-6, ahigh = 1e-4, b = 1e-5, blow = 1e-6, bhigh = 1e-3, r = 1,  rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
+simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV = 2, g = 0, p = 10, k = 1e-6, a = 1e-5, alow = 1e-6, ahigh = 1e-4, b = 1e-5, blow = 1e-6, bhigh = 1e-3, r = 1,  rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
 {
 
   #will contain final result
@@ -155,7 +154,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
   timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters into a parameter vector
-  fixedpars = c(dI=dI,dV=dV,p=p,k=k);
+  fixedpars = c(dI=dI,dV=dV,p=p,k=k, g=g);
 
   if (modeltype == 1)
   {
@@ -173,11 +172,10 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
     fitparnames = c('a','dX','b')
   }
 
-
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=modelcompfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer
@@ -204,7 +202,7 @@ simulate_basicfitting <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV =
 
   #compute AICc
   N=length(mydata$outcome) #number of datapoints
-  K=length(par_ini); #fitted parameters for model 1
+  K=length(par_ini); #fitted parameters for model
   AICc=N*log(ssrfinal/N)+2*(K+1)+(2*(K+1)*(K+2))/(N-K)
 
   #list structure that contains all output

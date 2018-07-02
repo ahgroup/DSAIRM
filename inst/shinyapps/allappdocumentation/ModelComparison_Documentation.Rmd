@@ -1,5 +1,5 @@
 ---
-title: Basic Model Fit
+title: Model Comparison Fit
 output:
   html_document:
     theme: null
@@ -16,7 +16,7 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-This app shows some basic fitting of data to 2 simple infection models. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
 ##The Model {#shinytab2}
@@ -37,7 +37,7 @@ The following processes/flows are included in the model:
 
 * Virus infects cells at rate _b_.
 * Infected cells produce new virus at rate _p_, are killed by T-cells at rate _k_ and die due to other causes at rate _d~I~_.
-* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
+* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. It can also infect new cells at rate _b_, with unit conversion factor _g_.
 * T-cells are activated proportional to virus at rate _a_ and undergo exponential growth at rate _r_.
 
 
@@ -48,42 +48,46 @@ This model also consists of 4 compartments. The following entities are modeled:
 * **U** - uninfected cells 
 * **I** - infected cells
 * **V** - (free) virus
-* **X** - antibodies
+* **X** - B-cells/antibodies
 
 The following processes/flows are included in the model: 
 
 * Virus infects cells at rate _b_.
 * Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
-* Free virus is removed by antibodies at rate _k_, and by other mechanisms at rate _d~V~_.
-* Antibodies grow exponentially proportional to virus at rate _a_ and decay at rate _d~X~_.
-
+* Free virus is removed by antibodies at rate _k_, and by other mechanisms at rate _d~V~_. It can also infect new cells at rate _b_, with unit conversion factor _g_.
+* B-cells/antibodies grow exponentially proportional to virus at rate _a_ and decay at rate _d~X~_.
 
 
 ###Model Diagram
 The diagram illustrates both compartmental models, with colors to indicate mechanisms that are part of either model 1 or model 2.
 
-```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
-knitr::include_graphics("../media/simplefitmodels.png")
+```{r BIdiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
+knitr::include_graphics("../media/modelcomparison.png")
 ```
 
 
 ###Model Equations
-Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations for model 1: 
+Implementing the models as continuous-time, deterministic systems leads to the following set of ordinary differential equations for model 1: 
 
 $$\dot U =  - bUV$$ 
 $$\dot I = bUV - d_I I - kIX$$
-$$\dot V = pI - d_V V - bUV$$
+$$\dot V = pI - d_V V - gbUV$$
 $$\dot X = a V + r X$$
 
 
 Model 2 is described by these equations:
 $$\dot U =  - bUV$$ 
 $$\dot I = bUV - d_I I $$
-$$\dot V = pI - d_V V - k V X - bUV$$
+$$\dot V = pI - d_V V - k V X - gbUV$$
 $$\dot X = a V X - d_X X$$
 
 ###Comments
-Note that both models are rather simple and - arguably - somewhat unrealistic. For instance the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection - as done here for influenza - where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting.
+Note that both models are rather simple and - arguably - somewhat unrealistic. For instance the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection - as done here for influenza - where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. For both models, we ignored birth/death of uninfected cells, which is possibly ok for an acute infection (but needs to be determined based on known biology for a given system). 
+
+We also assume for model 2 that the dynamics of B-cells and antibodys track each other close enough that we can lump them together into a single equation.
+
+In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting.
+
 
 ###Data source
 The data being used in this app comes from [@hayden96]. Specifically, the data being fit is the 'no intervention' viral load data shown in Figure 2 of the paper.
@@ -99,10 +103,7 @@ The data being used in this app comes from [@hayden96]. Specifically, the data b
 
 ##Further Information {#shinytab4}
 
-* For this app, the underlying function running the simulation is called `simulate_basicfitting.R`. You can call this function directly, without going through the shiny app. Type `?simulate_basicfitting` into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify this R function for your own purposes - though that requires R coding knowledge.
-* If you want to learn a bit more about fitting these kinds of models, see e.g. []. 
-
+* For this app, the underlying function running the simulation is called `simulate_fitmodelcomparison.R`. You can call this function directly, without going through the shiny app. Type `?simulate_fitmodelcomparison` into the R console for more information on how to use the functions directly. 
 
 ### References
 
