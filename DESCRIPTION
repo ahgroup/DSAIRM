@@ -36,10 +36,9 @@ Depends:
     shiny (>= 1.0)
 Suggests:
     knitr (>= 1.15),
-    rmarkdown (>= 1.10)
+    rmarkdown (>= 1.10),
+    covr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 URL: https://github.com/ahgroup/DSAIRM
 BugReports: https://github.com/ahgroup/DSAIRM/issues
-
-

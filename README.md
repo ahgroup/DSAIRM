@@ -1,9 +1,11 @@
+[![Build Status](https://travis-ci.org/ahgroup/DSAIRM.svg?branch=master)](https://travis-ci.org/ahgroup/DSAIRM)
+
+[![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg)](https://codecov.io/github/ahgroup/DSAIRM?branch=master)
+
 # DSAIRM
 Dynamical Systems Approach to Immune Response Modeling
 
 **The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). All apps should work at this point, but there might still be bugs. Let me know if you find any!**
-
-[![Build Status](https://travis-ci.org/ahgroup/DSAIRM.svg?branch=master)](https://travis-ci.org/ahgroup/DSAIRM)
 
 ## Description
 This R package consists of a set of Shiny Apps to learn within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through the Shiny UI interface and working through the instructions provided within the Shiny UI, you can learn about some important concepts of within-host and immmune response modeling. 
