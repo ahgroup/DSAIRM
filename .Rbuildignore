@@ -8,3 +8,4 @@
 ^cran-comments\.md$
 ^to-do\.md$
 ^codecov\.yml$
+^appveyor\.yml$
