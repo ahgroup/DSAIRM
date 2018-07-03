@@ -22,6 +22,8 @@
 #'
 #' @return a plot structure for display in a shiny UI
 #' @details This function is called by the shiny server to produce plots returned to the shiny UI
+#' Create plots run the simulation with default parameters just call this function
+#' result <- simulate_basicbacteria()
 #' @author Andreas Handel
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
