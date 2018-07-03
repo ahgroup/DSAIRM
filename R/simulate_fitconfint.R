@@ -21,7 +21,7 @@ cifitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames, p
     odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
 
     #extract values for virus load at time points where data is available
-    modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+    modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -94,6 +94,9 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitpar
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
+#' @importFrom utils read.csv
+#' @importFrom dplyr filter rename select
+#' @importFrom nloptr nloptr
 #' @export
 
 simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 100, nsample = 10, rngseed = 100)
@@ -113,11 +116,11 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata = utils::read.csv(filename)
   mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, time = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, time, outcome)
+  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
+  mydata =  dplyr::select(mydata, xvals, outcome)
 
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
-  timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  timevec = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters and to be estimated parameters into a vector
   fixedpars = c(n=n,dU=dU,dI=dI,p=p,g=g);
@@ -150,7 +153,7 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   names(params) = fitparnames #for some reason nloptr strips names from parameters
   #run model to get trajectory for plotting
   modelpars = c(params,fixedpars)
-  allpars = c(Y0,tmax=max(mydata$time),modelpars)
+  allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
   odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
 
   #compute confidence intervals using bootstrap sampling
@@ -168,7 +171,7 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
 
 
   #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+  modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))

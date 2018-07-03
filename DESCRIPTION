@@ -25,17 +25,18 @@ Imports:
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     gridExtra (>= 2.3),
-    knitr (>= 1.15),
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
     sensitivity (>= 1.15),
+    stats (>= 3.4),
     tidyr (>= 0.7),
     utils (>= 3.4)
 Depends:
     R (>= 3.4),
     shiny (>= 1.0)
 Suggests:
-    rmarkdown
+    knitr (>= 1.15),
+    rmarkdown (>= 1.10)
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
 URL: https://github.com/ahgroup/DSAIRM

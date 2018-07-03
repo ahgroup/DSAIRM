@@ -23,6 +23,8 @@
 #' @return a plot structure for display in a shiny UI
 #' @details This function is called by the shiny server to produce plots returned to the shiny UI
 #' @author Andreas Handel
+#' @import ggplot2
+#' @importFrom gridExtra grid.arrange
 #' @export
 
 generate_plots <- function(res)

@@ -7,7 +7,7 @@ output:
     fig_caption: yes
     css: dsairmvignettestyle.css
 vignette: >
-  %\VignetteIndexEntry{DSAIRM}
+  %\VignetteIndexEntry{DSAIRM Package Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: vignetterefs.bib

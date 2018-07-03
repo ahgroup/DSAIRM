@@ -26,6 +26,7 @@
 #' @return HTML formatted text for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
+#' @importFrom stats median
 #' @export
 
 generate_text <- function(res)
@@ -105,7 +106,7 @@ generate_text <- function(res)
           {
             mymin = format(min(vardat$yvals), digits =2, nsmall = 2)
             mymean = format(mean(vardat$yvals), digits =2, nsmall = 2)
-            mymedian = format(median(vardat$yvals), digits =2, nsmall = 2)
+            mymedian = format(stats::median(vardat$yvals), digits =2, nsmall = 2)
             mymax = format(max(vardat$yvals), digits =2, nsmall = 2)
             newtxt = paste('Min/Mean/Median/Max for ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
           }

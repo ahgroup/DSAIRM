@@ -63,7 +63,7 @@ modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpa
    }
 
     #extract values for virus load at time points where data is available
-    modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+    modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -129,6 +129,10 @@ modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpa
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
+#' @importFrom utils read.csv
+#' @importFrom dplyr filter rename select
+#' @importFrom nloptr nloptr
+
 #' @export
 
 simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1, dV = 2, g = 0, p = 10, k = 1e-6, a = 1e-5, alow = 1e-6, ahigh = 1e-4, b = 1e-5, blow = 1e-6, bhigh = 1e-3, r = 1,  rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
@@ -148,11 +152,11 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata=read.csv(filename)
   mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, time = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, time, outcome)
+  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
+  mydata =  dplyr::select(mydata, xvals, outcome)
 
   Y0 = c(U = U0, I = I0, V = V0, X = X0);  #combine initial conditions into a vector
-  timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  timevec = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters into a parameter vector
   fixedpars = c(dI=dI,dV=dV,p=p,k=k, g=g);
@@ -196,7 +200,7 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   }
 
     #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+  modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))
