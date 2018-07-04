@@ -59,7 +59,7 @@ We specify the following processes/flows:
     C) By killing virus at rate *k~6~*.
 * Adaptive immune response decays at a rate *d~A~*.
 
-The idea explored in this app and implemented by this model is that selecting different (biologically reasonable) ways the immune response is modeled, results sometimes, but not always, change. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
+The idea explored in this app and implemented by this model is that results sometimes, but not always, change depending on different (biologically reasonable) ways the immune response is modeled. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
 
 Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
 

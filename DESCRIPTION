@@ -27,7 +27,6 @@ Imports:
     gridExtra (>= 2.3),
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
-    sensitivity (>= 1.15),
     stats (>= 3.4),
     tidyr (>= 0.7),
     utils (>= 3.4)
