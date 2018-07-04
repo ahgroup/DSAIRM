@@ -34,6 +34,8 @@ This is a helper function. This function processes results returned from the sim
 }
 \details{
 This function is called by the shiny server to produce plots returned to the shiny UI
+Create plots run the simulation with default parameters just call this function
+result <- simulate_basicbacteria()
 }
 \author{
 Andreas Handel
