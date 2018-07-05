@@ -90,7 +90,6 @@ refresh <- function(input, output)
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
     result[[1]]$finaltext = 'Bc/Ic are bacteria and immune response from the continuous model, Bd/Id are from the discrete time model. Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
-
   return(result)
   })
 
@@ -101,19 +100,28 @@ refresh <- function(input, output)
   #see information for those functions to learn how data needs to look like
   #output (plots, text) is stored in reactive variable 'output'
 
-  output$plot  <- renderPlot({
+  #if simulation returns NaN, it means something failed and we shouldn't try to produce a plot and text
+
+    output$plot  <- renderPlot({
     input$submitBtn
     res=isolate(result()) #list of all results that are to be turned into plots
-    generate_plots(res) #create plots with a non-reactive function
+    if (sum(is.nan(res[[1]]$dat$yvals))==0)
+    {
+      generate_plots(res) #create plots with a non-reactive function
+    }
   }, width = 'auto', height = 'auto'
   ) #finish render-plot statement
 
   output$text <- renderText({
     input$submitBtn
     res=isolate(result()) #list of all results that are to be turned into plots
+    if (sum(is.nan(res[[1]]$dat$yvals))>0)
+    {
+      res[[1]]$maketext = FALSE
+      res[[1]]$finaltext = 'Simulation failed, adjust parameter values'
+    }
     generate_text(res) #create text for display with a non-reactive function
   })
-
 
 } #ends the 'refresh' shiny server function that runs the simulation and returns output
 

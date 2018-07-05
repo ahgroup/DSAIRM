@@ -16,7 +16,7 @@ bibliography: ../media/references.bib
 ---
 
 ##Overview {#shinytab1}
-This app allows exploration of a very basic bacteria infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of a very basic bacteria infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in "The Model" tab. Then do the tasks described in the "What to do" tab.
 
 
 ##The Model {#shinytab2}
@@ -106,7 +106,7 @@ Start with the following parameter settings in your model:
 * Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day.
 * Only run the continuous time model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.
 
-Run the simulation, see what you get. You should see some oscillations and then the system settles down, with about bacteria and immune response at the end of the simulation at around 19996 and 3003. 
+Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003. 
 
 ###Task 2: 
 * Switch the plotting to have x-axis, y-axis or both plotted on a log scale. 
