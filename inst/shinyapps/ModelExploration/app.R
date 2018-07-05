@@ -182,7 +182,7 @@ ui <- fluidPage(
                            numericInput("k", "immune response kill rate, k (10^k)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
-                           numericInput("r", "immune respone activation rate, r (10^r)", min = -10, max = 2, value = -4, step = 0.5)
+                           numericInput("r", "immune response activation rate, r (10^r)", min = -10, max = 2, value = -4, step = 0.5)
                     ),
                     column(4,
                            numericInput("dI", "Immune response death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
@@ -208,7 +208,7 @@ ui <- fluidPage(
                            numericInput("samples", "Number of parameter values to run", min = 1, max = 100, value = 10, step = 1)
                     ),
                     column(4,
-                           selectInput("pardist", "Spacing of parameter values", c('linear' = 'lin', 'logartihmic' = 'log'))
+                           selectInput("pardist", "Spacing of parameter values", c('linear' = 'lin', 'logarithmic' = 'log'))
                     ),
                     column(4,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
