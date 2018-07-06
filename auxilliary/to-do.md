@@ -17,3 +17,4 @@
 * fitting of multiple datasets and types of data, e.g. Pawelek 2016 model
 * fitting of multiple-condition datasets, e.g. with and without drug present (find old R code for this) 
 * fitting using different likelihood approaches (instead of just SSR)
+* co-infection model
