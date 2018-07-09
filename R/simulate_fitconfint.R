@@ -10,15 +10,16 @@
 ###################################################################
 #function that fits the ODE model to data
 ###################################################################
-cifitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames, parscale)
+cifitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames, parscale)
 {
 
   if (parscale == 'log') {params = exp(params)} #for simulation, need to move parameters back to original scale
   names(params) = fitparnames #for some reason nloptr strips names from parameters
-  allpars = c(Y0,max(timevec),params,fixedpars)
+  allpars = c(Y0,max(xvals),params,fixedpars)
 
     #this function catches errors
     odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
+    colnames(odeout) = c('xvals','U','I','V')
 
     #extract values for virus load at time points where data is available
     modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
@@ -41,10 +42,10 @@ cifitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames, p
 #this extra function is needed for the bootstrap routine.
 #it basically calls the optimization routine and returns the best fit parameter values (stored in finalparams) to the bootstrap function
 #the bootstrap routine is called in the main program below
-bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, timevec, fixedpars, fitparnames, maxsteps, parscale)
+bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparnames, maxsteps, parscale)
 {
   mydata = mydata[indi,] #get samples
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames, parscale =parscale)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames, parscale =parscale)
   #extract best fit parameter values and from the result returned by the optimizer
   finalparams=bestfit$solution;
   return(finalparams)
@@ -120,7 +121,7 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   mydata =  dplyr::select(mydata, xvals, outcome)
 
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
-  timevec = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters and to be estimated parameters into a vector
   fixedpars = c(n=n,dU=dU,dI=dI,p=p,g=g);
@@ -140,7 +141,7 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale)
 
   #extract best fit parameter values and from the result returned by the optimizer
 
@@ -155,9 +156,10 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   modelpars = c(params,fixedpars)
   allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
   odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+  colnames(odeout) = c('xvals','U','I','V')
 
   #compute confidence intervals using bootstrap sampling
-  bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = bestfit$solution, lb = lb, ub = ub, Y0 = Y0, timevec = timevec, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
+  bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = bestfit$solution, lb = lb, ub = ub, Y0 = Y0, xvals = xvals, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
 
 
   #calculate the 95% confidence intervals for parameters

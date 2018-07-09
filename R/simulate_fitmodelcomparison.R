@@ -46,7 +46,7 @@ model2ode <- function(t, y, parms)
 ###################################################################
 #function that fits the ODE model to data
 ###################################################################
-modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpars, fitparnames)
+modelcompfitfunction <- function(params, mydata, Y0, xvals, modeltype, fixedpars, fitparnames)
 {
 
    names(params) = fitparnames #for some reason nloptr strips names from parameters
@@ -55,12 +55,13 @@ modelcompfitfunction <- function(params, mydata, Y0, timevec, modeltype, fixedpa
 
    if (modeltype == 1)
    {
-     odeout <- try(deSolve::ode(y = Y0, times = timevec, func = model1ode, parms=modelpars, atol=1e-8, rtol=1e-8));
+     odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model1ode, parms=modelpars, atol=1e-8, rtol=1e-8));
    }
    if (modeltype == 2)
    {
-     odeout <- try(deSolve::ode(y = Y0, times = timevec, func = model2ode, parms=modelpars, atol=1e-8, rtol=1e-8));
+     odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model2ode, parms=modelpars, atol=1e-8, rtol=1e-8));
    }
+   colnames(odeout) = c('xvals','U','I','V','X')
 
     #extract values for virus load at time points where data is available
     modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
@@ -156,7 +157,7 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   mydata =  dplyr::select(mydata, xvals, outcome)
 
   Y0 = c(U = U0, I = I0, V = V0, X = X0);  #combine initial conditions into a vector
-  timevec = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining fixed parameters into a parameter vector
   fixedpars = c(dI=dI,dV=dV,p=p,k=k, g=g);
@@ -180,7 +181,7 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=modelcompfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=modelcompfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer
@@ -192,14 +193,15 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   #time-series for best fit model
   if (modeltype == 1)
   {
-    odeout <- try(deSolve::ode(y = Y0, times = timevec, func = model1ode, parms=modelpars, atol=1e-8, rtol=1e-8));
+    odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model1ode, parms=modelpars, atol=1e-8, rtol=1e-8));
   }
   if (modeltype == 2)
   {
-    odeout <- try(deSolve::ode(y = Y0, times = timevec, func = model2ode, parms=modelpars, atol=1e-8, rtol=1e-8));
+    odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model2ode, parms=modelpars, atol=1e-8, rtol=1e-8));
   }
+  colnames(odeout) = c('xvals','U','I','V','X')
 
-    #compute sum of square residuals (SSR) for initial guess and final solution
+  #compute sum of square residuals (SSR) for initial guess and final solution
   modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
