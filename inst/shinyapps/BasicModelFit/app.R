@@ -230,7 +230,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(3,
-                           numericInput("p", "infection rate, p (10^p)", min = -7, max = 7, value =  -3, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -7, max = 7, value =  -3, step = 0.1)
                     ),
                     column(3,
                            selectInput("fitp", "fitted",c("Yes" = TRUE, "No" = FALSE), selected = TRUE)
