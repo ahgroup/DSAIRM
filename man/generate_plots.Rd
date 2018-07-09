@@ -18,7 +18,7 @@ Optional, one column called IDvar for further grouping (i.e. multiple lines for 
 If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 for each variable is needed.
 2. meta-data for the plot, provided in the following variables:
-required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot".
+optional: plottype - one of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot".
 optional: xlab, ylab - strings to label axes.
 optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 optional: xmin, xmax, ymin, ymax - manual min and max for axes.

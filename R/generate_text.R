@@ -15,14 +15,16 @@
 #'    For stochastic simulations that require averaging, an variable called nreps is needed,
 #'    which should indicate the number of simulation.
 #'    2. meta-data for the plot, provided in the following variables:
-#'    required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot"
+#'    optinal: plottype - one of "Lineplot" (chosen if nothing is provided),"Scatterplot","Boxplot", "Mixedplot"
 #'    the plottype determines what kind of text is generated.
 #'    For lineplots and mixedplot, min/max/final values of each line are shown
 #'    for scatterplots, a correlation coefficient is computed
 #'    boxplots show min/max/median/average
-#'    if the list entry 'maketext'  exists for a given plot the just described outputs will be generated
-#'    if 'maketext' is false, this function only uses - if present' the entries 'showtext'
+#'    if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated
+#'    if 'maketext' is FALSE, no text is generated
+#'    if present' the entries 'showtext'
 #'    for each plot and finaltext of the 1st list element for an overall message/text
+#'    are also shown
 #' @return HTML formatted text for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
@@ -52,13 +54,17 @@ generate_text <- function(res)
 
       allvarnames = levels(dat$varnames)
       nvars = length(allvarnames)
-      plottype = res[[vn]]$plottype
+
+      plottype <- if(is.null(res[[vn]]$plottype)) {'Lineplot'} else  {res[[vn]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
+
       xlabel =  res[[vn]]$xlab
       ylabel =  res[[vn]]$ylab
 
+      maketext <- if(is.null(res[[vn]]$maketext)) {TRUE} else  {res[[vn]]$maketext} #if maketext is not set, we assume user wants it, otherwise they need to set to FALSE
+
       txt = '' #no text to start out
 
-      if (res[[vn]]$maketext == TRUE) #if the app wants text display based on result processing, do the stuff below
+      if (maketext == TRUE) #if the app wants text display based on result processing, do the stuff below
       {
         #for each plot, process each variable by looping over them
         for (nn in  1:nvars)

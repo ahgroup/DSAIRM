@@ -13,7 +13,7 @@
 #'    If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 #'    for each variable is needed.
 #'    2. meta-data for the plot, provided in the following variables:
-#'    required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot".
+#'    optional: plottype - one of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot".
 #'    optional: xlab, ylab - strings to label axes.
 #'    optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 #'    optional: xmin, xmax, ymin, ymax - manual min and max for axes.
@@ -43,7 +43,7 @@ generate_plots <- function(res)
 
     for (n in 1:nplots) #loop to create each plot
     {
-      plottype = res[[n]]$plottype
+      plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
       dat = res[[n]]$dat
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
@@ -84,13 +84,13 @@ generate_plots <- function(res)
       {
         p2 = p1 + ggplot2::geom_point( size = linesize, na.rm=TRUE)
       }
-      if (plottype == 'Lineplot')
-      {
-        p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
-      }
       if (plottype == 'Boxplot')
       {
         p2 = p1 + ggplot2::geom_boxplot()
+      }
+      if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
+      {
+        p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Mixedplot')
       {

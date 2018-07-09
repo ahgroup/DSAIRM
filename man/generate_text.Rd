@@ -20,14 +20,16 @@ for each variable is needed.
 For stochastic simulations that require averaging, an variable called nreps is needed,
 which should indicate the number of simulation.
 2. meta-data for the plot, provided in the following variables:
-required: plottype - one of "Lineplot","Scatterplot","Boxplot", "Mixedplot"
+optinal: plottype - one of "Lineplot" (chosen if nothing is provided),"Scatterplot","Boxplot", "Mixedplot"
 the plottype determines what kind of text is generated.
 For lineplots and mixedplot, min/max/final values of each line are shown
 for scatterplots, a correlation coefficient is computed
 boxplots show min/max/median/average
-if the list entry 'maketext'  exists for a given plot the just described outputs will be generated
-if 'maketext' is false, this function only uses - if present' the entries 'showtext'
-for each plot and finaltext of the 1st list element for an overall message/text}
+if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated
+if 'maketext' is FALSE, no text is generated
+if present' the entries 'showtext'
+for each plot and finaltext of the 1st list element for an overall message/text
+are also shown}
 }
 \value{
 HTML formatted text for display in a shiny UI
