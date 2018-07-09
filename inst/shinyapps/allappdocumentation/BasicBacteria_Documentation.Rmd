@@ -101,7 +101,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 ###Task 1: 
 Start with the following parameter settings in your model:
 
-* 100 initial bacteria, an initial immune response strength of 1, a simulation time of 100 (which we assume to be days)
+* 100 initial bacteria, an initial level immune response, _I~0~_, of 1, a simulation time of 100 (which we assume to be days)
 * Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (the inverse of the lifespan is the rate of death)
 * Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day.
 * Only run the continuous time model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.
@@ -115,7 +115,7 @@ Run the simulation, see what you get. You should see some oscillations and then 
 
 ###Task 3: 
 * Go back to both linear scales for plotting.
-* Set "plotting"Models to run" now to 'both', which runs and shows both the continuous-time and discrete-time models.
+* Set "Models to run" to "both"", which runs and shows both the continuous-time and discrete-time models.
 * Start with a discrete-time step of 0.01.
 * Leave all other settings as before.
 

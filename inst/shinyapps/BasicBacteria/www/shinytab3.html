@@ -10,11 +10,11 @@
 <div id="task-1" class="section level3">&#13;
 <h3>Task 1:</h3>&#13;
 <p>Start with the following parameter settings in your model:</p>&#13;
-<ul><li>100 initial bacteria, an initial immune response strength of 1, a simulation time of 100 (which we assume to be days)</li>&#13;
+<ul><li>100 initial bacteria, an initial level immune response, <em>I<sub>0</sub></em>, of 1, a simulation time of 100 (which we assume to be days)</li>&#13;
 <li>Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10<sup>5</sup> and they live for about 2 days (the inverse of the lifespan is the rate of death)</li>&#13;
 <li>Assume the immune response is activated at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day.</li>&#13;
 <li>Only run the continuous time model. Therefore, the value for the time-step <em>dt</em> for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.</li>&#13;
-</ul><p>Run the simulation, see what you get. You should see some oscillations and then the system settles down, with about bacteria and immune response at the end of the simulation at around 19996 and 3003.</p>&#13;
+</ul><p>Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003.</p>&#13;
 </div>&#13;
 <div id="task-2" class="section level3">&#13;
 <h3>Task 2:</h3>&#13;
@@ -25,7 +25,7 @@
 <div id="task-3" class="section level3">&#13;
 <h3>Task 3:</h3>&#13;
 <ul><li>Go back to both linear scales for plotting.</li>&#13;
-<li>Set “plotting”Models to run" now to ‘both’, which runs and shows both the continuous-time and discrete-time models.</li>&#13;
+<li>Set “Models to run” to “both”“, which runs and shows both the continuous-time and discrete-time models.</li>&#13;
 <li>Start with a discrete-time step of 0.01.</li>&#13;
 <li>Leave all other settings as before.</li>&#13;
 </ul><p>Run the simulation, see what you get. You should see the results from the 2 models essentially on top of each other and barely distinguishable.</p>&#13;

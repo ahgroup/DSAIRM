@@ -176,7 +176,7 @@ ui <- fluidPage(
                     numericInput("B0", "Initial number of bacteria,  B0", min = 0, max = 1000, value = 100, step = 50)
              ),
              column(4,
-                    numericInput("I0", "Initial number of immune cells, I0", min = 0, max = 100, value = 10, step = 1)
+                    numericInput("I0", "Initial immune response level, I0", min = 0, max = 100, value = 10, step = 1)
              ),
              column(4,
                     numericInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)

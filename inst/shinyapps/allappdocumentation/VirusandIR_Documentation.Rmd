@@ -119,7 +119,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 ###Task 4: 
 * We now explore B-cell/antibody response.
 * Set everything as in task 2, B-cell growth rate rate to 0.5 and saturation constant to 10^2.
-* Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20-.
+* Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^.
 * Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? Hint: Look at the equations and the initial conditions.
 * Remedy the previous problem by seting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation.
 * The maximum number of infected cells is as before. I'm sure it's clear why: While the B-cells and antibodies are there now, they don't "do" anything just yet.
