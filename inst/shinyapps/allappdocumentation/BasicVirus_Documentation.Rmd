@@ -66,7 +66,7 @@ $$\dot V = pI - d_V V - gb UV$$
 ###Task 1: 
 * Set the initial conditions to 10^5^ uninfected cells, no infected cells and 10 virus particles.
 * We start by considering an acute viral infection. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
-*A ssume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours.
+* Assume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours.
 * Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^.
 * Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1).
 * Run the simulation for 50 days, produce plots with and without log-scales.  

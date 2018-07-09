@@ -199,7 +199,7 @@ ui <- fluidPage(
            h2('Simulation Settings'),
            fluidRow( class = 'myrow',
              column(4,
-                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 7, step = 0.1)
+                    numericInput("U0", "Initial number of uninfected cells, U0 (10^U0)", min = 0, max = 10, value = 6, step = 0.1)
              ),
              column(4,
                     numericInput("I0", "Initial number of infected cells, I0", min = 0, max = 100, value = 0, step = 1)
@@ -221,7 +221,7 @@ ui <- fluidPage(
                            numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 2, step = 0.1)
                     ),
                     column(3,
-                           numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 1, step = 0.1)
+                           numericInput("g", "unit conversion factor, g", min = 0, max = 10, value = 0, step = 0.1)
                     ),
 
                     align = "center"
@@ -230,7 +230,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(3,
-                           numericInput("p", "infection rate, p (10^p)", min = -7, max = 7, value = 1, step = 0.1)
+                           numericInput("p", "infection rate, p (10^p)", min = -7, max = 7, value =  -3, step = 0.1)
                     ),
                     column(3,
                            selectInput("fitp", "fitted",c("Yes" = TRUE, "No" = FALSE), selected = TRUE)
@@ -248,7 +248,7 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(3,
-                           numericInput("b", "infection rate, b (10^b)", min = -8, max = 8, value = -6, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -8, max = 8, value = -1, step = 0.1)
                     ),
                     column(3,
                            selectInput("fitb", "fitted",c("Yes" = TRUE, "No" = FALSE), selected = TRUE)

@@ -158,7 +158,7 @@ ui <- fluidPage(
                     numericInput("I0", "Initial number of immune cells, I0", min = 0, max = 100, value = 10, step = 1)
              ),
              column(4,
-                    numericInput("tmax", "Maximum simulation time", min = 10, max = 200, value = 100, step = 10)
+                    numericInput("tmax", "Maximum simulation time", min = 1, value = 100, step = 10)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -195,10 +195,10 @@ ui <- fluidPage(
                            selectInput("samplepar", "Parameter to vary:",c("g" = "g", 'Bmax' = 'Bmax', 'dB' = 'dB', 'k'='k','r'='r','dI'='dI'))
                     ),
                     column(4,
-                           numericInput("pmin", "Minimum parameter value", min = 0, max = 1000, value = 1, step = 1)
+                           numericInput("pmin", "Minimum parameter value", min = 0,  value = 1, step = 1)
                     ),
                     column(4,
-                           numericInput("pmax", "Maximum parameter value", min = 0, max = 1000, value = 5, step = 1)
+                           numericInput("pmax", "Maximum parameter value", min = 0,  value = 5, step = 1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input

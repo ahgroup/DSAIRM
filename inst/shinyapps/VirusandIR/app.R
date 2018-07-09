@@ -239,7 +239,7 @@ ui <- fluidPage(
                            numericInput("Fmax", "max level of innate response, Fmax (10^Fmax)", min = 0, max = 6, value = 3, step = 0.1)
                     ),
                     column(4,
-                           numericInput("sF", "virus reduction strength by innate, sF (10^sF)", min = -6, max = 6, value = -1.5, step = 0.1)
+                           numericInput("sF", "virus reduction strength by innate, sF (10^sF)", min = -12, max = 6, value = -1.5, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -249,7 +249,7 @@ ui <- fluidPage(
                            numericInput("kA", "virus removal by antibodies, kA (10^kA)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     column(4,
-                           numericInput("kT", "infected cell killing by T cells, kT (10^kT)", min = -10, max = 10, value = -5, step = 0.1)
+                           numericInput("kT", "infected cell killing by T cells, kT (10^kT)", min = -20, max = 10, value = -5, step = 0.1)
                     ),
                     column(4,
                            numericInput("hF", "B-cell growth saturation constant, hF (10^hF)", min = -10, max = 10, value = -5, step = 0.1)
