@@ -85,17 +85,20 @@ If you need an introduction or refresher on what the steady state means and how 
 ###Task 5: 
 A model like this has been applied to study the interferon treatment for Hepatitis C Virus [@neumann98]. (Today's standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to know is if one of the 2 mechanisms, i.e. reduction of cell infecton (parameter _f_) or reduction of virus production (parameter _e_) is better at explaining/predicting observed viral kinetics.
 
-* Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, 10^7^ uninfected cells, infection rate 10^-7^, no treatment. Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation.
-
-###Task 5: 
-* Now start at steady state, run the simulation for 30 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres _f_ and _e_). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.
-* If you learned that the observed viral load kinetics after treatment start was a fast decline followed by a slower decline, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic virus load decline? 
+* Set starting conditions to 10^7^ uninfected cells, no uninfected cells, 10 virions.
+* Set uninfected cell birth rate to 10000, death rate to 0.001.
+* Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, infection rate 10^-7^, conversion factor 1, no treatment. Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation.
 
 ###Task 6: 
+* Now set 'start at steady state' to 'yes'. Note that this will ignore the starting values for _U_, _I_ and _V_ and instead compute the steady state from the model parameters (using the equations you learned about in the "Basic Virus" app).
+* Run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameteres _f_ and _e_). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.
+* If you learned that the observed viral load kinetics after treatment start was a fast decline followed by a slower decline, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic fast-then-slow virus load decline? 
+
+###Task 7: 
 * Keep parameter settings as in the previous task. For a drug that reduced the rate of infection of cells by 80%, what virus load do you predict on day 30 (with treatment start on day 10)?  
 * If you were told that the virus load you just found was reached with a drug that reduced viral production, approximately what drug efficacy would you predict? (Answer 0.63, confirm that you get this).  
 
-###Task 7: 
+###Task 8: 
 * Run the simulations from task 5 for a longer time and observe what the different variables do.
 * Change some of the other model parameters around and investigate how this affects the impact of the drug treatment in the model.
 
