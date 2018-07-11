@@ -80,7 +80,7 @@ While that unit conversion factor shows up in most apps, it is arguably not that
 
 
 ###Task 5 
-One major consideration when fitting these kind of mechanistic models to data is the balance between data availability and model complexity. The more and "richer" data one has available the more parameters one can estimate and therefore the more detailed a model can be. If one tries to 'ask too much' from the data, it leads to the problem of over-fitting - trying to estimate more parameters than can be robustly estimated for a given dataset. One way to safeguard against overfitting is by probing if the model can in principle recover estimates in a scenario where parameter values are known. To do so, we can use our model with specific parameter values and simulate data. We can then fit the model to this simulated data. If everything works, we expect that - ideally independent of the starting values for our solver - we end up with estimated best-fit parameter values that agree with the ones we used to simulate the artificial data. We'll try this now with the app.
+One major consideration when fitting these kind of mechanistic models to data is the balance between data availability and model complexity. The more and "richer" data one has available the more parameters one can estimate and therefore the more detailed a model can be. If one tries to 'ask too much' from the data, it leads to the problem of overfitting - trying to estimate more parameters than can be robustly estimated for a given dataset. One way to safeguard against overfitting is by probing if the model can in principle recover estimates in a scenario where parameter values are known. To do so, we can use our model with specific parameter values and simulate data. We can then fit the model to this simulated data. If everything works, we expect that - ideally independent of the starting values for our solver - we end up with estimated best-fit parameter values that agree with the ones we used to simulate the artificial data. We'll try this now with the app.
 
 * Set everything as in task 1. Now set the parameter values _psim_, _bsim_ and _dVsim_ to the same values as the values used for starting the fitting routine.
 * Set 'fit to simulated data' to YES. Run for 1 fitting step. You should now see that the data has changed. Instead of the real data, we now use simulated data. Since the parameter values for the simulated data and the starting values for the fitting routine are the same, the time-series is on top of the data and the SSR is (up to rounding errors) 0. 
@@ -89,7 +89,7 @@ One major consideration when fitting these kind of mechanistic models to data is
 Let's see if the fitting routine can recover parameters from a simulation if we start with different initial guesses.
 
 * Set value for simulated data parameters to 10^-2^ for _psim_ and _bsim_ and 2 for _dVsim_. 
-* The model parameters should be as
+* Everything else should be as before. Importantly, the starting values for the parameters we fit should now be different than the values used for the simulation.
 * Keep fitting to the simulated data, run for 1 fitting step. You'll see the data change compared to before. The SSR should increase to 3.26.
 * If you now run the fitting for many steps, what do you expect the final fit values for the parameters and the SSR to be?
 * Test your expectation by running for 100+ fitting steps with the different solvers. 

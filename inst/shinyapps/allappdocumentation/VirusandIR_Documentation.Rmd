@@ -83,7 +83,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 
 
 ###Task 1: 
-* Start with 10^5^ uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded, os if you wanted to change this, you will have to edit the underlying simulation code.
+* Start with 10^5^ uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code.
 * Set birth and death rate of uninfected cells to 0.
 * Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.
 * Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^.

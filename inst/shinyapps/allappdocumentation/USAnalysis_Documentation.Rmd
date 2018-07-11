@@ -83,7 +83,7 @@ Note that each sample means one simulation of the underlying dynamical model, so
 Also note the 'system might not have reached steady state' message. If for too many of the samples steady state has not been reached, the results for _B~steady~_ and _I~steady~_ are not correct. In that case you need to increase the simulation time to allow the system to settle into steady state. For some parameter combinations, that can take very long. 
 
 ###Task 2: 
-* Recall the uderlying dynamical model and its behavior. If you can't, revisit the "Basic Bacteria" app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, _r_. 
+* Recall the underlying dynamical model and its behavior. If you can't, revisit the "Basic Bacteria" app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, _r_. 
 * Increase lower/upper bounds by a factor of 10, from 10^-5^/10^-4^ to 10^-4^/10^-3^. Run simulations, see how results change.
 * Now go the opposite, lower the initial lower/upper bounds by a factor of 10. Run simulations, see how results change.
 
@@ -100,7 +100,7 @@ The above approach of exploring the impact of a parameter on results by varying 
 * Set values back as in task 1. If you can't remember, close the app and reopen.
 * Swich the plot type from boxplot to scatterplot, run the simulation.
 * Take a close look at the scatterplots to investigate the relation between different parameters and the various outcomes.
-* Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want).
+* Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.)
 * Increase sample size to 100+ or whatever number runs within a reasonable amount of time. With more samples, the patterns of correlation are clearer in the plots.
 
 ###Task 6: 

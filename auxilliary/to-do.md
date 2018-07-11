@@ -6,7 +6,7 @@
 * Improve error messages when simulation failed (see basic bacteria app) - use color if possible
 * Get everything ready for CRAN
 * Clean up diagrams as needed
-
+* Change structure of simulate_ functions such that each one returns a list. (Time-series) dataframe should be returned as xvals (time) / yvals (value of variable) / varnames (variable names)   
 
 
 #Further apps that could be implemented
