@@ -34,28 +34,15 @@ Each app is meant to be fully self-explanatory and contains a description of the
 ## Intended audience and goal of the package
 The main audience are individuals who want to learn how mechanistic, dynamical systems models can be used to study within-host infection dynamics. While the ideal use of this package is likely as component of a class on this topic, self-learning might also be possible. Each app contains a fair amount of documentation and description of the model. By reading the model description, doing the tasks and probably also reading some of the papers in the future information section, it might be possible to teach yourself the beginnings of within-host modeling on your own.
 
+
 ## Installing the package 
-From CRAN, the package can be installed via
+The package can be installed from CRAN or Github. See the documentation on the [packages' Github page](https://github.com/ahgroup/DSAIRM) for more details.
 
-**NOT YET ON CRAN, USE BELOW METHOD* **
-
-```{r, eval=FALSE, echo=TRUE}
-install.packages('DSAIRM')
-```
-
-To get a more up-to-date version of the package (but possibly a bit more buggy), installation from github using the `devtools` package is also possible:
-```{r, eval=FALSE, echo=TRUE}
-install.packages('devtools')
-library('devtools')
-install_github("ahgroup/DSAIRM")
-```
-
-Package installation is a one-time process, unless R itself is being upgraded/reinstalled. Note that DSAIRM depends on other packages, which will also be installed as needed.
-
+Package installation is a one-time process, unless R itself is being upgraded/reinstalled. Note that the package depends on other packages, which will also be installed as needed.
 
 
 ## Using the package
-The following sections describe the main envisioned ways the content in this R package can be used and extended. The idea is that everyone starts at level 1, and then, based on needs and interests, students can decide to move on to the next level.
+The following sections describe the main envisioned ways the content in this R package can be used and extended. The idea is that everyone starts at level 1, and then, based on needs and interests, can decide to move on to the next level.
 
 
 ### Level 1: Interactive use through the graphical user interface
@@ -94,7 +81,8 @@ library('DSAIRM')
 
 The exploration of the models through the graphical interface is the first and main intended use of the package. Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the code more directly. This will provide more flexibility but will require writing some code.
 
-To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved, for instance the fitting function apps call one of the model simulation functions. You can call/use any of these functions directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding simulator function.
+To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved. You can call/use any of these functions directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding underlying function(s).
+
 
 Consider as example the first app, called "Basic Bacterium Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete.R` and one that runs the continuous, differential equation model called `simulate_basicbacteria.R`. If you were interested in the latter, you can learn about the inputs and outputs of the function by looking at its documentation. To that end, type the following into the `R` console (make sure you loaded the DSAIRM package first): 
 ```{r eval=FALSE, echo=TRUE}
@@ -207,12 +195,10 @@ The package is built in a way that makes it (hopefully) easy for others to contr
 
 The information in the _docsfordevelopers_ folder contains more details and is hopefully complete enough to allow fairly easy development and contribution to the package. If you are interested in contributing further apps, I suggest you get in touch with me, either by email (ahandel@uga.edu) or through [the github site for the package.](https://github.com/ahgroup/DSAIRM)
 
-## Further Information
-A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. DSAIDE can be installed from CRAN and can be found [on Github.](https://github.com/ahgroup/DSAIDE). DSAIDE is described in detail in [@handel17].
-
+## Further information
+* The `documentation.md' file described above contains more information about the package structure.
+* For feedback, bug reports etc., file a github issue.
+* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE Github site for more information.](https://github.com/ahgroup/DSAIDE)
 
 ## Acknowledgements
 This package is written and maintained by [Andreas Handel](http://handelgroup.uga.edu), with contributions from [others](https://github.com/ahgroup/DSAIRM#contributors). 
-
-
-## References
