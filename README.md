@@ -22,7 +22,7 @@ library('devtools')
 install_github('ahgroup/DSAIRM', build_vignettes = TRUE)
 ```
 
-The extra `build_vignettes` ensures you get vignette for the package installed/created.
+The extra `build_vignettes` ensures you get the vignette (tutorial) for the package installed/created.
 
 ## Basic Use
 After install (which you need to do only once), load the package by runing `library('DSAIRM')`. You should receive a short greeting. Now you can open the DSAIRM main menu by running `dsairmmenu()`. From the main menu, choose the different apps corresponding to different within-host modeling topics and scenarios. Each app contains a description of the model and scenario that is implemented. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic. Once done exploring the apps, close the main menu to exit back to the R console.
@@ -36,7 +36,7 @@ You can call the underlying simulation functions directly from the `R` console. 
 ```r
 system.file("simulatorfunctions", package = "DSAIRM")
 ```
-See [the package vignette](https://cdn.rawgit.com/ahgroup/DSAIRM/f4b88d3f/inst/doc/DSAIRM.html) for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
+See [the package vignette](https://rawgit.com/ahgroup/DSAIRM/master/inst/doc/DSAIRM.html) for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
 
 ## Further information
 The vignette provides additional details about the different ways the package can be used.
