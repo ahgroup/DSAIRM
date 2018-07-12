@@ -4,6 +4,7 @@ language: R
 sudo: false
 cache: packages
 warnings_are_errors: true
+update: true
 
 os:
   - linux
