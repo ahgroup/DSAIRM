@@ -12,11 +12,17 @@
 ## ---- eval=FALSE, echo=TRUE----------------------------------------------
 #  dsairmmenu()
 
+## ---- eval=FALSE, echo=TRUE----------------------------------------------
+#  dsairmapps()
+
+## ---- eval=FALSE, echo=TRUE----------------------------------------------
+#  dsairmapps('BasicBacteria')
+
 ## ---- eval=TRUE, echo=FALSE, message=FALSE-------------------------------
 library('DSAIRM')
 
 ## ----eval=FALSE, echo=TRUE-----------------------------------------------
-#  help('simulate_basicbacteria.R')
+#  help('simulate_basicbacteria')
 
 ## ---- eval=TRUE, echo=TRUE-----------------------------------------------
 result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 0.5,  r = 0.002)
@@ -35,6 +41,9 @@ for (n in 1:length(rvec))
 }
 #plot final result
 plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria',log='xy')
+
+## ---- eval=FALSE, echo=TRUE----------------------------------------------
+#  system.file("simulatorfunctions", package = "DSAIRM")
 
 ## ----eval=FALSE, echo=TRUE-----------------------------------------------
 #  simulate_basicbacteria <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1)
@@ -57,7 +66,7 @@ plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacter
 #  dIdt = r*B*I/(s+B) - dI*I
 
 ## ----eval=TRUE, echo=TRUE------------------------------------------------
-source('mysimulator.R') #to initialize the new function - it needs to be in same directory as this code
+source('mysimulator.R') #to initialize the new function - it needs to be in same directory as these lines of code
 svec = 10^seq(-3,3,length=20) #values of saturation parameter 
 Imax = rep(0,length(svec)) #this will record the final immune response level
 for (n in 1:length(svec))

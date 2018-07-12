@@ -87,7 +87,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * Set birth and death rate of uninfected cells to 0.
 * Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.
 * Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^.
-* Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0.
+* Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)
 * By looking at the equations, convince yourself that if you have no B-cells and no baseline production and extra induction of the innate response (*p~F~*=*g~F~*=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.
 * Confirm/test with the model that this is the case.
 * If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.
@@ -116,7 +116,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * As killing rate increase, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.
 * Play around with the parameters that directly govern T-cell kinetics and impact (*r~T~*, *g~T~*, *k~T~*), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task). 
 
-###Task 4: 
+###Task 5: 
 * We now explore B-cell/antibody response.
 * Set everything as in task 2, B-cell growth rate rate to 0.5 and saturation constant to 10^2.
 * Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^.
@@ -125,7 +125,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * The maximum number of infected cells is as before. I'm sure it's clear why: While the B-cells and antibodies are there now, they don't "do" anything just yet.
 * Allow the antibodies to impact virus by slowly increasing the virus removal rate, *k~A~*. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens.
 
-###Task 5: 
+###Task 6: 
 So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it's time to look at "everything". This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of 'knobs to turn' and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That's often tricky. 
 
 

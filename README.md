@@ -19,8 +19,10 @@ This R package consists of a set of Shiny Apps to learn within-host infection dy
 ```r
 install.packages('devtools')
 library('devtools')
-install_github('ahgroup/DSAIRM')
+install_github('ahgroup/DSAIRM', build_vignettes = TRUE)
 ```
+
+The extra `build_vignettes` ensures you get vignette for the package installed/created.
 
 ## Basic Use
 After install (which you need to do only once), load the package by runing `library('DSAIRM')`. You should receive a short greeting. Now you can open the DSAIRM main menu by running `dsairmmenu()`. From the main menu, choose the different apps corresponding to different within-host modeling topics and scenarios. Each app contains a description of the model and scenario that is implemented. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic. Once done exploring the apps, close the main menu to exit back to the R console.
@@ -29,11 +31,18 @@ After install (which you need to do only once), load the package by runing `libr
 If you don't want to use the main menu, there is another way to run each app: Run the function `dsairmapps()` to get a list of all available apps. Run the same function specifying an app (with quotation marks), e.g. `dsairmapps('BasicBacteria')` to run that specific app. Once you close the app, you'll be back at the `R` console, then use the same function to run a different app. 
 
 ## Advanced Use
-You can call the underlying simulation functions directly from the `R` console. You can also access all functions and modify them to your own needs. See the package vignette for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
+You can call the underlying simulation functions directly from the `R` console. You can also access all functions and modify them to your own needs. To find the folder on your computer where the simulator functions are stored, use the following command:
+
+```r
+system.file("simulatorfunctions", package = "DSAIRM")
+```
+See [the package vignette](https://cdn.rawgit.com/ahgroup/DSAIRM/f4b88d3f/inst/doc/DSAIRM.html) for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
 
 ## Further information
 The vignette provides additional details about the different ways the package can be used.
 For feedback, bug reports etc., use the packages' github site https://github.com/ahgroup/DSAIRM
+
+A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE Github site for more information.](https://github.com/ahgroup/DSAIDE)
 
 ## Contributors
 This R package is developed and maintained by [Andreas Handel](http://handelgroup.publichealth.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.

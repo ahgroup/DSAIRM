@@ -7,7 +7,7 @@
 * Get everything ready for CRAN
 * Clean up diagrams as needed
 * Change structure of simulate_ functions such that each one returns a list. (Time-series) dataframe should be returned as xvals (time) / yvals (value of variable) / varnames (variable names)   
-
+* Change documentation creation: Have a single Rmd file in the app folder. Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the Rmd file is processed displayed. Ideally without saving the html files that are currently in the www/ subfolder. Instead, just create properly formated tabs on the fly (check if that's fast enough). 
 
 #Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)
