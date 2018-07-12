@@ -10,17 +10,18 @@
 ###################################################################
 #function that fits the ODE model to data
 ###################################################################
-basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames)
+basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
 {
 
    names(params) = fitparnames #for some reason nloptr strips names from parameters
-   allpars = c(Y0,max(timevec),params,fixedpars)
+   allpars = c(Y0,max(xvals),params,fixedpars)
 
     #this function catches errors
     odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
+    colnames(odeout) = c('xvals','U','I','V')
 
     #extract values for virus load at time points where data is available
-    modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+    modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -86,7 +87,11 @@ basicfitfunction <- function(params, mydata, Y0, timevec, fixedpars, fitparnames
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
+#' @importFrom utils read.csv
+#' @importFrom dplyr filter rename select
+#' @importFrom nloptr nloptr
 #' @export
+
 
 simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 2, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 10, usesimdata = TRUE, noise = 1e-3, iter = 100, solvertype = 1)
 {
@@ -105,11 +110,11 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata = utils::read.csv(filename)
   mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, time = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, time, outcome)
+  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
+  mydata =  dplyr::select(mydata, xvals, outcome)
 
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
-  timevec = seq(0, max(mydata$time), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #if we want to fit simulated data
   if (usesimdata == 1)
@@ -118,16 +123,17 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #combining fixed parameters and to be estimated parameters into a vector
     modelpars = c(n=n,dU=dU,dI=dI,dV=dVsim,b = bsim,p=psim,g=g);
 
-    allpars = c(Y0,tmax=max(mydata$time),modelpars)
+    allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
     #simulate model with known parameters to get artifitial data
     #not sure why R needs it in such a weird form
     #but supplying vector of values to function directly doesn't work
     odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+    colnames(odeout) = c('xvals','U','I','V')
 
     #extract values for virus load at time points where data is available
-    simdata = data.frame(odeout[match(mydata$time,odeout[,"time"]),])
-    simdata = dplyr::mutate(simdata, outcome = log10(simdata[,'V']))
-    simdata = dplyr::select(simdata, time, outcome)
+    simdata = data.frame(odeout[match(mydata$xvals,odeout[,"xvals"]),])
+    simdata$outcome = log10(simdata$V)
+    simdata = dplyr::select(simdata, xvals, outcome)
 
     mydata$outcome = simdata$outcome + noise*stats::runif(length(simdata$outcome),-1,1)*simdata$outcome
   }
@@ -148,7 +154,7 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"=algname,xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, timevec = timevec, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=basicfitfunction,lb=lb,ub=ub,opts=list("algorithm"=algname,xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer
@@ -156,12 +162,13 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   names(params) = fitparnames #for some reason nloptr strips names from parameters
   modelpars = c(params,fixedpars)
 
-  allpars = c(Y0,tmax=max(mydata$time),modelpars)
+  allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
 
   odeout <- do.call(simulate_basicvirus, as.list(allpars))
+  colnames(odeout) = c('xvals','U','I','V')
 
   #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = odeout[match(mydata$time,odeout[,"time"]),"V"];
+  modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))

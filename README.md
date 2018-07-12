@@ -36,4 +36,4 @@ The vignette provides additional details about the different ways the package ca
 For feedback, bug reports etc., use the packages' github site https://github.com/ahgroup/DSAIRM
 
 ## Contributors
-This R package is developed and maintained by [Andreas Handel](http://handelgroup.publichealth.uga.edu/). The following individuals have made contributions to this package: Sina Solaimanpour, Henok Woldu.
+This R package is developed and maintained by [Andreas Handel](http://handelgroup.publichealth.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.
