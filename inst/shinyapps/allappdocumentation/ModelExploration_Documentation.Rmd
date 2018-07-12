@@ -37,7 +37,7 @@ As mentioned, this is the same model as used in the 'Simple Bacteria Model' app.
 knitr::include_graphics("../media/bacteriamodel.png")
 ```
 
-$$\dot B = g(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
+$$\dot B = gB(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
 
 
@@ -67,7 +67,7 @@ With enough practice, it is often possible to intuit specific results based on t
 The model we have here is so simple that we can in fact figure out two of the outcomes shown in the plot without having to run simulations but instead by doing some math. Specifically, we can compute the steady states for the bacteria and immune response variables. If you have done the basic virus tasks, you have encountered the steady state idea already. We repeat it here.
 
 Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
-$0 = g(1-\frac{B}{B_{max}})-d_B B - k BI$ and $0 = r B I - d_I I$. One can solve those equations for each of the compartments to get a mathematical expression of what _B_ and _I_ are at steady state. Try to do this. You should find that $B_{steady} = d_I / r$ and a similar equation for $I_{steady}$. 
+$0 = gB(1-\frac{B}{B_{max}})-d_B B - k BI$ and $0 = r B I - d_I I$. One can solve those equations for each of the compartments to get a mathematical expression of what _B_ and _I_ are at steady state. Try to do this. You should find that $B_{steady} = d_I / r$ and a similar equation for $I_{steady}$. 
 
 ###Task 5: 
 * Compare the mathematical equations you found in the previous task with what you find in the plots. Things should be consistent, i.e. if the plot shows that _B~steady~_ does not depend on _g_, the mathematical equation should show the same. Similarly, since the plot shows that _I~steady~_ increases with _g_, that should be reflected in the mathematical equation for _I~steady~_ you got above.
@@ -97,7 +97,7 @@ Note that here we focus on a single parameter at a time. With some coding effort
 * You could for instance write your own function with that loops over some parameter and for each parameter calls one of the model simulator, e.g. `simulate_basicbacteria.R` or `simulate_basicvirus.R` or `simulate_virusandIR.R`. See the package vignette for an example.
 * You can also call the `simulate_modelexploration.R` function directly, and as needed embed it in further R code. 
 * You could also modify the `simulate_modelexploration.R`, e.g. such that it uses the virus model for model exploration.
-* Some 'real world' examples where models have been used to explore outcomes of interest as function of parameters for simple models applied to TB, see e.g. [@antia96] (specifically Figure 2B) or Malaria, see e.g. [@]. 
+* Some 'real world' examples where models have been used to explore outcomes of interest as function of parameters for simple models applied to TB, see e.g. [@antia96] (specifically Figure 2B) or Malaria, see e.g. [@kochin10]. 
 
 ### References
 

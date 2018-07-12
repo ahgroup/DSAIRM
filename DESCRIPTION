@@ -7,7 +7,7 @@ Description: A collection of Shiny apps that allow for the simulation and
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on
     what to do with the models. 
-Version: 0.1.0
+Version: 0.4.0
 Date: 2018-07-01
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
@@ -25,8 +25,10 @@ Imports:
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     gridExtra (>= 2.3),
+    knitr (>= 1.15),
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
+    rmarkdown (>= 1.10),
     stats (>= 3.4),
     tidyr (>= 0.7),
     utils (>= 3.4)
@@ -34,8 +36,6 @@ Depends:
     R (>= 3.4),
     shiny (>= 1.0)
 Suggests:
-    knitr (>= 1.15),
-    rmarkdown (>= 1.10),
     covr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
