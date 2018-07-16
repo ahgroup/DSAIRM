@@ -39,30 +39,26 @@ refresh <- function(input, output)
     if (models == 1 | models == 3)
     {
       result_ode <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
-      colnames(result_ode) = c('xvals','Bc','Ic')
-      dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
     }
 
     # Call the discrete model with the given parameters
     if (models == 2 | models == 3)
     {
-      result_discrete <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
-      colnames(result_discrete) = c('xvals','Bd','Id')
-      #reformat data to be in the right format for plotting
-      dat_disc = tidyr::gather(as.data.frame(result_discrete), -xvals, value = "yvals", key = "varnames")
+      result_disc <- simulate_basicbacteria_discrete(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, dt = dt)
     }
 
     }) #end the 'with progress' wrapper
 
-
     #depending on if user wants only 1 model or both
-    if (models == 1) { dat = dat_ode}
-    if (models == 2) { dat = dat_disc}
-    if (models == 3) { dat = rbind(dat_ode, dat_disc)  }
+    #copy the simulation result returned in the ts list element
+    #int a generic 'dat' element, which is expected by the plot and text generation functions
+    if (models == 1) { dat = result_ode$ts}
+    if (models == 2) { dat = result_disc$ts}
+    if (models == 3) #to combine time-series for both simulations, we need to re-format it
+    {
+      dat = rbind(tidyr::gather(result_ode$ts, -Time, value = "yvals", key = "varnames"), tidyr::gather(result_disc$ts, -Time, value = "yvals", key = "varnames"))
 
-    #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
+    }
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
@@ -75,12 +71,6 @@ refresh <- function(input, output)
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
 
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = max(1e-10,min(dat$yvals))
-    result[[1]]$ymax = max(dat$yvals)
-    result[[1]]$xmin = max(1e-10,min(dat$xvals))
-    result[[1]]$xmax = max(dat$xvals)
-
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
@@ -90,6 +80,7 @@ refresh <- function(input, output)
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
     result[[1]]$finaltext = 'Bc/Ic are bacteria and immune response from the continuous model, Bd/Id are from the discrete time model. Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
   return(result)
   })
 

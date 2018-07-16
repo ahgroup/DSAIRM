@@ -44,11 +44,33 @@ generate_plots <- function(res)
     for (n in 1:nplots) #loop to create each plot
     {
       plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
-      dat = res[[n]]$dat
+
+      rawdat = res[[n]]$dat
+
+
+
+      #if the first column is called 'Time' (as returned from several of the simulators)
+      #rename to xvals for consistency and so the code below will work
+      if (colnames(rawdat)[1] == 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
+
+      #for the plotting below, the data need to be in the form xvals/yvals/varnames
+      #if the data is instead in xvals/var1/var2/var3/etc. - which is what the simulator functions produce
+      #we need to re-format
+      #if the data frame already has a column called 'varnames', we assume it's already properly formatted as xvals/yvals/varnames
+      if ('varnames' %in% colnames(rawdat))
+      {
+        dat = rawdat
+      }
+      else
+      {
+        dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+      }
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
+
+      #browser()
 
 
       #see if user/calling function supplied x- and y-axis transformation information
@@ -62,10 +84,10 @@ generate_plots <- function(res)
       #if exist, apply user-supplied x- and y-axis limits
       #if min/max axes values are not supplied
       #we'll set them here to make sure they are not crazy high or low
-      xmin <- if(is.null(res[[n]]$xmin)) {lb} else  {res[[n]]$xmin}
-      ymin <- if(is.null(res[[n]]$ymin)) {lb} else  {res[[n]]$ymin}
-      xmax <- if(is.null(res[[n]]$xmax)) {min(ub,max(res[[n]]$dat$xvals))} else  {res[[n]]$xmax}
-      ymax <- if(is.null(res[[n]]$ymax)) {min(ub,max(res[[n]]$dat$yvals))} else  {res[[n]]$ymax}
+      xmin <- if(is.null(res[[n]]$xmin)) {max(lb,min(dat$xvals))} else  {res[[n]]$xmin}
+      ymin <- if(is.null(res[[n]]$ymin)) {max(lb,min(dat$yvals))} else  {res[[n]]$ymin}
+      xmax <- if(is.null(res[[n]]$xmax)) {min(ub,max(dat$xvals))} else  {res[[n]]$xmax}
+      ymax <- if(is.null(res[[n]]$ymax)) {min(ub,max(dat$yvals))} else  {res[[n]]$ymax}
 
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)
@@ -126,7 +148,7 @@ generate_plots <- function(res)
         p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = res[[n]]$legend) + ggplot2::scale_linetype_discrete(name = res[[n]]$legend) + ggplot2::scale_shape_discrete(name = res[[n]]$legend)
       }
 
-      pfinal = p6
+      pfinal = p6 + theme_bw()
       allplots[[n]] = pfinal
 
     } #end loop over individual plots

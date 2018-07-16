@@ -40,7 +40,8 @@ parameters}
 \item{pardist}{spacing of parameter values, can be either 'lin' or 'log'}
 }
 \value{
-The function returns the output as a data frame,
+The function returns the output as a list,
+list element 'dat' contains the data frame with results of interest
 The first column is called xvals and contains the values of the
 parameter that has been varied as specified by 'samplepar'.
 The remaining columns contain peak and steady state values of bacteria and immune response,
@@ -71,7 +72,7 @@ result <- simulate_modelexploration()
 # To choose parameter values other than the standard one, specify them e.g. like such
 result <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,"xvals"],result[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
+plot(result$dat[,"xvals"],result$data[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

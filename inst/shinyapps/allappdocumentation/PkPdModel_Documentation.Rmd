@@ -18,6 +18,10 @@ bibliography: ../media/references.bib
 ##Overview {#shinytab1}
 This app allows exploration of a basic virus infection model in the presence of treatment. Drug pharmacokinetics (Pk) and pharmacodynamics (Pd) is included in the model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
+###Learning Objectives
+* Be familiar with a simple Pk/Pd model
+* Appreciate the impact different drug Pk/Pd can have on result
+* 
 
 ##The Model {#shinytab2}
 

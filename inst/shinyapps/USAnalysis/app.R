@@ -38,7 +38,7 @@ refresh <- function(input, output)
     plotscale = isolate(input$plotscale)
 
     withProgress(message = 'Running Simulation', value = 0, {
-      sim_result <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples, rngseed=rngseed)
+      simresult <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples, rngseed=rngseed)
     })
 
       #reformat data to be in the right format for plotting
@@ -58,8 +58,10 @@ refresh <- function(input, output)
       #it's ok if all list elements/plots save that variable but only the information from the first will be used
 
     #pull the indicator for non-steady state out of the dataframe, process separately
-    nosteady = sim_result$nosteady
-    sim_result$nosteady <- NULL
+    nosteady = simresult$dat$nosteady
+    simresult$dat$nosteady <- NULL
+
+    simdat = simresult$dat
 
     result <- vector("list", 24) #set up a list structure with as many elements as plots
     #loop over each outer list element corresponding to a plot and fill it with another list
@@ -72,10 +74,10 @@ refresh <- function(input, output)
       {
 
       #data frame for each plot
-      xvals = sim_result[,3+n] #elements 4 to end end are parameters
-      xvalname = colnames(sim_result)[3+n]
-      yvals = sim_result[,nn] #first 3 elements are outcomes
-      yvalname = colnames(sim_result)[nn]
+      xvals = simdat[,3+n] #elements 4 to end end are parameters
+      xvalname = colnames(simdat)[3+n]
+      yvals = simdat[,nn] #first 3 elements are outcomes
+      yvalname = colnames(simdat)[nn]
       dat = data.frame(xvals = xvals, yvals = yvals, varnames = yvalname)
       result[[ct]]$dat = dat
 

@@ -6,7 +6,10 @@
 * Improve error messages when simulation failed (see basic bacteria app) - use color if possible
 * Get everything ready for CRAN
 * Clean up diagrams as needed
-* Change structure of simulate_ functions such that each one returns a list. (Time-series) dataframe should be returned as xvals (time) / yvals (value of variable) / varnames (variable names). That needs changes of lots of other bits, including vignettes.   
+
+* Change structure of simulate_ functions such that each one returns a list. At least one list element, called ts or dat, should contain data. Other things can be returned.
+Time-series dataframe should be returned with columns "Time" followed by variable names. Other simulations should return a data frame with columns xvals/yvals/varnames.   
+
 * Change documentation creation: Have a single Rmd file in the app folder. Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the Rmd file is processed displayed. Ideally without saving the html files that are currently in the www/ subfolder. Instead, just create properly formated tabs on the fly (check if that's fast enough). Update vignettes and docfordevelopers accordingly.
 * Add learning objectives to each overview tab
 * Check all refs: Add Satelli04 to bib file

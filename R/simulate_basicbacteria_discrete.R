@@ -26,8 +26,11 @@
 #'   parameters
 #' @param dt time step for simulation, units depend on choice of units for your
 #'   parameters
-#' @return The function returns the output as a matrix,
-#' with one column per compartment/variable. The first column is time.
+#' @return The function returns the output as a list
+#' the time-series from the simulation is returned as element ts
+#' the 1st column of ts is Time, the rest are the variables
+#' bacteria and immune response are labeled Bd and Id
+#' to indicate discrete model
 #' @details A simple 2 compartment model is simulated as a discrete time model.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter values
@@ -38,7 +41,7 @@
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_basicbacteria_discrete(B0 = 100, I0 = 10, tmax = 100, g = 0.5)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,1],result[,2],xlab='Time',ylab='Bacteria Number',type='l')
+#' plot(result$ts[,'Time'],result$ts[,'Bd'])
 #' @seealso See the shiny app documentation that uses this simulator
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -50,21 +53,24 @@ simulate_basicbacteria_discrete <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bma
   timevec = seq(0, tmax, dt);
 
   #data frame to store results
-  result=data.frame(time = timevec, B = rep(0,length(timevec)), I = rep(0,length(timevec)))
+  #Bacteria and Immune response are called Bd and Id (discrete)
+  simresult=data.frame(Time = timevec, Bd = rep(0,length(timevec)), Id = rep(0,length(timevec)))
 
   #this loop simulates the model
   ct=1; #a counter to index matrix
   B=B0; I=I0;
-  result[ct,]=c(0,B,I) #starting values
+  simresult[ct,]=c(0,B,I) #starting values
   for (t in timevec)
   {
     Bp = B + dt*(g*B*(1-B/Bmax)- dB*B - k*B*I) #compute the changes in bacteria numbers
     Ip = I + dt*(r*B*I-dI*I) #compute the changes for the immune response
     ct=ct+1 #advance counter
-    result[ct,]=c(t,Bp,Ip) #save results
+    simresult[ct,]=c(t,Bp,Ip) #save results
     B = Bp; I = Ip; #assign new values to old ones to update system
   }
 
-  #The output is a matrix returned by the function
-  return(as.matrix(result))
+   #The output is a matrix returned by the function
+  result = list()
+  result$ts = simresult
+  return(result)
 }

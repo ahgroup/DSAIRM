@@ -29,8 +29,11 @@ parameters}
 \item{dI}{death rate of immune response}
 }
 \value{
-The function returns the output from the odesolver as a matrix,
-with one column per compartment/variable. The first column is time.
+The function returns the output as a list
+the time-series from the simulation is returned as element ts
+the 1st column of ts is Time, the rest are the variables
+bacteria and immune response are labeled Bc and Ic
+to indicate continuous model
 }
 \description{
 This function runs a simulation of a basic 2 compartment model
@@ -55,7 +58,7 @@ result <- simulate_basicbacteria()
 # To choose parameter values other than the standard one, specify them e.g. like such
 result <- simulate_basicbacteria(B0 = 100, I0 = 10, tmax = 100, g = 10)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,1],result[,2],xlab='Time',ylab='Bacteria Number',type='l')
+plot(result$ts[,'Time'],result$ts[,'Bc'])
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

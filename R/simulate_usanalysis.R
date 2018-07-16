@@ -104,22 +104,29 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
         #all other parameters remain fixed
         odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
 
-        Bpeak[n]=max(odeoutput[,"B"]); #get the peak for B
-        Bsteady[n] = utils::tail(odeoutput[,"B"],1)
-        Isteady[n] = utils::tail(odeoutput[,"I"],1)
+        timeseries = odeoutput$ts
+
+        Bpeak[n]=max(timeseries[,"Bc"]); #get the peak for B
+        Bsteady[n] = utils::tail(timeseries[,"Bc"],1)
+        Isteady[n] = utils::tail(timeseries[,"Ic"],1)
 
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than
         #1% different than B several time steps earlier
-        vl=nrow(odeoutput);
-        if ((abs(odeoutput[vl,"B"]-odeoutput[vl-10,"B"])/odeoutput[vl,"B"])>1e-2)
+        vl=nrow(timeseries);
+        if ((abs(timeseries[vl,"Bc"]-timeseries[vl-10,"Bc"])/timeseries[vl,"Bc"])>1e-2)
         {
           nosteady[n] = TRUE
         }
     }
 
-    results = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
+    simresults = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
+
+    result = list()
+    result$dat = simresults
+    return(result)
+
 
     return(results)
 }

@@ -36,20 +36,13 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
-    result_ode <- simulate_modelexploration(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, samplepar=samplepar, pmin=pmin, pmax=pmax,  samples = samples, pardist = pardist)
+    simresult <- simulate_modelexploration(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI, samplepar=samplepar, pmin=pmin, pmax=pmax,  samples = samples, pardist = pardist)
     })
-
-    modelresults = dplyr::select(result_ode, -nosteady)
-    dat = tidyr::gather(as.data.frame(modelresults), -xvals, value = "yvals", key = "varnames")
-
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = dat
+    result[[1]]$dat = simresult$dat
 
     #Meta-information for each plot
     result[[1]]$plottype = "Scatterplot"
@@ -58,12 +51,6 @@ refresh <- function(input, output)
     result[[1]]$legend = "Outcomes"
     result[[1]]$legend = "Outcomes"
     result[[1]]$linesize = 3
-
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = max(1e-10,min(dat$yvals))
-    result[[1]]$ymax = max(dat$yvals)
-    result[[1]]$xmin = max(1e-10,min(dat$xvals))
-    result[[1]]$xmax = max(dat$xvals)
 
     result[[1]]$xscale = 'identity'
     result[[1]]$yscale = 'identity'
@@ -75,7 +62,7 @@ refresh <- function(input, output)
     #the following are for text display for each plot
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
-    result[[1]]$finaltext = paste("System might not have reached steady state", sum(result_ode$nosteady), "times")
+    result[[1]]$finaltext = paste("System might not have reached steady state", sum(simresult$dat$nosteady), "times")
 
   return(result)
   })

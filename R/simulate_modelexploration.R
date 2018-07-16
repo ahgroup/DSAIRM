@@ -28,7 +28,8 @@
 #' @param pardist spacing of parameter values, can be either 'lin' or 'log'
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
-#' @return The function returns the output as a data frame,
+#' @return The function returns the output as a list,
+#' list element 'dat' contains the data frame with results of interest
 #' The first column is called xvals and contains the values of the
 #' parameter that has been varied as specified by 'samplepar'.
 #' The remaining columns contain peak and steady state values of bacteria and immune response,
@@ -49,7 +50,7 @@
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,"xvals"],result[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
+#' plot(result$dat[,"xvals"],result$data[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -85,24 +86,27 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+        odeout <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
 
-        Bpeak[n]=max(odeoutput[,"B"]); #get the peak for B
-        Ipeak[n]=max(odeoutput[,"I"]);
-        Bsteady[n] = utils::tail(odeoutput[,"B"],1)
-        Isteady[n] = utils::tail(odeoutput[,"I"],1)
+        timeseries = odeout$ts
+
+        Bpeak[n]=max(timeseries[,"Bc"]); #get the peak for B
+        Ipeak[n]=max(timeseries[,"Ic"]);
+        Bsteady[n] = utils::tail(timeseries[,"Bc"],1)
+        Isteady[n] = utils::tail(timeseries[,"Ic"],1)
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than
         #1% different than B several time steps earlier
-        vl=nrow(odeoutput);
-        if ((abs(odeoutput[vl,"B"]-odeoutput[vl-10,"B"])/odeoutput[vl,"B"])>1e-2)
+        vl=nrow(timeseries);
+        if ((abs(timeseries[vl,"Bc"]-timeseries[vl-10,"Bc"])/timeseries[vl,"Bc"])>1e-2)
         {
           nosteady[n] = TRUE
         }
     }
 
-    results = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady, nosteady = nosteady)
-
-    return(results)
+    result = list()
+    dat = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady, nosteady = nosteady)
+    result$dat = dat
+    return(result)
 }

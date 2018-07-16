@@ -42,25 +42,40 @@ generate_text <- function(res)
 
     #each plot will be processed separately and text for each produced and placed in a list entry
     #using the same variable groupings as for the plots
-    for (vn in 1:nplots)
+    for (n in 1:nplots)
     {
-      #for each plot, get names of variables
-      dat <- res[[vn]]$dat
+
+      plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      rawdat = res[[n]]$dat
+
+      #if the first column is called 'Time' (as returned from several of the simulators)
+      #rename to xvals for consistency and so the code below will work
+      if (colnames(rawdat)[1]== 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
+
+      #for the plotting below, the data need to be in the form xvals/yvals/varnames
+      #if the data is instead in xvals/var1/var2/var3/etc. - which is what the simulator functions produce
+      #we need to re-format
+      #if the data frame already has a column called 'varnames', we assume it's already properly formatted as xvals/yvals/varnames
+      if ('varnames' %in% colnames(rawdat))
+      {
+        dat = rawdat
+      }
+      else
+      {
+        dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+      }
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
 
-
       allvarnames = levels(dat$varnames)
       nvars = length(allvarnames)
 
-      plottype <- if(is.null(res[[vn]]$plottype)) {'Lineplot'} else  {res[[vn]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      xlabel =  res[[n]]$xlab
+      ylabel =  res[[n]]$ylab
 
-      xlabel =  res[[vn]]$xlab
-      ylabel =  res[[vn]]$ylab
-
-      maketext <- if(is.null(res[[vn]]$maketext)) {TRUE} else  {res[[vn]]$maketext} #if maketext is not set, we assume user wants it, otherwise they need to set to FALSE
+      maketext <- if(is.null(res[[n]]$maketext)) {TRUE} else  {res[[n]]$maketext} #if maketext is not set, we assume user wants it, otherwise they need to set to FALSE
 
       txt = '' #no text to start out
 
@@ -129,9 +144,9 @@ generate_text <- function(res)
 
 
       #if the result structure has a text entry for a given plot, use that in addition to the
-      if (!is.null(res[[vn]]$showtext))
+      if (!is.null(res[[n]]$showtext))
       {
-        txt = paste(txt, res[[vn]]$showtext, sep = "<br/>" )
+        txt = paste(txt, res[[n]]$showtext, sep = "<br/>" )
       }
 
       alltext <- paste(alltext, txt, sep = " " ) #add text blocks together
