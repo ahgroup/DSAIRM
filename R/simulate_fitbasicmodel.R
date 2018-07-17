@@ -18,10 +18,11 @@ basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
 
     #this function catches errors
     odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
-    colnames(odeout) = c('xvals','U','I','V')
+    simres = odeout$ts
+
 
     #extract values for virus load at time points where data is available
-    modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
+    modelpred = simres[match(mydata$xvals,simres[,"Time"]),"V"];
 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -130,14 +131,13 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #not sure why R needs it in such a weird form
     #but supplying vector of values to function directly doesn't work
     odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
-
     simres = odeout$ts
 
     #extract values for virus load at time points where data is available
     simdata = data.frame(simres[match(mydata$xvals,simres[,"Time"]),])
-    simdata$outcome = log10(simdata$V)
+    simdata$simres = log10(simdata$V)
+    simdata = dplyr::rename(simdata, xvals = Time, outcome = simres) #rename to xvals for consistency with actual data
     simdata = dplyr::select(simdata, xvals, outcome)
-
     mydata$outcome = simdata$outcome + noise*stats::runif(length(simdata$outcome),-1,1)*simdata$outcome
   }
 

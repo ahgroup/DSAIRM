@@ -48,7 +48,7 @@ refresh <- function(input, output)
       withProgress(message = 'Running Simulation', value = 0, {
         simresult <- simulate_drugresistance(U0 = U0, Is0 = Is0, Ir0 = Ir0, Vs0 = Vs0, Vr0 = Vr0, tmax = tmax, b = b, dI = dI, e = e, m = m, p = p, c = c, f = f, rngseed = rngseed+nn)
     }) #end progress wrapper
-
+      simresult = simresult$ts #extract time series
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
       datnew = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
@@ -133,7 +133,7 @@ ui <- fluidPage(
 
   #add header and title
 
-  div( includeHTML("www/header.html"), align = "center"),
+  div( includeHTML("../styles/header.html"), align = "center"),
   h1('Drug Resistance Emergence App', align = "center", style = "background-color:#123c66; color:#fff"),
 
   #start section to add buttons
@@ -258,8 +258,8 @@ ui <- fluidPage(
   #Instructions section at bottom as tabs
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
-  do.call(tabsetPanel,generate_instruction_tabs()),
-  div(includeHTML("www/footer.html"), align="center", style="font-size:small") #footer
+  do.call(tabsetPanel,generate_documentation()),
+  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
 ) #end fluidpage
 
 shinyApp(ui = ui, server = server)

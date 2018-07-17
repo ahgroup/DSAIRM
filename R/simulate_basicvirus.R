@@ -40,8 +40,9 @@ virusode <- function(t, y, parms)
 #' @param b rate at which virus infects cells
 #' @param p rate at which infected cells produce virus
 #' @param g possible conversion factor for virus units
-#' @return The function returns the output from the odesolver as a matrix,
-#' with one column per compartment/variable. The first column is time.
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other columns are the model variables
 #' @details A simple compartmental model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
@@ -53,7 +54,7 @@ virusode <- function(t, y, parms)
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_basicvirus(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,1],result[,4],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -76,7 +77,10 @@ simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = virusode, parms=pars, atol=1e-12, rtol=1e-12);
+  colnames(odeoutput) = c('Time','U','I','V')
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(odeoutput)
+  return(result)
 }

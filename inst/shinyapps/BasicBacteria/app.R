@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Basic Bacteria App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 12/6/2017
+#last updated 7/6/2018
 ############################################################
 
 #the server-side function with the main functionality

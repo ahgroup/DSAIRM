@@ -51,8 +51,9 @@ evolutionratefunc <- function(y, parms, t)
 #' @param rngseed seed for random number generator to allow reproducibility
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
-#' @return This function returns the simulation result as obtained from a call
-#'   to the adaptivetau integrator
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other columns are the model variables
 #' @details A compartmental ID model with several states/compartments
 #' is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau
 #' in the adpativetau package. See the manual of this package for more details.
@@ -68,7 +69,7 @@ evolutionratefunc <- function(y, parms, t)
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_drugresistance(tmax = 200, e = 0.5)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,1],result[,2],xlab='Time',ylab='Uninfected cells',type='l')
+#' plot(result$ts[,"Time"],result$ts[,"Vs"],xlab='Time',ylab='Uninfected cells',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
 #'             The implemented model is loosely based on: Handel et al 2007 PLoS Comp Bio
 #'            "Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its
@@ -108,6 +109,10 @@ simulate_drugresistance <- function(U0 = 1E5, Is0 = 0, Ir0 = 0, Vs0 = 10, Vr0 =0
   set.seed(rngseed) # to allow reproducibility
   output = adaptivetau::ssa.adaptivetau(init.values = Y0, transitions = transitions,  rateFunc = evolutionratefunc, params = pars, tf = tmax)
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(output)
+  colnames(output) = c('Time','U','Is','Ir','Vs','Vr')
+
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(output)
+  return(result)
 }

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Basic Model Fit</title>
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic Model Fit</h1>
+
+
+
+<div id="shinytab1" class="section level2">
+<h2>Overview</h2>
+<p>This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model.</p>
+</div>
+<div id="shinytab2" class="section level2">
+<h2>The Model</h2>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>For this app, viral load data from patients infected with influenza is being fit. The data is average log viral titer on days 1-8 post infection. The data comes from <span class="citation">(Hayden et al. 1996)</span>, specifically the ‘no treatment’ group shown in Figure 2 of this paper.</p>
+<p>Another source of ‘data’ is by using our simulation to produce artificial data.</p>
+</div>
+<div id="simulation-model" class="section level3">
+<h3>Simulation Model</h3>
+<p>The underlying model that is being fit to the data is the basic virus model used in the app of this name. See that app for a description of the model.</p>
+</div>
+<div id="fitting-model" class="section level3">
+<h3>Fitting Model</h3>
+<p>This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points, i.e. <span class="math display">\[
+SSR= \sum_t (Vm_t - Vd_t)^2
+\]</span> where <span class="math inline">\(Vm_t\)</span> is the virus load (in log units) predicted from the model simulation at days <span class="math inline">\(t=1..8\)</span> and <span class="math inline">\(Vd_t\)</span> is the data, reported in those units and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit.</p>
+<p>In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 3, the rate of virus production, <em>p</em>, the rate of infection of cells, <em>b</em>, and the rate of virus death/removal, <em>d<sub>V</sub></em> can be estimated. The app also allows to keep some of those parameters fixed, we’ll explore this in the tasks.</p>
+</div>
+</div>
+<div id="shinytab3" class="section level2">
+<h2>What to do</h2>
+<p>The model is assumed to run in units of days.</p>
+<div id="task-1" class="section level3">
+<h3>Task 1</h3>
+<ul>
+<li>Start with 10<sup>6</sup> uninfected cells, no infected cells, 1 virion (assumed to be in the same units of the data, TCID50/ml).</li>
+<li>No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 0.</li>
+<li>For the parameters that are fit, set virus production rate to 10<sup>-3</sup>, infection rate to 10<sup>-1</sup> and virus decay rate to 1. These parameters are being fit, the values we specify here are the starting conditions for the optimizer.</li>
+<li>Set all “fitted” switches to YES to make sure the parameters are being fit. For each parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.</li>
+<li>Ignore the values for simulated data for now, set “fit to simulated data” to NO.</li>
+<li>Start with a 1 fitting step/iteration and solver type 1. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with these starting conditions. Notice that the virus load predicted by the model and the data are already fairly close. Also record the SSR so you can compare it with the value after the fit (value should be 3.09).</li>
+<li>Now fit for 50 iterations. Look at the results. The plot shows the final fit. The model-predicted virus curve will be closer to the data. Also, the SSR value should have gone down, indicating a better fit. Also printed below the figure are the values of the fitted parameters at the end of the fitting process.</li>
+<li>Repeat the same process, now fitting for 100 iterations. You should see some further improvement in SSR. That indicates the previous fit was not the ‘best’ fit. (The best fit is the one with the lowest possible SSR).</li>
+</ul>
+</div>
+<div id="task-2" class="section level3">
+<h3>Task 2</h3>
+<ul>
+<li>Repeat the fit, now using the solvers/optimizers “2” and “3” for fitting. Also change the number of iterations. If you computer is fast enough, keep increasing them.</li>
+<li>See what the lowest SSR is you can get and record the best parameter values.</li>
+</ul>
+<p>Generally, with increasing iterations, the fits get better. A fitting step or iteration is essentially a ‘try’ of the underlying code to find the best possible model. Increasing the tries usually improves the fit. In any kind of ‘real world’ setting, one should not specify a fixed number of iterations, that is just done here so things run reasonably fast. Instead, one should ask the solver to run as long as it takes until it can’t find a way to further improve the fit (don’t further reduce the SSR). The technical expression for this is that the solver has converged to the solution. This can be done with the solver used here (<code>nloptr</code> R package), but it would take too long, so we implement a “hard stop” after the specified number of iterations.</p>
+</div>
+<div id="task-3" class="section level3">
+<h3>Task 3</h3>
+<p>Ideally, with enough iterations, all solvers should reach the best fit with the lowest possible SSR. In practice, that does not always happen, often it depends on the starting conditions. Let’s explore this idea that starting values matter.</p>
+<ul>
+<li>Set everything as in task 1. Now change the starting values for virus production rate and infection rate (<em>p</em> and <em>b</em>) to 10<sup>-2</sup>, and virus decay rate of 5.</li>
+<li>Run simulation for 1 fitting step. You should see a virus load curve that has the up and down seen in the real data, but it’s shifted and the SSR is higher (around 15.58) than in the previous starting condition.</li>
+<li>By trying different solvers and number of iterations and comparing it to the previous tasks, get an idea of the influence of starting conditions on fitting performance and results.</li>
+</ul>
+<p>Optimizers can ‘get stuck’ and even running them for a longt ime, they might not find the best fit. What can happen is that a solver found a local optimum. It found a good fit, and now as it varies parameters, each new fit is worse, so the solver “thinks” it’s found the best fit, even though there are better ones further away in parameter space. Many solvers - even so-called ‘global’ solvers - can get stuck. Unfortunately, we never know if the solution is real or if the solver is stuck in a local optimum. One way to figure this out is to try different solvers and different starting conditions, and let each one run for a long time. If all return the same answer, no matter what type of solver you use and where you start, it’s quite likely (though not guaranteed) that we found the overall best fit (lowest SSR).</p>
+</div>
+<div id="task-4" class="section level3">
+<h3>Task 4</h3>
+<ul>
+<li>Without much comment, I asked you to set the unit conversion factor to 0 above. That essentially means that we think this process of virions being lost due to entering infected cells is negligible compared to the other removal process, clearance of virus due to other mechanisms at rate <em>d<sub>V</sub></em>. Let’s change this assumption and turn that term back on by setting <em>g=1</em>.</li>
+<li>Try the above settings, running a single iteration. You’ll find a very poor fit.</li>
+<li>Play around with the starting values for the fitted parameters to see if you can get an ok looking starting simulation.</li>
+<li>Once you have a decent starting simulation, try the different solvers for different interations and see how good you can get. A ‘trick’ for fitting is to run for some iterations and use the reported best-fit values as new starting conditions, then do another fit with the same or a different solver.</li>
+<li>The best fit I was able to find was an SSR of 4.21. You might be able to find something better. It might depend on the bounds for the parameters. If the best-fit value reported from the optimizer is the same as the lower or upper bound for that parameter, it likely means if you broaden the bounds the fits will get better. However, the parameters have biological meanings and certain values do not make sense. For instance a lower bound for the virus decay rate of 0.001/day would mean an average virus lifespan of 1000 days or around 3 years, which is not reasonable for flu in vivo.</li>
+</ul>
+<p>While that unit conversion factor shows up in most apps, it is arguably not that important if we explore our model without trying to fit it to data. But here, for fitting purposes, this is important. The experimental units are TCID50/mL, so in our model, virus load needs to have the same units. Then, to make all units work, <em>g</em> needs to have those units, i.e. convert from infectious virions at the site of infection to experimental units. Unfortunately, how one relates to the other is not quite clear. See e.g. <span class="citation">(Handel, Longini, and Antia 2007)</span> for a discussion of that. If you plan to fit models to data you collected, you need to pay attention to units and make sure what you simulate and the data you have are in agreement.</p>
+</div>
+<div id="task-5" class="section level3">
+<h3>Task 5</h3>
+<p>One major consideration when fitting these kind of mechanistic models to data is the balance between data availability and model complexity. The more and “richer” data one has available the more parameters one can estimate and therefore the more detailed a model can be. If one tries to ‘ask too much’ from the data, it leads to the problem of overfitting - trying to estimate more parameters than can be robustly estimated for a given dataset. One way to safeguard against overfitting is by probing if the model can in principle recover estimates in a scenario where parameter values are known. To do so, we can use our model with specific parameter values and simulate data. We can then fit the model to this simulated data. If everything works, we expect that - ideally independent of the starting values for our solver - we end up with estimated best-fit parameter values that agree with the ones we used to simulate the artificial data. We’ll try this now with the app.</p>
+<ul>
+<li>Set everything as in task 1. Now set the parameter values <em>psim</em>, <em>bsim</em> and <em>dVsim</em> to the same values as the values used for starting the fitting routine.</li>
+<li>Set ‘fit to simulated data’ to YES. Run for 1 fitting step. You should now see that the data has changed. Instead of the real data, we now use simulated data. Since the parameter values for the simulated data and the starting values for the fitting routine are the same, the time-series is on top of the data and the SSR is (up to rounding errors) 0.</li>
+</ul>
+</div>
+<div id="task-6" class="section level3">
+<h3>Task 6</h3>
+<p>Let’s see if the fitting routine can recover parameters from a simulation if we start with different initial guesses.</p>
+<ul>
+<li>Set value for simulated data parameters to 10<sup>-2</sup> for <em>psim</em> and <em>bsim</em> and 2 for <em>dVsim</em>.</li>
+<li>Everything else should be as before. Importantly, the starting values for the parameters we fit should now be different than the values used for the simulation.</li>
+<li>Keep fitting to the simulated data, run for 1 fitting step. You’ll see the data change compared to before. The SSR should increase to 3.26.</li>
+<li>If you now run the fitting for many steps, what do you expect the final fit values for the parameters and the SSR to be?</li>
+<li>Test your expectation by running for 100+ fitting steps with the different solvers.</li>
+</ul>
+</div>
+<div id="task-7" class="section level3">
+<h3>Task 7</h3>
+<p>If you ran things long enough in the previous task you should have obtained best fit values that were the same as the ones you used to produce the simulated data, and the SSR should have been close to 0. That indicates that you can estimate these parameters with that kind of data. Once you’ve done this test, you can be somewhat confident that fitting your model to the real data will allow you to get robust parameter estimates.</p>
+<ul>
+<li>Play around with different values for the simulated parameters and different values for the starting conditions and see if you find scenarios where you might not be able to get the solver to converge to a solution that agrees with the one you started with.</li>
+</ul>
+</div>
+<div id="task-8" class="section level3">
+<h3>Task 8</h3>
+<ul>
+<li>To make things a bit more realistic and harder, one can also add noise on top of the simulated data. Try that by playing with the ‘noise added’ parameter and see how well you can recover the parameter values for the simulation.</li>
+</ul>
+<p>Note that since you now change your data after you simulated it, you don’t expect the parameter values for the simulation and those you obtain from your best fit to be the same. However, if the noise is not too large, you expect them to be similar.</p>
+</div>
+<div id="task-9" class="section level3">
+<h3>Task 9</h3>
+<ul>
+<li>Keep exploring. Fitting these kind of models can be tricky at times, and you might find strange behavior in this app that you don’t expect. Try to get to the bottom of what might be going on. This is an open-ended exploration, so I can’t really give you a “hint”. Just try different things, try to understand as much as possible of what you observe.</li>
+</ul>
+</div>
+</div>
+<div id="shinytab4" class="section level2">
+<h2>Further Information</h2>
+<ul>
+<li>The code running the model fitting is in the function/script <code>simulate_fitbasicmodel.R</code>. This function repeatedly calls the underlying simulation model encoded in <code>simulate_basicvirus.R</code> during the fitting. Check the help file for both functions to see how to use them.</li>
+<li>You can of course alter the underlying function to fit more parameters or a different model. That will require some time getting familiar with the code.</li>
+<li>A good source for fitting models in <code>R</code> is <span class="citation">(Bolker 2008)</span>. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.</li>
+<li>This book <span class="citation">(Hilborn and Mangel 1997)</span> has nice explanations of data fitting, model comparison, etc. but is more theoretical.</li>
+<li>Lot’s of good online material exists on fitting/inference. Most of the material is explained in the context of static, non-mechanistical, statistical or machine learning models, but a lot of the principles apply equally to ODEs.</li>
+<li>A discussion of overfitting (also called ‘identifiability problem’) for ODEs is <span class="citation">(Miao et al. 2011)</span>.</li>
+<li>Advanced functionality to fit stochastic models can be found in the <code>pomp</code> package in R. (If you don’t know what stochastic models are, check out the app by that name in DSAIRM.)</li>
+</ul>
+<div id="references" class="section level3 unnumbered">
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-bolker08">
+<p>Bolker, Benjamin M. 2008. <em>Ecological Models and Data in R</em>. Princeton University Press.</p>
+</div>
+<div id="ref-handel07">
+<p>Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. “Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.” <em>PLoS Comput Biol</em> 3 (12). Department of Biology, Emory University, Atlanta, Georgia, United States of America. ahandel@emory.edu: e240. doi:<a href="https://doi.org/10.1371/journal.pcbi.0030240">10.1371/journal.pcbi.0030240</a>.</p>
+</div>
+<div id="ref-hayden96">
+<p>Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. “Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.” <em>JAMA</em> 275 (4): 295–99.</p>
+</div>
+<div id="ref-hilborn97">
+<p>Hilborn, Ray, and Marc Mangel. 1997. <em>The ecological detective : confronting models with data</em>. Monographs in Population Biology 28. Princeton, N.J.: Princeton University Press.</p>
+</div>
+<div id="ref-miao11a">
+<p>Miao, Hongyu, Xiaohua Xia, Alan S. Perelson, and Hulin Wu. 2011. “On Identifiability of Nonlinear ODE Models and Applications in Viral Dynamics.” <em>SIAM Review</em> 53 (1): 3. doi:<a href="https://doi.org/10.1137/090757009">10.1137/090757009</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

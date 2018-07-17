@@ -53,20 +53,11 @@ refresh <- function(input, output)
       simresult <- simulate_virusandir(U0 = U0, I0 = I0, V0 = V0, T0=T0, B0=B0, A0=A0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p,sF=sF,kA=kA,kT=kT,pF=pF,dF=dF,gF=gF,Fmax=Fmax,hV=hV,hF=hF,gB=gB,rT=rT,gT=gT,rA=rA,dA=dA)
     })
 
-    colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
-    #reformat data to be in the right format for plotting
-    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
-
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = dat
+    result[[1]]$dat = simresult$ts
 
     #Meta-information for each plot
     result[[1]]$plottype = "Lineplot"
@@ -79,18 +70,11 @@ refresh <- function(input, output)
     if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'; result[[1]]$xmin = 1e-6}
     if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'; result[[1]]$ymin = 1e-6}
 
-    #set min and max for scales. If not provided ggplot will auto-set
-    result[[1]]$ymin = 1e-12
-    result[[1]]$ymax = max(simresult)
-    result[[1]]$xmin = 1e-12
-    result[[1]]$xmax = tmax
 
     #the following are for text display for each plot
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
     result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
-
-
 
   return(result)
   })
@@ -140,7 +124,7 @@ ui <- fluidPage(
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
-  div( includeHTML("www/header.html"), align = "center"),
+  div( includeHTML("../styles/header.html"), align = "center"),
   #specify name of App below, will show up in title
   h1('Virus and Immune Response App', align = "center", style = "background-color:#123c66; color:#fff"),
 
@@ -319,8 +303,8 @@ ui <- fluidPage(
   #Instructions section at bottom as tabs
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
-  do.call(tabsetPanel,generate_instruction_tabs()),
-  div(includeHTML("www/footer.html"), align="center", style="font-size:small") #footer
+  do.call(tabsetPanel,generate_documentation()),
+  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
 
 ) #end fluidpage function, i.e. the UI part of the app
 

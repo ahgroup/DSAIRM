@@ -85,7 +85,7 @@ and an indicator stating if steady state was reached.
 # To run the simulation with default parameters just call this function
 result <- simulate_usanalysis()
 # To choose parameter values other than the standard one, specify them e.g. like such
-result <- simulate_usanalysis(dImin = 0.1, dImax = 10, tmax = 100)
+result <- simulate_usanalysis(dImin = 0.1, dImax = 10, samples = 5)
 # You should then use the simulation result returned from the function, e.g. like this:
 plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
 }

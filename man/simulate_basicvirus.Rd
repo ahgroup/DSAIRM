@@ -31,8 +31,9 @@ simulate_basicvirus(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
 \item{g}{possible conversion factor for virus units}
 }
 \value{
-The function returns the output from the odesolver as a matrix,
-with one column per compartment/variable. The first column is time.
+A list. The list has only one element called ts.
+ts contains the time-series of the simulation.
+The 1st column of ts is Time, the other columns are the model variables
 }
 \description{
 This function runs a simulation of a 3 compartment model
@@ -57,7 +58,7 @@ result <- simulate_basicvirus()
 # To choose parameter values other than the standard one, specify them e.g. like such
 result <- simulate_basicvirus(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,1],result[,4],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

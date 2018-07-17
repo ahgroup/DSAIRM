@@ -6,7 +6,7 @@
 \usage{
 simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 10, n = 0, dU = 0,
   dI = 2, p = 0.01, g = 0, b = 0.01, blow = 1e-06, bhigh = 1000,
-  dV = 2, dVlow = 0.001, dVhigh = 1000, parscale = "lin", iter = 100,
+  dV = 2, dVlow = 0.001, dVhigh = 1000, parscale = "lin", iter = 20,
   nsample = 10, rngseed = 100)
 }
 \arguments{

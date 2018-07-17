@@ -38,6 +38,7 @@ refresh <- function(input, output)
     if (models == 1 | models == 3) #deterministic model
     {
       result_ode <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = 1)
+      result_ode <- result_ode$ts
       colnames(result_ode) = c('xvals','Udet','Idet','Vdet')
       dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")
       dat_ode$IDvar = dat_ode$varnames
@@ -56,7 +57,7 @@ refresh <- function(input, output)
         #add number of rep to seed, otherwise it's exactly the same trajectory each time
 
         simresult <- simulate_stochasticvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU=dU, b = b, dI = dI, p = p, dV = dV, rngseed = rngseed+nn)
-
+        simresult <- simresult$ts
         colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
         #reformat data to be in the right format for plotting
         dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
@@ -162,7 +163,7 @@ ui <- fluidPage(
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
-  div( includeHTML("www/header.html"), align = "center"),
+  div( includeHTML("../styles/header.html"), align = "center"),
   #specify name of App below, will show up in title
   h1('Stochastic Virus App', align = "center", style = "background-color:#123c66; color:#fff"),
 
@@ -283,8 +284,8 @@ ui <- fluidPage(
   #Instructions section at bottom as tabs
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
-  do.call(tabsetPanel,generate_instruction_tabs()),
-  div(includeHTML("www/footer.html"), align="center", style="font-size:small") #footer
+  do.call(tabsetPanel,generate_documentation()),
+  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
 
 ) #end fluidpage function, i.e. the UI part of the app
 

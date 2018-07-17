@@ -59,8 +59,9 @@ virusandirode <- function(t, y, parms)
 #' @param dA rate of antibody decay
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
-#' @return The function returns the output from the odesolver as a matrix,
-#' with one column per compartment/variable. The first column is time.
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other columns are the model variables
 #' @details A compartmental infection model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
@@ -72,7 +73,7 @@ virusandirode <- function(t, y, parms)
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_virusandir(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,"time"],result[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -96,6 +97,10 @@ simulate_virusandir <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, t
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = virusandirode, parms=pars, atol=1e-12, rtol=1e-12);
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+  colnames(odeoutput) = c('Time','U','I','V','F','T','B','A')
+
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(odeoutput)
+  return(result)
 }

@@ -67,8 +67,9 @@ parameters}
 \item{dA}{rate of antibody decay}
 }
 \value{
-The function returns the output from the odesolver as a matrix,
-with one column per compartment/variable. The first column is time.
+A list. The list has only one element called ts.
+ts contains the time-series of the simulation.
+The 1st column of ts is Time, the other columns are the model variables
 }
 \description{
 This function runs a simulation of a compartment model
@@ -93,7 +94,7 @@ result <- simulate_virusandir()
 # To choose parameter values other than the standard one, specify them e.g. like such
 result <- simulate_virusandir(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,"time"],result[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

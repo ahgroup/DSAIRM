@@ -1,0 +1,90 @@
+---
+title: Virus and PkPD Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of a basic virus infection model in the presence of treatment. Drug pharmacokinetics (Pk) and pharmacodynamics (Pd) is included in the model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+###Learning Objectives
+* Be familiar with a simple Pk/Pd model
+* Appreciate the impact different drug Pk/Pd can have on pathogen dynamics
+* Understand how differences in magnitude and timing of drug dosing can affect results
+
+##The Model {#shinytab2}
+
+###Model Overview
+This model consists of 4 compartments and can capture some of the basic dynamics of viral infections. In this model, we track the following entities by assigning each to a compartment:
+
+* **U** - uninfected cells 
+* **I** - infected cells
+* **V** - (free) virus
+* **C** - drug levels
+
+In addition to specifying the *compartments* of a model, we need to specify the processes governing the model dynamics. For our system, we specify the following processes/flows: 
+
+* Uninfected cells are produced at some rate _n_ and naturally die at some rate _d~U~_.
+* Virus infects cells at rate _b_, with unit conversion factor _g_.
+* Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
+* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
+* Once treatment has started (*t>txstart*), drug kinetics is modeled as growing linearly at a rate *r~C~* and decaying exponentially at rate *d~C~*. This describes the kinetics of many drugs fairly well. The growth and decay pattern repeats itself at each treatment interval (*txinterval*).s
+* The efficacy of the drug, *e*, depends on the concentration of the drug, given by a so called Emax-equation. *E~max~* is the maximum efficacy at high drug concentration, *C~50~* is the drug concentration at which the drug has half its maximum efficacy, and the parameter *k* dictates how rapidly efficacy increases as drug concentration increases.
+
+Note that in this model, the drug concentration is not modeled using a differential equation. Instead, it is expressed directly as a time-dependent function.
+
+###Model Diagram
+The diagram illustrating this compartmental model is shown in the figure.
+
+```{r PkPddiagram,  fig.cap='Flow diagram for a virus infection model with drug treatment and Pk-Pd.',  echo=FALSE, out.width='70%'}
+knitr::include_graphics("../media/pkpdmodel.png")
+```
+
+
+###Model Equations
+Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
+
+$$\dot U = n - d_U U - bUV$$ 
+$$\dot I = bUV - d_I I$$
+$$\dot V = (1-e)pI - d_V V - gb UV$$
+$$e = E_{max} \frac{C^k}{C^k+C_{50}}$$
+$$C =  r_C t_n e^{-d_C t_n}$$ 
+
+*t~n~* is the time since the last dose was given. Prior to treatment start, i.e. (t<txstart), there is no drug and *C=0*. Note that the drug equation is not a differentnial equation, instead, drug at time _t_ is directly given by the expression on the right hand side of the _C_ equation.
+
+
+
+##What to do {#shinytab3}
+
+### Task 1: 
+For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days.
+
+* Set number of uninfected cells to 10^5^, 10 virions, no infected cells.
+* We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
+* Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
+* Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation time 20 days.  
+* For the drug, assume treatment starts at day 10 and occurs daily thereafter.
+
+* Run the simulation. You should get 28694 infected cells at the peak.
+* Just for fun, set 'start at steady state' to 'yes', think about your expectations, run simulation and ensure your expectation and result agree.
+
+
+### Task 2: 
+
+
+
+##Further Information {#shinytab4}
+
+* For this app, the underlying function running the simulation is called `simulate_pkpdmodels.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_pkpdmodel` into the R console for more information on how to use the functions directly.  
+* If you want to learn a bit more about these kinds of models, see e.g. [@powers03; @talal06; @handel09b; @canini14a]. 
+
+
+### References
+
+

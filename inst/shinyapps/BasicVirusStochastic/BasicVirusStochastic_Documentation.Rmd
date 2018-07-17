@@ -1,0 +1,113 @@
+---
+title: Stochastic Basic Virus Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: ../media/references.bib
+---
+
+##Overview {#shinytab1}
+This app allows exploration of a stochastic model that is almost identical to the deterministic basic virus infection model. In fact, both models are being run so comparison is possible. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+##The Model {#shinytab2}
+
+###Model Description
+This model consists of 3 compartments and is almost identical to the deterministic basic virus infection model. We track the following entities, by assigning each to a compartment:
+
+* **U** - uninfected cells 
+* **I** - infected cells
+* **V** - (free) virus
+
+
+In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. 
+
+For this model, we consider the following processes: 
+
+1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _dU_.
+2. Virus infects cells at rate _b_.
+3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
+4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
+
+The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don't need to convert. That also means that the parameter _g_ of the deterministic model - which we run for comaprison - is set to 1.
+
+
+###Model Diagram
+The diagram illustrating this compartmental model is shown in the figure.
+
+```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
+knitr::include_graphics("../media/virusdiagram.png")
+```
+
+
+###Model Equations
+*If* we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
+
+$$\dot U = n - dU - bUV$$
+$$\dot I = bUV - d_I I$$
+$$\dot V = pI - d_V V - b UV$$
+
+*However* we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their propensities (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:
+
+Event type              |  Transitions                  |   Propensity      |
+----------              |  -----------                  |   ----------      |
+Production of U         |  U => U+1                     |   n*U            |
+death/removal of U      |  U => U-1                     |   dU*U           |
+infection               |  U => U-1, V => V-1, I => I+1 |   b*U*V           |
+death if I              |  I => I-1                     |   dI*I          |
+production of V         |  V => V+1                     |   p*I          |
+removal of V            |  V => V-1                     |   dV*V          | 
+
+
+
+
+##What to do {#shinytab3}
+
+###Task 1: 
+* When you start the app, by default the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
+* Change the random number seed and find a value for which you do get an outbreak. 
+* Set "Models to run" to both. You should get infections from each model. Compare how they differ.
+* Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. 
+* Try the previous 2 steps for seveal different random number seeds.
+
+###Task 2: 
+* Turn off the deterministic model. 
+* Run the stochastic model with 5 simulations for different random seeds. See how the maximum number of infected cells changes.
+* Now repeat for 50 stochastic simulations. You should see less variation now since you average over more simulations. The more simulations, the more robust the results are (but it takes longer to run). Ideally, you'd like to always be in a setting where arbitrary choices, such as the initial random number seed, do not (or only negligibly) influence your results.
+
+
+###Task 3: 
+* Turn the deterministic model back on, run 50 stochastic simulations. Notice that the deterministic model is not 'the average' of the stochastic simulations. It is true that for _linear_ models, the mean of many stochastic models is described by the deterministic model. But that is not true for _nonlinear_ models like the one we have here. It's an important point to keep in mind if you build models and try both a deterministic and stochastic one. You don't necessarily get the same results, even if you average over many stochastic model runs.
+
+
+###Task 4: 
+* Turn off the deterministic model, keep all parameter values as before (if you changed them, exit the app and reload). Set number of simulations to 2, random number seed to 100.
+* Run simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
+* Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again.
+* From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative? 
+
+
+###Task 5: 
+* Currently, stochasticity/randomness is a determining factor for the take-off or not of an infection. Once an infection has started, the resulting time-series look fairly smooth and not too noisy. Play around with the model parameters to try and find a regime where the whole infection dynamics looks stochastic/noisy.
+
+
+###Task 6: 
+* In doing the last task, you likely figured out that for small numbers, you get more noisy results. Set the number of uninfected cells to 100 and the infection rate to 10^-2^. Run several stochastic outbreaks. You should see fairly random virus and infected cell plots. 
+
+The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) 
+
+###Task 7: 
+* Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations.
+
+##Further Information {#shinytab4}
+* The code running the model is in the function/script `simulate_stochastivirus.R`. Check the help file for both functions to see how to use them.
+* The stochastic simulation is implemented using the `adaptivetau` package.
+
+
+### References
+
+

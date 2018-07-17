@@ -77,7 +77,7 @@ modelvariantode <- function(t, y, parms)
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_modelvariants(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,"time"],result[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -101,6 +101,10 @@ simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax =
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = modelvariantode, parms=pars, atol=1e-12, rtol=1e-12);
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+  colnames(odeoutput) = c('Time','U','I','V','F','A')
+
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(odeoutput)
+  return(result)
 }

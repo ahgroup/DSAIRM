@@ -42,8 +42,9 @@ to their steady state values. User supplied values for U0, I0, V0 are ignored.}
 \item{txstart}{time at which treatment starts}
 }
 \value{
-The function returns the output from the odesolver as a matrix,
-with one column per compartment/variable. The first column is time.
+A list. The list has only one element called ts.
+ts contains the time-series of the simulation.
+The 1st column of ts is Time, the other columns are the model variables
 }
 \description{
 This function runs a simulation of a compartment model
@@ -51,7 +52,7 @@ using a set of ordinary differential equations.
 The model describes a simple viral infection system in the presence of drug treatment.
 The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package.
-The function returns a matrix containing time-series of each variable and time.
+The function returns a list containing time-series of each variable and time.
 }
 \details{
 A simple compartmental model is simulated as a set of ordinary differential
@@ -69,7 +70,7 @@ result <- simulate_virus_tx()
 # To choose parameter values other than the standard one, specify them e.g. like such
 result <- simulate_virus_tx(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, e.g. like this:
-plot(result[,1],result[,4],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the shiny app documentation corresponding to this simulator

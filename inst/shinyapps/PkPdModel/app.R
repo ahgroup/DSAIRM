@@ -36,27 +36,19 @@ refresh <- function(input, output)
     plotscale = isolate(input$plotscale)
 
     #save all results to a list for processing plots and text
-    listlength = 1; #here we do all simulations in the same figure
+    listlength = 2; #here we do all simulations in the same figure
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
     simresult <- simulate_pkpdmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g=g, rC=rC, dC=dC, C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval)
     }) #end progress wrapper
 
-    colnames(simresult) = c('xvals','U','I','V','C')
-    #reformat data to be in the right format for plotting
-    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
-
-
     #data for plots and text
+    #make 2 plots, one for U/I/V and one for drug
+
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = dat
+    result[[1]]$dat = simresult$ts[,1:4]
 
     #Meta-information for each plot
     result[[1]]$plottype = "Lineplot"
@@ -74,6 +66,22 @@ refresh <- function(input, output)
     result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
 
+    #plot for drug
+    result[[2]]$dat = simresult$ts[,c(1,5)]
+    #Meta-information for each plot
+    result[[2]]$plottype = "Lineplot"
+    result[[2]]$xlab = "Time"
+    result[[2]]$ylab = "Drug Concentration"
+    result[[2]]$yscale = "log"
+    result[[2]]$legend = "Compartments"
+    result[[2]]$xscale = 'identity'
+    result[[2]]$yscale = 'identity'
+    if (plotscale == 'x' | plotscale == 'both') { result[[2]]$xscale = 'log10'}
+    if (plotscale == 'y' | plotscale == 'both') { result[[2]]$yscale = 'log10'}
+    result[[2]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+
+
+    #browser()
 
   return(result)
   })
@@ -121,7 +129,7 @@ ui <- fluidPage(
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
-  div( includeHTML("www/header.html"), align = "center"),
+  div( includeHTML("../styles/header.html"), align = "center"),
   #specify name of App below, will show up in title
   h1('Virus and drug PkPd App', align = "center", style = "background-color:#123c66; color:#fff"),
 
@@ -261,8 +269,8 @@ ui <- fluidPage(
   #Instructions section at bottom as tabs
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
-  do.call(tabsetPanel,generate_instruction_tabs()),
-  div(includeHTML("www/footer.html"), align="center", style="font-size:small") #footer
+  do.call(tabsetPanel,generate_documentation()),
+  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
 
 ) #end fluidpage function, i.e. the UI part of the app
 

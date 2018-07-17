@@ -19,10 +19,11 @@ cifitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames, par
 
     #this function catches errors
     odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
-    colnames(odeout) = c('xvals','U','I','V')
+
+    simres = odeout$ts
 
     #extract values for virus load at time points where data is available
-    modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
+    modelpred = simres[match(mydata$xvals,simres[,"Time"]),"V"];
 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -102,11 +103,10 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparna
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 100, nsample = 10, rngseed = 100)
+simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 20, nsample = 10, rngseed = 100)
 {
 
   set.seed(rngseed) # to allow reproducibility
-  output <- list() #will contain final result
 
   #some settings for ode solver and optimizer
   #those are hardcoded here, could in principle be rewritten to allow user to pass it into function
@@ -158,7 +158,8 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   modelpars = c(params,fixedpars)
   allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
   odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
-  colnames(odeout) = c('xvals','U','I','V')
+
+  simres = odeout$ts
 
   #compute confidence intervals using bootstrap sampling
   bssample <- boot::boot(data=mydata,statistic=bootfct,R=nsample, par_ini = bestfit$solution, lb = lb, ub = ub, Y0 = Y0, xvals = xvals, fixedpars = fixedpars, fitparnames = fitparnames, maxsteps = maxsteps,parscale = parscale)
@@ -175,18 +176,19 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
 
 
   #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
+  modelpred = simres[match(mydata$xvals,simres[,"Time"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))
 
   #list structure that contains all output
-  output$timeseries = odeout
-  output$bestpars = params
-  output$data = mydata
-  output$SSR = ssrfinal
-  output$confint = ciall
+  result = list()
+  result$timeseries = simres
+  result$bestpars = params
+  result$data = mydata
+  result$SSR = ssrfinal
+  result$confint = ciall
 
   #The output produced by the fitting routine
-  return(output)
+  return(result)
 }

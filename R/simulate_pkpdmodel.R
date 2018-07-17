@@ -55,8 +55,9 @@ pkpdode <- function(t, y, parms)
 #' @param Emax maximum drug effect (0-1)
 #' @param txstart time of drug treatment start
 #' @param txinterval time between drug doses
-#' @return The function returns the output from the odesolver as a matrix,
-#' with one column per compartment/variable. The first column is time.
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other columns are the model variables
 #' @details A simple compartmental model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
@@ -68,7 +69,7 @@ pkpdode <- function(t, y, parms)
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_pkpdmodel(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,1],result[,4],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -78,7 +79,7 @@ pkpdode <- function(t, y, parms)
 simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, rC = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vecto
-  dt = min(0.1, tmax / 1000); #time step for which to get results back
+  dt = min(0.02, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
@@ -94,6 +95,10 @@ simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0,
   C[timevec<txstart] = 0
   odeoutput = cbind(odeoutput, C)
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+  colnames(odeoutput) = c('Time','U','I','V','C')
+
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(odeoutput)
+  return(result)
 }

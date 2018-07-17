@@ -28,7 +28,7 @@ ui <- fluidPage(
   includeCSS("../styles/dsairm.css"),
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
-  div( includeHTML("www/header.html"), align = "center"),
+  div( includeHTML("../styles/header.html"), align = "center"),
   p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
 
   #specify name of App below, will show up in title
@@ -124,7 +124,7 @@ ui <- fluidPage(
     }),
 
    p('Have fun exploring the models!', class='maintext'),
-  div(includeHTML("www/footer.html"), align="center", style="font-size:small") #footer
+  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
 ) #end fluidpage
 
 shinyApp(ui = ui, server = server)
