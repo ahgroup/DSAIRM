@@ -92,6 +92,8 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparna
 #' @examples
 #' # To run the code with default parameters just call this function
 #' \dontrun{result <- simulate_fitconfint()}
+#' # To apply different settings, provide them to the simulator function, e.g.
+#' result <- simulate_fitconfint(iter = 5, nsample = 5)
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel

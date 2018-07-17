@@ -4,9 +4,8 @@
 * Change documentation creation: Have a single Rmd file and its html version in each app folder. Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the HTML file is processed and displayed. Almost done using the new generate_documentation() function and implemented for Basic Bacteria app. Some text doesn't display correctly yet, this needs to be fixed. Also nice to have (but could wait with that): XML package is orphaned, could we use an actively maintained one instead)? And is there a way to only store the Rmd file and create the HTML file 'on the fly' without saving it to disk?
 
 * Change structure of all simulate_ functions such that each one returns a list. At least one list element, called ts (for a simulation that produces a time-series) or dat (otherwise), should contain data. Other things can be returned.
-Time-series dataframe should be returned with columns "Time" followed by variable names. Other simulations should return a data frame with columns xvals/yvals/varnames.   
-
-* Check documentation (and text comments) for each app (further reading section), each function, and update vignettes and docfordevelopers accordingly. 
+Time-series dataframe should be returned with columns "Time" followed by variable names. Other simulations should return a data frame with columns xvals/yvals/varnames. Already done for some of the DSAIRM functions. Note: internal only functions (e.g. the internal ODE functions in fitmodelcomparison) don't need to return lists, only user-facing functions/returns should all be lists.   
+* Update documentation for each app (further reading section), and doc and comments for each function, and update vignettes and docfordevelopers accordingly. 
 
 * Get everything ready for CRAN
 
@@ -15,12 +14,13 @@ Time-series dataframe should be returned with columns "Time" followed by variabl
 
 
 ## For later
-* Add learning objectives to each overview tab
-* Update all solutions 
 * Continue streamlining code base to make it more general/modular/flexible
 * Improve error messages when simulation failed (see basic bacteria app) - use color if possible
+* Start implementing unit tests using the testthat package
+* Add learning objectives to each overview tab
+* Update all solutions 
 * Clean up diagrams as needed
-* Mayb submit for Ropensci review: https://github.com/ropensci/onboarding
+* Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
 
 
 ## Further apps that could be implemented

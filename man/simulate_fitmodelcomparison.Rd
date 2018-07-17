@@ -82,6 +82,8 @@ with T-cells (model 1) or antibodies (model 2) are fitted to data
 \examples{
 # To run the code with default parameters just call this function
 \dontrun{result <- simulate_fitmodelcomparison()}
+# To apply different settings, provide them to the simulator function, e.g.
+result <- simulate_fitmodelcomparison(iter = 5)
 }
 \seealso{
 See the shiny app documentation corresponding to this

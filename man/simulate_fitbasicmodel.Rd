@@ -87,6 +87,8 @@ For details on what those optimizers are and how they work, see the nlopt/nloptr
 \examples{
 # To run the code with default parameters just call this function
 \dontrun{result <- simulate_fitbasicmodel()}
+# To apply different settings, provide them to the simulator function, e.g.
+result <- simulate_fitbasicmodel(iter = 5)
 }
 \seealso{
 See the shiny app documentation corresponding to this

@@ -84,6 +84,8 @@ basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
 #' @examples
 #' # To run the code with default parameters just call this function
 #' \dontrun{result <- simulate_fitbasicmodel()}
+#' # To apply different settings, provide them to the simulator function, e.g.
+#' result <- simulate_fitbasicmodel(iter = 5)
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -128,10 +130,11 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #not sure why R needs it in such a weird form
     #but supplying vector of values to function directly doesn't work
     odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
-    colnames(odeout) = c('xvals','U','I','V')
+
+    simres = odeout$ts
 
     #extract values for virus load at time points where data is available
-    simdata = data.frame(odeout[match(mydata$xvals,odeout[,"xvals"]),])
+    simdata = data.frame(simres[match(mydata$xvals,simres[,"Time"]),])
     simdata$outcome = log10(simdata$V)
     simdata = dplyr::select(simdata, xvals, outcome)
 
@@ -164,17 +167,17 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
 
   allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
 
+  #doe one final run of the ODE to get a time-series to report back
   odeout <- do.call(simulate_basicvirus, as.list(allpars))
-  colnames(odeout) = c('xvals','U','I','V')
-
-  #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = odeout[match(mydata$xvals,odeout[,"xvals"]),"V"];
+  simres = odeout$ts
+  #extract values for virus load at time points where data is available
+  modelpred = simres[match(mydata$xvals,simres[,"Time"]),"V"];
 
   logvirus=c(log10(pmax(1e-10,modelpred)));
   ssrfinal=(sum((logvirus-mydata$outcome)^2))
 
   #list structure that contains all output
-  output$timeseries = odeout
+  output$timeseries = odeout$ts
   output$bestpars = params
   output$data = mydata
   output$SSR = ssrfinal

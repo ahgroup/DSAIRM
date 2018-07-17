@@ -12,6 +12,7 @@ Date: 2018-07-01
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
+    person("Spencer", "Hall",  role = "ctb"),
     person("Sina", "Solaimanpour",  role = "ctb"),
     person("Henok", "Woldu",  role = "ctb") )
 Maintainer: Andreas Handel <ahandel@uga.edu>
@@ -40,5 +41,5 @@ Suggests:
     covr
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
-URL: https://github.com/ahgroup/DSAIRM
+URL: https://ahgroup.github.io/DSAIRM
 BugReports: https://github.com/ahgroup/DSAIRM/issues

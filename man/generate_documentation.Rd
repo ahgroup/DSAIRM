@@ -11,8 +11,8 @@ tablist a list of tabs for display in a shiny UI
 }
 \description{
 This function take the documentation provided as html file
-it then takes the html file and extracts sections 
-to generate the tabs with content for each Shiny app. 
+it then takes the html file and extracts sections
+to generate the tabs with content for each Shiny app.
 This is a helper function and only useful for this package.
 }
 \details{
