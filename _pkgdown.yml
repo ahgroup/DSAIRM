@@ -1,0 +1,30 @@
+navbar:
+  structure:
+    left:
+    - home
+    - intro
+    - reference
+    - articles
+    - tutorials
+    - news
+    - related packages
+    right: github
+  components:
+    home:
+      icon: fa-home fa-lg
+      href: index.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    intro:
+      text: Get started
+      href: articles/DSAIRM.html
+    news:
+      text: Changelog
+      href: news/index.html
+    related packages:
+      text: DSAIDE
+      href: https://cran.r-project.org/web/packages/DSAIDE/index.html
+    github:
+      icon: fa-github fa-lg
+      href: https://github.com/ahgroup/DSAIRM
