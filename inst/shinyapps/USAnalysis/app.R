@@ -1,7 +1,7 @@
 ############################################################
 #This is the Shiny file for the Uncertainty and Sensitivity Analysis App
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 1/16/2018
+#last updated 7/16/2018
 ############################################################
 
 #the server-side function with the main functionality

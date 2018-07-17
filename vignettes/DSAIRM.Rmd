@@ -98,7 +98,7 @@ result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 0.5,  r = 0.0
 Calling the simulation function executes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. It is now your job to  produce their own plots. As example, a plot of bacteria as function of time could be achieved with this line of code:
 
 ```{r, eval=TRUE, echo=TRUE}
-plot(result[,"time"],result[,"B"],xlab='Time',ylab='Bacteria Numbers',type='l')
+plot(result$ts[,"Time"],result$ts[,"Bc"],xlab='Time',ylab='Bacteria Numbers',type='l')
 ```
 
 The ability to call the simulation functions directly instead of going through the graphical interface allows additional exploration of the models. For instance if one wanted to explore the behavior of a model systematically for different values of a given parameter, this would need to be done manually if run through the graphical interface. Calling the function directly allows one to automate this by wrapping the function inside a loop over the parameter of interest, recording some quantity of interest for each run, and report the result at the end. The following is a simple example, showing a loop over different values of the immune response activation rate and recording the peak of the bacteria numbers each time, with the final result _peak of bacteria as function of immune activation rate_ shown in a plot:
@@ -111,7 +111,7 @@ for (n in 1:length(rvec))
 {
   #call the simulator function with different values of g each time
   result <- simulate_basicbacteria(B0 = 10, I0 = 1, tmax = 200, r = rvec[n])
-  peak[n] <- max(result[,"B"]) #record max number of bacteria for each value of r
+  peak[n] <- max(result$ts[,"Bc"]) #record max number of bacteria for each value of r
 }
 #plot final result
 plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria',log='xy')
@@ -182,7 +182,7 @@ Imax = rep(0,length(svec)) #this will record the final immune response level
 for (n in 1:length(svec))
 {
   result <- mysimulator(s = svec[n])
-  Imax[n] <- max(result[,"I"])
+  Imax[n] <- max(result$ts[,"Ic"])
 }
 plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response level',log='xy')
 ```

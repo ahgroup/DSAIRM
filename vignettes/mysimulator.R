@@ -12,8 +12,8 @@ bacteriaode <- function(t, y, parms)
     {
 
       #these are the differential equations
-      dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I;
-      dIdt = r*B*I / (B+s) - dI*I;
+      dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
+      dIdt = r*B*I/(s+B) - dI*I
 
 	 	  list(c(dBdt, dIdt))
     }
@@ -38,12 +38,14 @@ bacteriaode <- function(t, y, parms)
 #' @param k rate at which bacteria are killed by immune response
 #' @param r rate at which immune response is induced by bacteria
 #' @param dI death rate of immune response
-#' @param s immune response growth saturation parameter
 #'
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
-#' @return The function returns the output from the odesolver as a matrix,
-#' with one column per compartment/variable. The first column is time.
+#' @return The function returns the output as a list
+#' the time-series from the simulation is returned as element ts
+#' the 1st column of ts is Time, the rest are the variables
+#' bacteria and immune response are labeled Bc and Ic
+#' to indicate continuous model
 #' @details A simple 2 compartment model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
@@ -51,11 +53,11 @@ bacteriaode <- function(t, y, parms)
 #'   or fractions > 1), the code will likely abort with an error message
 #' @examples
 #' # To run the simulation with default parameters just call this function
-#' result <- mysimulator()
+#' result <- simulate_basicbacteria()
 #' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- mysimulator(B0 = 100, I0 = 10, tmax = 100, g = 10)
+#' result <- simulate_basicbacteria(B0 = 100, I0 = 10, tmax = 100, g = 10)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,1],result[,2],xlab='Time',ylab='Bacteria Number',type='l')
+#' plot(result$ts[,'Time'],result$ts[,'Bc'])
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -69,12 +71,16 @@ mysimulator <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (note that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
-  pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI,s=s);
+  pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI,s=s)
 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, the 2nd, 3rd, 4th column the variables S, I, R
-  odeoutput = deSolve::ode(y = Y0, times = timevec, func = bacteriaode, parms=pars, atol=1e-12, rtol=1e-12);
+  odeoutput = deSolve::ode(y = Y0, times = timevec, func = bacteriaode, parms=pars, atol=1e-12, rtol=1e-12, method = c("vode"));
 
-  #The output produced by a call to the odesolver is odeoutput matrix is returned by the function
-  return(odeoutput)
+  colnames(odeoutput) = c('Time','Bc','Ic')
+
+  #return result as list, with element ts containing the time-series
+  result = list()
+  result$ts = as.data.frame(odeoutput)
+  return(result)
 }

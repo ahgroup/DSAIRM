@@ -46,11 +46,11 @@
 #'   or fractions > 1), the code will likely abort with an error message
 #' @examples
 #' # To run the simulation with default parameters just call this function
-#' result <- simulate_modelexploration()
+#' res <- simulate_modelexploration()
 #' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
+#' res <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result$dat[,"xvals"],result$data[,"Bpeak"],xlab='parameter values',ylab='Peak Bacteria Number',type='l')
+#' plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model.
 #' @author Andreas Handel

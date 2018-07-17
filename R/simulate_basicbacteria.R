@@ -24,11 +24,13 @@ bacteriaode <- function(t, y, parms)
 #' Simulation of a basic model with bacteria and an immune response
 #' illustrating a simple within-host predator-prey model
 #'
-#' @description This function runs a simulation of a basic 2 compartment model
-#' using a set of 2 ordinary differential equations.
+#' @description This function runs a simulation of a dynamical model
+#' describing a simple bacteria and immune response system.
+#' The model is implemented as a set of 2 ordinary differential equations.
 #' The user provides initial conditions and parameter values for the system.
 #' The function simulates the ODE using an ODE solver from the deSolve package.
-#' The function returns a matrix containing time-series of each variable and time.
+#' The function returns a list,
+#' the list entry called ts contains time-series of each variable and time.
 #'
 #' @param B0 initial number of bacteria
 #' @param I0 initial number/strength of immune response
@@ -37,15 +39,14 @@ bacteriaode <- function(t, y, parms)
 #' @param dB death rate of bacteria
 #' @param k rate at which bacteria are killed by immune response
 #' @param r rate at which immune response is induced by bacteria
-#' @param dI death rate of immune response
-#'
+#' @param dI death rate of immune response#'
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
-#' @return The function returns the output as a list
-#' the time-series from the simulation is returned as element ts
-#' the 1st column of ts is Time, the rest are the variables
-#' bacteria and immune response are labeled Bc and Ic
-#' to indicate continuous model
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other 2 are the variables
+#' bacteria and immune response. Those are labeled Bc and Ic
+#' to indicate a continuous model.
 #' @details A simple 2 compartment model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if

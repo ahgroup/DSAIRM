@@ -1,17 +1,17 @@
 ############################################################
 ##this code illustrates how to do uncertainty and sensitivity analysis
 ##it does sampling of some parameters of the simple bacterial infection model
-##written by Andreas Handel (ahandel@uga.edu), last change 1/16/18
+##written by Andreas Handel (ahandel@uga.edu), last change 7/16/18
 ############################################################
-
-#' Simulation to do an uncertainty and sensitivity analysis using the simple bacteria model
 #'
+#' Simulation to illustrate uncertainty and sensitivty analysis
 #'
-#' @description This function performs latin hypercube sampling of parameters
-#' for the simple bacteria model underlying the app by the same name
+#' @description This function performs uncertainty and sensitivty analysis
+#' using the simple, continuous-time basic bacteria model
 #' The user provides ranges for the initial conditions and parameter values and the number of samples.
-#' The function does LHS of the ODE using an ODE solver from the deSolve package.
-#' The function returns a data frame containing values for each sample and results
+#' The function does latin hypercube sampling (LHS) of the parameters
+#' and runs the basic bacteria ODE model for each sample
+#' The function returns a list containing values for each sample and results
 #'
 #' @param B0min lower bound for initial bacteria numbers
 #' @param B0max upper bound for initial bacteria numbers
@@ -32,7 +32,8 @@
 #' @param samples number of LHS samples to run
 #' @param tmax maximum simulation time, units depend on choice of units for model parameters
 #' @param rngseed seed for random number generator#'
-#' @return The function returns the output as a data frame,
+#' @return The function returns the output as a list.
+#' The list element 'dat' contains a data frame
 #' with sample values for each parameter as columns, followed by columns for the results.
 #' A final variable 'nosteady' is returned for each simulation.
 #' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
@@ -41,10 +42,10 @@
 #' Parameters are sampled via latin hypercube sampling.
 #' Distribution for all parameters is assumed to be uniform between the min and max values.
 #' The only exception is the bacteria growth parameter,
-#' which is assumed to be gamma distributed with the specified mean and variance
-#' the simulation returns for each parameter sample the peak and final value for B and I
-#' also returned are all parameter values as individual columns
-#' also returned is an indicator if steady state was reached
+#' which is assumed to be gamma distributed with the specified mean and variance.
+#' The simulation returns for each parameter sample the peak and final value for B and I.
+#' Also returned are all parameter values as individual columns
+#' and an indicator stating if steady state was reached.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter values
 #'   or fractions > 1), the code will likely abort with an error message
@@ -54,7 +55,7 @@
 #' # To choose parameter values other than the standard one, specify them e.g. like such
 #' result <- simulate_usanalysis(dImin = 0.1, dImax = 10, tmax = 100)
 #' # You should then use the simulation result returned from the function, e.g. like this:
-#' plot(result[,"dI"],result[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria Number',type='l')
+#' plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
 #' function for more details on this model.
 #' @author Andreas Handel

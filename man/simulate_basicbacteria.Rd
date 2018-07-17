@@ -26,21 +26,23 @@ parameters}
 
 \item{r}{rate at which immune response is induced by bacteria}
 
-\item{dI}{death rate of immune response}
+\item{dI}{death rate of immune response#'}
 }
 \value{
-The function returns the output as a list
-the time-series from the simulation is returned as element ts
-the 1st column of ts is Time, the rest are the variables
-bacteria and immune response are labeled Bc and Ic
-to indicate continuous model
+A list. The list has only one element called ts.
+ts contains the time-series of the simulation.
+The 1st column of ts is Time, the other 2 are the variables
+bacteria and immune response. Those are labeled Bc and Ic
+to indicate a continuous model.
 }
 \description{
-This function runs a simulation of a basic 2 compartment model
-using a set of 2 ordinary differential equations.
+This function runs a simulation of a dynamical model
+describing a simple bacteria and immune response system.
+The model is implemented as a set of 2 ordinary differential equations.
 The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package.
-The function returns a matrix containing time-series of each variable and time.
+The function returns a list,
+the list entry called ts contains time-series of each variable and time.
 }
 \details{
 A simple 2 compartment model is simulated as a set of ordinary differential
