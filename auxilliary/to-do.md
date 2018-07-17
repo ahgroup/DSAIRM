@@ -10,9 +10,23 @@
 * Change structure of simulate_ functions such that each one returns a list. At least one list element, called ts or dat, should contain data. Other things can be returned.
 Time-series dataframe should be returned with columns "Time" followed by variable names. Other simulations should return a data frame with columns xvals/yvals/varnames.   
 
-* Change documentation creation: Have a single Rmd file in the app folder. Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the Rmd file is processed displayed. Ideally without saving the html files that are currently in the www/ subfolder. Instead, just create properly formated tabs on the fly (check if that's fast enough). Update vignettes and docfordevelopers accordingly.
+* Change documentation creation: Have a single Rmd file and its html equivalent (could we skip that) in the app folder. 
+Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the Rmd file is processed displayed. Ideally without saving the html files that are currently in the www/ subfolder. Instead, just create properly formated tabs on the fly (check if that's fast enough). Update vignettes and docfordevelopers accordingly. Done in DSAIDE for 1st app, almost working.
+
 * Add learning objectives to each overview tab
+
 * Check all refs: Add Satelli04 to bib file
+
+* Continue streamlining code base to make it more general/modular/flexible
+
+* Write up all solutions 
+
+* Make sure to follow ROpenSci guidelines, submit for review: https://github.com/ropensci/onboarding
+
+
+* Consider making a website for the package with  http://pkgdown.r-lib.org
+
+* Run package through 'goodpractice': https://github.com/MangoTheCat/goodpractice/ - tried, not sure this package works
 
 #Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)

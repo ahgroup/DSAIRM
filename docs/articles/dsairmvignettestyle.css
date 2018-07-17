@@ -1,0 +1,506 @@
+@charset "utf-8";
+/* Handel styling, taken from the 8510 class 
+ * Last Modified: 2016-12-20
+------------------------------------------- */
+
+
+/* Color Glossary for easy changing of colors later
+ * grey:  #403c3d 
+ * dark grey:  #333
+ * light grey: #ccc
+ * near white: #f9f9f9
+ * light blue: #3388CC
+ * blue: #005599
+------------------------------------------------ */
+/* HTML5 display-role reset for older browsers 
+---------------------------------------------- */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+/* Global HTML Styles
+----------------------- */
+html {
+  /* Box-model */
+	margin: 0;
+	padding: 0; 
+	border: 0;
+   
+  /* Typography */
+	font-size: 100%;
+	font-family: Arial, Helvetica, sans-serif;
+	vertical-align: baseline;
+  
+  /* Visual */
+	background-color: #fff; /* white */  
+	color: #403c3d;   /* dark grey */
+}
+body {  
+  /* Box-model */
+	display: block;
+	width: 100%;
+	height: 100%;
+	max-width: 900px;
+	min-width: 300px;
+  
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 0px;
+    
+  /* Visual */
+	background-color: #fff;
+}
+/* Page Structure, 
+ * Layout classes 
+--------------------------------- */
+#content {
+	height: auto;
+	min-height: 490px;
+	padding-bottom: 1em;
+}
+.row {
+  overflow:hidden;
+  margin-bottom: 1em;
+}
+.floatright {
+	float: right;
+	padding: 5px;
+}
+.floatleft {
+	float: left;
+	padding: 5px;
+}
+.center {
+	display: block;
+  	overflow:hidden;
+	margin: auto;
+	text-align: center;
+}
+hr {
+	clear: both;
+  /* Visual */
+	background-color: #333; /* dark grey */
+}
+#footer {
+  /* Positioning */
+	position: relative;
+	clear: both;
+  
+  /* Box-model */
+	width: 100%;
+	max-width: 900px;
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-left: 20px;
+	padding-right: 20px;
+  
+  /* Typography */
+	font-size: 80%;
+  
+  /* Visual */
+	border-top: 1px solid #403c3d;     /* grey */
+	border-bottom: 10px solid #403c3d; /* grey */
+}
+/* Headings
+---------------- */
+h1, h2, h3  {
+	font-family: inherit;
+}
+h1 {
+  /* Box-model */
+	margin-top: 0;
+	margin-left: -20px;
+	margin-right: -20px;
+	padding-top: 0;
+	padding-left: 20px;
+	padding-right: 20px;
+  
+  /* Typography */
+	line-height: 2em;
+  
+  /* Visual */
+	background-color: #403c3d; /* dark grey */
+	color: #fff;
+}
+
+/* Image
+---------------*/
+img {
+	max-width: 80%;
+	padding: 3px;
+	
+}
+.image {
+	display: inline-block;
+	margin-top: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	max-width: 80%;
+	padding: 0;  
+	text-align: center;
+  
+  /* Visual */
+	border-radius: 5px;
+	border: 1px solid #ccc;  /* light grey */
+}
+.figure {
+	margin: auto;
+	max-width: 80%;
+	padding: 0;  
+	text-align: center;
+  
+  /* Visual */
+	border-radius: 5px;
+	border: 1px solid #ccc;  /* light grey */
+}
+.caption {
+	padding: 0;
+	margin: auto;
+	margin-bottom: 6px;
+}
+/* Links and Text 
+-------------------- */
+a {
+  font-weight:800;
+}
+a:focus {
+	border: 2px solid #ccc;  /* light grey */
+}
+p {
+	line-height: 1.4em;
+}
+strong {
+	font-weight: bold;
+}
+em {
+	font-style: italic;
+}
+blockquote {
+  quotes: "\201C""\201D""\2018""\2019"; /* quotation mark: left double, right double, left single, right single*/
+  
+  /* Box-model */
+  margin: 1.5em 1em;
+  padding: 0.5em 1em;
+  
+  /* Typography */
+	font-style: italic; 
+  
+  /* Visual */
+  background: #F9F9F9;  /* near white */
+  border-left: 10px solid #ccc; /* light grey */
+}
+blockquote:before {
+  content: open-quote;
+  
+  /* Box-model */
+  margin-right: 0.2em;
+  vertical-align: -0.4em;
+  
+  /* Typography */
+	font-family: Arial, Helvetica, sans-serif;
+  font-size: 5em;
+  font-weight:800;
+  line-height: 0.1em;
+  
+  /* Visual */
+  color: #ccc;
+}
+blockquote cite {
+  /* Box-model */
+  display: block;
+  margin-top: 5px;
+  
+  /* Typography */
+  font-size: 0.9em;
+  
+  /* Visual */
+  color: #333;  /* grey */
+} 
+blockquote cite:before {
+  content: "\2014 \2009";  /* em dash thin space */
+}
+pre {
+	padding: 20px;
+	font-family: "Courier New", Courier, monospace;
+  
+  /* Visual */
+	background-color: #f9f9f9;  /* near white */
+	border: 1px solid #ccc; /* light grey */
+}
+cite {
+	font-style: italic;
+}
+/* List 
+----------*/
+ul, ol {
+	overflow: hidden;
+	line-height: 1.2em;
+}
+dl {
+}
+li, dt, dd {
+	padding: 5px;
+}
+ul li {
+}
+/* ------- Tables ------- */
+table {
+	margin: 20px;
+	border-spacing: 0;
+	width: 100%;
+	min-width: 100%;
+}
+table th { 
+ /* Box-model */
+	height: 36px;
+	padding: 5px;
+  
+  /* Typography */
+	font-size: 16px;
+	line-height: 36px;
+  
+  /* Visual */
+	background-color: #403c3d;
+	color: #fff;
+	border: 1px solid #ccc; /* light grey */
+  border-bottom: 0;
+}
+table thead th:empty {
+	background: transparent;
+	border: none;
+}
+table caption {
+	font-weight: bold;
+}
+tr:nth-child(2n+1) {
+  /* Visual */
+	background-color: #f9f9f9;  /* near white */
+	color: #000; /* black */
+}
+table td {
+	padding: 5px;
+	border-collapse: collapse;
+	border: 1px solid #ccc; /* light grey */
+}
+
+@media print {
+  * {
+    color: #000 !important;
+    text-shadow: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  html, body {
+    width: 98%;
+    margin: 0;
+    border-bottom: 0;
+    padding: 0;
+    height: auto !important;
+  }
+  #content {
+    height: auto;
+    min-height: 0;
+    padding: 0;
+  }
+  a[href]:after {
+      content: " [" attr(href) "]";
+  }
+  abbr[title]:after {
+      content: " [" attr(title) "]";
+  }
+  /*
+   * Don't show links for images, or javascript/internal links
+   */
+  a[href*="javascript:"]:after,
+  a[href*="#"]:after {
+      content: "";
+  }
+  pre,
+  blockquote {
+      page-break-inside: avoid;
+  }
+  blockquote {
+      min-height:0;  
+      margin:0; 
+  }
+  thead {
+      display: table-header-group; 
+  }
+  tr,
+  img {
+      page-break-inside: avoid;
+  }
+  img {
+      max-width: 50% !important;
+  }
+  h1 {
+	  line-height: 1em;
+      background-color: #FFF;
+      text-align: center;
+  }
+  p,
+  h2,
+  h3 {
+      orphans: 3;
+      widows: 3;
+  }
+  h2,
+  h3 {
+      page-break-after: avoid;
+  } 
+ 
+  @page {
+      margin: 1em;
+  }
+}
+
+
+html {
+  /* Visual */
+	background-color: #fff; /* white */  
+	color: #403c3d;         /* grey */
+}
+body {  
+  /* Visual */
+	background-color: #fff;
+}
+/* Page Structure, 
+ * Layout classes 
+--------------------------------- */
+hr {
+  /* Visual */
+	background-color: #333;
+}
+#footer { 
+  /* Visual */
+	border-top: 1px solid #123c66;     /* dark blue */
+	border-bottom: 10px solid #123c66;  /* dark blue */
+}
+/* Headings
+---------------- */
+h1 {
+  /* Visual */
+	background-color: #123c66;  /* dark blue */
+	text-align: center;
+	color: #fff;
+}
+h2 {
+    margin-top: 2.5em;
+	color: #123c66;  /* dark blue */
+}
+h3 {
+  margin-top: 2em;
+  color: #3388CC; /* light blue */
+}
+h4 {
+  color: #3388CC; /* light blue */
+}
+
+h4 {
+    margin:0;
+    padding:0;
+}
+
+
+/* Image
+---------------*/
+.image {
+  /* Visual */
+	border-radius: 5px;
+	border: 1px solid #ccc; /* light grey */
+}
+/* Links and Text 
+-------------------- */
+a {
+  color: #1b63a8;  /* blue */ 
+}
+a:visited {
+  color: #123c66;  /* dark blue */ 
+}
+a:hover {
+  color: #a3dce9; /* light blue */
+}
+a:focus {
+	border: 2px solid #ccc;
+}
+blockquote {  
+  border-left: 10px solid #123c66;  /* dark blue */
+}
+blockquote:before {
+  /* Visual */
+  color: #123c66;  /* dark blue */
+}
+pre {
+  /* Visual */
+	background-color: #f4f4f4;  /* near white */
+	border: 1px solid #ccc; /* light grey */
+}
+/* List 
+----------*/
+/* Tables 
+--------- */
+table th { 
+  /* Visual */
+	color: #fff;
+	border: 1px solid #aaa;
+
+  background: #1c60a8; /* Old browsers */
+  background: -moz-linear-gradient(top,  #1c60a8 0%, #123c66 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1c60a8), color-stop(100%,#123c66)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #1c60a8 0%,#123c66 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #1c60a8 0%,#123c66 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #1c60a8 0%,#123c66 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #1c60a8 0%,#123c66 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c60a8', endColorstr='#123c66',GradientType=0 ); /* IE6-9 */
+}
+tr:nth-child(2n+1) {
+  /* Visual */
+	background-color: #f9f9f9;  /* near white */
+	color: #000;
+}
+table td {
+  /* Visual */
+	border: 1px solid #ccc; /* light grey */
+}
+
+/* My additions
+-------------------- */
+
+
+.author
+{
+	text-align: center;
+}
+
+.date
+{
+	text-align: center;
+}
+
+
+#mylicense
+{
+	text-align: center;
+	font-size: 70%;
+	
+}
+
+iframe {
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+#mytextbox
+{
+	border: 10px solid #cfd7e0; 
+	color: black;  
+	font-weight: normal;
+}
+
+.MathJax {
+	font-size: .15em;
+}
