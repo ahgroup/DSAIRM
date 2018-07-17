@@ -2,6 +2,7 @@
 
 export(dsairmapps)
 export(dsairmmenu)
+export(generate_documentation)
 export(generate_instruction_tabs)
 export(generate_plots)
 export(generate_text)

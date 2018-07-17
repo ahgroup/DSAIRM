@@ -1,3 +1,9 @@
+url: https://ahgroup.github.io/DSAIRM/index.html
+
+authors:
+  Andreas Handel:
+    href: http://handelgroup.uga.edu/
+
 navbar:
   structure:
     left:
@@ -23,6 +29,7 @@ navbar:
       text: Changelog
       href: news/index.html
     related packages:
+      text: Related Packages
       text: DSAIDE
       href: https://cran.r-project.org/web/packages/DSAIDE/index.html
     github:

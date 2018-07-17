@@ -4,14 +4,9 @@ output:
   html_document:
     theme: null
     highlight: null
-    css: ../styles/dsairm.css
     fig_caption: true
     mathjax: default 
     keep_md: false
-    includes:
-      #in_header: in_header.txt
-      before_body: ../styles/dsairm_before_body.txt
-      after_body: ../styles/dsairm_after_body.txt 
 bibliography: ../media/references.bib
 ---
 

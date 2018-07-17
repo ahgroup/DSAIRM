@@ -1,34 +1,29 @@
-## Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
+# Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
 
-#Next steps
-* Write up all solutions into the DSAIRMsolutions repository
-* Do tasks for Pk/Pd app
-* Improve error messages when simulation failed (see basic bacteria app) - use color if possible
-* Get everything ready for CRAN
-* Clean up diagrams as needed
+## Next steps
+* Change documentation creation: Have a single Rmd file and its html version in each app folder. Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the HTML file is processed and displayed. Almost done using the new generate_documentation() function and implemented for Basic Bacteria app. Some text doesn't display correctly yet, this needs to be fixed. Also nice to have (but could wait with that): XML package is orphaned, could we use an actively maintained one instead)? And is there a way to only store the Rmd file and create the HTML file 'on the fly' without saving it to disk?
 
-* Change structure of simulate_ functions such that each one returns a list. At least one list element, called ts or dat, should contain data. Other things can be returned.
+* Change structure of all simulate_ functions such that each one returns a list. At least one list element, called ts (for a simulation that produces a time-series) or dat (otherwise), should contain data. Other things can be returned.
 Time-series dataframe should be returned with columns "Time" followed by variable names. Other simulations should return a data frame with columns xvals/yvals/varnames.   
 
-* Change documentation creation: Have a single Rmd file and its html equivalent (could we skip that) in the app folder. 
-Merge functionality of generate_HTMLfiles and generate_instrction_tabs such that on loading/opening the app, the Rmd file is processed displayed. Ideally without saving the html files that are currently in the www/ subfolder. Instead, just create properly formated tabs on the fly (check if that's fast enough). Update vignettes and docfordevelopers accordingly. Done in DSAIDE for 1st app, almost working.
+* Check documentation (and text comments) for each app (further reading section), each function, and update vignettes and docfordevelopers accordingly. 
 
+* Get everything ready for CRAN
+
+* Do tasks for Pk/Pd app
+
+
+
+## For later
 * Add learning objectives to each overview tab
-
-* Check all refs: Add Satelli04 to bib file
-
+* Update all solutions 
 * Continue streamlining code base to make it more general/modular/flexible
+* Improve error messages when simulation failed (see basic bacteria app) - use color if possible
+* Clean up diagrams as needed
+* Mayb submit for Ropensci review: https://github.com/ropensci/onboarding
 
-* Write up all solutions 
 
-* Make sure to follow ROpenSci guidelines, submit for review: https://github.com/ropensci/onboarding
-
-
-* Consider making a website for the package with  http://pkgdown.r-lib.org
-
-* Run package through 'goodpractice': https://github.com/MangoTheCat/goodpractice/ - tried, not sure this package works
-
-#Further apps that could be implemented
+## Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)
 * U/S analysis using regression instead of correlation (U6-us3)
 * models with memory/dummy compartments (U9-memory)

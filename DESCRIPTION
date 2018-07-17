@@ -31,7 +31,8 @@ Imports:
     rmarkdown (>= 1.10),
     stats (>= 3.4),
     tidyr (>= 0.7),
-    utils (>= 3.4)
+    utils (>= 3.4), 
+    XML
 Depends:
     R (>= 3.4),
     shiny (>= 1.0)
