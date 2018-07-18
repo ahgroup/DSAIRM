@@ -30,8 +30,9 @@ navbar:
       href: news/index.html
     related packages:
       text: Related Packages
-      text: DSAIDE
-      href: https://cran.r-project.org/web/packages/DSAIDE/index.html
+      menu:
+      - text: DSAIDE
+      - href: https://ahgroup.github.io/DSAIDE/index.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/ahgroup/DSAIRM

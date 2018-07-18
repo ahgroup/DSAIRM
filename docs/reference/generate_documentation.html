@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A helper function that takes result from the simulators and produces text output — generate_text • DSAIRM</title>
+<title>A helper function for the UI part of the shiny apps — generate_documentation • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,12 @@
 
 
 
-<meta property="og:title" content="A helper function that takes result from the simulators and produces text output — generate_text" />
+<meta property="og:title" content="A helper function for the UI part of the shiny apps — generate_documentation" />
 
-<meta property="og:description" content="This function generates text to be displayed in the Shiny UI.
-This is a helper function. This function processes results returned from the simulation, supplied as a list" />
+<meta property="og:description" content="This function take the documentation provided as html file
+it then takes the html file and extracts sections
+to generate the tabs with content for each Shiny app.
+This is a helper function and only useful for this package." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -117,65 +119,35 @@ This is a helper function. This function processes results returned from the sim
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A helper function that takes result from the simulators and produces text output</h1>
+    <h1>A helper function for the UI part of the shiny apps</h1>
     
-    <div class="hidden name"><code>generate_text.Rd</code></div>
+    <div class="hidden name"><code>generate_documentation.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function generates text to be displayed in the Shiny UI.
-This is a helper function. This function processes results returned from the simulation, supplied as a list</p>
+    <p>This function take the documentation provided as html file
+it then takes the html file and extracts sections
+to generate the tabs with content for each Shiny app.
+This is a helper function and only useful for this package.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generate_text</span>(<span class='no'>res</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>res</th>
-      <td><p>a list structure containing all simulation results that are to be processed
-this function is meant to be used together with generate_plots and requires similar information
-the length of the list indicates the number of separate plots to make, and for each plot this function produces text
-each list entry needs to contain the following information/elements:
-1. a data frame called "dat" with one column called xvals, one column yvals,
-one column called varnames that contains names for different variables.
-varnames needs to be a factor variable or will be converted to one.
-Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
-If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
-for each variable is needed.
-For stochastic simulations that require averaging, an variable called nreps is needed,
-which should indicate the number of simulation.
-2. meta-data for the plot, provided in the following variables:
-optinal: plottype - one of "Lineplot" (chosen if nothing is provided),"Scatterplot","Boxplot", "Mixedplot"
-the plottype determines what kind of text is generated.
-For lineplots and mixedplot, min/max/final values of each line are shown
-for scatterplots, a correlation coefficient is computed
-boxplots show min/max/median/average
-if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated
-if 'maketext' is FALSE, no text is generated
-if present' the entries 'showtext'
-for each plot and finaltext of the 1st list element for an overall message/text
-are also shown</p></td>
-    </tr>
-    </table>
-    
+    <pre class="usage"><span class='fu'>generate_documentation</span>()</pre>
+        
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>HTML formatted text for display in a shiny UI</p>
+    <p>tablist a list of tabs for display in a shiny UI</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is called by the shiny server to produce output returned to the shiny UI</p>
+    <p>This function is called by the shiny UIs to populate the documentation and information tabs</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
 

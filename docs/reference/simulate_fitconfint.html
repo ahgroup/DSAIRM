@@ -84,8 +84,18 @@ The model describes a simple viral infection system" />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-<li>
-  <a href="https://cran.r-project.org/web/packages/DSAIDE/index.html">DSAIDE</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Related Packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">DSAIDE</li>
+    <li>
+      <a href="https://ahgroup.github.io/DSAIDE/index.html"></a>
+    </li>
+  </ul>
 </li>
       </ul>
       
@@ -109,7 +119,7 @@ The model describes a simple viral infection system" />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fitting a simple viral infection models to influenza data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/simulate_fitconfint.R'><code>R/simulate_fitconfint.R</code></a></small>
+    
     <div class="hidden name"><code>simulate_fitconfint.Rd</code></div>
     </div>
 
@@ -123,7 +133,7 @@ The model describes a simple viral infection system</p>
 
     <pre class="usage"><span class='fu'>simulate_fitconfint</span>(<span class='kw'>U0</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parscale</span> <span class='kw'>=</span> <span class='st'>"lin"</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>parscale</span> <span class='kw'>=</span> <span class='st'>"lin"</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>nsample</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>rngseed</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -231,7 +241,9 @@ function for more details on this model.</p></div>
     <pre class="examples"><div class='input'># To run the code with default parameters just call this function
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitconfint</span>()
-<span class='co'># }</span></pre>
+<span class='co'># }</span><div class='input'><span class='co'># To apply different settings, provide them to the simulator function, e.g.</span>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitconfint</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>nsample</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] "All values of t are equal to  0.0156244375 \n Cannot calculate confidence intervals"
+#&gt; [1] "All values of t are equal to  1.250375 \n Cannot calculate confidence intervals"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -258,7 +270,7 @@ Andreas Handel
 
       <footer>
       <div class="copyright">
-  <p>Developed by Andreas Handel.</p>
+  <p>Developed by <a href='http://handelgroup.uga.edu/'>Andreas Handel</a>.</p>
 </div>
 
 <div class="pkgdown">
