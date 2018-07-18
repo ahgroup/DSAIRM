@@ -5,7 +5,7 @@
 \title{Simulation of a viral infection model with drug PK and PD}
 \usage{
 simulate_pkpdmodel(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
-  dU = 0, dI = 1, dV = 2, b = 2e-07, g = 1, p = 5, rC = 2,
+  dU = 0, dI = 1, dV = 2, b = 2e-07, g = 1, p = 5, C0 = 2,
   dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
 }
 \arguments{
@@ -31,7 +31,7 @@ simulate_pkpdmodel(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
 
 \item{p}{rate at which infected cells produce virus}
 
-\item{rC}{drug concentration increase rate}
+\item{C0}{drug dose given at specified times}
 
 \item{dC}{drug concentration decay rate}
 

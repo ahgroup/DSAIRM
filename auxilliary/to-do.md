@@ -13,7 +13,6 @@ S4: * Re-check everything.
 
 A:
 * Get everything ready for CRAN
-* Do tasks for Pk/Pd app
 
 
 ## For later
