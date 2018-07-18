@@ -23,7 +23,7 @@ refresh <- function(input, output)
     dU = isolate(input$dU)
     dI = isolate(input$dI)
     dV = isolate(input$dV)
-    rC = isolate(input$rC)
+    C0 = isolate(input$C0)
     dC = isolate(input$dC)
     C50 = isolate(input$C50)
     k = isolate(input$k)
@@ -40,7 +40,7 @@ refresh <- function(input, output)
     result = vector("list", listlength) #create empty list of right size for results
 
     withProgress(message = 'Running Simulation', value = 0, {
-    simresult <- simulate_pkpdmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g=g, rC=rC, dC=dC, C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval)
+    simresult <- simulate_pkpdmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g=g, C0=C0, dC=dC, C50 = C50, k = k, Emax = Emax, txstart = txstart, txinterval = txinterval)
     }) #end progress wrapper
 
     #data for plots and text
@@ -175,7 +175,7 @@ ui <- fluidPage(
                     numericInput("dI", "infected cell death rate, dI", min = 0, max = 10, value = 1, step = 0.1)
              ),
              column(4,
-                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 4, step = 0.1)
+                    numericInput("dV", "virus death rate, dV", min = 0, max = 10, value = 2, step = 0.1)
              ),
              align = "center"
            ), #close fluidRow structure for input
@@ -187,17 +187,17 @@ ui <- fluidPage(
                            numericInput("n", "uninfected cell birth rate, n", min = 0, max = 100, value = 0, step = 1)
                     ),
                     column(6,
-                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 2, step = 0.1)
+                           numericInput("p", "virus production rate, p (10^p)", min = -5, max = 5, value = 1, step = 0.1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
 
            fluidRow(class = 'myrow',
                     column(6,
-                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -6, step = 0.1)
+                           numericInput("b", "infection rate, b (10^b)", min = -10, max = 10, value = -5, step = 0.1)
                     ),
                     column(6,
-                           numericInput("g", "unit conversion factor, g", min = 0, max = 100, value = 0, step = 1)
+                           numericInput("g", "unit conversion factor, g", min = 0, max = 100, value = 1, step = 1)
                     ),
                     align = "center"
            ), #close fluidRow structure for input
@@ -206,10 +206,10 @@ ui <- fluidPage(
 
            fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("rC", "drug increase rate, rC", min = 0, max = 100, value = 5, step = 1)
+                           numericInput("C0", "drug dose given, C0", min = 0, max = 100, value = 1, step = 1)
                     ),
                     column(4,
-                           numericInput("dC", "drug decay rate, dC ", min = 0, max = 100, value = 0.1, step = 1)
+                           numericInput("dC", "drug decay rate, dC ", min = 0, max = 100, value = 1, step = 1)
                     ),
                     column(4,
                            numericInput("C50", "50% drug efficacy level, C50", min = 0, max = 1000, value = 10, step = 1)
@@ -219,7 +219,7 @@ ui <- fluidPage(
 
             fluidRow(class = 'myrow',
                     column(4,
-                           numericInput("Emax", "max drug efficacy, Emax", min = 0, max = 1, value = 0.5, step = 0.1)
+                           numericInput("Emax", "max drug efficacy, Emax", min = 0, max = 1, value = 1, step = 0.1)
                     ),
                     column(4,
                            numericInput("txstart", "treatment start time, txstart ", min = 0, max = 100, value = 10, step = 1)
@@ -238,7 +238,7 @@ ui <- fluidPage(
                        ),
 
                     column(4,
-                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 100, step = 10)
+                           numericInput("tmax", "Maximum simulation time", min = 10, max = 1000, value = 30, step = 10)
                     ),
                     column(4,
                            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))

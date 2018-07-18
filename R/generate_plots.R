@@ -47,8 +47,6 @@ generate_plots <- function(res)
 
       rawdat = res[[n]]$dat
 
-
-
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if (colnames(rawdat)[1] == 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
