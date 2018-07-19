@@ -127,7 +127,4 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
     result = list()
     result$dat = simresults
     return(result)
-
-
-    return(results)
 }
