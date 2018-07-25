@@ -20,11 +20,11 @@
 #'    For lineplots and mixedplot, min/max/final values of each line are shown
 #'    for scatterplots, a correlation coefficient is computed
 #'    boxplots show min/max/median/average
-#'    if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated
-#'    if 'maketext' is FALSE, no text is generated
-#'    if present' the entries 'showtext'
+#'    if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated.
+#'    If 'maketext' is FALSE, no text is generated.
+#'    If present' the entries 'showtext'
 #'    for each plot and finaltext of the 1st list element for an overall message/text
-#'    are also shown
+#'    are also shown.
 #' @return HTML formatted text for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
