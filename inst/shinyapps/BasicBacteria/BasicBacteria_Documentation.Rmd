@@ -13,6 +13,9 @@ bibliography: ../media/references.bib
 ##Overview {#shinytab1}
 This app allows exploration of a very basic bacteria infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in \"The Model\" tab. Then do the tasks described in the \"What to do\" tab.
 
+\" This is an example with the backslash quotation marks.\"
+"This is an example with regular quotation marks."
+
 
 ##The Model {#shinytab2}
 
