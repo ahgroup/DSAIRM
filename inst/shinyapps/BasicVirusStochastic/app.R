@@ -74,10 +74,6 @@ refresh <- function(input, output)
     if (models == 2) { dat = datall}
     if (models == 3) { dat <- rbind(dat_ode,datall) }
 
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
-
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text

@@ -1,18 +1,18 @@
-# DSAIRM version 0.40
+# DSAIRM 0.4.0
 
-* All apps and docs done for now, some code modification/cleanup work still needed.
+* Fully functional first release to CRAN.
 
 
-# DSAIRM version 0.30
+# DSAIRM  0.3.0
 
 * All apps done, some documentation not finished
 
 
-# DSAIRM version 0.20
+# DSAIRM  0.2.0
 
 * Most apps done
 
 
-# DSAIRM version 0.10
+# DSAIRM  0.1.0
 
 * This is the first draft of the package

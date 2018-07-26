@@ -52,7 +52,7 @@ refresh <- function(input, output)
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
       datnew = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-      datnew$IDvar = paste(datnew$varnames,nn,sep='') #trying to make a variable for plotting same color lines for each run in ggplot2. doesn't work yet.
+      datnew$IDvar = paste(datnew$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
       datnew$nreps = nn
       dat = rbind(dat, datnew)
     }
