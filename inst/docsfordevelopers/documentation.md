@@ -35,6 +35,8 @@ The following steps are required:
 
 The app will make use of 3 generate_ helper functions which are part of the package. It will also use the provided CSS file. Once you have written your new app, you should be able to run it by itself.
 
+Before you run the app.R file, make sure you source the simulator function and load the package so all functions needed by the app.R file are availabel.
+
 ### Contributing your App
 The best approach is to contact me by email (ahandel@uga.edu) or through the Github site, tell me that you have a new app and share it with me. I'll test it, we'll probably have a few discussions, and if I think it's suitable, I'll add it to the package. Of course, you will be credited for the app you developed. Also, if you plan to write and contribute new apps, maybe best if you contact me beforehand, I can then help and provide guidance as needed.
 

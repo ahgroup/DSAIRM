@@ -37,7 +37,8 @@ system.file("simulatorfunctions", package = "DSAIRM")
 See [the package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) for more details on the different ways to use the package. You can also get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
 
 ## Contributing to the package
-DSAIRM is built in a way that makes it (hopefully) easy for to contribute new simulations/apps. The package contains a sub-folder called _/docsfordevelopers_ (in the locally installed version of the package, this folder is in the main package folder, on Github it is inside the _/inst_ folder). The documentation.md file in this folder explains the overall structure of the package and gives detailed instructions on how to create new apps. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.
+The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. [This Markdown file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.
+
 
 
 ## Further information

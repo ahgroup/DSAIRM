@@ -31,9 +31,9 @@ If suitable, provide a model diagram. It should be a png file. I recommend creat
 
 ###Model Equations
 Write down your equations here.
-$$\dot U = n - d_U U - bUV$$ 
-$$\dot I = bUV - d_I I$$
-$$\dot V = pI - d_V V - gb UV$$
+$$\dot S = -bSI$$ 
+$$\dot I = bSI - g I$$
+$$\dot R = gI$$
 
 
 

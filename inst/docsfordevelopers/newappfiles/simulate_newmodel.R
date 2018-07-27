@@ -63,7 +63,7 @@ virusode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, g = 1)
+simulate_newmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, g = 1)
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back

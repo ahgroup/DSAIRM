@@ -32,7 +32,7 @@ refresh <- function(input, output)
     #shows a 'running simulation' message
     withProgress(message = 'Running Simulation', value = 0,
     {
-      simresult <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
+      simresult <- simulate_newmodel(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
     })
 
     #the results returned from your simulate_ function need to be put in a certain form
