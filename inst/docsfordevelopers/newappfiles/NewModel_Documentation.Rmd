@@ -1,0 +1,56 @@
+---
+title: Your Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+---
+
+## Overview {#shinytab1}
+Briefly explain your app here and if appropriate list learning objectives.
+
+Note that you can't modify any level 2 headings (those starting with ##), and you can't have any level 1 headings, but you can have as many subheadings (i.e. ### or #### or...) in each section as you like.
+
+## The Model {#shinytab2}
+
+### Model Overview
+Provide details on the model here.
+
+
+### Model Diagram
+If suitable, provide a model diagram. It should be a png file. I recommend creating it as SVG file using e.g. the free Inkscape software.
+
+
+```{r modeldiagram,  fig.cap='My diagram.',  echo=FALSE}
+#knitr::include_graphics("mydiagram.png")
+```
+
+
+###Model Equations
+Write down your equations here.
+$$\dot U = n - d_U U - bUV$$ 
+$$\dot I = bUV - d_I I$$
+$$\dot V = pI - d_V V - gb UV$$
+
+
+
+
+## What to do {#shinytab3}
+
+
+### Task 1
+
+A list of tasks that should be done by the user to achieve the learning objectives.
+
+
+## Further Information {#shinytab4}
+
+Tell the user the name of your app, any background reading, and any other useful information.
+
+
+### References
+
+If you want to add references, add a bibtex file to the yaml pre-ample and place it in the same folder as the app. All references will be shown at the end of the document, so remove this text and don't add anything after the 'References' sub-heading.
