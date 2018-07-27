@@ -17,7 +17,7 @@ Maintainer: 'Andreas Handel <ahandel@uga.edu>'
 * checking R code for possible problems ... NOTE
 generate_plots: no visible binding for global variable 'xvals'
 
-And several others of that sort. Seems to come from various dplyr commands. I see no way around this, and it doesn't seem to affect anything.
+And several others of that sort. Seems to come from various dplyr and ggplot commands. Based on an online search, this seems to be a common issue. I found several suggested solutions to getting rid of the notes, but they all seemed like hacks, and it doesn't seem to affect anything, so I chose to ignore these notes.
 
 
 ## Submission History

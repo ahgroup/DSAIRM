@@ -42,5 +42,5 @@ Suggests:
     testthat
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
-URL: https://ahgroup.github.io/DSAIRM
+URL: https://ahgroup.github.io/DSAIRM, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues
