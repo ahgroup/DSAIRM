@@ -11,7 +11,7 @@ generate_plots(res)
 the length of the list indicates the number of separate plots to make
 each list entry corresponds to one plot
 each list entry needs to contain the following information/elements:
-1. a data frame called "dat" with one column called xvals, one column yvals,
+1. a data frame called "dat" or with one column called xvals, one column yvals,
 one column called varnames that contains names for different variables.
 varnames needs to be a factor variable or will be converted to one.
 Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).

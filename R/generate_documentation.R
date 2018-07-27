@@ -15,17 +15,13 @@ generate_documentation <- function()
     currentdir = getwd()
     tablist = NULL
     tabtitles = c('Overview','The Model','What to do','Further Information')
-
     htmlfile = list.files(path = currentdir, pattern = "\\.html$")
-    #htmldoc = xml2::read_html(htmlfile) #this part works using xml2, but then I can't further process it
-    #shinyblocks = xml2::xml_find_all(htmldoc,xpath = "//div[@id[starts-with(., 'shinytab')]]")
-
-    html.raw <- XML::htmlTreeParse(htmlfile, useInternalNodes = TRUE)
+   html.raw <- XML::htmlTreeParse(htmlfile, useInternalNodes = TRUE, encoding='UTF-8')
     shinyblocks = XML::getNodeSet(html.raw, "//div[@id[starts-with(., 'shinytab')]]")
     for (i in 1:4)
     {
       subDoc <- XML::xmlDoc(shinyblocks[[i]])
-      content <- XML::xpathApply(subDoc, "//div[@id[starts-with(., 'shinytab')]]", XML::saveXML)
+      content <- XML::xpathApply(subDoc, "//div[@id[starts-with(., 'shinytab')]]", XML::saveXML, encoding='UTF-8')
       htmlcontent = shiny::HTML(content[[1]])
       tablist[[i]] = shiny::tabPanel(tabtitles[i], htmlcontent, icon = NULL)
     }

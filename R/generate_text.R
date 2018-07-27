@@ -21,7 +21,7 @@
 #'    for scatterplots, a correlation coefficient is computed
 #'    boxplots show min/max/median/average
 #'    if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated.
-#'    If 'maketext' is FALSE, no text is generated.
+#'    If 'maketext' is FALSE or missing, no text is generated.
 #'    If present' the entries 'showtext'
 #'    for each plot and finaltext of the 1st list element for an overall message/text
 #'    are also shown.
@@ -45,9 +45,23 @@ generate_text <- function(res)
     for (n in 1:nplots)
     {
 
-      plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
-      rawdat = res[[n]]$dat
+      resnow = res[[n]]
+      
+      
+      #if a data frame called 'ts' exists, assume that this one is the data to be plotted
+      #otherwise use the data frame called 'dat'
+      #one of the 2 must exist, otherwise the function will not work
+      if (!is.null(resnow$ts))
+      {
+        rawdat = resnow$ts
+      }
+      else {
+        rawdat = resnow$dat
+      }
 
+      #if nothing is provided, we assume a line plot. That could lead to silly text returns.
+      plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} 
+      
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if (colnames(rawdat)[1]== 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -65,20 +79,25 @@ generate_text <- function(res)
         dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
       }
 
-      #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
+      #code variable names as factor and level them so they show up right 
+      #factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
 
       allvarnames = levels(dat$varnames)
       nvars = length(allvarnames)
-
-      xlabel =  res[[n]]$xlab
-      ylabel =  res[[n]]$ylab
-
-      maketext <- if(is.null(res[[n]]$maketext)) {TRUE} else  {res[[n]]$maketext} #if maketext is not set, we assume user wants it, otherwise they need to set to FALSE
+      
+      #labels, only used in correlation plots
+      xlabel =  resnow$xlab
+      ylabel =  resnow$ylab
 
       txt = '' #no text to start out
 
+      #browser()
+      
+      #if missing or false, we won't create text based on data as described below
+      if (is.null(resnow$maketext) || resnow$maketext == FALSE) {maketext = FALSE} else {maketext = TRUE}
+      
       if (maketext == TRUE) #if the app wants text display based on result processing, do the stuff below
       {
         #for each plot, process each variable by looping over them
@@ -87,7 +106,7 @@ generate_text <- function(res)
           #data for a given variable
           currentvar = allvarnames[[nn]]
           vardat = dplyr::filter(dat, varnames == currentvar)
-            #for lineplots, we show the min/max/final for each variable
+          #for lineplots, we show the min/max/final for each variable
           if (plottype == 'Lineplot')
           {
             #check if multiple runs are done
@@ -131,7 +150,7 @@ generate_text <- function(res)
             mymax = format(max(vardat$yvals), digits =2, nsmall = 2)
             newtxt = paste('Min/Mean/Median/Max for ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
           }
-          if (plottype == 'Mixedplot' )
+          if (plottype == 'Mixedplot' ) 
           {
             newtxt = ""
           }
@@ -144,9 +163,9 @@ generate_text <- function(res)
 
 
       #if the result structure has a text entry for a given plot, use that in addition to the
-      if (!is.null(res[[n]]$showtext))
+      if (!is.null(resnow$showtext))
       {
-        txt = paste(txt, res[[n]]$showtext, sep = "<br/>" )
+        txt = paste(txt, resnow$showtext, sep = "<br/>" )
       }
 
       alltext <- paste(alltext, txt, sep = " " ) #add text blocks together
