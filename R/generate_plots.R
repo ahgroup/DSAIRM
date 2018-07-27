@@ -44,7 +44,7 @@ generate_plots <- function(res)
     for (n in 1:nplots) #loop to create each plot
     {
       resnow = res[[n]]
-      
+
       #if a data frame called 'ts' exists, assume that this one is the data to be plotted
       #otherwise use the data frame called 'dat'
       #one of the 2 must exist, otherwise the function will not work
@@ -57,12 +57,10 @@ generate_plots <- function(res)
       else {
         rawdat = resnow$dat
       }
-      
+
       plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
 
-      
-     
-      
+
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if (colnames(rawdat)[1] == 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -84,7 +82,6 @@ generate_plots <- function(res)
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
 
-      #browser()
 
 
       #see if user/calling function supplied x- and y-axis transformation information

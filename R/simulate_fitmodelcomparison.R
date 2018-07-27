@@ -129,6 +129,7 @@ modelcompfitfunction <- function(params, mydata, Y0, xvals, modeltype, fixedpars
 #' \dontrun{result <- simulate_fitmodelcomparison()}
 #' # To apply different settings, provide them to the simulator function, e.g.
 #' result <- simulate_fitmodelcomparison(iter = 5)
+#' result <- simulate_fitmodelcomparison(iter = 5, modeltype = 2)
 #' @seealso See the shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel

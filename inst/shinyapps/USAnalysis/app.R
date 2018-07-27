@@ -66,6 +66,7 @@ refresh <- function(input, output)
     result <- vector("list", 24) #set up a list structure with as many elements as plots
     #loop over each outer list element corresponding to a plot and fill it with another list
     #of meta-data and data needed to create each plot
+    #each parameter-output pair is its own plot, therefore its own list entry
     ct=1; #some counter
     result[[ct]]$ncol = 3 #number of columns for plot, needs to be stored in 1st sub-list element
     for (n in 1:8) #first loop over each parameter
