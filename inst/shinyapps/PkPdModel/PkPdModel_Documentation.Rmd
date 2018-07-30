@@ -90,7 +90,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 
 ### Task 5: 
 * Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy).
-* Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? (You should find around 64799 uninfected cells for one of the scenarios and around 56819 for the other).
+* Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? (You should find around 56819 uninfected cells for one of the scenarios and around 64799 for the other).
 * If drug side-effects were an issue, would your decision change? Why or why not?
 
 ### Task 6: 

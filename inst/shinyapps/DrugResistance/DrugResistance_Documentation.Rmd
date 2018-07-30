@@ -76,10 +76,10 @@ Note: For this simulation, you can set a random number seed. This ensures reprod
 
 ###Task 1: 
 * Confirm that you get a single infection with sensitive virus with the default settings.
-* Set 'resistant generation fraction' to a small on-zero value. You should start seeing some resistant virus. Why is it it lower than the sensitive virus?
+* Set 'resistant generation fraction' to a small non-zero value. You should start seeing some resistant virus. Why is it it lower than the sensitive virus?
 
 ###Task 2: 
-* Set 'resistant generation fraction' to 0.01. Run simulation for different drug efficacy values. Observe how the magnitude of the _V~s~_ and _V~r~_ curves change and eventually for high enough drug efficacy, not infection takes place anymore.
+* Set 'resistant generation fraction' to 0.01. Run simulation for different drug efficacy values. Observe how the magnitude of the _V~s~_ and _V~r~_ curves change and eventually for high enough drug efficacy, no infection takes place anymore.
 
 
 ###Task 3: 
