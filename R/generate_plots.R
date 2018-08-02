@@ -20,7 +20,7 @@
 #'    optional: xlab, ylab - strings to label axes.
 #'    optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 #'    optional: xmin, xmax, ymin, ymax - manual min and max for axes.
-#'    optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted.
+#'    optional: legendtitle - legend title, if NULL/not supplied no legend will be plotted.
 #'    optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
 #'    optional: title - a title for each plot.
 #'
