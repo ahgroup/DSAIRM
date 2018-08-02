@@ -29,7 +29,7 @@ stochasticratefunc <- function(y, parms, t)
 #' @description  Simulation of a stochastic model with the following compartments:
 #' Uninfected target cells (U), Infected cells (I), virus (V)
 #'
-#' @param U0 initial number of taget cells. Needs to be an integer.
+#' @param U0 initial number of target cells. Needs to be an integer.
 #' @param I0 initial number of wild-type infected cells. Needs to be an integer.
 #' @param V0 initial number of resistant virus. Needs to be an integer.
 #' @param n rate of uninfected cell production

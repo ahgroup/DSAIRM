@@ -36,7 +36,7 @@ evolutionratefunc <- function(y, parms, t)
 #' Uninfected target cells (U), Infected with wild-type/sensitive and untreated (Is),
 #' infected with resistant (Ir), wild-type virus (Vs), resistant virus (Vr)
 #'
-#' @param U0 initial number of taget cells
+#' @param U0 initial number of target cells
 #' @param Is0 initial number of wild-type infected cells
 #' @param Ir0 initial number of resistant infected cells
 #' @param Vs0 initial number of wild-type virus

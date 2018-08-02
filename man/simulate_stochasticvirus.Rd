@@ -9,7 +9,7 @@ simulate_stochasticvirus(U0 = 10000, I0 = 0, V0 = 5, tmax = 30,
   rngseed = 100)
 }
 \arguments{
-\item{U0}{initial number of taget cells. Needs to be an integer.}
+\item{U0}{initial number of target cells. Needs to be an integer.}
 
 \item{I0}{initial number of wild-type infected cells. Needs to be an integer.}
 

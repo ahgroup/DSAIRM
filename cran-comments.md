@@ -13,6 +13,7 @@ There were 2 notes:
 
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Andreas Handel <ahandel@uga.edu>'
+New submission
 
 * checking R code for possible problems ... NOTE
 generate_plots: no visible binding for global variable 'xvals'
