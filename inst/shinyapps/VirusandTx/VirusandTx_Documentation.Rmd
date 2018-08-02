@@ -79,7 +79,7 @@ For the next few tasks, we consider a chronic viral infection and treatment (e.g
 If you need an introduction or refresher on what the steady state means and how one could compute it, see the "Basic Virus" app.
 
 ###Task 5: 
-A model like this has been applied to study the interferon treatment for Hepatitis C Virus [@neumann98]. (Today's standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to answer is if one of the 2 mechanisms, i.e. reduction of cell infecton (parameter _f_) or reduction of virus production (parameter _e_) is better at explaining/predicting observed viral kinetics.
+A model like this has been applied to study the interferon treatment for Hepatitis C Virus [@neumann98]. (Today's standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to answer is if one of the 2 mechanisms, i.e. reduction of cell infection (parameter _f_) or reduction of virus production (parameter _e_) is better at explaining/predicting observed viral kinetics.
 
 * Set starting conditions to 10^7^ uninfected cells, no infected cells, 10 virions.
 * Set uninfected cell birth rate to 10000, death rate to 0.001.

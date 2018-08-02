@@ -18,7 +18,7 @@ For this purpose, we use the basic bacteria infection model introduced in the ap
 ##The Model {#shinytab2}
 
 ###Model Overview
-The model is the continous time model in the 'basic bacteria model' app. See the documentation there for the model description. For convenience, here is a quick summary and the equations again.
+The model is the continuous time model in the 'basic bacteria model' app. See the documentation there for the model description. For convenience, here is a quick summary and the equations again.
 
 We model 2 compartments:
 

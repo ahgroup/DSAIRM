@@ -6,9 +6,9 @@
 \usage{
 simulate_fitmodelcomparison(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1,
   dI = 1, dV = 2, g = 0, p = 10, k = 1e-06, a = 1e-05,
-  alow = 1e-06, ahigh = 1e-04, b = 1e-05, blow = 1e-06, bhigh = 0.001,
-  r = 1, rlow = 0.1, rhigh = 2, dX = 1, dXlow = 0.1, dXhigh = 10,
-  modeltype = 1, iter = 100)
+  alow = 1e-06, ahigh = 1e-04, b = 1e-05, blow = 1e-06,
+  bhigh = 0.001, r = 1, rlow = 0.1, rhigh = 2, dX = 1,
+  dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}

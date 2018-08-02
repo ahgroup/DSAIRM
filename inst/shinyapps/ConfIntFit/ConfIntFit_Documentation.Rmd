@@ -31,7 +31,7 @@ The main new feature of this app is the inclusion of bootstrapping, a sampling p
 * Do this 'sample, then fit' approach multiple times (generally 100s or more) to obtain distribution for your parameter estimates.
 * From these distributions, extract e.g. 95% confidence intervals.
 
-Bootstrapping is conceptually easy to understand and also fairly easy to implement. The big drawback is that it takes time to run. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers and simple models. For our teaching model, we'll use a simple model, only few bootstrap samples and a limited number of interations per fit. 
+Bootstrapping is conceptually easy to understand and also fairly easy to implement. The big drawback is that it takes time to run. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers and simple models. For our teaching model, we'll use a simple model, only few bootstrap samples and a limited number of iterations per fit. 
 
 
 ##What to do {#shinytab3}
@@ -45,7 +45,7 @@ The fit is run multiple times. First, the model is fit to the actual data. Then,
 * If the speed of your computer allows, increase the number of bootstrap samples to 10 or 50 or more. Re-run with different random number seeds. As you get more samples, the impact of the random sampling should diminish and eventually the results should be robust enough that you get essentially the same confidence intervals independent of random number seed.
 
 ###Task 3:
-* Repeat the tasks above and explore how fitting the parameters in log space vs. linear space changes things. In theory, you should get the same results, since the underlying problem is the same. However, sometimes changing this scale can change the performance of the underlying solver. If we waited until the solver convereged (found the best optimal solution), the result should be the same, but the time to get there might differe. Here, since we only take a few iteration steps, the actual result might change.
+* Repeat the tasks above and explore how fitting the parameters in log space vs. linear space changes things. In theory, you should get the same results, since the underlying problem is the same. However, sometimes changing this scale can change the performance of the underlying solver. If we waited until the solver converged (found the best optimal solution), the result should be the same, but the time to get there might differe. Here, since we only take a few iteration steps, the actual result might change.
 
 ###Task 4:
 * Explore the above tasks and see how results change if you increase the number of iterations to whatever runs reasonably fast on your computer.
@@ -55,7 +55,7 @@ Note that the time it takes to run the code scales with the product of the itera
 ##Further Information {#shinytab4}
 * The R script running the simulation for this app is called `simulate_fitconfint.R`. See its help file for information on how to call and use it directly.
 * The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model `simulate_basicvirus.R`.
-* There are different versions of bootstrapping, i.e. data sampling. Some make assuptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
+* There are different versions of bootstrapping, i.e. data sampling. Some make assumptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
 
 
 ### References

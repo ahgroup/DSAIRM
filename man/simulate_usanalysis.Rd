@@ -6,9 +6,9 @@
 \usage{
 simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
   Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
-  kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001, dImin = 1,
-  dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10,
-  rngseed = 100)
+  kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001,
+  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30,
+  samples = 10, rngseed = 100)
 }
 \arguments{
 \item{B0min}{lower bound for initial bacteria numbers}

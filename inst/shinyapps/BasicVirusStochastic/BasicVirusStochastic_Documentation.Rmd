@@ -33,7 +33,7 @@ For this model, we consider the following processes:
 3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
 4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
 
-The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don't need to convert. That also means that the parameter _g_ of the deterministic model - which we run for comaprison - is set to 1.
+The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don't need to convert. That also means that the parameter _g_ of the deterministic model - which we run for comparison - is set to 1.
 
 
 ###Model Diagram

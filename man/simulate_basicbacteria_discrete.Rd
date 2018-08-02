@@ -6,7 +6,8 @@
 illustrating a simple within-host predator-prey model}
 \usage{
 simulate_basicbacteria_discrete(B0 = 10, I0 = 1, tmax = 30, g = 1,
-  Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, dt = 0.01)
+  Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1,
+  dt = 0.01)
 }
 \arguments{
 \item{B0}{initial number of bacteria}

@@ -32,7 +32,7 @@ For our system, we specify the following processes/flows:
 2. Virus infects cells at rate _b_.
 3. Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
 4. Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
-5. To allow conversion from infectious virus units in the model to some experimental units (e.g. plaque forming units), an addtional conversion factor, _g_, is included in the model.
+5. To allow conversion from infectious virus units in the model to some experimental units (e.g. plaque forming units), an additional conversion factor, _g_, is included in the model.
 
 ###Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
@@ -116,7 +116,7 @@ It is useful to note that while the total numbers for each variable do not chang
 While solving algebraic equations, like the one above where you were asked to find _U_, _I_ and _V_ at steady state can be done by hand, it's often tedious. Modern computer software helps. R cannot solve such equations analytically, but other software packages can. The main ones are Mathematica and Maple. Both are powerful and expensive. If you only need one occasionally, there is [Maxima](http://maxima.sourceforge.net/), which is free. Note that once you go beyond 4-5 variables, the steady state equations are usually very complicated, often so much so that they are not useful anymore. And once you go beyond 5 variables, in most cases your software will struggle to give you something meaningful. Fortunately, while it is less quick and elegant, you can always simulate your model and see what (if any) steady state it reaches.
 
 ###Task 9: 
-Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, incuding a simple one like this that is likely not too realistic for any given pathogen. 
+Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen. 
 
 ##Further Information {#shinytab4}
 

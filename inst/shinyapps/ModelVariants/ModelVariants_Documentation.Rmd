@@ -36,7 +36,7 @@ We specify the following processes/flows:
 * Uninfected cells are produced at rate _n_, die naturally at rate _d~U~_ and become infected at rate _b_.
 * Infected cells die at rate *d~I~* and produce virus at rate _p_.
 * Free virus is removed at rate _d~V~_ due to any unmodeled processes, or goes on to infect further uninfected cells at rate _b_. 
-* In the absence of virus, the inate response is produced at a rate *p~F~* and removed at a rate *d~F~*. In the presence of virus, the innate response additionally *grows* according to 3 alternative model formulations:
+* In the absence of virus, the innate response is produced at a rate *p~F~* and removed at a rate *d~F~*. In the presence of virus, the innate response additionally *grows* according to 3 alternative model formulations:
     A) Proportional to virus at rate *f~1~* and saturating at a maximum level *F~max~*. 
     B) Proportional to virus at rate *f~2~*, with a growth rate saturating at high levels of virus, determined by the saturation constant *s~V~*. 
     C) Proportional to both virus and infected cells at rate *f~3~*, with a growth rate saturating at high levels of virus and infected cells, determined by the saturation constant *s~V~*.
@@ -90,7 +90,7 @@ _For the tasks below, it is assumed that the model is run in units of days_
 * You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells.
 
 ###Task 2: 
-* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all inate growth parameters (the _f~i~_) and all innate actions (_k~1~_, _k~2~_, _k~3~_) to 0. 
+* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all innate growth parameters (the _f~i~_) and all innate actions (_k~1~_, _k~2~_, _k~3~_) to 0. 
 * Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn't change (i.e. you should get the same maximum number of infected cells as above).
 
 ###Task 3: 

@@ -67,7 +67,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
 * Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation time 20 days.  
 * For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1.
-* Set the efficay increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 0.
+* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 0.
 * Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.55.
 
 
@@ -96,7 +96,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 ### Task 6: 
 * Let's consider a chronic situation. Set everything as in task 1, then set birth rate and death rate of uninfected cells to 10000 and 0.1.  
 * For the drug, assume treatment starts at day 50, max simulation time of 100 days, and drug is given weekly at a dose of 1.
-* Set the efficay increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1.
+* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1.
 * Run the simulation. You should see an infection settling to some steady state, then drug treatment starts and virus levels go up and down with around 24389 at 100 days. Importantly, the virus does not show some overall decline, it only goes up and down. Make sure you understand why that is.
 
 ### Task 7: 
