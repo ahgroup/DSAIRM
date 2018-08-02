@@ -1,5 +1,5 @@
 ############################################################
-#a simple model for a TB infection, used to illustrate sensitivty analysis using Correlation Coefficients - complete code
+#a simple model for a TB infection, used to illustrate sensitivity analysis using Correlation Coefficients - complete code
 ##written by Andreas Handel, ahandel@uga.edu, last change 6/24/13
 ############################################################
 rm(list=ls()) #this clears the workspace to make sure no leftover variables are floating around. Not strictly needed

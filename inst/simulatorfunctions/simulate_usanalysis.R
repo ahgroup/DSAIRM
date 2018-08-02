@@ -4,9 +4,9 @@
 ##written by Andreas Handel (ahandel@uga.edu), last change 7/16/18
 ############################################################
 #'
-#' Simulation to illustrate uncertainty and sensitivty analysis
+#' Simulation to illustrate uncertainty and sensitivity analysis
 #'
-#' @description This function performs uncertainty and sensitivty analysis
+#' @description This function performs uncertainty and sensitivity analysis
 #' using the simple, continuous-time basic bacteria model
 #' The user provides ranges for the initial conditions and parameter values and the number of samples.
 #' The function does latin hypercube sampling (LHS) of the parameters
