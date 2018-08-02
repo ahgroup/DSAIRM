@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../media/references.bib
+bibliography: ../../media/references.bib
 ---
 
 ##Overview {#shinytab1}
@@ -40,7 +40,7 @@ In addition to specifying the *compartments* of a model, we need to specify the 
 The diagram illustrating this compartmental model is shown in the figure.
 
 ```{r PkPddiagram,  fig.cap='Flow diagram for a virus infection model with drug treatment and Pk-Pd.',  echo=FALSE, out.width='70%'}
-knitr::include_graphics("../media/pkpdmodel.png")
+knitr::include_graphics("../../media/pkpdmodel.png")
 ```
 
 

@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../media/references.bib
+bibliography: ../../media/references.bib
 ---
 
 ##Overview {#shinytab1}
@@ -53,7 +53,7 @@ The diagram illustrating this compartmental model is shown in the figure.
 
 
 ```{r VirusIR,  fig.cap='Flow diagram for virus infection model with several immune response components.',  echo=FALSE, out.width="70%"}
-knitr::include_graphics("../media/virusandIRmodel.png")
+knitr::include_graphics("../../media/virusandIRmodel.png")
 ```
 
 

@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../media/references.bib
+bibliography: ../../media/references.bib
 ---
 
 ##Overview {#shinytab1}
@@ -29,7 +29,7 @@ In the app, those 4 outcomes of interest are labeled _Bpeak_, _Ipeak_, _Bsteady_
 As mentioned, this is the same model as used in the 'Simple Bacteria Model' app. Details can be found there. For ease of reference, the flow diagram and the equations of the continuous model are shown again here:
 
 ```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics("../media/bacteriamodel.png")
+knitr::include_graphics("../../media/bacteriamodel.png")
 ```
 
 $$\dot B = gB(1-\frac{B}{B_{max}})-d_B B - k BI$$ 

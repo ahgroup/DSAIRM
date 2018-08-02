@@ -9,8 +9,8 @@
 * The /inst folder contains several subfolders: 
   * The shiny apps are in the inst/shinyapps/ subfolder (which gets copied to /shinyapps in the deployed package). Each App has an app.R file and Rmd+HTML files containing the documentation.
   * There are a few other folders in the inst/shinyapps/ directory which do not correspond to shiny apps. Those are:
-    * The /media folder contains figures and a bib file used as part of the documentation (i.e. the Rmd files). Note that this is not part of the CRAN R package for size reasons, but if you fork the project from github it will be included.
-    * The /styles folder contains css styling for the documentation
+    * Th../../media folder contains figures and a bib file used as part of the documentation (i.e. the Rmd files). Note that this is not part of the CRAN R package for size reasons, but if you fork the project from github it will be included.
+    * Th../../media folder contains css styling for the documentation
   * /inst/docsfordevelopers contains this file. It also contains a sub-folder with starter files to allow development of new apps for the package.
   * /inst/simulatorfunctions contains the R code for all simulator functions for easy access and editing by users.
   * /inst/doc contains the vignettes, this folder should not be edited, see below.

@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../media/references.bib
+bibliography: ../../media/references.bib
 ---
 
 ##Overview {#shinytab1}
@@ -23,7 +23,7 @@ This model is a variation of the 'Basic Virus" model. Details on that model can 
 The diagram illustrating this compartmental model is shown in the figure.
 
 ```{r BIdiagram,  fig.cap='Flow diagram for the virus infection and drug treatment model.',  echo=FALSE}
-knitr::include_graphics("../media/hcvifndiagram.png")
+knitr::include_graphics("../../media/hcvifndiagram.png")
 ```
 
 
