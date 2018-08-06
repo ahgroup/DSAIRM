@@ -7,14 +7,17 @@
 generate_plots(res)
 }
 \arguments{
-\item{res}{a list structure containing all simulation results that are to be plotted
-the length of the list indicates the number of separate plots to make
-each list entry corresponds to one plot
-each list entry needs to contain the following information/elements:
-1. a data frame called "dat" with one column called xvals, one column yvals,
+\item{res}{a list structure containing all simulation results that are to be plotted.
+The length of the list indicates the number of separate plots to make.
+Each list entry corresponds to one plot and
+needs to contain the following information/elements:
+1. a data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be 
+a time series and by default a line plot will be produced and labeled Time/Numbers. 
+For plotting, the data needs to be in a format with one column called xvals, one column yvals,
 one column called varnames that contains names for different variables.
-varnames needs to be a factor variable or will be converted to one.
-Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
+Varnames needs to be a factor variable or will be converted to one.
+If a column 'varnames' exist, it is assumed the data is in the right format. Otherwise it will be transformed.
+An optional column called IDvar can be provided for further grouping (i.e. multiple lines for stochastic simulations).
 If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 for each variable is needed.
 2. meta-data for the plot, provided in the following variables:
@@ -22,8 +25,9 @@ optional: plottype - one of "Lineplot" (default is nothing is provided),"Scatter
 optional: xlab, ylab - strings to label axes.
 optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 optional: xmin, xmax, ymin, ymax - manual min and max for axes.
-optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted.
-optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.}
+optional: legendtitle - legend title, if NULL/not supplied no legend will be plotted.
+optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
+optional: title - a title for each plot.}
 }
 \value{
 a plot structure for display in a shiny UI

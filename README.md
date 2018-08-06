@@ -10,7 +10,7 @@ Dynamical Systems Approach to Immune Response Modeling
 ## Description
 This R package consists of a set of Shiny Apps to learn within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through the Shiny UI interface and working through the instructions provided within the Shiny UI, you can learn about some important concepts of within-host and immmune response modeling. 
 
-## Installing
+## Installation
 1. **Not yet available -** Install the CRAN release in the usual way with `install.packages('DSAIRM')`.
 2. The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don't have it, install the devtools package. Then, install DSAIRM through devtools. The following commands should get you up and running:
 
@@ -34,18 +34,19 @@ You can call the underlying simulation functions directly from the `R` console. 
 ```r
 system.file("simulatorfunctions", package = "DSAIRM")
 ```
-See [the package vignette](https://rawgit.com/ahgroup/DSAIRM/master/inst/doc/DSAIRM.html) for more details on the different ways to use the package. You can get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
+See [the package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) for more details on the different ways to use the package. You can also get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
 
 ## Contributing to the package
-DSAIRM is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. The package contains a sub-folder called _/docsfordevelopers_ (in the locally installed version of the package, this folder is in the main package folder, on Github it is inside the _/inst_ folder). The documentation.md file in this folder explains the overall structure of the package and gives detailed instructions on how to create new apps. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to contact me via email or github.
+The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. [This Markdown file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.
+
 
 
 ## Further information
 * The vignette provides details about the different ways the package can be used. 
 * The `documentation.md' file described above contains more information about the package structure.
 * For feedback, bug reports etc., file a github issue.
-* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE Github site for more information.](https://github.com/ahgroup/DSAIDE)
+* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
 
 
 ## Contributors
-This R package is developed and maintained by [Andreas Handel](http://handelgroup.publichealth.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.
+This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.

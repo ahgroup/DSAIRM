@@ -6,9 +6,9 @@
 \usage{
 simulate_fitbasicmodel(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1, n = 0,
   dU = 0, dI = 1, g = 1, p = 10, plow = 0.001, phigh = 1000,
-  psim = 10, b = 1e-05, blow = 1e-06, bhigh = 0.001, bsim = 1e-04,
-  dV = 2, dVlow = 0.001, dVhigh = 1000, dVsim = 10, usesimdata = TRUE,
-  noise = 0.001, iter = 100, solvertype = 1)
+  psim = 10, b = 1e-05, blow = 1e-06, bhigh = 0.001,
+  bsim = 1e-04, dV = 2, dVlow = 0.001, dVhigh = 1000, dVsim = 10,
+  usesimdata = TRUE, noise = 0.001, iter = 100, solvertype = 1)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}

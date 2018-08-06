@@ -24,7 +24,7 @@ A:
 * Add learning objectives to each overview tab
 * Clean up diagrams as needed
 * Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
-
+* Get best practices badge: https://bestpractices.coreinfrastructure.org/en
 
 ## Further apps that could be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)

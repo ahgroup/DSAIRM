@@ -2,29 +2,16 @@
 #'
 #' @description This function generates text to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list
-#' @param res a list structure containing all simulation results that are to be processed
-#'    this function is meant to be used together with generate_plots and requires similar information
-#'    the length of the list indicates the number of separate plots to make, and for each plot this function produces text
-#'    each list entry needs to contain the following information/elements:
-#'    1. a data frame called "dat" with one column called xvals, one column yvals,
-#'    one column called varnames that contains names for different variables.
-#'    varnames needs to be a factor variable or will be converted to one.
-#'    Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
-#'    If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
-#'    for each variable is needed.
-#'    For stochastic simulations that require averaging, an variable called nreps is needed,
-#'    which should indicate the number of simulation.
-#'    2. meta-data for the plot, provided in the following variables:
-#'    optinal: plottype - one of "Lineplot" (chosen if nothing is provided),"Scatterplot","Boxplot", "Mixedplot"
-#'    the plottype determines what kind of text is generated.
-#'    For lineplots and mixedplot, min/max/final values of each line are shown
-#'    for scatterplots, a correlation coefficient is computed
-#'    boxplots show min/max/median/average
-#'    if the list entry 'maketext' is set to TRUE (or not provided) exists for a given plot the just described outputs will be generated.
-#'    If 'maketext' is FALSE, no text is generated.
-#'    If present' the entries 'showtext'
-#'    for each plot and finaltext of the 1st list element for an overall message/text
-#'    are also shown.
+#' @param res a list structure containing all simulation results that are to be processed.
+#'    This function is meant to be used together with generate_plots and requires similar imput information.
+#'    See the generate_plots function for most details.
+#'    Specific entries for this function are 'maketext', 'showtext' and 'finaltext'.
+#'    If 'maketext' is set to TRUE (or not provided) the function processes the data corresponding to each plot
+#'    and reports min/max/final values (lineplots) or correlation coefficient (scatterplot)
+#'    If 'maketext' is FALSE or missing, no text based on the data is generated.
+#'    If the entries 'showtext' or 'finaltext' are present, their values
+#'    will be returned for each plot or for all together.
+#'    The overall message of finaltext should be in the 1st plot. 
 #' @return HTML formatted text for display in a shiny UI
 #' @details This function is called by the shiny server to produce output returned to the shiny UI
 #' @author Andreas Handel
@@ -45,9 +32,23 @@ generate_text <- function(res)
     for (n in 1:nplots)
     {
 
-      plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
-      rawdat = res[[n]]$dat
+      resnow = res[[n]]
+      
+      
+      #if a data frame called 'ts' exists, assume that this one is the data to be plotted
+      #otherwise use the data frame called 'dat'
+      #one of the 2 must exist, otherwise the function will not work
+      if (!is.null(resnow$ts))
+      {
+        rawdat = resnow$ts
+      }
+      else {
+        rawdat = resnow$dat
+      }
 
+      #if nothing is provided, we assume a line plot. That could lead to silly text returns.
+      plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} 
+      
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if (colnames(rawdat)[1]== 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -65,20 +66,25 @@ generate_text <- function(res)
         dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
       }
 
-      #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
+      #code variable names as factor and level them so they show up right 
+      #factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
 
       allvarnames = levels(dat$varnames)
       nvars = length(allvarnames)
-
-      xlabel =  res[[n]]$xlab
-      ylabel =  res[[n]]$ylab
-
-      maketext <- if(is.null(res[[n]]$maketext)) {TRUE} else  {res[[n]]$maketext} #if maketext is not set, we assume user wants it, otherwise they need to set to FALSE
+      
+      #labels, only used in correlation plots
+      xlabel =  resnow$xlab
+      ylabel =  resnow$ylab
 
       txt = '' #no text to start out
 
+      #browser()
+      
+      #if missing or false, we won't create text based on data as described below
+      if (is.null(resnow$maketext) || resnow$maketext == FALSE) {maketext = FALSE} else {maketext = TRUE}
+      
       if (maketext == TRUE) #if the app wants text display based on result processing, do the stuff below
       {
         #for each plot, process each variable by looping over them
@@ -87,7 +93,7 @@ generate_text <- function(res)
           #data for a given variable
           currentvar = allvarnames[[nn]]
           vardat = dplyr::filter(dat, varnames == currentvar)
-            #for lineplots, we show the min/max/final for each variable
+          #for lineplots, we show the min/max/final for each variable
           if (plottype == 'Lineplot')
           {
             #check if multiple runs are done
@@ -131,7 +137,7 @@ generate_text <- function(res)
             mymax = format(max(vardat$yvals), digits =2, nsmall = 2)
             newtxt = paste('Min/Mean/Median/Max for ',ylabel,': ',mymin,' / ',mymean,' / ', mymedian,' / ',mymax,' / ')
           }
-          if (plottype == 'Mixedplot' )
+          if (plottype == 'Mixedplot' ) 
           {
             newtxt = ""
           }
@@ -144,9 +150,9 @@ generate_text <- function(res)
 
 
       #if the result structure has a text entry for a given plot, use that in addition to the
-      if (!is.null(res[[n]]$showtext))
+      if (!is.null(resnow$showtext))
       {
-        txt = paste(txt, res[[n]]$showtext, sep = "<br/>" )
+        txt = paste(txt, resnow$showtext, sep = "<br/>" )
       }
 
       alltext <- paste(alltext, txt, sep = " " ) #add text blocks together

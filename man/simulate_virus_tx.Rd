@@ -4,9 +4,9 @@
 \alias{simulate_virus_tx}
 \title{Simulation of a basic viral infection model without an immune response}
 \usage{
-simulate_virus_tx(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30, n = 10000,
-  dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, g = 1, f = 0,
-  e = 0, steadystate = FALSE, txstart = 0)
+simulate_virus_tx(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30,
+  n = 10000, dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10,
+  g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}

@@ -1,4 +1,4 @@
-#This is the Shiny App for the main menu
+#This is the Shiny App for the main menu of DSAIRM
 
 #this function is the server part of the app
 server <- function(input, output, session) {
@@ -25,10 +25,9 @@ server <- function(input, output, session) {
 
 #This is the UI for the Main Menu of DSAIRM
 ui <- fluidPage(
-  includeCSS("../styles/dsairm.css"),
+  includeCSS("../../media/dsairm.css"),
   #add header and title
-  tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
-  div( includeHTML("../styles/header.html"), align = "center"),
+  div( includeHTML("../../media/header.html"), align = "center"),
   p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
 
   #specify name of App below, will show up in title
@@ -124,7 +123,7 @@ ui <- fluidPage(
     }),
 
    p('Have fun exploring the models!', class='maintext'),
-  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
+  div(includeHTML("../../media/footer.html"), align="center", style="font-size:small") #footer
 ) #end fluidpage
 
 shinyApp(ui = ui, server = server)

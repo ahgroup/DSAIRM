@@ -6,7 +6,8 @@
 \usage{
 simulate_pkpdmodel(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
   dU = 0, dI = 1, dV = 2, b = 2e-07, g = 1, p = 5, C0 = 2,
-  dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
+  dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10,
+  txinterval = 5)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}

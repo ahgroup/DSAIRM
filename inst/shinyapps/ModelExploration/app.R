@@ -108,11 +108,11 @@ server <- function(input, output, session) {
 
 #This is the UI part of the shiny App
 ui <- fluidPage(
-  includeCSS("../styles/dsairm.css"),
+  includeCSS("../../media/dsairm.css"),
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
-  div( includeHTML("../styles/header.html"), align = "center"),
+  div( includeHTML("../../media/header.html"), align = "center"),
   #specify name of App below, will show up in title
   h1('Bacteria Model Exploration App', align = "center", style = "background-color:#123c66; color:#fff"),
   h5('The fixed value is ignored for the parameter you vary. Make sure the max value is larger than the min and the range is reasonable. The app does not check if your choices make sense and thus might produce an error or nonsensical results.'),
@@ -226,7 +226,7 @@ ui <- fluidPage(
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
   do.call(tabsetPanel,generate_documentation()),
-  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
+  div(includeHTML("../../media/footer.html"), align="center", style="font-size:small") #footer
 
 ) #end fluidpage function, i.e. the UI part of the app
 

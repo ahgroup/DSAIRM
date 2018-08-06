@@ -5,10 +5,10 @@
 \title{Simulation of a viral infection model with an immune response}
 \usage{
 simulate_virusandir(U0 = 1e+05, I0 = 0, V0 = 10, T0 = 0, B0 = 1,
-  A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05,
-  p = 1000, sF = 0.01, kA = 1e-05, kT = 1e-05, pF = 1, dF = 1,
-  gF = 1, Fmax = 1000, hV = 1e-06, hF = 1e-05, gB = 1, gT = 1e-04,
-  rT = 0.5, rA = 10, dA = 0.2)
+  A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4,
+  b = 1e-05, p = 1000, sF = 0.01, kA = 1e-05, kT = 1e-05,
+  pF = 1, dF = 1, gF = 1, Fmax = 1000, hV = 1e-06, hF = 1e-05,
+  gB = 1, gT = 1e-04, rT = 0.5, rA = 10, dA = 0.2)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}

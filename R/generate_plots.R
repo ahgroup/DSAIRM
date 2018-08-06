@@ -2,14 +2,17 @@
 #'
 #' @description This function generates plots to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list
-#' @param res a list structure containing all simulation results that are to be plotted
-#'    the length of the list indicates the number of separate plots to make
-#'    each list entry corresponds to one plot
-#'    each list entry needs to contain the following information/elements:
-#'    1. a data frame called "dat" with one column called xvals, one column yvals,
+#' @param res a list structure containing all simulation results that are to be plotted.
+#'    The length of the list indicates the number of separate plots to make.
+#'    Each list entry corresponds to one plot and
+#'    needs to contain the following information/elements:
+#'    1. a data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be 
+#'    a time series and by default a line plot will be produced and labeled Time/Numbers. 
+#'    For plotting, the data needs to be in a format with one column called xvals, one column yvals,
 #'    one column called varnames that contains names for different variables.
-#'    varnames needs to be a factor variable or will be converted to one.
-#'    Optional, one column called IDvar for further grouping (i.e. multiple lines for stochastic simulations).
+#'    Varnames needs to be a factor variable or will be converted to one.
+#'    If a column 'varnames' exist, it is assumed the data is in the right format. Otherwise it will be transformed.
+#'    An optional column called IDvar can be provided for further grouping (i.e. multiple lines for stochastic simulations).
 #'    If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 #'    for each variable is needed.
 #'    2. meta-data for the plot, provided in the following variables:
@@ -17,8 +20,9 @@
 #'    optional: xlab, ylab - strings to label axes.
 #'    optional: xscale, yscale - scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 #'    optional: xmin, xmax, ymin, ymax - manual min and max for axes.
-#'    optional: legendtitle - legend title, if NULL/not suppied no legend will be plotted.
+#'    optional: legendtitle - legend title, if NULL/not supplied no legend will be plotted.
 #'    optional: linesize - width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
+#'    optional: title - a title for each plot.
 #'
 #' @return a plot structure for display in a shiny UI
 #' @details This function is called by the shiny server to produce plots returned to the shiny UI
@@ -43,10 +47,26 @@ generate_plots <- function(res)
 
     for (n in 1:nplots) #loop to create each plot
     {
-      plottype <- if(is.null(res[[n]]$plottype)) {'Lineplot'} else  {res[[n]]$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      resnow = res[[n]]
+      
+      #if a data frame called 'ts' exists, assume that this one is the data to be plotted
+      #otherwise use the data frame called 'dat'
+      #one of the 2 must exist, otherwise the function will not work
+      if (!is.null(resnow$ts))
+      {
+        rawdat = resnow$ts #if a timeseries is sent in and no x- and y-labels provided, we set default 'Time' and 'Numbers'
+        if (is.null(resnow$ylab)) {resnow$ylab = 'Numbers'}
+        if (is.null(resnow$xlab)) {resnow$xlab = 'Time'}
+      }
+      else {
+        rawdat = resnow$dat
+      }
+      
+      plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
 
-      rawdat = res[[n]]$dat
-
+      
+     
+      
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if (colnames(rawdat)[1] == 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -72,8 +92,8 @@ generate_plots <- function(res)
 
 
       #see if user/calling function supplied x- and y-axis transformation information
-      xscaletrans <- ifelse(is.null(res[[n]]$xscale), 'identity',res[[n]]$xscale)
-      yscaletrans <- ifelse(is.null(res[[n]]$yscale), 'identity',res[[n]]$yscale)
+      xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
+      yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
 
       #if we want a plot on log scale, set any value in the data at or below 0 to some small number
       if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
@@ -82,13 +102,13 @@ generate_plots <- function(res)
       #if exist, apply user-supplied x- and y-axis limits
       #if min/max axes values are not supplied
       #we'll set them here to make sure they are not crazy high or low
-      xmin <- if(is.null(res[[n]]$xmin)) {max(lb,min(dat$xvals))} else  {res[[n]]$xmin}
-      ymin <- if(is.null(res[[n]]$ymin)) {max(lb,min(dat$yvals))} else  {res[[n]]$ymin}
-      xmax <- if(is.null(res[[n]]$xmax)) {min(ub,max(dat$xvals))} else  {res[[n]]$xmax}
-      ymax <- if(is.null(res[[n]]$ymax)) {min(ub,max(dat$yvals))} else  {res[[n]]$ymax}
+      xmin <- if(is.null(resnow$xmin)) {max(lb,min(dat$xvals))} else  {resnow$xmin}
+      ymin <- if(is.null(resnow$ymin)) {max(lb,min(dat$yvals))} else  {resnow$ymin}
+      xmax <- if(is.null(resnow$xmax)) {min(ub,max(dat$xvals))} else  {resnow$xmax}
+      ymax <- if(is.null(resnow$ymax)) {min(ub,max(dat$yvals))} else  {resnow$ymax}
 
       #set line size as given by app or to 1.5 by default
-      linesize = ifelse(is.null(res[[n]]$linesize), 1.5, res[[n]]$linesize)
+      linesize = ifelse(is.null(resnow$linesize), 1.5, resnow$linesize)
 
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
       if (is.null(dat$IDvar))
@@ -129,24 +149,27 @@ generate_plots <- function(res)
       if (plottype != 'Boxplot')
       {
         p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax))
-        if (!is.null(res[[n]]$xlab)) { p3 = p3 + ggplot2::xlab(res[[n]]$xlab) }
+        if (!is.null(resnow$xlab)) { p3 = p3 + ggplot2::xlab(resnow$xlab) }
       }
 
       #apply y-axis
       p5 = p3 + ggplot2::scale_y_continuous(trans = yscaletrans, limits=c(ymin,ymax))
-      if (!is.null(res[[n]]$ylab)) { p5 = p5 + ggplot2::ylab(res[[n]]$ylab) }
+      if (!is.null(resnow$ylab)) { p5 = p5 + ggplot2::ylab(resnow$ylab) }
 
       #do legend
-      if (is.null(res[[n]]$legend))
+      if (is.null(resnow$legend))
       {
         p6 = p5 + ggplot2::theme(legend.position="none")
       }
       else
       {
-        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = res[[n]]$legend) + ggplot2::scale_linetype_discrete(name = res[[n]]$legend) + ggplot2::scale_shape_discrete(name = res[[n]]$legend)
+        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = resnow$legend) + ggplot2::scale_linetype_discrete(name = resnow$legend) + ggplot2::scale_shape_discrete(name = resnow$legend)
       }
 
-      pfinal = p6 + theme_bw()
+      #apply title if provided
+      if (!is.null(resnow$title)) { p6 = p6 + ggplot2::ggtitle(resnow$title) }
+      
+      pfinal = p6 + ggplot2::theme_bw()
       allplots[[n]] = pfinal
 
     } #end loop over individual plots

@@ -2,13 +2,13 @@
 % Please edit documentation in R/simulate_usanalysis.R
 \name{simulate_usanalysis}
 \alias{simulate_usanalysis}
-\title{Simulation to illustrate uncertainty and sensitivty analysis}
+\title{Simulation to illustrate uncertainty and sensitivity analysis}
 \usage{
 simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
   Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
-  kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001, dImin = 1,
-  dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30, samples = 10,
-  rngseed = 100)
+  kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001,
+  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30,
+  samples = 10, rngseed = 100)
 }
 \arguments{
 \item{B0min}{lower bound for initial bacteria numbers}
@@ -57,7 +57,7 @@ A final variable 'nosteady' is returned for each simulation.
 It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 }
 \description{
-This function performs uncertainty and sensitivty analysis
+This function performs uncertainty and sensitivity analysis
 using the simple, continuous-time basic bacteria model
 The user provides ranges for the initial conditions and parameter values and the number of samples.
 The function does latin hypercube sampling (LHS) of the parameters

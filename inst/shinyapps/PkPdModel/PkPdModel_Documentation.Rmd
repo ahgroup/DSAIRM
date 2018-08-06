@@ -7,19 +7,19 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../media/references.bib
+bibliography: ../../media/references.bib
 ---
 
-##Overview {#shinytab1}
+## Overview {#shinytab1}
 This app allows exploration of a basic virus infection model in the presence of treatment. Drug pharmacokinetics (Pk) and pharmacodynamics (Pd) is included in the model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
-###Learning Objectives
+### Learning Objectives
 * Be familiar with a simple Pk/Pd model
 * Appreciate the impact different drug Pk/Pd can have on pathogen dynamics
 
-##The Model {#shinytab2}
+## The Model {#shinytab2}
 
-###Model Overview
+### Model Overview
 This model consists of 4 compartments modeling a the basic dynamics of a viral infection in the presence of a drug. In this model, we track the following entities by assigning each to a compartment:
 
 * **U** - uninfected cells 
@@ -36,15 +36,15 @@ In addition to specifying the *compartments* of a model, we need to specify the 
 * Once treatment has started (_t_ > _t~xstart~_),  a new drug dose, _C~0~_, is administered at fixed time intervals (_t~interval~_), which increases _C_ at that time to _C_ + _C~0~_. This is modeled by an instantaneous increase. In between every dose, drug kinetics is modeled as decaying exponentially at rate *d~C~*. 
 * The efficacy of the drug, *e*, depends on the concentration of the drug, given by a so called Emax-equation. *E~max~* is the maximum efficacy at high drug concentration (and should be between 0 and 1), *C~50~* is the drug concentration at which the drug has half its maximum efficacy, and the parameter *k* dictates how rapidly efficacy increases as drug concentration increases.
 
-###Model Diagram
+### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
 ```{r PkPddiagram,  fig.cap='Flow diagram for a virus infection model with drug treatment and Pk-Pd.',  echo=FALSE, out.width='70%'}
-knitr::include_graphics("../media/pkpdmodel.png")
+knitr::include_graphics("../../media/pkpdmodel.png")
 ```
 
 
-###Model Equations
+### Model Equations
 Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
 
 $$\dot U = n - d_U U - bUV$$ 
@@ -57,7 +57,7 @@ $$e = E_{max} \frac{C^k}{C^k+C_{50}}$$
 
 
 
-##What to do {#shinytab3}
+## What to do {#shinytab3}
 
 ### Task 1: 
 For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days.
@@ -67,7 +67,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
 * Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation time 20 days.  
 * For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1.
-* Set the efficay increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 0.
+* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 0.
 * Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.55.
 
 
@@ -96,7 +96,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 ### Task 6: 
 * Let's consider a chronic situation. Set everything as in task 1, then set birth rate and death rate of uninfected cells to 10000 and 0.1.  
 * For the drug, assume treatment starts at day 50, max simulation time of 100 days, and drug is given weekly at a dose of 1.
-* Set the efficay increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1.
+* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1.
 * Run the simulation. You should see an infection settling to some steady state, then drug treatment starts and virus levels go up and down with around 24389 at 100 days. Importantly, the virus does not show some overall decline, it only goes up and down. Make sure you understand why that is.
 
 ### Task 7: 
@@ -106,7 +106,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * Play with the different Pd parameters as described in task 4 and see how it affects virus load and what is needed to get the virus to low levels.
 
 
-##Further Information {#shinytab4}
+## Further Information {#shinytab4}
 
 * For this app, the underlying function running the simulation is called `simulate_pkpdmodels.R`. You can call these functions directly, without going through the shiny app. Type `?simulate_pkpdmodel` into the R console for more information on how to use the functions directly.  
 * If you want to learn a bit more about these kinds of models, see e.g. [@powers03; @talal06; @handel09b; @canini14a]. 

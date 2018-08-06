@@ -66,6 +66,7 @@ refresh <- function(input, output)
     result <- vector("list", 24) #set up a list structure with as many elements as plots
     #loop over each outer list element corresponding to a plot and fill it with another list
     #of meta-data and data needed to create each plot
+    #each parameter-output pair is its own plot, therefore its own list entry
     ct=1; #some counter
     result[[ct]]$ncol = 3 #number of columns for plot, needs to be stored in 1st sub-list element
     for (n in 1:8) #first loop over each parameter
@@ -157,11 +158,11 @@ server <- function(input, output, session) {
 
 #This is the UI part of the shiny App
 ui <- fluidPage(
-  includeCSS("../styles/dsairm.css"),
+  includeCSS("../../media/dsairm.css"),
   #add header and title
   tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   tags$head(tags$style(".myrow{vertical-align: bottom;}")),
-  div( includeHTML("../styles/header.html"), align = "center"),
+  div( includeHTML("../../media/header.html"), align = "center"),
   #specify name of App below, will show up in title
   h1('Uncertainty and Sensitivity Analysis App', align = "center", style = "background-color:#123c66; color:#fff"),
 
@@ -317,7 +318,7 @@ ui <- fluidPage(
   h2('Instructions'),
   #use external function to generate all tabs with instruction content
   do.call(tabsetPanel,generate_documentation()),
-  div(includeHTML("../styles/footer.html"), align="center", style="font-size:small") #footer
+  div(includeHTML("../../media/footer.html"), align="center", style="font-size:small") #footer
 
 ) #end fluidpage function, i.e. the UI part of the app
 

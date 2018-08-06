@@ -8,13 +8,14 @@ Description: A collection of Shiny apps that allow for the simulation and
     All apps include explanations of the underlying models and instructions on
     what to do with the models. 
 Version: 0.4.0
-Date: 2018-07-01
+Date: 2018-07-27
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Spencer", "Hall",  role = "ctb"),
     person("Sina", "Solaimanpour",  role = "ctb"),
-    person("Henok", "Woldu",  role = "ctb") )
+    person("Henok", "Woldu",  role = "ctb") 
+    )
 Maintainer: Andreas Handel <ahandel@uga.edu>
 License: GPL-3
 Encoding: UTF-8
@@ -40,7 +41,7 @@ Depends:
 Suggests:
     covr,
     testthat
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 VignetteBuilder: knitr
-URL: https://ahgroup.github.io/DSAIRM
+URL: https://ahgroup.github.io/DSAIRM, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues

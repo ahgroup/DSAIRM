@@ -10,7 +10,7 @@ simulate_drugresistance(U0 = 1e+05, Is0 = 0, Ir0 = 0, Vs0 = 10,
   p = 100, c = 4, f = 0.1, rngseed = 100)
 }
 \arguments{
-\item{U0}{initial number of taget cells}
+\item{U0}{initial number of target cells}
 
 \item{Is0}{initial number of wild-type infected cells}
 
