@@ -24,7 +24,7 @@ modelvariantode <- function(t, y, parms)
 } #end function specifying the ODEs
 
 #' Simulation of a viral infection model with immune response
-#' The simulation illustrates different alternative models
+#' The simulation illustrates different alternative models.
 #'
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
@@ -69,16 +69,16 @@ modelvariantode <- function(t, y, parms)
 #' @details A compartmental infection model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
-#'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-#'   the code will likely abort with an error message
+#'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
+#'   the code will likely abort with an error message.
 #' @examples
-#' # To run the simulation with default parameters just call this function
+#' # To run the simulation with default parameters just call the function:
 #' result <- simulate_modelvariants()
-#' # To choose parameter values other than the standard one, specify them e.g. like such
+#' # To choose parameter values other than the standard one, specify them, like such:
 #' result <- simulate_modelvariants(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
-#' # You should then use the simulation result returned from the function, e.g. like this:
+#' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
-#' @seealso See the shiny app documentation corresponding to this simulator
+#' @seealso See the Shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
 #' @author Andreas Handel

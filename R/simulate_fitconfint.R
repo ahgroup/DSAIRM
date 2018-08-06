@@ -62,7 +62,7 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparna
 #'
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
-#' The model describes a simple viral infection system
+#' The model describes a simple viral infection system.
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
 #' @param V0 initial number of infectious virions
@@ -81,21 +81,21 @@ bootfct <- function(mydata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparna
 #' @param iter max number of steps to be taken by optimizer
 #' @param nsample number of samples for conf int determination
 #' @param rngseed seed for random number generator to allow reproducibility
-#' @return The function returns a list containing the best fit timeseries, the best fit parameters
-#' the data, the final SSR and the bootstrapped confidence intervals
-#' @details a simple compartmental ODE model mimicking acute viral infection
-#' is fitted to data
+#' @return The function returns a list containing the best fit time series, the best fit parameters for
+#' the data, the final SSR, and the bootstrapped confidence intervals.
+#' @details A simple compartmental ODE model mimicking acute viral infection
+#' is fitted to data.
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
-#' determine if the model parameters can be identified
+#' determine if the model parameters can be identified.
 #' @section Warning: This function does not perform any error checking. So if
-#'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-#'   the code will likely abort with an error message
+#'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
+#'   the code will likely abort with an error message.
 #' @examples
-#' # To run the code with default parameters just call this function
+#' # To run the code with default parameters just call the function:
 #' \dontrun{result <- simulate_fitconfint()}
-#' # To apply different settings, provide them to the simulator function, e.g.
+#' # To apply different settings, provide them to the simulator function, like such:
 #' result <- simulate_fitconfint(iter = 5, nsample = 5)
-#' @seealso See the shiny app documentation corresponding to this
+#' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @importFrom utils read.csv

@@ -118,19 +118,19 @@ modelcompfitfunction <- function(params, mydata, Y0, xvals, modeltype, fixedpars
 #' @param modeltype fitting model 1 or 2
 #' @param iter max number of steps to be taken by optimizer
 #' @return The function returns a list containing the best fit timeseries,
-#' the best fit parameters, the data and the AICc for the model
-#' @details 2 simple compartmental ODE models mimicking acute viral infection
-#' with T-cells (model 1) or antibodies (model 2) are fitted to data
+#' the best fit parameters, the data and the AICc for the model.
+#' @details Two simple compartmental ODE models mimicking acute viral infection
+#' with T-cells (model 1) or antibodies (model 2) are fitted to data.
 #' @section Warning: This function does not perform any error checking. So if
-#'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-#'   the code will likely abort with an error message
+#'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
+#'   the code will likely abort with an error message.
 #' @examples
-#' # To run the code with default parameters just call this function
+#' # To run the code with default parameters just call the function:
 #' \dontrun{result <- simulate_fitmodelcomparison()}
-#' # To apply different settings, provide them to the simulator function, e.g.
+#' # To apply different settings, provide them to the simulator function, like such:
 #' result <- simulate_fitmodelcomparison(iter = 5)
 #' result <- simulate_fitmodelcomparison(iter = 5, modeltype = 2)
-#' @seealso See the shiny app documentation corresponding to this
+#' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @importFrom utils read.csv
