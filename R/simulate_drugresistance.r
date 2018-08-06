@@ -34,7 +34,7 @@ evolutionratefunc <- function(y, parms, t)
 #'
 #' @description  Simulation of a stochastic model with the following compartments:
 #' Uninfected target cells (U), Infected with wild-type/sensitive and untreated (Is),
-#' infected with resistant (Ir), wild-type virus (Vs), resistant virus (Vr)
+#' infected with resistant (Ir), wild-type virus (Vs), resistant virus (Vr).
 #'
 #' @param U0 initial number of target cells
 #' @param Is0 initial number of wild-type infected cells
@@ -53,7 +53,7 @@ evolutionratefunc <- function(y, parms, t)
 #'   parameters
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
-#' The 1st column of ts is Time, the other columns are the model variables
+#' The 1st column of ts is Time, the other columns are the model variables.
 #' @details A compartmental ID model with several states/compartments
 #' is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau
 #' in the adpativetau package. See the manual of this package for more details.
@@ -62,13 +62,13 @@ evolutionratefunc <- function(y, parms, t)
 #' @section Warning:
 #' This function does not perform any error checking. So if you try to do
 #' something nonsensical (e.g. have I0 > PopSize or any negative values or fractions > 1),
-#' the code will likely abort with an error message
+#' the code will likely abort with an error message.
 #' @examples
-#' # To run the simulation with default parameters just call this function
+#' # To run the simulation with default parameters just call the function:
 #' result <- simulate_drugresistance()
-#' # To choose parameter values other than the standard one, specify them e.g. like such
+#' # To choose parameter values other than the standard one, specify them, like such:
 #' result <- simulate_drugresistance(tmax = 200, e = 0.5)
-#' # You should then use the simulation result returned from the function, e.g. like this:
+#' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"Vs"],xlab='Time',ylab='Uninfected cells',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
 #'             The implemented model is loosely based on: Handel et al 2007 PLoS Comp Bio

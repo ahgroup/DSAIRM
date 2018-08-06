@@ -44,7 +44,7 @@ basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
 #'
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
-#' The model describes a simple viral infection system
+#' The model describes a simple viral infection system.
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
 #' @param V0 initial number of infectious virions
@@ -68,26 +68,26 @@ basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
 #' @param usesimdata set to TRUE if simulated data should be fitted, FALSE otherwise
 #' @param noise noise to be added to simulated data
 #' @param iter max number of steps to be taken by optimizer
-#' @param solvertype the type of solver/optimizer to use, can be 1,2 or 3. See details below.
-#' @return The function returns a list containing the best fit timeseries, the best fit parameters
+#' @param solvertype the type of solver/optimizer to use, can be 1, 2, or 3. See details below.
+#' @return The function returns a list containing the best fit time series, the best fit parameters
 #' the data and the final SSR
-#' @details a simple compartmental ODE model mimicking acute viral infection
-#' is fitted to data
+#' @details A simple compartmental ODE model mimicking acute viral infection
+#' is fitted to data.
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
 #' determine if the model parameters can be identified
 #' The fitting is done using solvers/optimizers from the nloptr package (which is a wrapper for the nlopt library).
 #' The package provides access to a large number of solvers.
 #' Here, we only implement 3 solvers, namely 1 = NLOPT_LN_COBYLA, 2 = NLOPT_LN_NELDERMEAD, 3 = NLOPT_LN_SBPLX
-#' For details on what those optimizers are and how they work, see the nlopt/nloptr documentation
+#' For details on what those optimizers are and how they work, see the nlopt/nloptr documentation.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-#'   the code will likely abort with an error message
+#'   the code will likely abort with an error message.
 #' @examples
-#' # To run the code with default parameters just call this function
+#' # To run the code with default parameters just call the function:
 #' \dontrun{result <- simulate_fitbasicmodel()}
-#' # To apply different settings, provide them to the simulator function, e.g.
+#' # To apply different settings, provide them to the simulator function, like such:
 #' result <- simulate_fitbasicmodel(iter = 5)
-#' @seealso See the shiny app documentation corresponding to this
+#' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @importFrom utils read.csv

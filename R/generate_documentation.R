@@ -1,11 +1,11 @@
-#' @title A helper function for the UI part of the shiny apps
+#' @title A helper function for the UI part of the Shiny apps
 #'
 #' @description This function take the documentation provided as html file
-#' it then takes the html file and extracts sections
+#' and extracts sections
 #' to generate the tabs with content for each Shiny app.
 #' This is a helper function and only useful for this package.
-#' @return tablist a list of tabs for display in a shiny UI
-#' @details This function is called by the shiny UIs to populate the documentation and information tabs
+#' @return tablist A list of tabs for display in a Shiny UI.
+#' @details This function is called by the Shiny UIs to populate the documentation and information tabs.
 #' @author Andreas Handel
 #' @export
 
