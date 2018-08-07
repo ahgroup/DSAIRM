@@ -7,9 +7,9 @@
 generate_text(res)
 }
 \arguments{
-\item{res}{a list structure containing all simulation results that are to be processed.
-This function is meant to be used together with generate_plots and requires similar imput information.
-See the generate_plots function for most details.
+\item{res}{A list structure containing all simulation results that are to be processed.
+This function is meant to be used together with generate_plots() and requires similar input information.
+See the generate_plots() function for most details.
 Specific entries for this function are 'maketext', 'showtext' and 'finaltext'.
 If 'maketext' is set to TRUE (or not provided) the function processes the data corresponding to each plot
 and reports min/max/final values (lineplots) or correlation coefficient (scatterplot)
@@ -19,14 +19,14 @@ will be returned for each plot or for all together.
 The overall message of finaltext should be in the 1st plot.}
 }
 \value{
-HTML formatted text for display in a shiny UI
+HTML formatted text for display in a Shiny UI.
 }
 \description{
 This function generates text to be displayed in the Shiny UI.
-This is a helper function. This function processes results returned from the simulation, supplied as a list
+This is a helper function. This function processes results returned from the simulation, supplied as a list.
 }
 \details{
-This function is called by the shiny server to produce output returned to the shiny UI
+This function is called by the Shiny server to produce output returned to the Shiny UI.
 }
 \author{
 Andreas Handel

@@ -29,6 +29,12 @@ dsairmmenu <- function() {
   print('*************************************************')
 }
 
+#needed to prevent NOTE messages on CRAN checks
+#most of those are from the ggplot commands in the generate_ functions,
+#the last one is from the subset function in the fit functions
+utils::globalVariables(c("xvals", "yvals", "varnames","IDvar","style","Condition"))
+
+
 .onAttach <- function(libname, pkgname){
   packageStartupMessage("Welcome to the DSAIRM package. Type dsairmmenu() to get started.")
 }

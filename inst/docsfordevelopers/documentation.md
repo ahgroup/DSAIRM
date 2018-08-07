@@ -74,5 +74,13 @@ spelling::spell_check_files(files)
 * Run clean and rebuild, then build and reload using menu, or devtools::load_all()
 * Run the check, fix any errors 
 
+### To-do at release time 
+* Re-build documentation, re-build package
+* Re-build vignettes with devtools::build_vignettes()
+* Run check and make sure no problems occur
+* Re-create package site with pkgdown::build_site()
+* Sync everything to github
+* Check vignette and function references on website, fix errors
+* Do a test run of devtools::release()
 
 

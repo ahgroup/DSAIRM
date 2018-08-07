@@ -155,9 +155,8 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   #We only use some of the data here
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata=read.csv(filename)
-  mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, xvals, outcome)
+  mydata =  subset(alldata, Condition == 'notx', select=c("DaysPI", "LogVirusLoad"))
+  colnames(mydata) = c("xvals",'outcome')
 
   Y0 = c(U = U0, I = I0, V = V0, X = X0);  #combine initial conditions into a vector
   xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)

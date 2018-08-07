@@ -26,13 +26,13 @@ parameters}
 
 \item{r}{rate at which immune response is induced by bacteria}
 
-\item{dI}{death rate of immune response#'}
+\item{dI}{death rate of immune response}
 }
 \value{
-A list. The list has only one element called ts.
+A list. The list has only one element, called ts.
 ts contains the time-series of the simulation.
-The 1st column of ts is Time, the other 2 are the variables
-bacteria and immune response. Those are labeled Bc and Ic
+The 1st column of ts is Time, the other 2 are the
+bacteria and immune response. variables Those are labeled Bc and Ic
 to indicate a continuous model.
 }
 \description{
@@ -51,19 +51,19 @@ equations, using an ode solver from the deSolve package.
 \section{Warning}{
  This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions > 1), the code will likely abort with an error message
+  or fractions > 1), the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_basicbacteria()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them like such:
 result <- simulate_basicbacteria(B0 = 100, I0 = 10, tmax = 100, g = 10)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(result$ts[,'Time'],result$ts[,'Bc'])
 }
 \seealso{
-See the shiny app documentation corresponding to this simulator
+See the Shiny app documentation corresponding to this simulator
 function for more details on this model. See the manual for the deSolve
 package for details on the underlying ODE simulator algorithm.
 }

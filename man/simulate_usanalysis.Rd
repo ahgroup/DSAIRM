@@ -47,7 +47,7 @@ simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
 
 \item{samples}{number of LHS samples to run}
 
-\item{rngseed}{seed for random number generator#'}
+\item{rngseed}{seed for random number generator}
 }
 \value{
 The function returns the output as a list.
@@ -58,16 +58,16 @@ It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 }
 \description{
 This function performs uncertainty and sensitivity analysis
-using the simple, continuous-time basic bacteria model
+using the simple, continuous-time basic bacteria model.
 The user provides ranges for the initial conditions and parameter values and the number of samples.
-The function does latin hypercube sampling (LHS) of the parameters
-and runs the basic bacteria ODE model for each sample
-The function returns a list containing values for each sample and results
+The function does Latin Hypercube Sampling (LHS) of the parameters
+and runs the basic bacteria ODE model for each sample.
+The function returns a list containing values for each sample and results.
 }
 \details{
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
-Parameters are sampled via latin hypercube sampling.
+Parameters are sampled via Latin Hypercube Sampling.
 Distribution for all parameters is assumed to be uniform between the min and max values.
 The only exception is the bacteria growth parameter,
 which is assumed to be gamma distributed with the specified mean and variance.
@@ -78,19 +78,19 @@ and an indicator stating if steady state was reached.
 \section{Warning}{
  This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions > 1), the code will likely abort with an error message
+  or fractions > 1), the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_usanalysis()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_usanalysis(dImin = 0.1, dImax = 10, samples = 5)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
 }
 \seealso{
-See the shiny app documentation corresponding to this simulator
+See the Shiny app documentation corresponding to this simulator
 function for more details on this model.
 }
 \author{

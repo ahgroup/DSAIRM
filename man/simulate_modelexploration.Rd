@@ -41,37 +41,37 @@ parameters}
 }
 \value{
 The function returns the output as a list,
-list element 'dat' contains the data frame with results of interest
+list element 'dat' contains the data frame with results of interest.
 The first column is called xvals and contains the values of the
 parameter that has been varied as specified by 'samplepar'.
 The remaining columns contain peak and steady state values of bacteria and immune response,
 Bpeak, Ipeak, Bsteady and Isteady.
-A final variable 'nosteady' is returned for each simulation.
+A final boolean variable 'nosteady' is returned for each simulation.
 It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 }
 \description{
 This function simulates the simple bacteria model for a range of parameters.
-The function returns a data frame containing the parameter that has been varied and the outcomes (see details)
+The function returns a data frame containing the parameter that has been varied and the outcomes (see details).
 }
 \details{
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
-The user can specify which parameter is sampled
-the simulation returns for each parameter sample the peak and final value for B and I
-also returned is the varied parameter and an indicator if steady state was reached
+The user can specify which parameter is sampled, and
+the simulation returns for each parameter sample the peak and final value for B and I.
+Also returned is the varied parameter and an indicator if steady state was reached.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions > 1), the code will likely abort with an error message
+  or fractions > 1), the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 res <- simulate_modelexploration()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them, like such:
 res <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 }
 \seealso{

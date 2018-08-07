@@ -59,7 +59,7 @@ simulate_fitmodelcomparison(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1,
 }
 \value{
 The function returns a list containing the best fit timeseries,
-the best fit parameters, the data and the AICc for the model
+the best fit parameters, the data and the AICc for the model.
 }
 \description{
 This function runs a simulation of a compartment model
@@ -70,24 +70,24 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 The function returns a matrix containing time-series of each variable and time.
 }
 \details{
-2 simple compartmental ODE models mimicking acute viral infection
-with T-cells (model 1) or antibodies (model 2) are fitted to data
+Two simple compartmental ODE models mimicking acute viral infection
+with T-cells (model 1) or antibodies (model 2) are fitted to data.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
-  you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message
+  you try to do something nonsensical (e.g. specify negative parameter or starting values),
+  the code will likely abort with an error message.
 }
 
 \examples{
-# To run the code with default parameters just call this function
+# To run the code with default parameters just call the function:
 \dontrun{result <- simulate_fitmodelcomparison()}
-# To apply different settings, provide them to the simulator function, e.g.
+# To apply different settings, provide them to the simulator function, like such:
 result <- simulate_fitmodelcomparison(iter = 5)
 result <- simulate_fitmodelcomparison(iter = 5, modeltype = 2)
 }
 \seealso{
-See the shiny app documentation corresponding to this
+See the Shiny app documentation corresponding to this
 function for more details on this model.
 }
 \author{

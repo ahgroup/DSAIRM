@@ -35,16 +35,16 @@ parameters}
 \value{
 A list. The list has only one element called ts.
 ts contains the time-series of the simulation.
-The 1st column of ts is Time, the other columns are the model variables
+The 1st column of ts is Time, the other columns are the model variables.
 }
 \description{
 Simulation of a stochastic model with the following compartments:
-Uninfected target cells (U), Infected cells (I), virus (V)
+Uninfected target cells (U), Infected cells (I), virus (V).
 }
 \details{
 A compartmental ID model with several states/compartments
-is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau
-in the adpativetau package. See the manual of this package for more details.
+is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau()
+in the adaptivetau package. See the manual of this package for more details.
 The function returns the time series of the simulated disease as output matrix,
 with one column per compartment/variable. The first column is time.
 }
@@ -52,20 +52,20 @@ with one column per compartment/variable. The first column is time.
 
 This function does not perform any error checking. So if you try to do
 something nonsensical (e.g. have I0 > PopSize or any negative values or fractions > 1),
-the code will likely abort with an error message
+the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_stochasticvirus()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_stochasticvirus(tmax = 20, dI = 0.5)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 }
 \references{
 See the manual for the adaptivetau package for details on the algorithm.
-            See the app corresponding to this function in DSAIDE for more details on the model
+            See the app corresponding to this function in DSAIDE for more details on the model.
 }
 \author{
 Andreas Handel

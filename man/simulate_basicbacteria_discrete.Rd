@@ -14,8 +14,8 @@ simulate_basicbacteria_discrete(B0 = 10, I0 = 1, tmax = 30, g = 1,
 
 \item{I0}{initial number/strength of immune response}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{tmax}{Maximum simulation time, units depend on choice of units for your
+parameters.}
 
 \item{g}{rate of bacteria growth}
 
@@ -29,21 +29,22 @@ parameters}
 
 \item{dI}{death rate of immune response}
 
-\item{dt}{time step for simulation, units depend on choice of units for your
-parameters}
+\item{dt}{Time step for simulation, units depend on choice of units for your
+parameters.}
 }
 \value{
-The function returns the output as a list
-the time-series from the simulation is returned as element ts
-the 1st column of ts is Time, the rest are the variables
-bacteria and immune response are labeled Bd and Id
-to indicate discrete model
+The function returns the output as a list.
+The time-series from the simulation is returned as element ts
+in the list,
+the 1st column of ts is Time, the rest are the
+bacteria and immune response variables, which are labeled Bd and Id
+to indicate discrete model.
 }
 \description{
 This function runs a simulation of a basic 2 compartment model
-using discrete time steps
+using discrete time steps.
 The user provides initial conditions and parameter values for the system.
-The function simulates the model by advancing from start to end time in discrete time steps
+The function simulates the model by advancing from start to end time in discrete time steps.
 The function returns a matrix containing time-series of each variable and time.
 }
 \details{
@@ -56,15 +57,15 @@ A simple 2 compartment model is simulated as a discrete time model.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_basicbacteria_discrete()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them like such:
 result <- simulate_basicbacteria_discrete(B0 = 100, I0 = 10, tmax = 100, g = 0.5)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(result$ts[,'Time'],result$ts[,'Bd'])
 }
 \seealso{
-See the shiny app documentation that uses this simulator
+See the Shiny app documentation that uses this simulator
 function for more details on this model.
 }
 \author{

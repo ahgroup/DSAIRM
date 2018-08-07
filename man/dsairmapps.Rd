@@ -7,14 +7,14 @@
 dsairmapps(appname = NULL)
 }
 \arguments{
-\item{appname}{a string (with quotation marks) indicating the name of the app to run.
+\item{appname}{A string (with quotation marks) indicating the name of the app to run.
 Leave empty to get a list of all available apps.}
 }
 \description{
 This function opens the specified DSAIRM Shiny App
 }
 \details{
-Run this function with no arguments to list all apps. Specify the name of an app (with quotation marks) to start that app
+Run this function with no arguments to list all apps. Specify the name of an app (with quotation marks) to start that app.
 }
 \examples{
 # To see all available apps, run

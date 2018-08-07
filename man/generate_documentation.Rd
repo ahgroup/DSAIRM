@@ -2,21 +2,21 @@
 % Please edit documentation in R/generate_documentation.R
 \name{generate_documentation}
 \alias{generate_documentation}
-\title{A helper function for the UI part of the shiny apps}
+\title{A helper function for the UI part of the Shiny apps}
 \usage{
 generate_documentation()
 }
 \value{
-tablist a list of tabs for display in a shiny UI
+tablist A list of tabs for display in a Shiny UI.
 }
 \description{
 This function take the documentation provided as html file
-it then takes the html file and extracts sections
+and extracts sections
 to generate the tabs with content for each Shiny app.
 This is a helper function and only useful for this package.
 }
 \details{
-This function is called by the shiny UIs to populate the documentation and information tabs
+This function is called by the Shiny UIs to populate the documentation and information tabs.
 }
 \author{
 Andreas Handel

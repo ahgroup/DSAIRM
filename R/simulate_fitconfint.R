@@ -118,9 +118,8 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   #We only use some of the data here
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata = utils::read.csv(filename)
-  mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, xvals, outcome)
+  mydata =  subset(alldata, Condition == 'notx', select=c("DaysPI", "LogVirusLoad"))
+  colnames(mydata) = c("xvals",'outcome')
 
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
   xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)

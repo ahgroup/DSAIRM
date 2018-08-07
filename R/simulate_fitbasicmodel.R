@@ -112,9 +112,9 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   #We only use some of the data here
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata = utils::read.csv(filename)
-  mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, xvals, outcome)
+  mydata =  subset(alldata, Condition == 'notx', select=c("DaysPI", "LogVirusLoad"))
+  colnames(mydata) = c("xvals",'outcome')
+
 
   Y0 = c(U0 = U0, I0 = I0, V0 = V0);  #combine initial conditions into a vector
   xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
@@ -136,8 +136,8 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #extract values for virus load at time points where data is available
     simdata = data.frame(simres[match(mydata$xvals,simres[,"Time"]),])
     simdata$simres = log10(simdata$V)
-    simdata = dplyr::rename(simdata, xvals = Time, outcome = simres) #rename to xvals for consistency with actual data
-    simdata = dplyr::select(simdata, xvals, outcome)
+    simdata = subset(simdata, select=c('Time', 'simres'))
+    colnames(simdata) = c('xvals','outcome')
     mydata$outcome = simdata$outcome + noise*stats::runif(length(simdata$outcome),-1,1)*simdata$outcome
   }
 

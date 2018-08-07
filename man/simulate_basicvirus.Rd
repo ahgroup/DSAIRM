@@ -33,7 +33,7 @@ simulate_basicvirus(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30, n = 0,
 \value{
 A list. The list has only one element called ts.
 ts contains the time-series of the simulation.
-The 1st column of ts is Time, the other columns are the model variables
+The 1st column of ts is Time, the other columns are the model variables.
 }
 \description{
 This function runs a simulation of a 3 compartment model
@@ -49,19 +49,19 @@ equations, using an ode solver from the deSolve package.
 \section{Warning}{
  This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message
+  the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_basicvirus()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify the, like such:
 result <- simulate_basicvirus(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, e.g. like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
-See the shiny app documentation corresponding to this simulator
+See the Shiny app documentation corresponding to this simulator
 function for more details on this model. See the manual for the deSolve
 package for details on the underlying ODE simulator algorithm.
 }

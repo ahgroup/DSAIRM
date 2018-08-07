@@ -47,34 +47,34 @@ simulate_fitconfint(U0 = 1e+05, I0 = 0, V0 = 10, n = 0, dU = 0,
 \item{rngseed}{seed for random number generator to allow reproducibility}
 }
 \value{
-The function returns a list containing the best fit timeseries, the best fit parameters
-the data, the final SSR and the bootstrapped confidence intervals
+The function returns a list containing the best fit time series, the best fit parameters for
+the data, the final SSR, and the bootstrapped confidence intervals.
 }
 \description{
 This function runs a simulation of a compartment model
 using a set of ordinary differential equations.
-The model describes a simple viral infection system
+The model describes a simple viral infection system.
 }
 \details{
-a simple compartmental ODE model mimicking acute viral infection
-is fitted to data
+A simple compartmental ODE model mimicking acute viral infection
+is fitted to data.
 Data can either be real or created by running the model with known parameters and using the simulated data to
-determine if the model parameters can be identified
+determine if the model parameters can be identified.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
-  you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message
+  you try to do something nonsensical (e.g. specify negative parameter or starting values),
+  the code will likely abort with an error message.
 }
 
 \examples{
-# To run the code with default parameters just call this function
+# To run the code with default parameters just call the function:
 \dontrun{result <- simulate_fitconfint()}
-# To apply different settings, provide them to the simulator function, e.g.
+# To apply different settings, provide them to the simulator function, like such:
 result <- simulate_fitconfint(iter = 5, nsample = 5)
 }
 \seealso{
-See the shiny app documentation corresponding to this
+See the Shiny app documentation corresponding to this
 function for more details on this model.
 }
 \author{

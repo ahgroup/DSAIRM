@@ -3,7 +3,7 @@
 \name{simulate_modelvariants}
 \alias{simulate_modelvariants}
 \title{Simulation of a viral infection model with immune response
-The simulation illustrates different alternative models}
+The simulation illustrates different alternative models.}
 \usage{
 simulate_modelvariants(U0 = 1e+05, I0 = 0, V0 = 10, F0 = 0,
   A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4,
@@ -93,20 +93,20 @@ equations, using an ode solver from the deSolve package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
-  you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message
+  you try to do something nonsensical (e.g. specify negative parameter or starting values),
+  the code will likely abort with an error message.
 }
 
 \examples{
-# To run the simulation with default parameters just call this function
+# To run the simulation with default parameters just call the function:
 result <- simulate_modelvariants()
-# To choose parameter values other than the standard one, specify them e.g. like such
+# To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_modelvariants(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
-# You should then use the simulation result returned from the function, e.g. like this:
+# You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
-See the shiny app documentation corresponding to this simulator
+See the Shiny app documentation corresponding to this simulator
 function for more details on this model. See the manual for the deSolve
 package for details on the underlying ODE simulator algorithm.
 }

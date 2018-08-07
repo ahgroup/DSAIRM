@@ -8,7 +8,7 @@ Description: A collection of Shiny apps that allow for the simulation and
     All apps include explanations of the underlying models and instructions on
     what to do with the models. 
 Version: 0.4.0
-Date: 2018-07-27
+Date: 2018-08-06
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),

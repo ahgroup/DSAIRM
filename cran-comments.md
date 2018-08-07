@@ -9,16 +9,12 @@
 
 There were no errors and warnings.
 
-There were 2 notes:
+There was 1 note:
 
 * checking CRAN incoming feasibility ... NOTE
 Maintainer: 'Andreas Handel <ahandel@uga.edu>'
 New submission
 
-* checking R code for possible problems ... NOTE
-generate_plots: no visible binding for global variable 'xvals'
-
-And several others of that sort. Seems to come from various dplyr and ggplot commands. Based on an online search, this seems to be a common issue. I found several suggested solutions to getting rid of the notes, but they all seemed like hacks, and it doesn't seem to affect anything, so I chose to ignore these notes.
 
 
 ## Submission History
