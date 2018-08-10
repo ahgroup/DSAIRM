@@ -118,19 +118,19 @@ modelcompfitfunction <- function(params, mydata, Y0, xvals, modeltype, fixedpars
 #' @param modeltype fitting model 1 or 2
 #' @param iter max number of steps to be taken by optimizer
 #' @return The function returns a list containing the best fit timeseries,
-#' the best fit parameters, the data and the AICc for the model
-#' @details 2 simple compartmental ODE models mimicking acute viral infection
-#' with T-cells (model 1) or antibodies (model 2) are fitted to data
+#' the best fit parameters, the data and the AICc for the model.
+#' @details Two simple compartmental ODE models mimicking acute viral infection
+#' with T-cells (model 1) or antibodies (model 2) are fitted to data.
 #' @section Warning: This function does not perform any error checking. So if
-#'   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-#'   the code will likely abort with an error message
+#'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
+#'   the code will likely abort with an error message.
 #' @examples
-#' # To run the code with default parameters just call this function
+#' # To run the code with default parameters just call the function:
 #' \dontrun{result <- simulate_fitmodelcomparison()}
-#' # To apply different settings, provide them to the simulator function, e.g.
+#' # To apply different settings, provide them to the simulator function, like such:
 #' result <- simulate_fitmodelcomparison(iter = 5)
 #' result <- simulate_fitmodelcomparison(iter = 5, modeltype = 2)
-#' @seealso See the shiny app documentation corresponding to this
+#' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @importFrom utils read.csv
@@ -155,9 +155,8 @@ simulate_fitmodelcomparison <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, dI = 1
   #We only use some of the data here
   filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
   alldata=read.csv(filename)
-  mydata = dplyr::filter(alldata, Condition == 'notx')
-  mydata = dplyr::rename(mydata, xvals = DaysPI, outcome = LogVirusLoad)
-  mydata =  dplyr::select(mydata, xvals, outcome)
+  mydata =  subset(alldata, Condition == 'notx', select=c("DaysPI", "LogVirusLoad"))
+  colnames(mydata) = c("xvals",'outcome')
 
   Y0 = c(U = U0, I = I0, V = V0, X = X0);  #combine initial conditions into a vector
   xvals = seq(0, max(mydata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
