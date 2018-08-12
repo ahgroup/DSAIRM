@@ -29,7 +29,7 @@ If suitable, provide a model diagram. It should be a png file. I recommend creat
 ```
 
 
-###Model Equations
+### Model Equations
 Write down your equations here.
 $$\dot S = -bSI$$ 
 $$\dot I = bSI - g I$$
