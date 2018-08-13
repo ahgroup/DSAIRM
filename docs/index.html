@@ -10,12 +10,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Dynamical Systems Approach to Immune Response Modeling">
-<meta property="og:description" content="A collection of Shiny apps that allow for the simulation and
+<meta property="og:description" content="A collection of 'shiny' apps that allow for the simulation and
     exploration of various within-host immune response scenarios.
     The purpose of the package is to help individuals learn 
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on
-    what to do with the models. ">
+    what to do with the models. The development of this package was partially supported by NIH grant U19AI117891.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -93,7 +93,6 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#dsairm" class="anchor"></a>DSAIRM</h1></div>
 <p>Dynamical Systems Approach to Immune Response Modeling</p>
-<p><strong>The package is under development and not yet on CRAN. Install with devtools from github (see instructions below). All apps should work at this point, but there might still be bugs. Let me know if you find any!</strong></p>
 <div id="description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#description" class="anchor"></a>Description</h2>
@@ -103,8 +102,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <ol>
-<li>
-<strong>Not yet available -</strong> Install the CRAN release in the usual way with <code>install.packages('DSAIRM')</code>.</li>
+<li>Install the CRAN release in the usual way with <code>install.packages('DSAIRM')</code>.</li>
 <li>The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don’t have it, install the devtools package. Then, install DSAIRM through devtools. The following commands should get you up and running:</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">'devtools'</span>)
@@ -132,7 +130,7 @@
 <div id="contributing-to-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
-<p>DSAIRM is built in a way that makes it (hopefully) easy for to contribute new simulations/apps. The package contains a sub-folder called <em>/docsfordevelopers</em> (in the locally installed version of the package, this folder is in the main package folder, on Github it is inside the <em>/inst</em> folder). The documentation.md file in this folder explains the overall structure of the package and gives detailed instructions on how to create new apps. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.</p>
+<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains a subfolder called <em>docsfordevelopers</em>, which provides information on how the apps are structured and how to add new ones. <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.html">This Markdown file, documentation.md,</a> provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.</p>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
@@ -158,6 +156,8 @@
     <div class="links">
 <h2>Links</h2>
 <ul class="list-unstyled">
+<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=DSAIRM">https://​cloud.r-project.org/​package=DSAIRM</a>
+</li>
 <li>Browse source code at <br><a href="https://github.com/ahgroup/DSAIRM/">https://​github.com/​ahgroup/​DSAIRM/​</a>
 </li>
 <li>Report a bug at <br><a href="https://github.com/ahgroup/DSAIRM/issues">https://​github.com/​ahgroup/​DSAIRM/​issues</a>
@@ -185,6 +185,7 @@
 <li><a href="https://travis-ci.org/ahgroup/DSAIRM"><img src="https://travis-ci.org/ahgroup/DSAIRM.svg?branch=master" alt="Travis-CI build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/ahgroup/DSAIRM"><img src="https://ci.appveyor.com/api/projects/status/github/ahgroup/DSAIRM?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/github/ahgroup/DSAIRM?branch=master"><img src="https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://cran.r-project.org/package=DSAIRM"><img src="https://www.r-pkg.org/badges/version/DSAIRM" alt="CRAN status"></a></li>
 </ul>
 </div>
 </div>

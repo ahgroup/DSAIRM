@@ -139,9 +139,9 @@ The function returns a matrix containing time-series of each variable and time.<
 
     <pre class="usage"><span class='fu'>simulate_fitmodelcomparison</span>(<span class='kw'>U0</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>X0</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
-  <span class='kw'>alow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>ahigh</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
-  <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>rlow</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>rhigh</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dX</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dXlow</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dXhigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>modeltype</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
+  <span class='kw'>alow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>ahigh</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
+  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>rlow</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>rhigh</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dX</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dXlow</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dXhigh</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>modeltype</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -243,30 +243,30 @@ The function returns a matrix containing time-series of each variable and time.<
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns a list containing the best fit timeseries,
-the best fit parameters, the data and the AICc for the model</p>
+the best fit parameters, the data and the AICc for the model.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>2 simple compartmental ODE models mimicking acute viral infection
-with T-cells (model 1) or antibodies (model 2) are fitted to data</p>
+    <p>Two simple compartmental ODE models mimicking acute viral infection
+with T-cells (model 1) or antibodies (model 2) are fitted to data.</p>
     
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     <p>This function does not perform any error checking. So if
-  you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message</p>
+  you try to do something nonsensical (e.g. specify negative parameter or starting values),
+  the code will likely abort with an error message.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See the shiny app documentation corresponding to this
+    <div class='dont-index'><p>See the Shiny app documentation corresponding to this
 function for more details on this model.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># To run the code with default parameters just call this function
+    <pre class="examples"><div class='input'># To run the code with default parameters just call the function:
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitmodelcomparison</span>()
-<span class='co'># }</span><div class='input'><span class='co'># To apply different settings, provide them to the simulator function, e.g.</span>
+<span class='co'># }</span><div class='input'><span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitmodelcomparison</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>)
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitmodelcomparison</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>modeltype</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div></pre>
   </div>

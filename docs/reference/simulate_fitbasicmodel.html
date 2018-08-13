@@ -34,7 +34,7 @@
 
 <meta property="og:description" content="This function runs a simulation of a compartment model
 using a set of ordinary differential equations.
-The model describes a simple viral infection system" />
+The model describes a simple viral infection system." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,15 +127,15 @@ The model describes a simple viral infection system" />
     
     <p>This function runs a simulation of a compartment model
 using a set of ordinary differential equations.
-The model describes a simple viral infection system</p>
+The model describes a simple viral infection system.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>simulate_fitbasicmodel</span>(<span class='kw'>U0</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>X0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>psim</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>bsim</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>dVsim</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>usesimdata</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>solvertype</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+  <span class='kw'>psim</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>bsim</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>dVsim</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>usesimdata</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>solvertype</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,43 +234,43 @@ The model describes a simple viral infection system</p>
     </tr>
     <tr>
       <th>solvertype</th>
-      <td><p>the type of solver/optimizer to use, can be 1,2 or 3. See details below.</p></td>
+      <td><p>the type of solver/optimizer to use, can be 1, 2, or 3. See details below.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The function returns a list containing the best fit timeseries, the best fit parameters
+    <p>The function returns a list containing the best fit time series, the best fit parameters
 the data and the final SSR</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>a simple compartmental ODE model mimicking acute viral infection
-is fitted to data
+    <p>A simple compartmental ODE model mimicking acute viral infection
+is fitted to data.
 Data can either be real or created by running the model with known parameters and using the simulated data to
 determine if the model parameters can be identified
 The fitting is done using solvers/optimizers from the nloptr package (which is a wrapper for the nlopt library).
 The package provides access to a large number of solvers.
 Here, we only implement 3 solvers, namely 1 = NLOPT_LN_COBYLA, 2 = NLOPT_LN_NELDERMEAD, 3 = NLOPT_LN_SBPLX
-For details on what those optimizers are and how they work, see the nlopt/nloptr documentation</p>
+For details on what those optimizers are and how they work, see the nlopt/nloptr documentation.</p>
     
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     <p>This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter or starting values,
-  the code will likely abort with an error message</p>
+  the code will likely abort with an error message.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See the shiny app documentation corresponding to this
+    <div class='dont-index'><p>See the Shiny app documentation corresponding to this
 function for more details on this model.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'># To run the code with default parameters just call this function
+    <pre class="examples"><div class='input'># To run the code with default parameters just call the function:
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitbasicmodel</span>()
-<span class='co'># }</span><div class='input'><span class='co'># To apply different settings, provide them to the simulator function, e.g.</span>
+<span class='co'># }</span><div class='input'><span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fitbasicmodel</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -33,7 +33,7 @@
 <meta property="og:title" content="Simulation to illustrate a simple use of a simple model — simulate_modelexploration" />
 
 <meta property="og:description" content="This function simulates the simple bacteria model for a range of parameters.
-The function returns a data frame containing the parameter that has been varied and the outcomes (see details)" />
+The function returns a data frame containing the parameter that has been varied and the outcomes (see details)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,7 +125,7 @@ The function returns a data frame containing the parameter that has been varied 
     <div class="ref-description">
     
     <p>This function simulates the simple bacteria model for a range of parameters.
-The function returns a data frame containing the parameter that has been varied and the outcomes (see details)</p>
+The function returns a data frame containing the parameter that has been varied and the outcomes (see details).</p>
     
     </div>
 
@@ -199,27 +199,27 @@ parameters</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns the output as a list,
-list element 'dat' contains the data frame with results of interest
+list element 'dat' contains the data frame with results of interest.
 The first column is called xvals and contains the values of the
 parameter that has been varied as specified by 'samplepar'.
 The remaining columns contain peak and steady state values of bacteria and immune response,
 Bpeak, Ipeak, Bsteady and Isteady.
-A final variable 'nosteady' is returned for each simulation.
+A final boolean variable 'nosteady' is returned for each simulation.
 It is TRUE if the simulation did not reach steady state, otherwise FALSE.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
-The user can specify which parameter is sampled
-the simulation returns for each parameter sample the peak and final value for B and I
-also returned is the varied parameter and an indicator if steady state was reached</p>
+The user can specify which parameter is sampled, and
+the simulation returns for each parameter sample the peak and final value for B and I.
+Also returned is the varied parameter and an indicator if steady state was reached.</p>
     
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     <p>This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions &gt; 1), the code will likely abort with an error message</p>
+  or fractions &gt; 1), the code will likely abort with an error message.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -228,11 +228,11 @@ function for more details on this model.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call this function</span>
+    <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_modelexploration</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them e.g. like such</span>
+<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_modelexploration</span>(<span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-<span class='co'># You should then use the simulation result returned from the function, e.g. like this:</span>
+<span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'>plot</span>(<span class='no'>res</span>$<span class='no'>dat</span>[,<span class='st'>"xvals"</span>],<span class='no'>res</span>$<span class='no'>data</span>[,<span class='st'>"Bpeak"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Parameter values'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Peak Bacteria'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>)</div><div class='img'><img src='simulate_modelexploration-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

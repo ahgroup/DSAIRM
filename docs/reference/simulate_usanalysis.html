@@ -33,11 +33,11 @@
 <meta property="og:title" content="Simulation to illustrate uncertainty and sensitivity analysis — simulate_usanalysis" />
 
 <meta property="og:description" content="This function performs uncertainty and sensitivity analysis
-using the simple, continuous-time basic bacteria model
+using the simple, continuous-time basic bacteria model.
 The user provides ranges for the initial conditions and parameter values and the number of samples.
-The function does latin hypercube sampling (LHS) of the parameters
-and runs the basic bacteria ODE model for each sample
-The function returns a list containing values for each sample and results" />
+The function does Latin Hypercube Sampling (LHS) of the parameters
+and runs the basic bacteria ODE model for each sample.
+The function returns a list containing values for each sample and results." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,19 +129,19 @@ The function returns a list containing values for each sample and results" />
     <div class="ref-description">
     
     <p>This function performs uncertainty and sensitivity analysis
-using the simple, continuous-time basic bacteria model
+using the simple, continuous-time basic bacteria model.
 The user provides ranges for the initial conditions and parameter values and the number of samples.
-The function does latin hypercube sampling (LHS) of the parameters
-and runs the basic bacteria ODE model for each sample
-The function returns a list containing values for each sample and results</p>
+The function does Latin Hypercube Sampling (LHS) of the parameters
+and runs the basic bacteria ODE model for each sample.
+The function returns a list containing values for each sample and results.</p>
     
     </div>
 
     <pre class="usage"><span class='fu'>simulate_usanalysis</span>(<span class='kw'>B0min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>B0max</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>I0min</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>I0max</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>Bmaxmin</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>Bmaxmax</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>, <span class='kw'>dBmin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dBmax</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>kmin</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>kmax</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>rmin</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dImin</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>dImax</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>gmean</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>gvar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>rngseed</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
+  <span class='kw'>kmin</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>kmax</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>rmin</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>rmax</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>dImin</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dImax</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>gmean</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>gvar</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>rngseed</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -220,7 +220,7 @@ The function returns a list containing values for each sample and results</p>
     </tr>
     <tr>
       <th>rngseed</th>
-      <td><p>seed for random number generator#'</p></td>
+      <td><p>seed for random number generator</p></td>
     </tr>
     </table>
     
@@ -236,7 +236,7 @@ It is TRUE if the simulation did not reach steady state, otherwise FALSE.</p>
 
     <p>A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
-Parameters are sampled via latin hypercube sampling.
+Parameters are sampled via Latin Hypercube Sampling.
 Distribution for all parameters is assumed to be uniform between the min and max values.
 The only exception is the bacteria growth parameter,
 which is assumed to be gamma distributed with the specified mean and variance.
@@ -248,20 +248,20 @@ and an indicator stating if steady state was reached.</p>
 
     <p>This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions &gt; 1), the code will likely abort with an error message</p>
+  or fractions &gt; 1), the code will likely abort with an error message.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>See the shiny app documentation corresponding to this simulator
+    <div class='dont-index'><p>See the Shiny app documentation corresponding to this simulator
 function for more details on this model.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call this function</span>
+    <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_usanalysis</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them e.g. like such</span>
+<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_usanalysis</span>(<span class='kw'>dImin</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dImax</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>5</span>)
-<span class='co'># You should then use the simulation result returned from the function, e.g. like this:</span>
+<span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'>plot</span>(<span class='no'>result</span>$<span class='no'>dat</span>[,<span class='st'>"dI"</span>],<span class='no'>result</span>$<span class='no'>dat</span>[,<span class='st'>"Bpeak"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'values for d'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Peak Bacteria'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>)</div><div class='img'><img src='simulate_usanalysis-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
