@@ -6,8 +6,8 @@
 #'    The length of the list indicates the number of separate plots to make.
 #'    Each list entry corresponds to one plot and
 #'    needs to contain the following information/elements:
-#'    1. A data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be 
-#'    a time series and by default a line plot will be produced and labeled Time/Numbers. 
+#'    1. A data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be
+#'    a time series and by default a line plot will be produced and labeled Time/Numbers.
 #'    For plotting, the data needs to be in a format with one column called xvals, one column yvals,
 #'    one column called varnames that contains names for different variables.
 #'    Varnames needs to be a factor variable or will be converted to one.
@@ -48,7 +48,7 @@ generate_plots <- function(res)
     for (n in 1:nplots) #loop to create each plot
     {
       resnow = res[[n]]
-      
+
       #if a data frame called 'ts' exists, assume that this one is the data to be plotted
       #otherwise use the data frame called 'dat'
       #one of the 2 must exist, otherwise the function will not work
@@ -61,15 +61,15 @@ generate_plots <- function(res)
       else {
         rawdat = resnow$dat
       }
-      
+
       plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
 
-      
-     
-      
+
+
+
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
-      if (colnames(rawdat)[1] == 'Time' ) {colnames(rawdat)[1] <- 'xvals'}
+      if ( colnames(rawdat)[1] == 'Time' | colnames(rawdat)[1] == 'time' ) {colnames(rawdat)[1] <- 'xvals'}
 
       #for the plotting below, the data need to be in the form xvals/yvals/varnames
       #if the data is instead in xvals/var1/var2/var3/etc. - which is what the simulator functions produce
@@ -168,7 +168,7 @@ generate_plots <- function(res)
 
       #apply title if provided
       if (!is.null(resnow$title)) { p6 = p6 + ggplot2::ggtitle(resnow$title) }
-      
+
       pfinal = p6 + ggplot2::theme_bw()
       allplots[[n]] = pfinal
 
