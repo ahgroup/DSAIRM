@@ -18,13 +18,14 @@ server <- function(input, output, session) {
     apppath = system.file("shinyapps", package = "DSAIRM")
 
     filename = paste0(apppath,'/',appName,'/',appName,'.Rdata')
-    browser()
-    model <- reactive({
-      load(filename)
-      })
+    #browser()
 
+    #model <- reactive({
+    #  load(filename)
+    #  })
+    model <- load(filename)
 
-    generate_shinyinput(model(), output) #produce output elements for each variables, parameters, etc.
+    generate_shinyinput(model, output) #produce output elements for each variables, parameters, etc.
     output$analyzemodel <- renderUI({
       fluidPage(
         #section to add buttons
