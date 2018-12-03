@@ -41,6 +41,7 @@ Depends:
     shiny (>= 1.0)
 Suggests:
     covr,
+    pkgdown,
     testthat
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

@@ -53,6 +53,7 @@ The best approach is to contact me by email (ahandel@uga.edu) or through the Git
 * testthat
 * codecov
 * rmarkdown for vignette and shiny documentation
+* pkgdown for package doc site
 * packages needed: see DESCRIPTION file
 * Rtools needs to be installed (on Windows)
 * All libraries/packages needed by this one should be loaded via the DESCRIPTION file and not in separate R files
