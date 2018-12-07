@@ -15,11 +15,11 @@ dsairmmenu <- function() {
   {
     appname <- NULL
     appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
-    appname = shiny::runApp(appDir = appDir)
+    appname = shiny::runApp(appDir = appDir, launch.browser = FALSE)
     if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
     {
       appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
-      shiny::runApp(appDir = appDirname)
+      shiny::runApp(appDir = appDirname, launch.browser = FALSE)
     }
     if (appname == "Exit") {cond = 0} #leave while loop/menu
   }

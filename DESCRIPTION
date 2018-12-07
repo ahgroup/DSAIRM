@@ -29,7 +29,6 @@ Imports:
     gridExtra (>= 2.3),
     knitr (>= 1.15),
     lhs (>= 0.15),
-    modelbuilder,
     nloptr (>= 1.0.4),
     rmarkdown (>= 1.10),
     stats (>= 3.4),
