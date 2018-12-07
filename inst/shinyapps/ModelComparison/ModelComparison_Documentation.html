@@ -92,7 +92,7 @@
 <div id="comments" class="section level3">
 <h3>Comments</h3>
 <p>Note that both models are rather simple and - arguably - somewhat unrealistic. For instance the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection - as done here for influenza - where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. For both models, we ignored birth/death of uninfected cells, which is possibly ok for an acute infection (but needs to be determined based on known biology for a given system).</p>
-<p>We also assume for model 2 that the dynamics of B-cells and antibodys track each other close enough that we can lump them together into a single equation.</p>
+<p>We also assume for model 2 that the dynamics of B-cells and antibodies track each other close enough that we can lump them together into a single equation.</p>
 <p>In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting.</p>
 </div>
 <div id="data-source" class="section level3">
@@ -115,21 +115,21 @@ AICc = N \log(\frac{SSR}{N})+2(K+1)+\frac{2(K+1)(K+2)}{N-K}
 <h3>Task 1:</h3>
 <ul>
 <li>Take a look at the inputs and outputs for the app. It’s similar to the “Basic Fitting” app (which you should do before this one).</li>
-<li>Each model has 3 parameters that are being estimated, the best fit estimates are shown under the figure, together with the SSR and AICc. Swich to model 2, run and compare how it differs from model 1.</li>
+<li>Each model has 3 parameters that are being estimated, the best fit estimates are shown under the figure, together with the SSR and AICc. Switch to model 2, run and compare how it differs from model 1.</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2:</h3>
 <ul>
-<li>You probably noticed that the default setting is only 10 iterations for the solver. That’s way too few to find the best fit, so comparing the 2 models after such few iterations is not very meaningful. Increase the interations to 100 or more and re-run both models.</li>
+<li>You probably noticed that the default setting is only 10 iterations for the solver. That’s way too few to find the best fit, so comparing the 2 models after such few iterations is not very meaningful. Increase the iterations to 100 or more and re-run both models.</li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3:</h3>
 <ul>
-<li>Based on the AICc for both models after 100 or more interations, what do you conclude regarding the quality of each model?</li>
+<li>Based on the AICc for both models after 100 or more iterations, what do you conclude regarding the quality of each model?</li>
 <li>Take a look at SSR for both models. You should see the model with the lower AICc also have the lower SSR. Why is that so? Is that always true for any 2 models? (Hint, it’s not: The 2 models here are in some sense special, understand how/why.)</li>
-<li>If you haven’t figured out the last question, and also for a general check, compute AICc ‘by hand’ for each of the models using the reported SSR and the formula given in the “Models” section. You sould of course find the values shown below the plot.</li>
+<li>If you haven’t figured out the last question, and also for a general check, compute AICc ‘by hand’ for each of the models using the reported SSR and the formula given in the “Models” section. You should of course find the values shown below the plot.</li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
@@ -149,7 +149,7 @@ AICc = N \log(\frac{SSR}{N})+2(K+1)+\frac{2(K+1)(K+2)}{N-K}
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-hastie11">
-<p>Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2011. <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction, Second Edition (Springer Series in Statistics)</em>. Springer. <a href="http://www.amazon.com/The-Elements-Statistical-Learning-Prediction/dp/0387848576%3FSubscriptionId%3D0JYN1NVW651KCA56C102%26tag%3Dtechkie-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0387848576">http://www.amazon.com/The-Elements-Statistical-Learning-Prediction/dp/0387848576%3FSubscriptionId%3D0JYN1NVW651KCA56C102%26tag%3Dtechkie-20%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D0387848576</a>.</p>
+<p>Hastie, Trevor, Robert Tibshirani, and Jerome Friedman. 2011. <em>The Elements of Statistical Learning: Data Mining, Inference, and Prediction, Second Edition (Springer Series in Statistics)</em>. Springer.</p>
 </div>
 <div id="ref-hayden96">
 <p>Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. “Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.” <em>JAMA</em> 275 (4): 295–99.</p>
