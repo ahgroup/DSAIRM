@@ -1,6 +1,6 @@
 #' @title The main menu for the DSAIRM package
 #'
-#' @description This function opens a Shiny app menu that will allow the user to run the different simulation apps.
+#' @description This function opens a Shiny app with a menu that will allow the user to run the different simulations.
 #'
 #' @details Run this function with no arguments to start the main menu (a Shiny app) for DSAIRM.
 #' @examples

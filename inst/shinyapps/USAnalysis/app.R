@@ -1,45 +1,23 @@
 ############################################################
-#This is the Shiny file for the Uncertainty and Sensitivity Analysis App
+#This file connects the Shiny UI to
+#the Uncertainty and Sensitivity Analysis code
 #written and maintained by Andreas Handel (ahandel@uga.edu)
 #last updated 7/16/2018
 ############################################################
 
-#the server-side function with the main functionality
-#this function is wrapped inside the shiny server function below to allow return to main menu when window is closed
-refresh <- function(input, output)
-  {
 
-  result <- reactive({
-    input$submitBtn
+usanalysis <- function(input, output, model)
+{
 
-  # Read all the input values from the UI
-    B0min = isolate(input$B0min)
-    B0max = isolate(input$B0max)
-    I0min = isolate(input$I0min)
-    I0max = isolate(input$I0max)
-    bmin = isolate(input$bmin)
-    bmax = isolate(input$bmax)
-    Bmaxmin = 10^isolate(input$Bmaxmin);
-    Bmaxmax = 10^isolate(input$Bmaxmax);
-    dBmin = isolate(input$dBmin)
-    dBmax = isolate(input$dBmax)
-    kmin = 10^isolate(input$kmin)
-    kmax = 10^isolate(input$kmax)
-    rmin = 10^isolate(input$rmin)
-    rmax = 10^isolate(input$rmax)
-    dImin = isolate(input$dImin)
-    dImax = isolate(input$dImax)
-    gmean = isolate(input$gmean)
-    gvar = isolate(input$gvar)
-    tmax = isolate(input$tmax);
-    rngseed = isolate(input$rngseed)
-    samples = isolate(input$samples)
-    plottype = isolate(input$plottype)
-    plotscale = isolate(input$plotscale)
+  #produce Shiny input UI elements for the model.
+  generate_shinyinput(model, otherinputs = NULL, output)
+  #set output to empty
+  output$text = NULL
+  output$plot = NULL
 
-    withProgress(message = 'Running Simulation', value = 0, {
-      simresult <- simulate_usanalysis(B0min = B0min, B0max = B0max, I0min = I0min, I0max = I0max, Bmaxmin = Bmaxmin, Bmaxmax = Bmaxmax, dBmin = dBmin, dBmax = dBmax, kmin = kmin, kmax = kmax, rmin = rmin, rmax = rmax, dImin = dImin, dImax = dImax, gmean = gmean, gvar = gvar, tmax = tmax, samples = samples, rngseed=rngseed)
-    })
+    find_modelsettings()
+  result <- analyze_model(USanalysis)
+
 
       #reformat data to be in the right format for plotting
       #the structure for plotting is a nested list
@@ -126,7 +104,7 @@ refresh <- function(input, output)
     res=isolate(result()) #list of all results that are to be turned into plots
     withProgress(message = 'Making Plots', value = 0,
    {
-       generate_plots(res) #create plots with a non-reactive function
+     modelbuilder::generate_plots(res) #create plots with a non-reactive function
    }) #finish progress wrapper
   }, width = 'auto', height = 'auto'
   ) #finish render-plot statement
@@ -135,7 +113,7 @@ refresh <- function(input, output)
   output$text <- renderText({
     input$submitBtn
     res=isolate(result()) #list of all results that are to be turned into plots
-    generate_text(res) #create text for display with a non-reactive function
+    modelbuilder::generate_text(res) #create text for display with a non-reactive function
   })
 
 
