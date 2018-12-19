@@ -8,24 +8,20 @@ server <- function(input, output, session) {
   #start code blocks that contain the analyze functionality
   #######################################################
 
-  appNames <- c(unlist(strsplit(DSAIRM::dsairmapps(),', ')),'Exit') #get list of all existing apps
+  appNames <- unlist(strsplit(DSAIRM::dsairmapps(),', ')) #get list of all existing apps
 
-  stopping <- FALSE
 
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
 
-      apppath = system.file("shinyapps", package = "DSAIRM")
 
-      filename = paste0(apppath,'/',appName,'/',appName,'_model.Rdata')
-      #browser()
+      #from underlying simulation R script, extract function inputs and turn them into shiny input elements
+      #requires that the function has all numeric inputs
 
-      #model <- reactive({
-      #  load(filename)
-      #  })
-      model <- load(filename)
 
-      modelbuilder::generate_shinyinput(model, output) #produce output elements for each variables, parameters, etc.
+      filename = paste0('simulate_',tolower(appName))
+
+      DSAIRM::generate_shinyinput(mbmodel = filename, output) #produce output elements for each variables, parameters, etc.
       output$analyzemodel <- renderUI({
         fluidPage(
           #section to add buttons
@@ -95,14 +91,7 @@ server <- function(input, output, session) {
 
 
   observeEvent(input$Exit, {
-    stopping <<- TRUE
     stopApp('Exit')
-  })
-
-  session$onSessionEnded(function() {
-    if (!stopping) {
-      stopApp('Exit')
-    }
   })
 
 } #ends the server function for the app
@@ -114,9 +103,9 @@ server <- function(input, output, session) {
 #######################################################
 
 ui <- fluidPage(
-  includeCSS("../../media/dsairm.css"),
+  includeCSS("../media/dsairm.css"),
   #add header and title
-  div( includeHTML("../../media/header.html"), align = "center"),
+  div( includeHTML("../media/header.html"), align = "center"),
   p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
 
   navbarPage(title = "DSAIRM",
@@ -222,7 +211,7 @@ ui <- fluidPage(
   ), #close navbarPage
 
 
-  div(includeHTML("../../media/footer.html"), align="center", style="font-size:small") #footer
+  div(includeHTML("../media/footer.html"), align="center", style="font-size:small") #footer
 ) #end fluidpage
 
 shinyApp(ui = ui, server = server)

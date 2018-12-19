@@ -10,23 +10,15 @@
 #' @export
 
 dsairmmenu <- function() {
-  cond <- 1
-  while (cond == 1)
-  {
-    appname <- NULL
-    appDir <- system.file("shinyapps", "MainMenu", package = "DSAIRM")
-    appname = shiny::runApp(appDir = appDir, launch.browser = FALSE)
-    if (!is.null(appname) & appname != "Exit")     #run the shiny app chosen
-    {
-      appDirname <- system.file("shinyapps", appname, package = "DSAIRM")
-      shiny::runApp(appDir = appDirname, launch.browser = FALSE)
-    }
-    if (appname == "Exit") {cond = 0} #leave while loop/menu
-  }
-  print('*************************************************')
-  print('Exiting the DSAIRM main menu.')
-  print('I hope you had a fun and educational experience!')
-  print('*************************************************')
+
+
+    appDir <- system.file( "MainMenu", package = "DSAIRM") #get directory for main menu app
+    shiny::runApp(appDir = appDir, launch.browser = TRUE) #run main menu app
+
+    print('*************************************************')
+    print('Exiting the DSAIRM main menu.')
+    print('I hope you had a fun and educational experience!')
+    print('*************************************************')
 }
 
 #needed to prevent NOTE messages on CRAN checks

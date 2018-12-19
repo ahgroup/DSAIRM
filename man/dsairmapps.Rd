@@ -2,25 +2,19 @@
 % Please edit documentation in R/dsairmapps.R
 \name{dsairmapps}
 \alias{dsairmapps}
-\title{A function that lets you run a specific DSAIRM app without going through the main menu}
+\title{A helper function that returns a list of existing apps/simulations}
 \usage{
-dsairmapps(appname = NULL)
-}
-\arguments{
-\item{appname}{A string (with quotation marks) indicating the name of the app to run.
-Leave empty to get a list of all available apps.}
+dsairmapps()
 }
 \description{
-This function opens the specified DSAIRM Shiny App
+This function opens returns a list of existing apps
 }
 \details{
-Run this function with no arguments to list all apps. Specify the name of an app (with quotation marks) to start that app.
+Run this function with no arguments to list all apps.
 }
 \examples{
 # To see all available apps, run
 dsairmapps()
-# To start a specific app, call its name, e.g.
-\dontrun{dsairmapps('BasicVirus')}
 }
 \author{
 Andreas Handel
