@@ -8,6 +8,11 @@
 
 
 
+#additional input elements for  model
+otherinputs =   tagList(
+    selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+  ) #end taglist
+
 
 
 
@@ -19,19 +24,6 @@
 #   result <- reactive({
 #     input$submitBtn
 #
-#     #Read all the input values from the UI
-#     U0 = 10^isolate(input$U0);
-#     I0 = isolate(input$I0);
-#     V0 = isolate(input$V0);
-#     b = 10^isolate(input$b)
-#     p = 10^isolate(input$p)
-#     n = isolate(input$n)
-#     g = isolate(input$g)
-#     dU = isolate(input$dU)
-#     dI = isolate(input$dI)
-#     dV = isolate(input$dV)
-#     tmax = isolate(input$tmax);
-#     plotscale = isolate(input$plotscale)
 #
 #     #save all results to a list for processing plots and text
 #     listlength = 1; #here we do all simulations in the same figure

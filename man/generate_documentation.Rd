@@ -4,7 +4,10 @@
 \alias{generate_documentation}
 \title{A helper function for the UI part of the Shiny apps}
 \usage{
-generate_documentation()
+generate_documentation(appName)
+}
+\arguments{
+\item{appName}{name of app for which documentation should be created}
 }
 \value{
 tablist A list of tabs for display in a Shiny UI.

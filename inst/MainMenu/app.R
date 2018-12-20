@@ -40,13 +40,18 @@ server <- function(input, output, session) {
       }
 
 
-      #file that contains additional, non-numeric inputs one wants to display
-      modfilename = paste0('simulate_',tolower(appName))
-      #model specific inputs, read from an R file in that directory
-      output$other <- renderUI({
-         #        otherinputs
+      #file that contains additional inputs one wants to display that are not generated automaticall by functions above
+      #for instance all non-numeric inputs need to be provided separately
+      otherinputs = NULL
+      settingfilename = paste0(appdir,'/',appName,'/',appName,'_settings.R')
+      if (file.exists(settingfilename))
+      {
+        source(settingfilename) #source the file with additional settings to load them
+        #model specific inputs, read from an R file in that directory
+        output$other <- renderUI({
+                 otherinputs
                }) #end renderuI
-
+      } #end creating additional UI from file
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
@@ -92,12 +97,16 @@ server <- function(input, output, session) {
 
             #################################
             #Instructions section at bottom as tabs
-            h2('Instructions')
+            h2('Instructions'),
             #use external function to generate all tabs with instruction content
-            #do.call(tabsetPanel,generate_documentation())
+            do.call(tabsetPanel,generate_documentation(appName))
 
             ) #end fluidpage for analyze tab
         }) # End renderUI for analyze tab
+
+      #once UI for the model in the analyze tab is created, switch to that tab
+      updateNavbarPage(session, "DSAIRM", selected = "Analyze")
+
       }, priority = 100) #end observeEvent for the analyze tab
 
 
@@ -148,11 +157,12 @@ server <- function(input, output, session) {
 
 ui <- fluidPage(
   includeCSS("../media/dsairm.css"),
+  tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
   #add header and title
   div( includeHTML("../media/header.html"), align = "center"),
   p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
 
-  navbarPage(title = "DSAIRM",
+  navbarPage(title = "DSAIRM", id = "DSAIRM", selected = 'Menu',
              tabPanel(title = "Menu",
                       p('The Basics', class='mainsectionheader'),
 
@@ -247,8 +257,8 @@ ui <- fluidPage(
                       fluidRow(
                         column(12,
                                uiOutput('analyzemodel')
-                        ),
-                        class = "mainmenurow"
+                        )
+                        #class = "mainmenurow"
                       ) #close fluidRow structure for input
              ) #close "Analyze" tab
   ), #close navbarPage
