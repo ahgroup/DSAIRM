@@ -22,8 +22,19 @@ server <- function(input, output, session) {
       currentApp <<- appName
 
       appdir = system.file("DSAIRMapps", package = "DSAIRM")
-      simfilename = paste0('simulate_',tolower(appName)) #name of simulation function
-      mbmodelfile = paste0(appdir,'/',appName,'/',appName,'_model.Rdata')
+
+      #file that contains additional information for a given app
+      #varaiable simfilename in the settings file os the name of the simulation function
+      settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
+      source(settingfilename) #source the file with additional settings to load them
+
+      #other input is a variable in the setting file that contains additional shiny UI elements
+      #one wants to display that are not generated automaticall by functions above
+      #for instance all non-numeric inputs need to be provided separately
+      #NULL if none are required
+      output$other <- renderUI({  otherinputs }) #end renderuI
+
+
 
       #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
       if (file.exists(mbmodelfile))
@@ -43,18 +54,6 @@ server <- function(input, output, session) {
       }
 
 
-      #file that contains additional inputs one wants to display that are not generated automaticall by functions above
-      #for instance all non-numeric inputs need to be provided separately
-      otherinputs = NULL
-      settingfilename = paste0(appdir,'/',appName,'/',appName,'_settings.R')
-      if (file.exists(settingfilename))
-      {
-        source(settingfilename) #source the file with additional settings to load them
-        #model specific inputs, read from an R file in that directory
-        output$other <- renderUI({
-                 otherinputs
-               }) #end renderuI
-      } #end creating additional UI from file
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
@@ -190,7 +189,7 @@ ui <- fluidPage(
                                actionButton("BasicBacteria", "Basic Bacterium Model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("BasicVirus", "Basic Virus Model", class="mainbutton")
+                               actionButton("Basic_Virus", "Basic Virus Model", class="mainbutton")
                         ),
                         column(4,
                                actionButton("VirusandIR", "Virus and Immune Response Model", class="mainbutton")

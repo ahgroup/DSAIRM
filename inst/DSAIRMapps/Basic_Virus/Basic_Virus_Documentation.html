@@ -52,7 +52,7 @@
 <li>Virus infects cells at rate <em>b</em>.</li>
 <li>Infected cells produce new virus at rate <em>p</em> and die at rate <em>d<sub>I</sub></em>.</li>
 <li>Free virus is removed at rate <em>d<sub>V</sub></em> or goes on to infect further uninfected cells.</li>
-<li>To allow conversion from infectious virus units in the model to some experimental units (e.g. plaque forming units), an addtional conversion factor, <em>g</em>, is included in the model.</li>
+<li>To allow conversion from infectious virus units in the model to some experimental units (e.g. plaque forming units), an additional conversion factor, <em>g</em>, is included in the model.</li>
 </ol>
 </div>
 <div id="model-diagram" class="section level3">
@@ -103,7 +103,7 @@
 <ul>
 <li>Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for <em>R<sub>0</sub></em> to figure out what value <em>R<sub>0</sub></em> needs to be for there (not) to be an infection. Figure out the threshold value for <em>R<sub>0</sub></em> at which you go from no infection to having an infection.</li>
 </ul>
-<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; C. A. A. Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
+<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5:</h3>
@@ -143,43 +143,43 @@
 </div>
 <div id="task-9" class="section level3">
 <h3>Task 9:</h3>
-<p>Continue to explore the model. Even though it’s a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, incuding a simple one like this that is likely not too realistic for any given pathogen.</p>
+<p>Continue to explore the model. Even though it’s a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen.</p>
 </div>
 </div>
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
 <ul>
-<li>For this app, the underlying function running the simulation is called <code>simulate_basicvirus.R</code>. You can call these functions directly, without going through the shiny app. Type <code>?simulate_basicvirus</code> into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_Basic_Virus_model_ode</code>. You can call it directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You could also modify this R function for your own purposes - though that requires R coding knowledge.</li>
-<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(C. A. Beauchemin and Handel 2011; A. M. Smith and Perelson 2011)</span>.</li>
-<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(J. Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
+<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
+<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
 <h3>References</h3>
 <div id="refs" class="references">
-<div id="ref-beauchemin08">
-<p>Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. “Modeling Amantadine Treatment of Influenza a Virus in Vitro.” <em>Journal of Theoretical Biology</em> 254 (2): 439–51. doi:<a href="https://doi.org/10.1016/j.jtbi.2008.05.031">10.1016/j.jtbi.2008.05.031</a>.</p>
-</div>
 <div id="ref-beauchemin11">
 <p>Beauchemin, Catherine AA, and Andreas Handel. 2011. “A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.” <em>BMC Public Health</em> 11 (1). BioMed Central: S7.</p>
 </div>
+<div id="ref-beauchemin08">
+<p>Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. “Modeling Amantadine Treatment of Influenza a Virus in Vitro.” <em>Journal of Theoretical Biology</em> 254 (2): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.</p>
+</div>
 <div id="ref-chatterjee12">
-<p>Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. “Mathematical Modelling of Hcv Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?” <em>Antiviral Therapy</em> 17 (6 Pt B): 1171–82. doi:<a href="https://doi.org/10.3851/IMP2428">10.3851/IMP2428</a>.</p>
+<p>Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. “Mathematical Modelling of Hcv Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?” <em>Antiviral Therapy</em> 17 (6 Pt B): 1171–82. <a href="https://doi.org/10.3851/IMP2428">https://doi.org/10.3851/IMP2428</a>.</p>
 </div>
 <div id="ref-guedj10">
-<p>Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. “A Perspective on Modelling Hepatitis c Virus Infection.” <em>Journal of Viral Hepatitis</em> 17 (12): 825–33. doi:<a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">10.1111/j.1365-2893.2010.01348.x</a>.</p>
+<p>Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. “A Perspective on Modelling Hepatitis c Virus Infection.” <em>Journal of Viral Hepatitis</em> 17 (12): 825–33. <a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">https://doi.org/10.1111/j.1365-2893.2010.01348.x</a>.</p>
 </div>
 <div id="ref-heffernan05a">
-<p>Heffernan, J M, R J Smith, and L M Wahl. 2005. “Perspectives on the Basic Reproductive Ratio.” <em>Journal of the Royal Society, Interface</em> 2 (4): 281–93. doi:<a href="https://doi.org/10.1098/rsif.2005.0042">10.1098/rsif.2005.0042</a>.</p>
+<p>Heffernan, J M, R J Smith, and L M Wahl. 2005. “Perspectives on the Basic Reproductive Ratio.” <em>Journal of the Royal Society, Interface</em> 2 (4): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.</p>
 </div>
 <div id="ref-perelson13">
 <p>Perelson, Alan S, and Ruy M Ribeiro. 2013. “Modeling the Within-Host Dynamics of Hiv Infection.” <em>BMC Biology</em> 11 (1). BioMed Central: 96.</p>
 </div>
 <div id="ref-roberts07">
-<p>Roberts, M G. 2007. “The Pluses and Minuses of R0.” <em>Journal of the Royal Society, Interface</em> 4 (16): 949–61. doi:<a href="https://doi.org/10.1098/rsif.2007.1031">10.1098/rsif.2007.1031</a>.</p>
+<p>Roberts, M G. 2007. “The Pluses and Minuses of R0.” <em>Journal of the Royal Society, Interface</em> 4 (16): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.</p>
 </div>
 <div id="ref-smith11">
-<p>Smith, Amber M, and Alan S Perelson. 2011. “Influenza a Virus Infection Kinetics: Quantitative Data and Models.” <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4). Theoretical Biology; Biophysics, Los Alamos National Laboratory, Los Alamos, NM, USA.: 429–45. doi:<a href="https://doi.org/10.1002/wsbm.129">10.1002/wsbm.129</a>.</p>
+<p>Smith, Amber M, and Alan S Perelson. 2011. “Influenza a Virus Infection Kinetics: Quantitative Data and Models.” <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4). Theoretical Biology; Biophysics, Los Alamos National Laboratory, Los Alamos, NM, USA.: 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.</p>
 </div>
 </div>
 </div>
