@@ -13,7 +13,7 @@ otherinputs =   tagList(
     selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
   ) #end taglist
 
-
+modeltype = "ode"
 
 
 #the server-side function with the main functionality

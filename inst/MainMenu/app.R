@@ -10,7 +10,7 @@ server <- function(input, output, session) {
 
   appNames <- unlist(strsplit(DSAIRM::dsairmapps(),', ')) #get list of all existing apps
 
-
+  currentApp = NULL
 
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
@@ -19,8 +19,12 @@ server <- function(input, output, session) {
       output$text = NULL
       output$plot = NULL
 
+      currentApp <<- appName
+
       appdir = system.file("DSAIRMapps", package = "DSAIRM")
+      simfilename = paste0('simulate_',tolower(appName)) #name of simulation function
       mbmodelfile = paste0(appdir,'/',appName,'/',appName,'_model.Rdata')
+
       #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
       if (file.exists(mbmodelfile))
       {
@@ -33,7 +37,6 @@ server <- function(input, output, session) {
       #this only works for numeric inputs, any others will be removed and need to be set by hand
       if (!file.exists(mbmodelfile))
       {
-        simfilename = paste0('simulate_',tolower(appName)) #name of simulation function
         #produce Shiny input UI elements for the model.
         #not using the 'standard' UI elements here, instead specifying model specific ones below
         DSAIRM::generate_shinyinput(mbmodel = simfilename, output = output)
@@ -115,15 +118,32 @@ server <- function(input, output, session) {
         #extract current model settings from UI input elements
         x=isolate(reactiveValuesToList(input)) #get all shiny inputs
         x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
-        modelsettings = (x2[! (names(x2) %in% c('submitBtn','Exit','plotscale-selectized','modeltype-selectized') ) ])
+        modelsettings = (x2[! (names(x2) %in% c('submitBtn','Exit','plotscale-selectized','modeltype-selectized','DSAIRM') ) ])
+        #if there is no input for replicates, assume reps is 1
+        if (is.null(modelsettings$nreps)) {modelsettings$nreps == 1}
+        #if no random seed is set, set it to 123. Only important for models that have a stochastic component
+        if (is.null(modelsettings$rngseed)) {modelsettings$rngseed == 123}
+        #if there is no input for model type, get it from settings file
+        if (is.null(modelsettings$modeltype))
+        {
+          appdir = system.file("DSAIRMapps", package = "DSAIRM")
+          settingfilename = paste0(appdir,'/',appName,'/',appName,'_settings.R')
+          if (file.exists(settingfilename))
+          {
+            source(settingfilename) #source the file with additional settings to load them
+          modelsettings$modeltype == modeltype
+          }
+        }
         #run model with specified settings
         set.seed(modelsettings$rngseed) #set rngseed
         #run simulation, show a 'running simulation' message
-        browser()
         result <- withProgress(message = 'Running Simulation',
                                detail = "This may take a while", value = 0,
                                {
-                                 analyze_model(modelsettings = modelsettings, mbmodel = dynmbmodel() )
+                                 simfilename = paste0('simulate_',tolower(currentApp)) #name of simulation function
+                                 modeltorun = simfilename #use name of function to run by default
+                                 #if (!is.null(mbmodel)) {runmodel = mbmodel} #if an mbmodel is present, run that instead
+                                 run_model(modelsettings = modelsettings, mbmodel = modeltorun)
                                })
         #create plot from results
         output$plot  <- renderPlot({
