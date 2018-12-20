@@ -108,7 +108,7 @@ Note that since you now change your data after you simulated it, you don't expec
 
 
 ## Further Information {#shinytab4}
-* The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_basicvirus.R` during the fitting. Check the help file for both functions to see how to use them.
+* The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_Basic_Virus_model_ode.R` during the fitting. Check the help file for both functions to see how to use them.
 * You can of course alter the underlying function to fit more parameters or a different model. That will require some time getting familiar with the code.
 * A good source for fitting models in `R` is [@bolker08]. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.
 * This book [@hilborn97] has nice explanations of data fitting, model comparison, etc. but is more theoretical.

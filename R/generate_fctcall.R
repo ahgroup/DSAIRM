@@ -14,6 +14,8 @@
 generate_fctcall <- function(modelsettings, mbmodel)
 {
 
+    browser()
+
     if (class(mbmodel)=="character" )
     {
         #ip = formals(mbmodel)

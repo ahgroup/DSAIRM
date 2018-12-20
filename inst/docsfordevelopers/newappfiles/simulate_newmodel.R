@@ -52,9 +52,9 @@ virusode <- function(t, y, parms)
 #'   the code will likely abort with an error message
 #' @examples
 #' # To run the simulation with default parameters just call this function
-#' result <- simulate_basicvirus()
+#' result <- simulate_Basic_Virus_model_ode()
 #' # To choose parameter values other than the standard one, specify them e.g. like such
-#' result <- simulate_basicvirus(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_Basic_Virus_model_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, e.g. like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the shiny app documentation corresponding to this simulator

@@ -37,7 +37,7 @@ refresh <- function(input, output)
 
     if (models == 1 | models == 3) #deterministic model
     {
-      result_ode <- simulate_basicvirus(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = 1)
+      result_ode <- simulate_Basic_Virus_model_ode(U0 = U0, I0 = I0, V0 = V0, tmax = tmax, n=n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = 1)
       result_ode <- result_ode$ts
       colnames(result_ode) = c('xvals','Udet','Idet','Vdet')
       dat_ode = tidyr::gather(as.data.frame(result_ode), -xvals, value = "yvals", key = "varnames")

@@ -1,6 +1,6 @@
 ##################################################################################
 ##fitting influenza virus load data to a simple ODE model
-##model used is the one in "simulate_basicvirus.R"
+##model used is the one in "simulate_Basic_Virus_model_ode.R"
 ##illustrates fitting and testing if parameters can be identified
 ##written by Andreas Handel, ahandel@uga.edu, last change 4/25/18
 
@@ -17,7 +17,7 @@ basicfitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames)
    allpars = c(Y0,max(xvals),params,fixedpars)
 
     #this function catches errors
-    odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
+    odeout <- try(do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars)));
     simres = odeout$ts
 
 
@@ -130,7 +130,7 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #simulate model with known parameters to get artifitial data
     #not sure why R needs it in such a weird form
     #but supplying vector of values to function directly doesn't work
-    odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+    odeout <- do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars))
     simres = odeout$ts
 
     #extract values for virus load at time points where data is available
@@ -168,7 +168,7 @@ simulate_fitbasicmodel <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
 
   #doe one final run of the ODE to get a time-series to report back
-  odeout <- do.call(simulate_basicvirus, as.list(allpars))
+  odeout <- do.call(simulate_Basic_Virus_model_ode, as.list(allpars))
   simres = odeout$ts
   #extract values for virus load at time points where data is available
   modelpred = simres[match(mydata$xvals,simres[,"Time"]),"V"];

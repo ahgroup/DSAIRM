@@ -54,7 +54,7 @@ Note that the time it takes to run the code scales with the product of the itera
 
 ## Further Information {#shinytab4}
 * The R script running the simulation for this app is called `simulate_fitconfint.R`. See its help file for information on how to call and use it directly.
-* The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model `simulate_basicvirus.R`.
+* The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model `simulate_Basic_Virus_model_ode.R`.
 * There are different versions of bootstrapping, i.e. data sampling. Some make assumptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
 
 

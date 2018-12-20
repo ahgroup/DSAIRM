@@ -17,15 +17,15 @@ generate_shinyinput <- function(mbmodel, output)
 
     ###########################################
     #create UI elements as input/output for shiny by parsing a function/R code
+    #currently requires that function arguments are given in a vector, not a list like mbmodel functions do
     ###########################################
     if (class(mbmodel)=="character" )
     {
-        ip = formals(mbmodel)
+         ip = formals(mbmodel)
         #remove function arguments that are not numeric
         ip = ip[unlist(lapply(ip,is.numeric))]
 
         nvars = length(ip)  #number of variables/compartments in model
-
         output$vars <- renderUI({
             allv = lapply(1:nvars, function(n) {
                 numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])

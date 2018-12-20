@@ -8,9 +8,13 @@ server <- function(input, output, session) {
   #start code blocks that contain the analyze functionality
   #######################################################
 
-  appNames <- unlist(strsplit(DSAIRM::dsairmapps(),', ')) #get list of all existing apps
+  #get names of all existing apps
+  appdir = system.file("DSAIRMapps", package = "DSAIRM")
+  appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
-  currentApp = NULL
+  currentApp = NULL #global server variable for currently loaded app
+  currentsimfile = NULL #global server variable for current simulation function
+  currentmbmodel = NULL #global server variable for
 
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
@@ -19,14 +23,14 @@ server <- function(input, output, session) {
       output$text = NULL
       output$plot = NULL
 
-      currentApp <<- appName
-
-      appdir = system.file("DSAIRMapps", package = "DSAIRM")
+      currentApp <<- appName #assign currently chosen app to global app variable
 
       #file that contains additional information for a given app
       #varaiable simfilename in the settings file os the name of the simulation function
       settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
       source(settingfilename) #source the file with additional settings to load them
+
+      currentsimfile <<- simfilename
 
       #other input is a variable in the setting file that contains additional shiny UI elements
       #one wants to display that are not generated automaticall by functions above
@@ -34,23 +38,24 @@ server <- function(input, output, session) {
       #NULL if none are required
       output$other <- renderUI({  otherinputs }) #end renderuI
 
-
+      #browser()
 
       #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
-      if (file.exists(mbmodelfile))
+      mbmodellocation = paste0(appdir,'/',currentApp,'/',mbmodelfile)
+      if (file.exists(mbmodellocation))
       {
-        load(mbmodelfile)
+        load(mbmodellocation)
         DSAIRM::generate_shinyinput(mbmodel = mbmodel, output = output)
       }
-
+      else
       #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
       #suing the underlying simulation R function/script
       #this only works for numeric inputs, any others will be removed and need to be set by hand
-      if (!file.exists(mbmodelfile))
       {
+
         #produce Shiny input UI elements for the model.
         #not using the 'standard' UI elements here, instead specifying model specific ones below
-        DSAIRM::generate_shinyinput(mbmodel = simfilename, output = output)
+        DSAIRM::generate_shinyinput(mbmodel = currentsimfile, output = output)
       }
 
 
@@ -138,9 +143,8 @@ server <- function(input, output, session) {
         result <- withProgress(message = 'Running Simulation',
                                detail = "This may take a while", value = 0,
                                {
-                                 simfilename = paste0('simulate_',tolower(currentApp)) #name of simulation function
-                                 modeltorun = simfilename #use name of function to run by default
-                                 #if (!is.null(mbmodel)) {runmodel = mbmodel} #if an mbmodel is present, run that instead
+                                 modeltorun = currentsimfile #use name of function to run by default
+                                 if (!is.null(mbmodel)) {runmodel = mbmodel} #if an mbmodel object is present, use and run that instead
                                  run_model(modelsettings = modelsettings, mbmodel = modeltorun)
                                })
         #create plot from results

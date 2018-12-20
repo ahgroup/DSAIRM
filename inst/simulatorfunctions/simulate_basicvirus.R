@@ -50,9 +50,9 @@ virusode <- function(t, y, parms)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_basicvirus()
+#' result <- simulate_Basic_Virus_model_ode()
 #' # To choose parameter values other than the standard one, specify the, like such:
-#' result <- simulate_basicvirus(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_Basic_Virus_model_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, e.g. like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -61,7 +61,7 @@ virusode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_basicvirus <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, g = 1)
+simulate_Basic_Virus_model_ode <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, p = 5, g = 1)
 {
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
   dt = min(0.1, tmax / 1000); #time step for which to get results back
