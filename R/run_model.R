@@ -24,7 +24,6 @@ run_model <- function(modelsettings, mbmodel) {
   fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
-  browser()
 
   #single model execution
   if (modelsettings$nreps == 1 | modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete')

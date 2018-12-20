@@ -68,7 +68,7 @@ equations, using an ode solver from the deSolve package.
 # To run the simulation with default parameters just call the function:
 result <- simulate_virusandtx()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_virus_tx(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+result <- simulate_virusandtx(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }

@@ -120,22 +120,21 @@ server <- function(input, output, session) {
         x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
         modelsettings = (x2[! (names(x2) %in% c('submitBtn','Exit','plotscale-selectized','modeltype-selectized','DSAIRM') ) ])
         #if there is no input for replicates, assume reps is 1
-        if (is.null(modelsettings$nreps)) {modelsettings$nreps == 1}
+        if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1}
         #if no random seed is set, set it to 123. Only important for models that have a stochastic component
-        if (is.null(modelsettings$rngseed)) {modelsettings$rngseed == 123}
+        if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
         #if there is no input for model type, get it from settings file
         if (is.null(modelsettings$modeltype))
         {
           appdir = system.file("DSAIRMapps", package = "DSAIRM")
-          settingfilename = paste0(appdir,'/',appName,'/',appName,'_settings.R')
+          settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
           if (file.exists(settingfilename))
           {
             source(settingfilename) #source the file with additional settings to load them
-          modelsettings$modeltype == modeltype
+            modelsettings$modeltype <- modeltype
           }
         }
         #run model with specified settings
-        set.seed(modelsettings$rngseed) #set rngseed
         #run simulation, show a 'running simulation' message
         result <- withProgress(message = 'Running Simulation',
                                detail = "This may take a while", value = 0,
