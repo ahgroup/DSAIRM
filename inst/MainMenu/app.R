@@ -11,78 +11,122 @@ server <- function(input, output, session) {
   appNames <- unlist(strsplit(DSAIRM::dsairmapps(),', ')) #get list of all existing apps
 
 
+
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
 
+      #set output to empty
+      output$text = NULL
+      output$plot = NULL
 
-      #from underlying simulation R script, extract function inputs and turn them into shiny input elements
-      #requires that the function has all numeric inputs
+      appdir = system.file("DSAIRMapps", package = "DSAIRM")
+      mbmodelfile = paste0(appdir,'/',appName,'/',appName,'_model.Rdata')
+      #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
+      if (file.exists(mbmodelfile))
+      {
+        load(mbmodelfile)
+        DSAIRM::generate_shinyinput(mbmodel = mbmodel, output = output)
+      }
+
+      #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
+      #suing the underlying simulation R function/script
+      #this only works for numeric inputs, any others will be removed and need to be set by hand
+      if (!file.exists(mbmodelfile))
+      {
+        simfilename = paste0('simulate_',tolower(appName)) #name of simulation function
+        #produce Shiny input UI elements for the model.
+        #not using the 'standard' UI elements here, instead specifying model specific ones below
+        DSAIRM::generate_shinyinput(mbmodel = simfilename, output = output)
+      }
 
 
-      filename = paste0('simulate_',tolower(appName))
+      #file that contains additional, non-numeric inputs one wants to display
+      modfilename = paste0('simulate_',tolower(appName))
+      #model specific inputs, read from an R file in that directory
+      output$other <- renderUI({
+         #        otherinputs
+               }) #end renderuI
 
-      DSAIRM::generate_shinyinput(mbmodel = filename, output) #produce output elements for each variables, parameters, etc.
+
+      #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
-        fluidPage(
-          #section to add buttons
-          fluidRow(column(
-            12,
-            actionButton("submitBtn", "Run Simulation", class = "submitbutton")
-          ),
-          align = "center"),
-          #end section to add buttons
-          tags$hr(),
-          ################################
-          #Split screen with input on left, output on right
-          fluidRow(
-            #all the inputs in here
-            column(
-              6,
-              h2('Simulation Settings'),
+          fluidPage(
+            #section to add buttons
+            fluidRow(column(
+              12,
+              actionButton("submitBtn", "Run Simulation", class = "submitbutton")
+            ),
+            align = "center"),
+            #end section to add buttons
+            tags$hr(),
+            ################################
+            #Split screen with input on left, output on right
+            fluidRow(
+              #all the inputs in here
               column(
                 6,
-                uiOutput("vars"),
-                uiOutput("time")
+                h2('Simulation Settings'),
+                column(
+                  6,
+                  uiOutput("vars")
+                ),
+                column(
+                  6,
+                  uiOutput("other")
+                )
               ),
+              #end sidebar column for inputs
+
+              #all the outcomes here
               column(
                 6,
-                uiOutput("pars"),
-                uiOutput("other")
+                #################################
+                #Start with results on top
+                h2('Simulation Results'),
+                plotOutput(outputId = "plot", height = "500px"),
+                # PLaceholder for results of type text
+                htmlOutput(outputId = "text"),
+                tags$hr()
+              ) #end main panel column with outcomes
+            ), #end layout with side and main panel
 
-              )),
-            #end sidebar column for inputs
+            #################################
+            #Instructions section at bottom as tabs
+            h2('Instructions')
+            #use external function to generate all tabs with instruction content
+            #do.call(tabsetPanel,generate_documentation())
 
-            #all the outcomes here
-            column(
-              6,
-              #################################
-              #Start with results on top
-              h2('Simulation Results'),
-              plotOutput(outputId = "plot", height = "500px"),
-              # PLaceholder for results of type text
-              htmlOutput(outputId = "text"),
-              tags$hr()
-            ) #end main panel column with outcomes
-          ) #end layout with side and main panel
-        ) #end fluidpage for analyze tab
-      }) # End renderUI for analyze tab
-      #make the UI for the model, saves those into the output elements
-    }, priority = 100) #end observe for UI construction
+            ) #end fluidpage for analyze tab
+        }) # End renderUI for analyze tab
+      }, priority = 100) #end observeEvent for the analyze tab
 
 
+      #runs model simulation when 'run simulation' button is pressed
+      observeEvent(input$submitBtn, {
+        #extract current model settings from UI input elements
+        x=isolate(reactiveValuesToList(input)) #get all shiny inputs
+        x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
+        modelsettings = (x2[! (names(x2) %in% c('submitBtn','Exit','plotscale-selectized','modeltype-selectized') ) ])
+        #run model with specified settings
+        set.seed(modelsettings$rngseed) #set rngseed
+        #run simulation, show a 'running simulation' message
+        browser()
+        result <- withProgress(message = 'Running Simulation',
+                               detail = "This may take a while", value = 0,
+                               {
+                                 analyze_model(modelsettings = modelsettings, mbmodel = dynmbmodel() )
+                               })
+        #create plot from results
+        output$plot  <- renderPlot({
+          generate_plots(result)
+        }, width = 'auto', height = 'auto')
+        #create text from results
+        output$text <- renderText({
+          generate_text(result)     #create text for display with a non-reactive function
+        })
+      }) #end observe-event for analyze model submit button
 
-    #runs model simulation when 'run simulation' button is pressed
-    observeEvent(input$submitBtn, {
-      result <- modelbuilder::analyze_model(modelsettings, mbmodel = model() )
-      #create plot from results
-      output$plot  <- renderPlot({
-        generate_plots(result)
-      }, width = 'auto', height = 'auto')
-      #create text from results
-      output$text <- renderText({
-        generate_text(result)     #create text for display with a non-reactive function
-      })
-    }) #end observe-event for analyze model submit button
+
   }) #end lapply function surrounding observeEvent
 
   #######################################################
@@ -202,14 +246,12 @@ ui <- fluidPage(
              tabPanel("Analyze",
                       fluidRow(
                         column(12,
-                               #actionButton("analyzemodel", "Analyze current model", class = "mainbutton")
                                uiOutput('analyzemodel')
                         ),
                         class = "mainmenurow"
                       ) #close fluidRow structure for input
              ) #close "Analyze" tab
   ), #close navbarPage
-
 
   div(includeHTML("../media/footer.html"), align="center", style="font-size:small") #footer
 ) #end fluidpage

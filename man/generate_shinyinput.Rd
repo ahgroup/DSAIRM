@@ -4,12 +4,10 @@
 \alias{generate_shinyinput}
 \title{A helper function that takes a model and generates the shiny UI elements for the analyze tab}
 \usage{
-generate_shinyinput(mbmodel, otherinputs = NULL, output)
+generate_shinyinput(mbmodel, output)
 }
 \arguments{
-\item{mbmodel}{a modelbuilder model structure}
-
-\item{otherinputs}{additional elements to be shown in the UI}
+\item{mbmodel}{a name of a file/function or a modelbuilder model structure}
 
 \item{output}{shiny output structure}
 }
@@ -17,11 +15,14 @@ generate_shinyinput(mbmodel, otherinputs = NULL, output)
 No direct return. output structure is modified to contain text for display in a Shiny UI
 }
 \description{
-This function generates input buttons and sliders for a supplied model.
+This function generates numeric shiny UI inputs for a supplied model.
 This is a helper function called by the shiny app.
 }
 \details{
 This function is called by the Shiny app to produce the Shiny input UI elements.
+If mbmodel is an object, it is assumed to be a mbmodel type and will be parsed to create the UI elements.
+If mbmodel is a character, it is assumed to be the name of a function which will be parsed to create UI elements.
+Non-numeric arguments of functions are removed.
 }
 \author{
 Andreas Handel
