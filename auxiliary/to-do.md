@@ -1,5 +1,8 @@
 # Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
 
+## To-do
+* Update the following apps: 
+
 
 ## To-do
 * Continue streamlining code base to make it more general/modular/flexible

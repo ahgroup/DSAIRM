@@ -50,6 +50,7 @@ virustxode <- function(t, y, parms)
 #' @param txstart time at which treatment starts
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
+#' @param ... Other parameters that could be passed into function as potential pass-through
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
@@ -71,7 +72,7 @@ virustxode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_virusandtx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0)
+simulate_virusandtx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0, ...)
 {
 
   #override user-supplied initial conditions and instead start with steady state values

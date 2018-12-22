@@ -59,6 +59,7 @@ virusandirode <- function(t, y, parms)
 #' @param dA rate of antibody decay
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
+#' @param ... Other parameters that could be passed into function as potential pass-through
 #' @return A list. The list has only one element, called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
@@ -81,7 +82,7 @@ virusandirode <- function(t, y, parms)
 #' @export
 
 
-simulate_virusandir <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, tmax = 20, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2)
+simulate_virusandir <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, tmax = 20, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, ...)
 {
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app

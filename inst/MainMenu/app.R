@@ -13,15 +13,21 @@ server <- function(input, output, session) {
   appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
   currentApp = NULL #global server variable for currently loaded app
-  currentsimfile = NULL #global server variable for current simulation function
-  currentmbmodel = NULL #global server variable for
+  currentsimfile <<- NULL #global server variable for current simulation function
+  currentmbmodel <<- NULL #global server variable for mbmodel structure
+  currentmodeltype <<- NULL #global server variable for model type to run
+
+  #######################################################
+  #start code that listens to model selection buttons and creates UI for a chosen model
+  #######################################################
 
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
 
       #set output to empty
-      output$text = NULL
-      output$plot = NULL
+      output$text <<- NULL
+      output$plot <<- NULL
+      output$vars <<- NULL
 
       currentApp <<- appName #assign currently chosen app to global app variable
 
@@ -31,6 +37,7 @@ server <- function(input, output, session) {
       source(settingfilename) #source the file with additional settings to load them
 
       currentsimfile <<- simfilename
+      currentmodeltype <<- modeltype
 
       #other input is a variable in the setting file that contains additional shiny UI elements
       #one wants to display that are not generated automaticall by functions above
@@ -44,8 +51,9 @@ server <- function(input, output, session) {
       mbmodellocation = paste0(appdir,'/',currentApp,'/',mbmodelfile)
       if (file.exists(mbmodellocation))
       {
-        load(mbmodellocation)
-        DSAIRM::generate_shinyinput(mbmodel = mbmodel, output = output)
+        load(mbmodellocation) #this loads an mbmodel
+        currentmbmodel <<- mbmodel
+        DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, output = output)
       }
       else
       #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
@@ -116,36 +124,35 @@ server <- function(input, output, session) {
 
       }, priority = 100) #end observeEvent for the analyze tab
 
+    #######################################################
+    #end code that listens to model selection buttons and creates UI for a chosen model
+    #######################################################
 
-      #runs model simulation when 'run simulation' button is pressed
+
+    #######################################################
+    #start code that listens to the 'run simulation' button and runs a model for the specified settings
+    #######################################################
       observeEvent(input$submitBtn, {
         #extract current model settings from UI input elements
         x=isolate(reactiveValuesToList(input)) #get all shiny inputs
         x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
-        modelsettings = (x2[! (names(x2) %in% c('submitBtn','Exit','plotscale-selectized','modeltype-selectized','DSAIRM') ) ])
-        #if there is no input for replicates, assume reps is 1
-        if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1}
+        x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
+        modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+        browser()
+        if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no input for replicates, assume reps is 1
         #if no random seed is set, set it to 123. Only important for models that have a stochastic component
         if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
         #if there is no input for model type, get it from settings file
-        if (is.null(modelsettings$modeltype))
-        {
-          appdir = system.file("DSAIRMapps", package = "DSAIRM")
-          settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
-          if (file.exists(settingfilename))
-          {
-            source(settingfilename) #source the file with additional settings to load them
-            modelsettings$modeltype <- modeltype
-          }
-        }
+        if (is.null(modelsettings$modeltype)) { modelsettings$modeltype <- currentmodeltype}
+
         #run model with specified settings
         #run simulation, show a 'running simulation' message
         result <- withProgress(message = 'Running Simulation',
                                detail = "This may take a while", value = 0,
                                {
                                  modeltorun = currentsimfile #use name of function to run by default
-                                 if (!is.null(mbmodel)) {runmodel = mbmodel} #if an mbmodel object is present, use and run that instead
-                                 run_model(modelsettings = modelsettings, mbmodel = modeltorun)
+                                 if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
+                                 result <- run_model(modelsettings = modelsettings, mbmodel = modeltorun)
                                })
         #create plot from results
         output$plot  <- renderPlot({
@@ -157,6 +164,9 @@ server <- function(input, output, session) {
         })
       }) #end observe-event for analyze model submit button
 
+    #######################################################
+    #end code that listens to the 'run simulation' button and runs a model for the specified settings
+    #######################################################
 
   }) #end lapply function surrounding observeEvent
 
@@ -190,7 +200,7 @@ ui <- fluidPage(
 
                       fluidRow(
                         column(4,
-                               actionButton("BasicBacteria", "Basic Bacterium Model", class="mainbutton")
+                               actionButton("Basic_Bacteria", "Basic Bacterium Model", class="mainbutton")
                         ),
                         column(4,
                                actionButton("Basic_Virus", "Basic Virus Model", class="mainbutton")

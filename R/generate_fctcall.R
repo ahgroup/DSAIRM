@@ -14,8 +14,6 @@
 generate_fctcall <- function(modelsettings, mbmodel)
 {
 
-    browser()
-
     if (class(mbmodel)=="character" )
     {
         #ip = formals(mbmodel)
@@ -30,15 +28,14 @@ generate_fctcall <- function(modelsettings, mbmodel)
         }
         fctargs = substr(fctargs, 1, nchar(fctargs) - 1) #chop off last comma
         fctcall = paste0('simresult <- ', filename, '(', fctargs, ')') # complete string for function call
-       # browser()
+        #browser()
     }
 
     ###########################################
     #create UI elements as input/output for shiny by parsing a modelbuilder object
     ###########################################
-    if (class(mbmodel)!="character")
+    if (class(mbmodel)=="list")
     {
-
 
     modeltype = modelsettings$modeltype
 
@@ -51,7 +48,7 @@ generate_fctcall <- function(modelsettings, mbmodel)
         varstring = paste0(varstring,
                            mbmodel$var[[n]]$varname,
                            " = ",
-                           modelsettings$var[n],
+                           modelsettings[mbmodel$var[[n]]$varname],
                            ', ')
     }
     varstring = substr(varstring, 1, nchar(varstring) - 2)
@@ -64,7 +61,7 @@ generate_fctcall <- function(modelsettings, mbmodel)
         parstring = paste0(parstring,
                            mbmodel$par[[n]]$parname,
                            " = ",
-                           modelsettings$par[n],
+                           modelsettings[mbmodel$par[[n]]$parname],
                            ', ')
     }
     parstring = substr(parstring, 1, nchar(parstring) - 2)
@@ -77,7 +74,7 @@ generate_fctcall <- function(modelsettings, mbmodel)
         timestring = paste0(timestring,
                             mbmodel$time[[n]]$timename,
                             " = ",
-                            modelsettings$time[n],
+                            modelsettings[mbmodel$time[[n]]$timename],
                             ', ')
     }
     timestring = substr(timestring, 1, nchar(timestring) - 2)
@@ -88,6 +85,8 @@ generate_fctcall <- function(modelsettings, mbmodel)
     fctcall = paste0('simresult <- ', filename, '(', fctargs, ')') # complete string for function call
 
     }
+
+    #browser()
 
     return(fctcall)
 }

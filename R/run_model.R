@@ -18,24 +18,49 @@ run_model <- function(modelsettings, mbmodel) {
   #here we do all simulations in the same figure
   result = vector("list", listlength) #create empty list of right size for results
 
-  #run simulation by executing the function call
-  #the generate_fctcall creates a function call to the specified model based on the given model settings
-  #depending on if mbmodel is the name to a function or a modelbuilder object, different returns are produced
-  fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
+  #browser()
 
   #single model execution
-  if (modelsettings$nreps == 1 | modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete')
+  if (modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete' | (modelsettings$modeltype == 'stochastic' & modelsettings$nreps == 1  ) )
   {
+    #the generate_fctcall creates a function call to the specified model based on the given model settings
+    #depending on if mbmodel is the name to a function or a modelbuilder object, different returns are produced
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     result[[1]]$dat = simresult$ts
   }
+
+
+  #runs ODE and discrete model execution
+  if (modelsettings$modeltype == 'ode_and_discrete')
+  {
+    #run ODE model
+    modelsettings$modeltype = 'ode'
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'c') #label variables as continous
+    result_ode = simresult #assign result to temp variable for combining below
+
+    #run discrete model
+    modelsettings$modeltype = 'discrete'
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'d') #label variables as discrete
+    result_disc = simresult #assign result to temp variable for combining below
+
+    dat = rbind(tidyr::gather(result_ode$ts, -time, value = "yvals", key = "varnames"), tidyr::gather(result_disc$ts, -time, value = "yvals", key = "varnames"))
+    result[[1]]$dat = dat
+
+  }
+
 
   #loop over multiple runs (only leads to potential differences for stochastic model)
   if (modelsettings$nreps > 1 & modelsettings$modeltype == 'stochastic')
   {
     datall = NULL
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
     for (nn in 1:modelsettings$nreps)
     {
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
@@ -67,7 +92,11 @@ run_model <- function(modelsettings, mbmodel) {
   if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
   if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 
-  result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur inside generate_text
+  result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if FALSE no result processing will occur inside generate_text
+  #the following are for text display for each plot
+  result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+  result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
 
   return(result)
 }
