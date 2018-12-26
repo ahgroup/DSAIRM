@@ -28,6 +28,7 @@ server <- function(input, output, session) {
       output$text <<- NULL
       output$plot <<- NULL
       output$vars <<- NULL
+      removeUI( selector = "div:has(> #analyzemodel)"  )
 
       currentApp <<- appName #assign currently chosen app to global app variable
 
@@ -138,7 +139,7 @@ server <- function(input, output, session) {
         x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
         x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
         modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-        browser()
+        #browser()
         if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no input for replicates, assume reps is 1
         #if no random seed is set, set it to 123. Only important for models that have a stochastic component
         if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
