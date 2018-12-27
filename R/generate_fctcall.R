@@ -24,7 +24,14 @@ generate_fctcall <- function(modelsettings, mbmodel)
         fctargs = NULL
         for (n in 1:length(modelsettings))
         {
-            fctargs=paste0(fctargs,names(modelsettings[n]),' = ',modelsettings[n],',')
+            if (is.character(modelsettings[[n]]) )
+            {   #add extra quotation marks around value to preserve it as character
+                fctargs=paste0(fctargs,names(modelsettings[n]),' = "',modelsettings[[n]],'",')
+            }
+            else
+            {
+                fctargs=paste0(fctargs,names(modelsettings[n]),' = ',modelsettings[[n]],',')
+            }
         }
         fctargs = substr(fctargs, 1, nchar(fctargs) - 1) #chop off last comma
         fctcall = paste0('simresult <- ', filename, '(', fctargs, ')') # complete string for function call

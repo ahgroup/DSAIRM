@@ -49,7 +49,7 @@
 <li><strong>B</strong> - B-cells</li>
 <li><strong>A</strong> - Antibodies</li>
 </ul>
-<p>The innate response is modeled in a rather abstract sense. We could think of it as some form of cumululative effect of all innate response components, or alternatively a single dominant innate response component, e.g. interferon. If one knows more about a specific system and has enough data, one can of course include the innate response in more detail (i.e. with several compartments) in the model. For the sake of simplicity, we only look at a single compartment.</p>
+<p>The innate response is modeled in a rather abstract sense. We could think of it as some form of cumulative effect of all innate response components, or alternatively a single dominant innate response component, e.g. interferon. If one knows more about a specific system and has enough data, one can of course include the innate response in more detail (i.e. with several compartments) in the model. For the sake of simplicity, we only look at a single compartment.</p>
 <p>In addition to specifying the <em>compartments</em> of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
 <p>For our system, we specify the following processes/flows:</p>
 <ol style="list-style-type: decimal">
@@ -57,7 +57,7 @@
 <li>Virus infects cells at rate <em>b</em>.</li>
 <li>Infected cells die at rate <em>d<sub>I</sub></em> and are killed by T cells at rate <em>k<sub>T</sub></em>.</li>
 <li>Free virus is produced at a maximum rate <em>p</em>, the innate response supresses virus production at a strengh given by the parameter <em>s<sub>F</sub></em>. Virus is removed at rate <em>k<sub>A</sub></em> by antibodies, at rate <em>d<sub>V</sub></em> due to any other (unmodeled) processes, or goes on to infect further uninfected cells at rate <em>b</em>.</li>
-<li>The inate response is produced at a rate <em>p<sub>F</sub></em> and removed at a rate <em>d<sub>F</sub></em> in the absence of an infection. It is induced by virus presence at a maximum rate <em>g<sub>F</sub></em>, which saturates for high virus numbers as determined by the parameter <em>h<sub>V</sub></em> and reaches a maximum carrying capacity given by <em>F<sub>max</sub></em>.</li>
+<li>The innate response is produced at a rate <em>p<sub>F</sub></em> and removed at a rate <em>d<sub>F</sub></em> in the absence of an infection. It is induced by virus presence at a maximum rate <em>g<sub>F</sub></em>, which saturates for high virus numbers as determined by the parameter <em>h<sub>V</sub></em> and reaches a maximum carrying capacity given by <em>F<sub>max</sub></em>.</li>
 <li>T-cells are induced by the presence of virus and the innate response at rate <em>g<sub>T</sub></em>. After induction, T-cells grow exponentially at rate <em>r<sub>T</sub></em>.</li>
 <li>B-cells are induced and grow proportional to virus and innate response levels at a rate <em>g<sub>B</sub></em>, with a saturation for high virus and immune response levels determined by parameter <em>h<sub>F</sub></em></li>
 <li>Antibodies are produced by B-cells at rate <em>r<sub>A</sub></em>, decay at rate <em>d<sub>A</sub></em> and are removed through binding to and clearing virus at rate <em>k<sub>A</sub></em>.</li>
@@ -151,7 +151,7 @@ Flow diagram for virus infection model with several immune response components.
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
 <ul>
-<li>For this app, the underlying function running the simulation is called <code>simulate_virusandIR.R</code>. You can call these functions directly, without going through the shiny app. Look at the help file for the function to learn how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_virusandir</code>. You can call it directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You could also modify this R function for your own purposes - though that requires R coding knowledge.</li>
 <li>An example of a model similar to the above applied to influenza, see e.g. <span class="citation">(Handel, Longini, and Antia 2010)</span>.</li>
 </ul>
@@ -159,7 +159,7 @@ Flow diagram for virus infection model with several immune response components.
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-handel10">
-<p>Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2010. “Towards a Quantitative Understanding of the Within-Host Dynamics of Influenza a Infections.” <em>J R Soc Interface</em> 7 (42). Department of Epidemiology; Biostatistics, College of Public Health, University of Georgia, Athens, GA 30602, USA. ahandel@uga.edu: 35–47. doi:<a href="https://doi.org/10.1098/rsif.2009.0067">10.1098/rsif.2009.0067</a>.</p>
+<p>Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2010. “Towards a Quantitative Understanding of the Within-Host Dynamics of Influenza a Infections.” <em>J R Soc Interface</em> 7 (42). Department of Epidemiology; Biostatistics, College of Public Health, University of Georgia, Athens, GA 30602, USA. ahandel@uga.edu: 35–47. <a href="https://doi.org/10.1098/rsif.2009.0067">https://doi.org/10.1098/rsif.2009.0067</a>.</p>
 </div>
 </div>
 </div>

@@ -103,20 +103,20 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeoutput <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+        odeoutput <- simulate_Basic_Bacteria_model_ode(vars = c(B = B0, I = I0), pars = c(g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI), times = c(tstart = 0, tfinal = tmax, dt = 0.1) )
 
         timeseries = odeoutput$ts
 
-        Bpeak[n]=max(timeseries[,"Bc"]); #get the peak for B
-        Bsteady[n] = utils::tail(timeseries[,"Bc"],1)
-        Isteady[n] = utils::tail(timeseries[,"Ic"],1)
+        Bpeak[n]=max(timeseries[,"B"]); #get the peak for B
+        Bsteady[n] = utils::tail(timeseries[,"B"],1)
+        Isteady[n] = utils::tail(timeseries[,"I"],1)
 
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than
         #1% different than B several time steps earlier
         vl=nrow(timeseries);
-        if ((abs(timeseries[vl,"Bc"]-timeseries[vl-10,"Bc"])/timeseries[vl,"Bc"])>1e-2)
+        if ((abs(timeseries[vl,"B"]-timeseries[vl-10,"B"])/timeseries[vl,"B"])>1e-2)
         {
           nosteady[n] = TRUE
         }

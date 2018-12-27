@@ -26,8 +26,8 @@
 #' @param pmax upper value for varied parameter
 #' @param samples number of values to run between pmin and pmax
 #' @param pardist spacing of parameter values, can be either 'lin' or 'log'
-#' @param tmax maximum simulation time, units depend on choice of units for your
-#'   parameters
+#' @param tmax maximum simulation time, units depend on choice of parameter value units
+#' @param ... other arguments for possible pass-through
 #' @return The function returns the output as a list,
 #' list element 'dat' contains the data frame with results of interest.
 #' The first column is called xvals and contains the values of the
@@ -57,10 +57,10 @@
 #' @export
 
 
-simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1, samplepar='k', pmin=1e-8, pmax=1e-5, samples = 10, pardist = 'lin')
+simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1, samplepar='k', pmin=1e-8, pmax=1e-5, samples = 10, pardist = 'lin', ...)
   {
 
-
+    #browser()
     #initialize vectors that will contain the outcomes of interest
     Bpeak=rep(0,samples)
     Ipeak=rep(0,samples)
@@ -86,27 +86,35 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeout <- simulate_basicbacteria(B0 = B0, I0 = I0, tmax = tmax, g=g, Bmax=Bmax, dB=dB, k=k, r=r, dI=dI)
+        odeout <- simulate_Basic_Bacteria_model_ode(vars = c(B = B0, I = I0), pars = c(g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI), times = c(tstart = 0, tfinal = tmax, dt = 0.1) )
 
         timeseries = odeout$ts
 
-        Bpeak[n]=max(timeseries[,"Bc"]); #get the peak for B
-        Ipeak[n]=max(timeseries[,"Ic"]);
-        Bsteady[n] = utils::tail(timeseries[,"Bc"],1)
-        Isteady[n] = utils::tail(timeseries[,"Ic"],1)
+        Bpeak[n]=max(timeseries[,"B"]); #get the peak for B
+        Ipeak[n]=max(timeseries[,"I"]);
+        Bsteady[n] = utils::tail(timeseries[,"B"],1)
+        Isteady[n] = utils::tail(timeseries[,"I"],1)
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than
         #1% different than B several time steps earlier
         vl=nrow(timeseries);
-        if ((abs(timeseries[vl,"Bc"]-timeseries[vl-10,"Bc"])/timeseries[vl,"Bc"])>1e-2)
+        if ((abs(timeseries[vl,"B"]-timeseries[vl-10,"B"])/timeseries[vl,"B"])>1e-2)
         {
           nosteady[n] = TRUE
         }
     }
 
+    #final list structure containing all results that are returned
     result = list()
     dat = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady, nosteady = nosteady)
     result$dat = dat
+
+    #these 3 settings are only needed for the shiny UI presentation
+    result$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+    result$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
+    result$finaltext = paste("System might not have reached steady state", sum(result$dat$nosteady), "times")
+
+
     return(result)
 }

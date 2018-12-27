@@ -17,10 +17,8 @@ modeltype = "ode"
 #name of underlying simulation function
 #can be set to NULL, in this case mbmodel Rdata file needs to be provided
 #function still needs to be part of the package
-simfilename = NULL
+simfunction = NULL
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = 'Basic_Virus_model.Rdata'
-
-

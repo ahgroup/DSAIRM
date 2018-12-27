@@ -88,10 +88,13 @@ Note that here we focus on a single parameter at a time. With some coding effort
 
 ## Further Information {#shinytab4}
 
-* For this app, the underlying function running the loop over different parameter values is called `simulate_modelexploration.R`. This function in turn calls the bacteria model simulator `simulate_basicbacteria.R`. 
-* You could for instance write your own function with that loops over some parameter and for each parameter calls one of the model simulator, e.g. `simulate_basicbacteria.R` or `simulate_Basic_Virus_model_ode.R` or `simulate_virusandIR.R`. See the package vignette for an example.
-* You can also call the `simulate_modelexploration.R` function directly, and as needed embed it in further R code. 
-* You could also modify the `simulate_modelexploration.R`, e.g. such that it uses the virus model for model exploration.
+```{r, echo = FALSE}
+source(list.files( pattern = "settings.R" ))
+```
+
+
+* For this app, the underlying function running the loop over different parameter values is called ``r simfunction``. This function in turn calls the bacteria model simulator function. You can call ``r simfunction`` directly, without going through the shiny UI. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify this R function for your own purposes, e.g. such that it uses the virus model for model exploration.
 * Some 'real world' examples where models have been used to explore outcomes of interest as function of parameters for simple models applied to TB, see e.g. [@antia96] (specifically Figure 2B) or Malaria, see e.g. [@kochin10]. 
 
 ### References

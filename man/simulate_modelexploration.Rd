@@ -7,15 +7,14 @@
 simulate_modelexploration(B0 = 10, I0 = 1, tmax = 30, g = 1,
   Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1,
   samplepar = "k", pmin = 1e-08, pmax = 1e-05, samples = 10,
-  pardist = "lin")
+  pardist = "lin", ...)
 }
 \arguments{
 \item{B0}{initial number of bacteria}
 
 \item{I0}{initial number/strength of immune response}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{tmax}{maximum simulation time, units depend on choice of parameter value units}
 
 \item{g}{rate of bacteria growth}
 
@@ -38,6 +37,8 @@ parameters}
 \item{samples}{number of values to run between pmin and pmax}
 
 \item{pardist}{spacing of parameter values, can be either 'lin' or 'log'}
+
+\item{...}{other arguments for possible pass-through}
 }
 \value{
 The function returns the output as a list,

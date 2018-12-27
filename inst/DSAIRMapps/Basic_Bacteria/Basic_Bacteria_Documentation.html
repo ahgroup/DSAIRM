@@ -121,7 +121,7 @@ Flow diagram for simple bacteria infection model.
 <h3>Task 3:</h3>
 <ul>
 <li>Go back to both linear scales for plotting.</li>
-<li>Set “Models to run” to “both”“, which runs and shows both the continuous-time and discrete-time models.</li>
+<li>Set “Models to run” to “both”&quot;, which runs and shows both the continuous-time and discrete-time models.</li>
 <li>Start with a discrete-time step of 0.01.</li>
 <li>Leave all other settings as before.</li>
 </ul>
@@ -181,9 +181,9 @@ Flow diagram for simple bacteria infection model.
 <h2>Further Information</h2>
 <ul>
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying functions running the simulations are called <code>simulate_basicbacteria.R</code> and <code>simulate_basicbacteria_discrete.R</code>. You can call these functions directly, without going through the shiny app. Type <code>?simulate_basicbacteria</code> or <code>?simulate_basicbacteria_discrete</code> into the R console for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying functions running the simulation are called <code>simulate_Basic_Bacteria_model_ode</code> and <code>simulate_Basic_Bacteria_model_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called <code>simulatorfunctions</code>. Of course to modify these functions, you’ll need to do some coding.</li>
-<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette('DSAIRM')</code> into the R console.</li>
+<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 <li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
 <li>For somewhat similar within-host models (applied to TB and antibiotic resistance), see <span class="citation">(Antia, Koella, and Perrot 1996; Handel, Margolis, and Levin 2009)</span>.</li>
 </ul>
@@ -191,10 +191,10 @@ Flow diagram for simple bacteria infection model.
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-antia96">
-<p>Antia, R, J C Koella, and V Perrot. 1996. “Models of the Within-Host Dynamics of Persistent Mycobacterial Infections.” <em>Proceedings. Biological Sciences</em> 263 (1368):257–63. <a href="https://doi.org/10.1098/rspb.1996.0040" class="uri">https://doi.org/10.1098/rspb.1996.0040</a>.</p>
+<p>Antia, R, J C Koella, and V Perrot. 1996. “Models of the Within-Host Dynamics of Persistent Mycobacterial Infections.” <em>Proceedings. Biological Sciences</em> 263 (1368): 257–63. <a href="https://doi.org/10.1098/rspb.1996.0040">https://doi.org/10.1098/rspb.1996.0040</a>.</p>
 </div>
 <div id="ref-handel09b">
-<p>Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. “Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.” <em>Journal of Theoretical Biology</em> 256 (4):655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025" class="uri">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.</p>
+<p>Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. “Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.” <em>Journal of Theoretical Biology</em> 256 (4): 655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.</p>
 </div>
 <div id="ref-otto11">
 <p>Otto, Sarah P, and Troy Day. 2011. <em>A Biologist’s Guide to Mathematical Modeling in Ecology and Evolution</em>. Princeton University Press.</p>

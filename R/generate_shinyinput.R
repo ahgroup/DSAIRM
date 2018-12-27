@@ -12,8 +12,20 @@
 #' @author Andreas Handel
 #' @export
 
+#not used in DSAIRM, might need to turn on again for modelbuilder
 generate_shinyinput <- function(mbmodel, output)
 {
+
+
+#     #standard additional input elements for each model
+#     standardinputs <- tagList(
+#             numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1),
+#             selectInput("modeltype", "Model to run",c("ODE" = "ode", 'stochastic' = 'stochastic', 'discrete time' = 'discrete'), selected = 'ode'),
+#             numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1),
+#             selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+#         )
+
+        #removeUI( selector = "div:has(> #analyzemodel)", immediate = TRUE  )
 
     ###########################################
     #create UI elements as input/output for shiny by parsing a function/R code
@@ -21,78 +33,62 @@ generate_shinyinput <- function(mbmodel, output)
     ###########################################
     if (class(mbmodel)=="character" )
     {
-         ip = formals(mbmodel)
+        ip = formals(mbmodel)
         #remove function arguments that are not numeric
         ip = ip[unlist(lapply(ip,is.numeric))]
-
         nvars = length(ip)  #number of variables/compartments in model
-        output$vars <- renderUI({
-            allv = lapply(1:nvars, function(n) {
-                numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])
-            })
-            do.call(mainPanel, allv)
-        })
+        modelargs = lapply(1:nvars, function(n) {
+                        numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])
+                    })
+    } #end UI creation for an underlying function
 
-    }
+    #browser()
+
 
     ###########################################
     #create UI elements as input/output for shiny by parsing a modelbuilder object
     ###########################################
-    if (class(mbmodel)!="character")
+    if (class(mbmodel)=="list")
     {
-        #creates title
-        output$title <- renderUI({
-            HTML(mbmodel$title)
-        })
+
+        nvars = length(mbmodel$var)  #number of variables/compartments in model
+        npars = length(mbmodel$par)  #number of parameters in model
+        ntime = length(mbmodel$time)  #number of time variables in model
 
         #numeric input elements for all variable initial conditions
-        output$vars <- renderUI({
-
-            nvars = length(mbmodel$var)  #number of variables/compartments in model
-            allv = lapply(1:nvars, function(n) {
-                numericInput(mbmodel$var[[n]]$varname,
+        allv = lapply(1:nvars, function(n) {
+                    numericInput(mbmodel$var[[n]]$varname,
                              paste0(mbmodel$var[[n]]$vartext,' (',mbmodel$var[[n]]$varname,')'),
                              value = mbmodel$var[[n]]$varval,
-                             min = 0,
-                             step = mbmodel$var[[n]]$varval/100)
-            })
+                             min = 0, step = mbmodel$var[[n]]$varval/100)
+                    })
 
-            npars = length(mbmodel$par)  #number of parameters in model
-            allp = lapply(1:npars, function(n) {
+        allp = lapply(1:npars, function(n) {
                 numericInput(
                     mbmodel$par[[n]]$parname,
                     paste0(mbmodel$par[[n]]$partext,' (',mbmodel$par[[n]]$parname,')'),
                     value = mbmodel$par[[n]]$parval,
-                    min = 0,
-                    step = mbmodel$par[[n]]$parval/100
-                )
-            })
+                    min = 0, step = mbmodel$par[[n]]$parval/100)
+                    })
 
-            ntime = length(mbmodel$time)  #number of time variables in model
-            allt = lapply(1:ntime, function(n) {
+        allt = lapply(1:ntime, function(n) {
                 numericInput(
                     mbmodel$time[[n]]$timename,
                     paste0(mbmodel$time[[n]]$timetext,' (',mbmodel$time[[n]]$timename,')'),
                     value = mbmodel$time[[n]]$timeval,
-                    min = 0,
-                    step = mbmodel$time[[n]]$timeval/100
-                )
-            })
-
-            do.call(mainPanel, c(allv,allp,allt))
-        })
-
+                    min = 0, step = mbmodel$time[[n]]$timeval/100)
+                    })
+        modelargs = c(allv,allp,allt)
     } #end mbmodel object parsing
 
-    #standard additional input elements for each model
-    output$standard <- renderUI({
-        tagList(
-            numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1),
-            selectInput("modeltype", "Model to run",c("ODE" = "ode", 'stochastic' = 'stochastic', 'discrete time' = 'discrete'), selected = 'ode'),
-            numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1),
-            selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
-        ) #end taglist
-    }) #end renderuI
+
+
+#return structure
+output$modelinputs <- renderUI({
+    #tagList(c(modelargs, standardinputs))
+    tagList(modelargs)
+    #modelargs
+}) #end renderuI
 
 } #end overall function
 

@@ -9,12 +9,13 @@ server <- function(input, output, session) {
   #######################################################
 
   #get names of all existing apps
-  appdir = system.file("DSAIRMapps", package = "DSAIRM")
+  appdir = system.file("DSAIRMapps", package = "DSAIRM") #find path to apps
   appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
   currentApp = NULL #global server variable for currently loaded app
-  currentsimfile <<- NULL #global server variable for current simulation function
+  currentsimfct <<- NULL #global server variable for current simulation function
   currentmbmodel <<- NULL #global server variable for mbmodel structure
+  currentmbmodelfile <<- NULL #global server variable for mbmodel file name
   currentmodeltype <<- NULL #global server variable for model type to run
 
   #######################################################
@@ -24,32 +25,28 @@ server <- function(input, output, session) {
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
 
-      #set output to empty
-      output$text <<- NULL
-      output$plot <<- NULL
-      output$vars <<- NULL
-      removeUI( selector = "div:has(> #analyzemodel)"  )
-
       currentApp <<- appName #assign currently chosen app to global app variable
 
-      #file that contains additional information for a given app
-      #varaiable simfilename in the settings file os the name of the simulation function
+      output$plot <- NULL
+      output$text <- NULL
+
+      #load/source an R settings file that contains additional information for a given app
+      #variable simfilename in the settings file is the name of the simulation function or NULL
+      #variable modeltype in the settings file is the type of the model to be run or NULL
+      #variable mbmoddelfile is the name of the mbmodel Rdata file or NULL
+      #variable otherinputs contains additional shiny UI elements
+      #one wants to display that are not generated automaticall by functions above
+      #for instance all non-numeric inputs need to be provided separately. If not needed, it is NULL
       settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
       source(settingfilename) #source the file with additional settings to load them
-
-      currentsimfile <<- simfilename
+      currentsimfct <<- simfunction
       currentmodeltype <<- modeltype
-
-      #other input is a variable in the setting file that contains additional shiny UI elements
-      #one wants to display that are not generated automaticall by functions above
-      #for instance all non-numeric inputs need to be provided separately
-      #NULL if none are required
+      currentmbmodelfile <<- mbmodelfile
       output$other <- renderUI({  otherinputs }) #end renderuI
 
-      #browser()
-
+      #produce Shiny input UI elements for the model
       #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
-      mbmodellocation = paste0(appdir,'/',currentApp,'/',mbmodelfile)
+      mbmodellocation = paste0(appdir,'/',currentApp,'/',currentmbmodelfile)
       if (file.exists(mbmodellocation))
       {
         load(mbmodellocation) #this loads an mbmodel
@@ -59,25 +56,19 @@ server <- function(input, output, session) {
       else
       #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
       #suing the underlying simulation R function/script
-      #this only works for numeric inputs, any others will be removed and need to be set by hand
+      #this only works for numeric inputs, any others will be removed and need to be
+      #added to shiny UI using the settings file
       {
-
-        #produce Shiny input UI elements for the model.
-        #not using the 'standard' UI elements here, instead specifying model specific ones below
-        DSAIRM::generate_shinyinput(mbmodel = currentsimfile, output = output)
+        currentmbmodel <<- NULL
+        DSAIRM::generate_shinyinput(mbmodel = currentsimfct, output = output)
       }
-
 
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
-          fluidPage(
+            tagList(
             #section to add buttons
-            fluidRow(column(
-              12,
-              actionButton("submitBtn", "Run Simulation", class = "submitbutton")
-            ),
-            align = "center"),
+            actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
             #end section to add buttons
             tags$hr(),
             ################################
@@ -87,16 +78,11 @@ server <- function(input, output, session) {
               column(
                 6,
                 h2('Simulation Settings'),
-                column(
-                  6,
-                  uiOutput("vars")
-                ),
-                column(
-                  6,
+                wellPanel(
+                  uiOutput("modelinputs"),
                   uiOutput("other")
                 )
-              ),
-              #end sidebar column for inputs
+              ), #end sidebar column for inputs
 
               #all the outcomes here
               column(
@@ -106,22 +92,21 @@ server <- function(input, output, session) {
                 h2('Simulation Results'),
                 plotOutput(outputId = "plot", height = "500px"),
                 # PLaceholder for results of type text
-                htmlOutput(outputId = "text"),
-                tags$hr()
-              ) #end main panel column with outcomes
-            ), #end layout with side and main panel
+                htmlOutput(outputId = "text")
+              ) #end column with outcomes
+            ), #end fluidrow containing input and output
 
             #################################
             #Instructions section at bottom as tabs
-            h2('Instructions'),
+            h2('Instructions') ,
             #use external function to generate all tabs with instruction content
-            do.call(tabsetPanel,generate_documentation(appName))
-
-            ) #end fluidpage for analyze tab
-        }) # End renderUI for analyze tab
+            do.call(tabsetPanel, generate_documentation(currentApp))
+          ) #end tag list
+          }) # End renderUI for analyze tab
 
       #once UI for the model in the analyze tab is created, switch to that tab
       updateNavbarPage(session, "DSAIRM", selected = "Analyze")
+
 
       }, priority = 100) #end observeEvent for the analyze tab
 
@@ -134,6 +119,14 @@ server <- function(input, output, session) {
     #start code that listens to the 'run simulation' button and runs a model for the specified settings
     #######################################################
       observeEvent(input$submitBtn, {
+
+
+        #run model with specified settings
+        #run simulation, show a 'running simulation' message
+        withProgress(message = 'Running Simulation',
+                     detail = "This may take a while", value = 0,
+                     {
+
         #extract current model settings from UI input elements
         x=isolate(reactiveValuesToList(input)) #get all shiny inputs
         x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
@@ -143,26 +136,24 @@ server <- function(input, output, session) {
         if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no input for replicates, assume reps is 1
         #if no random seed is set, set it to 123. Only important for models that have a stochastic component
         if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-        #if there is no input for model type, get it from settings file
-        if (is.null(modelsettings$modeltype)) { modelsettings$modeltype <- currentmodeltype}
+        #if there is a supplied model type from the settings file, use that one
+        #note that input for model type might be still 'floating around' if a previous model was loaded
+        #not clear how to get rid of old shiny input variables from previously loaded models
+        if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
 
-        #run model with specified settings
-        #run simulation, show a 'running simulation' message
-        result <- withProgress(message = 'Running Simulation',
-                               detail = "This may take a while", value = 0,
-                               {
-                                 modeltorun = currentsimfile #use name of function to run by default
-                                 if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
-                                 result <- run_model(modelsettings = modelsettings, mbmodel = modeltorun)
-                               })
+        modeltorun = currentsimfct #use name of function to run by default
+        if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
+        result <- run_model(modelsettings = modelsettings, mbmodel = modeltorun)
+
         #create plot from results
         output$plot  <- renderPlot({
           generate_plots(result)
-        }, width = 'auto', height = 'auto')
+          }, width = 'auto', height = 'auto')
         #create text from results
         output$text <- renderText({
           generate_text(result)     #create text for display with a non-reactive function
-        })
+          })
+       }) #end with-progress wrapper
       }) #end observe-event for analyze model submit button
 
     #######################################################

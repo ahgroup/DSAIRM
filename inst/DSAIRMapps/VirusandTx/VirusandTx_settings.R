@@ -16,7 +16,7 @@ otherinputs =   shiny::tagList(
 modeltype = "ode"
 
 #name of underlying simulation function
-simfilename = 'simulate_virusandtx'
+simfunction = 'simulate_virusandtx'
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL

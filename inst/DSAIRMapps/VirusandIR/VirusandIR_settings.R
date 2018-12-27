@@ -7,7 +7,7 @@
 
 
 #additional input elements for app that are shown on UI
-otherinputs =   shiny::tagList(
+otherinputs = shiny::tagList(
   shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
   ) #end taglist
 
@@ -15,7 +15,7 @@ otherinputs =   shiny::tagList(
 modeltype = "ode"
 
 #name of underlying simulation function
-simfilename = 'simulate_virusandir'
+simfunction = 'simulate_virusandir'
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL

@@ -18,11 +18,22 @@ run_model <- function(modelsettings, mbmodel) {
   #here we do all simulations in the same figure
   result = vector("list", listlength) #create empty list of right size for results
 
+  ##################################
+  #default for text display, used by most basic simulation models
+  #can/will be potentially overwritten below for specific types of models
+  ##################################
+
+  result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if FALSE no result processing will occur inside generate_text
+  #the following are for text display for each plot
+  result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+  result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+
+
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
-  #browser()
-
-  #single model execution
+  ##################################
+  #single dynamical model execution
+  ##################################
   if (modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete' | (modelsettings$modeltype == 'stochastic' & modelsettings$nreps == 1  ) )
   {
     #the generate_fctcall creates a function call to the specified model based on the given model settings
@@ -30,10 +41,18 @@ run_model <- function(modelsettings, mbmodel) {
     fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     result[[1]]$dat = simresult$ts
+    #Meta-information for each plot
+    #Might not want to hard-code here, can decide later
+    result[[1]]$plottype = "Lineplot"
+    result[[1]]$xlab = "Time"
+    result[[1]]$ylab = "Numbers"
+    result[[1]]$legend = "Compartments"
   }
 
 
-  #runs ODE and discrete model execution
+  ##################################
+  #runs both ODE and discrete dynamical model
+  ##################################
   if (modelsettings$modeltype == 'ode_and_discrete')
   {
     #run ODE model
@@ -52,11 +71,19 @@ run_model <- function(modelsettings, mbmodel) {
 
     dat = rbind(tidyr::gather(result_ode$ts, -time, value = "yvals", key = "varnames"), tidyr::gather(result_disc$ts, -time, value = "yvals", key = "varnames"))
     result[[1]]$dat = dat
+    #Meta-information for each plot
+    #Might not want to hard-code here, can decide later
+    result[[1]]$plottype = "Lineplot"
+    result[[1]]$xlab = "Time"
+    result[[1]]$ylab = "Numbers"
+    result[[1]]$legend = "Compartments"
 
   }
 
 
-  #loop over multiple runs (only leads to potential differences for stochastic model)
+  ##################################
+  #loop over multiple runs for a dynamic model (only applied to stochastic models)
+  ##################################
   if (modelsettings$nreps > 1 & modelsettings$modeltype == 'stochastic')
   {
     datall = NULL
@@ -76,26 +103,57 @@ run_model <- function(modelsettings, mbmodel) {
     datall = rbind(datall,dat)
     }
     result[[1]]$dat = datall
+    #Meta-information for each plot
+    #Might not want to hard-code here, can decide later
+    result[[1]]$plottype = "Lineplot"
+    result[[1]]$xlab = "Time"
+    result[[1]]$ylab = "Numbers"
+    result[[1]]$legend = "Compartments"
   }
 
-  #Meta-information for each plot
-  #Might not want to hard-code here, can decide later
-  result[[1]]$plottype = "Lineplot"
-  result[[1]]$xlab = "Time"
-  result[[1]]$ylab = "Numbers"
-  result[[1]]$legend = "Compartments"
+  ##################################
+  #simulators that are not models themselves use this block
+  ##################################
+  if (modelsettings$modeltype == 'other')
+  {
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    result[[1]]$dat = simresult$dat
 
+    #Meta-information for each plot
+    result[[1]]$plottype = "Scatterplot"
+    result[[1]]$xlab = modelsettings$samplepar
+    result[[1]]$ylab = "Outcomes"
+    result[[1]]$legend = "Outcomes"
+    result[[1]]$legend = "Outcomes"
+    result[[1]]$linesize = 3
+
+    #the 'other' functions need to provide infomration on maketext, showtext and finaltext
+    result[[1]]$maketext = simresult$maketext
+    result[[1]]$showtext = simresult$showtext
+    result[[1]]$finaltext = simresult$finaltext
+
+  }
+
+
+
+  ##################################
+  #additional settings for all types of simulators
+  ##################################
   plotscale = modelsettings$plotscale
+
+  #set min and max for scales. If not provided ggplot will auto-set
+  #result[[1]]$ymin = 0.1
+  #result[[1]]$ymax = max(simresult)
+  #result[[1]]$xmin = 1e-12
+  #result[[1]]$xmax = 9
+
 
   result[[1]]$xscale = 'identity'
   result[[1]]$yscale = 'identity'
   if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
   if (plotscale == 'y' | plotscale == 'both') { result[[1]]$yscale = 'log10'}
 
-  result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if FALSE no result processing will occur inside generate_text
-  #the following are for text display for each plot
-  result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
-  result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
 
 
   return(result)

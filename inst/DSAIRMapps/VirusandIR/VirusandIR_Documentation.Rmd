@@ -126,7 +126,11 @@ So far, we have only had a single immune response component at a time act on the
 
 ## Further Information {#shinytab4}
 
-* For this app, the underlying function running the simulation is called `simulate_virusandIR.R`. You can call these functions directly, without going through the shiny app. Look at the help file for the function to learn how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+```{r, echo = FALSE}
+source(list.files( pattern = "settings.R" ))
+```
+
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call it directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
 * You could also modify this R function for your own purposes - though that requires R coding knowledge.
 * An example of a model similar to the above applied to influenza, see e.g. [@handel10]. 
 

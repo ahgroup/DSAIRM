@@ -124,7 +124,7 @@ Continue to explore the model. Even though it's a fairly simple model, you can g
 source(list.files( pattern = "settings.R" ))
 ```
 
-* For this app, the underlying function running the simulation is called ``r simfilename``. You can call it directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call it directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
 * You could also modify this R function for your own purposes - though that requires R coding knowledge.
 * If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. [@beauchemin11; @smith11]. 
 * A few examples of these kinds of models applied to chronic viral infections, see e.g. [@guedj10; @chatterjee12; @perelson13]. 
