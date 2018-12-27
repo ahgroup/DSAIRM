@@ -32,6 +32,9 @@
 #' @param samples number of LHS samples to run
 #' @param tmax maximum simulation time, units depend on choice of units for model parameters
 #' @param rngseed seed for random number generator
+#' @param plottype type of plot "Boxplot", "Scatterplot"
+#' @param plotscale linear or log axes ('none', 'x', 'y', 'both')
+#' @param ... other arguments for possible pass-through
 #' @return The function returns the output as a list.
 #' The list element 'dat' contains a data frame
 #' with sample values for each parameter as columns, followed by columns for the results.
@@ -61,8 +64,7 @@
 #' @author Andreas Handel
 #' @export
 
-
-simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100)
+simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100, plottype = 'BoxPlot', plotscale = 'none',...)
   {
 
     #this creates a LHS with the specified number of samples for all 8 parameters
@@ -103,7 +105,7 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeoutput <- simulate_Basic_Bacteria_model_ode(vars = c(B = B0, I = I0), pars = c(g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI), times = c(tstart = 0, tfinal = tmax, dt = 0.1) )
+        odeoutput <- simulate_Basic_Bacteria_model_ode(B = B0, I = I0, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = 0, tfinal = tmax, dt = 0.1 )
 
         timeseries = odeoutput$ts
 
@@ -122,9 +124,53 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
         }
     }
 
-    simresults = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
+    simres = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
 
-    result = list()
-    result$dat = simresults
+
+    result <- vector("list", 24) #set up a list structure with as many elements as plots
+    #loop over each outer list element corresponding to a plot and fill it with another list
+    #of meta-data and data needed to create each plot
+    #each parameter-output pair is its own plot, therefore its own list entry
+    ct=1; #some counter
+    result[[ct]]$ncol = 3 #number of columns for plot, needs to be stored in 1st sub-list element
+    for (n in 1:8) #first loop over each parameter
+    {
+      for (nn in 1:3) #for each parameter, loop over outcomes
+      {
+
+        #data frame for each plot
+        xvals = simres[,3+n] #elements 4 to end end are parameters
+        xvalname = colnames(simres)[3+n]
+        yvals = simres[,nn] #first 3 elements are outcomes
+        yvalname = colnames(simres)[nn]
+        dat = data.frame(xvals = xvals, yvals = yvals, varnames = yvalname)
+        result[[ct]]$dat = dat
+
+        #meta-data for each plot
+        result[[ct]]$plottype = plottype
+        result[[ct]]$xlab = xvalname
+        result[[ct]]$ylab = yvalname
+        result[[ct]]$legend = NULL #set to either false or provide the label for legends
+
+        result[[ct]]$xscale = 'identity'
+        result[[ct]]$yscale = 'identity'
+        if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
+        if (plotscale == 'y' | plotscale == 'both') { result[[ct]]$yscale = 'log10'}
+
+        #the following are for text display for each plot
+        result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+        result[[ct]]$finaltext = paste("System might not have reached steady state", sum(nosteady), "times")
+
+        ct = ct + 1
+      } #inner loop
+    } #outer loop
+
+    #if we look at uncertainty/boxplots, we don't need results stratified by parameter
+    #since all the plots and printout contain repeated information, we'll just retain the first 3 ones
+    if (plottype == "Boxplot")
+    {
+      result <- result[c(1:3)]
+    }
+
     return(result)
 }

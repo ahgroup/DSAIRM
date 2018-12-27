@@ -60,7 +60,7 @@ server <- function(input, output, session) {
       #added to shiny UI using the settings file
       {
         currentmbmodel <<- NULL
-        DSAIRM::generate_shinyinput(mbmodel = currentsimfct, output = output)
+        DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], output = output) #indexing sim function in case there are multiple
       }
 
 
@@ -142,7 +142,7 @@ server <- function(input, output, session) {
         if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
 
         modeltorun = currentsimfct #use name of function to run by default
-        if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
+        #if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
         result <- run_model(modelsettings = modelsettings, mbmodel = modeltorun)
 
         #create plot from results

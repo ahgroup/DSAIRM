@@ -31,7 +31,7 @@
 #' @section Model creation date: 2018-12-20
 #' @export
 
-simulate_Basic_Virus_model_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1)
+simulate_Basic_Virus_model_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1, ...)
 {
   #Block of ODE equations for deSolve
   Basic_Virus_model_ode_fct <- function(t, y, parms)

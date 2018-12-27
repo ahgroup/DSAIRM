@@ -29,7 +29,7 @@
 #' @section Model creation date: 2018-12-21
 #' @export
 
-simulate_Basic_Bacteria_model_ode <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.1, ... )
+simulate_Basic_Bacteria_model_ode <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 0.1, k = 1e-06, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05, ... )
 {
   #Block of ODE equations for deSolve
   Basic_Bacteria_model_ode_fct <- function(t, y, parms)

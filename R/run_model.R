@@ -36,9 +36,15 @@ run_model <- function(modelsettings, mbmodel) {
   ##################################
   if (modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete' | (modelsettings$modeltype == 'stochastic' & modelsettings$nreps == 1  ) )
   {
+    currentmodel = mbmodel #default is a single name for the underlying simulation function
+    #if multiple versions of functions (ode/deterministic/stochastic) are run by the app, check them here
+    if (modelsettings$modeltype == 'ode' & length(mbmodel)>1) {currentmodel = mbmodel[grep('_ode',mbmodel)]}
+    if (modelsettings$modeltype == 'discrete' & length(mbmodel)>1) {currentmodel = mbmodel[grep('_discrete',mbmodel)]}
+    if (modelsettings$modeltype == 'stochastic' & length(mbmodel)>1) {currentmodel = mbmodel[grep('_stochastic',mbmodel)]}
     #the generate_fctcall creates a function call to the specified model based on the given model settings
     #depending on if mbmodel is the name to a function or a modelbuilder object, different returns are produced
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
+    #browser()
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     result[[1]]$dat = simresult$ts
     #Meta-information for each plot
@@ -57,14 +63,16 @@ run_model <- function(modelsettings, mbmodel) {
   {
     #run ODE model
     modelsettings$modeltype = 'ode'
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    currentmodel = mbmodel[grep('_ode',mbmodel)]
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'c') #label variables as continous
     result_ode = simresult #assign result to temp variable for combining below
 
     #run discrete model
     modelsettings$modeltype = 'discrete'
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    currentmodel = mbmodel[grep('_discrete',mbmodel)]
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'d') #label variables as discrete
     result_disc = simresult #assign result to temp variable for combining below

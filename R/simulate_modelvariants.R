@@ -64,6 +64,7 @@ modelvariantode <- function(t, y, parms)
 #' @param dA adaptive immune response decay
 #' @param tmax maximum simulation time, units depend on choice of units for your
 #'   parameters
+#' @param ... other arguments for possible pass-through
 #' @return The function returns the output from the odesolver as a matrix,
 #' with one column per compartment/variable. The first column is time.
 #' @details A compartmental infection model is simulated as a set of ordinary differential
@@ -85,7 +86,7 @@ modelvariantode <- function(t, y, parms)
 #' @export
 
 
-simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1)
+simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, ...)
 {
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app
@@ -103,8 +104,9 @@ simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax =
 
   colnames(odeoutput) = c('Time','U','I','V','F','A')
 
-  #return result as list, with element ts containing the time-series
   result = list()
   result$ts = as.data.frame(odeoutput)
+
+  #return result as list, with element ts containing the time-series
   return(result)
 }

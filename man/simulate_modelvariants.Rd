@@ -10,7 +10,7 @@ simulate_modelvariants(U0 = 1e+05, I0 = 0, V0 = 10, F0 = 0,
   b = 1e-05, p = 1000, pF = 1, dF = 1, f1 = 1e-04, f2 = 0,
   f3 = 0, Fmax = 1000, sV = 1e-10, k1 = 0.001, k2 = 0, k3 = 0,
   a1 = 1000, a2 = 0, a3 = 0, hV = 1e-10, k4 = 0.001, k5 = 0,
-  k6 = 0, sA = 1e-10, dA = 0.1)
+  k6 = 0, sA = 1e-10, dA = 0.1, ...)
 }
 \arguments{
 \item{U0}{initial number of uninfected target cells}
@@ -75,6 +75,8 @@ parameters}
 \item{sA}{saturation of adaptive response killing for alternative action 2}
 
 \item{dA}{adaptive immune response decay}
+
+\item{...}{other arguments for possible pass-through}
 }
 \value{
 The function returns the output from the odesolver as a matrix,
