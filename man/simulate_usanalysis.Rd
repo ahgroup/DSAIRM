@@ -8,7 +8,8 @@ simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
   Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
   kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001,
   dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30,
-  samples = 10, rngseed = 100)
+  samples = 10, rngseed = 100, plottype = "Boxplot",
+  plotscale = "none", ...)
 }
 \arguments{
 \item{B0min}{lower bound for initial bacteria numbers}
@@ -48,13 +49,16 @@ simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
 \item{samples}{number of LHS samples to run}
 
 \item{rngseed}{seed for random number generator}
+
+\item{plottype}{type of plot "Boxplot", "Scatterplot"}
+
+\item{plotscale}{linear or log axes ('none', 'x', 'y', 'both')}
+
+\item{...}{other arguments for possible pass-through}
 }
 \value{
-The function returns the output as a list.
-The list element 'dat' contains a data frame
-with sample values for each parameter as columns, followed by columns for the results.
-A final variable 'nosteady' is returned for each simulation.
-It is TRUE if the simulation did not reach steady state, otherwise FALSE.
+The function returns the output as a vectored list,
+with each vector element containing data and other information to generate plots and text
 }
 \description{
 This function performs uncertainty and sensitivity analysis
@@ -72,8 +76,10 @@ Distribution for all parameters is assumed to be uniform between the min and max
 The only exception is the bacteria growth parameter,
 which is assumed to be gamma distributed with the specified mean and variance.
 The simulation returns for each parameter sample the peak and final value for B and I.
-Also returned are all parameter values as individual columns
-and an indicator stating if steady state was reached.
+Also returned are all parameter values used for a specific sample
+This information is stored in the first sub-list in  the  element 'datall'
+All other sub-lists contain a data frame for a specific parameter and result
+and furhter information that allow creation of plots
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -85,9 +91,13 @@ and an indicator stating if steady state was reached.
 # To run the simulation with default parameters just call the function:
 result <- simulate_usanalysis()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_usanalysis(dImin = 0.1, dImax = 10, samples = 5)
-# You should then use the simulation result returned from the function, like this:
-plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
+result <- simulate_usanalysis(Bmaxmin = 1e3, Bmaxmax = 1e7, samples = 5)
+# You can then should then use the simulation result returned from the function, like this:
+generate_plots(result)
+# Or for more detailed control, further process the full dataset, which you can look at like so
+head(result[[1]]$datall)
+# and for instance plot one of the parameters vs one of the outcomes like so
+plot(result[[1]]$datall[,"dI"],result[[1]]$datall[,"Bpeak"],xlab='dI',ylab='Bpeak',type='p')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

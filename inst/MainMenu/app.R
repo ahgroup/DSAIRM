@@ -15,6 +15,7 @@ server <- function(input, output, session) {
   currentApp = NULL #global server variable for currently loaded app
   currentsimfct <<- NULL #global server variable for current simulation function
   currentmbmodel <<- NULL #global server variable for mbmodel structure
+  currentmodelplots <<- NULL #global server variable for number of plots
   currentmbmodelfile <<- NULL #global server variable for mbmodel file name
   currentmodeltype <<- NULL #global server variable for model type to run
 
@@ -41,6 +42,7 @@ server <- function(input, output, session) {
       source(settingfilename) #source the file with additional settings to load them
       currentsimfct <<- simfunction
       currentmodeltype <<- modeltype
+      currentmodelplots <<- nplots
       currentmbmodelfile <<- mbmodelfile
       output$other <- renderUI({  otherinputs }) #end renderuI
 
@@ -140,6 +142,8 @@ server <- function(input, output, session) {
         #note that input for model type might be still 'floating around' if a previous model was loaded
         #not clear how to get rid of old shiny input variables from previously loaded models
         if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
+
+        modelsettings$nplots <- currentmodelplots
 
         modeltorun = currentsimfct #use name of function to run by default
         #if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead

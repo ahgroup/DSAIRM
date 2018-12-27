@@ -35,11 +35,8 @@
 #' @param plottype type of plot "Boxplot", "Scatterplot"
 #' @param plotscale linear or log axes ('none', 'x', 'y', 'both')
 #' @param ... other arguments for possible pass-through
-#' @return The function returns the output as a list.
-#' The list element 'dat' contains a data frame
-#' with sample values for each parameter as columns, followed by columns for the results.
-#' A final variable 'nosteady' is returned for each simulation.
-#' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
+#' @return The function returns the output as a vectored list,
+#' with each vector element containing data and other information to generate plots and text
 #' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' Parameters are sampled via Latin Hypercube Sampling.
@@ -47,8 +44,10 @@
 #' The only exception is the bacteria growth parameter,
 #' which is assumed to be gamma distributed with the specified mean and variance.
 #' The simulation returns for each parameter sample the peak and final value for B and I.
-#' Also returned are all parameter values as individual columns
-#' and an indicator stating if steady state was reached.
+#' Also returned are all parameter values used for a specific sample
+#' This information is stored in the first sub-list in  the  element 'datall'
+#' All other sub-lists contain a data frame for a specific parameter and result
+#' and furhter information that allow creation of plots
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter values
 #'   or fractions > 1), the code will likely abort with an error message.
@@ -56,15 +55,19 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_usanalysis()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_usanalysis(dImin = 0.1, dImax = 10, samples = 5)
-#' # You should then use the simulation result returned from the function, like this:
-#' plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
+#' result <- simulate_usanalysis(Bmaxmin = 1e3, Bmaxmax = 1e7, samples = 5)
+#' # You can then should then use the simulation result returned from the function, like this:
+#' generate_plots(result)
+#' # Or for more detailed control, further process the full dataset, which you can look at like so
+#' head(result[[1]]$datall)
+#' # and for instance plot one of the parameters vs one of the outcomes like so
+#' plot(result[[1]]$datall[,"dI"],result[[1]]$datall[,"Bpeak"],xlab='dI',ylab='Bpeak',type='p')
 #' @seealso See the Shiny app documentation corresponding to this simulator
 #' function for more details on this model.
 #' @author Andreas Handel
 #' @export
 
-simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100, plottype = 'BoxPlot', plotscale = 'none',...)
+simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, tmax = 30, samples = 10, rngseed = 100, plottype = 'Boxplot', plotscale = 'none',...)
   {
 
     #this creates a LHS with the specified number of samples for all 8 parameters
@@ -124,7 +127,7 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
         }
     }
 
-    simres = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
+    simres = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B0 = B0vec, I0 = I0vec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec)
 
 
     result <- vector("list", 24) #set up a list structure with as many elements as plots
@@ -133,6 +136,7 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
     #each parameter-output pair is its own plot, therefore its own list entry
     ct=1; #some counter
     result[[ct]]$ncol = 3 #number of columns for plot, needs to be stored in 1st sub-list element
+    result[[ct]]$datall = simres #save all data, in case we want to process 'by hand'
     for (n in 1:8) #first loop over each parameter
     {
       for (nn in 1:3) #for each parameter, loop over outcomes
@@ -143,8 +147,7 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
         xvalname = colnames(simres)[3+n]
         yvals = simres[,nn] #first 3 elements are outcomes
         yvalname = colnames(simres)[nn]
-        dat = data.frame(xvals = xvals, yvals = yvals, varnames = yvalname)
-        result[[ct]]$dat = dat
+        result[[ct]]$dat = data.frame(xvals = xvals, yvals = yvals, varnames = yvalname)
 
         #meta-data for each plot
         result[[ct]]$plottype = plottype

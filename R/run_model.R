@@ -13,27 +13,12 @@
 run_model <- function(modelsettings, mbmodel) {
 
 
-  #save all results to a list for processing plots and text
-  listlength = 1
-  #here we do all simulations in the same figure
-  result = vector("list", listlength) #create empty list of right size for results
-
-  ##################################
-  #default for text display, used by most basic simulation models
-  #can/will be potentially overwritten below for specific types of models
-  ##################################
-
-  result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if FALSE no result processing will occur inside generate_text
-  #the following are for text display for each plot
-  result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
-  result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
-
-
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
   ##################################
   #single dynamical model execution
   ##################################
+
   if (modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete' | (modelsettings$modeltype == 'stochastic' & modelsettings$nreps == 1  ) )
   {
     currentmodel = mbmodel #default is a single name for the underlying simulation function
@@ -57,7 +42,7 @@ run_model <- function(modelsettings, mbmodel) {
 
 
   ##################################
-  #runs both ODE and discrete dynamical model
+  #runs more than one dynamical model
   ##################################
   if (modelsettings$modeltype == 'ode_and_discrete')
   {
@@ -143,6 +128,28 @@ run_model <- function(modelsettings, mbmodel) {
 
   }
 
+
+
+
+  #save all results to a list for processing plots and text
+  listlength = modelsettings$nplots
+  #here we do all simulations in the same figure
+  result = vector("list", listlength) #create empty list of right size for results
+
+  for (n in 1:listlength) #loop over each plot
+  {
+
+
+    ##################################
+    #default for text display, used by most basic simulation models
+    #can/will be potentially overwritten below for specific types of models
+    ##################################
+
+    result[[1]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if FALSE no result processing will occur inside generate_text
+    #the following are for text display for each plot
+    result[[1]]$showtext = '' #text can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed for each plot
+  }
 
 
   ##################################

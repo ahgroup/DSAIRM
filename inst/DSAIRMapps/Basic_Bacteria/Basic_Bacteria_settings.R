@@ -25,4 +25,5 @@ simfunction = c('simulate_Basic_Bacteria_model_ode','simulate_Basic_Bacteria_mod
 #mbmodelfile = 'Basic_Bacteria_model.Rdata'
 mbmodelfile = NULL
 
-
+#number of plots to produce for output
+nplots = 1
