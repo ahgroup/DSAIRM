@@ -81,8 +81,8 @@ server <- function(input, output, session) {
                 6,
                 h2('Simulation Settings'),
                 wellPanel(
-                  uiOutput("modelinputs"),
-                  uiOutput("other")
+                    uiOutput("modelinputs"),
+                    uiOutput("other")
                 )
               ), #end sidebar column for inputs
 
@@ -102,10 +102,9 @@ server <- function(input, output, session) {
             #Instructions section at bottom as tabs
             h2('Instructions') ,
             #use external function to generate all tabs with instruction content
-            do.call(tabsetPanel, generate_documentation(currentApp))
+            withMathJax(do.call(tabsetPanel, generate_documentation(currentApp)))
           ) #end tag list
           }) # End renderUI for analyze tab
-
       #once UI for the model in the analyze tab is created, switch to that tab
       updateNavbarPage(session, "DSAIRM", selected = "Analyze")
 
@@ -184,10 +183,8 @@ server <- function(input, output, session) {
 #######################################################
 
 ui <- fluidPage(
-  includeCSS("../media/dsairm.css"),
-  tags$head( tags$script(src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML", type = 'text/javascript') ),
-  #add header and title
-  div( includeHTML("../media/header.html"), align = "center"),
+  includeCSS("../media/dsairm.css"), #use custom styling
+  div( includeHTML("../media/header.html"), align = "center"),   #add header and title
   p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
 
   navbarPage(title = "DSAIRM", id = "DSAIRM", selected = 'Menu',
@@ -196,13 +193,13 @@ ui <- fluidPage(
 
                       fluidRow(
                         column(4,
-                               actionButton("Basic_Bacteria", "Basic Bacterium Model", class="mainbutton")
+                               actionButton("Basic_Bacteria", "Basic bacteria model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("Basic_Virus", "Basic Virus Model", class="mainbutton")
+                               actionButton("Basic_Virus", "Basic virus model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("VirusandIR", "Virus and Immune Response Model", class="mainbutton")
+                               actionButton("VirusandIR", "Virus and immune response model", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -210,7 +207,7 @@ ui <- fluidPage(
                       p('Model use examples', class='mainsectionheader'),
                       fluidRow(
                         column(4,
-                               actionButton("ModelExploration", "Bacterium Model Exploration", class="mainbutton")
+                               actionButton("ModelExploration", "Bacteria model exploration", class="mainbutton")
                         ),
                         column(4,
                                actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
@@ -228,7 +225,7 @@ ui <- fluidPage(
                                actionButton("ModelVariants", "Model variation", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("USAnalysis", "Parameter Uncertainty", class="mainbutton")
+                               actionButton("USAnalysis", "Parameter uncertainty", class="mainbutton")
                         ),
                         column(4,
 
@@ -241,7 +238,7 @@ ui <- fluidPage(
                       p('Model fitting topics', class='mainsectionheader'),
                       fluidRow(
                         column(6,
-                               actionButton("ConfIntFit", "Confidence Intervals", class="mainbutton")
+                               actionButton("ConfIntFit", "Confidence intervals", class="mainbutton")
                         ),
                         column(6,
                                actionButton("ModelComparison", "Model comparison", class="mainbutton")
@@ -252,7 +249,7 @@ ui <- fluidPage(
                       p('Further topics', class='mainsectionheader'),
                       fluidRow(
                         column(6,
-                               actionButton("PkPdModel", "Pharacokinetics and Pharmacodynamics", class="mainbutton")
+                               actionButton("PkPdModel", "Pharacokinetics and pharmacodynamics", class="mainbutton")
                         ),
                         column(6,
                                actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
@@ -271,9 +268,9 @@ ui <- fluidPage(
                       withTags({
                         div(class="header", checked=NA, style = "text-align:left", class="infotext",
 
-                            p('This collection of Shiny apps provides you with a "learning by doing" way teach topics of within-host and immune response modeling from a dynamical systems perspective. Ideally, you would use these apps as part of a course on the topic. Alternatively, you should be able to obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
+                            p('This collection of model simulations/apps covers within-host and immune response modeling from a dynamical systems perspective. The software is meant to provide you with a "learning by doing" approach. You will likely learn best and fastest by using this software as part of a course on the topic, taught by a knowledgable instructor who can provide any needed background information and help if you get stuck. Alternatively, you should be able to self-learn and obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
                             p('The main way of using the simulations is through this graphical interface. You can also access the simulations directly. This requires a bit of R coding but gives you many more options of things you can try. See the package vignette or the "Further Information" section of the apps for more on that.'),
-                            p('You should start with the "Basic Bacteria Model" app and read all its instruction tabs since they contain information relevant for all apps.')
+                            p('The simulations are ordered in a sequence that makes sense for learning the material, so it is best o go in order (each section top to bottom, within each section left to right). Some simulations also build on earlier ones.')
 
                         )
                       }), #close withTags function

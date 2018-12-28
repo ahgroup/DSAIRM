@@ -16,6 +16,11 @@
 generate_shinyinput <- function(mbmodel, output)
 {
 
+    #function used below to wrap inputs into a inline-block style
+    #found here
+    #https://stackoverflow.com/questions/42778522/in-r-adding-multiple-rshiny-actionbutton-or-selectinput-widgets-to-one-row/42778604#42778604
+    inlineElement <- function(..., style = ""){ shiny::div(style = sprintf("display:inline-block; %s", style), ...) }
+
 
 #     #standard additional input elements for each model
 #     standardinputs <- tagList(
@@ -38,7 +43,7 @@ generate_shinyinput <- function(mbmodel, output)
         ip = ip[unlist(lapply(ip,is.numeric))]
         nvars = length(ip)  #number of variables/compartments in model
         modelargs = lapply(1:nvars, function(n) {
-                        numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])
+            inlineElement(numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]]))
                     })
     } #end UI creation for an underlying function
 
@@ -57,26 +62,26 @@ generate_shinyinput <- function(mbmodel, output)
 
         #numeric input elements for all variable initial conditions
         allv = lapply(1:nvars, function(n) {
-                    numericInput(mbmodel$var[[n]]$varname,
+            inlineElement(numericInput(mbmodel$var[[n]]$varname,
                              paste0(mbmodel$var[[n]]$vartext,' (',mbmodel$var[[n]]$varname,')'),
                              value = mbmodel$var[[n]]$varval,
-                             min = 0, step = mbmodel$var[[n]]$varval/100)
+                             min = 0, step = mbmodel$var[[n]]$varval/100))
                     })
 
         allp = lapply(1:npars, function(n) {
-                numericInput(
+            inlineElement(numericInput(
                     mbmodel$par[[n]]$parname,
                     paste0(mbmodel$par[[n]]$partext,' (',mbmodel$par[[n]]$parname,')'),
                     value = mbmodel$par[[n]]$parval,
-                    min = 0, step = mbmodel$par[[n]]$parval/100)
+                    min = 0, step = mbmodel$par[[n]]$parval/100))
                     })
 
         allt = lapply(1:ntime, function(n) {
-                numericInput(
+            inlineElement(numericInput(
                     mbmodel$time[[n]]$timename,
                     paste0(mbmodel$time[[n]]$timetext,' (',mbmodel$time[[n]]$timename,')'),
                     value = mbmodel$time[[n]]$timeval,
-                    min = 0, step = mbmodel$time[[n]]$timeval/100)
+                    min = 0, step = mbmodel$time[[n]]$timeval/100))
                     })
         modelargs = c(allv,allp,allt)
     } #end mbmodel object parsing

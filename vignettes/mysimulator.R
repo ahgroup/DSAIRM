@@ -33,7 +33,7 @@
 mysimulator <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 1e3, dI = 1, s = 1e3, tstart = 0, tfinal = 30, dt = 0.01)
 {
   #Block of ODE equations for deSolve
-  Basic_Bacteria_model_ode_fct <- function(t, y, parms)
+  basicbacteria_ode_fct <- function(t, y, parms)
   {
     with( as.list(c(y,parms)), { #lets us access variables and parameters stored in y and parms by name
     #StartODES
@@ -49,7 +49,7 @@ mysimulator <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07,
   timevec=seq(tstart,tfinal,by=dt)
   vars = c(B = B, I = I)
   pars = c(g = g, Bmax = Bmax, dB =dB, k = k, r=r,dI=dI)
-  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = Basic_Bacteria_model_ode_fct)
+  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicbacteria_ode_fct)
   result <- list()
   result$ts <- as.data.frame(odeout)
   return(result)

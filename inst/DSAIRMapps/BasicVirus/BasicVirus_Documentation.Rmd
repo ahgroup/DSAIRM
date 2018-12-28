@@ -2,7 +2,6 @@
 title: Basic Virus Model
 output:
   html_document:
-    theme: null
     highlight: null
     fig_caption: true
     mathjax: default 
@@ -37,10 +36,11 @@ For our system, we specify the following processes/flows:
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
+<div class = "diagramfig">
+```{r BIdiagram, fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
 knitr::include_graphics("../../media/virusdiagram.png")
 ```
-
+</div>
 
 ### Model Equations
 Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 

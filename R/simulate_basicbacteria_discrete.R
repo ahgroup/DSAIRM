@@ -23,13 +23,13 @@
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 #' @examples
 #' # To run the simulation with default parameters:
-#' result <- simulate_Basic_Bacteria_model_discrete()
+#' result <- simulate_basicbacteria_discrete()
 #' @section Warning: This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
 #' @section Model Author: Andreas Handel
 #' @section Model creation date: 2018-12-21
 #' @export
 
-simulate_Basic_Bacteria_model_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05, ... )
+simulate_basicbacteria_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05, ... )
 {
       tvec = seq(tstart,tfinal,by=dt)
       ts = data.frame(cbind(tvec, matrix(0,nrow=length(tvec),ncol=2)))

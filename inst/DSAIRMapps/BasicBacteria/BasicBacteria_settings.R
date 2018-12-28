@@ -5,10 +5,16 @@
 #last updated 12/16/2018
 ############################################################
 
+#function used below to wrap inputs into a inline-block style
+#found here
+#https://stackoverflow.com/questions/42778522/in-r-adding-multiple-rshiny-actionbutton-or-selectinput-widgets-to-one-row/42778604#42778604
+inlineElement <- function(..., style = ""){ shiny::div(style = sprintf("display:inline-block; %s", style), ...) }
+
+
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
-  shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
-  shiny::selectInput("modeltype", "Models to run:",c("continuous time" = 'ode', 'discrete time' = 'discrete', 'both' = 'ode_and_discrete'), selected = 'ode')
+  inlineElement(shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))),
+  inlineElement(shiny::selectInput("modeltype", "Models to run:",c("continuous time" = 'ode', 'discrete time' = 'discrete', 'both' = 'ode_and_discrete'), selected = 'ode'))
 ) #end taglist
 
 #additional setting elements that are not provided through UI for a given app
@@ -18,12 +24,13 @@ modeltype = NULL
 #name of underlying simulation function
 #can be set to NULL, in this case mbmodel Rdata file needs to be provided
 #simulator function still needs to be part of the package
-simfunction = c('simulate_Basic_Bacteria_model_ode','simulate_Basic_Bacteria_model_discrete')
+#simfunction = c('simulate_basicbacteria_ode','simulate_basicbacteria_discrete')
+simfunction = NULL
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
-#mbmodelfile = 'Basic_Bacteria_model.Rdata'
-mbmodelfile = NULL
+mbmodelfile = 'BasicBacteria_model.Rdata'
+#mbmodelfile = NULL
 
 #number of plots to produce for output
 nplots = 1

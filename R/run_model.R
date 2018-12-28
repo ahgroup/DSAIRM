@@ -12,15 +12,40 @@
 
 run_model <- function(modelsettings, mbmodel) {
 
-
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
-  ##################################
-  #single dynamical model execution
-  ##################################
+  datall = NULL #will hold data for all different models and replicates
 
-  if (modelsettings$modeltype == 'ode' | modelsettings$modeltype == 'discrete' | (modelsettings$modeltype == 'stochastic' & modelsettings$nreps == 1  ) )
+  ##################################
+  #stochastic dynamical model execution
+  ##################################
+  if (grep('stochastic',modelsettings$modeltype))
   {
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    for (nn in 1:modelsettings$nreps)
+    {
+      eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+      #data for plots and text
+      #needs to be in the right format to be passed to generate_plots and generate_text
+      #see documentation for those functions for details
+      simresult <- simresult$ts
+      colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
+      #reformat data to be in the right format for plotting
+      dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+      dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
+      dat$nreps = nn
+      datall = rbind(datall,dat)
+    }
+  }
+
+  ##################################
+  #ode dynamical model execution
+  ##################################
+  if (grep('ode',modelsettings$modeltype))
+  {
+
+    currentmodel = mbmodel[grep('_ode',mbmodel)] #list of model functions, get the ode function
+
     currentmodel = mbmodel #default is a single name for the underlying simulation function
     #if multiple versions of functions (ode/deterministic/stochastic) are run by the app, check them here
     if (modelsettings$modeltype == 'ode' & length(mbmodel)>1) {currentmodel = mbmodel[grep('_ode',mbmodel)]}
@@ -74,35 +99,7 @@ run_model <- function(modelsettings, mbmodel) {
   }
 
 
-  ##################################
-  #loop over multiple runs for a dynamic model (only applied to stochastic models)
-  ##################################
-  if (modelsettings$nreps > 1 & modelsettings$modeltype == 'stochastic')
-  {
-    datall = NULL
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
-    for (nn in 1:modelsettings$nreps)
-    {
-    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
-    #data for plots and text
-    #needs to be in the right format to be passed to generate_plots and generate_text
-    #see documentation for those functions for details
-    simresult <- simresult$ts
-    colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
-    #reformat data to be in the right format for plotting
-    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-    dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
-    dat$nreps = nn
-    datall = rbind(datall,dat)
-    }
-    result[[1]]$dat = datall
-    #Meta-information for each plot
-    #Might not want to hard-code here, can decide later
-    result[[1]]$plottype = "Lineplot"
-    result[[1]]$xlab = "Time"
-    result[[1]]$ylab = "Numbers"
-    result[[1]]$legend = "Compartments"
-  }
+
 
   ##################################
   #simulators that are not models themselves use this block
@@ -162,6 +159,13 @@ run_model <- function(modelsettings, mbmodel) {
   #result[[1]]$ymax = max(simresult)
   #result[[1]]$xmin = 1e-12
   #result[[1]]$xmax = 9
+  result[[1]]$dat = datall
+  #Meta-information for each plot
+  #Might not want to hard-code here, can decide later
+  result[[1]]$plottype = "Lineplot"
+  result[[1]]$xlab = "Time"
+  result[[1]]$ylab = "Numbers"
+  result[[1]]$legend = "Compartments"
 
 
   result[[1]]$xscale = 'identity'

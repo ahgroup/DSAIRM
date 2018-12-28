@@ -25,16 +25,16 @@
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 #' @examples
 #' # To run the simulation with default parameters:
-#' result <- simulate_Basic_Virus_model_ode()
+#' result <- simulate_basicvirus_ode()
 #' @section Warning: This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
 #' @section Model Author: Andreas Handel
 #' @section Model creation date: 2018-12-20
 #' @export
 
-simulate_Basic_Virus_model_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1, ...)
+simulate_basicvirus_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1, ...)
 {
   #Block of ODE equations for deSolve
-  Basic_Virus_model_ode_fct <- function(t, y, parms)
+  basicvirus_ode_fct <- function(t, y, parms)
   {
     with( as.list(c(y,parms)), { #lets us access variables and parameters stored in y and parms by name
     #StartODES
@@ -52,7 +52,7 @@ simulate_Basic_Virus_model_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 
   timevec=seq(tstart,tfinal,by=dt)
   vars = c(U = U, I = I, V = V)
   pars = c(n = n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
-  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = Basic_Virus_model_ode_fct)
+  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicvirus_ode_fct)
   result <- list()
   result$ts <- as.data.frame(odeout)
   return(result)
