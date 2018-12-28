@@ -1,28 +1,3 @@
-############################################################
-##simulation of a viral infection model including components of the immune response
-##written by Andreas Handel (ahandel@uga.edu), last change 2/16/18
-############################################################
-
-#function that specificies the ode model
-virusandirode <- function(t, y, parms)
-{
-   with(
-    as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
-    {
-
-      dUdt = n - dU*U - b*V*U
-      dIdt = b*V*U - dI*I - kT*T*I
-      dVdt = p*I/(1+sF*F) - dV*V - b*V*U - kA*A*V
-      dFdt = pF - dF*F + V / (V + hV) * gF * (Fmax - F)
-      dTdt = F * V * gT + rT * T
-      dBdt = F * V / (F * V + hF) * gB * B
-      dAdt = rA*B  - dA*A - kA*A*V
-
-	 	  list(c(dUdt, dIdt, dVdt, dFdt, dTdt, dBdt, dAdt))
-    }
-   ) #close with statement
-} #end function specifying the ODEs
-
 #' Simulation of a viral infection model with an immune response
 #'
 #' @description This function runs a simulation of a compartment model
@@ -70,9 +45,9 @@ virusandirode <- function(t, y, parms)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_virusandir()
+#' result <- simulate_virusandir_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_virusandir(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
+#' result <- simulate_virusandir_ode(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -82,8 +57,30 @@ virusandirode <- function(t, y, parms)
 #' @export
 
 
-simulate_virusandir <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, tmax = 20, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, ...)
+simulate_virusandir_ode <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, tmax = 20, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, ...)
 {
+
+  #function that specificies the ode model
+  virusandirode <- function(t, y, parms)
+  {
+    with(
+      as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
+      {
+
+        dUdt = n - dU*U - b*V*U
+        dIdt = b*V*U - dI*I - kT*T*I
+        dVdt = p*I/(1+sF*F) - dV*V - b*V*U - kA*A*V
+        dFdt = pF - dF*F + V / (V + hV) * gF * (Fmax - F)
+        dTdt = F * V * gT + rT * T
+        dBdt = F * V / (F * V + hF) * gB * B
+        dAdt = rA*B  - dA*A - kA*A*V
+
+        list(c(dUdt, dIdt, dVdt, dFdt, dTdt, dBdt, dAdt))
+      }
+    ) #close with statement
+  } #end function specifying the ODEs
+
+
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app
   Y0 = c(U = U0, I = I0, V = V0, F=pF/dF, T=T0, B=B0, A=A0);

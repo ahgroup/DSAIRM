@@ -3,6 +3,7 @@
 #' @description This function generates numeric shiny UI inputs for a supplied model.
 #' This is a helper function called by the shiny app.
 #' @param mbmodel a name of a file/function or a modelbuilder model structure
+#' @param otherinputs a list of other inputs to include
 #' @param output shiny output structure
 #' @return No direct return. output structure is modified to contain text for display in a Shiny UI
 #' @details This function is called by the Shiny app to produce the Shiny input UI elements.
@@ -13,7 +14,7 @@
 #' @export
 
 #not used in DSAIRM, might need to turn on again for modelbuilder
-generate_shinyinput <- function(mbmodel, output)
+generate_shinyinput <- function(mbmodel, otherinputs, output)
 {
 
     #function used below to wrap inputs into a inline-block style
@@ -86,13 +87,15 @@ generate_shinyinput <- function(mbmodel, output)
         modelargs = c(allv,allp,allt)
     } #end mbmodel object parsing
 
+if (!is.null(otherinputs))
+{
+    otherargs = lapply(otherinputs,inlineElement)
+}
 
 
 #return structure
 output$modelinputs <- renderUI({
-    #tagList(c(modelargs, standardinputs))
-    tagList(modelargs)
-    #modelargs
+    tagList(modelargs, otherargs)
 }) #end renderuI
 
 } #end overall function

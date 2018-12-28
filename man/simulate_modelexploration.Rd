@@ -55,8 +55,10 @@ This function simulates the simple bacteria model for a range of parameters.
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details).
 }
 \details{
+##this code illustrates how to do analyze a simple model.
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
+This function runs the simple bacterial infection model for a range of parameters.
 The user can specify which parameter is sampled, and
 the simulation returns for each parameter sample the peak and final value for B and I.
 Also returned is the varied parameter and an indicator if steady state was reached.

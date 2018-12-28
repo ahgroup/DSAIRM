@@ -17,7 +17,7 @@
 #' @param tstart : Start time of simulation
 #' @param tfinal : Final time of simulation
 #' @param dt : Time step
-#' @param ... other arguments for possible pass-through
+#' @param ... other arguments that might be supplied but won't be used
 #' @return The function returns the output as a list.
 #' The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.

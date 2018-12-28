@@ -1,43 +1,3 @@
-##################################################################################
-##fitting influenza virus load data to a simple ODE model
-##model used is the one in "simulate_Basic_Virus_model_ode.R"
-##illustrates fitting and testing if parameters can be identified
-##written by Andreas Handel, ahandel@uga.edu, last change 4/25/18
-
-##all sub-functions are specified first
-
-
-###################################################################
-#function that fits the ODE model to data
-###################################################################
-basicfitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames)
-{
-
-   names(params) = fitparnames #for some reason nloptr strips names from parameters
-   allpars = c(Y0,params, tfinal = max(xvals), fixedpars)
-
-    #this function catches errors
-    odeout <- try(do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars)));
-
-    #extract values for virus load at time points where data is available
-    modelpred = odeout$ts[match(fitdata$xvals,odeout$ts[,"time"]),"V"];
-
-    #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
-    #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
-    #Therefore, we enforce a minimum value of 1e-10 for virus load before log-transforming
-    #fitfunction returns the log-transformed virus load obtained from the ODE model to the nls function
-    logvirus=c(log10(pmax(1e-10,modelpred)));
-
-    #return the objective function, the sum of squares,
-    #which is being minimized by the optimizer
-    return(sum((logvirus-fitdata$outcome)^2))
-
-} #end function that fits the ODE model to the data
-
-############################################################
-#the main part, which calls the fit function
-############################################################
-
 #' Fitting a simple viral infection models to influenza data
 #'
 #' @description This function runs a simulation of a compartment model
@@ -73,7 +33,7 @@ basicfitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames)
 #' @details A simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data.
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
-#' determine if the model parameters can be identified
+#' determine if the model parameters can be identified.
 #' The fitting is done using solvers/optimizers from the nloptr package (which is a wrapper for the nlopt library).
 #' The package provides access to a large number of solvers.
 #' Here, we only implement 3 solvers, namely 1 = NLOPT_LN_COBYLA, 2 = NLOPT_LN_NELDERMEAD, 3 = NLOPT_LN_SBPLX
@@ -83,9 +43,9 @@ basicfitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the code with default parameters just call the function:
-#' \dontrun{result <- simulate_basicmodelfit()}
+#' \dontrun{result <- simulate_basicmodel_fit()}
 #' # To apply different settings, provide them to the simulator function, like such:
-#' result <- simulate_basicmodelfit(iter = 5)
+#' result <- simulate_basicmodel_fit(iter = 5)
 #' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -95,8 +55,36 @@ basicfitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames)
 #' @export
 
 
-simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 2, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 10, usesimdata = TRUE, noise = 1e-3, iter = 100, solvertype = 1, ...)
+simulate_basicmodel_fit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 2, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 10, usesimdata = TRUE, noise = 1e-3, iter = 100, solvertype = 1, ...)
 {
+
+  ###################################################################
+  #function that fits the ODE model to data
+  ###################################################################
+  basicfitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames)
+  {
+
+    names(params) = fitparnames #for some reason nloptr strips names from parameters
+    allpars = c(Y0,params, tfinal = max(xvals), fixedpars)
+
+    #this function catches errors
+    odeout <- try(do.call(DSAIRM::simulate_basicvirus_ode, as.list(allpars)));
+
+    #extract values for virus load at time points where data is available
+    modelpred = odeout$ts[match(fitdata$xvals,odeout$ts[,"time"]),"V"];
+
+    #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
+    #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
+    #Therefore, we enforce a minimum value of 1e-10 for virus load before log-transforming
+    #fitfunction returns the log-transformed virus load obtained from the ODE model to the nls function
+    logvirus=c(log10(pmax(1e-10,modelpred)));
+
+    #return the objective function, the sum of squares,
+    #which is being minimized by the optimizer
+    return(sum((logvirus-fitdata$outcome)^2))
+
+  } #end function that fits the ODE model to the data
+
 
   #will contain final result
   output <- list()
@@ -129,7 +117,7 @@ simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
     #simulate model with known parameters to get artifitial data
     #not sure why R needs it in such a weird form
     #but supplying vector of values to function directly doesn't work
-    odeout <- do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars))
+    odeout <- do.call(DSAIRM::simulate_basicvirus_ode, as.list(allpars))
     simres = odeout$ts
 
     #extract values for virus load at time points where data is available
@@ -167,7 +155,7 @@ simulate_basicmodelfit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU =
   allpars = c(Y0,modelpars,tfinal = max(fitdata$xvals))
 
   #doe one final run of the ODE to get a time-series to report back
-  odeout <- do.call(simulate_Basic_Virus_model_ode, as.list(allpars))
+  odeout <- do.call(simulate_basicvirus_ode, as.list(allpars))
   simres = odeout$ts
   #extract values for virus load at time points where data is available
   modelpred = simres[match(fitdata$xvals,simres[,"time"]),"V"];

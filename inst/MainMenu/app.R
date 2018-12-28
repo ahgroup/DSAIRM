@@ -18,6 +18,7 @@ server <- function(input, output, session) {
   currentmodelplots <<- NULL #global server variable for number of plots
   currentmbmodelfile <<- NULL #global server variable for mbmodel file name
   currentmodeltype <<- NULL #global server variable for model type to run
+  currentotherinputs <<-  NULL
 
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
@@ -44,7 +45,7 @@ server <- function(input, output, session) {
       currentmodeltype <<- modeltype
       currentmodelplots <<- nplots
       currentmbmodelfile <<- mbmodelfile
-      output$other <- renderUI({  otherinputs }) #end renderuI
+      currentotherinputs <<-  otherinputs
 
       #produce Shiny input UI elements for the model
       #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
@@ -53,7 +54,7 @@ server <- function(input, output, session) {
       {
         load(mbmodellocation) #this loads an mbmodel
         currentmbmodel <<- mbmodel
-        DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, output = output)
+        DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, otherinputs = currentotherinputs, output = output)
       }
       else
       #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
@@ -62,16 +63,20 @@ server <- function(input, output, session) {
       #added to shiny UI using the settings file
       {
         currentmbmodel <<- NULL
-        DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], output = output) #indexing sim function in case there are multiple
+        DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, output = output) #indexing sim function in case there are multiple
       }
 
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
             tagList(
-            #section to add buttons
-            actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
-            #end section to add buttons
+
+              fluidRow(
+                column(12,
+                       actionButton("submitBtn", "Run Simulation", class = "submitbutton")
+                ),
+                class = "mainmenurow"
+              ), #close fluidRow structure for input
             tags$hr(),
             ################################
             #Split screen with input on left, output on right
@@ -81,8 +86,7 @@ server <- function(input, output, session) {
                 6,
                 h2('Simulation Settings'),
                 wellPanel(
-                    uiOutput("modelinputs"),
-                    uiOutput("other")
+                    uiOutput("modelinputs")
                 )
               ), #end sidebar column for inputs
 
@@ -193,10 +197,10 @@ ui <- fluidPage(
 
                       fluidRow(
                         column(4,
-                               actionButton("Basic_Bacteria", "Basic bacteria model", class="mainbutton")
+                               actionButton("BasicBacteria", "Basic bacteria model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("Basic_Virus", "Basic virus model", class="mainbutton")
+                               actionButton("BasicVirus", "Basic virus model", class="mainbutton")
                         ),
                         column(4,
                                actionButton("VirusandIR", "Virus and immune response model", class="mainbutton")

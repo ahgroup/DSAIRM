@@ -1,9 +1,3 @@
-############################################################
-##this code illustrates how to do uncertainty and sensitivity analysis
-##it does sampling of some parameters of the simple bacterial infection model
-##written by Andreas Handel (ahandel@uga.edu), last change 7/16/18
-############################################################
-#'
 #' Simulation to illustrate uncertainty and sensitivity analysis
 #'
 #' @description This function performs uncertainty and sensitivity analysis
@@ -37,7 +31,8 @@
 #' @param ... other arguments for possible pass-through
 #' @return The function returns the output as a vectored list,
 #' with each vector element containing data and other information to generate plots and text
-#' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
+#' @details This code illustrates how to do uncertainty and sensitivity analysis.
+#' A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
 #' Parameters are sampled via Latin Hypercube Sampling.
 #' Distribution for all parameters is assumed to be uniform between the min and max values.
@@ -108,7 +103,7 @@ simulate_usanalysis <- function(B0min = 1, B0max = 10, I0min = 1, I0max = 10, Bm
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeoutput <- simulate_Basic_Bacteria_model_ode(B = B0, I = I0, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = 0, tfinal = tmax, dt = 0.1 )
+        odeoutput <- simulate_basicbacteria_ode(B = B0, I = I0, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = 0, tfinal = tmax, dt = 0.1 )
 
         timeseries = odeoutput$ts
 

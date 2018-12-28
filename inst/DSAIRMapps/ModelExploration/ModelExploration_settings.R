@@ -5,6 +5,7 @@
 #last updated 12/26/2018
 ############################################################
 
+
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
   shiny::selectInput("samplepar", "Parameter to vary",c("g" = "g", 'Bmax' = 'Bmax', 'dB' = 'dB', 'k'='k','r'='r','dI'='dI')),
@@ -25,4 +26,9 @@ simfunction = 'simulate_modelexploration'
 #if not exists, set to NULL
 mbmodelfile = NULL
 
+
+
+
+#number of plots to produce for output
+nplots = 1
 

@@ -31,7 +31,7 @@ simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
 
 \item{dt}{: Time step}
 
-\item{...}{other arguments for possible pass-through}
+\item{...}{other arguments that might be supplied but won't be used}
 }
 \value{
 The function returns the output as a list.

@@ -16,10 +16,13 @@ otherinputs =   shiny::tagList(
 modeltype = "ode"
 
 #name of underlying simulation function
-simfunction = 'simulate_virusandtx'
+simfunction = 'simulate_virusandtx_ode'
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = NULL
 
+
+#number of plots to produce for output
+nplots = 1
 

@@ -1,29 +1,3 @@
-############################################################
-##a stochastic model for acute virus infection
-##written by Andreas Handel (ahandel@uga.edu), last change 5/1/18
-############################################################
-
-#this specifies the rates used by the adapativetau routine
-#needs to be before main function so it's clear where description belongs to
-stochasticratefunc <- function(y, parms, t)
-{
-  with(as.list(c(y, parms)),
-       {
-
-         #specify each rate/transition/reaction that can happen in the system
-         rates=c(  n,
-                   dU*U,
-                   b*U*V,
-                   dI*I,
-                   p*I,
-                   dV*V
-         ) #end specification of each rate/transition/reaction
-         return(rates)
-       })
-} #end function specifying rates used by adaptivetau
-
-
-
 #' Stochastic simulation of a compartmental acute virus infection model
 #'
 #' @description  Simulation of a stochastic model with the following compartments:
@@ -55,9 +29,9 @@ stochasticratefunc <- function(y, parms, t)
 #' the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_stochasticvirus()
+#' result <- simulate_basicvirus_stochastic()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_stochasticvirus(tmax = 20, dI = 0.5)
+#' result <- simulate_basicvirus_stochastic(tmax = 20, dI = 0.5)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
@@ -65,8 +39,30 @@ stochasticratefunc <- function(y, parms, t)
 #' @author Andreas Handel
 #' @export
 
-simulate_stochasticvirus <- function(U0 = 1E4, I0 = 0, V0 = 5, tmax = 30, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100)
+simulate_basicvirus_stochastic <- function(U0 = 1E4, I0 = 0, V0 = 5, tmax = 30, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100)
 {
+
+  #this specifies the rates used by the adapativetau routine
+  #needs to be before main function so it's clear where description belongs to
+  stochasticratefunc <- function(y, parms, t)
+  {
+    with(as.list(c(y, parms)),
+         {
+
+           #specify each rate/transition/reaction that can happen in the system
+           rates=c(  n,
+                     dU*U,
+                     b*U*V,
+                     dI*I,
+                     p*I,
+                     dV*V
+           ) #end specification of each rate/transition/reaction
+           return(rates)
+         })
+  } #end function specifying rates used by adaptivetau
+
+
+
   Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
 
   #combining parameters into a parameter vector

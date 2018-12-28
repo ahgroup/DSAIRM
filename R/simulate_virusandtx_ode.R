@@ -1,30 +1,4 @@
-############################################################
-##simulation of a simple viral infection model with drug treatment
-#inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
-##written by Andreas Handel (ahandel@uga.edu), last change 3/21/18
-############################################################
-
-
-#function that specificies the ode model
-virustxode <- function(t, y, parms)
-{
-   with(
-    as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
-    {
-
-      enow = ifelse(t>txstart,e,0) #turn on drug at time txstart
-      fnow = ifelse(t>txstart,f,0) #turn on drug at time txstart
-      dUdt = n - dU*U - (1-fnow)*b*V*U
-      dIdt = (1-fnow)*b*V*U - dI*I
-      dVdt = (1-enow)*p*I - dV*V - g*b*U*V
-
-	 	  list(c(dUdt, dIdt, dVdt))
-    }
-   ) #close with statement
-} #end function specifying the ODEs
-
-
-#' Simulation of a basic viral infection model without an immune response
+#' Simulation of a basic viral infection model with drug treatment
 #'
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
@@ -32,6 +6,7 @@ virustxode <- function(t, y, parms)
 #' The user provides initial conditions and parameter values for the system.
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a list containing time-series of each variable and time.
+#' inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
 #'
 #' @param U0 initial number of uninfected target cells
 #' @param I0 initial number of infected target cells
@@ -61,9 +36,9 @@ virustxode <- function(t, y, parms)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_virusandtx()
+#' result <- simulate_virusandtx_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_virusandtx(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_virusandtx_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -72,8 +47,29 @@ virustxode <- function(t, y, parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_virusandtx <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0, ...)
+simulate_virusandtx_ode <- function(U0 = 1e5, I0 = 0, V0 = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0, ...)
 {
+
+
+  #function that specificies the ode model
+  virustxode <- function(t, y, parms)
+  {
+    with(
+      as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
+      {
+
+        enow = ifelse(t>txstart,e,0) #turn on drug at time txstart
+        fnow = ifelse(t>txstart,f,0) #turn on drug at time txstart
+        dUdt = n - dU*U - (1-fnow)*b*V*U
+        dIdt = (1-fnow)*b*V*U - dI*I
+        dVdt = (1-enow)*p*I - dV*V - g*b*U*V
+
+        list(c(dUdt, dIdt, dVdt))
+      }
+    ) #close with statement
+  } #end function specifying the ODEs
+
+
 
   #override user-supplied initial conditions and instead start with steady state values
   if (steadystate == TRUE) {U0 = max(0,dV*dI/(b*(p-dI*g))); I0 = max(0, (b*n*(dI*g-p)+dI*dU*dV) /(b * (dI^2*g - dI*p))); V0 = max(0,  - (b*n*(dI*g-p)+dI*dU*dV) /  (b*dV*dI))}

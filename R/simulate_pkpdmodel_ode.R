@@ -1,35 +1,3 @@
-############################################################
-##simulation of a simple viral infection model
-# including simple drug Pk-Pd
-# makes use of the deSolve eventfunction
-##written by Andreas Handel (ahandel@uga.edu), last change 7/18/18
-############################################################
-
-
-#function that specificies the ode model
-pkpdode <- function(t, y, parms)
-{
-   with(
-    as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
-    {
-      e=Emax*C^k/(C^k + C50) #drug efficacy, based on level of C
-      dUdt = n - dU*U - b*V*U
-      dIdt = b*V*U - dI*I
-      dVdt = (1-e)*p*I - dV*V - g*b*V*U
-      dCdt = - dC*C
-
-	 	  list(c(dUdt, dIdt, dVdt, dCdt))
-    }
-   ) #close with statement
-} #end function specifying the ODEs
-
-adddrug <- function(t,y,parms)
-{
-  y['C'] = y['C'] + parms['C0']
-  return(y)
-}
-
-
 #' Simulation of a viral infection model with drug PK and PD
 #'
 #' @description This function runs a simulation of a 3 compartment model
@@ -66,9 +34,9 @@ adddrug <- function(t,y,parms)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_pkpdmodel()
+#' result <- simulate_pkpdmodel_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_pkpdmodel(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_pkpdmodel_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -77,8 +45,33 @@ adddrug <- function(t,y,parms)
 #' @author Andreas Handel
 #' @export
 
-simulate_pkpdmodel <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
+simulate_pkpdmodel_ode <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
 {
+
+  #function that specificies the ode model
+  pkpdode <- function(t, y, parms)
+  {
+    with(
+      as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
+      {
+        e=Emax*C^k/(C^k + C50) #drug efficacy, based on level of C
+        dUdt = n - dU*U - b*V*U
+        dIdt = b*V*U - dI*I
+        dVdt = (1-e)*p*I - dV*V - g*b*V*U
+        dCdt = - dC*C
+
+        list(c(dUdt, dIdt, dVdt, dCdt))
+      }
+    ) #close with statement
+  } #end function specifying the ODEs
+
+  adddrug <- function(t,y,parms)
+  {
+    y['C'] = y['C'] + parms['C0']
+    return(y)
+  }
+
+
   Y0 = c(U = U0, I = I0, V = V0, C = 0);  #combine initial conditions into a vector - drug starts at zero in ODE
   dt = min(0.02, tmax / 1000); #time step for which to get results back
   timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)

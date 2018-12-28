@@ -1,12 +1,3 @@
-############################################################
-##this code illustrates how to do analyze a simple model
-#it runs the simple bacterial infection model for a range of parameters
-#for each parameter outcomes are reported
-##the resulting plots are x-y plots with a parameter of interested varied
-#and the change in outcome plotted
-##written by Andreas Handel (ahandel@uga.edu), last change 1/16/18
-############################################################
-
 #' Simulation to illustrate a simple use of a simple model
 #'
 #'
@@ -36,8 +27,10 @@
 #' Bpeak, Ipeak, Bsteady and Isteady.
 #' A final boolean variable 'nosteady' is returned for each simulation.
 #' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
-#' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
+#' @details ##this code illustrates how to do analyze a simple model.
+#' A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 #' is simulated for different parameter values.
+#' This function runs the simple bacterial infection model for a range of parameters.
 #' The user can specify which parameter is sampled, and
 #' the simulation returns for each parameter sample the peak and final value for B and I.
 #' Also returned is the varied parameter and an indicator if steady state was reached.
@@ -86,7 +79,7 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
 
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeout <- simulate_Basic_Bacteria_model_ode(vars = c(B = B0, I = I0), pars = c(g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI), times = c(tstart = 0, tfinal = tmax, dt = 0.1) )
+        odeout <- simulate_basicbacteria_ode(B = B0, I = I0, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = 0, tfinal = tmax, dt = 0.1)
 
         timeseries = odeout$ts
 
@@ -114,7 +107,6 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
     result$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
     result$finaltext = paste("System might not have reached steady state", sum(result$dat$nosteady), "times")
-
 
     return(result)
 }

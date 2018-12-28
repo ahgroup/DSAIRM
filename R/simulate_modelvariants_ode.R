@@ -74,9 +74,9 @@ modelvariantode <- function(t, y, parms)
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the simulation with default parameters just call the function:
-#' result <- simulate_modelvariants()
+#' result <- simulate_modelvariants_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_modelvariants(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
+#' result <- simulate_modelvariants_ode(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -86,7 +86,7 @@ modelvariantode <- function(t, y, parms)
 #' @export
 
 
-simulate_modelvariants <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, ...)
+simulate_modelvariants_ode <- function(U0 = 1e5, I0 = 0, V0 = 10, F0=0, A0=0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, ...)
 {
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app

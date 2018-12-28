@@ -5,16 +5,10 @@
 #last updated 12/16/2018
 ############################################################
 
-#function used below to wrap inputs into a inline-block style
-#found here
-#https://stackoverflow.com/questions/42778522/in-r-adding-multiple-rshiny-actionbutton-or-selectinput-widgets-to-one-row/42778604#42778604
-inlineElement <- function(..., style = ""){ shiny::div(style = sprintf("display:inline-block; %s", style), ...) }
-
-
 #additional input elements for app that are shown on UI
-otherinputs =   shiny::tagList(
-  inlineElement(shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")))
-  ) #end taglist
+otherinputs =   list(
+  shiny::selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+  ) #end list
 
 #additional setting elements that are not provided through UI for a given app
 modeltype = "ode"
@@ -30,7 +24,7 @@ simfunction = NULL
 #sim function still needs to exist
 #right now, idea is to not use mbmodel for any app
 #if not exists, set to NULL
-mbmodelfile = 'Basic_Virus_model.Rdata'
+mbmodelfile = 'BasicVirus_model.Rdata'
 #mbmodelfile = NULL
 
 

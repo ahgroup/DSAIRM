@@ -69,6 +69,7 @@ and runs the basic bacteria ODE model for each sample.
 The function returns a list containing values for each sample and results.
 }
 \details{
+This code illustrates how to do uncertainty and sensitivity analysis.
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
 Parameters are sampled via Latin Hypercube Sampling.
