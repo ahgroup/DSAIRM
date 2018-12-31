@@ -19,7 +19,6 @@
 #' @param tstart : Start time of simulation
 #' @param tfinal : Final time of simulation
 #' @param dt : Time step
-#' @param ... other arguments for possible pass-through
 #' @return The function returns the output as a list.
 #' The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
@@ -31,7 +30,7 @@
 #' @section Model creation date: 2018-12-20
 #' @export
 
-simulate_basicvirus_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1, ...)
+simulate_basicvirus_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1)
 {
   #Block of ODE equations for deSolve
   basicvirus_ode_fct <- function(t, y, parms)

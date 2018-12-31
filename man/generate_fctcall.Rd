@@ -4,12 +4,12 @@
 \alias{generate_fctcall}
 \title{A helper function that takes a model and settings and generates the function call needed to run it}
 \usage{
-generate_fctcall(modelsettings, mbmodel)
+generate_fctcall(modelsettings, modelfunction)
 }
 \arguments{
 \item{modelsettings}{values for model settings}
 
-\item{mbmodel}{a name of the model function to be run for the indicated settings}
+\item{modelfunction}{a name of the model function to be run for the indicated settings}
 }
 \value{
 a string that can be evaluated to run the model
@@ -20,8 +20,8 @@ This is a helper function.
 }
 \details{
 This function produces a function text string.
-If mbmodel is a modelbuilder object, it will be parsed.
-If mbmodel is a character string, this is the function to be run.
+If modelfunction is a modelbuilder object, it will be parsed.
+If modelfunction is a character string, this is the function to be run.
 }
 \author{
 Andreas Handel

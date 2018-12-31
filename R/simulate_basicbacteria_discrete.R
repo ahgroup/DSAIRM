@@ -17,7 +17,6 @@
 #' @param tstart : Start time of simulation
 #' @param tfinal : Final time of simulation
 #' @param dt : Time step
-#' @param ... other arguments for possible pass-through
 #' @return The function returns the output as a list.
 #' The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
@@ -29,7 +28,7 @@
 #' @section Model creation date: 2018-12-21
 #' @export
 
-simulate_basicbacteria_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05, ... )
+simulate_basicbacteria_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05)
 {
       tvec = seq(tstart,tfinal,by=dt)
       ts = data.frame(cbind(tvec, matrix(0,nrow=length(tvec),ncol=2)))

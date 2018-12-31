@@ -4,24 +4,28 @@
 #' It runs the simulation determined by the model settings and returns simulation results.
 #'
 #' @param modelsettings vector of model settings. needs to match input expected by simulation function
-#' @param mbmodel The name of a app/simulation function to be run with the indicated settings.
+#' @param modelfunction The name of a simulation function to be run with the indicated settings.
 #' @return A list named "result" with the simulated dataframe and associated metadata.
 #' @details This function runs a model for specific settings. It is similar to analyze_model in the modelbuilder package.
 #' @author Andreas Handel
 #' @export
 
-run_model <- function(modelsettings, mbmodel) {
+run_model <- function(modelsettings, modelfunction) {
 
   set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
   datall = NULL #will hold data for all different models and replicates
+  ct = 1 #counter to keep track of number of simulations that ran
+
+
 
   ##################################
   #stochastic dynamical model execution
   ##################################
-  if (grep('stochastic',modelsettings$modeltype))
+  if (grepl('stochastic',modelsettings$modeltype))
   {
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    modelsettings$currentmodel = 'stochastic'
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
     for (nn in 1:modelsettings$nreps)
     {
       eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
@@ -36,49 +40,53 @@ run_model <- function(modelsettings, mbmodel) {
       dat$nreps = nn
       datall = rbind(datall,dat)
     }
+    ct = nn + 1 #increase counter that keeps track of number of model runs
   }
 
   ##################################
   #ode dynamical model execution
   ##################################
-  if (grep('ode',modelsettings$modeltype))
+  if (grepl('ode',modelsettings$modeltype))
   {
 
-    currentmodel = mbmodel[grep('_ode',mbmodel)] #list of model functions, get the ode function
+    modelsettings$currentmodel = 'ode'
+    currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
     #the generate_fctcall creates a function call to the specified model based on the given model settings
-    #depending on if mbmodel is the name to a function or a modelbuilder object, different returns are produced
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
+    #depending on if modelfunction is the name to a function or a modelbuilder object, different returns are produced
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
     #browser()
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-    dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
-    dat$nreps = nn
+    dat$IDvar = paste(dat$varnames,ct,sep='') #make a variable for plotting same color lines for each run in ggplot2
+    dat$nreps = ct
     datall = rbind(datall,dat)
+    ct = ct + 1
   }
 
 
   ##################################
   #discrete dynamical model execution
   ##################################
-  if (grep('discrete',modelsettings$modeltype))
+  if (grepl('discrete',modelsettings$modeltype))
   {
-
-    currentmodel = mbmodel[grep('_discrete',mbmodel)] #list of model functions, get the ode function
+    modelsettings$currentmodel = 'discrete'
+    currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
     #the generate_fctcall creates a function call to the specified model based on the given model settings
-    #depending on if mbmodel is the name to a function or a modelbuilder object, different returns are produced
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
+    #depending on if modelfunction is the name to a function or a modelbuilder object, different returns are produced
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
     #browser()
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
-    dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
-    dat$nreps = nn
+    dat$IDvar = paste(dat$varnames,ct,sep='') #make a variable for plotting same color lines for each run in ggplot2
+    dat$nreps = ct
     datall = rbind(datall,dat)
+    ct = ct + 1
   }
 
 
@@ -86,38 +94,58 @@ run_model <- function(modelsettings, mbmodel) {
   ##################################
   #simulators that are not models themselves use this block
   ##################################
-  if (grep('other',modelsettings$modeltype))
+  if (grepl('other',modelsettings$modeltype))
   {
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = mbmodel)
+    modelsettings$currentmodel = 'other'
+    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
 
-    result[[1]]$dat = simresult$dat
-
-    #Meta-information for each plot
-    result[[1]]$plottype = "Scatterplot"
-    result[[1]]$xlab = modelsettings$samplepar
-    result[[1]]$ylab = "Outcomes"
-    result[[1]]$legend = "Outcomes"
-    result[[1]]$legend = "Outcomes"
-    result[[1]]$linesize = 3
-
-    #the 'other' functions need to provide infomration on maketext, showtext and finaltext
-    result[[1]]$maketext = simresult$maketext
-    result[[1]]$showtext = simresult$showtext
-    result[[1]]$finaltext = simresult$finaltext
 
   }
 
 
+  ##################################
+  #take data from all simulations and process into list structure format
+  #needed to generate plots and text
+  ##################################
+
+  #save all results to a list for processing plots and text
+  listlength = modelsettings$nplots
+  #here we do all simulations in the same figure
+  result = vector("list", listlength) #create empty list of right size for results
+
+   for (n in 1:listlength) #loop over each plot
+   {
+
+   }
 
 
-  # #save all results to a list for processing plots and text
-  # listlength = modelsettings$nplots
-  # #here we do all simulations in the same figure
-  # result = vector("list", listlength) #create empty list of right size for results
-  #
-  # for (n in 1:listlength) #loop over each plot
-  # {
+  result$dat = datall
+  result[[1]]$dat = simresult$dat
+
+  #Meta-information for each plot
+  result[[1]]$plottype = "Scatterplot"
+  result[[1]]$xlab = modelsettings$samplepar
+  result[[1]]$ylab = "Outcomes"
+  result[[1]]$legend = "Outcomes"
+  result[[1]]$legend = "Outcomes"
+  result[[1]]$linesize = 3
+
+  #the 'other' functions need to provide infomration on maketext, showtext and finaltext
+  result[[1]]$maketext = simresult$maketext
+  result[[1]]$showtext = simresult$showtext
+  result[[1]]$finaltext = simresult$finaltext
+
+  return(result)
+
+
+
+}
+
+
+  #browser()
+
+
   #
   #
   #   ##################################
@@ -172,16 +200,16 @@ run_model <- function(modelsettings, mbmodel) {
   # {
   #   #run ODE model
   #   modelsettings$modeltype = 'ode'
-  #   currentmodel = mbmodel[grep('_ode',mbmodel)]
-  #   fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
+  #   currentmodel = modelfunction[grep('_ode',modelfunction)]
+  #   fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
   #   eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
   #   names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'c') #label variables as continous
   #   result_ode = simresult #assign result to temp variable for combining below
   #
   #   #run discrete model
   #   modelsettings$modeltype = 'discrete'
-  #   currentmodel = mbmodel[grep('_discrete',mbmodel)]
-  #   fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, mbmodel = currentmodel)
+  #   currentmodel = modelfunction[grep('_discrete',modelfunction)]
+  #   fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
   #   eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
   #   names(simresult$ts)[-1] = paste0(names(simresult$ts)[-1],'d') #label variables as discrete
   #   result_disc = simresult #assign result to temp variable for combining below
@@ -193,5 +221,3 @@ run_model <- function(modelsettings, mbmodel) {
   #
 
 
-  return(result)
-}

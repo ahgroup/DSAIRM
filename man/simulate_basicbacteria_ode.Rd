@@ -6,7 +6,7 @@
 \usage{
 simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
   dB = 0.1, k = 1e-06, r = 0.001, dI = 1, tstart = 0,
-  tfinal = 30, dt = 0.05, ...)
+  tfinal = 30, dt = 0.05)
 }
 \arguments{
 \item{B}{: starting value for Bacteria}
@@ -30,8 +30,6 @@ simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
 \item{tfinal}{: Final time of simulation}
 
 \item{dt}{: Time step}
-
-\item{...}{other arguments that might be supplied but won't be used}
 }
 \value{
 The function returns the output as a list.

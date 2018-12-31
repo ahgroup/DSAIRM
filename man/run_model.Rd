@@ -4,12 +4,12 @@
 \alias{run_model}
 \title{A function that runs a DSAIRM/DSAIDE app}
 \usage{
-run_model(modelsettings, mbmodel)
+run_model(modelsettings, modelfunction)
 }
 \arguments{
 \item{modelsettings}{vector of model settings. needs to match input expected by simulation function}
 
-\item{mbmodel}{The name of a app/simulation function to be run with the indicated settings.}
+\item{modelfunction}{The name of a simulation function to be run with the indicated settings.}
 }
 \value{
 A list named "result" with the simulated dataframe and associated metadata.

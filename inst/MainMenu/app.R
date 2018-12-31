@@ -133,24 +133,20 @@ server <- function(input, output, session) {
                      {
 
         #extract current model settings from UI input elements
-        x=isolate(reactiveValuesToList(input)) #get all shiny inputs
-        x2 = x[! (names(x) %in% appNames)] #remove inputs that are action buttons for apps
+        x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+        x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
         x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
         modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-        #browser()
-        if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no input for replicates, assume reps is 1
-        #if no random seed is set, set it to 123. Only important for models that have a stochastic component
+        if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+        #if no random seed is set in UI, set it to 123. Only important for models that have a stochastic component
         if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
         #if there is a supplied model type from the settings file, use that one
         #note that input for model type might be still 'floating around' if a previous model was loaded
         #not clear how to get rid of old shiny input variables from previously loaded models
         if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
 
-        modelsettings$nplots <- currentmodelplots
-
-        modeltorun = currentsimfct #use name of function to run by default
-        #if (!is.null(currentmbmodel)) {modeltorun = currentmbmodel} #if an mbmodel object is present, use and run that instead
-        result <- run_model(modelsettings = modelsettings, mbmodel = modeltorun)
+        #modelsettings$nplots <- currentmodelplots
+        result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
 
         #create plot from results
         output$plot  <- renderPlot({

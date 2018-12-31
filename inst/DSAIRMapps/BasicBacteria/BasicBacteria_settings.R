@@ -15,13 +15,13 @@ otherinputs = list(
 #if model type is provided as input above, it should be set to NULL here
 modeltype = NULL
 
-#name of underlying simulation function
-#can be set to NULL, in this case mbmodel Rdata file needs to be provided
-#simulator function still needs to be part of the package
-#simfunction = c('simulate_basicbacteria_ode','simulate_basicbacteria_discrete')
-simfunction = NULL
+#name of underlying simulation function(s) to be used in the app
+#must be provided
+simfunction = c('simulate_basicbacteria_ode','simulate_basicbacteria_discrete')
+
 
 #name of underlying mbmodel - if exists
+#if it exists, it will be used to build UI input elements
 #if not exists, set to NULL
 mbmodelfile = 'BasicBacteria_model.Rdata'
 #mbmodelfile = NULL
