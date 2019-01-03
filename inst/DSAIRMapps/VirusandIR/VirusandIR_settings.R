@@ -11,7 +11,7 @@ otherinputs = list(
   ) #end list
 
 #additional setting elements that are not provided through UI for a given app
-modeltype = "ode"
+modeltype = "_ode_"
 
 #name of underlying simulation function
 simfunction = 'simulate_virusandir_ode'
@@ -19,8 +19,6 @@ simfunction = 'simulate_virusandir_ode'
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = NULL
-
-
 
 #number of plots to produce for output
 nplots = 1

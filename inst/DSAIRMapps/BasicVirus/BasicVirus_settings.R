@@ -11,13 +11,11 @@ otherinputs =   list(
   ) #end list
 
 #additional setting elements that are not provided through UI for a given app
-modeltype = "ode"
+modeltype = "_ode_"
 
-#name of underlying simulation function
-#can be set to NULL, in this case mbmodel Rdata file needs to be provided
-#function still needs to be part of the package
-#simfunction = 'simulate_Basic_Virus_model_ode'
-simfunction = NULL
+#name of underlying simulation function(s) to be used in the app
+#must be provided
+simfunction = 'simulate_basicvirus_ode'
 
 #name of underlying mbmodel - if exists will be used to build UI and create
 #model run call instead of sim function

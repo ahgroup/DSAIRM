@@ -4,8 +4,8 @@
 #' @description This function simulates the simple bacteria model for a range of parameters.
 #' The function returns a data frame containing the parameter that has been varied and the outcomes (see details).
 #'
-#' @param B0 initial number of bacteria
-#' @param I0 initial number/strength of immune response
+#' @param B initial number of bacteria
+#' @param I initial number/strength of immune response
 #' @param g rate of bacteria growth
 #' @param Bmax carrying capacity for bacteria
 #' @param dB death rate of bacteria
@@ -13,12 +13,13 @@
 #' @param r rate at which immune response is induced by bacteria
 #' @param dI death rate of immune response
 #' @param samplepar name of parameter to be varied
-#' @param pmin lower value for varied parameter
-#' @param pmax upper value for varied parameter
+#' @param parmin lower value for varied parameter
+#' @param parmax upper value for varied parameter
 #' @param samples number of values to run between pmin and pmax
 #' @param pardist spacing of parameter values, can be either 'lin' or 'log'
-#' @param tmax maximum simulation time, units depend on choice of parameter value units
-#' @param ... other arguments for possible pass-through
+#' @param tstart : Start time of simulation
+#' @param tfinal : Final time of simulation
+#' @param dt : Time step
 #' @return The function returns the output as a list,
 #' list element 'dat' contains the data frame with results of interest.
 #' The first column is called xvals and contains the values of the
@@ -41,7 +42,7 @@
 #' # To run the simulation with default parameters just call the function:
 #' res <- simulate_modelexploration()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' res <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
+#' res <- simulate_modelexploration(dI = 0.1, r = 10, samplepar='Bmax', parmin=1e1, parmax=1e5)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
@@ -50,10 +51,10 @@
 #' @export
 
 
-simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1, samplepar='k', pmin=1e-8, pmax=1e-5, samples = 10, pardist = 'lin', ...)
+simulate_modelexploration <- function(B = 10, I = 1, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1, samplepar='k', parmin=1e-8, parmax=1e-5, samples = 10, pardist = 'lin', tstart = 0, tfinal = 200, dt = 0.1)
   {
 
-    #browser()
+
     #initialize vectors that will contain the outcomes of interest
     Bpeak=rep(0,samples)
     Ipeak=rep(0,samples)
@@ -62,8 +63,8 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
 
     #create values for the parameter of interest to sample over
     #do equal spacing in log space
-    if (pardist == 'lin') {parvec=seq(pmin,pmax,length=samples)}
-    if (pardist == 'log') {parvec=10^seq(log10(pmin),log10(pmax),length=samples)}
+    if (pardist == 'lin') {parvec=seq(parmin,parmax,length=samples)}
+    if (pardist == 'log') {parvec=10^seq(log10(parmin),log10(parmax),length=samples)}
 
 
     nosteady = rep(FALSE,samples) #indicates if steady state has not been reached
@@ -77,9 +78,10 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
         if (samplepar == 'r') {r = parvec[n]}
         if (samplepar == 'dI') {dI = parvec[n]}
 
+
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
-        odeout <- simulate_basicbacteria_ode(B = B0, I = I0, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = 0, tfinal = tmax, dt = 0.1)
+        odeout <- simulate_basicbacteria_ode(B = B, I = I, g = g, Bmax = Bmax, dB = dB, k = k, r = r, dI = dI, tstart = tstart, tfinal = tfinal, dt = dt)
 
         timeseries = odeout$ts
 
@@ -102,11 +104,6 @@ simulate_modelexploration <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6,
     result = list()
     dat = data.frame(xvals = parvec, Bpeak = Bpeak, Ipeak=Ipeak, Bsteady = Bsteady, Isteady = Isteady, nosteady = nosteady)
     result$dat = dat
-
-    #these 3 settings are only needed for the shiny UI presentation
-    result$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-    result$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
-    result$finaltext = paste("System might not have reached steady state", sum(result$dat$nosteady), "times")
 
     return(result)
 }

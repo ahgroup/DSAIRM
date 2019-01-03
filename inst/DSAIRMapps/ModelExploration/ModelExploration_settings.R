@@ -15,7 +15,7 @@ otherinputs =   shiny::tagList(
 
 #additional setting elements that are not provided through UI for a given app
 #if model type is provided as input above, it should be set to NULL here
-modeltype = 'other'
+modeltype = 'modelexploration'
 
 #name of underlying simulation function
 #can be set to NULL, in this case mbmodel Rdata file needs to be provided
@@ -25,9 +25,6 @@ simfunction = 'simulate_modelexploration'
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = NULL
-
-
-
 
 #number of plots to produce for output
 nplots = 1

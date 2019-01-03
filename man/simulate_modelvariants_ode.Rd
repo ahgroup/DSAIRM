@@ -5,26 +5,23 @@
 \title{Simulation of a viral infection model with immune response
 The simulation illustrates different alternative models.}
 \usage{
-simulate_modelvariants_ode(U0 = 1e+05, I0 = 0, V0 = 10, F0 = 0,
-  A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4,
-  b = 1e-05, p = 1000, pF = 1, dF = 1, f1 = 1e-04, f2 = 0,
-  f3 = 0, Fmax = 1000, sV = 1e-10, k1 = 0.001, k2 = 0, k3 = 0,
-  a1 = 1000, a2 = 0, a3 = 0, hV = 1e-10, k4 = 0.001, k5 = 0,
-  k6 = 0, sA = 1e-10, dA = 0.1, ...)
+simulate_modelvariants_ode(U = 1e+05, I = 0, V = 10, F = 0,
+  A = 0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000,
+  pF = 1, dF = 1, f1 = 1e-04, f2 = 0, f3 = 0, Fmax = 1000,
+  sV = 1e-10, k1 = 0.001, k2 = 0, k3 = 0, a1 = 1000, a2 = 0,
+  a3 = 0, hV = 1e-10, k4 = 0.001, k5 = 0, k6 = 0, sA = 1e-10,
+  dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{U0}{initial number of uninfected target cells}
+\item{U}{initial number of uninfected target cells}
 
-\item{I0}{initial number of infected target cells}
+\item{I}{initial number of infected target cells}
 
-\item{V0}{initial number of infectious virions}
+\item{V}{initial number of infectious virions}
 
-\item{F0}{initial level of innate response}
+\item{F}{initial level of innate response}
 
-\item{A0}{initial level of adaptive response}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{A}{initial level of adaptive response}
 
 \item{n}{rate of uninfected cell production}
 
@@ -76,7 +73,11 @@ parameters}
 
 \item{dA}{adaptive immune response decay}
 
-\item{...}{other arguments for possible pass-through}
+\item{tstart}{: Start time of simulation}
+
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: Times for which result is returned.}
 }
 \value{
 The function returns the output from the odesolver as a matrix,
@@ -103,7 +104,7 @@ equations, using an ode solver from the deSolve package.
 # To run the simulation with default parameters just call the function:
 result <- simulate_modelvariants_ode()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_modelvariants_ode(V0 = 100, tmax = 10, k1 = 0 , k2 = 0, k3 = 1e-4)
+result <- simulate_modelvariants_ode(V = 100, k1 = 0 , k2 = 0, k3 = 1e-4)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }

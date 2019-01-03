@@ -22,17 +22,6 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
     #https://stackoverflow.com/questions/42778522/in-r-adding-multiple-rshiny-actionbutton-or-selectinput-widgets-to-one-row/42778604#42778604
     inlineElement <- function(..., style = ""){ shiny::div(style = sprintf("display:inline-block; %s", style), ...) }
 
-
-#     #standard additional input elements for each model
-#     standardinputs <- tagList(
-#             numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1),
-#             selectInput("modeltype", "Model to run",c("ODE" = "ode", 'stochastic' = 'stochastic', 'discrete time' = 'discrete'), selected = 'ode'),
-#             numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1),
-#             selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
-#         )
-
-        #removeUI( selector = "div:has(> #analyzemodel)", immediate = TRUE  )
-
     ###########################################
     #create UI elements as input/output for shiny by parsing a function/R code
     #currently requires that function arguments are given in a vector, not a list like mbmodel functions do
@@ -47,8 +36,6 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
             inlineElement(numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]]))
                     })
     } #end UI creation for an underlying function
-
-    #browser()
 
 
     ###########################################

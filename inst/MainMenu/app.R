@@ -13,9 +13,9 @@ server <- function(input, output, session) {
   appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
   currentApp = NULL #global server variable for currently loaded app
-  currentsimfct <<- NULL #global server variable for current simulation function
   currentmbmodel <<- NULL #global server variable for mbmodel structure
-  currentmodelplots <<- NULL #global server variable for number of plots
+  currentsimfct <<- NULL #global server variable for current simulation function
+  currentmodelnplots <<- NULL #global server variable for number of plots
   currentmbmodelfile <<- NULL #global server variable for mbmodel file name
   currentmodeltype <<- NULL #global server variable for model type to run
   currentotherinputs <<-  NULL
@@ -42,9 +42,9 @@ server <- function(input, output, session) {
       settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
       source(settingfilename) #source the file with additional settings to load them
       currentsimfct <<- simfunction
-      currentmodeltype <<- modeltype
-      currentmodelplots <<- nplots
+      currentmodelnplots <<- nplots
       currentmbmodelfile <<- mbmodelfile
+      currentmodeltype <<- modeltype
       currentotherinputs <<-  otherinputs
 
       #produce Shiny input UI elements for the model
@@ -58,7 +58,7 @@ server <- function(input, output, session) {
       }
       else
       #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
-      #suing the underlying simulation R function/script
+      #this uses the 1st function provided by the settings file and stored in crrentsimfct
       #this only works for numeric inputs, any others will be removed and need to be
       #added to shiny UI using the settings file
       {
@@ -128,12 +128,13 @@ server <- function(input, output, session) {
 
         #run model with specified settings
         #run simulation, show a 'running simulation' message
-        withProgress(message = 'Running Simulation',
-                     detail = "This may take a while", value = 0,
-                     {
+        #withProgress(message = 'Running Simulation',
+         #            detail = "This may take a while", value = 0,
+        #             {
 
         #extract current model settings from UI input elements
         x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+        #x1=as.list(isolate(input)) #get all shiny inputs
         x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
         x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
         modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
@@ -144,8 +145,7 @@ server <- function(input, output, session) {
         #note that input for model type might be still 'floating around' if a previous model was loaded
         #not clear how to get rid of old shiny input variables from previously loaded models
         if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
-
-        #modelsettings$nplots <- currentmodelplots
+        modelsettings$nplots <- currentmodelnplots
         result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
 
         #create plot from results
@@ -156,8 +156,10 @@ server <- function(input, output, session) {
         output$text <- renderText({
           generate_text(result)     #create text for display with a non-reactive function
           })
-       }) #end with-progress wrapper
-      }) #end observe-event for analyze model submit button
+       #}) #end with-progress wrapper
+      }, #end the expression being evaluated by observeevent
+      #once = TRUE
+      ) #end observe-event for analyze model submit button
 
     #######################################################
     #end code that listens to the 'run simulation' button and runs a model for the specified settings

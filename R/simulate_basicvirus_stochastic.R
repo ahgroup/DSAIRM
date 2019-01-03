@@ -3,9 +3,9 @@
 #' @description  Simulation of a stochastic model with the following compartments:
 #' Uninfected target cells (U), Infected cells (I), virus (V).
 #'
-#' @param U0 initial number of target cells. Needs to be an integer.
-#' @param I0 initial number of wild-type infected cells. Needs to be an integer.
-#' @param V0 initial number of resistant virus. Needs to be an integer.
+#' @param U initial number of target cells. Needs to be an integer.
+#' @param I initial number of wild-type infected cells. Needs to be an integer.
+#' @param V initial number of resistant virus. Needs to be an integer.
 #' @param n rate of uninfected cell production
 #' @param dU rate of uninfected cell removal
 #' @param b level/rate of infection of cells
@@ -13,8 +13,10 @@
 #' @param p virus production rate
 #' @param dV virus removal rate
 #' @param rngseed seed for random number generator to allow reproducibility
-#' @param tmax maximum simulation time, units depend on choice of units for your
-#'   parameters
+#' @param tstart : Start time of simulation
+#' @param tfinal : Final time of simulation
+#' @param dt : this is ignored since time step is determined automatically by simulator.
+#' It is only provided to match the ODE and discrete solvers for easier calling.
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
@@ -31,7 +33,7 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_basicvirus_stochastic()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_basicvirus_stochastic(tmax = 20, dI = 0.5)
+#' result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
@@ -39,7 +41,7 @@
 #' @author Andreas Handel
 #' @export
 
-simulate_basicvirus_stochastic <- function(U0 = 1E4, I0 = 0, V0 = 5, tmax = 30, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100)
+simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 5, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100, tstart = 0, tfinal = 30, dt = 0.05)
 {
 
   #this specifies the rates used by the adapativetau routine
@@ -61,9 +63,7 @@ simulate_basicvirus_stochastic <- function(U0 = 1E4, I0 = 0, V0 = 5, tmax = 30, 
          })
   } #end function specifying rates used by adaptivetau
 
-
-
-  Y0 = c(U = U0, I = I0, V = V0);  #combine initial conditions into a vector
+  Y0 = c(U = U, I = I, V = V);  #combine initial conditions into a vector
 
   #combining parameters into a parameter vector
   pars = c(n = n, dU = dU, b = b, dI = dI, p = p, dV = dV);
@@ -82,8 +82,6 @@ simulate_basicvirus_stochastic <- function(U0 = 1E4, I0 = 0, V0 = 5, tmax = 30, 
   #the result is saved in the odeoutput matrix, with the 1st column the time, the 2nd+ columns are the model variables
   set.seed(rngseed) # to allow reproducibility
   output = adaptivetau::ssa.adaptivetau(init.values = Y0, transitions = transitions,  rateFunc = stochasticratefunc, params = pars, tf = tmax, tl.params = list(maxtau = 0.1))
-
-  colnames(output) = c('Time','U','I','V')
 
   #return result as list, with element ts containing the time-series
   result = list()

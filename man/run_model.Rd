@@ -7,7 +7,7 @@
 run_model(modelsettings, modelfunction)
 }
 \arguments{
-\item{modelsettings}{vector of model settings. needs to match input expected by simulation function}
+\item{modelsettings}{vector of model settings. needs to contain inputs expected by simulation function. Also needs to provide further information.}
 
 \item{modelfunction}{The name of a simulation function to be run with the indicated settings.}
 }

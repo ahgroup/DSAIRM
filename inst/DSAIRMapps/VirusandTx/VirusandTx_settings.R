@@ -13,7 +13,7 @@ otherinputs =   shiny::tagList(
   ) #end taglist
 
 #additional setting elements that are not provided through UI for a given app
-modeltype = "ode"
+modeltype = "_ode_"
 
 #name of underlying simulation function
 simfunction = 'simulate_virusandtx_ode'

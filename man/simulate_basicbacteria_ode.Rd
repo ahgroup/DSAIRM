@@ -29,7 +29,8 @@ simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
 
 \item{tfinal}{: Final time of simulation}
 
-\item{dt}{: Time step}
+\item{dt}{: Times for which result is returned.
+For ODE models, this is not the internal time step, the latter is set automatically by the ODE solver.}
 }
 \value{
 The function returns the output as a list.
@@ -44,9 +45,13 @@ The model includes bacteria and an immune response. The processes are bacteria g
 This code is based on a dynamical systems model created by the modelbuilder package.
 The model is implemented here as a set of ordinary differential equations,
 using the deSolve package.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
- This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
+ This function does not perform any error checking.
+So if you try to do something nonsensical (e.g. have negative values for parameters),
+the code will likely abort with an error message.
 }
 
 \section{Model Author}{
@@ -60,4 +65,8 @@ using the deSolve package.
 \examples{
 # To run the simulation with default parameters:
 result <- simulate_basicbacteria_ode()
+# To run the simulation with different parameter or starting values,
+# supply the ones you want to change.
+# all other parameters will be kept at their default values shown in the function call above
+result <- simulate_basicbacteria_ode(B = 100, g = 0.5, dI = 2)
 }

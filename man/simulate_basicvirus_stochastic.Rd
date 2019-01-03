@@ -4,19 +4,16 @@
 \alias{simulate_basicvirus_stochastic}
 \title{Stochastic simulation of a compartmental acute virus infection model}
 \usage{
-simulate_basicvirus_stochastic(U0 = 10000, I0 = 0, V0 = 5,
-  tmax = 30, n = 0, dU = 0, b = 1e-04, dI = 1, p = 10,
-  dV = 2, rngseed = 100)
+simulate_basicvirus_stochastic(U = 10000, I = 0, V = 5, n = 0,
+  dU = 0, b = 1e-04, dI = 1, p = 10, dV = 2, rngseed = 100,
+  tstart = 0, tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{U0}{initial number of target cells. Needs to be an integer.}
+\item{U}{initial number of target cells. Needs to be an integer.}
 
-\item{I0}{initial number of wild-type infected cells. Needs to be an integer.}
+\item{I}{initial number of wild-type infected cells. Needs to be an integer.}
 
-\item{V0}{initial number of resistant virus. Needs to be an integer.}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{V}{initial number of resistant virus. Needs to be an integer.}
 
 \item{n}{rate of uninfected cell production}
 
@@ -31,6 +28,13 @@ parameters}
 \item{dV}{virus removal rate}
 
 \item{rngseed}{seed for random number generator to allow reproducibility}
+
+\item{tstart}{: Start time of simulation}
+
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: this is ignored since time step is determined automatically by simulator.
+It is only provided to match the ODE and discrete solvers for easier calling.}
 }
 \value{
 A list. The list has only one element called ts.
@@ -59,7 +63,7 @@ the code will likely abort with an error message.
 # To run the simulation with default parameters just call the function:
 result <- simulate_basicvirus_stochastic()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_basicvirus_stochastic(tmax = 20, dI = 0.5)
+result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 }

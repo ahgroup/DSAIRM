@@ -63,7 +63,7 @@ simulate_basicmodel_fit(U0 = 1e+05, I0 = 0, V0 = 1, X0 = 1,
 \item{...}{other arguments for possible pass-through}
 }
 \value{
-The function returns a list containing the best fit time series, the best fit parameters
+The function returns a list containing as elements the best fit time series data frame, the best fit parameters,
 the data and the final SSR
 }
 \description{

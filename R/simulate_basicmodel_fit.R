@@ -28,7 +28,7 @@
 #' @param iter max number of steps to be taken by optimizer
 #' @param solvertype the type of solver/optimizer to use, can be 1, 2, or 3. See details below.
 #' @param ... other arguments for possible pass-through
-#' @return The function returns a list containing the best fit time series, the best fit parameters
+#' @return The function returns a list containing as elements the best fit time series data frame, the best fit parameters,
 #' the data and the final SSR
 #' @details A simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data.
@@ -168,44 +168,7 @@ simulate_basicmodel_fit <- function(U0 = 1e5, I0 = 0, V0 = 1, X0 = 1, n = 0, dU 
   output$bestpars = params
   output$SSR = ssrfinal
 
-
-  #get data for return into shape that can be used by the generate plot function
-  colnames(output$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
-  #reformat data to be in the right format for plotting
-  #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-  dat = tidyr::gather(as.data.frame(output$timeseries), -xvals, value = "yvals", key = "varnames")
-  dat$style = 'line'
-
-  #next, add data that's being fit to data frame
-  colnames(fitdata) = c('xvals','yvals')
-  fitdata$varnames = 'Data'
-  fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
-  fitdata$style = 'point'
-  dat = rbind(dat,fitdata)
-
-  #code variable names as factor and level them so they show up right in plot
-  mylevels = unique(dat$varnames)
-  dat$varnames = factor(dat$varnames, levels = mylevels)
-
-  #data for plots and text
-  #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
-  #each variable listed in varnames will also be processed to produce text
-  output$dat = dat
-
-
-  #generate text for output
-  ssr = format(ssrfinal, digits =2, nsmall = 2) #mean across simulations (for stochastic models)
-  pfinal = format(log10(output$bestpars[1]), digits =2, nsmall = 2)
-  bfinal = format(log10(output$bestpars[2]), digits =2, nsmall = 2)
-  dVfinal = format(output$bestpars[3], digits =2, nsmall = 2)
-
-  txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
-  txt2 <- paste('Final SSR is ',ssr)
-
-
-  output$maketext = FALSE
-  output$showtext = FALSE
-  output$finaltext = paste(txt1,txt2, sep = "<br/>")
+  output$data = fitdata
 
   #The output produced by the fitting routine
   return(output)
