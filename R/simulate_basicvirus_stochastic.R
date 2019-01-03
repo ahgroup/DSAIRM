@@ -35,7 +35,7 @@
 #' # To choose parameter values other than the standard one, specify them, like such:
 #' result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 #' # You should then use the simulation result returned from the function, like this:
-#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
+#' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
 #'             See the app corresponding to this function in DSAIDE for more details on the model.
 #' @author Andreas Handel
@@ -81,7 +81,7 @@ simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 5, n = 0, dU = 0,
   #this line runs the simulation,
   #the result is saved in the odeoutput matrix, with the 1st column the time, the 2nd+ columns are the model variables
   set.seed(rngseed) # to allow reproducibility
-  output = adaptivetau::ssa.adaptivetau(init.values = Y0, transitions = transitions,  rateFunc = stochasticratefunc, params = pars, tf = tmax, tl.params = list(maxtau = 0.1))
+  output = adaptivetau::ssa.adaptivetau(init.values = Y0, transitions = transitions,  rateFunc = stochasticratefunc, params = pars, tf = tfinal, tl.params = list(maxtau = 0.1))
 
   #return result as list, with element ts containing the time-series
   result = list()

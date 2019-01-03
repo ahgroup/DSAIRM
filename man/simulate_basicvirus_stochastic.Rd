@@ -65,7 +65,7 @@ result <- simulate_basicvirus_stochastic()
 # To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 # You should then use the simulation result returned from the function, like this:
-plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
+plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 }
 \references{
 See the manual for the adaptivetau package for details on the algorithm.

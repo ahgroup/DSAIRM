@@ -106,7 +106,7 @@ result <- simulate_modelvariants_ode()
 # To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_modelvariants_ode(V = 100, k1 = 0 , k2 = 0, k3 = 1e-4)
 # You should then use the simulation result returned from the function, like this:
-plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

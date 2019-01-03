@@ -6,10 +6,9 @@
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a matrix containing time-series of each variable and time.
 #'
-#' @param U0 initial number of uninfected target cells
-#' @param I0 initial number of infected target cells
-#' @param V0 initial number of infectious virions
-#' @param tmax maximum simulation time, units depend on choice of units for parameters
+#' @param U initial number of uninfected target cells
+#' @param I initial number of infected target cells
+#' @param V initial number of infectious virions
 #' @param n rate of new uninfected cell replenishment
 #' @param dU rate at which uninfected cells die
 #' @param dI rate at which infected cells die
@@ -24,6 +23,9 @@
 #' @param Emax maximum drug effect (0-1)
 #' @param txstart time of drug treatment start
 #' @param txinterval time between drug doses
+#' @param tstart : Start time of simulation
+#' @param tfinal : Final time of simulation
+#' @param dt : Times for which result is returned.
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
@@ -45,7 +47,7 @@
 #' @author Andreas Handel
 #' @export
 
-simulate_pkpdmodel_ode <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
+simulate_pkpdmodel_ode <- function(U = 1e7, I = 0, V = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
 {
 
   #function that specificies the ode model
@@ -65,16 +67,15 @@ simulate_pkpdmodel_ode <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU 
     ) #close with statement
   } #end function specifying the ODEs
 
+  #function that specifies addition of drug at the indicated time
   adddrug <- function(t,y,parms)
   {
     y['C'] = y['C'] + parms['C0']
     return(y)
   }
 
-
-  Y0 = c(U = U0, I = I0, V = V0, C = 0);  #combine initial conditions into a vector - drug starts at zero in ODE
-  dt = min(0.02, tmax / 1000); #time step for which to get results back
-  timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  Y0 = c(U = U, I = I, V = V, C = 0);  #combine initial conditions into a vector - drug starts at zero in ODE
+  timevec = seq(tstart, tfinal, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
   pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b, g=g, p=p, C0 = C0, dC=dC,C50 = C50, k = k, Emax = Emax);
@@ -84,8 +85,6 @@ simulate_pkpdmodel_ode <- function(U0 = 1e7, I0 = 0, V0 = 1, tmax = 30, n=0, dU 
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = pkpdode, events = list(func = adddrug, time = drugtimes), parms=pars, atol=1e-12, rtol=1e-12);
-
-  colnames(odeoutput) = c('Time','U','I','V','C')
 
   #return result as list, with element ts containing the time-series
   result = list()
