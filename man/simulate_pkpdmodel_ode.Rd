@@ -2,21 +2,19 @@
 % Please edit documentation in R/simulate_pkpdmodel_ode.R
 \name{simulate_pkpdmodel_ode}
 \alias{simulate_pkpdmodel_ode}
-\title{Simulation of a viral infection model with drug PK and PD}
+\title{PkPd Virus model}
 \usage{
-simulate_pkpdmodel_ode(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30,
-  n = 0, dU = 0, dI = 1, dV = 2, b = 2e-07, g = 1, p = 5,
-  C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10,
-  txinterval = 5)
+simulate_pkpdmodel_ode(U = 1e+07, I = 0, V = 1, n = 0, dU = 0,
+  dI = 1, dV = 2, b = 2e-07, g = 1, p = 5, C0 = 2, dC = 0.5,
+  C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5,
+  tstart = 0, tfinal = 30, dt = 0.1)
 }
 \arguments{
-\item{U0}{initial number of uninfected target cells}
+\item{U}{initial number of uninfected target cells}
 
-\item{I0}{initial number of infected target cells}
+\item{I}{initial number of infected target cells}
 
-\item{V0}{initial number of infectious virions}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for parameters}
+\item{V}{initial number of infectious virions}
 
 \item{n}{rate of new uninfected cell replenishment}
 
@@ -45,6 +43,12 @@ simulate_pkpdmodel_ode(U0 = 1e+07, I0 = 0, V0 = 1, tmax = 30,
 \item{txstart}{time of drug treatment start}
 
 \item{txinterval}{time between drug doses}
+
+\item{tstart}{: Start time of simulation}
+
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: Times for which result is returned.}
 }
 \value{
 A list. The list has only one element called ts.
@@ -52,13 +56,14 @@ ts contains the time-series of the simulation.
 The 1st column of ts is Time, the other columns are the model variables.
 }
 \description{
-This function runs a simulation of a 3 compartment model
-using a set of ordinary differential equations.
-The user provides initial conditions and parameter values for the system.
+This function runs a simulation of the basic 3 compartment
+virus infection model including the pharmacokinetics and pharmacodynamics
+of a drug. The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package.
-The function returns a matrix containing time-series of each variable and time.
 }
 \details{
+A basic virus infection model with drug PkPd
+
 A simple compartmental model is simulated as a set of ordinary differential
 equations, using an ode solver from the deSolve package.
 }
@@ -72,9 +77,9 @@ equations, using an ode solver from the deSolve package.
 # To run the simulation with default parameters just call the function:
 result <- simulate_pkpdmodel_ode()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_pkpdmodel_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+result <- simulate_pkpdmodel_ode(V = 100, txstart = 10, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, like this:
-plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

@@ -12,7 +12,6 @@
 
 run_model <- function(modelsettings, modelfunction) {
 
-  set.seed(modelsettings$rngseed) #set RNG seed specified by the settings before executing function call
 
   datall = NULL #will hold data for all different models and replicates
   #ct = 1 #counter to keep track of number of simulations that ran
@@ -23,9 +22,10 @@ run_model <- function(modelsettings, modelfunction) {
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'stochastic'
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
+    currentmodel = modelfunction[grep('_stochastic',modelfunction)] #list of model functions, get the ode function
     for (nn in 1:modelsettings$nreps)
     {
+      fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel) #create function call each time since seed changes
       eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
@@ -37,8 +37,8 @@ run_model <- function(modelsettings, modelfunction) {
       dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
       dat$nreps = nn
       datall = rbind(datall,dat)
+      modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
     }
-    #ct = nn + 1 #increase counter that keeps track of number of model runs
   }
 
   ##################################

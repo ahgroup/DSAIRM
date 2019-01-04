@@ -28,6 +28,13 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
     ###########################################
     if (class(mbmodel)=="character" )
     {
+
+        #file containing model
+        fcfile = paste0(system.file("simulatorfunctions", package = "DSAIRM"),'/',mbmodel,'.R')
+        #get every line in documentation part of file that starts with @param
+
+        # turn each @param statement into a string for display
+
         ip = formals(mbmodel)
         #remove function arguments that are not numeric
         ip = ip[unlist(lapply(ip,is.numeric))]

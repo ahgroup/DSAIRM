@@ -9,27 +9,27 @@ simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
   tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{B}{: starting value for Bacteria}
+\item{B}{: starting value for Bacteria : numeric}
 
-\item{I}{: starting value for Immune Response}
+\item{I}{: starting value for Immune Response : numeric}
 
-\item{g}{: maximum rate of bacteria growth}
+\item{g}{: maximum rate of bacteria growth : numeric}
 
-\item{Bmax}{: bacteria carrying capacity}
+\item{Bmax}{: bacteria carrying capacity : numeric}
 
-\item{dB}{: bacteria death rate}
+\item{dB}{: bacteria death rate : numeric}
 
-\item{k}{: bacteria kill rate}
+\item{k}{: bacteria kill rate : numeric}
 
-\item{r}{: immune response growth rate}
+\item{r}{: immune response growth rate : numeric}
 
-\item{dI}{: immune response decay rate}
+\item{dI}{: immune response decay rate : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{tstart}{: start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{tfinal}{: final time of simulation : numeric}
 
-\item{dt}{: Times for which result is returned.
+\item{dt}{: times for which result is returned : numeric
 For ODE models, this is not the internal time step, the latter is set automatically by the ODE solver.}
 }
 \value{
@@ -38,13 +38,12 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic bacteria infection model with 2 compartments
+A basic bacteria infection model with 2 compartments. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
 }
 \details{
-The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
 This code is based on a dynamical systems model created by the modelbuilder package.
-The model is implemented here as a set of ordinary differential equations,
-using the deSolve package.
+The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
+This is a predator-prey type model.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.
 }
@@ -54,12 +53,8 @@ So if you try to do something nonsensical (e.g. have negative values for paramet
 the code will likely abort with an error message.
 }
 
-\section{Model Author}{
+\section{Author}{
  Andreas Handel
-}
-
-\section{Model creation date}{
- 2018-12-21
 }
 
 \examples{

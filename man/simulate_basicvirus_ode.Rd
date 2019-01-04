@@ -9,31 +9,31 @@ simulate_basicvirus_ode(U = 1e+05, I = 0, V = 1, n = 0, dU = 0,
   tfinal = 30, dt = 0.1)
 }
 \arguments{
-\item{U}{: starting value for Uninfected cells}
+\item{U}{: starting value for Uninfected cells : numeric}
 
-\item{I}{: starting value for Infected cells}
+\item{I}{: starting value for Infected cells : numeric}
 
-\item{V}{: starting value for Virus}
+\item{V}{: starting value for Virus : numeric}
 
-\item{n}{: rate of new uninfected cell replenishment}
+\item{n}{: rate of new uninfected cell replenishment : numeric}
 
-\item{dU}{: rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{: rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{: rate at which virus is cleared}
+\item{dV}{: rate at which virus is cleared : numeric}
 
-\item{b}{: rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{p}{: rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{g}{: possible conversion factor for virus units}
+\item{g}{: possible conversion factor for virus units : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: Time step}
+\item{dt}{: time step : numeric}
 }
 \value{
 The function returns the output as a list.
@@ -41,24 +41,20 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic virus infection model with 3 compartments
+A basic virus infection model with 3 compartments. The model tracks uninfected and infected target cells, as well as free virus. The processes that are modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
 }
 \details{
-The model includes uninfected and infected target cells, as well as free virus. The processes that are modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
 This code is based on a dynamical systems model created by the modelbuilder package.
-The model is implemented here as a set of ordinary differential equations,
-using the deSolve package.
+The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
 }
 
-\section{Model Author}{
+\section{Author}{
  Andreas Handel
-}
-
-\section{Model creation date}{
- 2018-12-20
 }
 
 \examples{

@@ -1,24 +1,25 @@
 #' Basic Virus model
 #'
-#' A basic virus infection model with 3 compartments
+#' @description A basic virus infection model with 3 compartments. The model tracks uninfected and infected target cells, as well as free virus. The processes that are modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
 #'
-#' @details The model includes uninfected and infected target cells, as well as free virus. The processes that are modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
-#' This code is based on a dynamical systems model created by the modelbuilder package.
-#' The model is implemented here as a set of ordinary differential equations,
-#' using the deSolve package.
-#' @param U : starting value for Uninfected cells
-#' @param I : starting value for Infected cells
-#' @param V : starting value for Virus
-#' @param n : rate of new uninfected cell replenishment
-#' @param dU : rate at which uninfected cells die
-#' @param dI : rate at which infected cells die
-#' @param dV : rate at which virus is cleared
-#' @param b : rate at which virus infects cells
-#' @param p : rate at which infected cells produce virus
-#' @param g : possible conversion factor for virus units
-#' @param tstart : Start time of simulation
-#' @param tfinal : Final time of simulation
-#' @param dt : Time step
+#' @details This code is based on a dynamical systems model created by the modelbuilder package.
+#' The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
+#'
+#' @param U : starting value for Uninfected cells : numeric
+#' @param I : starting value for Infected cells : numeric
+#' @param V : starting value for Virus : numeric
+#' @param n : rate of new uninfected cell replenishment : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which virus is cleared : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param g : possible conversion factor for virus units : numeric
+#' @param tstart : Start time of simulation : numeric
+#' @param tfinal : Final time of simulation : numeric
+#' @param dt : time step : numeric
 #' @return The function returns the output as a list.
 #' The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
@@ -26,8 +27,7 @@
 #' # To run the simulation with default parameters:
 #' result <- simulate_basicvirus_ode()
 #' @section Warning: This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
-#' @section Model Author: Andreas Handel
-#' @section Model creation date: 2018-12-20
+#' @section Author: Andreas Handel
 #' @export
 
 simulate_basicvirus_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1)

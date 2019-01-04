@@ -1,10 +1,11 @@
-#' Simulation of a viral infection model with drug PK and PD
+#' PkPd Virus model
 #'
-#' @description This function runs a simulation of a 3 compartment model
-#' using a set of ordinary differential equations.
-#' The user provides initial conditions and parameter values for the system.
+#' A basic virus infection model with drug PkPd
+#'
+#' @description This function runs a simulation of the basic 3 compartment
+#' virus infection model including the pharmacokinetics and pharmacodynamics
+#' of a drug. The user provides initial conditions and parameter values for the system.
 #' The function simulates the ODE using an ODE solver from the deSolve package.
-#' The function returns a matrix containing time-series of each variable and time.
 #'
 #' @param U initial number of uninfected target cells
 #' @param I initial number of infected target cells
@@ -38,16 +39,16 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_pkpdmodel_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_pkpdmodel_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_pkpdmodel_ode(V = 100, txstart = 10, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, like this:
-#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
 #' @author Andreas Handel
 #' @export
 
-simulate_pkpdmodel_ode <- function(U = 1e7, I = 0, V = 1, tmax = 30, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5)
+simulate_pkpdmodel_ode <- function(U = 1e7, I = 0, V = 1, n=0, dU = 0, dI = 1, dV = 2, b = 2e-7, g = 1, p = 5, C0 = 2, dC = 0.5, C50 = 1, k = 2, Emax = 1, txstart = 10, txinterval = 5, tstart = 0, tfinal = 30, dt = 0.1)
 {
 
   #function that specificies the ode model
@@ -75,12 +76,12 @@ simulate_pkpdmodel_ode <- function(U = 1e7, I = 0, V = 1, tmax = 30, n=0, dU = 0
   }
 
   Y0 = c(U = U, I = I, V = V, C = 0);  #combine initial conditions into a vector - drug starts at zero in ODE
-  timevec = seq(tstart, tfinal, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  timevec = seq(tstart, tfinal, by = dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
   pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b, g=g, p=p, C0 = C0, dC=dC,C50 = C50, k = k, Emax = Emax);
 
-  drugtimes = seq(txstart,tmax,by=txinterval) #times at which drug is administered
+  drugtimes = seq(txstart, tfinal, by = txinterval) #times at which drug is administered
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
