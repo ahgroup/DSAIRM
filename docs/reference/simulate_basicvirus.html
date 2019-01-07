@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulation of a basic viral infection model without an immune response — simulate_basicvirus • DSAIRM</title>
+<title>Simulation of a basic viral infection model without an immune response — simulate_Basic_Virus_model_ode • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Simulation of a basic viral infection model without an immune response — simulate_basicvirus" />
+<meta property="og:title" content="Simulation of a basic viral infection model without an immune response — simulate_Basic_Virus_model_ode" />
 
 <meta property="og:description" content="This function runs a simulation of a 3 compartment model
 using a set of ordinary differential equations.
@@ -121,8 +121,8 @@ The function returns a matrix containing time-series of each variable and time."
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Simulation of a basic viral infection model without an immune response</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM//blob/master/R/simulate_basicvirus.R'><code>R/simulate_basicvirus.R</code></a></small>
-    <div class="hidden name"><code>simulate_basicvirus.Rd</code></div>
+    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM//blob/master/R/simulate_Basic_Virus_model_ode.R'><code>R/simulate_Basic_Virus_model_ode.R</code></a></small>
+    <div class="hidden name"><code>simulate_Basic_Virus_model_ode.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -135,7 +135,7 @@ The function returns a matrix containing time-series of each variable and time.<
     
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_basicvirus</span>(<span class='kw'>U0</span> <span class='kw'>=</span> <span class='fl'>1e+07</span>, <span class='kw'>I0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <pre class="usage"><span class='fu'>simulate_Basic_Virus_model_ode</span>(<span class='kw'>U0</span> <span class='kw'>=</span> <span class='fl'>1e+07</span>, <span class='kw'>I0</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2e-07</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -213,11 +213,11 @@ package for details on the underlying ODE simulator algorithm.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicvirus</span>()
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_Basic_Virus_model_ode</span>()
 <span class='co'># To choose parameter values other than the standard one, specify the, like such:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicvirus</span>(<span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>)
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_Basic_Virus_model_ode</span>(<span class='kw'>V0</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>tmax</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>)
 <span class='co'># You should then use the simulation result returned from the function, e.g. like this:</span>
-<span class='fu'>plot</span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"Time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='img'><img src='simulate_basicvirus-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>plot</span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"Time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='img'><img src='simulate_Basic_Virus_model_ode-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

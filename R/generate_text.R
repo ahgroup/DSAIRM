@@ -112,6 +112,7 @@ generate_text <- function(res)
               resmax = resmax + max(currentsim$yvals)
               resmin = resmin + min(currentsim$yvals)
               resfinal = resfinal + currentsim$yvals[nrows]
+              #browser()
             } #finish loop over reps
 
 

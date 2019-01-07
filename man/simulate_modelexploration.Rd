@@ -4,18 +4,15 @@
 \alias{simulate_modelexploration}
 \title{Simulation to illustrate a simple use of a simple model}
 \usage{
-simulate_modelexploration(B0 = 10, I0 = 1, tmax = 30, g = 1,
-  Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1,
-  samplepar = "k", pmin = 1e-08, pmax = 1e-05, samples = 10,
-  pardist = "lin")
+simulate_modelexploration(B = 10, I = 1, g = 1, Bmax = 1e+06,
+  dB = 0.1, k = 1e-07, r = 0.001, dI = 1, samplepar = "k",
+  parmin = 1e-08, parmax = 1e-05, samples = 10, pardist = "lin",
+  tstart = 0, tfinal = 200, dt = 0.1)
 }
 \arguments{
-\item{B0}{initial number of bacteria}
+\item{B}{initial number of bacteria}
 
-\item{I0}{initial number/strength of immune response}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{I}{initial number/strength of immune response}
 
 \item{g}{rate of bacteria growth}
 
@@ -31,13 +28,19 @@ parameters}
 
 \item{samplepar}{name of parameter to be varied}
 
-\item{pmin}{lower value for varied parameter}
+\item{parmin}{lower value for varied parameter}
 
-\item{pmax}{upper value for varied parameter}
+\item{parmax}{upper value for varied parameter}
 
 \item{samples}{number of values to run between pmin and pmax}
 
 \item{pardist}{spacing of parameter values, can be either 'lin' or 'log'}
+
+\item{tstart}{: Start time of simulation}
+
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: Time step}
 }
 \value{
 The function returns the output as a list,
@@ -54,8 +57,10 @@ This function simulates the simple bacteria model for a range of parameters.
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details).
 }
 \details{
+##this code illustrates how to do analyze a simple model.
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
+This function runs the simple bacterial infection model for a range of parameters.
 The user can specify which parameter is sampled, and
 the simulation returns for each parameter sample the peak and final value for B and I.
 Also returned is the varied parameter and an indicator if steady state was reached.
@@ -70,7 +75,7 @@ Also returned is the varied parameter and an indicator if steady state was reach
 # To run the simulation with default parameters just call the function:
 res <- simulate_modelexploration()
 # To choose parameter values other than the standard one, specify them, like such:
-res <- simulate_modelexploration(dI = 0.1, r = 10, tmax = 100)
+res <- simulate_modelexploration(dI = 0.1, r = 10, samplepar='Bmax', parmin=1e1, parmax=1e5)
 # You should then use the simulation result returned from the function, like this:
 plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 }

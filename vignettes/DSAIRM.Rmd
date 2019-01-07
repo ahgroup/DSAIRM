@@ -62,17 +62,6 @@ dsairmmenu()
 
 This will bring up a graphical menu from which one can select each Shiny app. Each app contains the information needed to understand the underlying model, and has a list of (non exhaustive) suggested tasks to learn about the topic covered by the app. After exploring an app, the user returns to the main menu and eventually exits the main menu and closes the R session. No code needs to be written at this level of exploration and learning.
 
-#### Alternative app use
-If for some reason you do not want to go through the main menu, you can call individual apps directly with the function `dsairmapps()`. By typing
-```{r, eval=FALSE, echo=TRUE}
-dsairmapps()
-```
-you will get a list of available apps. To start a specific app, supply its name in quotation marks to this function, e.g. if you wanted to call the basic bacteria app, you'd call
-```{r, eval=FALSE, echo=TRUE}
-dsairmapps('BasicBacteria')
-```
-Once you exit the app, you are back at the R console and can call the next app.
-
 
 ### Level 2: Directly interacting with the simulation functions
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
@@ -84,21 +73,21 @@ The exploration of the models through the graphical interface is the first and m
 To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved. You can call/use any of these functions directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding underlying function(s).
 
 
-Consider as example the first app, called "Basic Bacterium Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete.R` and one that runs the continuous, differential equation model called `simulate_basicbacteria.R`. If you were interested in the latter, you can learn about the inputs and outputs of the function by looking at its documentation. To that end, type the following into the `R` console (make sure you loaded the DSAIRM package first): 
+Consider as example the first app, called "Basic Bacterium Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete.R` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode.R`. If you were interested in the latter, you can learn about the inputs and outputs of the function by looking at its documentation. To that end, type the following into the `R` console (make sure you loaded the DSAIRM package first): 
 ```{r eval=FALSE, echo=TRUE}
-help('simulate_basicbacteria')
+help('simulate_basicbacteria_ode')
 ```
 
 The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the duration for which the simulation should be run, and the different model parameters. Unless explicitly specified, the models do not have inherent time units. Instead, those are set by the user based on choices for parameters. Each parameter has some default, which is used if one calls the fuction without any additional information. You can modify those default settings. For instance you could call the simulator with the following settings, overwriting the defaults for some of the parameters, while using the default values for the remainder:  
 
 ```{r, eval=TRUE, echo=TRUE}
-result <- simulate_basicbacteria(B0 = 500, I0 = 5, tmax = 100, g = 0.5,  r = 0.002)
+result <- simulate_basicbacteria_ode(B = 500, I = 5, g = 1, r = 0.002, dI = 1 )
 ```
 
 Calling the simulation function executes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. It is now your job to  produce their own plots. As example, a plot of bacteria as function of time could be achieved with this line of code:
 
 ```{r, eval=TRUE, echo=TRUE}
-plot(result$ts[,"Time"],result$ts[,"Bc"],xlab='Time',ylab='Bacteria Numbers',type='l')
+plot(result$ts[,"time"],result$ts[,"B"],xlab='time',ylab='Bacteria Numbers',type='l')
 ```
 
 The ability to call the simulation functions directly instead of going through the graphical interface allows additional exploration of the models. For instance if one wanted to explore the behavior of a model systematically for different values of a given parameter, this would need to be done manually if run through the graphical interface. Calling the function directly allows one to automate this by wrapping the function inside a loop over the parameter of interest, recording some quantity of interest for each run, and report the result at the end. The following is a simple example, showing a loop over different values of the immune response activation rate and recording the peak of the bacteria numbers each time, with the final result _peak of bacteria as function of immune activation rate_ shown in a plot:
@@ -109,9 +98,9 @@ rvec = 10^seq(-5,-2,length=20) #values of log immune activation rate, r, for whi
 peak = rep(0,length(rvec)) #this will record the peak values for each r
 for (n in 1:length(rvec))
 {
-  #call the simulator function with different values of g each time
-  result <- simulate_basicbacteria(B0 = 10, I0 = 1, tmax = 200, r = rvec[n])
-  peak[n] <- max(result$ts[,"Bc"]) #record max number of bacteria for each value of r
+  #call the simulator function with different values of r each time, other parameters stay at their defaults
+  result <- simulate_basicbacteria_ode(  r = rvec[n] )
+  peak[n] <- max(result$ts[,"B"]) #record max number of bacteria for each value of r
 }
 #plot final result
 plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria',log='xy')
@@ -132,47 +121,34 @@ All simulator functions are (hopefully) well documented. Some basic to intermedi
 
 The following provides a simple example of this process of modifying a simulator function and exploring its results. Assume that we want to modify the simple bacteria model encoded in `simulate_basicbacteria.R`. After finding the file and making a copy (let's call the modified function `mysimulator.R`), we can make modifications. Say we want to change the immune activation/growth term by including saturation at some maximum rate when bacteria numbers are high, i.e. we want to change the term _rBI_ to _rBI/(B+s)_, which leads to a growth at rate _rI_ if _B_ is much larger than _s_.
 
-We will need to modify the following lines of code in the R script:
+We will need to modify the following lines of code in the R script.
 
 
-old:
+First we modify the name of the function and inputs from this:
 ```{r eval=FALSE, echo=TRUE}
-simulate_basicbacteria <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1)
+simulate_basicbacteria_ode <- function(B = 10, I = 1, g =  1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.01)
 ```
 
-new:
+to this new version:
 ```{r eval=FALSE, echo=TRUE}
-mysimulator <- function(B0 = 10, I0 = 1, tmax = 30, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e3, dI=1, s=1E3)
+mysimulator <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 1e3, dI = 1,s = 1e3, tstart = 0, tfinal = 30, dt = 0.01)
 ```
 
-Note that we changed the default value for _r_ to ensure the immune response is sufficiently triggered.
-
-
-old:
-```{r eval=FALSE, echo=TRUE}
-pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI)
-```
-
-new:
-```{r eval=FALSE, echo=TRUE, color='red'}
-pars = c(g=g,Bmax=Bmax,dB=dB,k=k,r=r,dI=dI,s=s)
-```
-
-
-old:
+We also need to update the equations, from this:
 ```{r eval=FALSE, echo=TRUE}
 dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
 dIdt = r*B*I - dI*I
 ```
 
-new:
+to this:
 ```{r eval=FALSE, echo=TRUE}
 dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
 dIdt = r*B*I/(s+B) - dI*I
 ```
 
+We could rename the function that contains the equations, `basicbacteria_ode_fct`, but that is not required.
 
-We could now for instance explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
+We can now for instance explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
 
 
 ```{r eval=TRUE, echo=TRUE}
@@ -181,8 +157,8 @@ svec = 10^seq(-3,3,length=20) #values of saturation parameter
 Imax = rep(0,length(svec)) #this will record the final immune response level
 for (n in 1:length(svec))
 {
-  result <- mysimulator(s = svec[n])
-  Imax[n] <- max(result$ts[,"Ic"])
+  result <- mysimulator( s = svec[n] )
+  Imax[n] <- max(result$ts[,"I"])
 }
 plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response level',log='xy')
 ```

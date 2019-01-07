@@ -1,6 +1,6 @@
 ##################################################################################
 ##fitting influenza virus load data to a simple ODE model
-##model used is the one in "simulate_basicvirus.R"
+##model used is the one in "simulate_Basic_Virus_model_ode.R"
 ##illustrates bootstrapping to compute CI
 ##written by Andreas Handel, ahandel@uga.edu, last change 7/1/18
 
@@ -18,7 +18,7 @@ cifitfunction <- function(params, mydata, Y0, xvals, fixedpars, fitparnames, par
   allpars = c(Y0,max(xvals),params,fixedpars)
 
     #this function catches errors
-    odeout <- try(do.call(DSAIRM::simulate_basicvirus, as.list(allpars)));
+    odeout <- try(do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars)));
 
     simres = odeout$ts
 
@@ -156,7 +156,7 @@ simulate_fitconfint <- function(U0 = 1e5, I0 = 0, V0 = 10, n = 0, dU = 0, dI = 2
   #run model to get trajectory for plotting
   modelpars = c(params,fixedpars)
   allpars = c(Y0,tmax=max(mydata$xvals),modelpars)
-  odeout <- do.call(DSAIRM::simulate_basicvirus, as.list(allpars))
+  odeout <- do.call(DSAIRM::simulate_Basic_Virus_model_ode, as.list(allpars))
 
   simres = odeout$ts
 

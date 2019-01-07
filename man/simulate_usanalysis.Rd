@@ -4,20 +4,20 @@
 \alias{simulate_usanalysis}
 \title{Simulation to illustrate uncertainty and sensitivity analysis}
 \usage{
-simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
+simulate_usanalysis(Bmin = 1, Bmax = 10, Imin = 1, Imax = 10,
   Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
   kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001,
-  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30,
-  samples = 10, rngseed = 100)
+  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, samples = 10,
+  rngseed = 100, tstart = 0, tfinal = 200, dt = 0.1)
 }
 \arguments{
-\item{B0min}{lower bound for initial bacteria numbers}
+\item{Bmin}{lower bound for initial bacteria numbers}
 
-\item{B0max}{upper bound for initial bacteria numbers}
+\item{Bmax}{upper bound for initial bacteria numbers}
 
-\item{I0min}{lower bound for initial immune response}
+\item{Imin}{lower bound for initial immune response}
 
-\item{I0max}{upper bound for initial immune response}
+\item{Imax}{upper bound for initial immune response}
 
 \item{Bmaxmin}{lower bound for maximum bacteria load}
 
@@ -43,11 +43,15 @@ simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
 
 \item{gvar}{variance for bacteria growth rate}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for model parameters}
-
 \item{samples}{number of LHS samples to run}
 
 \item{rngseed}{seed for random number generator}
+
+\item{tstart}{: Start time of simulation}
+
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: Time step}
 }
 \value{
 The function returns the output as a list.

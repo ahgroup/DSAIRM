@@ -2,72 +2,62 @@
 % Please edit documentation in R/simulate_basicbacteria_discrete.R
 \name{simulate_basicbacteria_discrete}
 \alias{simulate_basicbacteria_discrete}
-\title{Simulation of a basic model with bacteria and an immune response
-illustrating a simple within-host predator-prey model}
+\title{Basic Bacteria model}
 \usage{
-simulate_basicbacteria_discrete(B0 = 10, I0 = 1, tmax = 30, g = 1,
-  Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1,
-  dt = 0.01)
+simulate_basicbacteria_discrete(B = 10, I = 1, g = 1, Bmax = 1e+06,
+  dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0,
+  tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{B0}{initial number of bacteria}
+\item{B}{: starting value for Bacteria}
 
-\item{I0}{initial number/strength of immune response}
+\item{I}{: starting value for Immune Response}
 
-\item{tmax}{Maximum simulation time, units depend on choice of units for your
-parameters.}
+\item{g}{: maximum rate of bacteria growth}
 
-\item{g}{rate of bacteria growth}
+\item{Bmax}{: bacteria carrying capacity}
 
-\item{Bmax}{carrying capacity for bacteria}
+\item{dB}{: bacteria death rate}
 
-\item{dB}{death rate of bacteria}
+\item{k}{: bacteria kill rate}
 
-\item{k}{rate at which bacteria are killed by immune response}
+\item{r}{: immune response growth rate}
 
-\item{r}{rate at which immune response is induced by bacteria}
+\item{dI}{: immune response decay rate}
 
-\item{dI}{death rate of immune response}
+\item{tstart}{: Start time of simulation}
 
-\item{dt}{Time step for simulation, units depend on choice of units for your
-parameters.}
+\item{tfinal}{: Final time of simulation}
+
+\item{dt}{: Time step}
 }
 \value{
 The function returns the output as a list.
-The time-series from the simulation is returned as element ts
-in the list,
-the 1st column of ts is Time, the rest are the
-bacteria and immune response variables, which are labeled Bd and Id
-to indicate discrete model.
+The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
+The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-This function runs a simulation of a basic 2 compartment model
-using discrete time steps.
-The user provides initial conditions and parameter values for the system.
-The function simulates the model by advancing from start to end time in discrete time steps.
-The function returns a matrix containing time-series of each variable and time.
+A basic bacteria infection model with 2 compartments
 }
 \details{
-A simple 2 compartment model is simulated as a discrete time model.
+The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
+This code is based on a dynamical systems model created by the modelbuilder package.
+The model is implemented here as a set of discrete-time, deterministic equations,
+coded as a simple for-loop.
 }
 \section{Warning}{
- This function does not perform any error checking. So if
-  you try to do something nonsensical (e.g. specify negative parameter values
-  or fractions > 1), the code will likely abort with an error message
+ This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
+}
+
+\section{Model Author}{
+ Andreas Handel
+}
+
+\section{Model creation date}{
+ 2018-12-21
 }
 
 \examples{
-# To run the simulation with default parameters just call the function:
+# To run the simulation with default parameters:
 result <- simulate_basicbacteria_discrete()
-# To choose parameter values other than the standard one, specify them like such:
-result <- simulate_basicbacteria_discrete(B0 = 100, I0 = 10, tmax = 100, g = 0.5)
-# You should then use the simulation result returned from the function, like this:
-plot(result$ts[,'Time'],result$ts[,'Bd'])
-}
-\seealso{
-See the Shiny app documentation that uses this simulator
-function for more details on this model.
-}
-\author{
-Andreas Handel
 }
