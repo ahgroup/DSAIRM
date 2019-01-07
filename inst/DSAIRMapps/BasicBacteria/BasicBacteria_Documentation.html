@@ -157,7 +157,7 @@
 <ul>
 <li>Set everything back as in task 1.</li>
 <li>Now repeat what you did in the previous task, but this time investigate how changes in the immune response death rate parameter affect results.</li>
-<li><strong>Make sure to always go through the iterative ‘think about expectations -&gt; run simulation -&gt; update understanding’ process (i.e. ‘do science’ with the model).</strong></li>
+<li><strong>Make sure to always go through the iterative ‘think about expectations -&gt; run simulation -&gt; update understanding’ process (i.e. ‘do science’ with the model).</strong></li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
@@ -181,10 +181,10 @@
 <h2>Further Information</h2>
 <ul>
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying functions running the simulation are called <code>simulate_Basic_Bacteria_model_ode</code> and <code>simulate_Basic_Bacteria_model_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying functions running the simulation are called <code>simulate_basicbacteria_ode</code> and <code>simulate_basicbacteria_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called <code>simulatorfunctions</code>. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
+<li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
 <li>For somewhat similar within-host models (applied to TB and antibiotic resistance), see <span class="citation">(Antia, Koella, and Perrot 1996; Handel, Margolis, and Levin 2009)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
