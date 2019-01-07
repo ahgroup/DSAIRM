@@ -7,11 +7,7 @@
 
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
-  shiny::selectInput("fitb", "fit parameter b",c("Yes" = TRUE, "No" = FALSE), selected = TRUE),
-  shiny::selectInput("fitp", "fit parameter p",c("Yes" = TRUE, "No" = FALSE), selected = TRUE),
-  shiny::selectInput("fitdV", "fit parameter dV",c("Yes" = TRUE, "No" = FALSE), selected = TRUE),
   shiny::selectInput("usesimdata", "Fit to simulated data",c("Yes" = TRUE, "No" = FALSE), selected = FALSE),
-  shiny::selectInput("solvertype", "Solver to use", c(1, 2, 3), selected = 1),
   shiny::selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
 ) #end taglist
 

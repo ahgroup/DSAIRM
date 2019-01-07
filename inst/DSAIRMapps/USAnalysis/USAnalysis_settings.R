@@ -13,7 +13,7 @@ otherinputs =   shiny::tagList(
 
 #additional setting elements that are not provided through UI for a given app
 #if model type is provided as input above, it should be set to NULL here
-modeltype = 'other'
+modeltype = 'usanalysis'
 
 #name of underlying simulation function
 #can be set to NULL, in this case mbmodel Rdata file needs to be provided

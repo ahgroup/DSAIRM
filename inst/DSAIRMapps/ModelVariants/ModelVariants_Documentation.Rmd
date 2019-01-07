@@ -60,11 +60,11 @@ Obviously, the number of alternative models we could make that are biologically 
 
 ### Model Diagram
 
-
+<div class = "diagramfig">
 ```{r modelvariants,  fig.cap='Flow diagram for the model with different innate and adaptive response variants.',  echo=FALSE, out.width = "60%"}
 knitr::include_graphics("../../media/modelvariants.png")
 ```
-
+</div>
 
 ### Model Equations
 

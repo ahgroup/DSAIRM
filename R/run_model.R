@@ -91,7 +91,7 @@ run_model <- function(modelsettings, modelfunction) {
   }
 
   ##################################
-  #take data from all simulations and process into list structure format
+  #take data from all simulations and turn into list structure format
   #needed to generate plots and text
   #this applies to simulators that run dynamical models
   #other simulation functions need output processed differently and will overwrite some of these settings
@@ -115,14 +115,18 @@ run_model <- function(modelsettings, modelfunction) {
   ##################################
   #additional settings for all types of simulators
   ##################################
-  plotscale = modelsettings$plotscale
+
+  result[[1]]$dat = datall
 
   #set min and max for scales. If not provided ggplot will auto-set
-  #result[[1]]$ymin = 0.1
-  #result[[1]]$ymax = max(simresult)
-  #result[[1]]$xmin = 1e-12
-  #result[[1]]$xmax = 9
-  result[[1]]$dat = datall
+  if (!is.null(datall))
+  {
+    result[[1]]$ymin = 0.1
+    result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+    result[[1]]$xmin = 1e-12
+    result[[1]]$xmax = max(datall$xvals)
+  }
+
   #Meta-information for each plot
   #Might not want to hard-code here, can decide later
   result[[1]]$plottype = "Lineplot"
@@ -130,6 +134,7 @@ run_model <- function(modelsettings, modelfunction) {
   result[[1]]$ylab = "Numbers"
   result[[1]]$legend = "Compartments"
 
+  plotscale = modelsettings$plotscale
   result[[1]]$xscale = 'identity'
   result[[1]]$yscale = 'identity'
   if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
@@ -139,23 +144,67 @@ run_model <- function(modelsettings, modelfunction) {
   ##################################
   #simulators that are not models themselves use their own blocks
   ##################################
-
-
   if (grepl('usanalysis',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'other'
     fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
 
-    #Meta-information for each plot
-    result[[1]]$plottype = "Scatterplot"
-    result[[1]]$xlab = modelsettings$samplepar
-    result[[1]]$ylab = "Outcomes"
-    result[[1]]$legend = "Outcomes"
-    result[[1]]$legend = "Outcomes"
-    result[[1]]$linesize = 3
 
-  }
+    #pull the indicator for non-steady state out of the dataframe, process separately
+    nosteady = simresult$dat$nosteady
+    simresult$dat$nosteady <- NULL
+
+    simdat = simresult$dat
+
+    result <- vector("list", 24) #set up a list structure with as many elements as plots
+    #loop over each outer list element corresponding to a plot and fill it with another list
+    #of meta-data and data needed to create each plot
+    #each parameter-output pair is its own plot, therefore its own list entry
+    ct=1; #some counter
+    result[[ct]]$ncol = 3 #number of columns for plot, needs to be stored in 1st sub-list element
+    for (n in 1:8) #first loop over each parameter
+    {
+      for (nn in 1:3) #for each parameter, loop over outcomes
+      {
+
+        #data frame for each plot
+        xvals = simdat[,3+n] #elements 4 to end end are parameters
+        xvalname = colnames(simdat)[3+n]
+        yvals = simdat[,nn] #first 3 elements are outcomes
+        yvalname = colnames(simdat)[nn]
+        dat = data.frame(xvals = xvals, yvals = yvals, varnames = yvalname)
+        result[[ct]]$dat = dat
+
+        #meta-data for each plot
+        result[[ct]]$plottype = plottype
+        result[[ct]]$xlab = xvalname
+        result[[ct]]$ylab = yvalname
+        result[[ct]]$legend = NULL #set to either false or provide the label for legends
+
+
+
+        result[[ct]]$xscale = 'identity'
+        result[[ct]]$yscale = 'identity'
+        if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
+        if (plotscale == 'y' | plotscale == 'both') { result[[ct]]$yscale = 'log10'}
+
+        #the following are for text display for each plot
+        result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+        result[[ct]]$finaltext = paste("System might not have reached steady state", sum(nosteady), "times")
+
+        ct = ct + 1
+      } #inner loop
+    } #outer loop
+
+    #if we look at uncertainty/boxplots, we don't need results stratified by parameter
+    #since all the plots and printout contain repeated information, we'll just retain the first 3 ones
+    if (plottype == "Boxplot")
+    {
+      result <- result[c(1:3)]
+    }
+
+  } #end US analysis model code block
 
 
   if (grepl('_fit_',modelsettings$modeltype))
@@ -163,7 +212,6 @@ run_model <- function(modelsettings, modelfunction) {
 
     fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
     eval(parse(text = fctcall)) #execute function, result is returned in 'simresult' object
-
 
     colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -177,27 +225,30 @@ run_model <- function(modelsettings, modelfunction) {
     fitdata$varnames = 'Data'
     fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
     fitdata$style = 'point'
-    dat = rbind(dat,fitdata)
+    alldat = rbind(dat,fitdata)
 
     #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(dat$varnames)
-    dat$varnames = factor(dat$varnames, levels = mylevels)
+    mylevels = unique(alldat$varnames)
+    alldat$varnames = factor(alldat$varnames, levels = mylevels)
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = dat
+    result[[1]]$dat = alldat
+
+    if (!is.null(datall))
+    {
+      result[[1]]$ymin = 0.1
+      result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+      result[[1]]$xmin = 1e-12
+      result[[1]]$xmax = max(datall$xvals)
+    }
 
     #Meta-information for each plot
     result[[1]]$plottype = "Mixedplot"
     result[[1]]$xlab = "Time"
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
-    #set min and max for scales. If not provided ggplot will auto-set
-    #result[[1]]$ymin = 0.1
-    #result[[1]]$ymax = max(simresult)
-    #result[[1]]$xmin = 1e-12
-    #result[[1]]$xmax = 9
 
     #best fit results to be displayed as text
     ssr = format(simresult$SSR, digits =2, nsmall = 2)
@@ -215,8 +266,6 @@ run_model <- function(modelsettings, modelfunction) {
   }
 
 
-
-
   if (grepl('modelexploration',modelsettings$modeltype))
   {
 
@@ -225,14 +274,13 @@ run_model <- function(modelsettings, modelfunction) {
 
     #these 3 settings are only needed for the shiny UI presentation
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-    result[[1]]$showtext = '' #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
+    result[[1]]$showtext = NULL #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
     result[[1]]$finaltext = paste("System might not have reached steady state", sum(result$dat$nosteady), "times")
 
     #Meta-information for each plot
     result[[1]]$plottype = "Scatterplot"
     result[[1]]$xlab = modelsettings$samplepar
     result[[1]]$ylab = "Outcomes"
-    result[[1]]$legend = "Outcomes"
     result[[1]]$legend = "Outcomes"
     result[[1]]$linesize = 3
 
