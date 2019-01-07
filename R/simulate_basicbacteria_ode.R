@@ -55,7 +55,7 @@ simulate_basicbacteria_ode <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 
   timevec=seq(tstart,tfinal,by=dt)
   vars = c(B = B, I = I)
   pars = c(g = g, Bmax = Bmax, dB =dB, k = k, r=r,dI=dI)
-  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicbacteria_ode_fct)
+  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicbacteria_ode_fct, atol = 1e-12, rtol = 1e-12)
   result <- list()
   result$ts <- as.data.frame(odeout)
   return(result)

@@ -23,3 +23,8 @@ simfunction = 'simulate_usanalysis'
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = NULL
+
+
+
+#number of plots to produce for output
+nplots = 1

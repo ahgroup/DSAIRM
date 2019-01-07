@@ -56,9 +56,12 @@ The following processes/flows are included in the model:
 ### Model Diagram
 The diagram illustrates both compartmental models, with colors to indicate mechanisms that are part of either model 1 or model 2.
 
-```{r BIdiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
+<div class = "diagramfig">
+```{r twomodeldiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
 knitr::include_graphics("../../media/modelcomparison.png")
 ```
+</div>
+
 
 
 ### Model Equations

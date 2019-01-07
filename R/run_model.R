@@ -142,14 +142,20 @@ run_model <- function(modelsettings, modelfunction) {
 
 
   ##################################
-  #simulators that are not models themselves use their own blocks
+  #simulators that are not models themselves use their custom code own blocks
+  #these are specified below
+  #these simulators might overwrite some of the default settings above
+  ##################################
+
+
+  ##################################
+  #Code block for US analysis
   ##################################
   if (grepl('usanalysis',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'other'
     fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
     eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
-
 
     #pull the indicator for non-steady state out of the dataframe, process separately
     nosteady = simresult$dat$nosteady
@@ -177,12 +183,10 @@ run_model <- function(modelsettings, modelfunction) {
         result[[ct]]$dat = dat
 
         #meta-data for each plot
-        result[[ct]]$plottype = plottype
+        result[[ct]]$plottype = modelsettings$plottype
         result[[ct]]$xlab = xvalname
         result[[ct]]$ylab = yvalname
         result[[ct]]$legend = NULL #set to either false or provide the label for legends
-
-
 
         result[[ct]]$xscale = 'identity'
         result[[ct]]$yscale = 'identity'
@@ -199,14 +203,19 @@ run_model <- function(modelsettings, modelfunction) {
 
     #if we look at uncertainty/boxplots, we don't need results stratified by parameter
     #since all the plots and printout contain repeated information, we'll just retain the first 3 ones
-    if (plottype == "Boxplot")
+    if (modelsettings$plottype == "Boxplot")
     {
       result <- result[c(1:3)]
     }
+  }
+  ##################################
+  #end US analysis model code block
+  ##################################
 
-  } #end US analysis model code block
 
-
+  ##################################
+  #model fitting code block
+  ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
 
@@ -250,22 +259,82 @@ run_model <- function(modelsettings, modelfunction) {
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
 
-    #best fit results to be displayed as text
-    ssr = format(simresult$SSR, digits =2, nsmall = 2)
-    pfinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
-    bfinal = format(log10(simresult$bestpars[2]), digits =2, nsmall = 2)
-    dVfinal = format(simresult$bestpars[3], digits =2, nsmall = 2)
-
-    txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
-    txt2 <- paste('Final SSR is ',ssr)
 
     result[[1]]$maketext = FALSE
     result[[1]]$showtext = NULL
-    result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+
+    ####################################################
+    #different choices for slightly different fit models
+    #best fit results to be displayed as text
+    #this is for basic fitting routine
+    if (grepl('basicmodel_fit',modelfunction))
+    {
+      ssr = format(simresult$SSR, digits =2, nsmall = 2)
+      pfinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
+      bfinal = format(log10(simresult$bestpars[2]), digits =2, nsmall = 2)
+      dVfinal = format(simresult$bestpars[3], digits =2, nsmall = 2)
+
+      txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
+      txt2 <- paste('Final SSR is ',ssr)
+      result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+    }
+
+    #best fit results to be displayed as text
+    #this is for confidence interval routine
+    if (grepl('confint_fit',modelfunction))
+    {
+      ssr = format(simresult$SSR, digits =2, nsmall = 2)
+      bfinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
+      blowfit = format(log10(simresult$confint[1]), digits =2, nsmall = 2)
+      bhighfit = format(log10(simresult$confint[2]), digits =2, nsmall = 2)
+      dVfinal = format(simresult$bestpars[2], digits =2, nsmall = 2)
+      dVlowfit = format(simresult$confint[3], digits =2, nsmall = 2)
+      dVhighfit = format(simresult$confint[4], digits =2, nsmall = 2)
+
+      txt1 <- paste('Best fit values for parameters 10^b and dV are ',bfinal,' and ',dVfinal)
+      txt2 <- paste('Lower and upper bounds for 10^b are ',blowfit,' and ',bhighfit)
+      txt3 <- paste('Lower and upper bounds for dV are ',dVlowfit,' and ',dVhighfit)
+      txt4 <- paste('SSR is ',ssr)
+
+      result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
+    }
+
+
+    #best fit results to be displayed as text
+    #this is for model comparison fit  routine
+    if (grepl('modelcomparison_fit',modelfunction))
+    {
+
+      #store values for each variable
+      aicc = format(simresult$AICc, digits =2, nsmall = 2)
+      ssr = format(simresult$SSR, digits =2, nsmall = 2)
+      afinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
+      bfinal = format(log10(simresult$bestpars[3]), digits =2, nsmall = 2)
+      r_or_dXfinal = format(simresult$bestpars[2], digits =2, nsmall = 2)
+
+      if (modelsettings$fitmodel == 1)
+      {
+        txt1 <- paste('Best fit values for model 1 parameters 10^a / 10^b / r  are ',afinal,'/',bfinal,'/',r_or_dXfinal)
+      }
+      if (modelsettings$fitmodel == 2)
+      {
+        txt1 <- paste('Best fit values for model 2 parameters 10^a / 10^b / dX are ',afinal,'/',bfinal,'/',r_or_dXfinal)
+      }
+
+      txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
+
+      result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+    }
 
   }
+  ##################################
+  #end model fitting code block
+  ##################################
 
 
+  ##################################
+  #model exploration code block
+  ##################################
   if (grepl('modelexploration',modelsettings$modeltype))
   {
 
@@ -287,10 +356,13 @@ run_model <- function(modelsettings, modelfunction) {
     simresult$dat$nosteady <- NULL #remove before return so it won't be plotted
     result[[1]]$dat = simresult$dat
   }
+  ##################################
+  #end model exploration code block
+  ##################################
 
-
-
-
+  #return result structure to calling function (app.R)
+  #results need to be in a form that they
+  #can be sent to the plot and text functions to generate results
   return(result)
 
 }

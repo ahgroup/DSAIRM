@@ -4,21 +4,20 @@
 \alias{simulate_usanalysis}
 \title{Simulation to illustrate uncertainty and sensitivity analysis}
 \usage{
-simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
+simulate_usanalysis(Bmin = 1, Bmax = 10, Imin = 1, Imax = 10,
   Bmaxmin = 1e+05, Bmaxmax = 1e+06, dBmin = 0.1, dBmax = 0.1,
   kmin = 1e-07, kmax = 1e-07, rmin = 0.001, rmax = 0.001,
-  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, tmax = 30,
-  samples = 10, rngseed = 100, plottype = "Boxplot",
-  plotscale = "none", ...)
+  dImin = 1, dImax = 2, gmean = 0.5, gvar = 0.1, samples = 10,
+  rngseed = 100, tstart = 0, tfinal = 200, dt = 0.1)
 }
 \arguments{
-\item{B0min}{lower bound for initial bacteria numbers}
+\item{Bmin}{lower bound for initial bacteria numbers}
 
-\item{B0max}{upper bound for initial bacteria numbers}
+\item{Bmax}{upper bound for initial bacteria numbers}
 
-\item{I0min}{lower bound for initial immune response}
+\item{Imin}{lower bound for initial immune response}
 
-\item{I0max}{upper bound for initial immune response}
+\item{Imax}{upper bound for initial immune response}
 
 \item{Bmaxmin}{lower bound for maximum bacteria load}
 
@@ -44,21 +43,22 @@ simulate_usanalysis(B0min = 1, B0max = 10, I0min = 1, I0max = 10,
 
 \item{gvar}{variance for bacteria growth rate}
 
-\item{tmax}{maximum simulation time, units depend on choice of units for model parameters}
-
 \item{samples}{number of LHS samples to run}
 
 \item{rngseed}{seed for random number generator}
 
-\item{plottype}{type of plot "Boxplot", "Scatterplot"}
+\item{tstart}{: Start time of simulation}
 
-\item{plotscale}{linear or log axes ('none', 'x', 'y', 'both')}
+\item{tfinal}{: Final time of simulation}
 
-\item{...}{other arguments for possible pass-through}
+\item{dt}{: Time step}
 }
 \value{
-The function returns the output as a vectored list,
-with each vector element containing data and other information to generate plots and text
+The function returns the output as a list.
+The list element 'dat' contains a data frame
+with sample values for each parameter as columns, followed by columns for the results.
+A final variable 'nosteady' is returned for each simulation.
+It is TRUE if the simulation did not reach steady state, otherwise FALSE.
 }
 \description{
 This function performs uncertainty and sensitivity analysis
@@ -69,7 +69,6 @@ and runs the basic bacteria ODE model for each sample.
 The function returns a list containing values for each sample and results.
 }
 \details{
-This code illustrates how to do uncertainty and sensitivity analysis.
 A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
 is simulated for different parameter values.
 Parameters are sampled via Latin Hypercube Sampling.
@@ -77,10 +76,8 @@ Distribution for all parameters is assumed to be uniform between the min and max
 The only exception is the bacteria growth parameter,
 which is assumed to be gamma distributed with the specified mean and variance.
 The simulation returns for each parameter sample the peak and final value for B and I.
-Also returned are all parameter values used for a specific sample
-This information is stored in the first sub-list in  the  element 'datall'
-All other sub-lists contain a data frame for a specific parameter and result
-and furhter information that allow creation of plots
+Also returned are all parameter values as individual columns
+and an indicator stating if steady state was reached.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -92,13 +89,9 @@ and furhter information that allow creation of plots
 # To run the simulation with default parameters just call the function:
 result <- simulate_usanalysis()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_usanalysis(Bmaxmin = 1e3, Bmaxmax = 1e7, samples = 5)
-# You can then should then use the simulation result returned from the function, like this:
-generate_plots(result)
-# Or for more detailed control, further process the full dataset, which you can look at like so
-head(result[[1]]$datall)
-# and for instance plot one of the parameters vs one of the outcomes like so
-plot(result[[1]]$datall[,"dI"],result[[1]]$datall[,"Bpeak"],xlab='dI',ylab='Bpeak',type='p')
+result <- simulate_usanalysis(dImin = 0.1, dImax = 10, samples = 5)
+# You should then use the simulation result returned from the function, like this:
+plot(result$dat[,"dI"],result$dat[,"Bpeak"],xlab='values for d',ylab='Peak Bacteria',type='l')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

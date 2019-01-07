@@ -1,26 +1,28 @@
 ############################################################
-#This is a file for the Virus and Tx App
+#This is a file for the Confidence Interval
 #it contains additional information that helps properly process it
 #written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 12/21/2018
+#last updated 12/26/2018
 ############################################################
-
 
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
-  shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
-  ) #end taglist
+  selectInput("parscale", "Scale for parameter fitting",c("Linear" = 'lin', "Logarithmic" = 'log'), selected = 'lin'),
+  shiny::selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+) #end taglist
 
 #additional setting elements that are not provided through UI for a given app
-modeltype = "_ode_"
+#if model type is provided as input above, it should be set to NULL here
+modeltype = '_fit_'
 
 #name of underlying simulation function
-simfunction = 'simulate_pkpdmodel_ode'
+#can be set to NULL, in this case mbmodel Rdata file needs to be provided
+#simulator function still needs to be part of the package
+simfunction = 'simulate_confint_fit'
 
 #name of underlying mbmodel - if exists
 #if not exists, set to NULL
 mbmodelfile = NULL
-
 
 #number of plots to produce for output
 nplots = 1

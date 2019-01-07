@@ -241,7 +241,7 @@ ui <- fluidPage(
                                actionButton("ConfIntFit", "Confidence intervals", class="mainbutton")
                         ),
                         column(6,
-                               actionButton("ModelComparison", "Model comparison", class="mainbutton")
+                               actionButton("ModelComparisonFit", "Model comparison", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input

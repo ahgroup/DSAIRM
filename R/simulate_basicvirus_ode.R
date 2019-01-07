@@ -51,7 +51,7 @@ simulate_basicvirus_ode <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI =
   timevec=seq(tstart,tfinal,by=dt)
   vars = c(U = U, I = I, V = V)
   pars = c(n = n, dU = dU, dI = dI, dV = dV, b = b, p = p, g = g)
-  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicvirus_ode_fct)
+  odeout = deSolve::ode(y = vars, parms = pars, times = timevec,  func = basicvirus_ode_fct, atol=1e-12, rtol=1e-12)
   result <- list()
   result$ts <- as.data.frame(odeout)
   return(result)
