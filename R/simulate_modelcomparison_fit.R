@@ -41,7 +41,7 @@
 #' # To run the code with default parameters just call the function:
 #' \dontrun{result <- simulate_modelcomparison_fit()}
 #' # To apply different settings, provide them to the simulator function, like such:
-#' result <- simulate_modelcomparison_fit(iter = 5, modeltype = 2)
+#' result <- simulate_modelcomparison_fit(iter = 5, fitmodel = 1)
 #' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -98,18 +98,18 @@ simulate_modelcomparison_fit <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
   ###################################################################
   #function that fits the ODE model to data
   ###################################################################
-  modelcompfitfunction <- function(params, mydata, Y0, xvals, modeltype, fixedpars, fitparnames)
+  modelcompfitfunction <- function(params, mydata, Y0, xvals, fitmodel, fixedpars, fitparnames)
   {
 
     names(params) = fitparnames #for some reason nloptr strips names from parameters
     modelpars = c(params,fixedpars)
     #call ode-solver lsoda to integrate ODEs
 
-    if (modeltype == 1)
+    if (fitmodel == 1)
     {
       odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model1ode, parms=modelpars, atol=1e-8, rtol=1e-8));
     }
-    if (modeltype == 2)
+    if (fitmodel == 2)
     {
       odeout <- try(deSolve::ode(y = Y0, times = xvals, func = model2ode, parms=modelpars, atol=1e-8, rtol=1e-8));
     }
@@ -158,7 +158,7 @@ simulate_modelcomparison_fit <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
   #combining fixed parameters into a parameter vector
   fixedpars = c(dI=dI,dV=dV,p=p,k=k, g=g);
 
-  if (modeltype == 1)
+  if (fitmodel == 1)
   {
     par_ini = as.numeric(c(a=a, r=r, b=b))
     lb = as.numeric(c(alow, rlow, blow))
@@ -166,7 +166,7 @@ simulate_modelcomparison_fit <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
     fitparnames = c('a','r','b')
   }
 
-  if (modeltype == 2)
+  if (fitmodel == 2)
   {
     par_ini = as.numeric(c(a=a, dX=dX, b=b))
     lb = as.numeric(c(alow, dXlow, blow))
@@ -177,7 +177,7 @@ simulate_modelcomparison_fit <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=modelcompfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, modeltype=modeltype, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=modelcompfitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), mydata=mydata, Y0 = Y0, xvals = xvals, fitmodel=fitmodel, fixedpars=fixedpars,fitparnames=fitparnames)
 
 
   #extract best fit parameter values and from the result returned by the optimizer

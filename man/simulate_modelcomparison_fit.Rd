@@ -8,7 +8,7 @@ simulate_modelcomparison_fit(U = 1e+05, I = 0, V = 1, X = 1,
   dI = 1, dV = 2, g = 0, p = 10, k = 1e-06, a = 1e-05,
   alow = 1e-06, ahigh = 1e-04, b = 1e-05, blow = 1e-06,
   bhigh = 0.001, r = 1, rlow = 0.1, rhigh = 2, dX = 1,
-  dXlow = 0.1, dXhigh = 10, modeltype = 1, iter = 100)
+  dXlow = 0.1, dXhigh = 10, fitmodel = 1, iter = 100)
 }
 \arguments{
 \item{U}{initial number of uninfected target cells}
@@ -53,7 +53,7 @@ simulate_modelcomparison_fit(U = 1e+05, I = 0, V = 1, X = 1,
 
 \item{dXhigh}{upper bound for decay rate}
 
-\item{modeltype}{fitting model 1 or 2}
+\item{fitmodel}{: fitting model 1 or 2 : numeric}
 
 \item{iter}{max number of steps to be taken by optimizer}
 }
@@ -83,7 +83,7 @@ with T-cells (model 1) or antibodies (model 2) are fitted to data.
 # To run the code with default parameters just call the function:
 \dontrun{result <- simulate_modelcomparison_fit()}
 # To apply different settings, provide them to the simulator function, like such:
-result <- simulate_modelcomparison_fit(iter = 5, modeltype = 2)
+result <- simulate_modelcomparison_fit(iter = 5, fitmodel = 1)
 }
 \seealso{
 See the Shiny app documentation corresponding to this
