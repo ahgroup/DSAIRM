@@ -4,19 +4,17 @@
 \alias{simulate_virusandtx_ode}
 \title{Simulation of a basic viral infection model with drug treatment}
 \usage{
-simulate_virusandtx_ode(U0 = 1e+05, I0 = 0, V0 = 1, tmax = 30,
+simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, tmax = 30,
   n = 10000, dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10,
-  g = 1, f = 0, e = 0, steadystate = FALSE, txstart = 0, ...)
+  g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1,
+  steadystate = FALSE, txstart = 0)
 }
 \arguments{
-\item{U0}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells}
 
-\item{I0}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells}
 
-\item{V0}{initial number of infectious virions}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{V}{: initial number of infectious virions}
 
 \item{n}{rate of new uninfected cell replenishment}
 
@@ -36,12 +34,16 @@ parameters}
 
 \item{e}{strength of virus production reduction by drug (0-1)}
 
+\item{tstart}{: Start time of simulation : numeric}
+
+\item{tfinal}{: Final time of simulation : numeric}
+
+\item{dt}{: time step : numeric}
+
 \item{steadystate}{if this is set to TRUE, the starting values for U, I and V are set
 to their steady state values. User supplied values for U0, I0, V0 are ignored.}
 
 \item{txstart}{time at which treatment starts}
-
-\item{...}{Other parameters that could be passed into function as potential pass-through}
 }
 \value{
 A list. The list has only one element called ts.
@@ -73,7 +75,7 @@ result <- simulate_virusandtx_ode()
 # To choose parameter values other than the standard one, specify them, like such:
 result <- simulate_virusandtx_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, like this:
-plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

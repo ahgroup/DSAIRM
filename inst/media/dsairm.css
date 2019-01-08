@@ -128,6 +128,14 @@ iframe {
 	font-weight: normal;
 }
 
+.myinput
+{
+	display: inline-block;
+	width: 100px;
+	vertical-align: bottom;
+}
+
+
 .MathJax {
 	font-size: 2em;
 }

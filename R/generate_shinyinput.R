@@ -17,10 +17,11 @@
 generate_shinyinput <- function(mbmodel, otherinputs, output)
 {
 
-    #function used below to wrap inputs into a inline-block style
-    #found here
-    #https://stackoverflow.com/questions/42778522/in-r-adding-multiple-rshiny-actionbutton-or-selectinput-widgets-to-one-row/42778604#42778604
-    inlineElement <- function(..., style = ""){ shiny::div(style = sprintf("display:inline-block; %s", style), ...) }
+    #function to wrap input elements in specified class
+    #allows further styling with CSS
+    myclassfct = function (x) {
+        tags$div(class="myinput", x)
+    }
 
     ###########################################
     #create UI elements as input/output for shiny by parsing a function/R code
@@ -40,8 +41,10 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
         ip = ip[unlist(lapply(ip,is.numeric))]
         nvars = length(ip)  #number of variables/compartments in model
         modelargs = lapply(1:nvars, function(n) {
-            inlineElement(numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]]))
-                    })
+            myclassfct(
+                numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])
+            ) #close myclassfct
+        }) #close lapply
     } #end UI creation for an underlying function
 
 
@@ -57,14 +60,14 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
 
         #numeric input elements for all variable initial conditions
         allv = lapply(1:nvars, function(n) {
-            inlineElement(numericInput(mbmodel$var[[n]]$varname,
+            myclassfct(numericInput(mbmodel$var[[n]]$varname,
                              paste0(mbmodel$var[[n]]$vartext,' (',mbmodel$var[[n]]$varname,')'),
                              value = mbmodel$var[[n]]$varval,
                              min = 0, step = mbmodel$var[[n]]$varval/100))
                     })
 
         allp = lapply(1:npars, function(n) {
-            inlineElement(numericInput(
+            myclassfct(numericInput(
                     mbmodel$par[[n]]$parname,
                     paste0(mbmodel$par[[n]]$partext,' (',mbmodel$par[[n]]$parname,')'),
                     value = mbmodel$par[[n]]$parval,
@@ -72,7 +75,7 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
                     })
 
         allt = lapply(1:ntime, function(n) {
-            inlineElement(numericInput(
+            myclassfct(numericInput(
                     mbmodel$time[[n]]$timename,
                     paste0(mbmodel$time[[n]]$timetext,' (',mbmodel$time[[n]]$timename,')'),
                     value = mbmodel$time[[n]]$timeval,
@@ -83,9 +86,8 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
 
 if (!is.null(otherinputs))
 {
-    otherargs = lapply(otherinputs,inlineElement)
+    otherargs = lapply(otherinputs,myclassfct)
 }
-
 
 #return structure
 output$modelinputs <- renderUI({
