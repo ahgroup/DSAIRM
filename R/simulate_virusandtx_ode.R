@@ -38,7 +38,7 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_virusandtx_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_virusandtx_ode(V0 = 100, tmax = 100, n = 1e5, dU = 1e-2)
+#' result <- simulate_virusandtx_ode(V = 100, tfinal = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
@@ -47,7 +47,7 @@
 #' @author Andreas Handel
 #' @export
 
-simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, tmax = 30, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE, txstart = 0)
+simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE, txstart = 0)
 {
 
 
@@ -68,7 +68,6 @@ simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, tmax = 30, n=1e4, dU 
       }
     ) #close with statement
   } #end function specifying the ODEs
-
 
 
   #override user-supplied initial conditions and instead start with steady state values

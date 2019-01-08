@@ -6,12 +6,12 @@
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a matrix containing time-series of each variable and time.
 #'
-#' @param U0 initial number of uninfected target cells
-#' @param I0 initial number of infected target cells
-#' @param V0 initial number of infectious virions
-#' @param T0 initial number of T cells
-#' @param B0 initial number of B cells
-#' @param A0 initial number of antibodies
+#' @param U initial number of uninfected target cells
+#' @param I initial number of infected target cells
+#' @param V initial number of infectious virions
+#' @param T initial number of T cells
+#' @param B initial number of B cells
+#' @param A initial number of antibodies
 #' @param n rate of new uninfected cell replenishment
 #' @param dU rate at which uninfected cells die
 #' @param dI rate at which infected cells die
@@ -32,10 +32,10 @@
 #' @param gB maximum growth rate of B cells
 #' @param rA rate of antibody production by B cells
 #' @param dA rate of antibody decay
-#' @param tmax maximum simulation time, units depend on choice of units for your
-#'   parameters
-#' @param ... Other parameters that could be passed into function as potential pass-through
 #' @return A list. The list has only one element, called ts.
+#' @param tstart : start time of simulation : numeric
+#' @param tfinal : final time of simulation : numeric
+#' @param dt : times for which result is returned : numeric
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
 #' @details A compartmental infection model is simulated as a set of ordinary differential
@@ -47,9 +47,9 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_virusandir_ode()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_virusandir_ode(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
+#' result <- simulate_virusandir_ode(V0 = 100, tfinal = 50, n = 1e5, dU = 1e-2, kT=1e-7)
 #' # You should then use the simulation result returned from the function, like this:
-#' plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+#' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @seealso See the Shiny app documentation corresponding to this simulator
 #' function for more details on this model. See the manual for the deSolve
 #' package for details on the underlying ODE simulator algorithm.
@@ -57,7 +57,7 @@
 #' @export
 
 
-simulate_virusandir_ode <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=0, tmax = 20, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, ...)
+simulate_virusandir_ode <- function(U = 1e5, I = 0, V = 10, T = 0, B = 1, A = 0, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, tstart = 0, tfinal = 30, dt = 0.05)
 {
 
   #function that specificies the ode model
@@ -83,9 +83,8 @@ simulate_virusandir_ode <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=
 
   #combine initial conditions into a vector
   #some initial conditions are set to fixed values and can't be adjusted in the app
-  Y0 = c(U = U0, I = I0, V = V0, F=pF/dF, T=T0, B=B0, A=A0);
-  dt = min(0.1, tmax / 1000); #time step for which to get results back
-  timevec = seq(0, tmax, dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
+  Y0 = c(U = U, I = I, V = V, F=pF/dF, T=T, B=B, A=A);
+  timevec = seq(tstart, tfinal, by = dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
   pars = c(n=n,dU=dU,dI=dI,dV=dV,b=b,p=p,sF=sF,kA=kA,kT=kT,pF=pF,dF=dF,gF=gF,Fmax=Fmax,hV=hV,hF=hF,gB=gB,gT=gT,rT=rT,rA=rA,dA=dA);
@@ -94,8 +93,6 @@ simulate_virusandir_ode <- function(U0 = 1e5, I0 = 0, V0 = 10, T0=0, B0 = 1, A0=
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
   odeoutput = deSolve::ode(y = Y0, times = timevec, func = virusandirode, parms=pars, atol=1e-12, rtol=1e-12);
-
-  colnames(odeoutput) = c('Time','U','I','V','F','T','B','A')
 
   #return result as list, with element ts containing the time-series
   result = list()

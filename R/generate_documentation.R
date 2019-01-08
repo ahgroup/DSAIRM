@@ -28,7 +28,7 @@ generate_documentation <- function(appName)
       htmlcontent = shiny::HTML(content[[1]])
       tablist[[i]] = shiny::tabPanel(tabtitles[i], htmlcontent, icon = NULL)
     }
-    browser()
+    #browser()
     return(tablist)
 }
 

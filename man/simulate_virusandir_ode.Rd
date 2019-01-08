@@ -4,27 +4,25 @@
 \alias{simulate_virusandir_ode}
 \title{Simulation of a viral infection model with an immune response}
 \usage{
-simulate_virusandir_ode(U0 = 1e+05, I0 = 0, V0 = 10, T0 = 0,
-  B0 = 1, A0 = 0, tmax = 20, n = 0, dU = 0, dI = 1, dV = 4,
-  b = 1e-05, p = 1000, sF = 0.01, kA = 1e-05, kT = 1e-05,
-  pF = 1, dF = 1, gF = 1, Fmax = 1000, hV = 1e-06, hF = 1e-05,
-  gB = 1, gT = 1e-04, rT = 0.5, rA = 10, dA = 0.2, ...)
+simulate_virusandir_ode(U = 1e+05, I = 0, V = 10, T = 0, B = 1,
+  A = 0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000,
+  sF = 0.01, kA = 1e-05, kT = 1e-05, pF = 1, dF = 1, gF = 1,
+  Fmax = 1000, hV = 1e-06, hF = 1e-05, gB = 1, gT = 1e-04,
+  rT = 0.5, rA = 10, dA = 0.2, tstart = 0, tfinal = 30,
+  dt = 0.05)
 }
 \arguments{
-\item{U0}{initial number of uninfected target cells}
+\item{U}{initial number of uninfected target cells}
 
-\item{I0}{initial number of infected target cells}
+\item{I}{initial number of infected target cells}
 
-\item{V0}{initial number of infectious virions}
+\item{V}{initial number of infectious virions}
 
-\item{T0}{initial number of T cells}
+\item{T}{initial number of T cells}
 
-\item{B0}{initial number of B cells}
+\item{B}{initial number of B cells}
 
-\item{A0}{initial number of antibodies}
-
-\item{tmax}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{A}{initial number of antibodies}
 
 \item{n}{rate of new uninfected cell replenishment}
 
@@ -66,12 +64,16 @@ parameters}
 
 \item{dA}{rate of antibody decay}
 
-\item{...}{Other parameters that could be passed into function as potential pass-through}
+\item{tstart}{: start time of simulation : numeric}
+
+\item{tfinal}{: final time of simulation : numeric}
+
+\item{dt}{: times for which result is returned : numeric
+ts contains the time-series of the simulation.
+The 1st column of ts is Time, the other columns are the model variables.}
 }
 \value{
 A list. The list has only one element, called ts.
-ts contains the time-series of the simulation.
-The 1st column of ts is Time, the other columns are the model variables.
 }
 \description{
 This function runs a simulation of a compartment model
@@ -94,9 +96,9 @@ equations, using an ode solver from the deSolve package.
 # To run the simulation with default parameters just call the function:
 result <- simulate_virusandir_ode()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_virusandir_ode(V0 = 100, tmax = 10, n = 1e5, dU = 1e-2, kT=1e-7)
+result <- simulate_virusandir_ode(V0 = 100, tfinal = 50, n = 1e5, dU = 1e-2, kT=1e-7)
 # You should then use the simulation result returned from the function, like this:
-plot(result$ts[,"Time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
+plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 }
 \seealso{
 See the Shiny app documentation corresponding to this simulator

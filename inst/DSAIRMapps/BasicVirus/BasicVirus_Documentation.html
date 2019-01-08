@@ -409,11 +409,11 @@ $(document).ready(function () {
 </div>
 <div id="task-4" class="section level3">
 <h3>Task 4:</h3>
-<p>A well-studied quantity in infectious disease epidemiology is the basic reproductive number (<em>R<sub>0</sub></em>), which determines if a pathogen can cause an outbreak at the population level. An equivalent <em>R<sub>0</sub></em> can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. <em>n=d<sub>U</sub>=0</em>), <em>R<sub>0</sub></em> = <em>bpU<sub>0</sub></em>/(<em>d<sub>V</sub> d<sub>I</sub></em>).</p>
+<p>A well-studied quantity in infectious disease epidemiology is the basic reproductive number (<em>R<sub>0</sub></em>), which determines if a pathogen can cause an outbreak at the population level. An equivalent <em>R<sub>0</sub></em> can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. <em>n=d<sub>U</sub>=0</em>), <em>R<sub>0</sub></em> = <em>bpU<sub>0</sub></em>/(<em>d<sub>V</sub> d<sub>I</sub></em>).</p>
 <ul>
 <li>Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for <em>R<sub>0</sub></em> to figure out what value <em>R<sub>0</sub></em> needs to be for there (not) to be an infection. Figure out the threshold value for <em>R<sub>0</sub></em> at which you go from no infection to having an infection.</li>
 </ul>
-<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
+<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5:</h3>
@@ -428,7 +428,7 @@ $(document).ready(function () {
 <li>Run the simulation. Nothing should happen, uninfected cells should stay at their starting value.</li>
 <li>Now play around with birth rate and death rate of uninfected cells and see how that affects the dynamics.</li>
 <li>The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <em>U<sub>0</sub></em> while keeping birth and death rate at some fixed values.</li>
-<li>One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for “some function”. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation.</li>
+<li>One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for “some function”. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation.</li>
 <li>To test your equation, set birth rate to 20000, set initial condition for uninfected cells to 10<sup>5</sup> and find the value for the death rate that keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</li>
 </ul>
 </div>
@@ -459,16 +459,16 @@ $(document).ready(function () {
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
 <ul>
-<li>For this app, the underlying function running the simulation is called `<code>. You can call it directly, without going through the shiny app. Use the</code>help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_basicvirus_ode</code>. You can call it directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You could also modify this R function for your own purposes - though that requires R coding knowledge.</li>
-<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
-<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
+<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
+<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
 <h3>References</h3>
 <div id="refs" class="references">
 <div id="ref-beauchemin11">
-<p>Beauchemin, Catherine AA, and Andreas Handel. 2011. “A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.” <em>BMC Public Health</em> 11 (1). BioMed Central: S7.</p>
+<p>Beauchemin, Catherine AA, and Andreas Handel. 2011. “A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.” <em>BMC Public Health</em> 11 (1): S7.</p>
 </div>
 <div id="ref-beauchemin08">
 <p>Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. “Modeling Amantadine Treatment of Influenza a Virus in Vitro.” <em>Journal of Theoretical Biology</em> 254 (2): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.</p>
@@ -483,13 +483,13 @@ $(document).ready(function () {
 <p>Heffernan, J M, R J Smith, and L M Wahl. 2005. “Perspectives on the Basic Reproductive Ratio.” <em>Journal of the Royal Society, Interface</em> 2 (4): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.</p>
 </div>
 <div id="ref-perelson13">
-<p>Perelson, Alan S, and Ruy M Ribeiro. 2013. “Modeling the Within-Host Dynamics of Hiv Infection.” <em>BMC Biology</em> 11 (1). BioMed Central: 96.</p>
+<p>Perelson, Alan S, and Ruy M Ribeiro. 2013. “Modeling the Within-Host Dynamics of Hiv Infection.” <em>BMC Biology</em> 11 (1): 96.</p>
 </div>
 <div id="ref-roberts07">
 <p>Roberts, M G. 2007. “The Pluses and Minuses of R0.” <em>Journal of the Royal Society, Interface</em> 4 (16): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.</p>
 </div>
 <div id="ref-smith11">
-<p>Smith, Amber M, and Alan S Perelson. 2011. “Influenza a Virus Infection Kinetics: Quantitative Data and Models.” <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4). Theoretical Biology; Biophysics, Los Alamos National Laboratory, Los Alamos, NM, USA.: 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.</p>
+<p>Smith, Amber M, and Alan S Perelson. 2011. “Influenza a Virus Infection Kinetics: Quantitative Data and Models.” <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4): 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.</p>
 </div>
 </div>
 </div>
