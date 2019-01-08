@@ -48,10 +48,11 @@ server <- function(input, output, session) {
       currentotherinputs <<-  otherinputs
 
       #produce Shiny input UI elements for the model
-      #if a mbmodel file exists as .Rdata file in the app directory, use that file to create shiny inputs
-      mbmodellocation = paste0(appdir,'/',currentApp,'/',currentmbmodelfile)
-      if (file.exists(mbmodellocation))
+      #if a mbmodel file is not NULL, use
+      #.Rdata file in the app directory, use that file to create shiny inputs
+      if (!is.null(currentmbmodelfile))
       {
+        mbmodellocation = paste0(appdir,'/',currentApp,'/',currentmbmodelfile)
         load(mbmodellocation) #this loads an mbmodel
         currentmbmodel <<- mbmodel
         DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, otherinputs = currentotherinputs, output = output)
