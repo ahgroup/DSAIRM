@@ -9,16 +9,18 @@ server <- function(input, output, session) {
   #######################################################
 
   #get names of all existing apps
-  appdir = system.file("DSAIRMapps", package = "DSAIRM") #find path to apps
+  appdir = system.file("allapps", package = "DSAIRM") #find path to apps
   appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
-  currentApp = NULL #global server variable for currently loaded app
+  currentapp = NULL #global server variable for currently loaded app
+  currentapptitle = NULL #global server variable for currently loaded app
   currentmbmodel <<- NULL #global server variable for mbmodel structure
   currentsimfct <<- NULL #global server variable for current simulation function
   currentmodelnplots <<- NULL #global server variable for number of plots
   currentmbmodelfile <<- NULL #global server variable for mbmodel file name
   currentmodeltype <<- NULL #global server variable for model type to run
   currentotherinputs <<-  NULL
+  currentdocfilename <<- NULL
 
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
@@ -27,7 +29,10 @@ server <- function(input, output, session) {
   lapply(appNames, function(appName) {
     observeEvent(input[[appName]], {
 
-      currentApp <<- appName #assign currently chosen app to global app variable
+      currentapp <<- appName #assign currently chosen app to global app variable
+
+      #file name for documentation
+      currentdocfilename <<- paste0(appdir,'/',currentapp,'/',currentapp,'_documentation.html')
 
       output$plot <- NULL
       output$text <- NULL
@@ -39,20 +44,23 @@ server <- function(input, output, session) {
       #variable otherinputs contains additional shiny UI elements
       #one wants to display that are not generated automaticall by functions above
       #for instance all non-numeric inputs need to be provided separately. If not needed, it is NULL
-      settingfilename = paste0(appdir,'/',currentApp,'/',currentApp,'_settings.R')
+      settingfilename = paste0(appdir,'/',currentapp,'/',currentapp,'_settings.R')
       source(settingfilename) #source the file with additional settings to load them
       currentsimfct <<- simfunction
       currentmodelnplots <<- nplots
       currentmbmodelfile <<- mbmodelfile
       currentmodeltype <<- modeltype
       currentotherinputs <<-  otherinputs
+      currentapptitle <<- apptitle
+
+
 
       #produce Shiny input UI elements for the model
       #if a mbmodel file is not NULL, use
       #.Rdata file in the app directory, use that file to create shiny inputs
       if (!is.null(currentmbmodelfile))
       {
-        mbmodellocation = paste0(appdir,'/',currentApp,'/',currentmbmodelfile)
+        mbmodellocation = paste0(appdir,'/',currentapp,'/',currentmbmodelfile)
         load(mbmodellocation) #this loads an mbmodel
         currentmbmodel <<- mbmodel
         DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, otherinputs = currentotherinputs, output = output)
@@ -71,14 +79,8 @@ server <- function(input, output, session) {
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
             tagList(
-
-              fluidRow(
-                column(12,
-                       actionButton("submitBtn", "Run Simulation", class = "submitbutton")
-                ),
-                class = "mainmenurow"
-              ), #close fluidRow structure for input
-            tags$hr(),
+              tags$div(id = "shinyheadertitle", currentapptitle),
+              tags$hr(),
             ################################
             #Split screen with input on left, output on right
             fluidRow(
@@ -107,14 +109,13 @@ server <- function(input, output, session) {
             #Instructions section at bottom as tabs
             h2('Instructions') ,
             #use external function to generate all tabs with instruction content
-            withMathJax(do.call(tabsetPanel, generate_documentation(currentApp)))
+            withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
           ) #end tag list
           }) # End renderUI for analyze tab
       #once UI for the model in the analyze tab is created, switch to that tab
       updateNavbarPage(session, "DSAIRM", selected = "Analyze")
 
-
-      }, priority = 100) #end observeEvent for the analyze tab
+      }) #end observeEvent for the analyze tab
 
     #######################################################
     #end code that listens to model selection buttons and creates UI for a chosen model
@@ -185,22 +186,25 @@ server <- function(input, output, session) {
 
 ui <- fluidPage(
   includeCSS("../media/dsairm.css"), #use custom styling
-  div( includeHTML("../media/header.html"), align = "center"),   #add header and title
-  p(paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,sep=''), class='infotext'),
-
+  tags$div(id = "shinyheadertitle", "DSAIRM - Dynamical Systems Approach to Immune Response Modeling"),
+  tags$div(id = "shinyheadertext",
+    "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
+    br()),
+  tags$div(id = "infotext", paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,'.',sep='')),
+  tags$div(id = "infotext", "Written and maintained by", a("Andreas Handel", href="http://handelgroup.uga.edu", target="_blank"), "with contributions from", a("others.",  href="https://github.com/ahgroup/DSAIRM#contributors", target="_blank")),
   navbarPage(title = "DSAIRM", id = "DSAIRM", selected = 'Menu',
              tabPanel(title = "Menu",
                       p('The Basics', class='mainsectionheader'),
 
                       fluidRow(
                         column(4,
-                               actionButton("BasicBacteria", "Basic bacteria model", class="mainbutton")
+                               actionButton("basicbacteria", "Basic bacteria model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("BasicVirus", "Basic virus model", class="mainbutton")
+                               actionButton("basicvirus", "Basic virus model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("VirusandIR", "Virus and immune response model", class="mainbutton")
+                               actionButton("virusandir", "Virus and immune response model", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -208,13 +212,13 @@ ui <- fluidPage(
                       p('Model use examples', class='mainsectionheader'),
                       fluidRow(
                         column(4,
-                               actionButton("ModelExploration", "Bacteria model exploration", class="mainbutton")
+                               actionButton("modelexploration", "Bacteria model exploration", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("VirusandTx", "Antiviral treatment model", class="mainbutton")
+                               actionButton("virusandtx", "Antiviral treatment model", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("BasicModelFit", "Basic model fitting", class="mainbutton")
+                               actionButton("basicmodelfit", "Basic model fitting", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -223,14 +227,14 @@ ui <- fluidPage(
                       p('What influences model results', class='mainsectionheader'),
                       fluidRow(
                         column(4,
-                               actionButton("ModelVariants", "Model variation", class="mainbutton")
+                               actionButton("modelvariants", "Model variation", class="mainbutton")
                         ),
                         column(4,
-                               actionButton("USAnalysis", "Parameter uncertainty", class="mainbutton")
+                               actionButton("usanalysis", "Parameter uncertainty", class="mainbutton")
                         ),
                         column(4,
 
-                               actionButton("BasicVirusStochastic", "Model stochasticity", class="mainbutton")
+                               actionButton("basicvirusstochastic", "Model stochasticity", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -239,10 +243,10 @@ ui <- fluidPage(
                       p('Model fitting topics', class='mainsectionheader'),
                       fluidRow(
                         column(6,
-                               actionButton("ConfIntFit", "Confidence intervals", class="mainbutton")
+                               actionButton("confintfit", "Confidence intervals", class="mainbutton")
                         ),
                         column(6,
-                               actionButton("ModelComparisonFit", "Model comparison", class="mainbutton")
+                               actionButton("modelcomparisonfit", "Model comparison", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -250,10 +254,10 @@ ui <- fluidPage(
                       p('Further topics', class='mainsectionheader'),
                       fluidRow(
                         column(6,
-                               actionButton("PkPdModel", "Pharacokinetics and pharmacodynamics", class="mainbutton")
+                               actionButton("pkpdmodel", "Pharacokinetics and pharmacodynamics", class="mainbutton")
                         ),
                         column(6,
-                               actionButton("DrugResistance", "Influenza antivirals and resistance", class="mainbutton")
+                               actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton")
                         ),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
@@ -267,7 +271,7 @@ ui <- fluidPage(
                       ), #close fluidRow structure for input
 
                       withTags({
-                        div(class="header", checked=NA, style = "text-align:left", class="infotext",
+                        div(style = "text-align:left", class="infotext",
 
                             p('This collection of model simulations/apps covers within-host and immune response modeling from a dynamical systems perspective. The software is meant to provide you with a "learning by doing" approach. You will likely learn best and fastest by using this software as part of a course on the topic, taught by a knowledgable instructor who can provide any needed background information and help if you get stuck. Alternatively, you should be able to self-learn and obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
                             p('The main way of using the simulations is through this graphical interface. You can also access the simulations directly. This requires a bit of R coding but gives you many more options of things you can try. See the package vignette or the "Further Information" section of the apps for more on that.'),
@@ -289,7 +293,16 @@ ui <- fluidPage(
              ) #close "Analyze" tab
   ), #close navbarPage
 
-  div(includeHTML("../media/footer.html"), align="center", style="font-size:small") #footer
+  tagList( hr(),
+           p('All text and figures are licensed under a ',
+           a("Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.", href="http://creativecommons.org/licenses/by-nc-sa/4.0/", target="_blank"),
+           'Software/Code is licensed under ',
+           a("GPL-3.", href="https://www.gnu.org/licenses/gpl-3.0.en.html" , target="_blank")
+           ,
+           br(),
+           "The development of this package was partially supported by NIH grant U19AI117891.",
+           align = "center", style="font-size:small") #end paragraph
+  )
 ) #end fluidpage
 
 shinyApp(ui = ui, server = server)

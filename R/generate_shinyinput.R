@@ -91,7 +91,11 @@ if (!is.null(otherinputs))
 
 #return structure
 output$modelinputs <- renderUI({
-    tagList(modelargs, otherargs)
+    tagList(
+            p(actionButton("submitBtn", "Run Simulation", class = "submitbutton"), align = 'center'),
+            modelargs,
+            otherargs
+            )
 }) #end renderuI
 
 } #end overall function

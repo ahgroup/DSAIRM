@@ -4,10 +4,10 @@
 \alias{generate_documentation}
 \title{A helper function for the UI part of the Shiny apps}
 \usage{
-generate_documentation(appName)
+generate_documentation(docfilename)
 }
 \arguments{
-\item{appName}{name of app for which documentation should be created}
+\item{docfilename}{of html file containing the documentation}
 }
 \value{
 tablist A list of tabs for display in a Shiny UI.

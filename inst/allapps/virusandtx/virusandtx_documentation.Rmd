@@ -22,9 +22,11 @@ This model is a variation of the 'Basic Virus" model. Details on that model can 
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r BIdiagram,  fig.cap='Flow diagram for the virus infection and drug treatment model.',  echo=FALSE}
+<div class = "diagramfig">
+```{r virandtxdiagram,  fig.cap='Flow diagram for the virus infection and drug treatment model.',  echo=FALSE}
 knitr::include_graphics("../../media/hcvifndiagram.png")
 ```
+</div>
 
 
 ### Model Equations
