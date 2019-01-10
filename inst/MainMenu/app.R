@@ -1,34 +1,31 @@
 #This is the Shiny App for the main menu of DSAIRM
 
+#get names of all existing apps
+appdir = system.file("allapps", package = "DSAIRM") #find path to apps
+appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
+
+currentapp = NULL #global server variable for currently loaded app
+currentapptitle = NULL #global server variable for currently loaded app
+currentmbmodel <<- NULL #global server variable for mbmodel structure
+currentsimfct <<- NULL #global server variable for current simulation function
+currentmodelnplots <<- NULL #global server variable for number of plots
+currentmbmodelfile <<- NULL #global server variable for mbmodel file name
+currentmodeltype <<- NULL #global server variable for model type to run
+currentotherinputs <<-  NULL
+currentdocfilename <<- NULL
+
+
 #this function is the server part of the app
 server <- function(input, output, session) {
-
-
-  #######################################################
-  #start code blocks that contain the analyze functionality
-  #######################################################
-
-  #get names of all existing apps
-  appdir = system.file("allapps", package = "DSAIRM") #find path to apps
-  appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
-
-  currentapp = NULL #global server variable for currently loaded app
-  currentapptitle = NULL #global server variable for currently loaded app
-  currentmbmodel <<- NULL #global server variable for mbmodel structure
-  currentsimfct <<- NULL #global server variable for current simulation function
-  currentmodelnplots <<- NULL #global server variable for number of plots
-  currentmbmodelfile <<- NULL #global server variable for mbmodel file name
-  currentmodeltype <<- NULL #global server variable for model type to run
-  currentotherinputs <<-  NULL
-  currentdocfilename <<- NULL
 
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
   #######################################################
 
-  lapply(appNames, function(appName) {
-    observeEvent(input[[appName]], {
-
+  lapply(appNames, function(appName)
+  {
+    observeEvent(input[[appName]],
+    {
       currentapp <<- appName #assign currently chosen app to global app variable
 
       #file name for documentation
@@ -52,8 +49,6 @@ server <- function(input, output, session) {
       currentmodeltype <<- modeltype
       currentotherinputs <<-  otherinputs
       currentapptitle <<- apptitle
-
-
 
       #produce Shiny input UI elements for the model
       #if a mbmodel file is not NULL, use
@@ -125,41 +120,42 @@ server <- function(input, output, session) {
     #######################################################
     #start code that listens to the 'run simulation' button and runs a model for the specified settings
     #######################################################
-      observeEvent(input$submitBtn, {
+    observeEvent(input$submitBtn, {
 
 
-        #run model with specified settings
-        #run simulation, show a 'running simulation' message
-        withProgress(message = 'Running Simulation',
-            detail = "This may take a while", value = 0,
-            {
-              #extract current model settings from UI input elements
-              x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-              #x1=as.list(isolate(input)) #get all shiny inputs
-              x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-              x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
-              modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-              if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-              #if no random seed is set in UI, set it to 123. Only important for models that have a stochastic component
-              if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-              #if there is a supplied model type from the settings file, use that one
-              #note that input for model type might be still 'floating around' if a previous model was loaded
-              #not clear how to get rid of old shiny input variables from previously loaded models
-              if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
-              modelsettings$nplots <- currentmodelnplots
-              result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
+      #run model with specified settings
+      #run simulation, show a 'running simulation' message
+      withProgress(message = 'Running Simulation',
+                   detail = "This may take a while", value = 0,
+                   {
+                     #extract current model settings from UI input elements
+                     x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+                     #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
+                     x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
+                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
+                     modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+                     if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+                     #if no random seed is set in UI, set it to 123.
+                     if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+                     #if there is a supplied model type from the settings file, use that one
+                     #note that input for model type might be still 'floating around' if a previous model was loaded
+                     #not clear how to get rid of old shiny input variables from previously loaded models
+                     if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
+                     modelsettings$nplots <- currentmodelnplots
+                     result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
 
-              #create plot from results
-              output$plot  <- renderPlot({
-                generate_plots(result)
-              }, width = 'auto', height = 'auto')
-              #create text from results
-              output$text <- renderText({
-                generate_text(result) })
-            }) #end with-progress wrapper
-      }, #end the expression being evaluated by observeevent
-      #once = TRUE
-      ) #end observe-event for analyze model submit button
+                     #create plot from results
+                     output$plot  <- renderPlot({
+                       generate_plots(result)
+                     }, width = 'auto', height = 'auto')
+                     #create text from results
+                     output$text <- renderText({
+                       generate_text(result) })
+
+                   }) #end with-progress wrapper
+    }, #end the expression being evaluated by observeevent
+    #ignoreNULL = TRUE, ignoreInit = TRUE
+    ) #end observe-event for analyze model submit button
 
     #######################################################
     #end code that listens to the 'run simulation' button and runs a model for the specified settings
@@ -194,82 +190,42 @@ ui <- fluidPage(
   tags$div(id = "infotext", "Written and maintained by", a("Andreas Handel", href="http://handelgroup.uga.edu", target="_blank"), "with contributions from", a("others.",  href="https://github.com/ahgroup/DSAIRM#contributors", target="_blank")),
   navbarPage(title = "DSAIRM", id = "DSAIRM", selected = 'Menu',
              tabPanel(title = "Menu",
-                      p('The Basics', class='mainsectionheader'),
-
+                      tags$div(class='mainsectionheader', 'The Basics'),
                       fluidRow(
-                        column(4,
-                               actionButton("basicbacteria", "Basic bacteria model", class="mainbutton")
-                        ),
-                        column(4,
-                               actionButton("basicvirus", "Basic virus model", class="mainbutton")
-                        ),
-                        column(4,
-                               actionButton("virusandir", "Virus and immune response model", class="mainbutton")
-                        ),
+                               actionButton("basicbacteria", "Basic bacteria model", class="mainbutton"),
+                               actionButton("basicvirus", "Basic virus model", class="mainbutton"),
+                               actionButton("virusandir", "Virus and immune response model", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      p('Model use examples', class='mainsectionheader'),
+                      tags$div(class='mainsectionheader', 'Model use examples'),
                       fluidRow(
-                        column(4,
-                               actionButton("modelexploration", "Bacteria model exploration", class="mainbutton")
-                        ),
-                        column(4,
-                               actionButton("virusandtx", "Antiviral treatment model", class="mainbutton")
-                        ),
-                        column(4,
-                               actionButton("basicmodelfit", "Basic model fitting", class="mainbutton")
-                        ),
+                             actionButton("modelexploration", "Bacteria model exploration", class="mainbutton"),
+                             actionButton("virusandtx", "Antiviral treatment model", class="mainbutton"),
+                             actionButton("basicmodelfit", "Basic model fitting", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-
-                      p('What influences model results', class='mainsectionheader'),
+                      tags$div(class='mainsectionheader', 'What influences model results'),
                       fluidRow(
-                        column(4,
-                               actionButton("modelvariants", "Model variation", class="mainbutton")
-                        ),
-                        column(4,
-                               actionButton("usanalysis", "Parameter uncertainty", class="mainbutton")
-                        ),
-                        column(4,
-
-                               actionButton("basicvirusstochastic", "Model stochasticity", class="mainbutton")
-                        ),
+                               actionButton("modelvariants", "Model variation", class="mainbutton"),
+                               actionButton("usanalysis", "Parameter uncertainty", class="mainbutton"),
+                               actionButton("basicvirusstochastic", "Model stochasticity", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-
-                      p('Model fitting topics', class='mainsectionheader'),
+                      tags$div(class='mainsectionheader', 'Model fitting topics'),
                       fluidRow(
-                        column(6,
-                               actionButton("confintfit", "Confidence intervals", class="mainbutton")
-                        ),
-                        column(6,
-                               actionButton("modelcomparisonfit", "Model comparison", class="mainbutton")
-                        ),
+                               actionButton("confintfit", "Confidence intervals", class="mainbutton"),
+                               actionButton("modelcomparisonfit", "Model comparison", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      p('Further topics', class='mainsectionheader'),
+                      tags$div(class='mainsectionheader', 'Further topics'),
                       fluidRow(
-                        column(6,
-                               actionButton("pkpdmodel", "Pharacokinetics and pharmacodynamics", class="mainbutton")
-                        ),
-                        column(6,
-                               actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton")
-                        ),
+                         actionButton("pkpdmodel", "Pharacokinetics and pharmacodynamics", class="mainbutton"),                             actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
-
-                      fluidRow(
-
-                        column(12,
-                               actionButton("Exit", "Exit", class="exitbutton")
-                        ),
-                        class = "mainmenurow"
-                      ), #close fluidRow structure for input
-
                       withTags({
                         div(style = "text-align:left", class="infotext",
 
@@ -279,7 +235,11 @@ ui <- fluidPage(
 
                         )
                       }), #close withTags function
-                      p('Have fun exploring the models!', class='maintext')
+                      p('Have fun exploring the models!', class='maintext'),
+                      fluidRow(
+                        actionButton("Exit", "Exit", class="exitbutton"),
+                        class = "mainmenurow"
+                      ) #close fluidRow structure for input
 
              ), #close "Menu" tabPanel tab
 

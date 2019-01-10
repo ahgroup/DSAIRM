@@ -8,29 +8,33 @@
 #' The function returns a list containing time-series of each variable and time.
 #' inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
 #'
-#' @param U : initial number of uninfected target cells
-#' @param I : initial number of infected target cells
-#' @param V : initial number of infectious virions
-#' @param n rate of new uninfected cell replenishment
-#' @param dU rate at which uninfected cells die
-#' @param dI rate at which infected cells die
-#' @param dV rate at which infectious virus is cleared
-#' @param b rate at which virus infects cells
-#' @param p rate at which infected cells produce virus
-#' @param g conversion between experimental and model virus units
-#' @param f strength of cell infection reduction by drug (0-1)
-#' @param e strength of virus production reduction by drug (0-1)
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param n : rate of uninfected cell replenishment : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param g : conversion between experimental and model virus units : numeric
+#' @param f : strength of cell infection reduction by drug : numeric
+#' @param e : strength of virus production reduction by drug : numeric
 #' @param tstart : Start time of simulation : numeric
 #' @param tfinal : Final time of simulation : numeric
 #' @param dt : time step : numeric
-#' @param steadystate if this is set to TRUE, the starting values for U, I and V are set
-#' to their steady state values. User supplied values for U0, I0, V0 are ignored.
+#' @param steadystate start simulation at steady state : logical
 #' @param txstart time at which treatment starts
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
 #' @details A simple compartmental model is simulated as a set of ordinary differential
 #' equations, using an ode solver from the deSolve package.
+#' if the steadystate input is set to TRUE,
+#' the starting values for U, I and V are set to their steady state values.
+#' Those steady state values are computed from the parameter values.
+#' See the Basic Virus Model To-do section for an explanation.
+#' In this case, user supplied values for U0, I0, V0 are ignored.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
