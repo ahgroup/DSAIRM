@@ -10,29 +10,29 @@ simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, n = 10000,
   txstart = 0)
 }
 \arguments{
-\item{U}{: initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{: initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{: initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{n}{rate of new uninfected cell replenishment}
+\item{n}{: rate of uninfected cell replenishment : numeric}
 
-\item{dU}{rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{g}{conversion between experimental and model virus units}
+\item{g}{: conversion between experimental and model virus units : numeric}
 
-\item{f}{strength of cell infection reduction by drug (0-1)}
+\item{f}{: strength of cell infection reduction by drug : numeric}
 
-\item{e}{strength of virus production reduction by drug (0-1)}
+\item{e}{: strength of virus production reduction by drug : numeric}
 
 \item{tstart}{: Start time of simulation : numeric}
 
@@ -40,8 +40,7 @@ simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, n = 10000,
 
 \item{dt}{: time step : numeric}
 
-\item{steadystate}{if this is set to TRUE, the starting values for U, I and V are set
-to their steady state values. User supplied values for U0, I0, V0 are ignored.}
+\item{steadystate}{start simulation at steady state : logical}
 
 \item{txstart}{time at which treatment starts}
 }
@@ -62,6 +61,11 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
 \details{
 A simple compartmental model is simulated as a set of ordinary differential
 equations, using an ode solver from the deSolve package.
+if the steadystate input is set to TRUE,
+the starting values for U, I and V are set to their steady state values.
+Those steady state values are computed from the parameter values.
+See the Basic Virus Model To-do section for an explanation.
+In this case, user supplied values for U0, I0, V0 are ignored.
 }
 \section{Warning}{
  This function does not perform any error checking. So if

@@ -1,28 +1,29 @@
 ############################################################
-#This is a file for the Virus and Tx App
+#This is a file for the model comparison fit
 #it contains additional information that helps properly process it
-#written and maintained by Andreas Handel (ahandel@uga.edu)
-#last updated 12/21/2018
 ############################################################
 
+#Title of app, to be displayed on top of analyze tab
+apptitle = "Multi-model fitting"
+
+#name of underlying simulation function(s) to be used in the app
+#must be provided
+simfunction = 'simulate_modelcomparison_fit'
+
+#name of underlying mbmodel - if exists
+#if it exists, it will be used to build UI input elements
+#if not exists, set to NULL
+mbmodelfile = NULL
+
+#number of plots to produce for output
+nplots = 1
+
+#specify the type of model that will be run
+#if model type is provided as UI input, it should be set to NULL here
+#otherwise it needs to be provided
+modeltype = '_fit_'
 
 #additional input elements for app that are shown on UI
 otherinputs = shiny::tagList(
     shiny::selectInput("plotscale", "Log-scale for plot:",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
   ) #end taglist
-
-#additional setting elements that are not provided through UI for a given app
-modeltype = '_fit_'
-
-#name of underlying simulation function
-simfunction = 'simulate_modelcomparison_fit'
-
-#name of underlying mbmodel - if exists
-#if not exists, set to NULL
-mbmodelfile = NULL
-
-
-#number of plots to produce for output
-nplots = 1
-
-

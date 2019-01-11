@@ -2,7 +2,6 @@
 
 export(dsairmmenu)
 export(generate_documentation)
-export(generate_fctcall)
 export(generate_plots)
 export(generate_shinyinput)
 export(generate_text)

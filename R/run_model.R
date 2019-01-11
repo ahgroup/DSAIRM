@@ -12,9 +12,7 @@
 
 run_model <- function(modelsettings, modelfunction) {
 
-
   datall = NULL #will hold data for all different models and replicates
-  #ct = 1 #counter to keep track of number of simulations that ran
 
   ##################################
   #stochastic dynamical model execution
@@ -25,8 +23,8 @@ run_model <- function(modelsettings, modelfunction) {
     currentmodel = modelfunction[grep('_stochastic',modelfunction)] #list of model functions, get the ode function
     for (nn in 1:modelsettings$nreps)
     {
-      fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel) #create function call each time since seed changes
-      eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+      currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+      simresult <- do.call(currentmodel, args = currentargs)
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
       #see documentation for those functions for details
@@ -51,8 +49,11 @@ run_model <- function(modelsettings, modelfunction) {
     currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
     #the generate_fctcall creates a function call to the specified model based on the given model settings
     #depending on if modelfunction is the name to a function or a modelbuilder object, different returns are produced
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
-    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    #fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
+    #eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    simresult <- do.call(currentmodel, args = currentargs)
+
     simresult <- simresult$ts
     if (grepl('_and_',modelsettings$modeltype)) #this means ODE model is run with another one, relabel variables to indicate ODE
     {
@@ -75,11 +76,8 @@ run_model <- function(modelsettings, modelfunction) {
   {
     modelsettings$currentmodel = 'discrete'
     currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
-    #the generate_fctcall creates a function call to the specified model based on the given model settings
-    #depending on if modelfunction is the name to a function or a modelbuilder object, different returns are produced
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
-    #browser()
-    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    simresult <- do.call(currentmodel, args = currentargs)
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -154,8 +152,8 @@ run_model <- function(modelsettings, modelfunction) {
   if (grepl('usanalysis',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'other'
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
-    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    simresult <- do.call(currentmodel, args = currentargs)
 
     #pull the indicator for non-steady state out of the dataframe, process separately
     nosteady = simresult$dat$nosteady
@@ -218,10 +216,9 @@ run_model <- function(modelsettings, modelfunction) {
   ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
-
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
-    eval(parse(text = fctcall)) #execute function, result is returned in 'simresult' object
-
+    modelsettings$currentmodel = 'fit'
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    simresult <- do.call(currentmodel, args = currentargs)
     colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
@@ -338,8 +335,8 @@ run_model <- function(modelsettings, modelfunction) {
   if (grepl('modelexploration',modelsettings$modeltype))
   {
 
-    fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = modelfunction)
-    eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    simresult <- do.call(currentmodel, args = currentargs)
 
     #these 3 settings are only needed for the shiny UI presentation
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
