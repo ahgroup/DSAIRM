@@ -23,7 +23,8 @@ run_model <- function(modelsettings, modelfunction) {
     currentmodel = modelfunction[grep('_stochastic',modelfunction)] #list of model functions, get the ode function
     for (nn in 1:modelsettings$nreps)
     {
-      currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+      #extract modesettings inputs needed for simulator function
+      currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
       simresult <- do.call(currentmodel, args = currentargs)
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
@@ -44,7 +45,6 @@ run_model <- function(modelsettings, modelfunction) {
   ##################################
   if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
-
     modelsettings$currentmodel = 'ode'
     currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
     #the generate_fctcall creates a function call to the specified model based on the given model settings
@@ -65,7 +65,6 @@ run_model <- function(modelsettings, modelfunction) {
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for ode.
     dat$nreps = 1
     datall = rbind(datall,dat)
-    #ct = ct + 1
   }
 
 
@@ -76,7 +75,7 @@ run_model <- function(modelsettings, modelfunction) {
   {
     modelsettings$currentmodel = 'discrete'
     currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
-    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
     simresult <- do.call(currentmodel, args = currentargs)
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
@@ -85,7 +84,6 @@ run_model <- function(modelsettings, modelfunction) {
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for discrete.
     dat$nreps = 1
     datall = rbind(datall,dat)
-    #ct = ct + 1
   }
 
   ##################################
@@ -152,7 +150,8 @@ run_model <- function(modelsettings, modelfunction) {
   if (grepl('usanalysis',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'other'
-    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
+    currentmodel = modelfunction
+    currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
     simresult <- do.call(currentmodel, args = currentargs)
 
     #pull the indicator for non-steady state out of the dataframe, process separately
@@ -171,7 +170,6 @@ run_model <- function(modelsettings, modelfunction) {
     {
       for (nn in 1:3) #for each parameter, loop over outcomes
       {
-
         #data frame for each plot
         xvals = simdat[,3+n] #elements 4 to end end are parameters
         xvalname = colnames(simdat)[3+n]
@@ -217,6 +215,7 @@ run_model <- function(modelsettings, modelfunction) {
   if (grepl('_fit_',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'fit'
+    currentmodel = modelfunction
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
     simresult <- do.call(currentmodel, args = currentargs)
     colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
@@ -334,7 +333,7 @@ run_model <- function(modelsettings, modelfunction) {
   ##################################
   if (grepl('modelexploration',modelsettings$modeltype))
   {
-
+    currentmodel = modelfunction
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
     simresult <- do.call(currentmodel, args = currentargs)
 

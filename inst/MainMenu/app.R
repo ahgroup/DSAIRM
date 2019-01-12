@@ -16,18 +16,16 @@ currentdocfilename <<- NULL
 
 
 #this function is the server part of the app
-server <- function(input, output, session) {
-
+server <- function(input, output, session)
+{
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
   #######################################################
-
   lapply(appNames, function(appName)
   {
     observeEvent(input[[appName]],
     {
       currentapp <<- appName #assign currently chosen app to global app variable
-
       #file name for documentation
       currentdocfilename <<- paste0(appdir,'/',currentapp,'/',currentapp,'_documentation.html')
 
@@ -70,47 +68,35 @@ server <- function(input, output, session) {
         DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, output = output) #indexing sim function in case there are multiple
       }
 
-
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
-            tagList(
-              tags$div(id = "shinyheadertitle", currentapptitle),
-              tags$hr(),
-            ################################
+          tagList(
+            tags$div(id = "shinyheadertitle", currentapptitle),
+            tags$hr(),
             #Split screen with input on left, output on right
             fluidRow(
-              #all the inputs in here
-              column(
-                6,
+              column(6,
                 h2('Simulation Settings'),
-                wellPanel(
-                    uiOutput("modelinputs")
-                )
+                wellPanel(uiOutput("modelinputs"))
               ), #end sidebar column for inputs
-
-              #all the outcomes here
-              column(
-                6,
-                #################################
-                #Start with results on top
+              column(6,
                 h2('Simulation Results'),
-                plotOutput(outputId = "plot", height = "500px"),
-                # PLaceholder for results of type text
+                plotOutput(outputId = "plot"),
                 htmlOutput(outputId = "text")
               ) #end column with outcomes
             ), #end fluidrow containing input and output
-
-            #################################
             #Instructions section at bottom as tabs
-            h2('Instructions') ,
+            h2('Instructions'),
             #use external function to generate all tabs with instruction content
             withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
           ) #end tag list
-          }) # End renderUI for analyze tab
+        }) # End renderUI for analyze tab
+
       #once UI for the model in the analyze tab is created, switch to that tab
       updateNavbarPage(session, "DSAIRM", selected = "Analyze")
+    }) #end observeEvent for the analyze tab
 
-      }) #end observeEvent for the analyze tab
+  }) #end lapply function surrounding observeEvent to build app
 
     #######################################################
     #end code that listens to model selection buttons and creates UI for a chosen model
@@ -160,8 +146,6 @@ server <- function(input, output, session) {
     #######################################################
     #end code that listens to the 'run simulation' button and runs a model for the specified settings
     #######################################################
-
-  }) #end lapply function surrounding observeEvent
 
   #######################################################
   #end code blocks that contain the analyze functionality
