@@ -1,3 +1,8 @@
+# DSAIRM 0.5.0
+
+* Rebuild of back-end and structure, changing from multiple independent shiny apps to a single one.
+* Some user-facing updates and enhancements.
+
 # DSAIRM 0.4.0
 
 * Fully functional first release to CRAN.
