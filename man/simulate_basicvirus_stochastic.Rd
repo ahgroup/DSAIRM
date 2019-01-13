@@ -6,35 +6,30 @@
 \usage{
 simulate_basicvirus_stochastic(U = 10000, I = 0, V = 5, n = 0,
   dU = 0, b = 1e-04, dI = 1, p = 10, dV = 2, rngseed = 100,
-  tstart = 0, tfinal = 30, dt = 0.05)
+  tfinal = 30)
 }
 \arguments{
-\item{U}{initial number of target cells. Needs to be an integer.}
+\item{U}{: initial number of target cells. Needs to be an integer : numeric}
 
-\item{I}{initial number of wild-type infected cells. Needs to be an integer.}
+\item{I}{: initial number of wild-type infected cells. Needs to be an integer. : numeric}
 
-\item{V}{initial number of resistant virus. Needs to be an integer.}
+\item{V}{: initial number of resistant virus. Needs to be an integer. : numeric}
 
-\item{n}{rate of uninfected cell production}
+\item{n}{: rate of uninfected cell production : numeric}
 
-\item{dU}{rate of uninfected cell removal}
+\item{dU}{: rate of uninfected cell removal : numeric}
 
-\item{b}{level/rate of infection of cells}
+\item{b}{: level/rate of infection of cells : numeric}
 
-\item{dI}{rate of infected cell death}
+\item{dI}{: rate of infected cell death : numeric}
 
-\item{p}{virus production rate}
+\item{p}{: virus production rate : numeric}
 
-\item{dV}{virus removal rate}
+\item{dV}{: virus removal rate : numeric}
 
-\item{rngseed}{seed for random number generator to allow reproducibility}
+\item{rngseed}{: seed for random number generator to allow reproducibility : numeric}
 
-\item{tstart}{: Start time of simulation}
-
-\item{tfinal}{: Final time of simulation}
-
-\item{dt}{: this is ignored since time step is determined automatically by simulator.
-It is only provided to match the ODE and discrete solvers for easier calling.}
+\item{tfinal}{: Final time of simulation : numeric}
 }
 \value{
 A list. The list has only one element called ts.
@@ -49,8 +44,8 @@ Uninfected target cells (U), Infected cells (I), virus (V).
 A compartmental ID model with several states/compartments
 is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau()
 in the adaptivetau package. See the manual of this package for more details.
-The function returns the time series of the simulated disease as output matrix,
-with one column per compartment/variable. The first column is time.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
 
@@ -66,11 +61,4 @@ result <- simulate_basicvirus_stochastic()
 result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
-}
-\references{
-See the manual for the adaptivetau package for details on the algorithm.
-            See the app corresponding to this function in DSAIDE for more details on the model.
-}
-\author{
-Andreas Handel
 }

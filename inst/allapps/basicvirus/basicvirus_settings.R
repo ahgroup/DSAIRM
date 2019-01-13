@@ -13,7 +13,7 @@ simfunction = 'simulate_basicvirus_ode'
 #name of underlying mbmodel - if exists
 #if it exists, it will be used to build UI input elements
 #if not exists, set to NULL
-mbmodelfile = 'BasicVirus_model.Rdata'
+mbmodelfile = NULL
 
 #number of plots to produce for output
 nplots = 1

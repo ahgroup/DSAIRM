@@ -3,30 +3,30 @@
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
 #' The model describes a simple viral infection system.
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param X initial level of immune response
-#' @param n rate of uninfected cell production
-#' @param dU rate at which uninfected cells die
-#' @param dI rate at which infected cells die
-#' @param g unit conversion factor
-#' @param p rate at which infected cells produce virus
-#' @param plow lower bound for p
-#' @param phigh upper bound for p
-#' @param psim rate at which infected cells produce virus for simulated data
-#' @param b rate at which virus infects cells
-#' @param blow lower bound for infection rate
-#' @param bhigh upper bound for infection rate
-#' @param bsim rate at which virus infects cells for simulated data
-#' @param dV rate at which infectious virus is cleared
-#' @param dVlow lower bound for virus clearance rate
-#' @param dVhigh upper bound for virus clearance rate
-#' @param dVsim rate at which infectious virus is cleared for simulated data
-#' @param usesimdata set to TRUE if simulated data should be fitted, FALSE otherwise
-#' @param noise noise to be added to simulated data
-#' @param iter max number of steps to be taken by optimizer
-#' @param solvertype the type of solver/optimizer to use, can be 1, 2, or 3. See details below.
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param X : initial level of immune response : numeric
+#' @param n : rate of uninfected cell production : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param g : unit conversion factor : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param plow : lower bound for p : numeric
+#' @param phigh : upper bound for p : numeric
+#' @param psim : rate at which infected cells produce virus for simulated data : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param blow : lower bound for infection rate : numeric
+#' @param bhigh : upper bound for infection rate : numeric
+#' @param bsim : rate at which virus infects cells for simulated data : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param dVlow : lower bound for virus clearance rate : numeric
+#' @param dVhigh : upper bound for virus clearance rate : numeric
+#' @param dVsim : rate at which infectious virus is cleared for simulated data : numeric
+#' @param usesimdata : set to TRUE if simulated data should be fitted, FALSE otherwise : logical
+#' @param noise : noise to be added to simulated data : numeric
+#' @param iter : max number of steps to be taken by optimizer : numeric
+#' @param solvertype : the type of solver/optimizer to use (1-3) : numeric
 #' @return The function returns a list containing as elements the best fit time series data frame, the best fit parameters,
 #' the data and the final SSR
 #' @details A simple compartmental ODE model mimicking acute viral infection

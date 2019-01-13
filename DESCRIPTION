@@ -32,6 +32,7 @@ Imports:
     nloptr (>= 1.0.4),
     rmarkdown (>= 1.10),
     stats (>= 3.4),
+    stringr,
     tidyr (>= 0.7),
     utils (>= 3.4), 
     XML

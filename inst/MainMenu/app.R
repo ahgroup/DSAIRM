@@ -6,10 +6,8 @@ appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
 
 currentapp = NULL #global server variable for currently loaded app
 currentapptitle = NULL #global server variable for currently loaded app
-currentmbmodel <<- NULL #global server variable for mbmodel structure
 currentsimfct <<- NULL #global server variable for current simulation function
 currentmodelnplots <<- NULL #global server variable for number of plots
-currentmbmodelfile <<- NULL #global server variable for mbmodel file name
 currentmodeltype <<- NULL #global server variable for model type to run
 currentotherinputs <<-  NULL
 currentdocfilename <<- NULL
@@ -43,35 +41,21 @@ server <- function(input, output, session)
       source(settingfilename) #source the file with additional settings to load them
       currentsimfct <<- simfunction
       currentmodelnplots <<- nplots
-      currentmbmodelfile <<- mbmodelfile
       currentmodeltype <<- modeltype
       currentotherinputs <<-  otherinputs
       currentapptitle <<- apptitle
 
-      #produce Shiny input UI elements for the model
-      #if a mbmodel file is not NULL, use
-      #.Rdata file in the app directory, use that file to create shiny inputs
-      if (!is.null(currentmbmodelfile))
-      {
-        mbmodellocation = paste0(appdir,'/',currentapp,'/',currentmbmodelfile)
-        load(mbmodellocation) #this loads an mbmodel
-        currentmbmodel <<- mbmodel
-        DSAIRM::generate_shinyinput(mbmodel = currentmbmodel, otherinputs = currentotherinputs, output = output)
-      }
-      else
-      #if no mbmodel Rdata file exists,  extract function inputs and turn them into shiny input elements
-      #this uses the 1st function provided by the settings file and stored in crrentsimfct
+      #extract function inputs and turn them into shiny input elements
+      #this uses the 1st function provided by the settings file and stored in currentsimfct
       #this only works for numeric inputs, any others will be removed and need to be
       #added to shiny UI using the settings file
-      {
-        currentmbmodel <<- NULL
-        DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, output = output) #indexing sim function in case there are multiple
-      }
+      #indexing sim function in case there are multiple
+      DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, output = output)
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
           tagList(
-            tags$div(id = "shinyheadertitle", currentapptitle),
+            tags$div(id = "shinyapptitle", currentapptitle),
             tags$hr(),
             #Split screen with input on left, output on right
             fluidRow(

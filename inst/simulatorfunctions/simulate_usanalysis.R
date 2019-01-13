@@ -1,53 +1,45 @@
-############################################################
-##this code illustrates how to do uncertainty and sensitivity analysis
-##it does sampling of some parameters of the simple bacterial infection model
-##written by Andreas Handel (ahandel@uga.edu), last change 7/16/18
-############################################################
-#'
 #' Simulation to illustrate uncertainty and sensitivity analysis
 #'
 #' @description This function performs uncertainty and sensitivity analysis
 #' using the simple, continuous-time basic bacteria model.
+#' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
+#' is simulated for different parameter values.
 #' The user provides ranges for the initial conditions and parameter values and the number of samples.
 #' The function does Latin Hypercube Sampling (LHS) of the parameters
 #' and runs the basic bacteria ODE model for each sample.
-#' The function returns a list containing values for each sample and results.
-#'
-#' @param Bmin lower bound for initial bacteria numbers
-#' @param Bmax upper bound for initial bacteria numbers
-#' @param Imin lower bound for initial immune response
-#' @param Imax upper bound for initial immune response
-#' @param Bmaxmin lower bound for maximum bacteria load
-#' @param Bmaxmax upper bound for maximum bacteria load
-#' @param dBmin lower bound for bacteria death rate
-#' @param dBmax upper bound for bacteria death rate
-#' @param kmin lower bound for immune response kill rate
-#' @param kmax upper bound for immune response kill rate
-#' @param rmin lower bound for immune response growth rate
-#' @param rmax upper bound for immune response growth rate
-#' @param dImin lower bound for immune response death rate
-#' @param dImax upper bound for immune response death rate
-#' @param gmean mean for bacteria growth rate
-#' @param gvar variance for bacteria growth rate
-#' @param samples number of LHS samples to run
-#' @param rngseed seed for random number generator
-#' @param tstart : Start time of simulation
-#' @param tfinal : Final time of simulation
-#' @param dt : Time step
-#' @return The function returns the output as a list.
-#' The list element 'dat' contains a data frame
-#' with sample values for each parameter as columns, followed by columns for the results.
-#' A final variable 'nosteady' is returned for each simulation.
-#' It is TRUE if the simulation did not reach steady state, otherwise FALSE.
-#' @details A simple 2 compartment ODE model (the simple bacteria model introduced in the app of that name)
-#' is simulated for different parameter values.
-#' Parameters are sampled via Latin Hypercube Sampling.
 #' Distribution for all parameters is assumed to be uniform between the min and max values.
 #' The only exception is the bacteria growth parameter,
 #' which is assumed to be gamma distributed with the specified mean and variance.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
+#' @param Bmin : lower bound for initial bacteria numbers : numeric
+#' @param Bmax : upper bound for initial bacteria numbers : numeric
+#' @param Imin : lower bound for initial immune response : numeric
+#' @param Imax : upper bound for initial immune response : numeric
+#' @param Bmaxmin : lower bound for maximum bacteria load : numeric
+#' @param Bmaxmax : upper bound for maximum bacteria load : numeric
+#' @param dBmin : lower bound for bacteria death rate : numeric
+#' @param dBmax : upper bound for bacteria death rate : numeric
+#' @param kmin : lower bound for immune response kill rate : numeric
+#' @param kmax : upper bound for immune response kill rate : numeric
+#' @param rmin : lower bound for immune response growth rate : numeric
+#' @param rmax : upper bound for immune response growth rate : numeric
+#' @param dImin : lower bound for immune response death rate : numeric
+#' @param dImax : upper bound for immune response death rate : numeric
+#' @param gmean : mean for bacteria growth rate : numeric
+#' @param gvar : variance for bacteria growth rate : numeric
+#' @param samples : number of LHS samples to run : numeric
+#' @param rngseed : seed for random number generator : numeric
+#' @param tstart : Start time of simulation : numeric
+#' @param tfinal : Final time of simulation : numeric
+#' @param dt : times for which result is returned : numeric
+#' @return The function returns the output as a list.
+#' The list element 'dat' contains a data frame.
 #' The simulation returns for each parameter sample the peak and final value for B and I.
 #' Also returned are all parameter values as individual columns
 #' and an indicator stating if steady state was reached.
+#' A final variable 'steady' is returned for each simulation.
+#' It is TRUE if the simulation did reach steady state, otherwise FALSE.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter values
 #'   or fractions > 1), the code will likely abort with an error message.
@@ -90,7 +82,7 @@ simulate_usanalysis <- function(Bmin = 1, Bmax = 10, Imin = 1, Imax = 10, Bmaxmi
     Bsteady=rep(0,samples)
     Isteady=rep(0,samples)
 
-    nosteady = rep(FALSE,samples) #indicates if steady state has not been reached
+    steady = rep(TRUE,samples) #indicates if steady state has not been reached
     for (n in 1:samples)
     {
         #values for sampled parameters
@@ -120,11 +112,11 @@ simulate_usanalysis <- function(Bmin = 1, Bmax = 10, Imin = 1, Imax = 10, Bmaxmi
         vl=nrow(timeseries);
         if ((abs(timeseries[vl,"B"]-timeseries[vl-10,"B"])/timeseries[vl,"B"])>1e-2)
         {
-          nosteady[n] = TRUE
+          steady[n] = FALSE
         }
     }
 
-    simresults = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B = Bvec, I = Ivec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, nosteady = nosteady)
+    simresults = data.frame(Bpeak = Bpeak, Bsteady = Bsteady, Isteady = Isteady, B = Bvec, I = Ivec, Bmax = Bmaxvec, dB = dBvec, k = kvec, r = rvec, dI = dIvec, g = gvec, steady = steady)
 
     result = list()
     result$dat = simresults

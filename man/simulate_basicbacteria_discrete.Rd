@@ -2,34 +2,34 @@
 % Please edit documentation in R/simulate_basicbacteria_discrete.R
 \name{simulate_basicbacteria_discrete}
 \alias{simulate_basicbacteria_discrete}
-\title{Basic Bacteria model}
+\title{Basic Bacteria model - discrete}
 \usage{
 simulate_basicbacteria_discrete(B = 10, I = 1, g = 1, Bmax = 1e+06,
   dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0,
   tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{B}{: starting value for Bacteria}
+\item{B}{: Starting value for bacteria : numeric}
 
-\item{I}{: starting value for Immune Response}
+\item{I}{: Starting value for immune response : numeric}
 
-\item{g}{: maximum rate of bacteria growth}
+\item{g}{: Maximum rate of bacteria growth : numeric}
 
-\item{Bmax}{: bacteria carrying capacity}
+\item{Bmax}{: Bacteria carrying capacity : numeric}
 
-\item{dB}{: bacteria death rate}
+\item{dB}{: Bacteria death rate : numeric}
 
-\item{k}{: bacteria kill rate}
+\item{k}{: Bacteria kill rate : numeric}
 
-\item{r}{: immune response growth rate}
+\item{r}{: Immune response growth rate : numeric}
 
-\item{dI}{: immune response decay rate}
+\item{dI}{: Immune response decay rate : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: Time step}
+\item{dt}{: Time step : numeric}
 }
 \value{
 The function returns the output as a list.
@@ -37,24 +37,18 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic bacteria infection model with 2 compartments
+A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
 }
 \details{
 The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
-This code is based on a dynamical systems model created by the modelbuilder package.
-The model is implemented here as a set of discrete-time, deterministic equations,
-coded as a simple for-loop.
+This is a predator-prey type model.
+The model is implemented as a set of discrete-time, deterministic equations,
+coded as a for-loop.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
-}
-
-\section{Model Author}{
- Andreas Handel
-}
-
-\section{Model creation date}{
- 2018-12-21
 }
 
 \examples{

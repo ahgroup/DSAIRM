@@ -7,7 +7,15 @@
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a list containing time-series of each variable and time.
 #' inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)
-#'
+#' @details A simple compartmental model is simulated as a set of ordinary differential
+#' equations, using an ode solver from the deSolve package.
+#' if the steadystate input is set to TRUE,
+#' the starting values for U, I and V are set to their steady state values.
+#' Those steady state values are computed from the parameter values.
+#' See the Basic Virus Model To-do section for an explanation.
+#' In this case, user supplied values for U0, I0, V0 are ignored.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
 #' @param U : initial number of uninfected target cells : numeric
 #' @param I : initial number of infected target cells : numeric
 #' @param V : initial number of infectious virions : numeric
@@ -22,19 +30,12 @@
 #' @param e : strength of virus production reduction by drug : numeric
 #' @param tstart : Start time of simulation : numeric
 #' @param tfinal : Final time of simulation : numeric
-#' @param dt : time step : numeric
+#' @param dt : times for which result is returned : numeric
 #' @param steadystate start simulation at steady state : logical
 #' @param txstart time at which treatment starts
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
-#' @details A simple compartmental model is simulated as a set of ordinary differential
-#' equations, using an ode solver from the deSolve package.
-#' if the steadystate input is set to TRUE,
-#' the starting values for U, I and V are set to their steady state values.
-#' Those steady state values are computed from the parameter values.
-#' See the Basic Virus Model To-do section for an explanation.
-#' In this case, user supplied values for U0, I0, V0 are ignored.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
@@ -45,10 +46,6 @@
 #' result <- simulate_virusandtx_ode(V = 100, tfinal = 100, n = 1e5, dU = 1e-2)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
-#' @seealso See the Shiny app documentation corresponding to this simulator
-#' function for more details on this model. See the manual for the deSolve
-#' package for details on the underlying ODE simulator algorithm.
-#' @author Andreas Handel
 #' @export
 
 simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE, txstart = 0)

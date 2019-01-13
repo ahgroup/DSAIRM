@@ -1,35 +1,34 @@
-##################################################################################
-##fitting influenza virus load data to a simple ODE model
-##model used is the one in "simulate_Basic_Virus_model_ode.R"
-#' Fitting a simple viral infection model and compute confidence intervals
+#' Fit a simple viral infection model and compute confidence intervals
 #'
 #' @description This function runs a simulation of a compartment model
 #' using a set of ordinary differential equations.
 #' The model describes a simple viral infection system.
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param n rate of uninfected cell production
-#' @param dU rate at which uninfected cells die
-#' @param p rate at which infected cells produce virus
-#' @param dI rate at which infected cells die
-#' @param g unit conversion factor
-#' @param b rate at which virus infects cells
-#' @param blow lower bound for infection rate
-#' @param bhigh upper bound for infection rate
-#' @param dV rate at which infectious virus is cleared
-#' @param dVlow lower bound for virus clearance rate
-#' @param dVhigh upper bound for virus clearance rate
-#' @param parscale 'lin' or 'log' to fit parameters in linear or log space
-#' @param iter max number of steps to be taken by optimizer
-#' @param nsample number of samples for conf int determination
-#' @param rngseed seed for random number generator to allow reproducibility
-#' @return The function returns a list containing the best fit time series, the best fit parameters for
-#' the data, the final SSR, and the bootstrapped confidence intervals.
 #' @details A simple compartmental ODE model mimicking acute viral infection
 #' is fitted to data.
 #' Data can either be real or created by running the model with known parameters and using the simulated data to
 #' determine if the model parameters can be identified.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param n : rate of uninfected cell production : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param g : unit conversion factor : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param blow : lower bound for infection rate : numeric
+#' @param bhigh : upper bound for infection rate : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param dVlow : lower bound for virus clearance rate : numeric
+#' @param dVhigh : upper bound for virus clearance rate : numeric
+#' @param iter : max number of steps to be taken by optimizer : numeric
+#' @param nsample : number of samples for conf int determination : numeric
+#' @param rngseed : seed for random number generator to allow reproducibility : numeric
+#' @param parscale :  'lin' or 'log' to fit parameters in linear or log space : character
+#' @return The function returns a list containing the best fit time series, the best fit parameters for
+#' the data, the final SSR, and the bootstrapped confidence intervals.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
@@ -38,15 +37,12 @@
 #' \dontrun{result <- simulate_confint_fit()}
 #' # To apply different settings, provide them to the simulator function, like such:
 #' result <- simulate_confint_fit(iter = 5, nsample = 5)
-#' @seealso See the Shiny app documentation corresponding to this
-#' function for more details on this model.
-#' @author Andreas Handel
 #' @importFrom utils read.csv
 #' @importFrom dplyr filter rename select
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, parscale = 'lin', iter = 20, nsample = 10, rngseed = 100)
+simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, iter = 20, nsample = 10, rngseed = 100, parscale = 'lin')
 {
 
   ###################################################################

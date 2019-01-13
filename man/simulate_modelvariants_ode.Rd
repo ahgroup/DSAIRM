@@ -13,71 +13,71 @@ simulate_modelvariants_ode(U = 1e+05, I = 0, V = 10, F = 0,
   dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{F}{initial level of innate response}
+\item{F}{: initial level of innate response : numeric}
 
-\item{A}{initial level of adaptive response}
+\item{A}{: initial level of adaptive response : numeric}
 
-\item{n}{rate of uninfected cell production}
+\item{n}{: rate of uninfected cell production : numeric}
 
-\item{dU}{rate of natural death of uninfected cells}
+\item{dU}{: rate of natural death of uninfected cells : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{pF}{rate of innate response production in absence of infection}
+\item{pF}{: rate of innate response production in absence of infection : numeric}
 
-\item{dF}{rate of innate response removal in absence of infection}
+\item{dF}{: rate of innate response removal in absence of infection : numeric}
 
-\item{f1}{growth of innate response alternative 1}
+\item{f1}{: growth of innate response alternative 1 : numeric}
 
-\item{f2}{growth of innate response alternative 2}
+\item{f2}{: growth of innate response alternative 2 : numeric}
 
-\item{f3}{growth of innate response alternative 3}
+\item{f3}{: growth of innate response alternative 3 : numeric}
 
-\item{Fmax}{maximum level of innate response in alternative 1}
+\item{Fmax}{: maximum level of innate response in alternative 1 : numeric}
 
-\item{sV}{saturation of innate response growth in alternative 2 and 3}
+\item{sV}{: saturation of innate response growth in alternative 2 and 3 : numeric}
 
-\item{k1}{action of innate response alternative 1}
+\item{k1}{: action of innate response alternative 1 : numeric}
 
-\item{k2}{action of innate response alternative 2}
+\item{k2}{: action of innate response alternative 2 : numeric}
 
-\item{k3}{action of innate response alternative 3}
+\item{k3}{: action of innate response alternative 3 : numeric}
 
-\item{a1}{growth of adaptive response alternative 1}
+\item{a1}{: growth of adaptive response alternative 1 : numeric}
 
-\item{a2}{growth of adaptive response alternative 2}
+\item{a2}{: growth of adaptive response alternative 2 : numeric}
 
-\item{a3}{growth of adaptive response alternative 3}
+\item{a3}{: growth of adaptive response alternative 3 : numeric}
 
-\item{hV}{saturation of adaptive response growth in alternative 2 and 3}
+\item{hV}{: saturation of adaptive response growth in alternative 2 and 3 : numeric}
 
-\item{k4}{action of adaptive response alternative 1}
+\item{k4}{: action of adaptive response alternative 1 : numeric}
 
-\item{k5}{action of adaptive response alternative 2}
+\item{k5}{: action of adaptive response alternative 2 : numeric}
 
-\item{k6}{action of adaptive response alternative 3}
+\item{k6}{: action of adaptive response alternative 3 : numeric}
 
-\item{sA}{saturation of adaptive response killing for alternative action 2}
+\item{sA}{: saturation of adaptive response killing for alternative action 2 : numeric}
 
-\item{dA}{adaptive immune response decay}
+\item{dA}{: adaptive immune response decay : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: Times for which result is returned.}
+\item{dt}{: Times for which result is returned : numeric}
 }
 \value{
 The function returns the output from the odesolver as a matrix,

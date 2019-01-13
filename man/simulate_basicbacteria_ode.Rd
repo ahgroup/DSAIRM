@@ -2,35 +2,34 @@
 % Please edit documentation in R/simulate_basicbacteria_ode.R
 \name{simulate_basicbacteria_ode}
 \alias{simulate_basicbacteria_ode}
-\title{Basic Bacteria model}
+\title{Basic Bacteria model - ODE}
 \usage{
 simulate_basicbacteria_ode(B = 10, I = 1, g = 1, Bmax = 1e+05,
   dB = 0.1, k = 1e-06, r = 0.001, dI = 1, tstart = 0,
   tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{B}{: starting value for Bacteria : numeric}
+\item{B}{: Starting value for bacteria : numeric}
 
-\item{I}{: starting value for Immune Response : numeric}
+\item{I}{: Starting value for immune response : numeric}
 
-\item{g}{: maximum rate of bacteria growth : numeric}
+\item{g}{: Maximum rate of bacteria growth : numeric}
 
-\item{Bmax}{: bacteria carrying capacity : numeric}
+\item{Bmax}{: Bacteria carrying capacity : numeric}
 
-\item{dB}{: bacteria death rate : numeric}
+\item{dB}{: Bacteria death rate : numeric}
 
-\item{k}{: bacteria kill rate : numeric}
+\item{k}{: Bacteria kill rate : numeric}
 
-\item{r}{: immune response growth rate : numeric}
+\item{r}{: Immune response growth rate : numeric}
 
-\item{dI}{: immune response decay rate : numeric}
+\item{dI}{: Immune response decay rate : numeric}
 
-\item{tstart}{: start time of simulation : numeric}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{tfinal}{: final time of simulation : numeric}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: times for which result is returned : numeric
-For ODE models, this is not the internal time step, the latter is set automatically by the ODE solver.}
+\item{dt}{: Times for which result is returned : numeric}
 }
 \value{
 The function returns the output as a list.
@@ -38,23 +37,23 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic bacteria infection model with 2 compartments. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
+A basic bacteria infection model with 2 compartments, implemented as set of ODEs. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
 }
 \details{
-This code is based on a dynamical systems model created by the modelbuilder package.
 The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
 This is a predator-prey type model.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.
 }
+\section{Notes}{
+ The parameter dt only determines for which times the solution is returned,
+it is not the internal time step. The latter is set automatically by the ODE solver.
+}
+
 \section{Warning}{
  This function does not perform any error checking.
 So if you try to do something nonsensical (e.g. have negative values for parameters),
 the code will likely abort with an error message.
-}
-
-\section{Author}{
- Andreas Handel
 }
 
 \examples{

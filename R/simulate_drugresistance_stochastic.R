@@ -5,21 +5,20 @@
 #' Uninfected target cells (U), Infected with wild-type/sensitive and untreated (Is),
 #' infected with resistant (Ir), wild-type virus (Vs), resistant virus (Vr).
 #'
-#' @param U initial number of target cells
-#' @param Is initial number of wild-type infected cells
-#' @param Ir initial number of resistant infected cells
-#' @param Vs initial number of wild-type virus
-#' @param Vr initial number of resistant virus
-#' @param b level/rate of infection of cells
-#' @param dI rate of infected cell death
-#' @param e efficacy of drug
-#' @param m fraction of resistant mutants created
-#' @param p virus production rate
-#' @param c virus removal rate
-#' @param f fitness cost of resistant virus
-#' @param rngseed seed for random number generator to allow reproducibility
-#' @param tfinal maximum simulation time, units depend on choice of units for your
-#'   parameters
+#' @param U : initial number of target cells : numeric
+#' @param Is : initial number of wild-type infected cells : numeric
+#' @param Ir : initial number of resistant infected cells : numeric
+#' @param Vs : initial number of wild-type virus : numeric
+#' @param Vr : initial number of resistant virus : numeric
+#' @param b : level/rate of infection of cells : numeric
+#' @param dI : rate of infected cell death : numeric
+#' @param e : efficacy of drug : numeric
+#' @param m : fraction of resistant mutants created : numeric
+#' @param p : virus production rate : numeric
+#' @param c : virus removal rate : numeric
+#' @param f : fitness cost of resistant virus : numeric
+#' @param rngseed : seed for random number generator to allow reproducibility : numeric
+#' @param tfinal : maximum simulation time : numeric
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.

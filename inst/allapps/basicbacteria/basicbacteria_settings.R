@@ -13,7 +13,7 @@ simfunction = c('simulate_basicbacteria_ode','simulate_basicbacteria_discrete')
 #name of underlying mbmodel - if exists
 #if it exists, it will be used to build UI input elements
 #if not exists, set to NULL
-mbmodelfile = 'BasicBacteria_model.Rdata'
+mbmodelfile = NULL
 
 #number of plots to produce for output
 nplots = 1

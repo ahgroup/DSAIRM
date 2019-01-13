@@ -11,51 +11,51 @@ simulate_modelcomparison_fit(U = 1e+05, I = 0, V = 1, X = 1,
   dXlow = 0.1, dXhigh = 10, fitmodel = 1, iter = 100)
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{X}{initial level of immune response}
+\item{X}{: initial level of immune response : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{g}{unit conversion factor}
+\item{g}{: unit conversion factor : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{k}{rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)}
+\item{k}{: rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2) : numeric}
 
-\item{a}{activation of T-cells (model 1) or growth of antibodies (model 2)}
+\item{a}{: activation of T-cells (model 1) or growth of antibodies (model 2) : numeric}
 
-\item{alow}{lower bound for activation rate}
+\item{alow}{: lower bound for activation rate : numeric}
 
-\item{ahigh}{upper bound for activation rate}
+\item{ahigh}{: upper bound for activation rate : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{blow}{lower bound for infection rate}
+\item{blow}{: lower bound for infection rate : numeric}
 
-\item{bhigh}{upper bound for infection rate}
+\item{bhigh}{: upper bound for infection rate : numeric}
 
-\item{r}{rate of T-cell expansion (model 1)}
+\item{r}{: rate of T-cell expansion (model 1) : numeric}
 
-\item{rlow}{lower bound for expansion rate}
+\item{rlow}{: lower bound for expansion rate : numeric}
 
-\item{rhigh}{upper bound for expansion rate}
+\item{rhigh}{: upper bound for expansion rate : numeric}
 
-\item{dX}{rate at which antibodies decay (model 2)}
+\item{dX}{: rate at which antibodies decay (model 2) : numeric}
 
-\item{dXlow}{lower bound for decay rate}
+\item{dXlow}{: lower bound for decay rate : numeric}
 
-\item{dXhigh}{upper bound for decay rate}
+\item{dXhigh}{: upper bound for decay rate : numeric}
 
 \item{fitmodel}{: fitting model 1 or 2 : numeric}
 
-\item{iter}{max number of steps to be taken by optimizer}
+\item{iter}{: max number of steps to be taken by optimizer : numeric}
 }
 \value{
 The function returns a list containing the best fit timeseries,

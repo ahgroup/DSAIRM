@@ -38,7 +38,7 @@ simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, n = 10000,
 
 \item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: time step : numeric}
+\item{dt}{: times for which result is returned : numeric}
 
 \item{steadystate}{start simulation at steady state : logical}
 
@@ -66,6 +66,8 @@ the starting values for U, I and V are set to their steady state values.
 Those steady state values are computed from the parameter values.
 See the Basic Virus Model To-do section for an explanation.
 In this case, user supplied values for U0, I0, V0 are ignored.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -80,12 +82,4 @@ result <- simulate_virusandtx_ode()
 result <- simulate_virusandtx_ode(V = 100, tfinal = 100, n = 1e5, dU = 1e-2)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
-}
-\seealso{
-See the Shiny app documentation corresponding to this simulator
-function for more details on this model. See the manual for the deSolve
-package for details on the underlying ODE simulator algorithm.
-}
-\author{
-Andreas Handel
 }

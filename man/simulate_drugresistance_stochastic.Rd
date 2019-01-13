@@ -10,34 +10,33 @@ simulate_drugresistance_stochastic(U = 1e+05, Is = 0, Ir = 0,
   p = 100, c = 4, f = 0.1, rngseed = 100, tfinal = 100)
 }
 \arguments{
-\item{U}{initial number of target cells}
+\item{U}{: initial number of target cells : numeric}
 
-\item{Is}{initial number of wild-type infected cells}
+\item{Is}{: initial number of wild-type infected cells : numeric}
 
-\item{Ir}{initial number of resistant infected cells}
+\item{Ir}{: initial number of resistant infected cells : numeric}
 
-\item{Vs}{initial number of wild-type virus}
+\item{Vs}{: initial number of wild-type virus : numeric}
 
-\item{Vr}{initial number of resistant virus}
+\item{Vr}{: initial number of resistant virus : numeric}
 
-\item{b}{level/rate of infection of cells}
+\item{b}{: level/rate of infection of cells : numeric}
 
-\item{dI}{rate of infected cell death}
+\item{dI}{: rate of infected cell death : numeric}
 
-\item{e}{efficacy of drug}
+\item{e}{: efficacy of drug : numeric}
 
-\item{m}{fraction of resistant mutants created}
+\item{m}{: fraction of resistant mutants created : numeric}
 
-\item{p}{virus production rate}
+\item{p}{: virus production rate : numeric}
 
-\item{c}{virus removal rate}
+\item{c}{: virus removal rate : numeric}
 
-\item{f}{fitness cost of resistant virus}
+\item{f}{: fitness cost of resistant virus : numeric}
 
-\item{rngseed}{seed for random number generator to allow reproducibility}
+\item{rngseed}{: seed for random number generator to allow reproducibility : numeric}
 
-\item{tfinal}{maximum simulation time, units depend on choice of units for your
-parameters}
+\item{tfinal}{: maximum simulation time : numeric}
 }
 \value{
 A list. The list has only one element called ts.

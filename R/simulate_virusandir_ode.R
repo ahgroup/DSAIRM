@@ -1,45 +1,44 @@
 #' Simulation of a viral infection model with an immune response
 #'
 #' @description This function runs a simulation of a compartment model
-#' using a set of ordinary differential equations.
-#' The user provides initial conditions and parameter values for the system.
-#' The function simulates the ODE using an ODE solver from the deSolve package.
-#' The function returns a matrix containing time-series of each variable and time.
-#'
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param T initial number of T cells
-#' @param B initial number of B cells
-#' @param A initial number of antibodies
-#' @param n rate of new uninfected cell replenishment
-#' @param dU rate at which uninfected cells die
-#' @param dI rate at which infected cells die
-#' @param dV rate at which infectious virus is cleared
-#' @param b rate at which virus infects cells
-#' @param p rate at which infected cells produce virus
-#' @param sF strength of innate response at reducing virus production
-#' @param kA rate of virus removal by antibodies
-#' @param kT rate of infected cell killing by T cells
-#' @param pF rate of innate response production in absence of infection
-#' @param dF rate of innate response removal in absence of infection
-#' @param gF rate of innate response growth during infection
-#' @param Fmax maximum level of innate response
-#' @param hV innate growth saturation constant
-#' @param gT T-cell induction rate
-#' @param rT T-cell expansion rate
-#' @param hF B-cell growth saturation constant
-#' @param gB maximum growth rate of B cells
-#' @param rA rate of antibody production by B cells
-#' @param dA rate of antibody decay
-#' @return A list. The list has only one element, called ts.
+#' which tracks uninfected and infected cells, virus, innate immune response, T-cells, B-cells and antibodies.
+#' The model is implemented as set of ordinary differential equations using the deSolve package.
+#' @details A compartmental infection model is simulated as a set of ordinary differential
+#' equations, using an ode solver from the deSolve package.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param T : initial number of T cells : numeric
+#' @param B : initial number of B cells : numeric
+#' @param A : initial number of antibodies : numeric
+#' @param n : rate of new uninfected cell replenishment : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param sF : strength of innate response at reducing virus production : numeric
+#' @param kA : rate of virus removal by antibodies : numeric
+#' @param kT : rate of infected cell killing by T cells : numeric
+#' @param pF : rate of innate response production in absence of infection : numeric
+#' @param dF : rate of innate response removal in absence of infection : numeric
+#' @param gF : rate of innate response growth during infection : numeric
+#' @param Fmax : maximum level of innate response : numeric
+#' @param hV : innate growth saturation constant : numeric
+#' @param gT : T-cell induction rate : numeric
+#' @param rT : T-cell expansion rate : numeric
+#' @param hF : B-cell growth saturation constant : numeric
+#' @param gB : maximum growth rate of B cells : numeric
+#' @param rA : rate of antibody production by B cells : numeric
+#' @param dA : rate of antibody decay : numeric
 #' @param tstart : start time of simulation : numeric
 #' @param tfinal : final time of simulation : numeric
 #' @param dt : times for which result is returned : numeric
+#' @return A list. The list has only one element, called ts.
 #' ts contains the time-series of the simulation.
-#' The 1st column of ts is Time, the other columns are the model variables.
-#' @details A compartmental infection model is simulated as a set of ordinary differential
-#' equations, using an ode solver from the deSolve package.
+#' The 1st column of ts is time, the other columns are the model variables.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.

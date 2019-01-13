@@ -11,53 +11,53 @@ simulate_basicmodel_fit(U = 1e+05, I = 0, V = 1, X = 1, n = 0,
   usesimdata = TRUE, noise = 0.001, iter = 100, solvertype = 1)
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{X}{initial level of immune response}
+\item{X}{: initial level of immune response : numeric}
 
-\item{n}{rate of uninfected cell production}
+\item{n}{: rate of uninfected cell production : numeric}
 
-\item{dU}{rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{g}{unit conversion factor}
+\item{g}{: unit conversion factor : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{plow}{lower bound for p}
+\item{plow}{: lower bound for p : numeric}
 
-\item{phigh}{upper bound for p}
+\item{phigh}{: upper bound for p : numeric}
 
-\item{psim}{rate at which infected cells produce virus for simulated data}
+\item{psim}{: rate at which infected cells produce virus for simulated data : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{blow}{lower bound for infection rate}
+\item{blow}{: lower bound for infection rate : numeric}
 
-\item{bhigh}{upper bound for infection rate}
+\item{bhigh}{: upper bound for infection rate : numeric}
 
-\item{bsim}{rate at which virus infects cells for simulated data}
+\item{bsim}{: rate at which virus infects cells for simulated data : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{dVlow}{lower bound for virus clearance rate}
+\item{dVlow}{: lower bound for virus clearance rate : numeric}
 
-\item{dVhigh}{upper bound for virus clearance rate}
+\item{dVhigh}{: upper bound for virus clearance rate : numeric}
 
-\item{dVsim}{rate at which infectious virus is cleared for simulated data}
+\item{dVsim}{: rate at which infectious virus is cleared for simulated data : numeric}
 
-\item{usesimdata}{set to TRUE if simulated data should be fitted, FALSE otherwise}
+\item{usesimdata}{: set to TRUE if simulated data should be fitted, FALSE otherwise : logical}
 
-\item{noise}{noise to be added to simulated data}
+\item{noise}{: noise to be added to simulated data : numeric}
 
-\item{iter}{max number of steps to be taken by optimizer}
+\item{iter}{: max number of steps to be taken by optimizer : numeric}
 
-\item{solvertype}{the type of solver/optimizer to use, can be 1, 2, or 3. See details below.}
+\item{solvertype}{: the type of solver/optimizer to use (1-3) : numeric}
 }
 \value{
 The function returns a list containing as elements the best fit time series data frame, the best fit parameters,

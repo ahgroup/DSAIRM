@@ -2,49 +2,49 @@
 % Please edit documentation in R/simulate_confint_fit.R
 \name{simulate_confint_fit}
 \alias{simulate_confint_fit}
-\title{Fitting a simple viral infection model and compute confidence intervals}
+\title{Fit a simple viral infection model and compute confidence intervals}
 \usage{
 simulate_confint_fit(U = 1e+05, I = 0, V = 10, n = 0, dU = 0,
   dI = 2, p = 0.01, g = 0, b = 0.01, blow = 1e-06,
-  bhigh = 1000, dV = 2, dVlow = 0.001, dVhigh = 1000,
-  parscale = "lin", iter = 20, nsample = 10, rngseed = 100)
+  bhigh = 1000, dV = 2, dVlow = 0.001, dVhigh = 1000, iter = 20,
+  nsample = 10, rngseed = 100, parscale = "lin")
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{n}{rate of uninfected cell production}
+\item{n}{: rate of uninfected cell production : numeric}
 
-\item{dU}{rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{g}{unit conversion factor}
+\item{g}{: unit conversion factor : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{blow}{lower bound for infection rate}
+\item{blow}{: lower bound for infection rate : numeric}
 
-\item{bhigh}{upper bound for infection rate}
+\item{bhigh}{: upper bound for infection rate : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{dVlow}{lower bound for virus clearance rate}
+\item{dVlow}{: lower bound for virus clearance rate : numeric}
 
-\item{dVhigh}{upper bound for virus clearance rate}
+\item{dVhigh}{: upper bound for virus clearance rate : numeric}
 
-\item{parscale}{'lin' or 'log' to fit parameters in linear or log space}
+\item{iter}{: max number of steps to be taken by optimizer : numeric}
 
-\item{iter}{max number of steps to be taken by optimizer}
+\item{nsample}{: number of samples for conf int determination : numeric}
 
-\item{nsample}{number of samples for conf int determination}
+\item{rngseed}{: seed for random number generator to allow reproducibility : numeric}
 
-\item{rngseed}{seed for random number generator to allow reproducibility}
+\item{parscale}{:  'lin' or 'log' to fit parameters in linear or log space : character}
 }
 \value{
 The function returns a list containing the best fit time series, the best fit parameters for
@@ -60,6 +60,8 @@ A simple compartmental ODE model mimicking acute viral infection
 is fitted to data.
 Data can either be real or created by running the model with known parameters and using the simulated data to
 determine if the model parameters can be identified.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -72,11 +74,4 @@ determine if the model parameters can be identified.
 \dontrun{result <- simulate_confint_fit()}
 # To apply different settings, provide them to the simulator function, like such:
 result <- simulate_confint_fit(iter = 5, nsample = 5)
-}
-\seealso{
-See the Shiny app documentation corresponding to this
-function for more details on this model.
-}
-\author{
-Andreas Handel
 }

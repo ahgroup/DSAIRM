@@ -27,76 +27,38 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
     #create UI elements as input/output for shiny by parsing a function/R code
     #currently requires that function arguments are given in a vector, not a list like mbmodel functions do
     ###########################################
-    if (class(mbmodel)=="character" )
+
+    fcfile = paste0(system.file("simulatorfunctions", package = "DSAIRM"),'/',mbmodel,'.R')
+    #get every line in documentation part of file that starts with @param
+    x = readLines(fcfile)
+    x2 = grep('@param', x, value = TRUE)
+    pattern = ":.+:" #regex for capturing text between colons
+    x3 = stringr::str_extract_all(x2, pattern, simplify = TRUE)
+    x3=substr(x3,3,nchar(x3)-2); #remove : and blanks in front and back
+    ip = formals(mbmodel) #get model inputs
+    #remove function arguments that are not numeric
+    ip = ip[unlist(lapply(ip,is.numeric))]
+    modelargs = lapply(1:length(ip), function(n)
     {
+        iplabel = paste0(names(ip[n]),', ', x3[n]) #text label for input
+        myclassfct(
 
-        #file containing model
-        fcfile = paste0(system.file("simulatorfunctions", package = "DSAIRM"),'/',mbmodel,'.R')
-        #get every line in documentation part of file that starts with @param
+            numericInput(names(ip[n]), label = iplabel, value = ip[n][[1]])
+        ) #close myclassfct
+    }) #close lapply
 
-        # turn each @param statement into a string for display
-
-        ip = formals(mbmodel)
-        #remove function arguments that are not numeric
-        ip = ip[unlist(lapply(ip,is.numeric))]
-        nvars = length(ip)  #number of variables/compartments in model
-        modelargs = lapply(1:nvars, function(n) {
-            myclassfct(
-                numericInput(names(ip[n]), names(ip[n]), value = ip[n][[1]])
-            ) #close myclassfct
-        }) #close lapply
-    } #end UI creation for an underlying function
-
-
-    ###########################################
-    #create UI elements as input/output for shiny by parsing a modelbuilder object
-    ###########################################
-    if (class(mbmodel)=="list")
+    if (!is.null(otherinputs))
     {
+        otherargs = lapply(otherinputs,myclassfct)
+    }
 
-        nvars = length(mbmodel$var)  #number of variables/compartments in model
-        npars = length(mbmodel$par)  #number of parameters in model
-        ntime = length(mbmodel$time)  #number of time variables in model
-
-        #numeric input elements for all variable initial conditions
-        allv = lapply(1:nvars, function(n) {
-            myclassfct(numericInput(mbmodel$var[[n]]$varname,
-                             paste0(mbmodel$var[[n]]$vartext,' (',mbmodel$var[[n]]$varname,')'),
-                             value = mbmodel$var[[n]]$varval,
-                             min = 0, step = mbmodel$var[[n]]$varval/100))
-                    })
-
-        allp = lapply(1:npars, function(n) {
-            myclassfct(numericInput(
-                    mbmodel$par[[n]]$parname,
-                    paste0(mbmodel$par[[n]]$partext,' (',mbmodel$par[[n]]$parname,')'),
-                    value = mbmodel$par[[n]]$parval,
-                    min = 0, step = mbmodel$par[[n]]$parval/100))
-                    })
-
-        allt = lapply(1:ntime, function(n) {
-            myclassfct(numericInput(
-                    mbmodel$time[[n]]$timename,
-                    paste0(mbmodel$time[[n]]$timetext,' (',mbmodel$time[[n]]$timename,')'),
-                    value = mbmodel$time[[n]]$timeval,
-                    min = 0, step = mbmodel$time[[n]]$timeval/100))
-                    })
-        modelargs = c(allv,allp,allt)
-    } #end mbmodel object parsing
-
-if (!is.null(otherinputs))
-{
-    otherargs = lapply(otherinputs,myclassfct)
-}
-
-#return structure
-output$modelinputs <- renderUI({
-    tagList(
+    #return structure
+    output$modelinputs <- renderUI({
+        tagList(
             p(actionButton("submitBtn", "Run Simulation", class = "submitbutton"), align = 'center'),
             modelargs,
             otherargs
-            )
-}) #end renderuI
-
+        ) #end tagList
+    }) #end renderuI
 } #end overall function
 

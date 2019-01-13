@@ -2,45 +2,46 @@
 % Please edit documentation in R/simulate_modelexploration.R
 \name{simulate_modelexploration}
 \alias{simulate_modelexploration}
-\title{Simulation to illustrate a simple use of a simple model}
+\title{Simulation to illustrate parameter scan of the basic bacteria model
+#'}
 \usage{
 simulate_modelexploration(B = 10, I = 1, g = 1, Bmax = 1e+06,
-  dB = 0.1, k = 1e-07, r = 0.001, dI = 1, samplepar = "k",
-  parmin = 1e-08, parmax = 1e-05, samples = 10, pardist = "lin",
-  tstart = 0, tfinal = 200, dt = 0.1)
+  dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0,
+  tfinal = 200, dt = 0.1, samples = 10, parmin = 1e-08,
+  parmax = 1e-05, samplepar = "k", pardist = "lin")
 }
 \arguments{
-\item{B}{initial number of bacteria}
+\item{B}{: Starting value for bacteria : numeric}
 
-\item{I}{initial number/strength of immune response}
+\item{I}{: Starting value for immune response : numeric}
 
-\item{g}{rate of bacteria growth}
+\item{g}{: Maximum rate of bacteria growth : numeric}
 
-\item{Bmax}{carrying capacity for bacteria}
+\item{Bmax}{: Bacteria carrying capacity : numeric}
 
-\item{dB}{death rate of bacteria}
+\item{dB}{: Bacteria death rate : numeric}
 
-\item{k}{rate at which bacteria are killed by immune response}
+\item{k}{: Bacteria kill rate : numeric}
 
-\item{r}{rate at which immune response is induced by bacteria}
+\item{r}{: Immune response growth rate : numeric}
 
-\item{dI}{death rate of immune response}
+\item{dI}{: Immune response decay rate : numeric}
 
-\item{samplepar}{name of parameter to be varied}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{parmin}{lower value for varied parameter}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{parmax}{upper value for varied parameter}
+\item{dt}{: Times for which result is returned : numeric}
 
-\item{samples}{number of values to run between pmin and pmax}
+\item{samples}{: Number of values to run between pmin and pmax : numeric}
 
-\item{pardist}{spacing of parameter values, can be either 'lin' or 'log'}
+\item{parmin}{: Lower value for varied parameter : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{parmax}{: Upper value for varied parameter : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{samplepar}{: Name of parameter to be varied : character}
 
-\item{dt}{: Time step}
+\item{pardist}{: spacing of parameter values, can be either 'lin' or 'log' : character}
 }
 \value{
 The function returns the output as a list,
@@ -49,11 +50,11 @@ The first column is called xvals and contains the values of the
 parameter that has been varied as specified by 'samplepar'.
 The remaining columns contain peak and steady state values of bacteria and immune response,
 Bpeak, Ipeak, Bsteady and Isteady.
-A final boolean variable 'nosteady' is returned for each simulation.
-It is TRUE if the simulation did not reach steady state, otherwise FALSE.
+A final boolean variable 'steady' is returned for each simulation.
+It is TRUE if the simulation reached steady state, otherwise FALSE.
 }
 \description{
-This function simulates the simple bacteria model for a range of parameters.
+This function simulates the simple bacteria model ODE for a range of parameters.
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details).
 }
 \details{
@@ -65,6 +66,11 @@ The user can specify which parameter is sampled, and
 the simulation returns for each parameter sample the peak and final value for B and I.
 Also returned is the varied parameter and an indicator if steady state was reached.
 }
+\section{Notes}{
+ The parameter dt only determines for which times the solution is returned,
+it is not the internal time step. The latter is set automatically by the ODE solver.
+}
+
 \section{Warning}{
  This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter values
@@ -75,7 +81,7 @@ Also returned is the varied parameter and an indicator if steady state was reach
 # To run the simulation with default parameters just call the function:
 res <- simulate_modelexploration()
 # To choose parameter values other than the standard one, specify them, like such:
-res <- simulate_modelexploration(dI = 0.1, r = 10, samplepar='Bmax', parmin=1e1, parmax=1e5)
+res <- simulate_modelexploration(dI = 5, r = 0.1, samplepar='Bmax', parmin=1e1, parmax=1e5)
 # You should then use the simulation result returned from the function, like this:
 plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 }

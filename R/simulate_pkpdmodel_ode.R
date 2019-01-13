@@ -6,32 +6,34 @@
 #' virus infection model including the pharmacokinetics and pharmacodynamics
 #' of a drug. The user provides initial conditions and parameter values for the system.
 #' The function simulates the ODE using an ODE solver from the deSolve package.
+#' @details A simple compartmental model is simulated as a set of ordinary differential
+#' equations, using an ode solver from the deSolve package.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
 #'
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param n rate of new uninfected cell replenishment
-#' @param dU rate at which uninfected cells die
-#' @param dI rate at which infected cells die
-#' @param dV rate at which infectious virus is cleared
-#' @param b rate at which virus infects cells
-#' @param g unit conversion factor
-#' @param p rate at which infected cells produce virus
-#' @param C0 drug dose given at specified times
-#' @param dC drug concentration decay rate
-#' @param C50 drug concentration at which effect is half maximum
-#' @param k steepness of concentration-dependent drug effect
-#' @param Emax maximum drug effect (0-1)
-#' @param txstart time of drug treatment start
-#' @param txinterval time between drug doses
-#' @param tstart : Start time of simulation
-#' @param tfinal : Final time of simulation
-#' @param dt : Times for which result is returned.
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param n : rate of new uninfected cell replenishment : numeric
+#' @param dU : rate at which uninfected cells die : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param g : unit conversion factor : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param C0 : drug dose given at specified times : numeric
+#' @param dC : drug concentration decay rate : numeric
+#' @param C50 : drug concentration at which effect is half maximum : numeric
+#' @param k : steepness of concentration-dependent drug effect : numeric
+#' @param Emax : maximum drug effect (0-1) : numeric
+#' @param txstart : time of drug treatment start : numeric
+#' @param txinterval : time between drug doses : numeric
+#' @param tstart : Start time of simulation : numeric
+#' @param tfinal : Final time of simulation : numeric
+#' @param dt : Times for which result is returned : numeric
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
-#' @details A simple compartmental model is simulated as a set of ordinary differential
-#' equations, using an ode solver from the deSolve package.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.

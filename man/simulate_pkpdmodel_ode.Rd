@@ -10,45 +10,45 @@ simulate_pkpdmodel_ode(U = 1e+07, I = 0, V = 1, n = 0, dU = 0,
   tstart = 0, tfinal = 30, dt = 0.1)
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{n}{rate of new uninfected cell replenishment}
+\item{n}{: rate of new uninfected cell replenishment : numeric}
 
-\item{dU}{rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{g}{unit conversion factor}
+\item{g}{: unit conversion factor : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{C0}{drug dose given at specified times}
+\item{C0}{: drug dose given at specified times : numeric}
 
-\item{dC}{drug concentration decay rate}
+\item{dC}{: drug concentration decay rate : numeric}
 
-\item{C50}{drug concentration at which effect is half maximum}
+\item{C50}{: drug concentration at which effect is half maximum : numeric}
 
-\item{k}{steepness of concentration-dependent drug effect}
+\item{k}{: steepness of concentration-dependent drug effect : numeric}
 
-\item{Emax}{maximum drug effect (0-1)}
+\item{Emax}{: maximum drug effect (0-1) : numeric}
 
-\item{txstart}{time of drug treatment start}
+\item{txstart}{: time of drug treatment start : numeric}
 
-\item{txinterval}{time between drug doses}
+\item{txinterval}{: time between drug doses : numeric}
 
-\item{tstart}{: Start time of simulation}
+\item{tstart}{: Start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation}
+\item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: Times for which result is returned.}
+\item{dt}{: Times for which result is returned : numeric}
 }
 \value{
 A list. The list has only one element called ts.
@@ -66,6 +66,8 @@ A basic virus infection model with drug PkPd
 
 A simple compartmental model is simulated as a set of ordinary differential
 equations, using an ode solver from the deSolve package.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if

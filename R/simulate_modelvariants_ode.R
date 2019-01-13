@@ -7,39 +7,39 @@
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a matrix containing time-series of each variable and time.
 #'
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param F initial level of innate response
-#' @param A initial level of adaptive response
-#' @param n rate of uninfected cell production
-#' @param dU rate of natural death of uninfected cells
-#' @param b rate at which virus infects cells
-#' @param dI rate at which infected cells die
-#' @param dV rate at which infectious virus is cleared
-#' @param p rate at which infected cells produce virus
-#' @param pF rate of innate response production in absence of infection
-#' @param dF rate of innate response removal in absence of infection
-#' @param f1 growth of innate response alternative 1
-#' @param f2 growth of innate response alternative 2
-#' @param f3 growth of innate response alternative 3
-#' @param Fmax maximum level of innate response in alternative 1
-#' @param sV saturation of innate response growth in alternative 2 and 3
-#' @param k1 action of innate response alternative 1
-#' @param k2 action of innate response alternative 2
-#' @param k3 action of innate response alternative 3
-#' @param a1 growth of adaptive response alternative 1
-#' @param a2 growth of adaptive response alternative 2
-#' @param a3 growth of adaptive response alternative 3
-#' @param hV saturation of adaptive response growth in alternative 2 and 3
-#' @param k4 action of adaptive response alternative 1
-#' @param k5 action of adaptive response alternative 2
-#' @param k6 action of adaptive response alternative 3
-#' @param sA saturation of adaptive response killing for alternative action 2
-#' @param dA adaptive immune response decay
-#' @param tstart : Start time of simulation
-#' @param tfinal : Final time of simulation
-#' @param dt : Times for which result is returned.
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param F : initial level of innate response : numeric
+#' @param A : initial level of adaptive response : numeric
+#' @param n : rate of uninfected cell production : numeric
+#' @param dU : rate of natural death of uninfected cells : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param pF : rate of innate response production in absence of infection : numeric
+#' @param dF : rate of innate response removal in absence of infection : numeric
+#' @param f1 : growth of innate response alternative 1 : numeric
+#' @param f2 : growth of innate response alternative 2 : numeric
+#' @param f3 : growth of innate response alternative 3 : numeric
+#' @param Fmax : maximum level of innate response in alternative 1 : numeric
+#' @param sV : saturation of innate response growth in alternative 2 and 3 : numeric
+#' @param k1 : action of innate response alternative 1 : numeric
+#' @param k2 : action of innate response alternative 2 : numeric
+#' @param k3 : action of innate response alternative 3 : numeric
+#' @param a1 : growth of adaptive response alternative 1 : numeric
+#' @param a2 : growth of adaptive response alternative 2 : numeric
+#' @param a3 : growth of adaptive response alternative 3 : numeric
+#' @param hV : saturation of adaptive response growth in alternative 2 and 3 : numeric
+#' @param k4 : action of adaptive response alternative 1 : numeric
+#' @param k5 : action of adaptive response alternative 2 : numeric
+#' @param k6 : action of adaptive response alternative 3 : numeric
+#' @param sA : saturation of adaptive response killing for alternative action 2 : numeric
+#' @param dA : adaptive immune response decay : numeric
+#' @param tstart : Start time of simulation : numeric
+#' @param tfinal : Final time of simulation : numeric
+#' @param dt : Times for which result is returned : numeric
 #' @return The function returns the output from the odesolver as a matrix,
 #' with one column per compartment/variable. The first column is time.
 #' @details A compartmental infection model is simulated as a set of ordinary differential

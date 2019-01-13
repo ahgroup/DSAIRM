@@ -2,29 +2,26 @@
 #'
 #' @description  Simulation of a stochastic model with the following compartments:
 #' Uninfected target cells (U), Infected cells (I), virus (V).
-#'
-#' @param U initial number of target cells. Needs to be an integer.
-#' @param I initial number of wild-type infected cells. Needs to be an integer.
-#' @param V initial number of resistant virus. Needs to be an integer.
-#' @param n rate of uninfected cell production
-#' @param dU rate of uninfected cell removal
-#' @param b level/rate of infection of cells
-#' @param dI rate of infected cell death
-#' @param p virus production rate
-#' @param dV virus removal rate
-#' @param rngseed seed for random number generator to allow reproducibility
-#' @param tstart : Start time of simulation
-#' @param tfinal : Final time of simulation
-#' @param dt : this is ignored since time step is determined automatically by simulator.
-#' It is only provided to match the ODE and discrete solvers for easier calling.
-#' @return A list. The list has only one element called ts.
-#' ts contains the time-series of the simulation.
-#' The 1st column of ts is Time, the other columns are the model variables.
 #' @details A compartmental ID model with several states/compartments
 #' is simulated as a stochastic model using the adaptive tau algorithm as implemented by ssa.adaptivetau()
 #' in the adaptivetau package. See the manual of this package for more details.
-#' The function returns the time series of the simulated disease as output matrix,
-#' with one column per compartment/variable. The first column is time.
+#' This code is part of the DSAIRM R package.
+#' For additional model details, see the corresponding app in the DSAIRM package.
+#'
+#' @param U : initial number of target cells. Needs to be an integer : numeric
+#' @param I : initial number of wild-type infected cells. Needs to be an integer. : numeric
+#' @param V : initial number of resistant virus. Needs to be an integer. : numeric
+#' @param n : rate of uninfected cell production : numeric
+#' @param dU : rate of uninfected cell removal : numeric
+#' @param b : level/rate of infection of cells : numeric
+#' @param dI : rate of infected cell death : numeric
+#' @param p : virus production rate : numeric
+#' @param dV : virus removal rate : numeric
+#' @param rngseed : seed for random number generator to allow reproducibility : numeric
+#' @param tfinal : Final time of simulation : numeric
+#' @return A list. The list has only one element called ts.
+#' ts contains the time-series of the simulation.
+#' The 1st column of ts is Time, the other columns are the model variables.
 #' @section Warning:
 #' This function does not perform any error checking. So if you try to do
 #' something nonsensical (e.g. have I0 > PopSize or any negative values or fractions > 1),
@@ -36,12 +33,9 @@
 #' result <- simulate_basicvirus_stochastic(U = 1e3, dI = 0.1)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
-#' @references See the manual for the adaptivetau package for details on the algorithm.
-#'             See the app corresponding to this function in DSAIDE for more details on the model.
-#' @author Andreas Handel
 #' @export
 
-simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 5, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 5, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100, tfinal = 30)
 {
 
   #this specifies the rates used by the adapativetau routine

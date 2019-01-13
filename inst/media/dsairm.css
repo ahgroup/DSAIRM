@@ -82,6 +82,14 @@ table td {
 	font-size: 100%;
 }
 
+#shinyapptitle
+{
+	color: #123c66;
+	font-weight: bold;
+	text-align: center;
+	font-size: 1.5em;
+}
+
 
 #classauthor
 {
@@ -116,6 +124,7 @@ iframe {
 	display: inline-block;
 	width: 100px;
 	vertical-align: bottom;
+	font-size: 0.8em;
 }
 
 

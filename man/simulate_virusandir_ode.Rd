@@ -12,79 +12,79 @@ simulate_virusandir_ode(U = 1e+05, I = 0, V = 10, T = 0, B = 1,
   dt = 0.05)
 }
 \arguments{
-\item{U}{initial number of uninfected target cells}
+\item{U}{: initial number of uninfected target cells : numeric}
 
-\item{I}{initial number of infected target cells}
+\item{I}{: initial number of infected target cells : numeric}
 
-\item{V}{initial number of infectious virions}
+\item{V}{: initial number of infectious virions : numeric}
 
-\item{T}{initial number of T cells}
+\item{T}{: initial number of T cells : numeric}
 
-\item{B}{initial number of B cells}
+\item{B}{: initial number of B cells : numeric}
 
-\item{A}{initial number of antibodies}
+\item{A}{: initial number of antibodies : numeric}
 
-\item{n}{rate of new uninfected cell replenishment}
+\item{n}{: rate of new uninfected cell replenishment : numeric}
 
-\item{dU}{rate at which uninfected cells die}
+\item{dU}{: rate at which uninfected cells die : numeric}
 
-\item{dI}{rate at which infected cells die}
+\item{dI}{: rate at which infected cells die : numeric}
 
-\item{dV}{rate at which infectious virus is cleared}
+\item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{b}{rate at which virus infects cells}
+\item{b}{: rate at which virus infects cells : numeric}
 
-\item{p}{rate at which infected cells produce virus}
+\item{p}{: rate at which infected cells produce virus : numeric}
 
-\item{sF}{strength of innate response at reducing virus production}
+\item{sF}{: strength of innate response at reducing virus production : numeric}
 
-\item{kA}{rate of virus removal by antibodies}
+\item{kA}{: rate of virus removal by antibodies : numeric}
 
-\item{kT}{rate of infected cell killing by T cells}
+\item{kT}{: rate of infected cell killing by T cells : numeric}
 
-\item{pF}{rate of innate response production in absence of infection}
+\item{pF}{: rate of innate response production in absence of infection : numeric}
 
-\item{dF}{rate of innate response removal in absence of infection}
+\item{dF}{: rate of innate response removal in absence of infection : numeric}
 
-\item{gF}{rate of innate response growth during infection}
+\item{gF}{: rate of innate response growth during infection : numeric}
 
-\item{Fmax}{maximum level of innate response}
+\item{Fmax}{: maximum level of innate response : numeric}
 
-\item{hV}{innate growth saturation constant}
+\item{hV}{: innate growth saturation constant : numeric}
 
-\item{hF}{B-cell growth saturation constant}
+\item{hF}{: B-cell growth saturation constant : numeric}
 
-\item{gB}{maximum growth rate of B cells}
+\item{gB}{: maximum growth rate of B cells : numeric}
 
-\item{gT}{T-cell induction rate}
+\item{gT}{: T-cell induction rate : numeric}
 
-\item{rT}{T-cell expansion rate}
+\item{rT}{: T-cell expansion rate : numeric}
 
-\item{rA}{rate of antibody production by B cells}
+\item{rA}{: rate of antibody production by B cells : numeric}
 
-\item{dA}{rate of antibody decay}
+\item{dA}{: rate of antibody decay : numeric}
 
 \item{tstart}{: start time of simulation : numeric}
 
 \item{tfinal}{: final time of simulation : numeric}
 
-\item{dt}{: times for which result is returned : numeric
-ts contains the time-series of the simulation.
-The 1st column of ts is Time, the other columns are the model variables.}
+\item{dt}{: times for which result is returned : numeric}
 }
 \value{
 A list. The list has only one element, called ts.
+ts contains the time-series of the simulation.
+The 1st column of ts is time, the other columns are the model variables.
 }
 \description{
 This function runs a simulation of a compartment model
-using a set of ordinary differential equations.
-The user provides initial conditions and parameter values for the system.
-The function simulates the ODE using an ODE solver from the deSolve package.
-The function returns a matrix containing time-series of each variable and time.
+which tracks uninfected and infected cells, virus, innate immune response, T-cells, B-cells and antibodies.
+The model is implemented as set of ordinary differential equations using the deSolve package.
 }
 \details{
 A compartmental infection model is simulated as a set of ordinary differential
 equations, using an ode solver from the deSolve package.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.
 }
 \section{Warning}{
  This function does not perform any error checking. So if

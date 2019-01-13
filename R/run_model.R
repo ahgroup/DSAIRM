@@ -155,8 +155,8 @@ run_model <- function(modelsettings, modelfunction) {
     simresult <- do.call(currentmodel, args = currentargs)
 
     #pull the indicator for non-steady state out of the dataframe, process separately
-    nosteady = simresult$dat$nosteady
-    simresult$dat$nosteady <- NULL
+    steady = simresult$dat$steady
+    simresult$dat$steady <- NULL
 
     simdat = simresult$dat
 
@@ -191,7 +191,7 @@ run_model <- function(modelsettings, modelfunction) {
 
         #the following are for text display for each plot
         result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
-        result[[ct]]$finaltext = paste("System might not have reached steady state", sum(nosteady), "times")
+        result[[ct]]$finaltext = paste("System might not have reached steady state", length(steady) - sum(steady), "times")
 
         ct = ct + 1
       } #inner loop
@@ -337,10 +337,12 @@ run_model <- function(modelsettings, modelfunction) {
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
     simresult <- do.call(currentmodel, args = currentargs)
 
+    steady = simresult$dat$steady
+
     #these 3 settings are only needed for the shiny UI presentation
     result[[1]]$maketext = FALSE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
     result[[1]]$showtext = NULL #text for each plot can be added here which will be passed through to generate_text and displayed for each plot
-    result[[1]]$finaltext = paste("System might not have reached steady state", sum(result$dat$nosteady), "times")
+    result[[1]]$finaltext = paste("System might not have reached steady state", length(steady) - sum(steady), "times")
 
     #Meta-information for each plot
     result[[1]]$plottype = "Scatterplot"
@@ -349,7 +351,7 @@ run_model <- function(modelsettings, modelfunction) {
     result[[1]]$legend = "Outcomes"
     result[[1]]$linesize = 3
 
-    simresult$dat$nosteady <- NULL #remove before return so it won't be plotted
+    simresult$dat$steady <- NULL #remove before return so it won't be plotted
     result[[1]]$dat = simresult$dat
   }
   ##################################

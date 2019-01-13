@@ -7,29 +7,29 @@
 #' The function simulates the ODE using an ODE solver from the deSolve package.
 #' The function returns a matrix containing time-series of each variable and time.
 #'
-#' @param U initial number of uninfected target cells
-#' @param I initial number of infected target cells
-#' @param V initial number of infectious virions
-#' @param X initial level of immune response
-#' @param p rate at which infected cells produce virus
-#' @param dI rate at which infected cells die
-#' @param dV rate at which infectious virus is cleared
-#' @param g unit conversion factor
-#' @param k rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2)
-#' @param a activation of T-cells (model 1) or growth of antibodies (model 2)
-#' @param alow lower bound for activation rate
-#' @param ahigh upper bound for activation rate
-#' @param b rate at which virus infects cells
-#' @param blow lower bound for infection rate
-#' @param bhigh upper bound for infection rate
-#' @param r rate of T-cell expansion (model 1)
-#' @param rlow lower bound for expansion rate
-#' @param rhigh upper bound for expansion rate
-#' @param dX rate at which antibodies decay (model 2)
-#' @param dXlow lower bound for decay rate
-#' @param dXhigh upper bound for decay rate
+#' @param U : initial number of uninfected target cells : numeric
+#' @param I : initial number of infected target cells : numeric
+#' @param V : initial number of infectious virions : numeric
+#' @param X : initial level of immune response : numeric
+#' @param p : rate at which infected cells produce virus : numeric
+#' @param dI : rate at which infected cells die : numeric
+#' @param dV : rate at which infectious virus is cleared : numeric
+#' @param g : unit conversion factor : numeric
+#' @param k : rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2) : numeric
+#' @param a : activation of T-cells (model 1) or growth of antibodies (model 2) : numeric
+#' @param alow : lower bound for activation rate : numeric
+#' @param ahigh : upper bound for activation rate : numeric
+#' @param b : rate at which virus infects cells : numeric
+#' @param blow : lower bound for infection rate : numeric
+#' @param bhigh : upper bound for infection rate : numeric
+#' @param r : rate of T-cell expansion (model 1) : numeric
+#' @param rlow : lower bound for expansion rate : numeric
+#' @param rhigh : upper bound for expansion rate : numeric
+#' @param dX : rate at which antibodies decay (model 2) : numeric
+#' @param dXlow : lower bound for decay rate : numeric
+#' @param dXhigh : upper bound for decay rate : numeric
 #' @param fitmodel : fitting model 1 or 2 : numeric
-#' @param iter max number of steps to be taken by optimizer
+#' @param iter : max number of steps to be taken by optimizer : numeric
 #' @return The function returns a list containing the best fit timeseries,
 #' the best fit parameters, the data and the AICc for the model.
 #' @details Two simple compartmental ODE models mimicking acute viral infection

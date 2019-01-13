@@ -2,38 +2,38 @@
 % Please edit documentation in R/simulate_basicvirus_ode.R
 \name{simulate_basicvirus_ode}
 \alias{simulate_basicvirus_ode}
-\title{Basic Virus model}
+\title{Basic Virus model - ODE}
 \usage{
 simulate_basicvirus_ode(U = 1e+05, I = 0, V = 1, n = 0, dU = 0,
   dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0,
   tfinal = 30, dt = 0.1)
 }
 \arguments{
-\item{U}{: starting value for Uninfected cells : numeric}
+\item{U}{: Starting value for uninfected cells : numeric}
 
-\item{I}{: starting value for Infected cells : numeric}
+\item{I}{: Starting value for infected cells : numeric}
 
-\item{V}{: starting value for Virus : numeric}
+\item{V}{: Starting value for virus : numeric}
 
-\item{n}{: rate of new uninfected cell replenishment : numeric}
+\item{n}{: Rate of new uninfected cell replenishment : numeric}
 
-\item{dU}{: rate at which uninfected cells die : numeric}
+\item{dU}{: Rate at which uninfected cells die : numeric}
 
-\item{dI}{: rate at which infected cells die : numeric}
+\item{dI}{: Rate at which infected cells die : numeric}
 
-\item{dV}{: rate at which virus is cleared : numeric}
+\item{dV}{: Rate at which virus is cleared : numeric}
 
-\item{b}{: rate at which virus infects cells : numeric}
+\item{b}{: Rate at which virus infects cells : numeric}
 
-\item{p}{: rate at which infected cells produce virus : numeric}
+\item{p}{: Rate at which infected cells produce virus : numeric}
 
-\item{g}{: possible conversion factor for virus units : numeric}
+\item{g}{: Possible conversion factor for virus units : numeric}
 
 \item{tstart}{: Start time of simulation : numeric}
 
 \item{tfinal}{: Final time of simulation : numeric}
 
-\item{dt}{: time step : numeric}
+\item{dt}{: Times for which result is returned : numeric}
 }
 \value{
 The function returns the output as a list.
@@ -41,20 +41,19 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic virus infection model with 3 compartments. The model tracks uninfected and infected target cells, as well as free virus. The processes that are modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
+A basic virus infection model with 3 compartments, implemented as ODEs. The model tracks uninfected and infected target cells and free virus. The processes modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.
 }
 \details{
-This code is based on a dynamical systems model created by the modelbuilder package.
 The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.
 }
-\section{Warning}{
- This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
+\section{Notes}{
+ The parameter dt only determines for which times the solution is returned, it is not the internal time step. The latter is set automatically by the ODE solver.
 }
 
-\section{Author}{
- Andreas Handel
+\section{Warning}{
+ This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
 }
 
 \examples{
