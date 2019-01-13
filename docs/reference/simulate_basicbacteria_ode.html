@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Basic Bacteria model - discrete — simulate_basicbacteria_discrete • DSAIRM</title>
+<title>Basic Bacteria model - ODE — simulate_basicbacteria_ode • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Basic Bacteria model - discrete — simulate_basicbacteria_discrete" />
+<meta property="og:title" content="Basic Bacteria model - ODE — simulate_basicbacteria_ode" />
 
-<meta property="og:description" content="A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay." />
+<meta property="og:description" content="A basic bacteria infection model with 2 compartments, implemented as set of ODEs. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -118,19 +118,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Basic Bacteria model - discrete</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/simulate_basicbacteria_discrete.R'><code>R/simulate_basicbacteria_discrete.R</code></a></small>
-    <div class="hidden name"><code>simulate_basicbacteria_discrete.Rd</code></div>
+    <h1>Basic Bacteria model - ODE</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/simulate_basicbacteria_ode.R'><code>R/simulate_basicbacteria_ode.R</code></a></small>
+    <div class="hidden name"><code>simulate_basicbacteria_ode.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.</p>
+    <p>A basic bacteria infection model with 2 compartments, implemented as set of ODEs. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_basicbacteria_discrete</span>(<span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bmax</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>,
-  <span class='kw'>dB</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+    <pre class="usage"><span class='fu'>simulate_basicbacteria_ode</span>(<span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bmax</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>dB</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>k</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>r</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -178,7 +178,7 @@
     </tr>
     <tr>
       <th>dt</th>
-      <td><p>: Time step : numeric</p></td>
+      <td><p>: Times for which result is returned : numeric</p></td>
     </tr>
     </table>
     
@@ -190,21 +190,30 @@ The <code>ts</code> dataframe has one column per compartment/variable. The first
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
+    <p>The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
 This is a predator-prey type model.
-The model is implemented as a set of discrete-time, deterministic equations,
-coded as a for-loop.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.</p>
     
+    <h2 class="hasAnchor" id="notes"><a class="anchor" href="#notes"></a>Notes</h2>
+
+    <p>The parameter dt only determines for which times the solution is returned,
+it is not the internal time step. The latter is set automatically by the ODE solver.</p>
+    
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
-    <p>This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.</p>
+    <p>This function does not perform any error checking.
+So if you try to do something nonsensical (e.g. have negative values for parameters),
+the code will likely abort with an error message.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicbacteria_discrete</span>()</div></pre>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicbacteria_ode</span>()
+<span class='co'># To run the simulation with different parameter or starting values,</span>
+<span class='co'># supply the ones you want to change.</span>
+<span class='co'># all other parameters will be kept at their default values shown in the function call above</span>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicbacteria_ode</span>(<span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -214,6 +223,8 @@ For additional model details, see the corresponding app in the DSAIRM package.</
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#notes">Notes</a></li>
 
       <li><a href="#warning">Warning</a></li>
       

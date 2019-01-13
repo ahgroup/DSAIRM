@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A helper function for the UI part of the Shiny apps — generate_documentation • DSAIRM</title>
+<title>Basic Virus model - ODE — simulate_basicvirus_ode • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,9 @@
 
 
 
-<meta property="og:title" content="A helper function for the UI part of the Shiny apps — generate_documentation" />
+<meta property="og:title" content="Basic Virus model - ODE — simulate_basicvirus_ode" />
 
-<meta property="og:description" content="This function take the documentation provided as html file
-and extracts sections
-to generate the tabs with content for each Shiny app.
-This is a helper function and only useful for this package." />
+<meta property="og:description" content="A basic virus infection model with 3 compartments, implemented as ODEs. The model tracks uninfected and infected target cells and free virus. The processes modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,40 +118,102 @@ This is a helper function and only useful for this package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A helper function for the UI part of the Shiny apps</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/generate_documentation.R'><code>R/generate_documentation.R</code></a></small>
-    <div class="hidden name"><code>generate_documentation.Rd</code></div>
+    <h1>Basic Virus model - ODE</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/simulate_basicvirus_ode.R'><code>R/simulate_basicvirus_ode.R</code></a></small>
+    <div class="hidden name"><code>simulate_basicvirus_ode.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function take the documentation provided as html file
-and extracts sections
-to generate the tabs with content for each Shiny app.
-This is a helper function and only useful for this package.</p>
+    <p>A basic virus infection model with 3 compartments, implemented as ODEs. The model tracks uninfected and infected target cells and free virus. The processes modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generate_documentation</span>(<span class='no'>docfilename</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_basicvirus_ode</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2e-05</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>docfilename</th>
-      <td><p>of html file containing the documentation</p></td>
+      <th>U</th>
+      <td><p>: Starting value for uninfected cells : numeric</p></td>
+    </tr>
+    <tr>
+      <th>I</th>
+      <td><p>: Starting value for infected cells : numeric</p></td>
+    </tr>
+    <tr>
+      <th>V</th>
+      <td><p>: Starting value for virus : numeric</p></td>
+    </tr>
+    <tr>
+      <th>n</th>
+      <td><p>: Rate of new uninfected cell replenishment : numeric</p></td>
+    </tr>
+    <tr>
+      <th>dU</th>
+      <td><p>: Rate at which uninfected cells die : numeric</p></td>
+    </tr>
+    <tr>
+      <th>dI</th>
+      <td><p>: Rate at which infected cells die : numeric</p></td>
+    </tr>
+    <tr>
+      <th>dV</th>
+      <td><p>: Rate at which virus is cleared : numeric</p></td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td><p>: Rate at which virus infects cells : numeric</p></td>
+    </tr>
+    <tr>
+      <th>p</th>
+      <td><p>: Rate at which infected cells produce virus : numeric</p></td>
+    </tr>
+    <tr>
+      <th>g</th>
+      <td><p>: Possible conversion factor for virus units : numeric</p></td>
+    </tr>
+    <tr>
+      <th>tstart</th>
+      <td><p>: Start time of simulation : numeric</p></td>
+    </tr>
+    <tr>
+      <th>tfinal</th>
+      <td><p>: Final time of simulation : numeric</p></td>
+    </tr>
+    <tr>
+      <th>dt</th>
+      <td><p>: Times for which result is returned : numeric</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tablist A list of tabs for display in a Shiny UI.</p>
+    <p>The function returns the output as a list.
+The time-series from the simulation is returned as a dataframe saved as list element <code>ts</code>.
+The <code>ts</code> dataframe has one column per compartment/variable. The first column is time.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is called by the Shiny UIs to populate the documentation and information tabs.</p>
+    <p>The model is implemented as a set of ordinary differential equations (ODE) using the deSolve package.
+This code is part of the DSAIRM R package.
+For additional model details, see the corresponding app in the DSAIRM package.</p>
+    
+    <h2 class="hasAnchor" id="notes"><a class="anchor" href="#notes"></a>Notes</h2>
+
+    <p>The parameter dt only determines for which times the solution is returned, it is not the internal time step. The latter is set automatically by the ODE solver.</p>
+    
+    <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
+
+    <p>This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.</p>
     
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters:</span>
+<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicvirus_ode</span>()</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -164,10 +223,14 @@ This is a helper function and only useful for this package.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-          </ul>
 
-    <h2>Author</h2>
-    <p>Andreas Handel</p>
+      <li><a href="#notes">Notes</a></li>
+
+      <li><a href="#warning">Warning</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
+
   </div>
 </div>
 

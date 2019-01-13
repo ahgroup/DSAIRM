@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A helper function for the UI part of the Shiny apps — generate_documentation • DSAIRM</title>
+<title>A function that runs a DSAIRM/DSAIDE app — run_model • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,10 @@
 
 
 
-<meta property="og:title" content="A helper function for the UI part of the Shiny apps — generate_documentation" />
+<meta property="og:title" content="A function that runs a DSAIRM/DSAIDE app — run_model" />
 
-<meta property="og:description" content="This function take the documentation provided as html file
-and extracts sections
-to generate the tabs with content for each Shiny app.
-This is a helper function and only useful for this package." />
+<meta property="og:description" content="This function takes a model and model settings and runs it.
+It runs the simulation determined by the model settings and returns simulation results." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,38 +119,40 @@ This is a helper function and only useful for this package." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A helper function for the UI part of the Shiny apps</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/generate_documentation.R'><code>R/generate_documentation.R</code></a></small>
-    <div class="hidden name"><code>generate_documentation.Rd</code></div>
+    <h1>A function that runs a DSAIRM/DSAIDE app</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/run_model.R'><code>R/run_model.R</code></a></small>
+    <div class="hidden name"><code>run_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function take the documentation provided as html file
-and extracts sections
-to generate the tabs with content for each Shiny app.
-This is a helper function and only useful for this package.</p>
+    <p>This function takes a model and model settings and runs it.
+It runs the simulation determined by the model settings and returns simulation results.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generate_documentation</span>(<span class='no'>docfilename</span>)</pre>
+    <pre class="usage"><span class='fu'>run_model</span>(<span class='no'>modelsettings</span>, <span class='no'>modelfunction</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>docfilename</th>
-      <td><p>of html file containing the documentation</p></td>
+      <th>modelsettings</th>
+      <td><p>vector of model settings. needs to contain inputs expected by simulation function. Also needs to provide further information.</p></td>
+    </tr>
+    <tr>
+      <th>modelfunction</th>
+      <td><p>The name of a simulation function to be run with the indicated settings.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>tablist A list of tabs for display in a Shiny UI.</p>
+    <p>A list named "result" with the simulated dataframe and associated metadata.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function is called by the Shiny UIs to populate the documentation and information tabs.</p>
+    <p>This function runs a model for specific settings. It is similar to analyze_model in the modelbuilder package.</p>
     
 
   </div>

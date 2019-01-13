@@ -7,9 +7,6 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/DSAIRM.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/dsairmapps.html</loc>
-  </url>
-  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/dsairmmenu.html</loc>
   </url>
   <url>
@@ -19,49 +16,55 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_plots.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_shinyinput.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_text.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/run_model.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_discrete.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_Basic_Virus_model_ode.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_ode.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_drugresistance.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicmodel_fit.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fitbasicmodel.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_ode.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fitconfint.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_stochastic.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fitmodelcomparison.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_confint_fit.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_drugresistance_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelcomparison_fit.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelexploration.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelvariants.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelvariants_ode.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_pkpdmodel.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_stochasticvirus.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_pkpdmodel_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_usanalysis.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_virusandir.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_virusandir_ode.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_virus_tx.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_virusandtx_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/articles/DSAIRM.html</loc>
