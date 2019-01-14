@@ -168,7 +168,9 @@ generate_plots <- function(res)
       #apply title if provided
       if (!is.null(resnow$title)) { p6 = p6 + ggplot2::ggtitle(resnow$title) }
 
-      pfinal = p6 + ggplot2::theme_bw()
+      #modify overall theme and legend details
+      pfinal = p6 + ggplot2::theme_bw(base_size = 18) + ggplot2::theme(legend.position = c(0, 1), legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
+
       allplots[[n]] = pfinal
 
     } #end loop over individual plots

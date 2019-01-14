@@ -1,14 +1,14 @@
 # Dynamical Systems Approach to Immmune Response Modeling (DSAIRM) 
 
-## To-do
-* Update the following apps: 
 
 
 ## To-do
 * Continue streamlining code base to make it more general/modular/flexible
 * Continue implementing unit tests using the testthat package
 * Improve error messages when simulation failed: Add a failure flag to each underlying simulator, have calling function check the failure status and process accordingly
-* Possibly add checks to parameter settings, don't allow unreasonable ones
+* Possibly add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
+* Consider changing placement of inputs/outputs/instructions
+* Add a 'reset' button that sets inputs back to default values
 
 * Update all solutions 
 * Add learning objectives to each overview tab

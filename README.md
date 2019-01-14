@@ -8,25 +8,22 @@ Dynamical Systems Approach to Immune Response Modeling
 
 
 ## Description
-This R package consists of a set of Shiny Apps to learn within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through the Shiny UI interface and working through the instructions provided within the Shiny UI, you can learn about some important concepts of within-host and immmune response modeling. 
+This R package consists of a set of simulations (refered to here as apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through a graphical (Shiny) user interface and working through the provided instructions, you can learn about some important concepts of within-host and immmune response modeling. 
 
 ## Installation
+I assume you have `R` installed. I also highly recommend `RStudio`, though it's not required.
+
 1. Install the CRAN release in the usual way with `install.packages('DSAIRM')`.
-2. The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don't have it, install the devtools package. Then, install DSAIRM through devtools. The following commands should get you up and running:
+2. The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don't have it, install the devtools package. Then, install DSAIRM through devtools. The following commands will get you up and running:
 
 ```r
 install.packages('devtools')
-library('devtools')
-install_github('ahgroup/DSAIRM', build_vignettes = TRUE)
+devtools::install_github('ahgroup/DSAIRM')
 ```
 
-The extra `build_vignettes` ensures you get the vignette (tutorial) for the package installed/created.
-
 ## Basic Use
-After install (which you need to do only once), load the package by runing `library('DSAIRM')`. You should receive a short greeting. Now you can open the DSAIRM main menu by running `dsairmmenu()`. From the main menu, choose the different apps corresponding to different modeling topics and scenarios. Each app contains a description of the model and scenario that is implemented. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic. Once done exploring the apps, close the main menu to exit back to the R console.
+After install (which you need to do only once), load the package by runing `library('DSAIRM')`. You should receive a short greeting. Now you can open the DSAIRM main menu by running `dsairmmenu()`. From the main menu, choose the different apps corresponding to different modeling topics and scenarios. Each app contains information on the model and topic that are covered. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic. Once done exploring, close the main menu to exit back to the `R` console.
 
-## Alternative Use
-If you don't want to use the main menu, there is another way to run each app: Run the function `dsairmapps()` to get a list of all available apps. Run the same function specifying an app (with quotation marks), e.g. `dsairmapps('BasicBacteria')` to run that specific app. Once you close the app, you'll be back at the `R` console, then use the same function to run a different app. 
 
 ## Advanced Use
 You can call the underlying simulation functions directly from the `R` console. You can also access all functions and modify them to your own needs. To find the folder on your computer where the simulator functions are stored, use the following command:
@@ -34,17 +31,19 @@ You can call the underlying simulation functions directly from the `R` console. 
 ```r
 system.file("simulatorfunctions", package = "DSAIRM")
 ```
-See [the package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) for more details on the different ways to use the package. You can also get to the vignette by typing `vignette('DSAIRM')` at the `R` console.
+
+See [the package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) for more details on the different ways to use the package. 
 
 ## Contributing to the package
-The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. [This Markdown file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. If you plan to develop new apps, or for any further questions, feel free to get in touch via email or github.
+The package is on GitHub and you can use the usual GitHub process to contribute updated, bug fixes, etc. If you don't know how to do that or don't have the time, you can also file an issue on GitHub and let me know what should be changed. 
 
+The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains [this Markdown file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. If you plan to develop new apps, or add other substantial updates, it's best to get in touch with me first via email or GitHub.
 
 
 ## Further information
-* The vignette provides details about the different ways the package can be used. 
-* The `documentation.md' file described above contains more information about the package structure.
-* For feedback, bug reports etc., file a github issue.
+* The [package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) provides details about the different ways the package can be used. I highly recommend going through it. 
+* The [documentation.md](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) file described above contains more information about the package structure.
+* For feedback, bug reports, feature requests, etc., file a [GitHub issue](https://github.com/ahgroup/DSAIRM/issues).
 * A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
 
 
