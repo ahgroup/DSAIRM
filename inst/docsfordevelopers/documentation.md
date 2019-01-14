@@ -66,7 +66,7 @@ The best approach is to contact me by email (ahandel@uga.edu) or through the Git
 * To build new vignette, run devtools::build_vignettes()
 * To update the pkgdown website, run pkgdown::build_site()
 * To spell-check all Rmd documentation files, use these commands:
-files = list.files(path = "C:/data/git/DSAIRM/inst/shinyapps/", recursive=TRUE, pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
+files = list.files(path = "C:/data/git/DSAIRM/inst/allapps/", recursive=TRUE, pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
 spelling::spell_check_files(files)
 
 
