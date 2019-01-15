@@ -43,7 +43,7 @@
 #' # To run the simulation with default parameters just call the function:
 #' res <- simulate_modelexploration()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' res <- simulate_modelexploration(dI = 0.1, r = 10, samplepar='Bmax', parmin=1e1, parmax=1e5)
+#' res <- simulate_modelexploration(dI = 5, r = 0.1, samplepar='Bmax', parmin=1e1, parmax=1e5)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 #' @seealso See the shiny app documentation corresponding to this simulator
