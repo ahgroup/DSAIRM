@@ -134,7 +134,7 @@ simulate_basicbacteria_ode <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 
 ```
 
 new:
-```{r eval=FALSE, echo=TRUE}
+```{r eval=FALSE, echo=TRUE, color='red'}
 mysimulator <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 0.1, k = 1e-06, r=1e3, dI=1, tstart = 0, tfinal = 30, dt = 0.05, s=1E3)
 ```
 
@@ -159,11 +159,12 @@ dIdt = r*B*I - dI*I
 ```
 
 new:
-```{r eval=FALSE, echo=TRUE}
+```{r eval=FALSE, echo=TRUE, color='red'}
 dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
 dIdt = r*B*I/(s+B) - dI*I
 ```
 
+Note that if we wanted to share this function with others, we would need to also update the function documentation at the start of the file. For personal use of the function, this is a good idea but not required.
 
 With these changes made, it is now possible to use the new `mysimulator` function to ask specific questions regarding this model (and thus, it's underlying biological system.) For instance one can explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
 
