@@ -25,6 +25,6 @@ modeltype = '_fit_'
 
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
-  selectInput("parscale", "Scale for parameter fitting",c("Linear" = 'lin', "Logarithmic" = 'log'), selected = 'lin'),
+  shiny::selectInput("parscale", "Scale for parameter fitting",c("Linear" = 'lin', "Logarithmic" = 'log'), selected = 'lin'),
   shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
 ) #end taglist

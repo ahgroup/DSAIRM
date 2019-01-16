@@ -4,12 +4,14 @@
 \alias{generate_shinyinput}
 \title{A helper function that takes a model and generates the shiny UI elements for the analyze tab}
 \usage{
-generate_shinyinput(mbmodel, otherinputs, output)
+generate_shinyinput(mbmodel, otherinputs, packagename, output)
 }
 \arguments{
 \item{mbmodel}{a name of a file/function or a modelbuilder model structure}
 
 \item{otherinputs}{a list of other inputs to include}
+
+\item{packagename}{name of package using this function}
 
 \item{output}{shiny output structure}
 }

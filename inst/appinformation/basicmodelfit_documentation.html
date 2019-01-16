@@ -142,13 +142,15 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
 <ul>
-<li>The code running the model fitting is in the function/script <code>simulate_fitbasicmodel.R</code>. This function repeatedly calls the underlying simulation model encoded in <code>simulate_Basic_Virus_model_ode.R</code> during the fitting. Check the help file for both functions to see how to use them.</li>
-<li>You can of course alter the underlying function to fit more parameters or a different model. That will require some time getting familiar with the code.</li>
+<li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_basicmodel_fit</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called <code>simulatorfunctions</code>. Of course to modify these functions, you’ll need to do some coding.</li>
+<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 <li>A good source for fitting models in <code>R</code> is <span class="citation">(Bolker 2008)</span>. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.</li>
 <li>This book <span class="citation">(Hilborn and Mangel 1997)</span> has nice explanations of data fitting, model comparison, etc. but is more theoretical.</li>
 <li>Lot’s of good online material exists on fitting/inference. Most of the material is explained in the context of static, non-mechanistical, statistical or machine learning models, but a lot of the principles apply equally to ODEs.</li>
 <li>A discussion of overfitting (also called ‘identifiability problem’) for ODEs is <span class="citation">(Miao et al. 2011)</span>.</li>
-<li>Advanced functionality to fit stochastic models can be found in the <code>pomp</code> package in R. (If you don’t know what stochastic models are, check out the app by that name in DSAIRM.)</li>
+<li>Advanced functionality to fit stochastic models can be found in the <code>pomp</code> package in R. (If you don’t know what stochastic models are, check out the stochastic apps in DSAIRM.)</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
 <h3>References</h3>

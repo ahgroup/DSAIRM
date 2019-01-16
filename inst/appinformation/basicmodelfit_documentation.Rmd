@@ -7,8 +7,17 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
+
+```{r, echo = FALSE}
+#this code loads the settings file for the current app so we can automatically 
+#list the functions in the further information section
+currentrmdfile = knitr::current_input() 
+currentappinfo = gsub("_documentation.Rmd" ,"_settings.R",currentrmdfile)
+source(currentappinfo)
+```
+
 
 ## Overview {#shinytab1}
 This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model.
@@ -108,13 +117,15 @@ Note that since you now change your data after you simulated it, you don't expec
 
 
 ## Further Information {#shinytab4}
-* The code running the model fitting is in the function/script `simulate_fitbasicmodel.R`. This function repeatedly calls the underlying simulation model encoded in `simulate_Basic_Virus_model_ode.R` during the fitting. Check the help file for both functions to see how to use them.
-* You can of course alter the underlying function to fit more parameters or a different model. That will require some time getting familiar with the code.
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * A good source for fitting models in `R` is [@bolker08]. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.
 * This book [@hilborn97] has nice explanations of data fitting, model comparison, etc. but is more theoretical.
 * Lot's of good online material exists on fitting/inference. Most of the material is explained in the context of static, non-mechanistical, statistical or machine learning models, but a lot of the principles apply equally to ODEs.
 * A discussion of overfitting (also called 'identifiability problem') for ODEs is [@miao11a].
-* Advanced functionality to fit stochastic models can be found in the `pomp` package in R. (If you don't know what stochastic models are, check out the app by that name in DSAIRM.)
+* Advanced functionality to fit stochastic models can be found in the `pomp` package in R. (If you don't know what stochastic models are, check out the stochastic apps in DSAIRM.)
 
 
 ### References

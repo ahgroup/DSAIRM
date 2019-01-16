@@ -7,8 +7,17 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
+
+```{r, echo = FALSE}
+#this code loads the settings file for the current app so we can automatically 
+#list the functions in the further information section
+currentrmdfile = knitr::current_input() 
+currentappinfo = gsub("_documentation.Rmd" ,"_settings.R",currentrmdfile)
+source(currentappinfo)
+```
+
 
 ## Overview {#shinytab1}
 This app allows exploration of a basic virus infection model in the presence of a drug. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
@@ -22,11 +31,9 @@ This model is a variation of the 'Basic Virus" model. Details on that model can 
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-<div class = "diagramfig">
 ```{r virandtxdiagram,  fig.cap='Flow diagram for the virus infection and drug treatment model.',  echo=FALSE}
-knitr::include_graphics("../../media/hcvifndiagram.png")
+knitr::include_graphics("../media/hcvifndiagram.png")
 ```
-</div>
 
 
 ### Model Equations
@@ -104,7 +111,11 @@ A model like this has been applied to study the interferon treatment for Hepatit
 
 
 ## Further Information {#shinytab4}
-* For this app, the underlying script and function running the simulation is called `simulate_virus_tx.R`. Read the help file for the function to see how you can call it directly.
+
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. [@handel07; @beauchemin08; @canini14a].
 * For some examples of models that were applied to antiviral treatment in chronic infections (HIV, HCV), see e.g. [@neumann98; @dixit04].
 

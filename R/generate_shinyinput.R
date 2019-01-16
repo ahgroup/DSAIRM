@@ -4,6 +4,7 @@
 #' This is a helper function called by the shiny app.
 #' @param mbmodel a name of a file/function or a modelbuilder model structure
 #' @param otherinputs a list of other inputs to include
+#' @param packagename name of package using this function
 #' @param output shiny output structure
 #' @return No direct return. output structure is modified to contain text for display in a Shiny UI
 #' @details This function is called by the Shiny app to produce the Shiny input UI elements.
@@ -14,7 +15,7 @@
 #' @export
 
 #not used in DSAIRM, might need to turn on again for modelbuilder
-generate_shinyinput <- function(mbmodel, otherinputs, output)
+generate_shinyinput <- function(mbmodel, otherinputs, packagename, output)
 {
 
     #function to wrap input elements in specified class
@@ -28,7 +29,7 @@ generate_shinyinput <- function(mbmodel, otherinputs, output)
     #currently requires that function arguments are given in a vector, not a list like mbmodel functions do
     ###########################################
 
-    fcfile = paste0(system.file("simulatorfunctions", package = "DSAIRM"),'/',mbmodel,'.R')
+    fcfile = paste0(system.file("simulatorfunctions", package = packagename),'/',mbmodel,'.R')
     #get every line in documentation part of file that starts with @param
     x = readLines(fcfile)
     x2 = grep('@param', x, value = TRUE)

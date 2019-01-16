@@ -47,10 +47,6 @@ run_model <- function(modelsettings, modelfunction) {
   {
     modelsettings$currentmodel = 'ode'
     currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
-    #the generate_fctcall creates a function call to the specified model based on the given model settings
-    #depending on if modelfunction is the name to a function or a modelbuilder object, different returns are produced
-    #fctcall <- DSAIRM::generate_fctcall(modelsettings = modelsettings, modelfunction = currentmodel)
-    #eval(parse(text = fctcall)) #execute function, result is returned in 'result' object
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
     simresult <- do.call(currentmodel, args = currentargs)
 

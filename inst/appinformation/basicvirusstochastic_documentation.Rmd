@@ -7,8 +7,17 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
+
+```{r, echo = FALSE}
+#this code loads the settings file for the current app so we can automatically 
+#list the functions in the further information section
+currentrmdfile = knitr::current_input() 
+currentappinfo = gsub("_documentation.Rmd" ,"_settings.R",currentrmdfile)
+source(currentappinfo)
+```
+
 
 ## Overview {#shinytab1}
 This app allows exploration of a stochastic model that is almost identical to the deterministic basic virus infection model. In fact, both models are being run so comparison is possible. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
@@ -40,7 +49,7 @@ The one difference to the deterministic virus model is that we do not include an
 The diagram illustrating this compartmental model is shown in the figure.
 
 ```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
-knitr::include_graphics("../../media/virusdiagram.png")
+knitr::include_graphics("../media/virusdiagram.png")
 ```
 
 
@@ -104,9 +113,10 @@ The important take-home message from this is that for small numbers (e.g. at the
 * Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations.
 
 ## Further Information {#shinytab4}
-* The code running the model is in the function/script `simulate_stochastivirus.R`. Check the help file for both functions to see how to use them.
-* The stochastic simulation is implemented using the `adaptivetau` package.
-
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 
 ### References
 

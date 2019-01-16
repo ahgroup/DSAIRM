@@ -53,7 +53,7 @@
 <li>Infected cells produce new virus at rate <em>p</em> and die at rate <em>dI</em>.</li>
 <li>Free virus is removed at rate <em>dV</em> or goes on to infect further uninfected cells.</li>
 </ol>
-<p>The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don’t need to convert. That also means that the parameter <em>g</em> of the deterministic model - which we run for comaprison - is set to 1.</p>
+<p>The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don’t need to convert. That also means that the parameter <em>g</em> of the deterministic model - which we run for comparison - is set to 1.</p>
 </div>
 <div id="model-diagram" class="section level3">
 <h3>Model Diagram</h3>
@@ -169,8 +169,10 @@
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
 <ul>
-<li>The code running the model is in the function/script <code>simulate_stochastivirus.R</code>. Check the help file for both functions to see how to use them.</li>
-<li>The stochastic simulation is implemented using the <code>adaptivetau</code> package.</li>
+<li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_basicvirus_stochastic, simulate_basicvirus_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called <code>simulatorfunctions</code>. Of course to modify these functions, you’ll need to do some coding.</li>
+<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 </ul>
 <div id="references" class="section level3">
 <h3>References</h3>

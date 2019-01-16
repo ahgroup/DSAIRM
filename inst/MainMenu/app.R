@@ -1,8 +1,10 @@
 #This is the Shiny App for the main menu of DSAIRM
 
 #get names of all existing apps
-appdir = system.file("allapps", package = "DSAIRM") #find path to apps
-appNames = list.dirs(path = appdir, full.names = FALSE, recursive = FALSE)
+packagename = "DSAIRM"
+appdir = system.file("appinformation", package = packagename) #find path to apps
+fullappNames = list.files(path = appdir, pattern = "+.settings", full.names = FALSE)
+appNames = gsub("_settings.R" ,"",fullappNames)
 
 currentapp = NULL #global server variable for currently loaded app
 currentapptitle = NULL #global server variable for currently loaded app
@@ -25,7 +27,8 @@ server <- function(input, output, session)
     {
       currentapp <<- appName #assign currently chosen app to global app variable
       #file name for documentation
-      currentdocfilename <<- paste0(appdir,'/',currentapp,'/',currentapp,'_documentation.html')
+      currentdocfilename <<- paste0(appdir,'/',appinformation,'_documentation.html')
+      settingfilename = paste0(appdir,'/',appinformation,'_settings.R')
 
       output$plot <- NULL
       output$text <- NULL
@@ -37,7 +40,6 @@ server <- function(input, output, session)
       #variable otherinputs contains additional shiny UI elements
       #one wants to display that are not generated automaticall by functions above
       #for instance all non-numeric inputs need to be provided separately. If not needed, it is NULL
-      settingfilename = paste0(appdir,'/',currentapp,'/',currentapp,'_settings.R')
       source(settingfilename) #source the file with additional settings to load them
       currentsimfct <<- simfunction
       currentmodelnplots <<- nplots
@@ -50,7 +52,7 @@ server <- function(input, output, session)
       #this only works for numeric inputs, any others will be removed and need to be
       #added to shiny UI using the settings file
       #indexing sim function in case there are multiple
-      DSAIRM::generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, output = output)
+      generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename, output = output)
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
@@ -77,7 +79,7 @@ server <- function(input, output, session)
         }) # End renderUI for analyze tab
 
       #once UI for the model in the analyze tab is created, switch to that tab
-      updateNavbarPage(session, "DSAIRM", selected = "Analyze")
+      updateNavbarPage(session, packagename, selected = "Analyze")
     }) #end observeEvent for the analyze tab
 
   }) #end lapply function surrounding observeEvent to build app
@@ -102,7 +104,7 @@ server <- function(input, output, session)
                      x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
                      #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
                      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit','DSAIRM') ) ]) #remove further inputs
+                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
                      modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
                      if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
                      #if no random seed is set in UI, set it to 123.
@@ -154,9 +156,9 @@ ui <- fluidPage(
   tags$div(id = "shinyheadertext",
     "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
     br()),
-  tags$div(id = "infotext", paste('This is DSAIRM version ',utils::packageVersion("DSAIRM"),' last updated ', utils::packageDescription('DSAIRM')$Date,'.',sep='')),
+  tags$div(id = "infotext", paste('This is', packagename, 'version ',utils::packageVersion(packagename),' last updated ', utils::packageDescription(packagename)$Date,'.',sep='')),
   tags$div(id = "infotext", "Written and maintained by", a("Andreas Handel", href="http://handelgroup.uga.edu", target="_blank"), "with contributions from", a("others.",  href="https://github.com/ahgroup/DSAIRM#contributors", target="_blank")),
-  navbarPage(title = "DSAIRM", id = "DSAIRM", selected = 'Menu',
+  navbarPage(title = packagename, id = packagename, selected = 'Menu',
              tabPanel(title = "Menu",
                       tags$div(class='mainsectionheader', 'The Basics'),
                       fluidRow(

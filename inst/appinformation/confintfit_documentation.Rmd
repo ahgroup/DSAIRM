@@ -7,8 +7,17 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
+
+```{r, echo = FALSE}
+#this code loads the settings file for the current app so we can automatically 
+#list the functions in the further information section
+currentrmdfile = knitr::current_input() 
+currentappinfo = gsub("_documentation.Rmd" ,"_settings.R",currentrmdfile)
+source(currentappinfo)
+```
+
 
 ## Overview {#shinytab1}
 This app illustrates the method of boostrapping data, which is one way one can obtain confidence intervals for parameters when fitting mechanistic models to data.
@@ -53,7 +62,10 @@ The fit is run multiple times. First, the model is fit to the actual data. Then,
 Note that the time it takes to run the code scales with the product of the iterations and number of bootstraps, so if you set both high, things will get really slow.
 
 ## Further Information {#shinytab4}
-* The R script running the simulation for this app is called `simulate_fitconfint.R`. See its help file for information on how to call and use it directly.
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model `simulate_Basic_Virus_model_ode.R`.
 * There are different versions of bootstrapping, i.e. data sampling. Some make assumptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
 

@@ -63,8 +63,8 @@ The best approach is to contact me by email (ahandel@uga.edu) or through the Git
 files = list.files(path = "C:/data/git/DSAIRM/inst/allapps/", recursive=TRUE, pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
 spelling::spell_check_files(files)
 * To re-build all html documentation files from the rmd files at once, use these commands:
-files = list.files(path = "C:/data/git/DSAIDE/inst/shinyapps/", recursive=TRUE, pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
-for (n in 1: length(files)) {rmarkdown::render(files[n])}
+files = list.files(path = "C:/data/git/DSAIRM/inst/appinformation/", recursive=TRUE, pattern = "\\.(Rnw|Rmd)$", full.names = TRUE)
+for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(1)}
 Adjust paths as needed
 
 

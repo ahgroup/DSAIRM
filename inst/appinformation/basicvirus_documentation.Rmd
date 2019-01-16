@@ -6,8 +6,17 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
+
+```{r, echo = FALSE}
+#this code loads the settings file for the current app so we can automatically 
+#list the functions in the further information section
+currentrmdfile = knitr::current_input() 
+currentappinfo = gsub("_documentation.Rmd" ,"_settings.R",currentrmdfile)
+source(currentappinfo)
+```
+
 
 ## Overview {#shinytab1}
 This app allows exploration of a basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
@@ -36,11 +45,9 @@ For our system, we specify the following processes/flows:
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-<div class = "diagramfig">
 ```{r BIdiagram, fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
-knitr::include_graphics("../../media/virusdiagram.png")
+knitr::include_graphics("../media/virusdiagram.png")
 ```
-</div>
 
 ### Model Equations
 Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
@@ -120,12 +127,10 @@ Continue to explore the model. Even though it's a fairly simple model, you can g
 
 ## Further Information {#shinytab4}
 
-```{r, echo = FALSE}
-source(list.files( pattern = "settings.R" ))
-```
-
-* For this app, the underlying function running the simulation is called ``r simfunction``. You can call it directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify this R function for your own purposes - though that requires R coding knowledge.
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. [@beauchemin11; @smith11]. 
 * A few examples of these kinds of models applied to chronic viral infections, see e.g. [@guedj10; @chatterjee12; @perelson13]. 
 
