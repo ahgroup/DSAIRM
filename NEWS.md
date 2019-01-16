@@ -1,7 +1,8 @@
 # DSAIRM 0.5.0
 
-* Rebuild of back-end and structure, changing from multiple independent shiny apps to a single one.
+* Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one.
 * Some user-facing updates and enhancements.
+* Fixed typos and other minor mistakes in app documentations.
 
 # DSAIRM 0.4.0
 

@@ -25,5 +25,5 @@ modeltype = "_ode_"
 
 #additional input elements for app that are shown on UI
 otherinputs = list(
-  shiny::selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+  shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
 ) #end list

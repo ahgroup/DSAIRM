@@ -32,7 +32,10 @@
 
 <meta property="og:title" content="Basic Bacteria model - discrete — simulate_basicbacteria_discrete" />
 
-<meta property="og:description" content="A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay." />
+<meta property="og:description" content="A basic bacteria infection model with 2 compartments, implemented as discrete time simulation.
+The model tracks bacteria and an immune response dynamics.
+The processes modeled are bacteria growth, death and killing by the immune response,
+and immune response activation and decay." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -125,7 +128,10 @@
 
     <div class="ref-description">
     
-    <p>A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.</p>
+    <p>A basic bacteria infection model with 2 compartments, implemented as discrete time simulation.
+The model tracks bacteria and an immune response dynamics.
+The processes modeled are bacteria growth, death and killing by the immune response,
+and immune response activation and decay.</p>
     
     </div>
 
@@ -138,47 +144,47 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>B</th>
-      <td><p>: Starting value for bacteria : numeric</p></td>
+      <td><p>: starting value for bacteria : numeric</p></td>
     </tr>
     <tr>
       <th>I</th>
-      <td><p>: Starting value for immune response : numeric</p></td>
+      <td><p>: starting value for immune response : numeric</p></td>
     </tr>
     <tr>
       <th>g</th>
-      <td><p>: Maximum rate of bacteria growth : numeric</p></td>
+      <td><p>: maximum rate of bacteria growth : numeric</p></td>
     </tr>
     <tr>
       <th>Bmax</th>
-      <td><p>: Bacteria carrying capacity : numeric</p></td>
+      <td><p>: bacteria carrying capacity : numeric</p></td>
     </tr>
     <tr>
       <th>dB</th>
-      <td><p>: Bacteria death rate : numeric</p></td>
+      <td><p>: bacteria death rate : numeric</p></td>
     </tr>
     <tr>
       <th>k</th>
-      <td><p>: Bacteria kill rate : numeric</p></td>
+      <td><p>: rate of bacteria killing by immune reesponse : numeric</p></td>
     </tr>
     <tr>
       <th>r</th>
-      <td><p>: Immune response growth rate : numeric</p></td>
+      <td><p>: immune response growth rate : numeric</p></td>
     </tr>
     <tr>
       <th>dI</th>
-      <td><p>: Immune response decay rate : numeric</p></td>
+      <td><p>: immune response decay rate : numeric</p></td>
     </tr>
     <tr>
       <th>tstart</th>
-      <td><p>: Start time of simulation : numeric</p></td>
+      <td><p>: start time of simulation : numeric</p></td>
     </tr>
     <tr>
       <th>tfinal</th>
-      <td><p>: Final time of simulation : numeric</p></td>
+      <td><p>: final time of simulation : numeric</p></td>
     </tr>
     <tr>
       <th>dt</th>
-      <td><p>: Time step : numeric</p></td>
+      <td><p>: time step : numeric</p></td>
     </tr>
     </table>
     
@@ -190,7 +196,8 @@ The <code>ts</code> dataframe has one column per compartment/variable. The first
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
+    <p>The model includes bacteria and an immune response. The processes are bacteria growth,
+death and killing by the immune response, and immune response activation and decay.
 This is a predator-prey type model.
 The model is implemented as a set of discrete-time, deterministic equations,
 coded as a for-loop.

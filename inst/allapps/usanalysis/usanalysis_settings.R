@@ -26,5 +26,5 @@ modeltype = 'usanalysis'
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
   shiny::selectInput("plottype", "Plot type for output", c("Boxplot", "Scatterplot"), selected = "Boxplot" ),
-  shiny::selectInput("plotscale", "Log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
+  shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"))
 ) #end taglist

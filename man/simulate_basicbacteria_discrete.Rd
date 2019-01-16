@@ -9,27 +9,27 @@ simulate_basicbacteria_discrete(B = 10, I = 1, g = 1, Bmax = 1e+06,
   tfinal = 30, dt = 0.05)
 }
 \arguments{
-\item{B}{: Starting value for bacteria : numeric}
+\item{B}{: starting value for bacteria : numeric}
 
-\item{I}{: Starting value for immune response : numeric}
+\item{I}{: starting value for immune response : numeric}
 
-\item{g}{: Maximum rate of bacteria growth : numeric}
+\item{g}{: maximum rate of bacteria growth : numeric}
 
-\item{Bmax}{: Bacteria carrying capacity : numeric}
+\item{Bmax}{: bacteria carrying capacity : numeric}
 
-\item{dB}{: Bacteria death rate : numeric}
+\item{dB}{: bacteria death rate : numeric}
 
-\item{k}{: Bacteria kill rate : numeric}
+\item{k}{: rate of bacteria killing by immune reesponse : numeric}
 
-\item{r}{: Immune response growth rate : numeric}
+\item{r}{: immune response growth rate : numeric}
 
-\item{dI}{: Immune response decay rate : numeric}
+\item{dI}{: immune response decay rate : numeric}
 
-\item{tstart}{: Start time of simulation : numeric}
+\item{tstart}{: start time of simulation : numeric}
 
-\item{tfinal}{: Final time of simulation : numeric}
+\item{tfinal}{: final time of simulation : numeric}
 
-\item{dt}{: Time step : numeric}
+\item{dt}{: time step : numeric}
 }
 \value{
 The function returns the output as a list.
@@ -37,10 +37,14 @@ The time-series from the simulation is returned as a dataframe saved as list ele
 The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 }
 \description{
-A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
+A basic bacteria infection model with 2 compartments, implemented as discrete time simulation.
+The model tracks bacteria and an immune response dynamics.
+The processes modeled are bacteria growth, death and killing by the immune response,
+and immune response activation and decay.
 }
 \details{
-The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
+The model includes bacteria and an immune response. The processes are bacteria growth,
+death and killing by the immune response, and immune response activation and decay.
 This is a predator-prey type model.
 The model is implemented as a set of discrete-time, deterministic equations,
 coded as a for-loop.

@@ -40,9 +40,9 @@ simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, n = 10000,
 
 \item{dt}{: times for which result is returned : numeric}
 
-\item{steadystate}{start simulation at steady state : logical}
+\item{steadystate}{: start simulation at steady state : logical}
 
-\item{txstart}{time at which treatment starts}
+\item{txstart}{: time at which treatment starts : numeric}
 }
 \value{
 A list. The list has only one element called ts.

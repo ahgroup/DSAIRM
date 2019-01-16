@@ -22,6 +22,9 @@ generate_documentation <- function(docfilename)
       subDoc <- XML::xmlDoc(shinyblocks[[i]])
       content <- XML::xpathApply(subDoc, "//div[@id[starts-with(., 'shinytab')]]", XML::saveXML, encoding='UTF-8')
       htmlcontent = shiny::HTML(content[[1]])
+      #remove the main headings since they are shown on the tab titles
+      pattern = "<h2>.+</h2>" #everything between the <h2> elements
+      htmlcontent = gsub(pattern,"<br>",htmlcontent)
       tablist[[i]] = shiny::tabPanel(tabtitles[i], htmlcontent, icon = NULL)
     }
     #browser()

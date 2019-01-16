@@ -5,6 +5,7 @@
 /* Image
 ---------------*/
 
+
 .image {
   	max-width: 100%;
 	padding: 0;
@@ -13,18 +14,33 @@
  	margin-left: auto;
   	margin-right: auto;
 }
+
 .figure {
+  	width: 50%;
 	text-align: center;
 	font-style: italic;
   	border: thin silver solid;
+	padding: 0.5em;
 	display: block;
  	margin-left: auto;
   	margin-right: auto;
 }
+
+/* Image inside figure div, for diagrams
+---------------*/
+
+.figure img {
+	max-width: 100%;
+	width: auto;
+	height: auto;
+}
+
 .caption {
 	padding: 0;
 	margin: auto;
 }
+
+
 
 /* ------- Tables ------- */
 table {
@@ -132,12 +148,6 @@ iframe {
 	font-size: 2em;
 }
 
-.diagramfig {
-  	width: 50%;
-	display: block;
- 	margin-left: auto;
-  	margin-right: auto;
-}
 
 
 /* shiny progress bar

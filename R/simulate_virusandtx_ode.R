@@ -31,8 +31,8 @@
 #' @param tstart : Start time of simulation : numeric
 #' @param tfinal : Final time of simulation : numeric
 #' @param dt : times for which result is returned : numeric
-#' @param steadystate start simulation at steady state : logical
-#' @param txstart time at which treatment starts
+#' @param txstart : time at which treatment starts : numeric
+#' @param steadystate : start simulation at steady state : logical
 #' @return A list. The list has only one element called ts.
 #' ts contains the time-series of the simulation.
 #' The 1st column of ts is Time, the other columns are the model variables.
