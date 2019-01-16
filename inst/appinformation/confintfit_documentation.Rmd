@@ -20,7 +20,7 @@ source(currentappinfo)
 
 
 ## Overview {#shinytab1}
-This app illustrates the method of boostrapping data, which is one way one can obtain confidence intervals for parameters when fitting mechanistic models to data.
+This app illustrates the method of bootstrapping data, which is one way one can obtain confidence intervals for parameters when fitting mechanistic models to data.
 
 
 ## The Model {#shinytab2} 
@@ -35,7 +35,7 @@ Note that while choosing to fit parameters on a linear or log scale is just done
 ### Bootstrapping
 The main new feature of this app is the inclusion of bootstrapping, a sampling process that allows one to obtain confidence intervals for the estimated parameters. The basic approach goes like this:
 
-* Resample your data (with replaclement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you'll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data.
+* Resample your data (with replacement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you'll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data.
 * Fit your model to this 'new' dataset you obtained through sampling. Record the best-fit estimates for your parameters.
 * Do this 'sample, then fit' approach multiple times (generally 100s or more) to obtain distribution for your parameter estimates.
 * From these distributions, extract e.g. 95% confidence intervals.
@@ -54,7 +54,7 @@ The fit is run multiple times. First, the model is fit to the actual data. Then,
 * If the speed of your computer allows, increase the number of bootstrap samples to 10 or 50 or more. Re-run with different random number seeds. As you get more samples, the impact of the random sampling should diminish and eventually the results should be robust enough that you get essentially the same confidence intervals independent of random number seed.
 
 ### Task 3
-* Repeat the tasks above and explore how fitting the parameters in log space vs. linear space changes things. In theory, you should get the same results, since the underlying problem is the same. However, sometimes changing this scale can change the performance of the underlying solver. If we waited until the solver converged (found the best optimal solution), the result should be the same, but the time to get there might differe. Here, since we only take a few iteration steps, the actual result might change.
+* Repeat the tasks above and explore how fitting the parameters in log space vs. linear space changes things. In theory, you should get the same results, since the underlying problem is the same. However, sometimes changing this scale can change the performance of the underlying solver. If we waited until the solver converged (found the best optimal solution), the result should be the same, but the time to get there might different. Here, since we only take a few iteration steps, the actual result might change.
 
 ### Task 4
 * Explore the above tasks and see how results change if you increase the number of iterations to whatever runs reasonably fast on your computer.

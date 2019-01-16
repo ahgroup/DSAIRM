@@ -57,14 +57,14 @@ $$\dot I = r B I - d_I I$$
 * Set maximum simulation time to 100. Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 20 days, note how some simulations did not reach steady state and how that affects results.
 
 ### Task 2: 
-* Play around with the number of different parameter values (the higher the number, the more often the simulation runs and the longer it takes), the minimum and maximum, and if you want them linearly or logarithmically spaced and plotted.
+* Play around with the number of different parameter values (the higher the number, the more often the simulation runs and the longer it takes), the minimum and maximum, and linear or logarithmic spacing and plotting.
 * Think a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load increases? What about the fact that the peak and steady state immune response increases? And what about the steady state bacteria not increasing? 
 
 
 ### Task 3: 
 * Take a look at the model equations and diagram and see if by 'staring' at them, you can understand why you got the results you saw in the last task. 
 
-With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not inutit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.
+With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.
 
 ### Task 4: 
 The model we have here is so simple that we can in fact figure out two of the outcomes shown in the plot without having to run simulations but instead by doing some math. Specifically, we can compute the steady states for the bacteria and immune response variables. If you have done the basic virus tasks, you have encountered the steady state idea already. We repeat it here.

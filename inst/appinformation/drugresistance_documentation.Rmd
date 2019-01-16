@@ -39,7 +39,7 @@ This model consists of 5 compartments:
 
 For this model, we consider the following processes: 
 
-1. Drug-sensitive or drug resistant Virus infects uninfect cells at (the same) rate _b_.
+1. Drug-sensitive or drug resistant Virus infects uninfected cells at (the same) rate _b_.
 2. Drug-sensitive infected cells produce new drug-sensitive virus at rate _(1-m)p_ and occasionally generate a resistant mutant virus at rate _mp_. 
 3. Drug-resistant infected cells produce new drug-resistant virus at rate _(1-f)p_. The factor _f_ accounts for the cost of fitness generally observed for drug resistant strains.
 4. Sensitive and resistant virus are both removed at rate _dV_, loss of virus due to infecting new cells is ignored.

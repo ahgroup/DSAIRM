@@ -95,7 +95,7 @@ Without birth/production of new uninfected cells, the most you can get is a sing
 
 Production of new uninfected cells is an example of _resource replenishment_. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). 
 
-Let's explore the model with uninfected cell prodution, i.e. resource replenishment. 
+Let's explore the model with uninfected cell production, i.e. resource replenishment. 
 
 ### Task 6: 
 * We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10^5^, set birth and death of uninfected cells to zero.

@@ -27,10 +27,8 @@ Imports:
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     gridExtra (>= 2.3),
-    knitr (>= 1.15),
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
-    rmarkdown (>= 1.10),
     stats (>= 3.4),
     stringr,
     tidyr (>= 0.7),
@@ -41,7 +39,9 @@ Depends:
     shiny (>= 1.0)
 Suggests:
     covr,
+    knitr,
     pkgdown,
+    rmarkdown (>= 1.10),
     testthat
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

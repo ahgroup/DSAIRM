@@ -49,7 +49,7 @@ This model differs from the basic virus model in the following ways:
 * The drug can reduce infection of uninfected cells at a strength/efficacy given by _f_. This value is between 0 (completely ineffective) and 1 (100% effective).
 * The drug can reduce production of progeny virus at a strength/efficacy given by _e_. This value is between 0 (completely ineffective) and 1 (100% effective).
 
-Note that the drug is not explicitly modeled here (i.e. it is not given its own compartment/equation). Instead, we model the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The "Pharmacokinetics and pharacodynamics" app provides a model that includes explicit modeling of drug uptake and decay.
+Note that the drug is not explicitly modeled here (i.e. it is not given its own compartment/equation). Instead, we model the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The _Pharmacokinetics and Pharmacodynamics (PkPD)_ app provides a model that includes explicit modeling of drug uptake and decay.
 
 
 ## What to do {#shinytab3}
