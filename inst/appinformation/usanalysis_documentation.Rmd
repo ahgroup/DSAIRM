@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
 
 ```{r, echo = FALSE}

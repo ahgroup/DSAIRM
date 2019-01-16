@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
 
 ```{r, echo = FALSE}
@@ -64,11 +64,9 @@ The following processes/flows are included in the model:
 ### Model Diagram
 The diagram illustrates both compartmental models, with colors to indicate mechanisms that are part of either model 1 or model 2.
 
-<div class = "diagramfig">
 ```{r twomodeldiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
-knitr::include_graphics("../../media/modelcomparison.png")
+knitr::include_graphics("../media/modelcomparison.png")
 ```
-</div>
 
 
 

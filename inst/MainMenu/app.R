@@ -27,8 +27,8 @@ server <- function(input, output, session)
     {
       currentapp <<- appName #assign currently chosen app to global app variable
       #file name for documentation
-      currentdocfilename <<- paste0(appdir,'/',appinformation,'_documentation.html')
-      settingfilename = paste0(appdir,'/',appinformation,'_settings.R')
+      currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
+      settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
       output$plot <- NULL
       output$text <- NULL
@@ -156,7 +156,7 @@ ui <- fluidPage(
   tags$div(id = "shinyheadertext",
     "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
     br()),
-  tags$div(id = "infotext", paste('This is', packagename, 'version ',utils::packageVersion(packagename),' last updated ', utils::packageDescription(packagename)$Date,'.',sep='')),
+  tags$div(id = "infotext", paste0('This is ', packagename,  'version ',utils::packageVersion(packagename),' last updated ', utils::packageDescription(packagename)$Date,'.')),
   tags$div(id = "infotext", "Written and maintained by", a("Andreas Handel", href="http://handelgroup.uga.edu", target="_blank"), "with contributions from", a("others.",  href="https://github.com/ahgroup/DSAIRM#contributors", target="_blank")),
   navbarPage(title = packagename, id = packagename, selected = 'Menu',
              tabPanel(title = "Menu",

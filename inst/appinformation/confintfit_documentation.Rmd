@@ -47,16 +47,16 @@ Bootstrapping is conceptually easy to understand and also fairly easy to impleme
 The fit is run multiple times. First, the model is fit to the actual data. Then, the model is fit again for the specified number of bootstrap samples to data created by the bootstrap sampling process. Note that the default for the number of fitting iterations and the number of bootstrap samples are both very low. Usually, we might want to take as many steps as it takes until we found the best fit (which could be a lot). And we generally also want 100s or 1000s of bootstrap samples. Unfortunately, that would take very long, so for the purposes of this teaching app, we'll keep both iterations and bootstrap samples at values less than you should use in a 'real world' situation.
 
 
-### Task 1: 
+### Task 1 
 * Since bootstrapping involves sampling, different random number seeds will lead to different results. Try by running the simulation for 2 different seeds. Note that the best fit value does not change. This could either be because we let the solver run long enough to find the best fit (not the case here), or because the underlying solver is deterministic. The latter is the case here. Some optimizers have a random component, then setting a seed for them is also important. 
 
-### Task 2: 
+### Task 2 
 * If the speed of your computer allows, increase the number of bootstrap samples to 10 or 50 or more. Re-run with different random number seeds. As you get more samples, the impact of the random sampling should diminish and eventually the results should be robust enough that you get essentially the same confidence intervals independent of random number seed.
 
-### Task 3:
+### Task 3
 * Repeat the tasks above and explore how fitting the parameters in log space vs. linear space changes things. In theory, you should get the same results, since the underlying problem is the same. However, sometimes changing this scale can change the performance of the underlying solver. If we waited until the solver converged (found the best optimal solution), the result should be the same, but the time to get there might differe. Here, since we only take a few iteration steps, the actual result might change.
 
-### Task 4:
+### Task 4
 * Explore the above tasks and see how results change if you increase the number of iterations to whatever runs reasonably fast on your computer.
 
 Note that the time it takes to run the code scales with the product of the iterations and number of bootstraps, so if you set both high, things will get really slow.

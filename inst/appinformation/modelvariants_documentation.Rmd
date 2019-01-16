@@ -7,7 +7,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: ../../media/references.bib
+bibliography: ../media/references.bib
 ---
 
 ```{r, echo = FALSE}
@@ -70,7 +70,7 @@ Obviously, the number of alternative models we could make that are biologically 
 
 <div class = "diagramfig">
 ```{r modelvariants,  fig.cap='Flow diagram for the model with different innate and adaptive response variants.',  echo=FALSE, out.width = "60%"}
-knitr::include_graphics("../../media/modelvariants.png")
+knitr::include_graphics("../media/modelvariants.png")
 ```
 </div>
 
