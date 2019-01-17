@@ -151,7 +151,7 @@ server <- function(input, output, session)
 #######################################################
 
 ui <- fluidPage(
-  includeCSS("../media/dsairm.css"), #use custom styling
+  includeCSS("../media/packagestyle.css"), #use custom styling
   tags$div(id = "shinyheadertitle", "DSAIRM - Dynamical Systems Approach to Immune Response Modeling"),
   tags$div(id = "shinyheadertext",
     "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
