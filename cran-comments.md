@@ -1,4 +1,5 @@
 ## Test environments
+
 * local Windows 10.1 x86_64, R 3.5.2
 * Ubuntu 14.04 (on travis-ci),  release
 * MacOS 10.12 (on travis-ci),  release
@@ -7,8 +8,7 @@
 
 ## R CMD check results
 
-There were no errors and warnings and notes.
-
+0 errors v | 0 warnings v | 0 notes v
 
 
 ## Submission History
