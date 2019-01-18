@@ -47,12 +47,12 @@ server <- function(input, output, session)
       currentotherinputs <<-  otherinputs
       currentapptitle <<- apptitle
 
-      #extract function inputs and turn them into shiny input elements
+      #extract function and other inputs and turn them into a taglist
       #this uses the 1st function provided by the settings file and stored in currentsimfct
-      #this only works for numeric inputs, any others will be removed and need to be
-      #added to shiny UI using the settings file
       #indexing sim function in case there are multiple
-      generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename, output = output)
+      modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
+
+      output$modelinputs <- renderUI({modelinputs})
 
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
