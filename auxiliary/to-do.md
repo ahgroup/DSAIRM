@@ -9,10 +9,11 @@
 * Possibly add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
 * Consider changing placement of inputs/outputs/instructions
 * Add a 'reset' button that sets inputs back to default values
-
 * Update all solutions 
 * Add learning objectives to each overview tab
 * Clean up diagrams as needed
+
+* look into R consortium package certification
 * Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
 * Get best practices badge: https://bestpractices.coreinfrastructure.org/en
 
