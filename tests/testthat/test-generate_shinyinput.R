@@ -10,6 +10,6 @@ test_that("generate_shinyinput correctly produces a shiny input structure",
 
             inputs = generate_shinyinput(mbmodel, otherinputs, packagename)
             #this element of the tag list needs to contain the word susceptible
-            expect_true(grepl('Virus',inputs[[2]][[1]][[3]]))
+            expect_true(grepl('uninfected',inputs[[2]][[1]][[3]]))
 
 })
