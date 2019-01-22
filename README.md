@@ -49,5 +49,3 @@ The package is built in a way that makes it (hopefully) easy for others to contr
 
 ## Contributors
 This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.
-
-Hello
