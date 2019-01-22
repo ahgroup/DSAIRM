@@ -1,0 +1,10 @@
+name: mainmenu
+title:
+username:
+account: handelgroup
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 659393
+bundleId: 1829749
+url: https://handelgroup.shinyapps.io/mainmenu/
+when: 1548182749.84592
