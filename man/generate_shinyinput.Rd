@@ -4,7 +4,7 @@
 \alias{generate_shinyinput}
 \title{A helper function that takes a model and generates the shiny UI elements for the analyze tab}
 \usage{
-generate_shinyinput(mbmodel, otherinputs, packagename)
+generate_shinyinput(mbmodel, otherinputs = NULL, packagename)
 }
 \arguments{
 \item{mbmodel}{a name of a function for which to build inputs}
@@ -22,8 +22,7 @@ This is a helper function called by the shiny app.
 }
 \details{
 This function is called by the Shiny app to produce the Shiny input UI elements.
-If mbmodel is an object, it is assumed to be a mbmodel type and will be parsed to create the UI elements.
-If mbmodel is a character, it is assumed to be the name of a function which will be parsed to create UI elements.
+mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
 Non-numeric arguments of functions are removed.
 }
 \author{
