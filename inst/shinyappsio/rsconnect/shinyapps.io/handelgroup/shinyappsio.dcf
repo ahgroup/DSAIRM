@@ -1,0 +1,10 @@
+name: shinyappsio
+title:
+username:
+account: handelgroup
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 669186
+bundleId: 1839932
+url: https://handelgroup.shinyapps.io/shinyappsio/
+when: 1548617078.97092
