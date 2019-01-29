@@ -100,7 +100,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 ### Task 1: 
 Start with the following parameter settings in your model:
 
-* 100 initial bacteria, an initial level immune response, _I~0~_, of 1, a simulation time of 100 (which we assume to be days)
+* 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days).
 * Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (the inverse of the lifespan is the rate of death)
 * Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day.
 * Only run the continuous time model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.
@@ -159,7 +159,7 @@ You should get a plot where bacteria numbers drop to below 1 and take on fractio
 
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
 * For this app, the underlying functions running the simulation are called ``r simfunction[1]`` and ``r simfunction[2]``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called `simulatorfunctions`. Of course to modify these functions, you'll need to do some coding.
+* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
 * For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [@otto11]. The models in those references are described in the context of ecology, but results transfer to within-host situation. 
 * For somewhat similar within-host models (applied to TB and antibiotic resistance), see [@antia96; @handel09b].
