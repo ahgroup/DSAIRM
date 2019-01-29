@@ -31,7 +31,7 @@ Imports:
     nloptr (>= 1.0.4),
     stats (>= 3.4),
     stringr,
-    tidyr (>= 0.7),
+    tidyr,
     utils (>= 3.4), 
     XML
 Depends:
