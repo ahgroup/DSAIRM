@@ -15,7 +15,7 @@
 #' @return HTML formatted text for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce output returned to the Shiny UI.
 #' @author Andreas Handel
-#' @importFrom stats median
+#' @importFrom stats median reshape
 #' @export
 
 generate_text <- function(res)
@@ -63,7 +63,10 @@ generate_text <- function(res)
       }
       else
       {
-        dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+        #using tidyr to reshape
+        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+        #using basic reshape function to reformat data
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
       }
 
       #code variable names as factor and level them so they show up right

@@ -7,13 +7,15 @@
 #' @param modelfunction The name of a simulation function to be run with the indicated settings.
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 #' @details This function runs a model for specific settings. It is similar to analyze_model in the modelbuilder package.
-#' @author Andreas Handel
+#' @importFrom utils head tail
+#' @importFrom stats reshape
 #' @export
 
 run_model <- function(modelsettings, modelfunction) {
 
   datall = NULL #will hold data for all different models and replicates
-  
+  finaltext = NULL
+
   ##################################
   #stochastic dynamical model execution
   ##################################
@@ -21,9 +23,14 @@ run_model <- function(modelsettings, modelfunction) {
   {
     modelsettings$currentmodel = 'stochastic'
     currentmodel = modelfunction[grep('_stochastic',modelfunction)] #list of model functions, get the ode function
+    noutbreaks = 0
     for (nn in 1:modelsettings$nreps)
     {
       #extract modesettings inputs needed for simulator function
+      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
+      {
+        modelsettings$tmax = modelsettings$tfinal
+      }
       currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
       simresult <- do.call(currentmodel, args = currentargs)
       #data for plots and text
@@ -32,12 +39,22 @@ run_model <- function(modelsettings, modelfunction) {
       simresult <- simresult$ts
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
-      dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+      rawdat = as.data.frame(simresult)
+      #using tidyr to reshape
+      #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+      #using basic reshape function to reformat data
+      dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
       dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
       dat$nreps = nn
       datall = rbind(datall,dat)
       modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
+      #keep track of outbreaks occurence among stochastic simulations
+      #assuming susceptible people/target cells are in 2nd slot, i.e. first variable
+      S0=head(simresult[,2],1)
+      Sfinal=tail(simresult[,2],1)
+      if ( (S0-Sfinal)/S0>0.2 ) {noutbreaks = noutbreaks + 1}
     }
+    finaltext = paste('For stochastic simulation scenarios, values shown are the mean over all simulations.', noutbreaks,' simulations produced an outbreak (susceptible/uninfected dropped by at least 20%)')
   }
 
   ##################################
@@ -57,7 +74,12 @@ run_model <- function(modelsettings, modelfunction) {
     }
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
-    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+    rawdat = as.data.frame(simresult)
+    #using tidyr to reshape
+    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+    #using basic reshape function to reformat data
+    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for ode.
     dat$nreps = 1
     datall = rbind(datall,dat)
@@ -76,7 +98,11 @@ run_model <- function(modelsettings, modelfunction) {
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
-    dat = tidyr::gather(as.data.frame(simresult), -xvals, value = "yvals", key = "varnames")
+    rawdat = as.data.frame(simresult)
+    #using tidyr to reshape
+    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+    #using basic reshape function to reformat data
+    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for discrete.
     dat$nreps = 1
     datall = rbind(datall,dat)
@@ -102,7 +128,8 @@ run_model <- function(modelsettings, modelfunction) {
 
   result[[1]]$maketext = TRUE #indicate if we want the generate_text function to process data and generate text
   result[[1]]$showtext = NULL #text can be added here which will be passed through to generate_text and displayed for EACH plot
-  result[[1]]$finaltext = 'Numbers are rounded to 2 significant digits.' #text can be added here which will be passed through to generate_text and displayed once
+  result[[1]]$finaltext = paste0('Numbers are rounded to 2 significant digits. ',finaltext) #text can be added here which will be passed through to generate_text and displayed once
+
 
   ##################################
   #additional settings for all types of simulators
@@ -217,8 +244,13 @@ run_model <- function(modelsettings, modelfunction) {
     colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-    dat = tidyr::gather(as.data.frame(simresult$timeseries), -xvals, value = "yvals", key = "varnames")
-    dat$style = 'line'
+    rawdat = as.data.frame(simresult$timeseries)
+    #using tidyr to reshape
+    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+    #using basic reshape function to reformat data
+    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+
+        dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data

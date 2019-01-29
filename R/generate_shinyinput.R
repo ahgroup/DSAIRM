@@ -31,9 +31,13 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
     #get every line in documentation part of file that starts with @param
     x = readLines(fcfile)
     x2 = grep('@param', x, value = TRUE)
-    pattern = ":.+:" #regex for capturing text between colons
-    x3 = stringr::str_extract_all(x2, pattern, simplify = TRUE)
-    x3=substr(x3,3,nchar(x3)-2); #remove : and blanks in front and back
+    pattern = ".*[:](.+)[:].*" #regex for capturing text between colons
+    x3 = gsub(pattern, "\\1",x2)
+    x3 = substr(x3,2,nchar(x3)-1); #remove blanks in front and back
+    #using stringr
+    #pattern = ":.+:" #regex for capturing text between colons
+    #x3 = stringr::str_extract_all(x2, pattern, simplify = TRUE)
+    #x3=substr(x3,3,nchar(x3)-2); #remove : and blanks in front and back
     ip = formals(mbmodel) #get model inputs
     #remove function arguments that are not numeric
     ip = ip[unlist(lapply(ip,is.numeric))]

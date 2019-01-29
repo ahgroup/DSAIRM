@@ -29,6 +29,7 @@
 #' Create plots run the simulation with default parameters just call the function:
 #' result <- simulate_basicbacteria()
 #' @author Andreas Handel
+#' @importFrom stats reshape
 #' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #' @export
@@ -80,7 +81,10 @@ generate_plots <- function(res)
       }
       else
       {
-        dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+        #using tidyr to reshape
+        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+        #using basic reshape function to reformat data
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
       }
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text

@@ -30,16 +30,14 @@ Imports:
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
     stats (>= 3.4),
-    stringr,
-    tidyr,
     utils (>= 3.4), 
-    XML
+    XML (>= 3.98)
 Depends:
     R (>= 3.4),
     shiny (>= 1.0)
 Suggests:
     covr,
-    knitr,
+    knitr (>= 1.15),
     pkgdown,
     rmarkdown (>= 1.10),
     testthat
