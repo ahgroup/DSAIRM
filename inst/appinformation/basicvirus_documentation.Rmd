@@ -114,7 +114,7 @@ Now we'll explore an infection in the presence of uninfected cell birth and deat
 ### Task 8: 
 * Investigate how the steady state values for _U_, _I_ and _V_ depend on the parameters _b_, _p_, _d~V~_ and _d~I~_. You might need to increase the simulation time to ensure the system has settled down to its steady state.
 * Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
-_0 = n - d~U~ U - bUV_, _0 = bUV - d~I~_, _0 = pI - d~V~ V - gb UV_. One can solve those equations for each of the compartments to get a mathematical expression of what _U_, _I_ and _V_ are at steady state. Try to do this. You should find that _U~s~ = d~I~ d~V~/(b(p- d~I~ g))_ and similar equations for _I~s$~_ and _V~s~_.
+_0 = n - d~U~ U - bUV_, _0 = bUV - d~I~_, _0 = pI - d~V~ V - gb UV_. One can solve those equations for each of the compartments to get a mathematical expression of what _U_, _I_ and _V_ are at steady state. Try to do this. You should find that _U~s~ = d~I~ d~V~/(b(p - d~I~ g))_ and similar equations for _I~s~_ and _V~s~_.
 * Check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values $U_s$, $I_s$ and $V_s$ you computed with the equations is the same as you get as steady state value from the simulation. If that's not the case, it means your equations aren't right yet.
 
 It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change.
@@ -123,6 +123,7 @@ While solving algebraic equations, like the one above where you were asked to fi
 
 ### Task 9: 
 Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen. 
+
 
 ## Further Information {#shinytab4}
 

@@ -1,24 +1,28 @@
 #' Basic Bacteria model - discrete
 #'
-#' @description A basic bacteria infection model with 2 compartments, implemented as discrete time simulation. The model tracks bacteria and an immune response dynamics. The processes modeled are bacteria growth, death and killing, and immune response activation and decay.
+#' @description A basic bacteria infection model with 2 compartments, implemented as discrete time simulation.
+#' The model tracks bacteria and an immune response dynamics.
+#' The processes modeled are bacteria growth, death and killing by the immune response,
+#' and immune response activation and decay.
 #'
-#' @details The model includes bacteria and an immune response. The processes are bacteria growth, death and killing, and immune response activation and decay. This is a predator-prey type model.
+#' @details The model includes bacteria and an immune response. The processes are bacteria growth,
+#' death and killing by the immune response, and immune response activation and decay.
 #' This is a predator-prey type model.
 #' The model is implemented as a set of discrete-time, deterministic equations,
 #' coded as a for-loop.
 #' This code is part of the DSAIRM R package.
 #' For additional model details, see the corresponding app in the DSAIRM package.
-#' @param B : Starting value for bacteria : numeric
-#' @param I : Starting value for immune response : numeric
-#' @param g : Maximum rate of bacteria growth : numeric
-#' @param Bmax : Bacteria carrying capacity : numeric
-#' @param dB : Bacteria death rate : numeric
-#' @param k : Bacteria kill rate : numeric
-#' @param r : Immune response growth rate : numeric
-#' @param dI : Immune response decay rate : numeric
-#' @param tstart : Start time of simulation : numeric
-#' @param tfinal : Final time of simulation : numeric
-#' @param dt : Time step : numeric
+#' @param B : starting value for bacteria : numeric
+#' @param I : starting value for immune response : numeric
+#' @param g : maximum rate of bacteria growth : numeric
+#' @param Bmax : bacteria carrying capacity : numeric
+#' @param dB : bacteria death rate : numeric
+#' @param k : rate of bacteria killing by immune reesponse : numeric
+#' @param r : immune response growth rate : numeric
+#' @param dI : immune response decay rate : numeric
+#' @param tstart : start time of simulation : numeric
+#' @param tfinal : final time of simulation : numeric
+#' @param dt : time step : numeric
 #' @return The function returns the output as a list.
 #' The time-series from the simulation is returned as a dataframe saved as list element \code{ts}.
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.

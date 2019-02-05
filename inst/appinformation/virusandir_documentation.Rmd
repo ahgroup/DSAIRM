@@ -90,6 +90,7 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^.
 * Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)
 * By looking at the equations, convince yourself that if you have no B-cells and no baseline production and extra induction of the innate response (*p~F~*=*g~F~*=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.
+* Run your model for 30 days, start at 0 and set the time step for which solutions are returned to 0.01.
 * Confirm/test with the model that this is the case.
 * If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.
 

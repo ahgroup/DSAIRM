@@ -436,6 +436,7 @@ Flow diagram for virus infection model with several immune response components.
 <li>Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-5</sup>.</li>
 <li>Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)</li>
 <li>By looking at the equations, convince yourself that if you have no B-cells and no baseline production and extra induction of the innate response (<em>p<sub>F</sub></em>=<em>g<sub>F</sub></em>=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.</li>
+<li>Run your model for 30 days, start at 0 and set the time step for which solutions are returned to 0.01.</li>
 <li>Confirm/test with the model that this is the case.</li>
 <li>If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.</li>
 </ul>
@@ -495,7 +496,7 @@ Flow diagram for virus infection model with several immune response components.
 <ul>
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
 <li>For this app, the underlying function running the simulation is called <code>simulate_virusandir_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
-<li>You could also modify the simulator functions and adopt them for your own purposes. All simulator functions can be found in a sub-folder of the package called <code>simulatorfunctions</code>. Of course to modify these functions, you’ll need to do some coding.</li>
+<li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 <li>An example of a model similar to the above applied to influenza, see e.g. <span class="citation">(Handel, Longini, and Antia 2010)</span>.</li>
 </ul>
