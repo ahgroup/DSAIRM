@@ -20,15 +20,16 @@ If a column 'varnames' exist, it is assumed the data is in the right format. Oth
 An optional column called IDvar can be provided for further grouping (i.e. multiple lines for stochastic simulations).
 If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 for each variable is needed. \cr
-2. Meta-data for the plot, provided in the following variables:
-optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot".
-optional: xlab, ylab - Strings to label axes.
-optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
-optional: xmin, xmax, ymin, ymax - Manual min and max for axes.
-optional: legendtitle - Legend title, if NULL/not supplied no legend will be plotted.
-optional: legendlocation - placement of legend, valid ggplot2 location. if not supplied, will be placed in upper left corner.
-optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
-optional: title - A title for each plot.}
+2. Meta-data for the plot, provided in the following variables: \cr
+optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
+optional: xlab, ylab - Strings to label axes. \cr
+optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". \cr
+optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
+optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. \cr
+optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
+optional: legendlocation - if "right" is specified, top right. anythbing else or nothing will place it top left. \cr
+optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
+optional: title - A title for each plot. \cr}
 }
 \value{
 A plot structure for display in a Shiny UI.

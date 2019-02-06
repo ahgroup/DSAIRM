@@ -15,15 +15,16 @@
 #'    An optional column called IDvar can be provided for further grouping (i.e. multiple lines for stochastic simulations).
 #'    If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 #'    for each variable is needed. \cr
-#'    2. Meta-data for the plot, provided in the following variables:
-#'    optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot".
-#'    optional: xlab, ylab - Strings to label axes.
-#'    optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
-#'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes.
-#'    optional: legendtitle - Legend title, if NULL/not supplied no legend will be plotted.
-#'    optional: legendlocation - placement of legend, valid ggplot2 location. if not supplied, will be placed in upper left corner.
-#'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
-#'    optional: title - A title for each plot.
+#'    2. Meta-data for the plot, provided in the following variables: \cr
+#'    optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
+#'    optional: xlab, ylab - Strings to label axes. \cr
+#'    optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". \cr
+#'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
+#'    optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. \cr
+#'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
+#'    optional: legendlocation - if "right" is specified, top right. anythbing else or nothing will place it top left. \cr
+#'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
+#'    optional: title - A title for each plot. \cr
 #'
 #' @return A plot structure for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
@@ -119,7 +120,7 @@ generate_plots <- function(res)
       {
         p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
       }
-      if (!is.null(dat$IDvar))
+      else
       {
         p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, group = IDvar) )
       }
@@ -150,45 +151,49 @@ generate_plots <- function(res)
       {
         p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax), breaks = NULL, labels = NULL)
       }
-      if (plottype != 'Boxplot')
+      else
       {
         p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax))
         if (!is.null(resnow$xlab)) { p3 = p3 + ggplot2::xlab(resnow$xlab) }
       }
 
-      #apply y-axis
-      p5 = p3 + ggplot2::scale_y_continuous(trans = yscaletrans, limits=c(ymin,ymax))
-      if (!is.null(resnow$ylab)) { p5 = p5 + ggplot2::ylab(resnow$ylab) }
-
-      #do legend
-      if (is.null(resnow$legend))
-      {
-        p6 = p5 + ggplot2::theme(legend.position="none")
-      }
-      else
-      {
-        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line"))
-                + ggplot2::scale_colour_discrete(name  = resnow$legend)
-                + ggplot2::scale_linetype_discrete(name = resnow$legend)
-                + ggplot2::scale_shape_discrete(name = resnow$legend)
-      }
+      #apply y-axis and if provided, label
+      p4 = p3 + ggplot2::scale_y_continuous(trans = yscaletrans, limits=c(ymin,ymax))
+      if (!is.null(resnow$ylab)) { p4 = p4 + ggplot2::ylab(resnow$ylab) }
 
       #apply title if provided
-      if (!is.null(resnow$title)) { p6 = p6 + ggplot2::ggtitle(resnow$title) }
-
-      #if legend location is provided, use it. Otherwise use top left.
-      if (!is.null(resnow$legendlocation))
+      if (!is.null(resnow$title))
       {
-        legendlocation = resnow$legendlocation
+        p4 = p4 + ggplot2::ggtitle(resnow$title)
+      }
+
+      #modify overall theme
+      p5 = p4 + ggplot2::theme_bw(base_size = 18)
+
+
+      #do legend if TRUE or not provided
+      if (is.null(resnow$makelegend) || resnow$makelegend)
+      {
+        if (!is.null(resnow$legendlocation) && resnow$legendlocation == "right")
+        {
+             legendlocation = c(0.7,1)
+        }
+        else #default placement on left
+        {
+           legendlocation = c(0,1)
+        }
+
+        legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
+
+        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = legendtitle)      + ggplot2::scale_linetype_discrete(name = legendtitle)+ ggplot2::scale_shape_discrete(name = legendtitle)    + ggplot2::theme(legend.position = legendlocation, legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
       }
       else
       {
-        legendlocation = c(0, 1)
+          p6 = p5 + ggplot2::theme(legend.position="none")
       }
 
-      #modify overall theme and legend details
-      pfinal = p6 + ggplot2::theme_bw(base_size = 18)
-                  + ggplot2::theme(legend.position = legendlocation, legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
+      #modify overall theme
+      pfinal = p6
 
       allplots[[n]] = pfinal
 
