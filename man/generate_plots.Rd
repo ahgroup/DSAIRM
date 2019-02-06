@@ -10,7 +10,7 @@ generate_plots(res)
 \item{res}{A list structure containing all simulation results that are to be plotted.
 The length of the list indicates the number of separate plots to make.
 Each list entry corresponds to one plot and
-needs to contain the following information/elements:
+needs to contain the following information/elements: \cr
 1. A data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be
 a time series and by default a line plot will be produced and labeled Time/Numbers.
 For plotting, the data needs to be in a format with one column called xvals, one column yvals,
@@ -19,13 +19,14 @@ Varnames needs to be a factor variable or will be converted to one.
 If a column 'varnames' exist, it is assumed the data is in the right format. Otherwise it will be transformed.
 An optional column called IDvar can be provided for further grouping (i.e. multiple lines for stochastic simulations).
 If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
-for each variable is needed.
+for each variable is needed. \cr
 2. Meta-data for the plot, provided in the following variables:
 optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot".
 optional: xlab, ylab - Strings to label axes.
 optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10".
 optional: xmin, xmax, ymin, ymax - Manual min and max for axes.
 optional: legendtitle - Legend title, if NULL/not supplied no legend will be plotted.
+optional: legendlocation - placement of legend, valid ggplot2 location. if not supplied, will be placed in upper left corner.
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied.
 optional: title - A title for each plot.}
 }
