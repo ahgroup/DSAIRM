@@ -62,69 +62,64 @@ dsairmmenu()
 
 This will bring up a graphical menu from which one can select each Shiny app. Each app contains the information needed to understand the underlying model, and has a list of (non exhaustive) suggested tasks to learn about the topic covered by the app. After exploring an app, the user returns to the main menu and eventually exits the main menu and closes the `R` session. No code needs to be written at this level of exploration and learning.
 
-
 ### Level 2: Directly interacting with the simulation functions
+
 ```{r, eval=TRUE, echo=FALSE, message=FALSE}
 library('DSAIRM')
 ```
 
-The exploration of the models through the graphical interface is the first and main intended use of the package. Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the code more directly. This will provide more flexibility but will require writing some code.
+Once a user is comfortable interacting with the models and has a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. To facilitate direct interaction with the models, each app is structured in such a way that the underlying simulation can be accessed without going through the graphical interface. The _Further Information_ tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.
 
-To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved. You can call/use any of these functions directly, without going through the graphical interface. The 'Further Information' tab inside each app provides the name of the corresponding underlying function(s).
-
-
-Consider as example the first app, called _Basic bacteria model_. This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete.R` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode.R`. If you were interested in the latter, you can learn about the inputs and outputs of the function by looking at its documentation. To that end, type the following into the `R` console (make sure you loaded the DSAIRM package first): 
+Consider as example the first app, called "Basic Bacteria Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode`. A user interested in the latter can learn about the inputs and outputs of the function by looking at its documentation. This can be achieved by by typing the following into the `R` console (make sure the DSAIRM package is loaded): 
 ```{r eval=FALSE, echo=TRUE}
 help('simulate_basicbacteria_ode')
 ```
 
-The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the duration for which the simulation should be run, and the different model parameters. Unless explicitly specified, the models do not have inherent time units. Instead, those are set by the user based on choices for parameters. Each parameter has some default, which is used if one calls the fuction without any additional information. You can modify those default settings. For instance you could call the simulator with the following settings, overwriting the defaults for some of the parameters, while using the default values for the remainder:  
+The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the different model parameters, as well as some time values. Unless explicitly specified, the models do not have inherent time units. Instead, those are set by the user based on time unit choices for parameters. Each model input has some default, which is used if one calls the fuction without any additional information. One can modify those default settings. For instance, the following call to the simulator sets the rate at which bacteria grow, _g_, and the rate at which the immune response is induced and grows, _r_, to values different than the defaults, while using the default values for the remainder (this is equivalent to setting different inputs through the graphical interface in level 1):  
 
 ```{r, eval=TRUE, echo=TRUE}
-result <- simulate_basicbacteria_ode(B = 500, I = 5, g = 1, r = 0.002, dI = 1 )
+result <- simulate_basicbacteria_ode(g = 0.5, r = 0.002)
 ```
 
-Calling the simulation function executes the underlying dynamical model. The simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. It is now your job to  produce their own plots. As example, a plot of bacteria as function of time could be achieved with this line of code:
+Calling the simulation function executes the underlying model. For this example, the simulation function produces and returns time-series for the dynamics of each of the variables that are tracked. Those returned results can be further processed. As example, a basic plot of bacteria as function of time can be produced with this line of code:
 
 ```{r, eval=TRUE, echo=TRUE}
-plot(result$ts[,"time"],result$ts[,"B"],xlab='time',ylab='Bacteria Numbers',type='l')
+plot(result$ts[,"time"],result$ts[,"B"],xlab='Time',ylab='Bacteria Numbers',type='l')
 ```
 
-The ability to call the simulation functions directly instead of going through the graphical interface allows additional exploration of the models. For instance if one wanted to explore the behavior of a model systematically for different values of a given parameter, this would need to be done manually if run through the graphical interface. Calling the function directly allows one to automate this by wrapping the function inside a loop over the parameter of interest, recording some quantity of interest for each run, and report the result at the end. The following is a simple example, showing a loop over different values of the immune response activation rate and recording the peak of the bacteria numbers each time, with the final result _peak of bacteria as function of immune activation rate_ shown in a plot:
+Not all simulation functions return time series. For instance the function underlying the uncertainty and sensitivity app returns specific outcomes (maximum and final state of variables) for different parameter values. In every instance, the documentation for the function explains what is returned, so a user can take the returned results and further process them.
 
+The ability to call the simulation functions without using the graphical interface allows for more flexibilty in exploring the models. For instance if a user wanted to explore the behavior of a model systematically for different values of a given parameter, this would need to be done manually through the graphical interface. Calling the function directly allows one to automate this. As an illustration, assume a user wanted to know how the peak bacteria load changes with changes in the immune response activation rate ,_r_, (while keeping all other parameters at some specified fixed values). The following lines of code show how this can be achieved. A loop is run over different _r_ values, for each _r_ value the simulation is run and the peak of the bacteria is recorded. At the end, peak of bacteria as function of immune activation rate is plotted:
 
 ```{r, eval=TRUE, echo=TRUE}
-rvec = 10^seq(-5,-2,length=20) #values of log immune activation rate, r, for which to run the simulation 
-peak = rep(0,length(rvec)) #this will record the peak values for each r
-for (n in 1:length(rvec))
+#values for immune activation rate, r, for which to run the simulation
+rvec = 10^seq(-5,-2,length=20)  
+#this variable will hold the peak values for each r
+Bpeak = rep(0,length(rvec)) 
+for (n in 1:length(rvec))   
 {
-  #call the simulator function with different values of r, other parameters stay at their defaults
+  #run the simulation model for different values of r 
+  #for simplicity, all other inputs are kept at their defaults
   result <- simulate_basicbacteria_ode(r = rvec[n])
-  peak[n] <- max(result$ts[,"B"]) #record max number of bacteria for each value of r
+  #record max number of bacteria for each value of r
+  Bpeak[n] <- max(result$ts[,"B"]) 
 }
 #plot final result
-plot(rvec,peak,type='p',xlab='Immune activation rate',ylab='Max number of bacteria',log='xy')
+plot(rvec,Bpeak,type='p',xlab='Immune activation rate',ylab='Peak bacteria',log='xy')
 ```
 
-Thus, you can add your own custom code to the existing simulator functions and with a few lines of extra code analyze and explore many more questions and scenarios than those accessible through the graphical interface. This provides a lot more flexibility, but requires writing some R code to interface with the supplied simulator functions. 
+This simple example shows how a user can add just a few lines of extra code to the existing simulator functions and thereby explore scenarios much more flexibly than would be possible through the graphical interface.
 
 
 ### Level 3: Modifying the simulation functions
 
-Level 2 provides a user with some flexibility, but the main constraint is that only existing DSAIRM models can be used and analyzed. This constraint can be overcome by directly modifiying and customizing the underlying simulation functions. As was true for moving from level 1 to 2, this move from level 2 to what I call level 3 provides further (almost unlimited) flexibility at the cost of having to write increasingly more `R` code.
+While level 2 provides the user with a fair amount of flexibility and the ability to investigate the models and ask questions that would be hard or impossible going through the graphical interface, there is still one major constraint. Namely this approach only allows use and analysis of existing DSAIRM simulation models. This constraint can be overcome by directly modifiying and customizing the underlying simulation functions. As was true for moving from level 1 to 2, this move from level 2 to what I call level 3 provides further (almost unlimited) flexibility at the cost of having to write increasingly more `R` code.
 
-To make modifying the existing functions easy, copies of all simulator functions are provided in a subdirectory called _simulatorfunctions_ inside the DSAIRM package folder. Each function in that folder starts with `simulate_`. The following `R` command will point the user to the location of this directory on their computer:
-```{r, eval=FALSE, echo=TRUE}
-system.file("simulatorfunctions", package = "DSAIRM")
-```
+To make modifying the existing functions easy, copies of all simulator functions can be downloaded directly from the main menu. The code for each simulator function is (hopefully) well documented. Some basic to intermediate level of `R` coding experience is likely required to successfully modify the functions. In addition to modifying the simulator function of interest, a user will likely also have to write some additional code to interact with their modified function (as described in _level 2_).
 
-Don't edit the functions in this subfolder (they are being used by the package as well), but instead to copy the whole folder to a new location and then work with the copies of these functions. 
+The following provides an illustrative example of this approach. Assume that a user wants to modify the simple bacteria ODE model. The code for this model is in `simulate_basicbacteria_ode.R`. (To make things easy, the name of a `.R` file containing the code and the name of the function itself are the same.) After finding the file, making a copy and renaming it (called `mysimulator.R` here), the user can make modifications. 
 
-The code for each simulator function is (hopefully) well documented. Some basic to intermediate level of `R` coding experience is likely required to successfully modify the functions. In addition to modifying the simulator function of interest, a user will likely also have to write some additional code to interact with their modified function (as described in _Level 2_).
-
-The following provides an illustrative example of this approach. Assume that a user wants to modify the simple bacteria model ODE model. The code for this model is in `simulate_basicbacteria_ode.R`. (All functions are in files with the corresponding name.) After finding the file, making a copy and renaming it (called `mysimulator.R` here), the user can make modifications. 
-
-Let's say the user wants to study a specific system for which this simple model is suitable. However in their system, it is biologically more reasonable to assume that the immune system growth term includes saturation at some maximum rate when bacteria numbers are high. This can be accomplished by  a change of the term _rBI_ to _rBI/(B+s)_. (See the documentation for this app for an explanation of each model term and corresponding equation). This change leads to a growth at rate _rB_ proportional to the number of bacteria if _B_ is smaller than some threshold parameter _s_, and turns into a growth at fixed maximum rate _r_, independent of bacteria numbers, if _B_ is larger than _s_. 
+Let's say the user wants to study a specific system for which this simple model is not completley suitable. Instead, for their their system, it is biologically more reasonable to assume that the immune system growth term includes saturation at some maximum rate when bacteria numbers are high. This can be accomplished by  a change of the term _rBI_ to _rBI/(B+s)_. (See the documentation for this app for an explanation of each model term and corresponding equation). This change leads to a growth at rate _rB_ proportional to the number of bacteria if _B_ is smaller than some threshold parameter _s_, and turns into a growth at fixed maximum rate _r_, independent of bacteria numbers, if _B_ is larger than _s_. 
 
 The following modifications to the code will accomplish this:
 
@@ -134,12 +129,11 @@ simulate_basicbacteria_ode <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 
 ```
 
 new:
-```{r eval=FALSE, echo=TRUE, color='red'}
+```{r eval=FALSE, echo=TRUE}
 mysimulator <- function(B = 10, I = 1, g = 1, Bmax = 1e+05, dB = 0.1, k = 1e-06, r=1e3, dI=1, tstart = 0, tfinal = 30, dt = 0.05, s=1E3)
 ```
 
 Note the changed default value for _r_ to ensure the immune response is sufficiently triggered.
-
 
 old:
 ```{r eval=FALSE, echo=TRUE}
@@ -159,39 +153,40 @@ dIdt = r*B*I - dI*I
 ```
 
 new:
-```{r eval=FALSE, echo=TRUE, color='red'}
+```{r eval=FALSE, echo=TRUE}
 dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
 dIdt = r*B*I/(s+B) - dI*I
 ```
 
-Note that if we wanted to share this function with others, we would need to also update the function documentation at the start of the file. For personal use of the function, this is a good idea but not required.
 
-With these changes made, it is now possible to use the new `mysimulator` function to ask specific questions regarding this model (and thus, it's underlying biological system.) For instance one can explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
+With these changes made, it is now possible to use the new `mysimulator` function to ask specific questions regarding this model, and thus the underlying biological system of interest for which this model is a - hopefully useful - approximation. For instance one can explore how different values of the saturation parameter _s_ impact the maximum level of the immune response. This requires a slight modification of the code shown above in _Level 2_ as follows:
 
 
 ```{r eval=TRUE, echo=TRUE}
-source('mysimulator.R') #to initialize the new function - it needs to be in the working directory
-svec = 10^seq(-3,3,length=20) #values of saturation parameter 
-Imax = rep(0,length(svec)) #this will record the maximum immune response level
+#initialize the new function
+#it needs to be in the same directory as this code
+source('mysimulator.R') 
+#values of saturation parameter to explore
+svec = 10^seq(-3,3,length=20)  
+#this will record the maximum immune response level
+Imax = rep(0,length(svec)) 
 for (n in 1:length(svec))
 {
-  result <- mysimulator(s = svec[n]) #all other inputs are kept at their defaults
+  #run the simulation model for different values of s 
+  #for simplicity, all other inputs are kept at their defaults
+  result <- mysimulator(s = svec[n]) 
+  #record max immune response for each value of s
   Imax[n] <- max(result$ts[,"I"])
 }
 plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response level',log='xy')
 ```
 
-For most users and especially novice coders, it is likely best to start with one of the provided models and modify as needed. However, at this level, a user has essentially full control and is only limited by what can be accomplished using the `R` programming language and their ability and interest in writing customized code. 
+Using one of the provided simulator functions as starting point and modifying it is likely easier than having to write a new model completely from scratch. Eventually, as a user aquires more coding experience, they are essentially only limited by what can be accomplished using the `R` programming language and their ability and interest in writing their own customized code. 
 
-
-## Contributing to the package
-The package is on GitHub and you can use the usual GitHub process to contribute updated, bug fixes, etc. If you don't know how to do that or don't have the time, you can also file an issue on GitHub and let me know what should be changed. 
-
-The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains [this Markdown file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. If you plan to develop new apps, or add other substantial updates, it's best to get in touch with me first via email or GitHub.
 
 
 ## Further information
-* The [package vignette](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html) provides details about the different ways the package can be used. I highly recommend going through it. 
-* The [documentation.md](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) file described above contains more information about the package structure.
-* For feedback, bug reports, feature requests, etc., file a [GitHub issue](https://github.com/ahgroup/DSAIRM/issues).
-* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
+
+For users who want to engage further with DSAIRM, contributions are very welcome. It is quite likely that there are still bugs and typos in the package and its documentation. Users are encouraged to submit bug reports, feature requests, or any other feedback, preferably through the package's Github site. The package is built in a way that makes it hopefully easy for others to contribute new apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. [This documentation file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. For any further questions, feel free to contact me via email or Github.
+
+Also note that there is a 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE). It focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
