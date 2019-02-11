@@ -131,38 +131,33 @@ This is a helper function called by the shiny app.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>generate_shinyinput</span>(<span class='no'>mbmodel</span>, <span class='no'>otherinputs</span>, <span class='no'>packagename</span>, <span class='no'>output</span>)</pre>
+    <pre class="usage"><span class='fu'>generate_shinyinput</span>(<span class='no'>mbmodel</span>, <span class='kw'>otherinputs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>packagename</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mbmodel</th>
-      <td><p>a name of a file/function or a modelbuilder model structure</p></td>
+      <td><p>a name of a function for which to build inputs</p></td>
     </tr>
     <tr>
       <th>otherinputs</th>
-      <td><p>a list of other inputs to include</p></td>
+      <td><p>a list of other shiny inputs to include</p></td>
     </tr>
     <tr>
       <th>packagename</th>
       <td><p>name of package using this function</p></td>
     </tr>
-    <tr>
-      <th>output</th>
-      <td><p>shiny output structure</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>No direct return. output structure is modified to contain text for display in a Shiny UI</p>
+    <p>A renderUI object that can be added to the shiny output object for display in a Shiny UI</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is called by the Shiny app to produce the Shiny input UI elements.
-If mbmodel is an object, it is assumed to be a mbmodel type and will be parsed to create the UI elements.
-If mbmodel is a character, it is assumed to be the name of a function which will be parsed to create UI elements.
+mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
 Non-numeric arguments of functions are removed.</p>
     
 

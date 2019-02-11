@@ -1,3 +1,9 @@
+# DSAIRM 0.5.5
+
+* Improved way to download simulator functions
+* Fixed typos and other minor mistakes in app documentations.
+* Included functionality that allows shinyappsio deployment
+
 # DSAIRM 0.5.0
 
 * Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one.
