@@ -2,6 +2,7 @@
 title: Different Model Formulations
 output:
   html_document:
+    theme: null
     fig_caption: true
     mathjax: default 
     keep_md: false

@@ -89,6 +89,13 @@ server <- function(input, output, session)
     #end code that listens to model selection buttons and creates UI for a chosen model
     #######################################################
 
+  ###############
+  #Code to reset the model settings
+  ###############
+  observeEvent(input$reset, {
+    modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
+    output$modelinputs <- renderUI({modelinputs})
+  })
 
     #######################################################
     #start code that listens to the 'run simulation' button and runs a model for the specified settings

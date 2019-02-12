@@ -58,7 +58,10 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
 
     #return structure
     modelinputs <- tagList(
-            p(actionButton("submitBtn", "Run Simulation", class = "submitbutton"), align = 'center'),
+            p(
+                actionButton("submitBtn", "Run Simulation", class = "submitbutton"), 
+                actionButton(inputId = "reset", label = "Reset Inputs", class = "submitbutton"),
+                align = 'center'),
             modelargs,
             otherargs
         ) #end tagList

@@ -2,6 +2,9 @@
 title: Basic Model Fit 
 output:
   html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
     fig_caption: true
     mathjax: default 
     keep_md: false
