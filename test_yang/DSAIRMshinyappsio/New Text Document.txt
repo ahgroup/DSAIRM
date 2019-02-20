@@ -1,0 +1,2 @@
+legend have wrong value (B,1) and x, y, label not right
+use data data_run_model to rebuild plot?
