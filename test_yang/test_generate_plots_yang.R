@@ -197,8 +197,8 @@ generate_plotly <- function(res)
       ##########################
       # test by yang
       # pfinal = p6
-      pfinal = plotly::ggplotly(p6)
-      
+      pfinal = plotly::ggplotly(p6) 
+      # browser()
       ###########################
 
       allplots[[n]] = pfinal
@@ -211,7 +211,7 @@ generate_plotly <- function(res)
     #currently not implemented
     #cowplot is an alternative to arrange plots.
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
-
+# browser()
     if (n>1)
     {
       #number of columns needs to be stored in 1st list element
@@ -225,6 +225,13 @@ generate_plotly <- function(res)
       ##########################
       # test by yang
       # graphics::plot(pfinal)
+      pfinal <- pfinal %>% 
+        add_annotations(text="Compartments", xref="paper", yref="paper",x=0, y=1,
+                        legendtitle=TRUE, showarrow=FALSE ) %>% 
+        layout(legend = list( orientation = "v",
+                              borderwidth = 1,
+                              x = 0.01, y =0.9,
+                              tracegroupgap = 0))
       print(pfinal)
       ###########################
     }

@@ -63,38 +63,65 @@ server <- function(input, output, session)
 
       output$modelinputs <- renderUI({modelinputs})
 
+      # #display all extracted inputs on the analyze tab
+      # output$analyzemodel <- renderUI({
+      #     tagList(
+      #       tags$div(id = "shinyapptitle", currentapptitle),
+      #       tags$hr(),
+      #       #Split screen with input on left, output on right
+      #       fluidRow(
+      #         column(6,
+      #           h2('Simulation Settings'),
+      #           wellPanel(uiOutput("modelinputs"))
+      #         ), #end sidebar column for inputs
+      #         column(6,
+      #           h2('Simulation Results'),
+      #           plotOutput(outputId = "plot"),
+      #           htmlOutput(outputId = "text")
+      #         ) #end column with outcomes
+      #       ), #end fluidrow containing input and output
+      #       #Instructions section at bottom as tabs
+      #       h2('Instructions'),
+      #       #use external function to generate all tabs with instruction content
+      #       withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
+      #     ) #end tag list
+      #   }) # End renderUI for analyze tab
+
+      
+      
+      ###############################################################################################
+      # test by yang
       #display all extracted inputs on the analyze tab
       output$analyzemodel <- renderUI({
-          tagList(
-            tags$div(id = "shinyapptitle", currentapptitle),
-            tags$hr(),
-            #Split screen with input on left, output on right
-            fluidRow(
-              column(6,
-                h2('Simulation Settings'),
-                wellPanel(uiOutput("modelinputs"))
-              ), #end sidebar column for inputs.
-              
-              column(6,
-                h2('Simulation Results'),
-                
-                ######################################
-                # test by yang
-                # plotOutput(outputId = "plot"),
-                plotlyOutput(outputId = "plotly"),
-                
-                #######################################
-
-                htmlOutput(outputId = "text")
-              ) #end column with outcomes
-            ), #end fluidrow containing input and output
-            #Instructions section at bottom as tabs
-            h2('Instructions'),
-            #use external function to generate all tabs with instruction content
-            withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
-          ) #end tag list
-        }) # End renderUI for analyze tab
-
+        tagList(
+          tags$div(id = "shinyapptitle", currentapptitle),
+          tags$hr(),
+          #Split screen with input on left, output on right
+          fluidRow(
+            column(6,
+                   h2('Simulation Settings'),
+                   wellPanel(uiOutput("modelinputs"))
+            ), #end sidebar column for inputs
+            column(6,
+                   h2('Simulation Results'),
+                   #----------------------------------
+                   plotOutput(outputId = "plot"),
+                   plotlyOutput(outputId = "plotly"),
+                   #-----------------------------------
+                   htmlOutput(outputId = "text")
+            ) #end column with outcomes
+          ), #end fluidrow containing input and output
+          #Instructions section at bottom as tabs
+          h2('Instructions'),
+          #use external function to generate all tabs with instruction content
+          withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
+        ) #end tag list
+      }) # End renderUI for analyze tab
+      #################################################################################################
+      
+      
+      
+      
       #once UI for the model in the analyze tab is created, switch to that tab
       updateNavbarPage(session, packagename, selected = "Analyze")
     }) #end observeEvent for the analyze tab
@@ -132,28 +159,22 @@ server <- function(input, output, session)
                      if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
                      modelsettings$nplots <- currentmodelnplots
                      result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
-                    
+
+                     # browser()
+                     # create plot from results
+                     output$plot  <- renderPlot({
+                       generate_plots(result)
+                     }, width = 'auto', height = 'auto')
 
                      
-                     ######################################
+                     ####################################################################
                      # test by yang
-                     #create plot from results
-                     
-                     # output$plot  <- renderPlot({
-                     #   generate_plots(result)
-                     # }, width = 'auto', height = 'auto')
-                     
-                     resultp = vector("list", 1)
-                     resultp[[1]]$dat = result$ts
-                     
                      output$plotly  <- renderPlotly({
-                       generate_plotly(resultp) %>% layout(autosize=TRUE)
+                      generate_plotly(result) 
                      })
-                     
-                     
-                     #######################################
+                     ####################################################################
 
-
+                     
                      #create text from results
                      output$text <- renderText({
                        generate_text(result) })
@@ -260,6 +281,19 @@ ui <- fluidPage(
 
              ), #close "Menu" tabPanel tab
 
+             # tabPanel("Analyze",
+             #          fluidRow(
+             #            column(12,
+             #                   uiOutput('analyzemodel')
+             #            )
+             #            #class = "mainmenurow"
+             #          ) #close fluidRow structure for input
+             # ) #close "Analyze" tab
+             
+             
+             #####################################################################################
+             # test by yang
+
              tabPanel("Analyze",
                       fluidRow(
                         column(12,
@@ -268,6 +302,12 @@ ui <- fluidPage(
                         #class = "mainmenurow"
                       ) #close fluidRow structure for input
              ) #close "Analyze" tab
+             
+             
+             ######################################################################################
+             
+             
+             
   ), #close navbarPage
 
   tagList( hr(),
