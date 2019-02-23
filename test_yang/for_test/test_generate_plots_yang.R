@@ -36,8 +36,9 @@
 #' @importFrom gridExtra grid.arrange
 #' @export
 
-generate_plotly <- function(res)
+generate_plotly_0 <- function(res)
 {
+
 
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
@@ -49,7 +50,7 @@ generate_plotly <- function(res)
     ub = 1e20;
 
     for (n in 1:nplots) #loop to create each plot
-    {
+    { 
       resnow = res[[n]]
 
       #if a data frame called 'ts' exists, assume that this one is the data to be plotted

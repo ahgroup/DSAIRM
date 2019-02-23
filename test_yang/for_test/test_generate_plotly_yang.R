@@ -1,0 +1,201 @@
+generate_plotly_1 <- function(res)
+{
+
+
+    #nplots contains the number of plots to be produced.
+    nplots = length(res) #length of list
+
+    allplots=list() #will hold all plots
+
+    #lower and upper bounds for plots, these are used if none are provided by calling fuction
+    lb = 1e-10;
+    ub = 1e20;
+
+    for (n in 1:nplots) #loop to create each plot
+    { 
+
+      resnow = res[[n]]
+
+      #if a data frame called 'ts' exists, assume that this one is the data to be plotted
+      #otherwise use the data frame called 'dat'
+      #one of the 2 must exist, otherwise the function will not work
+      if (!is.null(resnow$ts))
+      {
+        rawdat = resnow$ts #if a timeseries is sent in and no x- and y-labels provided, we set default 'Time' and 'Numbers'
+        if (is.null(resnow$ylab)) {resnow$ylab = 'Numbers'}
+        if (is.null(resnow$xlab)) {resnow$xlab = 'Time'}
+      }
+      else {
+        rawdat = resnow$dat
+      }
+
+      plottype <- if( is.null(resnow$plottype) ){'Lineplot'} else { resnow$plottype } #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      
+      browser()
+      #if the first column is called 'Time' (as returned from several of the simulators)
+      #rename to xvals for consistency and so the code below will work
+      if ( colnames(rawdat)[1] == 'Time' | colnames(rawdat)[1] == 'time' ) {colnames(rawdat)[1] <- 'xvals'}
+
+      #for the plotting below, the data need to be in the form xvals/yvals/varnames
+      #if the data is instead in xvals/var1/var2/var3/etc. - which is what the simulator functions produce
+      #we need to re-format
+      #if the data frame already has a column called 'varnames', we assume it's already properly formatted as xvals/yvals/varnames
+      if ('varnames' %in% colnames(rawdat))
+      {
+        dat = rawdat
+      }
+      else
+      {
+        #using tidyr to reshape
+        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
+        #using basic reshape function to reformat data
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+      }
+
+      #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
+      mylevels = unique(dat$varnames)
+      dat$varnames = factor(dat$varnames, levels = mylevels)
+
+      #browser()
+
+
+      #see if user/calling function supplied x- and y-axis transformation information
+      xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
+      yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
+
+      #if we want a plot on log scale, set any value in the data at or below 0 to some small number
+      if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
+      if (yscaletrans !='identity') {dat$yvals[dat$yvals<=0]=lb}
+
+      #if exist, apply user-supplied x- and y-axis limits
+      #if min/max axes values are not supplied
+      #we'll set them here to make sure they are not crazy high or low
+      xmin <- if(is.null(resnow$xmin)) {max(lb,min(dat$xvals))} else  {resnow$xmin}
+      ymin <- if(is.null(resnow$ymin)) {max(lb,min(dat$yvals))} else  {resnow$ymin}
+      xmax <- if(is.null(resnow$xmax)) {min(ub,max(dat$xvals))} else  {resnow$xmax}
+      ymax <- if(is.null(resnow$ymax)) {min(ub,max(dat$yvals))} else  {resnow$ymax}
+
+      #set line size as given by app or to 1.5 by default
+      linesize = ifelse(is.null(resnow$linesize), 1.5, resnow$linesize)
+
+      #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
+      if (is.null(dat$IDvar))
+      {
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
+      }
+      else
+      {
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, group = IDvar) )
+      }
+
+      if (plottype == 'Scatterplot')
+      {
+        p2 = p1 + ggplot2::geom_point( size = linesize, na.rm=TRUE)
+      }
+      if (plottype == 'Boxplot')
+      {
+        p2 = p1 + ggplot2::geom_boxplot()
+      }
+      if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
+      {
+        p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
+      }
+      if (plottype == 'Mixedplot')
+      {
+        #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
+        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
+        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = 2.5*linesize)
+      }
+
+
+
+      #no numbering/labels on x-axis for boxplots
+      if (plottype == 'Boxplot')
+      {
+        p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax), breaks = NULL, labels = NULL)
+      }
+      else
+      {
+        p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax))
+        if (!is.null(resnow$xlab)) { p3 = p3 + ggplot2::xlab(resnow$xlab) }
+      }
+
+      #apply y-axis and if provided, label
+      p4 = p3 + ggplot2::scale_y_continuous(trans = yscaletrans, limits=c(ymin,ymax))
+      if (!is.null(resnow$ylab)) { p4 = p4 + ggplot2::ylab(resnow$ylab) }
+
+      #apply title if provided
+      if (!is.null(resnow$title))
+      {
+        p4 = p4 + ggplot2::ggtitle(resnow$title)
+      }
+
+      #modify overall theme
+      p5 = p4 + ggplot2::theme_bw(base_size = 18)
+
+
+      #do legend if TRUE or not provided
+      if (is.null(resnow$makelegend) || resnow$makelegend)
+      {
+        if (!is.null(resnow$legendlocation) && resnow$legendlocation == "right")
+        {
+             legendlocation = c(0.7,1)
+        }
+        else #default placement on left
+        {
+           legendlocation = c(0,1)
+        }
+
+        legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
+
+        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = legendtitle)      + ggplot2::scale_linetype_discrete(name = legendtitle)+ ggplot2::scale_shape_discrete(name = legendtitle)    + ggplot2::theme(legend.position = legendlocation, legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
+      }
+      else
+      {
+          p6 = p5 + ggplot2::theme(legend.position="none")
+      }
+
+      #modify overall theme
+      
+      ##########################
+      # test by yang
+      # pfinal = p6
+      pfinal = plotly::ggplotly(p6) 
+      # browser()
+      ###########################
+
+      allplots[[n]] = pfinal
+
+    } #end loop over individual plots
+
+    #using gridExtra pacakge for multiple plots, ggplot for a single one
+    #potential advantage is that for a single ggplot, one could use interactive features
+    #such as klicking on point and displaying value
+    #currently not implemented
+    #cowplot is an alternative to arrange plots.
+    #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
+# browser()
+    if (n>1)
+    {
+      #number of columns needs to be stored in 1st list element
+      gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
+      #cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
+
+    }
+    if (n==1)
+    {
+
+      ##########################
+      # test by yang
+      # graphics::plot(pfinal)
+      pfinal <- pfinal %>% 
+        add_annotations(text="Compartments", xref="paper", yref="paper",x=0, y=1,
+                        legendtitle=TRUE, showarrow=FALSE ) %>% 
+        layout(legend = list( orientation = "v",
+                              borderwidth = 1,
+                              x = 0.01, y =0.9,
+                              tracegroupgap = 0))
+      print(pfinal)
+      ###########################
+    }
+}

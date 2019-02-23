@@ -169,9 +169,35 @@ server <- function(input, output, session)
                      
                      ####################################################################
                      # test by yang
+                     # add a plotly plot to compared with original ggplot
+                     # 1 test: the legend different, B --> (B,1)
+                     
+                     # 2 test: is because data structure different with original DSAIRM
+                     # with browser to check with test_plotly_yang.R code, is still (B,1)?
+                     browser()
+                     head(result[[1]]$dat)
+                     ## Now data like this
+                     #      xvals varnames    yvals        IDvar  nreps
+                     # 1.B  0.00        B     10.00000     B      1
+                   
+                     ## previous like this
+                     # time        B         I
+                     # 1 0.00 10.00000 1.0000000
+                     
+                     # new data with test_plotly_yang.R cod
+                     # (B,1) recurrence! so due to data structure
+                     
+                     # Now need to check plot code for better fit plotly
+                     # return to test_plotly_yang.R code
+
+                    
+                     
                      output$plotly  <- renderPlotly({
                       generate_plotly(result) 
                      })
+                     
+                     
+                     
                      ####################################################################
 
                      
@@ -293,7 +319,7 @@ ui <- fluidPage(
              
              #####################################################################################
              # test by yang
-
+             
              tabPanel("Analyze",
                       fluidRow(
                         column(12,
