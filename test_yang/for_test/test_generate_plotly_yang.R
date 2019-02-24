@@ -31,7 +31,6 @@ generate_plotly_1 <- function(res)
 
       plottype <- if( is.null(resnow$plottype) ){'Lineplot'} else { resnow$plottype } #if nothing is provided, we assume a line plot. That could lead to silly plots.
       
-      browser()
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if ( colnames(rawdat)[1] == 'Time' | colnames(rawdat)[1] == 'time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -49,24 +48,43 @@ generate_plotly_1 <- function(res)
         #using tidyr to reshape
         #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
         #using basic reshape function to reformat data
-        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], 
+                             v.names = 'yvals', 
+                             timevar = "varnames", 
+                             times = colnames(rawdat)[-1], 
+                             direction = 'long', 
+                             new.row.names = NULL); 
+        dat$id <- NULL
       }
-
+      #########
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
-
-      #browser()
-
-
-      #see if user/calling function supplied x- and y-axis transformation information
-      xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
-      yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
-
+      #########
+      # #see if user/calling function supplied x- and y-axis transformation information
+      if (is.null(resnow$xscale)) {
+        xscaletrans = "linear"
+      }
+      if (resnow$xscale == "identity") {
+        xscaletrans = "linear"
+      }
+      if (resnow$xscale == "log10") {
+        xscaletrans = "log"
+      }
+      if (is.null(resnow$yscale)) {
+        yscaletrans = "linear"
+      }
+      if (resnow$yscale == "identity") {
+        yscaletrans = "linear"
+      }
+      if (resnow$yscale == "log10") {
+        yscaletrans = "log"
+      }
+      #########
       #if we want a plot on log scale, set any value in the data at or below 0 to some small number
       if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
       if (yscaletrans !='identity') {dat$yvals[dat$yvals<=0]=lb}
-
+      #########
       #if exist, apply user-supplied x- and y-axis limits
       #if min/max axes values are not supplied
       #we'll set them here to make sure they are not crazy high or low
@@ -74,98 +92,95 @@ generate_plotly_1 <- function(res)
       ymin <- if(is.null(resnow$ymin)) {max(lb,min(dat$yvals))} else  {resnow$ymin}
       xmax <- if(is.null(resnow$xmax)) {min(ub,max(dat$xvals))} else  {resnow$xmax}
       ymax <- if(is.null(resnow$ymax)) {min(ub,max(dat$yvals))} else  {resnow$ymax}
-
+      #########
       #set line size as given by app or to 1.5 by default
-      linesize = ifelse(is.null(resnow$linesize), 1.5, resnow$linesize)
-
+      linesize = ifelse(is.null(resnow$linesize), 2, resnow$linesize)
+      #########
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
-      if (is.null(dat$IDvar))
+      if ( is.null(dat$IDvar) )
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
+        py1 <- dat %>% 
+          plotly::plot_ly()
       }
       else
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, group = IDvar) )
+        py1 <- dat %>% group_by(IDvar) %>%
+          plotly::plot_ly(x = ~xvals)
       }
-
+      #########
       if (plottype == 'Scatterplot')
       {
-        p2 = p1 + ggplot2::geom_point( size = linesize, na.rm=TRUE)
+        py2 <- py1 %>% add_markers(x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot()
+        py2 <- py1 %>% plotly::add_boxplot(y = ~yvals,color = ~varnames)
       }
+      #########
       if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
       {
-        p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
+        py2 <- py1 %>% 
+          plotly::add_trace(x = ~xvals ,y = ~yvals, 
+                            type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
+                            line = list(color = ~varnames, width = linesize),
+                            marker = list(size = linesize*3))
       }
+      #########
       if (plottype == 'Mixedplot')
       {
-        #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
-        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
-        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = 2.5*linesize)
+        py1a <- py1 %>% 
+          plotly::add_trace(data = dplyr::filter(dat,style == 'line'), 
+                            x = ~xvals, y = ~yvals, 
+                            type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
+                            line = list(color = ~varnames, width = linesize, symbols = ~varnames),
+                            marker = list(size = linesize*3)) 
+        
+        py2 <- py1a %>% 
+          add_markers(data = dplyr::filter(dat,style == 'point'),
+                      x = ~xvals, y = ~yvals, color = ~varnames,
+                      marker = list(size = linesize*3))
+
       }
-
-
-
+      #########
       #no numbering/labels on x-axis for boxplots
       if (plottype == 'Boxplot')
       {
-        p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax), breaks = NULL, labels = NULL)
+        py3 <- py2 %>% layout(xaxis = list(showticklabels = FALSE))
       }
       else
       {
-        p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax))
-        if (!is.null(resnow$xlab)) { p3 = p3 + ggplot2::xlab(resnow$xlab) }
+        if (resnow$xscale == "log10") {
+          py3 <- py2 %>% layout(xaxis = list(range = c(log(xmin),log(xmax)), type = xscaletrans ))
+        }
+        else{
+          py3 <- py2 %>% layout(xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
+        }
+        
+        if (!is.null(resnow$xlab)) { 
+          py3 = py3 %>% layout(xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans)) }
       }
-
-      #apply y-axis and if provided, label
-      p4 = p3 + ggplot2::scale_y_continuous(trans = yscaletrans, limits=c(ymin,ymax))
-      if (!is.null(resnow$ylab)) { p4 = p4 + ggplot2::ylab(resnow$ylab) }
-
+      #########
+      if (resnow$yscale == "log10") {
+        py4 = py3 %>% layout(yaxis = list(range = c(log(ymin),log(ymax)), type = yscaletrans) )
+      }
+      else{
+        py4 = py3 %>% layout(yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
+      }
+      if (!is.null(resnow$ylab)) { 
+        py4 = py4 %>% 
+        layout(yaxis = list(title=resnow$ylab, type = yscaletrans)) }
+      #########
       #apply title if provided
       if (!is.null(resnow$title))
       {
-        p4 = p4 + ggplot2::ggtitle(resnow$title)
+        py4 = py4 %>% layout(title = resnow$title)
       }
-
-      #modify overall theme
-      p5 = p4 + ggplot2::theme_bw(base_size = 18)
-
-
-      #do legend if TRUE or not provided
-      if (is.null(resnow$makelegend) || resnow$makelegend)
-      {
-        if (!is.null(resnow$legendlocation) && resnow$legendlocation == "right")
-        {
-             legendlocation = c(0.7,1)
-        }
-        else #default placement on left
-        {
-           legendlocation = c(0,1)
-        }
-
-        legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
-
-        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3,"line")) + ggplot2::scale_colour_discrete(name  = legendtitle)      + ggplot2::scale_linetype_discrete(name = legendtitle)+ ggplot2::scale_shape_discrete(name = legendtitle)    + ggplot2::theme(legend.position = legendlocation, legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
-      }
-      else
-      {
-          p6 = p5 + ggplot2::theme(legend.position="none")
-      }
-
-      #modify overall theme
-      
-      ##########################
-      # test by yang
-      # pfinal = p6
-      pfinal = plotly::ggplotly(p6) 
-      # browser()
-      ###########################
-
+      #########      
+      py4 = py4 %>% layout(legend = list(font = list(size = 14)),
+                           yaxis = list(titlefont = list(size = 18)),
+                           xaxis = list(titlefont = list(size = 18)))
+      pfinal = py4
       allplots[[n]] = pfinal
-
     } #end loop over individual plots
 
     #using gridExtra pacakge for multiple plots, ggplot for a single one
@@ -174,28 +189,15 @@ generate_plotly_1 <- function(res)
     #currently not implemented
     #cowplot is an alternative to arrange plots.
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
-# browser()
+    # browser()
     if (n>1)
     {
       #number of columns needs to be stored in 1st list element
       gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
-      #cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
 
     }
     if (n==1)
     {
-
-      ##########################
-      # test by yang
-      # graphics::plot(pfinal)
-      pfinal <- pfinal %>% 
-        add_annotations(text="Compartments", xref="paper", yref="paper",x=0, y=1,
-                        legendtitle=TRUE, showarrow=FALSE ) %>% 
-        layout(legend = list( orientation = "v",
-                              borderwidth = 1,
-                              x = 0.01, y =0.9,
-                              tracegroupgap = 0))
       print(pfinal)
-      ###########################
     }
 }

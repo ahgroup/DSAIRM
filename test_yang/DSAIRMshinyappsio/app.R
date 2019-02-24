@@ -7,6 +7,8 @@
 #devtools::install_github('ahgroup/DSAIRM')
 
 library('DSAIRM')
+library(tidyverse)
+library(plotly)
 
 #get names of all existing apps
 packagename = "DSAIRM"
@@ -105,8 +107,8 @@ server <- function(input, output, session)
             column(6,
                    h2('Simulation Results'),
                    #----------------------------------
-                   plotOutput(outputId = "plot"),
-                   plotlyOutput(outputId = "plotly"),
+                   # plotOutput(outputId = "plot"),
+                   plotly::plotlyOutput(outputId = "plotly"),
                    #-----------------------------------
                    htmlOutput(outputId = "text")
             ) #end column with outcomes
@@ -162,20 +164,25 @@ server <- function(input, output, session)
 
                      # browser()
                      # create plot from results
-                     output$plot  <- renderPlot({
-                       generate_plots(result)
-                     }, width = 'auto', height = 'auto')
+                     
+                     ####################################################################
+
 
                      
                      ####################################################################
                      # test by yang
+                     
+                     # output$plot  <- renderPlot({
+                     #   DSAIRM::generate_plots(result)
+                     # }, width = 'auto', height = 'auto')
+                     
                      # add a plotly plot to compared with original ggplot
                      # 1 test: the legend different, B --> (B,1)
                      
                      # 2 test: is because data structure different with original DSAIRM
                      # with browser to check with test_plotly_yang.R code, is still (B,1)?
-                     browser()
-                     head(result[[1]]$dat)
+                     # browser()
+                     # head(result[[1]]$dat)
                      ## Now data like this
                      #      xvals varnames    yvals        IDvar  nreps
                      # 1.B  0.00        B     10.00000     B      1
@@ -193,7 +200,7 @@ server <- function(input, output, session)
                     
                      
                      output$plotly  <- renderPlotly({
-                      generate_plotly(result) 
+                       generate_plotly_1(result) 
                      })
                      
                      
