@@ -15,7 +15,7 @@ run_model <- function(modelsettings, modelfunction) {
 
   datall = NULL #will hold data for all different models and replicates
   finaltext = NULL
-
+    
   ##################################
   #stochastic dynamical model execution
   ##################################
@@ -27,12 +27,21 @@ run_model <- function(modelsettings, modelfunction) {
     for (nn in 1:modelsettings$nreps)
     {
       #extract modesettings inputs needed for simulator function
-      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
-      {
+      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) ) 
+      { 
         modelsettings$tmax = modelsettings$tfinal
       }
       currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
-      simresult <- do.call(currentmodel, args = currentargs)
+
+      simresult <- try( do.call(currentmodel, args = currentargs) )
+      #try command catches error from running code. 
+      #If error occurs we exit 
+      if (class(simresult)!="list") 
+      {
+        result <- 'Model run failed. Maybe unreasonable parameter values?' 
+        return(result) 
+      }
+      
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
       #see documentation for those functions for details
@@ -49,13 +58,12 @@ run_model <- function(modelsettings, modelfunction) {
       datall = rbind(datall,dat)
       modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
       #keep track of outbreaks occurence among stochastic simulations
-      #assuming susceptible people/target cells are in 2nd slot, i.e. first variable
       S0=head(simresult[,2],1)
       Sfinal=tail(simresult[,2],1)
-      if ( (S0-Sfinal)/S0>0.2 ) {noutbreaks = noutbreaks + 1}
+      if ( (S0-Sfinal)/S0>0.2 ) {noutbreaks = noutbreaks + 1} 
     }
     finaltext = paste('For stochastic simulation scenarios, values shown are the mean over all simulations.', noutbreaks,' simulations produced an outbreak (susceptible/uninfected dropped by at least 20%)')
-  }
+    }
 
   ##################################
   #ode dynamical model execution
@@ -65,8 +73,16 @@ run_model <- function(modelsettings, modelfunction) {
     modelsettings$currentmodel = 'ode'
     currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
-    simresult <- do.call(currentmodel, args = currentargs)
 
+    simresult <- try( do.call(currentmodel, args = currentargs) )
+    #try command catches error from running code. 
+    #If error occurs we exit 
+    if (class(simresult)!="list") 
+    {
+      result <- 'Model run failed. Maybe unreasonable parameter values?' 
+      return(result) 
+    }
+    
     simresult <- simresult$ts
     if (grepl('_and_',modelsettings$modeltype)) #this means ODE model is run with another one, relabel variables to indicate ODE
     {
@@ -79,7 +95,7 @@ run_model <- function(modelsettings, modelfunction) {
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
-
+    
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for ode.
     dat$nreps = 1
     datall = rbind(datall,dat)
@@ -94,7 +110,16 @@ run_model <- function(modelsettings, modelfunction) {
     modelsettings$currentmodel = 'discrete'
     currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
-    simresult <- do.call(currentmodel, args = currentargs)
+    
+    simresult <- try( do.call(currentmodel, args = currentargs) )
+    #try command catches error from running code. 
+    #If error occurs we exit 
+    if (class(simresult)!="list") 
+    {
+      result <- 'Model run failed. Maybe unreasonable parameter values?' 
+      return(result) 
+    }
+    
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -129,8 +154,8 @@ run_model <- function(modelsettings, modelfunction) {
   result[[1]]$maketext = TRUE #indicate if we want the generate_text function to process data and generate text
   result[[1]]$showtext = NULL #text can be added here which will be passed through to generate_text and displayed for EACH plot
   result[[1]]$finaltext = paste0('Numbers are rounded to 2 significant digits. ',finaltext) #text can be added here which will be passed through to generate_text and displayed once
-
-
+  
+  
   ##################################
   #additional settings for all types of simulators
   ##################################
@@ -175,7 +200,15 @@ run_model <- function(modelsettings, modelfunction) {
     modelsettings$currentmodel = 'other'
     currentmodel = modelfunction
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))]
-    simresult <- do.call(currentmodel, args = currentargs)
+    
+    simresult <- try( do.call(currentmodel, args = currentargs) )
+    #try command catches error from running code. 
+    #If error occurs we exit 
+    if (class(simresult)!="list") 
+    {
+      result <- 'Model run failed. Maybe unreasonable parameter values?' 
+      return(result) 
+    }
 
     #pull the indicator for non-steady state out of the dataframe, process separately
     steady = simresult$dat$steady
@@ -240,7 +273,16 @@ run_model <- function(modelsettings, modelfunction) {
     modelsettings$currentmodel = 'fit'
     currentmodel = modelfunction
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
-    simresult <- do.call(currentmodel, args = currentargs)
+
+    simresult <- try( do.call(currentmodel, args = currentargs) )
+    #try command catches error from running code. 
+    #If error occurs we exit 
+    if (class(simresult)!="list") 
+    {
+      result <- 'Model run failed. Maybe unreasonable parameter values?' 
+      return(result) 
+    }
+
     colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
@@ -249,7 +291,7 @@ run_model <- function(modelsettings, modelfunction) {
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
-
+    
         dat$style = 'line'
 
     #next, add data that's being fit to data frame
@@ -363,8 +405,15 @@ run_model <- function(modelsettings, modelfunction) {
   {
     currentmodel = modelfunction
     currentargs = modelsettings[match(names(unlist(formals(currentmodel))), names(unlist(modelsettings)))] #extract modesettings inputs needed for simulator function
-    simresult <- do.call(currentmodel, args = currentargs)
-
+    simresult <- try( do.call(currentmodel, args = currentargs) )
+    #try command catches error from running code. 
+    #If error occurs we exit 
+    if (class(simresult)!="list") 
+    {
+      result <- 'Model run failed. Maybe unreasonable parameter values?' 
+      return(result) 
+    }
+      
     steady = simresult$dat$steady
 
     #these 3 settings are only needed for the shiny UI presentation

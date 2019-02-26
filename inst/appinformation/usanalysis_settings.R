@@ -21,7 +21,7 @@ nplots = 1
 #specify the type of model that will be run
 #if model type is provided as UI input, it should be set to NULL here
 #otherwise it needs to be provided
-modeltype = 'usanalysis'
+modeltype = '_usanalysis_'
 
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
