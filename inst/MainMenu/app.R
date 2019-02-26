@@ -68,7 +68,7 @@ server <- function(input, output, session)
               ), #end sidebar column for inputs
               column(6,
                 h2('Simulation Results'),
-                plotOutput(outputId = "plot"),
+                ifelse(modelsettings$modelengine == 'ggplot', plotOutput(outputId = "plot"), plotly::plotlyOutput(outputId = "plot") ),
                 htmlOutput(outputId = "text")
               ) #end column with outcomes
             ), #end fluidrow containing input and output
@@ -133,7 +133,14 @@ server <- function(input, output, session)
                      else
                      {
                        #create plot from results
-                       output$plot  <- renderPlot({ generate_plots(result) }, width = 'auto', height = 'auto')
+                       if (modelsettings$plotengine == 'ggplot')
+                       {
+                         output$plot  <- shiny::renderPlot({ generate_ggplot(result) }, width = 'auto', height = 'auto')
+                       }
+                       else
+                       {
+                         output$plot  <- plotly::renderPlotly({ generate_plotly(result) })
+                       }
                        #create text from results
                        output$text <- renderText({ generate_text(result) })
                      }

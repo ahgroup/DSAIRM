@@ -26,5 +26,5 @@ mbmodel is assumed to be the name of a function which will be parsed to create U
 Non-numeric arguments of functions are removed.
 }
 \author{
-Andreas Handel
+Yang Ge
 }

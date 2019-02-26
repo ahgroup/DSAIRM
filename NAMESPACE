@@ -2,7 +2,8 @@
 
 export(dsairmmenu)
 export(generate_documentation)
-export(generate_plots)
+export(generate_ggplot)
+export(generate_plotly)
 export(generate_shinyinput)
 export(generate_text)
 export(run_model)

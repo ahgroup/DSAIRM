@@ -9,7 +9,7 @@
 #' @details This function is called by the Shiny app to produce the Shiny input UI elements.
 #' mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
 #' Non-numeric arguments of functions are removed.
-#' @author Andreas Handel
+#' @author Yang Ge
 #' @export
 
 #not used in DSAIRM, might need to turn on again for modelbuilder
@@ -59,7 +59,7 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
     #return structure
     modelinputs <- tagList(
             p(
-                actionButton("submitBtn", "Run Simulation", class = "submitbutton"), 
+                actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
                 actionButton(inputId = "reset", label = "Reset Inputs", class = "submitbutton"),
                 align = 'center'),
             modelargs,

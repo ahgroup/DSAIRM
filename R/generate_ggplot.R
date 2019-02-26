@@ -26,7 +26,7 @@
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 #'    optional: title - A title for each plot. \cr
 #'
-#' @return A plot structure for display in a Shiny UI.
+#' @return A ggplot plot structure for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
 #' Create plots run the simulation with default parameters just call the function:
 #' result <- simulate_basicbacteria()
@@ -36,7 +36,7 @@
 #' @importFrom gridExtra grid.arrange
 #' @export
 
-generate_plots <- function(res)
+generate_ggplot <- function(res)
 {
 
     #nplots contains the number of plots to be produced.

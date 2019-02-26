@@ -26,7 +26,8 @@ modeltype = NULL
 #additional input elements for app that are shown on UI
 otherinputs = list(
   shiny::selectInput("plotscale", "log-scale for plot ",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
-  shiny::selectInput("modeltype", "Models to run ",c("ODE" = '_ode_', 'discrete' = '_discrete_', 'both' = '_ode_and_discrete_'), selected = '_ode_')
+  shiny::selectInput("modeltype", "Models to run ",c("ODE" = '_ode_', 'discrete' = '_discrete_', 'both' = '_ode_and_discrete_'), selected = '_ode_'),
+  shiny::selectInput("plotengine", "plot engine",c("ggplot" = "ggplot", "plotly" = "plotly"))
 ) #end list
 
 
