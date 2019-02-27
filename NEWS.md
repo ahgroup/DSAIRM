@@ -1,3 +1,7 @@
+# DSAIRM 0.6
+
+* Added plotly functionality
+
 # DSAIRM 0.5.5
 
 * Improved way to download simulator functions
