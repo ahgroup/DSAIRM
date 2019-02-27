@@ -29,13 +29,16 @@
 #' @return A plotly plot structure for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
 #' Create plots run the simulation with default parameters just call the function:
+#' result <- simulate_basicbacteria()
+#' plot <- generate_plotly(result)
+#' @import plotly
+#' @importFrom gridExtra grid.arrange
 #' @author Yang Ge
 #' @export
 
 
 generate_plotly <- function(res)
 {
-
 
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
@@ -48,7 +51,6 @@ generate_plotly <- function(res)
 
     for (n in 1:nplots) #loop to create each plot
     {
-
       resnow = res[[n]]
 
       #if a data frame called 'ts' exists, assume that this one is the data to be plotted
@@ -96,25 +98,10 @@ generate_plotly <- function(res)
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
       #########
-      # #see if user/calling function supplied x- and y-axis transformation information
-      if (is.null(resnow$xscale)) {
-        xscaletrans = "linear"
-      }
-      if (resnow$xscale == "identity") {
-        xscaletrans = "linear"
-      }
-      if (resnow$xscale == "log10") {
-        xscaletrans = "log"
-      }
-      if (is.null(resnow$yscale)) {
-        yscaletrans = "linear"
-      }
-      if (resnow$yscale == "identity") {
-        yscaletrans = "linear"
-      }
-      if (resnow$yscale == "log10") {
-        yscaletrans = "log"
-      }
+      #see if user/calling function supplied x- and y-axis transformation information
+      xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
+      yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
+
       #########
       #if we want a plot on log scale, set any value in the data at or below 0 to some small number
       if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
@@ -138,23 +125,21 @@ generate_plotly <- function(res)
       }
       else
       {
-        py1 <- dat %>% group_by(IDvar) %>%
-          plotly::plot_ly(x = ~xvals)
+        py1 <-  plotly::plot_ly(dplyr::group_by(dat, IDvar), x = ~xvals)
       }
       #########
       if (plottype == 'Scatterplot')
       {
-        py2 <- py1 %>% add_markers(x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
+        py2 <- plotly::add_markers(py1, x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
       }
       if (plottype == 'Boxplot')
       {
-        py2 <- py1 %>% plotly::add_boxplot(y = ~yvals,color = ~varnames)
+        py2 <- plotly::add_boxplot(py1, y = ~yvals,color = ~varnames)
       }
       #########
       if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
       {
-        py2 <- py1 %>%
-          plotly::add_trace(x = ~xvals ,y = ~yvals,
+        py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals,
                             type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
                             line = list(color = ~varnames, width = linesize),
                             marker = list(size = linesize*3))
@@ -162,15 +147,13 @@ generate_plotly <- function(res)
       #########
       if (plottype == 'Mixedplot')
       {
-        py1a <- py1 %>%
-          plotly::add_trace(data = dplyr::filter(dat,style == 'line'),
+        py1a <- plotly::add_trace(py1, data = dplyr::filter(dat,style == 'line'),
                             x = ~xvals, y = ~yvals,
                             type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
                             line = list(color = ~varnames, width = linesize, symbols = ~varnames),
                             marker = list(size = linesize*3))
 
-        py2 <- py1a %>%
-          add_markers(data = dplyr::filter(dat,style == 'point'),
+        py2 <- add_markers(py1a, data = dplyr::filter(dat,style == 'point'),
                       x = ~xvals, y = ~yvals, color = ~varnames,
                       marker = list(size = linesize*3))
 
@@ -179,38 +162,37 @@ generate_plotly <- function(res)
       #no numbering/labels on x-axis for boxplots
       if (plottype == 'Boxplot')
       {
-        py3 <- py2 %>% layout(xaxis = list(showticklabels = FALSE))
+        py3 <- plotly::layout(py2, xaxis = list(showticklabels = FALSE))
       }
       else
       {
         if (resnow$xscale == "log10") {
-          py3 <- py2 %>% layout(xaxis = list(range = c(log(xmin),log(xmax)), type = xscaletrans ))
+          py3 <- plotly::layout(py2, xaxis = list(range = c(log(xmin),log(xmax)), type = xscaletrans ))
         }
         else{
-          py3 <- py2 %>% layout(xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
+          py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
         }
 
         if (!is.null(resnow$xlab)) {
-          py3 = py3 %>% layout(xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans)) }
+          py3 =  plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans)) }
       }
       #########
       if (resnow$yscale == "log10") {
-        py4 = py3 %>% layout(yaxis = list(range = c(log(ymin),log(ymax)), type = yscaletrans) )
+        py4 = plotly::layout(py3, yaxis = list(range = c(log(ymin),log(ymax)), type = yscaletrans) )
       }
       else{
-        py4 = py3 %>% layout(yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
+        py4 = plotly::layout(py3, yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
       }
       if (!is.null(resnow$ylab)) {
-        py4 = py4 %>%
-        layout(yaxis = list(title=resnow$ylab, type = yscaletrans)) }
+        py4 =  plotly::layout(py4, yaxis = list(title=resnow$ylab, type = yscaletrans)) }
       #########
       #apply title if provided
       if (!is.null(resnow$title))
       {
-        py4 = py4 %>% layout(title = resnow$title)
+        py4 = plotly::layout(py4, title = resnow$title)
       }
       #########
-      py4 = py4 %>% layout(legend = list(font = list(size = 14)),
+      py4 = plotly::layout(py4, legend = list(font = list(size = 14)),
                            yaxis = list(titlefont = list(size = 18)),
                            xaxis = list(titlefont = list(size = 18)))
       pfinal = py4

@@ -30,6 +30,7 @@
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
 #' Create plots run the simulation with default parameters just call the function:
 #' result <- simulate_basicbacteria()
+#' plot <- generate_ggplot(result)
 #' @author Andreas Handel
 #' @importFrom stats reshape
 #' @import ggplot2
@@ -67,8 +68,6 @@ generate_ggplot <- function(res)
 
       plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
 
-
-
       #if the first column is called 'Time' (as returned from several of the simulators)
       #rename to xvals for consistency and so the code below will work
       if ( colnames(rawdat)[1] == 'Time' | colnames(rawdat)[1] == 'time' ) {colnames(rawdat)[1] <- 'xvals'}
@@ -92,9 +91,6 @@ generate_ggplot <- function(res)
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
-
-      #browser()
-
 
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)

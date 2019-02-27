@@ -15,10 +15,16 @@ currentmodelnplots <<- NULL #global server variable for number of plots
 currentmodeltype <<- NULL #global server variable for model type to run
 currentotherinputs <<-  NULL
 currentdocfilename <<- NULL
+#plotengine <<- 'plotly' #global variable
 
 #this function is the server part of the app
 server <- function(input, output, session)
 {
+
+  #to get plot engine be object to always be processed
+  outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
+  output$plotengine <- renderText('ggplot')
+
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
   #######################################################
@@ -31,7 +37,8 @@ server <- function(input, output, session)
       currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
       settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
-      output$plot <- NULL
+      output$ggplot <- NULL
+      output$plotly <- NULL
       output$text <- NULL
 
       #load/source an R settings file that contains additional information for a given app
@@ -55,7 +62,7 @@ server <- function(input, output, session)
 
       output$modelinputs <- renderUI({modelinputs})
 
-      #display all extracted inputs on the analyze tab
+      #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
           tagList(
             tags$div(id = "shinyapptitle", currentapptitle),
@@ -68,7 +75,8 @@ server <- function(input, output, session)
               ), #end sidebar column for inputs
               column(6,
                 h2('Simulation Results'),
-                ifelse(modelsettings$modelengine == 'ggplot', plotOutput(outputId = "plot"), plotly::plotlyOutput(outputId = "plot") ),
+                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "plot") ),
+                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plot") ),
                 htmlOutput(outputId = "text")
               ) #end column with outcomes
             ), #end fluidrow containing input and output
@@ -95,6 +103,8 @@ server <- function(input, output, session)
   observeEvent(input$reset, {
     modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
     output$modelinputs <- renderUI({modelinputs})
+    output$plot <- NULL
+    output$text <- NULL
   })
 
     #######################################################
@@ -130,19 +140,20 @@ server <- function(input, output, session)
                        output$plot <- NULL
                        output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
                      }
-                     else
+                     else #create plots and text, for plots, do either ggplot or plotly
                      {
-                       #create plot from results
-                       if (modelsettings$plotengine == 'ggplot')
+                        if (modelsettings$plotengine == 'ggplot')
+                        {
+                          output$plotengine <- renderText('ggplot')
+                          output$plot  <- shiny::renderPlot({ generate_ggplot(result) })
+                        }
+                       if (modelsettings$plotengine == 'plotly')
                        {
-                         output$plot  <- shiny::renderPlot({ generate_ggplot(result) }, width = 'auto', height = 'auto')
-                       }
-                       else
-                       {
+                         output$plotengine <- renderText('plotly')
                          output$plot  <- plotly::renderPlotly({ generate_plotly(result) })
-                       }
-                       #create text from results
-                       output$text <- renderText({ generate_text(result) })
+                        }
+                     #create text from results
+                     output$text <- renderText({ generate_text(result) })
                      }
                    }) #end with-progress wrapper
     }, #end the expression being evaluated by observeevent
