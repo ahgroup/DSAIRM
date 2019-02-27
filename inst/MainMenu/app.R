@@ -22,8 +22,8 @@ server <- function(input, output, session)
 {
 
   #to get plot engine be object to always be processed
-  outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
   output$plotengine <- renderText('ggplot')
+  outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
 
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
@@ -62,8 +62,11 @@ server <- function(input, output, session)
 
       output$modelinputs <- renderUI({modelinputs})
 
+
       #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
+        #browser()
+
           tagList(
             tags$div(id = "shinyapptitle", currentapptitle),
             tags$hr(),
@@ -75,9 +78,9 @@ server <- function(input, output, session)
               ), #end sidebar column for inputs
               column(6,
                 h2('Simulation Results'),
-                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "plot") ),
-                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plot") ),
-                htmlOutput(outputId = "text")
+                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "ggplot") ),
+                htmlOutput(outputId = "text"),
+                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") )
               ) #end column with outcomes
             ), #end fluidrow containing input and output
             #Instructions section at bottom as tabs
@@ -103,7 +106,9 @@ server <- function(input, output, session)
   observeEvent(input$reset, {
     modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
     output$modelinputs <- renderUI({modelinputs})
-    output$plot <- NULL
+    #output$plotengine <- renderText('ggplot')
+    output$plotly <- NULL
+    output$ggplot <- NULL
     output$text <- NULL
   })
 
@@ -145,12 +150,12 @@ server <- function(input, output, session)
                         if (modelsettings$plotengine == 'ggplot')
                         {
                           output$plotengine <- renderText('ggplot')
-                          output$plot  <- shiny::renderPlot({ generate_ggplot(result) })
+                          output$ggplot  <- shiny::renderPlot({ generate_ggplot(result) })
                         }
                        if (modelsettings$plotengine == 'plotly')
                        {
                          output$plotengine <- renderText('plotly')
-                         output$plot  <- plotly::renderPlotly({ generate_plotly(result) })
+                         output$plotly  <- plotly::renderPlotly({ generate_plotly(result) })
                         }
                      #create text from results
                      output$text <- renderText({ generate_text(result) })

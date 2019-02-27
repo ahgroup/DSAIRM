@@ -33,8 +33,8 @@
 #' plot <- generate_ggplot(result)
 #' @author Andreas Handel
 #' @importFrom stats reshape
-#' @import ggplot2
 #' @importFrom gridExtra grid.arrange
+#' @rawNamespace import(ggplot2, except = last_plot)
 #' @export
 
 generate_ggplot <- function(res)

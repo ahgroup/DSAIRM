@@ -23,8 +23,9 @@ modeltype = "_ode_"
 
 #additional input elements for app that are shown on UI
 otherinputs =   shiny::tagList(
+  shiny::selectInput("steadystate", "Start at steady state",c("yes" = TRUE, 'no' = FALSE), selected = FALSE),
   shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
-  shiny::selectInput("steadystate", "Start at steady state",c("yes" = TRUE, 'no' = FALSE), selected = FALSE)
+  shiny::selectInput("plotengine", "plot engine",c("ggplot" = "ggplot", "plotly" = "plotly"))
 ) #end taglist
 
 

@@ -160,24 +160,27 @@ generate_plotly <- function(res)
       }
       #########
       #no numbering/labels on x-axis for boxplots
+
+      #browser()
+
       if (plottype == 'Boxplot')
       {
         py3 <- plotly::layout(py2, xaxis = list(showticklabels = FALSE))
       }
       else
       {
-        if (resnow$xscale == "log10") {
+        if (xscaletrans == "log10") {
           py3 <- plotly::layout(py2, xaxis = list(range = c(log(xmin),log(xmax)), type = xscaletrans ))
         }
         else{
           py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
         }
 
-        if (!is.null(resnow$xlab)) {
+      if (!is.null(resnow$xlab)) {
           py3 =  plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans)) }
       }
       #########
-      if (resnow$yscale == "log10") {
+      if (xscaletrans == "log10") {
         py4 = plotly::layout(py3, yaxis = list(range = c(log(ymin),log(ymax)), type = yscaletrans) )
       }
       else{
