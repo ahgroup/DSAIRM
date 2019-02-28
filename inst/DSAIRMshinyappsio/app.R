@@ -1,12 +1,25 @@
-#This is the Shiny App for the main menu of DSAIRM
-#This is a copy of app.R for shinyappsio deployment
-#to do so, go into the folder where this file resides
-#install this pacakge through github if we want to use the github version
-#run rsconnect::deployApp()
-
+#This is a bit of code and instructions for deployment of the package to shinyappsio
+#to deploy, follow these steps:
+#1. go into the folder where this file resides
+#2. copy the regular app.R file into this folder, add this bit of code on top of it
+#3. install the package through CRAN or github if we want to use the github version
 #devtools::install_github('ahgroup/DSAIRM')
+#4. to deploy, run the following
+#run rsconnect::deployApp()
+#it is possible that some setup is needed on 1st use
+#see here for details https://docs.rstudio.com/shinyapps.io/
 
+#this line of code needs to be here for shinyappsio deployment
+#should not be present for regular package use
 library('DSAIRM')
+
+#copy this code on top of the regular app.R file
+#app.R file of package starts below
+############################################################
+
+############################################################
+#This is the Shiny App for the main menu of DSAIRM
+############################################################
 
 #get names of all existing apps
 packagename = "DSAIRM"
@@ -23,10 +36,16 @@ currentmodelnplots <<- NULL #global server variable for number of plots
 currentmodeltype <<- NULL #global server variable for model type to run
 currentotherinputs <<-  NULL
 currentdocfilename <<- NULL
+#plotengine <<- 'plotly' #global variable
 
 #this function is the server part of the app
 server <- function(input, output, session)
 {
+
+  #to get plot engine be object to always be processed
+  output$plotengine <- renderText('ggplot')
+  outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
+
   #######################################################
   #start code that listens to model selection buttons and creates UI for a chosen model
   #######################################################
@@ -39,7 +58,8 @@ server <- function(input, output, session)
       currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
       settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
-      output$plot <- NULL
+      output$ggplot <- NULL
+      output$plotly <- NULL
       output$text <- NULL
 
       #load/source an R settings file that contains additional information for a given app
@@ -63,8 +83,11 @@ server <- function(input, output, session)
 
       output$modelinputs <- renderUI({modelinputs})
 
-      #display all extracted inputs on the analyze tab
+
+      #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
+        #browser()
+
           tagList(
             tags$div(id = "shinyapptitle", currentapptitle),
             tags$hr(),
@@ -76,8 +99,9 @@ server <- function(input, output, session)
               ), #end sidebar column for inputs
               column(6,
                 h2('Simulation Results'),
-                plotOutput(outputId = "plot"),
-                htmlOutput(outputId = "text")
+                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "ggplot") ),
+                htmlOutput(outputId = "text"),
+                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") )
               ) #end column with outcomes
             ), #end fluidrow containing input and output
             #Instructions section at bottom as tabs
@@ -97,6 +121,17 @@ server <- function(input, output, session)
     #end code that listens to model selection buttons and creates UI for a chosen model
     #######################################################
 
+  ###############
+  #Code to reset the model settings
+  ###############
+  observeEvent(input$reset, {
+    modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
+    output$modelinputs <- renderUI({modelinputs})
+    #output$plotengine <- renderText('ggplot')
+    output$plotly <- NULL
+    output$ggplot <- NULL
+    output$text <- NULL
+  })
 
     #######################################################
     #start code that listens to the 'run simulation' button and runs a model for the specified settings
@@ -124,15 +159,28 @@ server <- function(input, output, session)
                      if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
                      modelsettings$nplots <- currentmodelnplots
                      result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
-
-                     #create plot from results
-                     output$plot  <- renderPlot({
-                       generate_plots(result)
-                     }, width = 'auto', height = 'auto')
+                     #if things worked, result contains a list structure for processing with the plot and text functions
+                     #if things failed, result contains a string with an error message
+                     if (is.character(result))
+                     {
+                       output$plot <- NULL
+                       output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
+                     }
+                     else #create plots and text, for plots, do either ggplot or plotly
+                     {
+                        if (modelsettings$plotengine == 'ggplot')
+                        {
+                          output$plotengine <- renderText('ggplot')
+                          output$ggplot  <- shiny::renderPlot({ generate_ggplot(result) })
+                        }
+                       if (modelsettings$plotengine == 'plotly')
+                       {
+                         output$plotengine <- renderText('plotly')
+                         output$plotly  <- plotly::renderPlotly({ generate_plotly(result) })
+                        }
                      #create text from results
-                     output$text <- renderText({
-                       generate_text(result) })
-
+                     output$text <- renderText({ generate_text(result) })
+                     }
                    }) #end with-progress wrapper
     }, #end the expression being evaluated by observeevent
     #ignoreNULL = TRUE, ignoreInit = TRUE
