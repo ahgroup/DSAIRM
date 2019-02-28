@@ -134,7 +134,10 @@ generate_plotly <- function(res)
       }
       if (plottype == 'Boxplot')
       {
-        py2 <- plotly::add_boxplot(py1, y = ~yvals,color = ~varnames)
+        # py2 <- plot_ly(dat, y = ~yvals, type = "box", color = ~varnames)
+        # py2 <- plot_ly(dat, y = ~yvals, type = "box",name = ~varnames)
+
+        py2 <- plotly::add_boxplot(py1, y = ~yvals, name = ~varnames)
       }
       #########
       if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
@@ -153,41 +156,42 @@ generate_plotly <- function(res)
                             line = list(color = ~varnames, width = linesize, symbols = ~varnames),
                             marker = list(size = linesize*3))
 
-        py2 <- add_markers(py1a, data = dplyr::filter(dat,style == 'point'),
+        py2 <- plotly::add_markers(py1a, data = dplyr::filter(dat,style == 'point'),
                       x = ~xvals, y = ~yvals, color = ~varnames,
                       marker = list(size = linesize*3))
 
       }
       #########
       #no numbering/labels on x-axis for boxplots
-
-      #browser()
-
       if (plottype == 'Boxplot')
       {
         py3 <- plotly::layout(py2, xaxis = list(showticklabels = FALSE))
       }
       else
       {
-        if (xscaletrans == "log10") {
-          py3 <- plotly::layout(py2, xaxis = list(range = c(log(xmin),log(xmax)), type = xscaletrans ))
+        # x labe
+        if (!is.null(resnow$xlab)) {
+          py3 <- plotly::layout(py2, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans))
+        }
+        # y labe
+        if (!is.null(resnow$ylab)) {
+          py3 <- plotly::layout(py3, yaxis = list(title=resnow$ylab, type = yscaletrans))
+        }
+        # x scale
+        if (xscaletrans == "log10") { # scale of x xscaletrans
+          py3 <- plotly::layout(py3, xaxis = list(range = c(log(xmin),log(xmax)), type = substr(xscaletrans,1,3)) )
         }
         else{
           py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
         }
-
-      if (!is.null(resnow$xlab)) {
-          py3 =  plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans)) }
       }
-      #########
-      if (xscaletrans == "log10") {
-        py4 = plotly::layout(py3, yaxis = list(range = c(log(ymin),log(ymax)), type = yscaletrans) )
+      # y scale
+      if (yscaletrans == "log10") { # scale of y yscaletrans
+        py4 = plotly::layout(py3, yaxis = list(range = c(log(ymin),log(ymax)), type = substr(yscaletrans,1,3)) )
       }
       else{
         py4 = plotly::layout(py3, yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
       }
-      if (!is.null(resnow$ylab)) {
-        py4 =  plotly::layout(py4, yaxis = list(title=resnow$ylab, type = yscaletrans)) }
       #########
       #apply title if provided
       if (!is.null(resnow$title))
@@ -208,15 +212,24 @@ generate_plotly <- function(res)
     #currently not implemented
     #cowplot is an alternative to arrange plots.
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
-    # browser()
     if (n>1)
     {
+      # p1 <- allplots[[1]]
+      #   p2 <- allplots[[1]]
+      #   p3 <- allplots[[1]]
+      # pfinal <- plotly::subplot(py3,py3)
+      #
+      # p1 <- plot_ly(y = ~rnorm(50), type = "box")
+      # p2 <- plot_ly(y = ~rnorm(50), type = "box")
+      # subplot(p1, p2, p1, p2, nrows = 1, margin = 0.05)
+      resultplot <-  plotly::subplot(allplots)
       #number of columns needs to be stored in 1st list element
-      gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
-
+      # gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
     }
     if (n==1)
     {
-      print(pfinal)
+      resultplot <- pfinal
     }
+    return(resultplot)
+
 }

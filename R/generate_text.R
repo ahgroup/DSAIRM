@@ -126,7 +126,7 @@ generate_text <- function(res)
           if (plottype == 'Scatterplot' )
           {
             rcc = stats::cor.test(vardat[,1],y=vardat[,2], alternative = c("two.sided"), method = c("spearman"))
-            newtxt = paste('Rank Cor. Coef. between',xlabel,' and ',ylabel,' is:',format(rcc$estimate, digits = 2, nsmall = 2),"<br/>")
+            newtxt = paste0('Rank Cor. Coef. between ',xlabel,' and ',ylabel,' is: ',format(rcc$estimate, digits = 2, nsmall = 2),".<br/>")
           }
 
           if (plottype == 'Boxplot' )

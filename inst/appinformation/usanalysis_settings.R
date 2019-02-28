@@ -3,29 +3,27 @@
 #it contains additional information that helps properly process it
 ############################################################
 
+appsettings = list()
+
 #Title of app, to be displayed on top of analyze tab
-apptitle = "Uncertainty and Sensitivy Analysis"
+appsettings$apptitle = "Uncertainty and Sensitivy Analysis"
 
 #name of underlying simulation function(s) to be used in the app
 #must be provided
-simfunction = 'simulate_usanalysis'
-
-#name of underlying mbmodel - if exists
-#if it exists, it will be used to build UI input elements
-#if not exists, set to NULL
-mbmodelfile = NULL
+appsettings$simfunction = 'simulate_usanalysis'
 
 #number of plots to produce for output
-nplots = 1
+appsettings$nplots = 3
 
 #specify the type of model that will be run
 #if model type is provided as UI input, it should be set to NULL here
 #otherwise it needs to be provided
-modeltype = '_usanalysis_'
+appsettings$modeltype = '_usanalysis_'
 
 #additional input elements for app that are shown on UI
-otherinputs =   shiny::tagList(
+appsettings$otherinputs =   shiny::tagList(
   shiny::selectInput("plottype", "plot type", c("Boxplot", "Scatterplot"), selected = "Boxplot" ),
+  shiny::selectInput("samplepar", "Parameter for scatterplot",c('S' = 'S', "I" = "I", "b" = "b", "g" = "g", 'm'='m','n'='n')),
   shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
   shiny::selectInput("plotengine", "plot engine",c("ggplot" = "ggplot", "plotly" = "plotly"))
 ) #end taglist

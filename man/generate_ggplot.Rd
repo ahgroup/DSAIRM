@@ -27,7 +27,7 @@ optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "iden
 optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
 optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. \cr
 optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
-optional: legendlocation - if "right" is specified, top right. anythbing else or nothing will place it top left. \cr
+optional: legendlocation - if "left" is specified, top left. Otherwise top left. \cr
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 optional: title - A title for each plot. \cr}
 }
