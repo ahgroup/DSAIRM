@@ -117,7 +117,8 @@ generate_plotly <- function(res)
       #########
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(resnow$linesize), 2, resnow$linesize)
-      #########
+
+      ###
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
       if ( is.null(dat$IDvar) )
       {
@@ -127,19 +128,18 @@ generate_plotly <- function(res)
       {
         py1 <-  plotly::plot_ly(dplyr::group_by(dat, IDvar), x = ~xvals)
       }
-      #########
+
+      ###
       if (plottype == 'Scatterplot')
       {
         py2 <- plotly::add_markers(py1, x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
       }
       if (plottype == 'Boxplot')
       {
-        # py2 <- plot_ly(dat, y = ~yvals, type = "box", color = ~varnames)
-        # py2 <- plot_ly(dat, y = ~yvals, type = "box",name = ~varnames)
-
         py2 <- plotly::add_boxplot(py1, y = ~yvals, name = ~varnames)
       }
-      #########
+
+      ###
       if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
       {
         py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals,
@@ -147,7 +147,8 @@ generate_plotly <- function(res)
                             line = list(color = ~varnames, width = linesize),
                             marker = list(size = linesize*3))
       }
-      #########
+
+      ###
       if (plottype == 'Mixedplot')
       {
         py1a <- plotly::add_trace(py1, data = dplyr::filter(dat,style == 'line'),
@@ -159,13 +160,13 @@ generate_plotly <- function(res)
         py2 <- plotly::add_markers(py1a, data = dplyr::filter(dat,style == 'point'),
                       x = ~xvals, y = ~yvals, color = ~varnames,
                       marker = list(size = linesize*3))
-
       }
-      #########
+
+      ###
       #no numbering/labels on x-axis for boxplots
       if (plottype == 'Boxplot')
       {
-        py3 <- plotly::layout(py2, xaxis = list(showticklabels = FALSE))
+        py3 <- plotly::layout(py2, xaxis = list(showticklabels = F))
       }
       else
       {
@@ -173,17 +174,17 @@ generate_plotly <- function(res)
         if (!is.null(resnow$xlab)) {
           py3 <- plotly::layout(py2, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans))
         }
-        # y labe
-        if (!is.null(resnow$ylab)) {
-          py3 <- plotly::layout(py3, yaxis = list(title=resnow$ylab, type = yscaletrans))
-        }
         # x scale
         if (xscaletrans == "log10") { # scale of x xscaletrans
           py3 <- plotly::layout(py3, xaxis = list(range = c(log(xmin),log(xmax)), type = substr(xscaletrans,1,3)) )
         }
         else{
-          py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
+          py3 <- plotly::layout(py3, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
         }
+      }
+      # y labe
+      if (!is.null(resnow$ylab)) {
+        py3 <- plotly::layout(py3, yaxis = list(title=resnow$ylab, type = yscaletrans))
       }
       # y scale
       if (yscaletrans == "log10") { # scale of y yscaletrans
@@ -192,14 +193,17 @@ generate_plotly <- function(res)
       else{
         py4 = plotly::layout(py3, yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
       }
-      #########
+
+      ###
       #apply title if provided
       if (!is.null(resnow$title))
       {
         py4 = plotly::layout(py4, title = resnow$title)
       }
-      #########
-      py4 = plotly::layout(py4, legend = list(font = list(size = 14)),
+
+      ###
+      py4 = plotly::layout(py4,
+                           legend = list(font = list(size = 14)),
                            yaxis = list(titlefont = list(size = 18)),
                            xaxis = list(titlefont = list(size = 18)))
       pfinal = py4
@@ -214,22 +218,12 @@ generate_plotly <- function(res)
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
     if (n>1)
     {
-      # p1 <- allplots[[1]]
-      #   p2 <- allplots[[1]]
-      #   p3 <- allplots[[1]]
-      # pfinal <- plotly::subplot(py3,py3)
-      #
-      # p1 <- plot_ly(y = ~rnorm(50), type = "box")
-      # p2 <- plot_ly(y = ~rnorm(50), type = "box")
-      # subplot(p1, p2, p1, p2, nrows = 1, margin = 0.05)
-      resultplot <-  plotly::subplot(allplots)
-      #number of columns needs to be stored in 1st list element
-      # gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
+      resultplot <-  plotly::subplot(allplots, titleY = TRUE)
     }
     if (n==1)
     {
       resultplot <- pfinal
     }
+    # browser()
     return(resultplot)
-
 }
