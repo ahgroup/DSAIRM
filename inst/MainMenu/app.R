@@ -7,11 +7,9 @@ fullappNames = list.files(path = appdir, pattern = "+.settings", full.names = FA
 appNames = gsub("_settings.R" ,"",fullappNames)
 allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
 
-
 #this function is the server part of the app
 server <- function(input, output, session)
 {
-
   #to get plot engine be object to always be processed
   output$plotengine <- renderText('ggplot')
   outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
@@ -52,10 +50,8 @@ server <- function(input, output, session)
 
       output$modelinputs <- renderUI({modelinputs})
 
-
       #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
-
           tagList(
             tags$div(id = "shinyapptitle", appsettings$apptitle),
             tags$hr(),
@@ -170,10 +166,7 @@ server <- function(input, output, session)
   )
 
   #######################################################
-  #end code blocks that contain the analyze functionality
-  #######################################################
-
-
+  #Exit main menu
   observeEvent(input$Exit, {
     stopApp('Exit')
   })
