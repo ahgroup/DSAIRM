@@ -161,7 +161,7 @@ generate_plotly <- function(res)
                       x = ~xvals, y = ~yvals, color = ~varnames,
                       marker = list(size = linesize*3))
       }
-
+      # browser()
       ###
       #no numbering/labels on x-axis for boxplots
       if (plottype == 'Boxplot')
@@ -170,19 +170,20 @@ generate_plotly <- function(res)
       }
       else
       {
-        # x labe
-        if (!is.null(resnow$xlab)) {
-          py3 <- plotly::layout(py2, xaxis = list(title=resnow$xlab, size = 18, type = xscaletrans))
-        }
         # x scale
         if (xscaletrans == "log10") { # scale of x xscaletrans
-          py3 <- plotly::layout(py3, xaxis = list(range = c(log(xmin),log(xmax)), type = substr(xscaletrans,1,3)) )
+          py3 <- plotly::layout(py2, xaxis = list(range = c(log(xmin),log(xmax)), type = substr(xscaletrans,1,3)) )
         }
         else{
-          py3 <- plotly::layout(py3, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
+          py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
+        }
+        # x label
+        if (!is.null(resnow$xlab)) {
+          py3 <- plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18))
         }
       }
-      # y labe
+      # Boxplot better need y label
+      # y label
       if (!is.null(resnow$ylab)) {
         py3 <- plotly::layout(py3, yaxis = list(title=resnow$ylab, type = yscaletrans))
       }
@@ -218,7 +219,7 @@ generate_plotly <- function(res)
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
     if (n>1)
     {
-      resultplot <-  plotly::subplot(allplots, titleY = TRUE)
+      resultplot <-  plotly::subplot(allplots, titleY = TRUE, titleX = TRUE)
     }
     if (n==1)
     {
