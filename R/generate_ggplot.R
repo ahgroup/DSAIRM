@@ -25,6 +25,7 @@
 #'    optional: legendlocation - if "left" is specified, top left. Otherwise top left. \cr
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 #'    optional: title - A title for each plot. \cr
+#'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
 #'
 #' @return A ggplot plot structure for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
@@ -203,15 +204,16 @@ generate_ggplot <- function(res)
     #cowplot is an alternative to arrange plots.
     #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
 
-    if (n>1)
+    if (nplots>1)
     {
       #number of columns needs to be stored in 1st list element
-      resultplot <- gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncol)
+      #browser()
+      resultplot <- gridExtra::grid.arrange(grobs = allplots, ncol = res[[1]]$ncols)
       #resultplot <- gridExtra::arrangeGrob(grobs = allplots, ncol = res[[1]]$ncol)
       #cowplot::plot_grid(plotlist = allplots, ncol = res[[1]]$ncol)
 
     }
-    if (n==1)
+    if (nplots==1)
     {
       resultplot <- pfinal
     }

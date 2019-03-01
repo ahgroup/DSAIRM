@@ -55,7 +55,6 @@ server <- function(input, output, session)
 
       #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
-        #browser()
 
           tagList(
             tags$div(id = "shinyapptitle", appsettings$apptitle),
@@ -114,20 +113,17 @@ server <- function(input, output, session)
                    {
                      #extract current model settings from UI input elements
                      x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
                      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
                      x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-                     modelsettings = NULL
                      modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-                     #add settings information from appsettings list
-                     modelsettings = c(modelsettings, appsettings)
                      #remove nested list of shiny input tags
-                     modelsettings$otherinputs <- NULL
+                     appsettings$otherinputs <- NULL
+                     #add settings information from appsettings list
+                     modelsettings = c(appsettings, modelsettings)
                      if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
                      #if no random seed is set in UI, set it to 123.
                      if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
                      #run model, process inside run_model function based on settings
-                     browser()
                      result <- run_model(modelsettings)
                      #if things worked, result contains a list structure for processing with the plot and text functions
                      #if things failed, result contains a string with an error message
