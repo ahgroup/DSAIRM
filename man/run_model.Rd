@@ -12,7 +12,7 @@ List elements with names and values for all inputs expected by simulation functi
 modelsettings$simfunction - name of simulation function in variable  \cr
 modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), \cr
 modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) \cr
-modelsettings$modeltype - specify what kind of model should be run. 
+modelsettings$modeltype - specify what kind of model should be run.
 Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). \cr
 modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. \cr
 modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app \cr}
@@ -21,7 +21,7 @@ modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app \cr}
 A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 }
 \description{
-This function runs a model based on information 
+This function runs a model based on information
 provided in the modelsettings list passed into it.
 }
 \details{
