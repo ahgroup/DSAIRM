@@ -32,8 +32,8 @@
 
 <meta property="og:title" content="A function that runs a DSAIRM/DSAIDE app — run_model" />
 
-<meta property="og:description" content="This function takes a model and model settings and runs it.
-It runs the simulation determined by the model settings and returns simulation results." />
+<meta property="og:description" content="This function runs a model based on information
+provided in the modelsettings list passed into it." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -64,7 +64,7 @@ It runs the simulation determined by the model settings and returns simulation r
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.5.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6</span>
       </span>
     </div>
 
@@ -126,23 +126,27 @@ It runs the simulation determined by the model settings and returns simulation r
 
     <div class="ref-description">
     
-    <p>This function takes a model and model settings and runs it.
-It runs the simulation determined by the model settings and returns simulation results.</p>
+    <p>This function runs a model based on information
+provided in the modelsettings list passed into it.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>run_model</span>(<span class='no'>modelsettings</span>, <span class='no'>modelfunction</span>)</pre>
+    <pre class="usage"><span class='fu'>run_model</span>(<span class='no'>modelsettings</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>modelsettings</th>
-      <td><p>a list with model settings. needs to contain list elements with names and values for all inputs expected by simulation function. Also needs to contain an element plotscale to indicate which axis should be on a log scale (x, y or both), a list element nplots to indicate number of plots that should be produced when calling the generate_plot function with the result, and a list element modeltype which specifies what kind of model should be run. Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). Stochastic models also need an nreps list entry to indicate numer of repeat simulations.</p></td>
-    </tr>
-    <tr>
-      <th>modelfunction</th>
-      <td><p>The name of a simulation function to be run with the indicated settings.</p></td>
+      <td><p>a list with model settings. Required list elements are: <br />
+List elements with names and values for all inputs expected by simulation function. <br />
+modelsettings$simfunction - name of simulation function in variable  <br />
+modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), <br />
+modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) <br />
+modelsettings$modeltype - specify what kind of model should be run.
+Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). <br />
+modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. <br />
+modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app <br /></p></td>
     </tr>
     </table>
     
@@ -152,7 +156,7 @@ It runs the simulation determined by the model settings and returns simulation r
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function runs a model for specific settings. It is similar to analyze_model in the modelbuilder package.</p>
+    <p>This function runs a model for specific settings.</p>
     
 
   </div>
