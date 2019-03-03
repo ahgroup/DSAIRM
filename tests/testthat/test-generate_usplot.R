@@ -36,11 +36,33 @@ test_that("running US analysis app returns the proper plots",
             modelsettings$plottype = 'Scatterplot'
             modelsettings$samplepar = 'g'
 
+            #test boxplots
+            modelsettings$plottype = 'Boxplot'
             result = run_model(modelsettings)
+
             usplot = generate_ggplot(result)
             testthat::expect_is( usplot, "gtable" )
 
             usplot = generate_plotly(result)
             testthat::expect_is( usplot, "plotly" )
+
+            ustext = generate_text(result)
+            testthat::expect_is( generate_text(result), "html" )
+            testthat::expect_is( generate_text(result), "character" )
+
+            #test scatterplots
+            modelsettings$plottype = 'Scatterplot'
+            result = run_model(modelsettings)
+
+            usplot = generate_ggplot(result)
+            testthat::expect_is( usplot, "gtable" )
+
+            usplot = generate_plotly(result)
+            testthat::expect_is( usplot, "plotly" )
+
+            ustext = generate_text(result)
+            testthat::expect_is( generate_text(result), "html" )
+            testthat::expect_is( generate_text(result), "character" )
+
             })
 
