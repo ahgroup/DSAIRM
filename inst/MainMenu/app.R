@@ -183,11 +183,13 @@ server <- function(input, output, session)
   observeEvent(input$detachtasks, {
     x = withMathJax(generate_documentation(currentdocfilename))
     #browser()
-    xx = x[[2]][[3]][[1]][[3]] #pull out task list without buttons
+    x1 = x[[2]][[3]] #task tab
+    x2 = x1[[3]]
+    x3 = x2[[1]][[3]] #pull out task list without buttons
     output$floattask <- renderUI({
-      absolutePanel(xx, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
-                    draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
-                    width = 330, height = "auto")
+      absolutePanel(x3, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
+                    draggable = TRUE, top = 100, left = "auto", right = 20, bottom = "auto",
+                    width = "30%", height = "auto")
     })
   })
 

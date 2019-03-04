@@ -231,17 +231,17 @@ iframe {
 
 }
 
-#controls {
+#taskfloat {
   /* Appearance */
   background-color: white;
   padding: 0 20px 20px 20px;
   cursor: move;
   /* Fade out while not hovering */
-  opacity: 0.75;
+  opacity: 0.3;
   zoom: 0.9;
   transition: opacity 500ms 1s;
 }
-#controls:hover {
+#taskfloat:hover {
   /* Fade in while hovering */
   opacity: 0.95;
   transition-delay: 0;
