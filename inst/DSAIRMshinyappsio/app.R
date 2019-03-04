@@ -6,8 +6,6 @@
 #devtools::install_github('ahgroup/DSAIRM')
 #4. to deploy, run the following
 #run rsconnect::deployApp()
-#it is possible that some setup is needed on 1st use
-#see here for details https://docs.rstudio.com/shinyapps.io/
 
 #this line of code needs to be here for shinyappsio deployment
 #should not be present for regular package use
@@ -15,33 +13,19 @@ library('DSAIRM')
 
 #copy this code on top of the regular app.R file
 #app.R file of package starts below
-############################################################
-
-############################################################
+###########################################################
 #This is the Shiny App for the main menu of DSAIRM
-############################################################
 
 #get names of all existing apps
 packagename = "DSAIRM"
 appdir = system.file("appinformation", package = packagename) #find path to apps
 fullappNames = list.files(path = appdir, pattern = "+.settings", full.names = FALSE)
 appNames = gsub("_settings.R" ,"",fullappNames)
-simfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
-
-
-currentapp = NULL #global server variable for currently loaded app
-currentapptitle = NULL #global server variable for currently loaded app
-currentsimfct <<- NULL #global server variable for current simulation function
-currentmodelnplots <<- NULL #global server variable for number of plots
-currentmodeltype <<- NULL #global server variable for model type to run
-currentotherinputs <<-  NULL
-currentdocfilename <<- NULL
-#plotengine <<- 'plotly' #global variable
+allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
 
 #this function is the server part of the app
 server <- function(input, output, session)
 {
-
   #to get plot engine be object to always be processed
   output$plotengine <- renderText('ggplot')
   outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
@@ -55,7 +39,7 @@ server <- function(input, output, session)
     {
       currentapp <<- appName #assign currently chosen app to global app variable
       #file name for documentation
-      currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
+      currentdocfilename <- paste0(appdir,'/',currentapp,'_documentation.html')
       settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
       output$ggplot <- NULL
@@ -63,33 +47,29 @@ server <- function(input, output, session)
       output$text <- NULL
 
       #load/source an R settings file that contains additional information for a given app
-      #variable simfilename in the settings file is the name of the simulation function or NULL
-      #variable modeltype in the settings file is the type of the model to be run or NULL
-      #variable mbmoddelfile is the name of the mbmodel Rdata file or NULL
-      #variable otherinputs contains additional shiny UI elements
-      #one wants to display that are not generated automaticall by functions above
-      #for instance all non-numeric inputs need to be provided separately. If not needed, it is NULL
+      #the information is stored in a list called 'appsettings'
+      #different models can have different variables
+      #all models need the following:
+      #variable apptitle - the name of the app
+      #variable simfunction - the name of the simulation function(s)
+      #variable modeltype - the type of the model to be run or NULL if set by UI
+      #additional elements that can be provided:
+      #variable otherinputs - contains additional shiny UI elements that are not generated automaticall by functions above
+      #for instance all non-numeric inputs need to be provided separately.
+      #If not needed, it is NULL
       source(settingfilename) #source the file with additional settings to load them
-      currentsimfct <<- simfunction
-      currentmodelnplots <<- nplots
-      currentmodeltype <<- modeltype
-      currentotherinputs <<-  otherinputs
-      currentapptitle <<- apptitle
 
       #extract function and other inputs and turn them into a taglist
       #this uses the 1st function provided by the settings file and stored in currentsimfct
       #indexing sim function in case there are multiple
-      modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
+      modelinputs <- generate_shinyinput(mbmodel = appsettings$simfunction[1], otherinputs = appsettings$otherinputs, packagename = packagename)
 
       output$modelinputs <- renderUI({modelinputs})
 
-
       #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
-        #browser()
-
           tagList(
-            tags$div(id = "shinyapptitle", currentapptitle),
+            tags$div(id = "shinyapptitle", appsettings$apptitle),
             tags$hr(),
             #Split screen with input on left, output on right
             fluidRow(
@@ -100,8 +80,8 @@ server <- function(input, output, session)
               column(6,
                 h2('Simulation Results'),
                 conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "ggplot") ),
-                htmlOutput(outputId = "text"),
-                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") )
+                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") ),
+                htmlOutput(outputId = "text")
               ) #end column with outcomes
             ), #end fluidrow containing input and output
             #Instructions section at bottom as tabs
@@ -125,9 +105,8 @@ server <- function(input, output, session)
   #Code to reset the model settings
   ###############
   observeEvent(input$reset, {
-    modelinputs <- generate_shinyinput(mbmodel = currentsimfct[1], otherinputs = currentotherinputs, packagename = packagename)
+    modelinputs <- generate_shinyinput(mbmodel = appsettings$simfunction[1], otherinputs = appsettings$otherinputs, packagename = packagename)
     output$modelinputs <- renderUI({modelinputs})
-    #output$plotengine <- renderText('ggplot')
     output$plotly <- NULL
     output$ggplot <- NULL
     output$text <- NULL
@@ -146,24 +125,24 @@ server <- function(input, output, session)
                    {
                      #extract current model settings from UI input elements
                      x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
                      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
                      x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
                      modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+                     #remove nested list of shiny input tags
+                     appsettings$otherinputs <- NULL
+                     #add settings information from appsettings list
+                     modelsettings = c(appsettings, modelsettings)
                      if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
                      #if no random seed is set in UI, set it to 123.
                      if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-                     #if there is a supplied model type from the settings file, use that one
-                     #note that input for model type might be still 'floating around' if a previous model was loaded
-                     #not clear how to get rid of old shiny input variables from previously loaded models
-                     if (!is.null(currentmodeltype)) { modelsettings$modeltype <- currentmodeltype}
-                     modelsettings$nplots <- currentmodelnplots
-                     result <- run_model(modelsettings = modelsettings, modelfunction  = currentsimfct)
+                     #run model, process inside run_model function based on settings
+                     result <- run_model(modelsettings)
                      #if things worked, result contains a list structure for processing with the plot and text functions
                      #if things failed, result contains a string with an error message
                      if (is.character(result))
                      {
-                       output$plot <- NULL
+                       output$ggplot <- NULL
+                       output$plotly <- NULL
                        output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
                      }
                      else #create plots and text, for plots, do either ggplot or plotly
@@ -197,16 +176,13 @@ server <- function(input, output, session)
       "simulatorfunctions.zip"
     },
     content <- function(file) {
-      file.copy(simfctfile, file)
+      file.copy(allsimfctfile, file)
     },
     contentType = "application/zip"
   )
 
   #######################################################
-  #end code blocks that contain the analyze functionality
-  #######################################################
-
-
+  #Exit main menu
   observeEvent(input$Exit, {
     stopApp('Exit')
   })
@@ -225,8 +201,9 @@ ui <- fluidPage(
   tags$div(id = "shinyheadertext",
     "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
     br()),
-  tags$div(id = "infotext", paste0('This is ', packagename,  'version ',utils::packageVersion(packagename),' last updated ', utils::packageDescription(packagename)$Date,'.')),
+  tags$div(id = "infotext", paste0('This is ', packagename,  ' version ',utils::packageVersion(packagename),' last updated ', utils::packageDescription(packagename)$Date,'.')),
   tags$div(id = "infotext", "Written and maintained by", a("Andreas Handel", href="http://handelgroup.uga.edu", target="_blank"), "with contributions from", a("others.",  href="https://github.com/ahgroup/DSAIRM#contributors", target="_blank")),
+  tags$div(id = "infotext", "More information can be found", a("on the package website.",  href="https://ahgroup.github.io/DSAIRM/", target="_blank")),
   navbarPage(title = packagename, id = packagename, selected = 'Menu',
              tabPanel(title = "Menu",
                       tags$div(class='mainsectionheader', 'The Basics'),
@@ -266,17 +243,16 @@ ui <- fluidPage(
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
                       withTags({
-                        div(style = "text-align:left", class="infotext",
+                        div(style = "text-align:left", class="bottomtext",
 
-                            p('This collection of model simulations/apps covers within-host and immune response modeling from a dynamical systems perspective. The software is meant to provide you with a "learning by doing" approach. You will likely learn best and fastest by using this software as part of a course on the topic, taught by a knowledgable instructor who can provide any needed background information and help if you get stuck. Alternatively, you should be able to self-learn and obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
-                            p('The main way of using the simulations is through this graphical interface. You can also access the simulations directly. This requires a bit of R coding but gives you many more options of things you can try. See the package vignette or the "Further Information" section of the apps for more on that.'),
-                            p('The simulations are ordered in a sequence that makes sense for learning the material, so it is best o go in order (each section top to bottom, within each section left to right). Some simulations also build on earlier ones.')
-
+                            tags$div(id = "bottomtext", 'This collection of model simulations/apps covers within-host and immune response modeling from a dynamical systems perspective. The software is meant to provide you with a "learning by doing" approach. You will likely learn best and fastest by using this software as part of a course on the topic, taught by a knowledgable instructor who can provide any needed background information and help if you get stuck. Alternatively, you should be able to self-learn and obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
+                            tags$div(id = "bottomtext", "The main way of using the simulations is through this graphical interface. You can also access the simulations directly. This requires a bit of R coding but gives you many more options of things you can try. See the", a("package vignette/tutorial",  href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html", target="_blank"), " or the Further Informatio_ section of the apps for more on that."),
+                            tags$div(id = "bottomtext", 'The simulations are ordered in a sequence that makes sense for learning the material, so if you are completely new to this, it is best to go in order (each section top to bottom, within each section left to right). Some simulations also build on earlier ones.')
                         )
                       }), #close withTags function
                       p('Have fun exploring the models!', class='maintext'),
                       fluidRow(
-                        downloadButton("modeldownload", "download all simulations", class="mainbutton"),
+                        downloadButton("modeldownload", "Download R code for all simulations", class="mainbutton"),
                         actionButton("Exit", "Exit", class="exitbutton"),
                         class = "mainmenurow"
                       ) #close fluidRow structure for input

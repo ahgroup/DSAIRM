@@ -32,7 +32,7 @@
 #' @section Warning: This function does not perform any error checking. So if you try to do something nonsensical (e.g. have negative values for parameters), the code will likely abort with an error message.
 #' @export
 
-simulate_basicbacteria_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_basicbacteria_discrete <- function(B = 10, I = 1, g = 1, Bmax = 1e+06, dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0, tfinal = 30, dt = 0.01)
 {
       tvec = seq(tstart,tfinal,by=dt)
       ts = data.frame(cbind(tvec, matrix(0,nrow=length(tvec),ncol=2)))
