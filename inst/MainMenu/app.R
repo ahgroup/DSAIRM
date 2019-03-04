@@ -107,6 +107,10 @@ server <- function(input, output, session)
       withProgress(message = 'Running Simulation',
                    detail = "This may take a while", value = 0,
                    {
+                     #remove previous plots and text
+                     output$ggplot <- NULL
+                     output$plotly <- NULL
+                     output$text <- NULL
                      #extract current model settings from UI input elements
                      x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
                      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
@@ -125,8 +129,6 @@ server <- function(input, output, session)
                      #if things failed, result contains a string with an error message
                      if (is.character(result))
                      {
-                       output$ggplot <- NULL
-                       output$plotly <- NULL
                        output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
                      }
                      else #create plots and text, for plots, do either ggplot or plotly
