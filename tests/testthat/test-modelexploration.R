@@ -35,10 +35,11 @@ test_that("test that modelexploration app returns the proper plots",
             modelsettings$plotscale = 'x'
 
             result = run_model(modelsettings)
-            usplot = generate_ggplot(result)
-            testthat::expect_is( usplot, "ggplot" )
 
-            usplot = generate_plotly(result)
-            testthat::expect_is( usplot, "plotly" )
+            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            testthat::expect_is( generate_plotly(result), "plotly" )
+            testthat::expect_is( generate_text(result), "html" )
+            testthat::expect_is( generate_text(result), "character" )
+
             })
 

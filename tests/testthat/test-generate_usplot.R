@@ -54,13 +54,8 @@ test_that("running US analysis app returns the proper plots",
             modelsettings$plottype = 'Scatterplot'
             result = run_model(modelsettings)
 
-            usplot = generate_ggplot(result)
-            testthat::expect_is( usplot, "gtable" )
-
-            usplot = generate_plotly(result)
-            testthat::expect_is( usplot, "plotly" )
-
-            ustext = generate_text(result)
+            testthat::expect_is( generate_ggplot(result), "gtable" )
+            testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
 
