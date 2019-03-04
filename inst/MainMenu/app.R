@@ -7,6 +7,8 @@ fullappNames = list.files(path = appdir, pattern = "+.settings", full.names = FA
 appNames = gsub("_settings.R" ,"",fullappNames)
 allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
 
+currentdocfilename <<- NULL
+
 #this function is the server part of the app
 server <- function(input, output, session)
 {
@@ -23,7 +25,7 @@ server <- function(input, output, session)
     {
       currentapp <<- appName #assign currently chosen app to global app variable
       #file name for documentation
-      currentdocfilename <- paste0(appdir,'/',currentapp,'_documentation.html')
+      currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
       settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
       output$ggplot <- NULL
@@ -173,6 +175,29 @@ server <- function(input, output, session)
     stopApp('Exit')
   })
 
+  #######################################################
+  #Exit main menu
+
+  #######################################################
+  #Button to create floating task list
+  observeEvent(input$detachtasks, {
+    x = withMathJax(generate_documentation(currentdocfilename))
+    #browser()
+    xx = x[[2]][[3]][[1]][[3]] #pull out task list without buttons
+    output$floattask <- renderUI({
+      absolutePanel(xx, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
+                    draggable = TRUE, top = 60, left = "auto", right = 20, bottom = "auto",
+                    width = 330, height = "auto")
+    })
+  })
+
+  #######################################################
+  #Button to remove floating task list
+  observeEvent(input$destroytasks, {
+    output$floattask <- NULL
+  })
+
+
 } #ends the server function for the app
 
 
@@ -248,7 +273,8 @@ ui <- fluidPage(
              tabPanel("Analyze",
                       fluidRow(
                         column(12,
-                               uiOutput('analyzemodel')
+                               uiOutput('analyzemodel'),
+                               uiOutput('floattask')
                         )
                         #class = "mainmenurow"
                       ) #close fluidRow structure for input

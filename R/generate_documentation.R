@@ -27,8 +27,15 @@ generate_documentation <- function(docfilename)
       #remove the main headings since they are shown on the tab titles
       pattern = "<h2>.+</h2>" #everything between the <h2> elements
       htmlcontent = gsub(pattern,"<br>",htmlcontent)
+      taskhtml1 =  actionButton("detachtasks", "Float Task List", class="submitbutton")
+      taskhtml2 =  actionButton("destroytasks", "Remove Task Float", class="submitbutton")
+      if (tabtitles[i] == "What to do")
+      {
+        htmlcontent = tagList(taskhtml1, taskhtml2, htmlcontent)
+      }
       tablist[[i]] = shiny::tabPanel(tabtitles[i], htmlcontent, icon = NULL)
     }
+    #tablist[[i+1]] = shiny::tabPanel("Float Tasks", taskhtml, icon = NULL)
     #browser()
     return(tablist)
 }
