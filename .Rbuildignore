@@ -13,3 +13,6 @@
 ^appveyor\.yml$
 ^_pkgdown\.yml$
 ^docs$
+^DSAIRM\.Rcheck$
+^DSAIRM.*\.tar\.gz$
+^DSAIRM.*\.tgz$

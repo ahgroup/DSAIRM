@@ -4,3 +4,6 @@ doc
 .Rhistory
 .RData
 .Ruserdata
+DSAIRM.Rcheck/
+DSAIRM*.tar.gz
+DSAIRM*.tgz
