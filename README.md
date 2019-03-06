@@ -40,4 +40,4 @@ The package is built in a way that makes it (hopefully) easy for others to contr
 * I have solutions (as R Markdown files) to most of the 'What to do' tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.
 
 ## Contributors
-This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.
+This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). The following individuals have made contributions to this package: Yang Ge, Spencer Hall, Sina Solaimanpour, Henok Woldu.
