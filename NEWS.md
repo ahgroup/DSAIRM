@@ -4,19 +4,20 @@
 
 # DSAIRM 0.5.5
 
+* Released to CRAN
 * Improved way to download simulator functions
-* Fixed typos and other minor mistakes in app documentations.
+* Fixed typos and other minor mistakes in app documentations
 * Included functionality that allows shinyappsio deployment
 
 # DSAIRM 0.5.0
 
-* Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one.
-* Some user-facing updates and enhancements.
-* Fixed typos and other minor mistakes in app documentations.
+* Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one
+* Some user-facing updates and enhancements
+* Fixed typos and other minor mistakes in app documentations
 
 # DSAIRM 0.4.0
 
-* Fully functional first release to CRAN.
+* Fully functional first release to CRAN
 
 
 # DSAIRM  0.3.0

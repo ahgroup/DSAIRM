@@ -13,7 +13,6 @@ library('DSAIRM')
 
 #copy this code on top of the regular app.R file
 #app.R file of package starts below
-###########################################################
 #This is the Shiny App for the main menu of DSAIRM
 
 #get names of all existing apps
@@ -22,6 +21,8 @@ appdir = system.file("appinformation", package = packagename) #find path to apps
 fullappNames = list.files(path = appdir, pattern = "+.settings", full.names = FALSE)
 appNames = gsub("_settings.R" ,"",fullappNames)
 allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
+
+currentdocfilename <<- NULL
 
 #this function is the server part of the app
 server <- function(input, output, session)
@@ -39,7 +40,7 @@ server <- function(input, output, session)
     {
       currentapp <<- appName #assign currently chosen app to global app variable
       #file name for documentation
-      currentdocfilename <- paste0(appdir,'/',currentapp,'_documentation.html')
+      currentdocfilename <<- paste0(appdir,'/',currentapp,'_documentation.html')
       settingfilename = paste0(appdir,'/',currentapp,'_settings.R')
 
       output$ggplot <- NULL
@@ -123,6 +124,10 @@ server <- function(input, output, session)
       withProgress(message = 'Running Simulation',
                    detail = "This may take a while", value = 0,
                    {
+                     #remove previous plots and text
+                     output$ggplot <- NULL
+                     output$plotly <- NULL
+                     output$text <- NULL
                      #extract current model settings from UI input elements
                      x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
                      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
@@ -141,8 +146,6 @@ server <- function(input, output, session)
                      #if things failed, result contains a string with an error message
                      if (is.character(result))
                      {
-                       output$ggplot <- NULL
-                       output$plotly <- NULL
                        output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
                      }
                      else #create plots and text, for plots, do either ggplot or plotly
@@ -186,6 +189,31 @@ server <- function(input, output, session)
   observeEvent(input$Exit, {
     stopApp('Exit')
   })
+
+  #######################################################
+  #Exit main menu
+
+  #######################################################
+  #Button to create floating task list
+  observeEvent(input$detachtasks, {
+    x = withMathJax(generate_documentation(currentdocfilename))
+    #browser()
+    x1 = x[[2]][[3]] #task tab
+    x2 = x1[[3]]
+    x3 = x2[[1]][[3]] #pull out task list without buttons
+    output$floattask <- renderUI({
+      absolutePanel(x3, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
+                    draggable = TRUE, top = 100, left = "auto", right = 20, bottom = "auto",
+                    width = "30%", height = "auto")
+    })
+  })
+
+  #######################################################
+  #Button to remove floating task list
+  observeEvent(input$destroytasks, {
+    output$floattask <- NULL
+  })
+
 
 } #ends the server function for the app
 
@@ -262,7 +290,8 @@ ui <- fluidPage(
              tabPanel("Analyze",
                       fluidRow(
                         column(12,
-                               uiOutput('analyzemodel')
+                               uiOutput('analyzemodel'),
+                               uiOutput('floattask')
                         )
                         #class = "mainmenurow"
                       ) #close fluidRow structure for input

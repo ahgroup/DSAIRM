@@ -230,3 +230,19 @@ iframe {
 	text-align: center;
 
 }
+
+#taskfloat {
+  /* Appearance */
+  background-color: white;
+  padding: 0 20px 20px 20px;
+  cursor: move;
+  /* Fade out while not hovering */
+  opacity: 0.3;
+  zoom: 0.9;
+  transition: opacity 500ms 1s;
+}
+#taskfloat:hover {
+  /* Fade in while hovering */
+  opacity: 0.95;
+  transition-delay: 0;
+}
