@@ -24,6 +24,7 @@ appsettings$modeltype = NULL
 appsettings$otherinputs = list(
   shiny::selectInput("modeltype", "Models to run ",c("ODE" = '_ode_', 'stochastic' = '_stochastic_', 'both' = '_ode_and_stochastic_'), selected = '_ode_'),
   shiny::numericInput("nreps", "Number of simulations", min = 1, max = 50, value = 1, step = 1),
+  shiny::numericInput("rngseed", "Random number seed", value = 100, step = 1),
   shiny::selectInput("plotscale", "log-scale for plot ",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
   shiny::selectInput("plotengine", "plot engine",c("ggplot" = "ggplot", "plotly" = "plotly"))
 ) #end list

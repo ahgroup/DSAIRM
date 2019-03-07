@@ -33,6 +33,7 @@ run_model <- function(modelsettings) {
     numind = suppressWarnings(!is.na(as.numeric(arglist))) #find numeric values
     arglist[numind] = as.numeric(currentargs[numind])
     #run simulation, try command catches error from running code.
+    #browser()
     simresult <- try( do.call(currentmodel, args = arglist ) )
     return(simresult)
   }
@@ -52,11 +53,7 @@ run_model <- function(modelsettings) {
     noutbreaks = 0
     for (nn in 1:modelsettings$nreps)
     {
-      #extract modesettings inputs needed for simulator function
-      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
-      {
-        modelsettings$tmax = modelsettings$tfinal
-      }
+
       #run model
       simresult = runsimulation(modelsettings, currentmodel)
       #if error occurs we exit
@@ -92,10 +89,18 @@ run_model <- function(modelsettings) {
   ##################################
   #ode dynamical model execution
   ##################################
-  if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
+  if (grepl('_ode_',modelsettings$modeltype))
   {
     modelsettings$currentmodel = 'ode'
     currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
+    if (length(modelsettings$simfunction)>1) #this means ODE model is run with another one, relabel variables to indicate ODE
+    {
+      #if 2+ models are run, stochastic might be used to produce UI, which doesn't have tstart and dt so need to produce those. Also parameter g for conversion rate needs to be set to 1.
+      if (is.null(modelsettings$tstart)) {modelsettings$tstart = 0}
+      if (is.null(modelsettings$dt)) {modelsettings$dt = modelsettings$tfinal/1000}
+      if (is.null(modelsettings$g)) {modelsettings$g = 1}
+    }
+
     #run model
     simresult = runsimulation(modelsettings, currentmodel)
     #if error occurs we exit

@@ -74,8 +74,10 @@ removal of V            |  V => V-1                     |   dV*V          |
 
 
 
-
 ## What to do {#shinytab3}
+
+_Note that the stochastic model does not allow specification of starting time and time step. It always starts at *t=0* and the time step depends on the simulation. Therefore to allow comparison with the ODE, the start time for the ODE is fixed to 0. Also the time step at which data is returned is fixed at tfinal/1000._
+
 
 ### Task 1: 
 * When you start the app, by default the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
@@ -115,7 +117,7 @@ The important take-home message from this is that for small numbers (e.g. at the
 
 ## Further Information {#shinytab4}
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying function running the simulation is called ``r simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* For this app, the underlying functions running the simulation are called ``r appsettings$simfunction[1]`` and ``r appsettings$simfunction[2]``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
 * You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
 * For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 

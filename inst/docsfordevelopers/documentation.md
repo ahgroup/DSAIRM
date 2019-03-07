@@ -68,6 +68,7 @@ spelling::spell_check_files(files)
 * To re-build all html documentation files from the rmd files at once, use these above command and:
 for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(5)}
 
+* A very similar model was used and explored in [@handel07] and reference [@canini14a] analyzed a similar, more detailed model.
 
 
 ### To build the package

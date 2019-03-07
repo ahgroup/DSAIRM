@@ -113,6 +113,7 @@
 </div>
 <div id="shinytab3" class="section level2">
 <h2>What to do</h2>
+<p><em>Note that the stochastic model does not allow specification of starting time and time step. It always starts at <em>t=0</em> and the time step depends on the simulation. Therefore to allow comparison with the ODE, the start time for the ODE is fixed to 0. Also the time step at which data is returned is fixed at tfinal/1000.</em></p>
 <div id="task-1" class="section level3">
 <h3>Task 1:</h3>
 <ul>
@@ -170,7 +171,7 @@
 <h2>Further Information</h2>
 <ul>
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying function running the simulation is called <code>simulate_basicvirus_stochastic, simulate_basicvirus_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying functions running the simulation are called <code>simulate_basicvirus_stochastic</code> and <code>simulate_basicvirus_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 </ul>
