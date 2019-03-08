@@ -18,13 +18,14 @@
 #'    2. Meta-data for the plot, provided in the following variables: \cr
 #'    optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
 #'    optional: xlab, ylab - Strings to label axes. \cr
-#'    optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". \cr
+#'    optional: xscale, yscale - Scaling of axes, valid ggplot expression, e.g. "identity" or "log10". \cr
 #'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
-#'    optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. \cr
+#'    optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. \cr
 #'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
-#'    optional: legendlocation - if "right" is specified, top right. anythbing else or nothing will place it top left. \cr
+#'    optional: legendlocation - if "left" is specified, top left. Otherwise top right. \cr
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 #'    optional: title - A title for each plot. \cr
+#'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
 #'
 #' @return A plotly plot structure for display in a Shiny UI.
 #' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
@@ -32,10 +33,9 @@
 #' result <- simulate_basicbacteria()
 #' plot <- generate_plotly(result)
 #' @import plotly
-#' @importFrom gridExtra grid.arrange
-#' @author Yang Ge
+#' @importFrom stats reshape
+#' @author Yang Ge, Andreas Handel
 #' @export
-
 
 generate_plotly <- function(res)
 {
@@ -45,7 +45,7 @@ generate_plotly <- function(res)
 
     allplots=list() #will hold all plots
 
-    #lower and upper bounds for plots, these are used if none are provided by calling fuction
+    #lower and upper bounds for plots, these are used if none are provided by calling function
     lb = 1e-10;
     ub = 1e20;
 
@@ -82,31 +82,20 @@ generate_plotly <- function(res)
       }
       else
       {
-        #using tidyr to reshape
-        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
-        #using basic reshape function to reformat data
-        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1],
-                             v.names = 'yvals',
-                             timevar = "varnames",
-                             times = colnames(rawdat)[-1],
-                             direction = 'long',
-                             new.row.names = NULL);
-        dat$id <- NULL
+            #using basic reshape function to reformat data
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL)
+		dat$id <- NULL
       }
-      #########
+
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels)
-      #########
+
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
       yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
 
-      #########
-      #if we want a plot on log scale, set any value in the data at or below 0 to some small number
-      if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
-      if (yscaletrans !='identity') {dat$yvals[dat$yvals<=0]=lb}
-      #########
+
       #if exist, apply user-supplied x- and y-axis limits
       #if min/max axes values are not supplied
       #we'll set them here to make sure they are not crazy high or low
@@ -114,11 +103,26 @@ generate_plotly <- function(res)
       ymin <- if(is.null(resnow$ymin)) {max(lb,min(dat$yvals))} else  {resnow$ymin}
       xmax <- if(is.null(resnow$xmax)) {min(ub,max(dat$xvals))} else  {resnow$xmax}
       ymax <- if(is.null(resnow$ymax)) {min(ub,max(dat$yvals))} else  {resnow$ymax}
-      #########
-      #set line size as given by app or to 1.5 by default
-      linesize = ifelse(is.null(resnow$linesize), 2, resnow$linesize)
 
-      ###
+      #if we want a plot on log scale, set any value in the data at or below 0 to some small number
+      #also re-scale min and max and rename from log10 (used for ggplot) to log
+      if (xscaletrans !='identity')
+      {
+        dat$xvals[dat$xvals<=0]=lb
+        xscaletrans = "log"
+        xmin = log10(xmin); xmax=log10(xmax)
+      }
+      if (yscaletrans !='identity')
+      {
+        dat$yvals[dat$yvals<=0]=lb
+        yscaletrans = "log"
+        ymin = log10(ymin); ymax=log10(ymax)
+      }
+
+
+      #set line size as given by app or to 1.5 by default
+      linesize = ifelse(is.null(resnow$linesize), 3, resnow$linesize)
+
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
       if ( is.null(dat$IDvar) )
       {
@@ -129,7 +133,7 @@ generate_plotly <- function(res)
         py1 <-  plotly::plot_ly(dplyr::group_by(dat, IDvar), x = ~xvals)
       }
 
-      ###
+      ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
         py2 <- plotly::add_markers(py1, x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
@@ -139,13 +143,11 @@ generate_plotly <- function(res)
         py2 <- plotly::add_boxplot(py1, y = ~yvals, name = ~varnames)
       }
 
-      ###
-      if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
+      if (plottype == 'Lineplot')
       {
         py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals,
-                            type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
-                            line = list(color = ~varnames, width = linesize),
-                            marker = list(size = linesize*3))
+                            type = 'scatter', mode = 'lines', linetype = ~varnames,
+                            line = list(color = ~varnames, width = linesize))
       }
 
       ###
@@ -153,70 +155,51 @@ generate_plotly <- function(res)
       {
         py1a <- plotly::add_trace(py1, data = dplyr::filter(dat,style == 'line'),
                             x = ~xvals, y = ~yvals,
-                            type = 'scatter', mode = 'lines+markers', linetype = ~varnames,symbol=~varnames,
-                            line = list(color = ~varnames, width = linesize, symbols = ~varnames),
-                            marker = list(size = linesize*3))
+                            type = 'scatter', mode = 'lines', linetype = ~varnames,
+                            line = list(color = ~varnames, width = linesize))
 
         py2 <- plotly::add_markers(py1a, data = dplyr::filter(dat,style == 'point'),
                       x = ~xvals, y = ~yvals, color = ~varnames,
                       marker = list(size = linesize*3))
       }
-      # browser()
-      ###
-      #no numbering/labels on x-axis for boxplots
+
+      #set x-axis. no numbering/labels on x-axis for boxplots
       if (plottype == 'Boxplot')
       {
         py3 <- plotly::layout(py2, xaxis = list(showticklabels = F))
       }
       else
       {
-        # x scale
-        if (xscaletrans == "log10") { # scale of x xscaletrans
-          py3 <- plotly::layout(py2, xaxis = list(range = c(log(xmin),log(xmax)), type = substr(xscaletrans,1,3)) )
-        }
-        else{
           py3 <- plotly::layout(py2, xaxis = list(range = c(xmin,xmax), type = xscaletrans ))
-        }
-        # x label
-        if (!is.null(resnow$xlab)) {
-          py3 <- plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18))
-        }
-      }
-      # Boxplot better need y label
-      # y label
-      if (!is.null(resnow$ylab)) {
-        py3 <- plotly::layout(py3, yaxis = list(title=resnow$ylab, type = yscaletrans))
-      }
-      # y scale
-      if (yscaletrans == "log10") { # scale of y yscaletrans
-        py4 = plotly::layout(py3, yaxis = list(range = c(log(ymin),log(ymax)), type = substr(yscaletrans,1,3)) )
-      }
-      else{
-        py4 = plotly::layout(py3, yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
+          if (!is.null(resnow$xlab)) {
+			    py3 <- plotly::layout(py3, xaxis = list(title=resnow$xlab, size = 18))
+		      }
       }
 
-      ###
+      #apply y-axis and if provided, label
+      py4 = plotly::layout(py3, yaxis = list(range = c(ymin,ymax), type = yscaletrans) )
+	    if (!is.null(resnow$ylab)) {
+          py4 <- plotly::layout(py4, yaxis = list(title=resnow$ylab, size = 18))
+      }
+
       #apply title if provided
       if (!is.null(resnow$title))
       {
         py4 = plotly::layout(py4, title = resnow$title)
       }
 
-      ###
-      py4 = plotly::layout(py4,
-                           legend = list(font = list(size = 14)),
-                           yaxis = list(titlefont = list(size = 18)),
-                           xaxis = list(titlefont = list(size = 18)))
+
+      #do legend if TRUE or not provided
+      if (!is.null(resnow$makelegend) && resnow$makelegend == FALSE)
+      {
+        py4 = plotly::layout(py4, showlegend = FALSE)
+      }
+
+
       pfinal = py4
       allplots[[n]] = pfinal
     } #end loop over individual plots
 
-    #using gridExtra pacakge for multiple plots, ggplot for a single one
-    #potential advantage is that for a single ggplot, one could use interactive features
-    #such as klicking on point and displaying value
-    #currently not implemented
-    #cowplot is an alternative to arrange plots.
-    #There's a reason I ended up using grid.arrange() instead of cowplot but I can't recall
     if (n>1)
     {
       resultplot <-  plotly::subplot(allplots, titleY = TRUE, titleX = TRUE)
@@ -225,6 +208,6 @@ generate_plotly <- function(res)
     {
       resultplot <- pfinal
     }
-    # browser()
+     #browser()
     return(resultplot)
 }

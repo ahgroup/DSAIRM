@@ -16,13 +16,13 @@
 #'    If plottype is 'mixedplot' an additional column called 'style' indicating line or point plot
 #'    for each variable is needed. \cr
 #'    2. Meta-data for the plot, provided in the following variables: \cr
-#'    optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
+#'    optional: plottype - One of "Lineplot" (default if nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
 #'    optional: xlab, ylab - Strings to label axes. \cr
 #'    optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". \cr
 #'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
-#'    optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. \cr
+#'    optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. \cr
 #'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
-#'    optional: legendlocation - if "left" is specified, top left. Otherwise top left. \cr
+#'    optional: legendlocation - if "left" is specified, top left. Otherwise top right. \cr
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 #'    optional: title - A title for each plot. \cr
 #'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
@@ -32,10 +32,10 @@
 #' Create plots run the simulation with default parameters just call the function:
 #' result <- simulate_basicbacteria()
 #' plot <- generate_ggplot(result)
-#' @author Andreas Handel
+#' @rawNamespace import(ggplot2, except = last_plot)
 #' @importFrom stats reshape
 #' @importFrom gridExtra grid.arrange
-#' @rawNamespace import(ggplot2, except = last_plot)
+#' @author Andreas Handel
 #' @export
 
 generate_ggplot <- function(res)
@@ -46,7 +46,7 @@ generate_ggplot <- function(res)
 
     allplots=list() #will hold all plots
 
-    #lower and upper bounds for plots, these are used if none are provided by calling fuction
+    #lower and upper bounds for plots, these are used if none are provided by calling function
     lb = 1e-10;
     ub = 1e20;
 
@@ -83,10 +83,9 @@ generate_ggplot <- function(res)
       }
       else
       {
-        #using tidyr to reshape
-        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
         #using basic reshape function to reformat data
-        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL) 
+		dat$id <- NULL
       }
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
@@ -112,8 +111,8 @@ generate_ggplot <- function(res)
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(resnow$linesize), 1.5, resnow$linesize)
 
-      #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
-      if (is.null(dat$IDvar))
+       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
+	  if (is.null(dat$IDvar))
       {
         p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
       }
@@ -122,6 +121,7 @@ generate_ggplot <- function(res)
         p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, group = IDvar) )
       }
 
+      ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
         p2 = p1 + ggplot2::geom_point( size = linesize, na.rm=TRUE)
@@ -130,7 +130,7 @@ generate_ggplot <- function(res)
       {
         p2 = p1 + ggplot2::geom_boxplot()
       }
-      if (plottype == 'Lineplot') #if nothing is provided for plottype, we assume a lineplot is wanted
+      if (plottype == 'Lineplot') 
       {
         p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
       }
@@ -142,9 +142,9 @@ generate_ggplot <- function(res)
       }
 
 
-
-      #no numbering/labels on x-axis for boxplots
-      if (plottype == 'Boxplot')
+     
+	 #set x-axis. no numbering/labels on x-axis for boxplots
+	 if (plottype == 'Boxplot')
       {
         p3 = p2 + ggplot2::scale_x_continuous(trans = xscaletrans, limits=c(xmin,xmax), breaks = NULL, labels = NULL)
       }
