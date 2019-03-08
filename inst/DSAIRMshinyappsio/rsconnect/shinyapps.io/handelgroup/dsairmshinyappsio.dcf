@@ -5,6 +5,6 @@ account: handelgroup
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 685731
-bundleId: 1923266
+bundleId: 1925236
 url: https://handelgroup.shinyapps.io/dsairmshinyappsio/
-when: 1551988841.91774
+when: 1552053725.81482

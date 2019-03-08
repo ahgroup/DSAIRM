@@ -6,9 +6,9 @@
 \usage{
 simulate_basicmodel_fit(U = 1e+05, I = 0, V = 1, X = 1, n = 0,
   dU = 0, dI = 1, g = 1, p = 10, plow = 0.001, phigh = 1000,
-  psim = 10, b = 1e-05, blow = 1e-06, bhigh = 0.001,
-  bsim = 1e-04, dV = 2, dVlow = 0.001, dVhigh = 1000, dVsim = 10,
-  usesimdata = TRUE, noise = 0.001, iter = 100, solvertype = 1)
+  psim = 10, b = 1e-04, blow = 1e-06, bhigh = 0.001,
+  bsim = 1e-04, dV = 5, dVlow = 0.001, dVhigh = 1000, dVsim = 5,
+  noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}
@@ -51,13 +51,13 @@ simulate_basicmodel_fit(U = 1e+05, I = 0, V = 1, X = 1, n = 0,
 
 \item{dVsim}{: rate at which infectious virus is cleared for simulated data : numeric}
 
-\item{usesimdata}{: set to TRUE if simulated data should be fitted, FALSE otherwise : logical}
-
 \item{noise}{: noise to be added to simulated data : numeric}
 
 \item{iter}{: max number of steps to be taken by optimizer : numeric}
 
 \item{solvertype}{: the type of solver/optimizer to use (1-3) : numeric}
+
+\item{usesimdata}{: set to 1 if simulated data should be fitted, 0 otherwise : numeric}
 }
 \value{
 The function returns a list containing as elements the best fit time series data frame, the best fit parameters,

@@ -33,7 +33,6 @@ run_model <- function(modelsettings) {
     numind = suppressWarnings(!is.na(as.numeric(arglist))) #find numeric values
     arglist[numind] = as.numeric(currentargs[numind])
     #run simulation, try command catches error from running code.
-    #browser()
     simresult <- try( do.call(currentmodel, args = arglist ) )
     return(simresult)
   }
@@ -316,14 +315,6 @@ run_model <- function(modelsettings) {
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = alldat
 
-    if (!is.null(datall))
-    {
-      result[[1]]$ymin = 0.1
-      result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
-      result[[1]]$xmin = 1e-12
-      result[[1]]$xmax = max(datall$xvals)
-    }
-
     #Meta-information for each plot
     result[[1]]$plottype = "Mixedplot"
     result[[1]]$xlab = "Time"
@@ -348,6 +339,7 @@ run_model <- function(modelsettings) {
       txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
       txt2 <- paste('Final SSR is ',ssr)
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+      #browser()
     }
 
     #best fit results to be displayed as text

@@ -22,7 +22,6 @@ appsettings$modeltype = '_fit_'
 
 #additional input elements for app that are shown on UI
 appsettings$otherinputs =   shiny::tagList(
-  shiny::selectInput("usesimdata", "Fit to simulated data",c("Yes" = TRUE, "No" = FALSE), selected = FALSE),
-  shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both")),
+  shiny::selectInput("plotscale", "log-scale for plot",c("none" = "none", 'x-axis' = "x", 'y-axis' = "y", 'both axes' = "both"), selected = "y"),
   shiny::selectInput("plotengine", "plot engine",c("ggplot" = "ggplot", "plotly" = "plotly"))
 ) #end taglist

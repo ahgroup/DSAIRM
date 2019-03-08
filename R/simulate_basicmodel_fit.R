@@ -23,10 +23,10 @@
 #' @param dVlow : lower bound for virus clearance rate : numeric
 #' @param dVhigh : upper bound for virus clearance rate : numeric
 #' @param dVsim : rate at which infectious virus is cleared for simulated data : numeric
-#' @param usesimdata : set to TRUE if simulated data should be fitted, FALSE otherwise : logical
 #' @param noise : noise to be added to simulated data : numeric
 #' @param iter : max number of steps to be taken by optimizer : numeric
 #' @param solvertype : the type of solver/optimizer to use (1-3) : numeric
+#' @param usesimdata : set to 1 if simulated data should be fitted, 0 otherwise : numeric
 #' @return The function returns a list containing as elements the best fit time series data frame, the best fit parameters,
 #' the data and the final SSR
 #' @details A simple compartmental ODE model mimicking acute viral infection
@@ -54,8 +54,9 @@
 #' @export
 
 
-simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-5, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 2, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 10, usesimdata = TRUE, noise = 1e-3, iter = 100, solvertype = 1)
+simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-4, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 5, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 5, noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
 {
+
 
   ###################################################################
   #function that fits the ODE model to data
@@ -81,7 +82,6 @@ simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
     #return the objective function, the sum of squares,
     #which is being minimized by the optimizer
     return(sum((logvirus-fitdata$outcome)^2))
-
   } #end function that fits the ODE model to the data
 
 
@@ -152,6 +152,8 @@ simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   modelpars = c(params,fixedpars)
 
   allpars = c(Y0,modelpars,tfinal = max(fitdata$xvals))
+
+
 
   #doe one final run of the ODE to get a time-series to report back
   odeout <- do.call(simulate_basicvirus_ode, as.list(allpars))

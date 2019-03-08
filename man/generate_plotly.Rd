@@ -46,5 +46,5 @@ result <- simulate_basicbacteria()
 plot <- generate_plotly(result)
 }
 \author{
-Yang Ge
+Yang Ge, Andreas Handel
 }
