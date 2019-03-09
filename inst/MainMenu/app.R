@@ -150,7 +150,6 @@ server <- function(input, output, session)
                      }
                    }) #end with-progress wrapper
     }, #end the expression being evaluated by observeevent
-    #ignoreNULL = TRUE, ignoreInit = TRUE
     ) #end observe-event for analyze model submit button
 
     #######################################################
@@ -174,9 +173,6 @@ server <- function(input, output, session)
   observeEvent(input$Exit, {
     stopApp('Exit')
   })
-
-  #######################################################
-  #Exit main menu
 
   #######################################################
   #Button to create floating task list

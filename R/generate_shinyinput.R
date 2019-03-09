@@ -9,10 +9,8 @@
 #' @details This function is called by the Shiny app to produce the Shiny input UI elements.
 #' mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
 #' Non-numeric arguments of functions are removed.
-#' @author Yang Ge
 #' @export
 
-#not used in DSAIRM, might need to turn on again for modelbuilder
 generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
 {
 
@@ -23,9 +21,9 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
     }
 
     ###########################################
-    #create UI elements as input/output for shiny by parsing a function/R code
-    #currently requires that function arguments are given in a vector, not a list like mbmodel functions do
-    ###########################################
+    #create UI elements as input/output for shiny 
+	#done by parsing a function/R code
+    #requires that function arguments are given in a vector, not a list like mbmodel functions do
 
     fcfile = paste0(system.file("simulatorfunctions", package = packagename),'/',mbmodel,'.R')
     #get every line in documentation part of file that starts with @param
