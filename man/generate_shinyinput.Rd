@@ -25,6 +25,3 @@ This function is called by the Shiny app to produce the Shiny input UI elements.
 mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
 Non-numeric arguments of functions are removed.
 }
-\author{
-Yang Ge
-}
