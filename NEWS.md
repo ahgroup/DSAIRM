@@ -1,6 +1,14 @@
 # DSAIRM 0.6
 
-* Added plotly functionality
+## User facing changes
+
+* User can switch between ggplot and plotly for figures
+* The list of "what to do" tasks can be floated
+* Additional UI improvement
+
+## Other changes
+
+* More unit tests
 
 # DSAIRM 0.5.5
 

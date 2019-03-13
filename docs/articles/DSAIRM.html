@@ -87,7 +87,7 @@
       <h1>DSAIRM Package Tutorial</h1>
                         <h4 class="author"><a href="http://handelgroup.uga.edu">Andreas Handel</a></h4>
             
-            <h4 class="date">2019-03-06</h4>
+            <h4 class="date">2019-03-12</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/master/vignettes/DSAIRM.Rmd"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -107,8 +107,8 @@
 <h2 class="hasAnchor">
 <a href="#package-description" class="anchor"></a>Package description</h2>
 <p>The package consists of several simulations/apps that allow for the simulation and exploration of different topics in within-host infection and immune response dynamics.</p>
-<p>The underlying models are written as compartmental dynamical models, either deterministic using differential equations (deSolve package) or stochastic using a Gillespie-type approach (adaptivetau package). A graphical user interface is wrapped around each simulation/app. The graphical user interfaces are written using the functionality of the R Shiny package. This allows exploration of models without the need to write any code. At the same time, the package is structured in a modular way that should allow those interested in the actual models and learning R coding to easily move from one stage to another.</p>
-<p>Each app is meant to be fully self-explanatory and contains a description of the model, a list of tasks the user could try, and information on further details and readings.</p>
+<p>The underlying models are written as compartmental dynamical models, either deterministic using differential equations (deSolve package) or stochastic using a Gillespie-type approach (adaptivetau package). A graphical user interface is wrapped around each simulation/app. The graphical user interface is written using the functionality of the R Shiny package. This allows exploration of models and concepts without the need to write any code. At the same time, the package is structured in a way that should allow those interested in the actual models and learning R coding to easily move from one stage to another.</p>
+<p>Each app is meant to be fully self-explanatory and contains a description of the model, a list of tasks the user could try, and further information on background reading and other resources.</p>
 </div>
 <div id="intended-audience-and-goal-of-the-package" class="section level2">
 <h2 class="hasAnchor">
@@ -142,7 +142,7 @@
 <div id="level-2-directly-interacting-with-the-simulation-functions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#level-2-directly-interacting-with-the-simulation-functions" class="anchor"></a>Level 2: Directly interacting with the simulation functions</h3>
-<p>Once a user is comfortable interacting with the models and has a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. To facilitate direct interaction with the models, each app is structured in such a way that the underlying simulation can be accessed without going through the graphical interface. The <em>Further Information</em> tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.</p>
+<p>Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. To facilitate direct interaction with the models, each app is structured in such a way that the underlying simulation can be accessed without going through the graphical interface. The <em>Further Information</em> tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.</p>
 <p>Consider as example the first app, called “Basic Bacteria Model”. This model has 2 underlying simulator functions, one that runs the discrete-time model called <code>simulate_basicbacteria_discrete</code> and one that runs the continuous, differential equation model called <code>simulate_basicbacteria_ode</code>. A user interested in the latter can learn about the inputs and outputs of the function by looking at its documentation. This can be achieved by by typing the following into the <code>R</code> console (make sure the DSAIRM package is loaded):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/help">help</a></span>(<span class="st">'simulate_basicbacteria_ode'</span>)</a></code></pre></div>
 <p>The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the different model parameters, as well as some time values. Unless explicitly specified, the models do not have inherent time units. Instead, those are set by the user based on time unit choices for parameters. Each model input has some default, which is used if one calls the fuction without any additional information. One can modify those default settings. For instance, the following call to the simulator sets the rate at which bacteria grow, <em>g</em>, and the rate at which the immune response is induced and grows, <em>r</em>, to values different than the defaults, while using the default values for the remainder (this is equivalent to setting different inputs through the graphical interface in level 1):</p>
@@ -213,11 +213,29 @@
 <p>Using one of the provided simulator functions as starting point and modifying it is likely easier than having to write a new model completely from scratch. Eventually, as a user aquires more coding experience, they are essentially only limited by what can be accomplished using the <code>R</code> programming language and their ability and interest in writing their own customized code.</p>
 </div>
 </div>
+<div id="contributing-to-the-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
+<p>The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a> and let me know what you think.</p>
+<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it’s best to get in touch with me first via email or GitHub.</p>
+</div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-information" class="anchor"></a>Further information</h2>
-<p>For users who want to engage further with DSAIRM, contributions are very welcome. It is quite likely that there are still bugs and typos in the package and its documentation. Users are encouraged to submit bug reports, feature requests, or any other feedback, preferably through the package’s Github site. The package is built in a way that makes it hopefully easy for others to contribute new apps. To that end, the package contains a subfolder called <em>docsfordevelopers</em>, which provides information on how the apps are structured and how to add new ones. <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">This documentation file, documentation.md,</a> provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. For any further questions, feel free to contact me via email or Github.</p>
-<p>Also note that there is a ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE). It focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/index.html">See the DSAIDE site for more information.</a></p>
+<ul>
+<li>A ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/index.html">See the DSAIDE site for more information.</a>
+</li>
+<li>I have solutions (in progress) to most of the ‘What to do’ tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.</li>
+</ul>
+</div>
+<div id="contributors" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributors" class="anchor"></a>Contributors</h2>
+<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>. A full list of contributors <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 </div>
   </div>
 
@@ -231,7 +249,10 @@
       <li><a href="#intended-audience-and-goal-of-the-package">Intended audience and goal of the package</a></li>
       <li><a href="#installing-the-package">Installing the package</a></li>
       <li><a href="#using-the-package">Using the package</a></li>
+      <li><a href="#contributing-to-the-package">Contributing to the package</a></li>
       <li><a href="#further-information">Further information</a></li>
+      <li><a href="#contributors">Contributors</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>

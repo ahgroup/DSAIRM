@@ -105,7 +105,7 @@
 <p>I assume you have <code>R</code> installed. I also highly recommend <code>RStudio</code>, though it’s not required.</p>
 <ol>
 <li>Install the CRAN release in the usual way with <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages('DSAIRM')</a></code>.</li>
-<li>The latest development version (potentially buggy) can be installed from github, using the devtools package. If you don’t have it, install the devtools package. Then, install DSAIRM through devtools. The following commands will get you up and running:</li>
+<li>The latest development version (more features but potentially buggy) can be installed from github, using the <code>devtools</code> package. If you don’t have it, install it first. The following commands will get you up and running:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">'devtools'</span>)</a>
 <a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">'ahgroup/DSAIRM'</span>)</a></code></pre></div>
@@ -123,25 +123,23 @@
 <div id="contributing-to-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
-<p>The package is on GitHub and you can use the usual GitHub process to contribute updated, bug fixes, etc. If you don’t know how to do that or don’t have the time, you can also file an issue on GitHub and let me know what should be changed.</p>
-<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file, documentation.md,</a> which provides further information on the details of the package structure. If you plan to develop new apps, or add other substantial updates, it’s best to get in touch with me first via email or GitHub.</p>
+<p>The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a> and let me know what you think.</p>
+<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it’s best to get in touch with me first via email or GitHub.</p>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-information" class="anchor"></a>Further information</h2>
 <ul>
-<li>The <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">package vignette</a> provides details about the different ways the package can be used. I highly recommend going through it.</li>
-<li>The <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">documentation.md</a> file described above contains more information about the package structure.</li>
-<li>For feedback, bug reports, feature requests, etc., file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a>.</li>
 <li>A ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/index.html">See the DSAIDE site for more information.</a>
 </li>
-<li>I have solutions (as R Markdown files) to most of the ‘What to do’ tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.</li>
+<li>I have solutions (in progress) to most of the ‘What to do’ tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.</li>
 </ul>
 </div>
-<div id="contributors" class="section level2">
+<div id="citation-and-contributors" class="section level2">
 <h2 class="hasAnchor">
-<a href="#contributors" class="anchor"></a>Contributors</h2>
-<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>. The following individuals have made contributions to this package: Spencer Hall, Sina Solaimanpour, Henok Woldu.</p>
+<a href="#citation-and-contributors" class="anchor"></a>Citation and Contributors</h2>
+<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>.</p>
+<p>A full list of contributors <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
 </div>
 </div>
 

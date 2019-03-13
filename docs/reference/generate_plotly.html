@@ -154,13 +154,14 @@ for each variable is needed. <br />
 2. Meta-data for the plot, provided in the following variables: <br />
 optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". <br />
 optional: xlab, ylab - Strings to label axes. <br />
-optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". <br />
+optional: xscale, yscale - Scaling of axes, valid ggplot expression, e.g. "identity" or "log10". <br />
 optional: xmin, xmax, ymin, ymax - Manual min and max for axes. <br />
-optional: makelegend - TRUE/FALSE, if legend should be added to plot. Assume true if not provided. <br />
+optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. <br />
 optional: legendtitle - Legend title, if NULL/not supplied, default is used <br />
-optional: legendlocation - if "right" is specified, top right. anythbing else or nothing will place it top left. <br />
+optional: legendlocation - if "left" is specified, top left. Otherwise top right. <br />
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. <br />
-optional: title - A title for each plot. <br /></p></td>
+optional: title - A title for each plot. <br />
+optional: for multiple plots, specify res[[1]]$ncols to define number of columns <br /></p></td>
     </tr>
     </table>
     
@@ -188,7 +189,7 @@ plot &lt;- generate_plotly(result)</p>
           </ul>
 
     <h2>Author</h2>
-    <p>Yang Ge</p>
+    <p>Yang Ge, Andreas Handel</p>
   </div>
 </div>
 

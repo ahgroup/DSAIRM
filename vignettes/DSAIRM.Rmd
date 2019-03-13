@@ -26,9 +26,9 @@ The different use cases for the package are described below.
 ## Package description
 The package consists of several simulations/apps that allow for the simulation and exploration of different topics in within-host infection and immune response dynamics.
 
-The underlying models are written as compartmental dynamical models, either deterministic using differential equations (deSolve package) or stochastic using a Gillespie-type approach (adaptivetau package). A graphical user interface is wrapped around each simulation/app. The graphical user interfaces are written using the functionality of the R Shiny package. This allows exploration of models without the need to write any code. At the same time, the package is structured in a modular way that should allow those interested in the actual models and learning R coding to easily move from one stage to another.
+The underlying models are written as compartmental dynamical models, either deterministic using differential equations (deSolve package) or stochastic using a Gillespie-type approach (adaptivetau package). A graphical user interface is wrapped around each simulation/app. The graphical user interface is written using the functionality of the R Shiny package. This allows exploration of models and concepts without the need to write any code. At the same time, the package is structured in a way that should allow those interested in the actual models and learning R coding to easily move from one stage to another.
 
-Each app is meant to be fully self-explanatory and contains a description of the model, a list of tasks the user could try, and information on further details and readings. 
+Each app is meant to be fully self-explanatory and contains a description of the model, a list of tasks the user could try, and further information on background reading and other resources. 
 
 
 ## Intended audience and goal of the package
@@ -68,7 +68,7 @@ This will bring up a graphical menu from which one can select each Shiny app. Ea
 library('DSAIRM')
 ```
 
-Once a user is comfortable interacting with the models and has a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. To facilitate direct interaction with the models, each app is structured in such a way that the underlying simulation can be accessed without going through the graphical interface. The _Further Information_ tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.
+Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. To facilitate direct interaction with the models, each app is structured in such a way that the underlying simulation can be accessed without going through the graphical interface. The _Further Information_ tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.
 
 Consider as example the first app, called "Basic Bacteria Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode`. A user interested in the latter can learn about the inputs and outputs of the function by looking at its documentation. This can be achieved by by typing the following into the `R` console (make sure the DSAIRM package is loaded): 
 ```{r eval=FALSE, echo=TRUE}
@@ -184,9 +184,18 @@ plot(svec,Imax,type='p',xlab='Saturation parameter',ylab='Max immune response le
 Using one of the provided simulator functions as starting point and modifying it is likely easier than having to write a new model completely from scratch. Eventually, as a user aquires more coding experience, they are essentially only limited by what can be accomplished using the `R` programming language and their ability and interest in writing their own customized code. 
 
 
+## Contributing to the package
+The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a [GitHub issue](https://github.com/ahgroup/DSAIRM/issues) and let me know what you think.
+
+The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it's best to get in touch with me first via email or GitHub.
 
 ## Further information
+* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
+* I have solutions (in progress) to most of the 'What to do' tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.
 
-For users who want to engage further with DSAIRM, contributions are very welcome. It is quite likely that there are still bugs and typos in the package and its documentation. Users are encouraged to submit bug reports, feature requests, or any other feedback, preferably through the package's Github site. The package is built in a way that makes it hopefully easy for others to contribute new apps. To that end, the package contains a subfolder called _docsfordevelopers_, which provides information on how the apps are structured and how to add new ones. [This documentation file, documentation.md,](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) provides further information. The information provided is meant to be detailed and complete enough to allow fairly easy development and contribution of new apps (or other enhancements) to the package. For any further questions, feel free to contact me via email or Github.
+## Contributors
+This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). A full list of contributors [can be found here](https://ahgroup.github.io/DSAIRM/authors.html).
 
-Also note that there is a 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE). It focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
+## References
+
+
