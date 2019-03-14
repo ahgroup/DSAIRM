@@ -22,7 +22,7 @@
 #'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
 #'    optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. \cr
 #'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
-#'    optional: legendlocation - if "left" is specified, top left. Otherwise top right. \cr
+#'    optional: legendlocation - if "left" is specified, top left. Otherwise top. \cr
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 #'    optional: title - A title for each plot. \cr
 #'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
@@ -84,7 +84,7 @@ generate_ggplot <- function(res)
       else
       {
         #using basic reshape function to reformat data
-        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL) 
+        dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL)
 		dat$id <- NULL
       }
 
@@ -130,7 +130,7 @@ generate_ggplot <- function(res)
       {
         p2 = p1 + ggplot2::geom_boxplot()
       }
-      if (plottype == 'Lineplot') 
+      if (plottype == 'Lineplot')
       {
         p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
       }
@@ -142,7 +142,7 @@ generate_ggplot <- function(res)
       }
 
 
-     
+
 	 #set x-axis. no numbering/labels on x-axis for boxplots
 	 if (plottype == 'Boxplot')
       {
@@ -175,15 +175,17 @@ generate_ggplot <- function(res)
         {
              legendlocation = c(0,1)
         }
-        else #default placement on right
+        else #default placement on top
         {
-           legendlocation = c(0.8,1)
+           legendlocation = "top"
         }
-
         legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
 
-        p6 = p5 + ggplot2::theme(legend.key.width = grid::unit(3, "line")) + ggplot2::scale_colour_discrete(name  = legendtitle) + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
-        p6 = p6 + ggplot2::theme(legend.position = legendlocation, legend.justification=c(0,1), legend.key.width = unit(4,"line"), legend.background = element_rect(size=0.5, linetype="solid", colour ="black"))
+        p5a = p5 + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
+        p5b = p5a + ggplot2::theme(legend.position = legendlocation)
+        p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
+        p5d = p5c + ggplot2::scale_colour_discrete(name = legendtitle)
+        p6 = p5d + guides(fill=guide_legend(title.position="top", nrow=3, byrow=TRUE))
       }
       else
       {
