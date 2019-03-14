@@ -47,41 +47,21 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
-    #1 plot for time-series only
-    listlength =  1
-    #replicate modelsettings as list based on number of reps for stochastic
-    allmodset=rep(list(modelsettings),times = modelsettings$nreps)
-    rngvec = seq(modelsettings$rngseed,modelsettings$rngseed+modelsettings$nreps-1)
-    #give the rngseed entry in each list a consecutive value
-    xx = purrr::map2(allmodset, rngvec, ~replace(.x, "rngseed", .y))
-  }
-
-  #run simulation for all modelsettings
-  simresult <- purrr::map(xx,runsimulation) %>% unlist(recursive = FALSE, use.names = FALSE)
-  if (class(simresult)!="list")
-  {
-    result <- 'Model run failed. Maybe unreasonable parameter values?'
-    return(result)
-  }
-  #convert data to long format
-  dat = purrr::map(simresult, tidyr::gather,  key = 'varnames', value = "yvals", -time)
-  #rename time to xvals
-  dat = purrr::map(dat, dplyr::rename, xvals = time)
-  #convert list into single data frame, add IDvar variable
-  dat = dplyr::bind_rows(dat, .id = "IDvar")
-  #assign IDvar combination of number and variable name - the way the plotting functions need it
-  datall = dplyr::mutate(dat, IDvar = paste0(varnames,IDvar))
-
-
-
-
-    if (grepl('_stochastic_',modelsettings$modeltype))
-  {
     modelsettings$currentmodel = 'stochastic'
     currentmodel = modelfunction[grep('_stochastic',modelfunction)] # get the ode function
     noutbreaks = 0
     for (nn in 1:modelsettings$nreps)
     {
+
+      #run model
+      simresult = runsimulation(modelsettings, currentmodel)
+      #if error occurs we exit
+      if (class(simresult)!="list")
+      {
+        result <- 'Model run failed. Maybe unreasonable parameter values?'
+        return(result)
+      }
+
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
       #see documentation for those functions for details
