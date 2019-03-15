@@ -165,7 +165,7 @@ simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   ssrfinal=(sum((logvirus-fitdata$outcome)^2))
 
   #list structure that contains all output
-  output$timeseries = odeout$ts
+  output$ts = odeout$ts
   output$bestpars = params
   output$SSR = ssrfinal
 
