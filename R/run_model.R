@@ -287,16 +287,16 @@ run_model <- function(modelsettings) {
       return(result)
     }
 
-    colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
+    colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-    rawdat = as.data.frame(simresult$timeseries)
+    rawdat = as.data.frame(simresult$ts)
     #using tidyr to reshape
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
 
-        dat$style = 'line'
+    dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data

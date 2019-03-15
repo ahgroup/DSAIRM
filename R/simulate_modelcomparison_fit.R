@@ -209,7 +209,7 @@ simulate_modelcomparison_fit <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
   AICc= N * log(ssrfinal/N) + 2*(K+1)+(2*(K+1)*(K+2))/(N-K)
 
   #list structure that contains all output
-  output$timeseries = odeout
+  output$ts = odeout
   output$bestpars = params
   output$AICc = AICc
   output$data = mydata

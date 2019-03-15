@@ -176,7 +176,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
 
   #list structure that contains all output
   result = list()
-  result$timeseries = simres
+  result$ts = simres
   result$bestpars = params
   result$data = fitdata
   result$SSR = ssrfinal

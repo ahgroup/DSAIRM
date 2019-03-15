@@ -12,7 +12,7 @@
 dsairmmenu <- function() {
 
 
-    appDir <- system.file("mainmenu", package = "DSAIRM") #get directory for main menu app
+    appDir <- system.file("DSAIRM", package = "DSAIRM") #get directory for main menu app
     shiny::runApp(appDir = appDir, launch.browser = TRUE) #run main menu app
 
     print('*************************************************')

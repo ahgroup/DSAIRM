@@ -3,8 +3,10 @@
 ## Package structure 
 
 ### Main functions
-* The main R functions, i.e. the simulattors and various helper functions are in the /R folder. All simulators, which are meant to be called by advanced users start with simulate_. Other functions are only needed for the package/UI to work and are not meant to be directly accessed by users.
-
+* The main R functions, i.e. the simulattors and various helper functions are in the /R folder. Each simulator function is in a R file of the same name. 
+# All simulators, which are meant to be called by advanced users start with simulate_. 
+* The functions/files generate_text, generate_ggplot and generate_plotly can take results returned from the simulator functions and generate plots. 
+* All other functions/files are only needed for the package/UI to work and are not meant to be directly accessed by users.
 
 ### App materials
 * The /inst folder contains several subfolders: 
