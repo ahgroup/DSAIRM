@@ -4,12 +4,7 @@
 ## Code Improvements
 * Continue implementing unit tests using the testthat package
 * Provide a 'download scenario' button, which downloads code that reproduces a given scenario.
-* Improve error messages when simulation failed: Add a failure flag to each underlying simulator, have calling function check the failure status and process accordingly
 * Add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
-* Add a 'reset' button that sets inputs back to function default values
-* Match Shiny UI defaults with simulator_ defaults
-
-* Consider changing placement of inputs/outputs/instructions
 * Continue streamlining code base to make it more general/modular/flexible
 
 ## Content Improvement

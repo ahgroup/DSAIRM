@@ -6,7 +6,7 @@
 appsettings = list()
 
 #Title of app, to be displayed on top of analyze tab
-appsettings$apptitle = "Virus and drug treatment model"
+appsettings$apptitle = "Antiviral treatment model"
 
 #name of underlying simulation function(s)
 appsettings$simfunction = 'simulate_virusandtx_ode'

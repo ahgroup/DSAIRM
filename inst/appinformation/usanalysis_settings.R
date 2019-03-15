@@ -6,7 +6,7 @@
 appsettings = list()
 
 #Title of app, to be displayed on top of analyze tab
-appsettings$apptitle = "Uncertainty and Sensitivy Analysis"
+appsettings$apptitle = "Uncertainty and sensitivity analysis"
 
 #name of underlying simulation function(s) to be used in the app
 #must be provided

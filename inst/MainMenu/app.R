@@ -233,9 +233,9 @@ ui <- fluidPage(
 
                       tags$div(class='mainsectionheader', 'What influences model results'),
                       fluidRow(
-                               actionButton("modelvariants", "Model variation", class="mainbutton"),
-                               actionButton("usanalysis", "Parameter uncertainty", class="mainbutton"),
-                               actionButton("basicvirusstochastic", "Model stochasticity", class="mainbutton"),
+                               actionButton("modelvariants", "Model variant exploration", class="mainbutton"),
+                               actionButton("usanalysis", "Uncertainty and sensitivity analysis", class="mainbutton"),
+                               actionButton("basicvirusstochastic", "Stochastic dynamics", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
@@ -249,7 +249,8 @@ ui <- fluidPage(
                       tags$div(class='mainsectionheader', 'Further topics'),
                       fluidRow(
                          actionButton("pkpdmodel", "Pharacokinetics and pharmacodynamics", class="mainbutton"),                             actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton"),
-                        class = "mainmenurow"
+                         actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton"),                             actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton"),
+                         class = "mainmenurow"
                       ), #close fluidRow structure for input
                       withTags({
                         div(style = "text-align:left", class="bottomtext",

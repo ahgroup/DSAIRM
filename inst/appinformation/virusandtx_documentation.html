@@ -39,7 +39,12 @@
 <h2>The Model</h2>
 <div id="model-overview" class="section level3">
 <h3>Model Overview</h3>
-<p>This model is a variation of the ’Basic Virus&quot; model. Details on that model can be found in the corresponding app. The model has changed some to include drug treatment.</p>
+<p>This model is a variation of the ’Basic Virus&quot; model. A detailed description of the basic virus model can be found in the corresponding app. The model for this app includes drug treatment and differs from the basic virus model in the following ways:</p>
+<ul>
+<li>The drug can reduce infection of uninfected cells at a strength/efficacy given by the parameter <em>f</em>. This value is between 0 (completely ineffective) and 1 (100% effective).</li>
+<li>The drug can reduce production of progeny virus at a strength/efficacy given by the parameter <em>e</em>. This value is between 0 (completely ineffective) and 1 (100% effective).</li>
+</ul>
+<p>Note that the drug is not explicitly modeled here, it is not given its own compartment/equation. Instead, we model the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The <em>Pharmacokinetics and Pharmacodynamics (PkPD)</em> app provides a model that includes explicit modeling of drug uptake and decay.</p>
 </div>
 <div id="model-diagram" class="section level3">
 <h3>Model Diagram</h3>
@@ -53,15 +58,6 @@
 <h3>Model Equations</h3>
 <p>Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations.</p>
 <p><span class="math display">\[\dot U = n - d_U U - (1-f)bUV\]</span> <span class="math display">\[\dot I = (1-f)bUV - d_I I\]</span> <span class="math display">\[\dot V = (1-e)pI - d_V V - gbUV\]</span></p>
-</div>
-<div id="drug-treatment-modeling" class="section level3">
-<h3>Drug treatment modeling</h3>
-<p>This model differs from the basic virus model in the following ways:</p>
-<ul>
-<li>The drug can reduce infection of uninfected cells at a strength/efficacy given by <em>f</em>. This value is between 0 (completely ineffective) and 1 (100% effective).</li>
-<li>The drug can reduce production of progeny virus at a strength/efficacy given by <em>e</em>. This value is between 0 (completely ineffective) and 1 (100% effective).</li>
-</ul>
-<p>Note that the drug is not explicitly modeled here (i.e. it is not given its own compartment/equation). Instead, we model the drug by its effects on some of the model parameters, and assume that this effect is either absent or present but does not otherwise change with time. The <em>Pharmacokinetics and Pharmacodynamics (PkPD)</em> app provides a model that includes explicit modeling of drug uptake and decay.</p>
 </div>
 </div>
 <div id="shinytab3" class="section level2">

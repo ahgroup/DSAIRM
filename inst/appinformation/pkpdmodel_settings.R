@@ -6,7 +6,7 @@
 appsettings = list()
 
 #Title of app, to be displayed on top of analyze tab
-appsettings$apptitle = "PkPD Model"
+appsettings$apptitle = "Pharacokinetics and pharmacodynamics"
 
 #name of underlying simulation function(s) to be used in the app
 #must be provided
