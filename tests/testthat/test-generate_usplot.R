@@ -33,7 +33,6 @@ test_that("running US analysis app returns the proper plots",
             modelsettings$ncols = 3
             modelsettings$simfunction = 'simulate_usanalysis'
             modelsettings$plotscale = 'y'
-            modelsettings$plottype = 'Scatterplot'
             modelsettings$samplepar = 'g'
 
             #test boxplots
