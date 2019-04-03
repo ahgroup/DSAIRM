@@ -55,4 +55,13 @@ test_that("fit apps all run correctly",
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
             testthat::  expect_is(generate_text(result), "html" )
 
+            #test CI fit app - this one should work
+            modelsettings$modeltype = "_fit_"
+            modelsettings$simfunction = 'simulate_confint_fit'
+            modelsettings$parscale = "log"
+            modelsettings$iter = 10
+            result = run_model(modelsettings)
+            testthat::  expect_is(generate_ggplot(result), "ggplot" )
+            testthat::  expect_is(generate_text(result), "html" )
+
 })
