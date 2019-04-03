@@ -4,14 +4,19 @@
 #' provided in the modelsettings list passed into it.
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
-#' List elements with names and values for all inputs expected by simulation function. \cr
-#' modelsettings$simfunction - name of simulation function in variable  \cr
-#' modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), \cr
-#' modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) \cr
+#' List elements with names and values for inputs expected by simulation function.
+#' If not provided, defaults of simulator function are used.\cr
+#' modelsettings$simfunction - name of simulation function(s) as string.  \cr
 #' modelsettings$modeltype - specify what kind of model should be run.
-#' Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). \cr
-#' modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. \cr
-#' modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app \cr
+#' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . \cr
+#' modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app \cr
+#' Optinal list elements are: \cr
+#' modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
+#' If not provided or set to '', no log scales are used. \cr
+#' modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
+#' If not provided, a single plot is assumed.  \cr
+#' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
+#' If not provided, a single run will be done. \cr
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 #' @details This function runs a model for specific settings.
 #' @importFrom utils head tail
@@ -20,22 +25,31 @@
 
 run_model <- function(modelsettings) {
 
-  #short function to call/run model
-  runsimulation <- function(modelsettings, currentmodel)
+  #check if a simresult function ran ok
+  #if error occurs we exit run_model function
+  check_results <- function(simresult)
   {
-    #match values provided from UI with those expected by function
-    settingsvec = unlist(modelsettings)
-    currentargs = settingsvec[match(names(unlist(formals(currentmodel))), names(settingsvec))]
-    #make a list
-    arglist = as.list(currentargs)
-    #convert arguments for function call to numeric if possible
-    #preserve those that can't be converted
-    numind = suppressWarnings(!is.na(as.numeric(arglist))) #find numeric values
-    arglist[numind] = as.numeric(currentargs[numind])
-    #run simulation, try command catches error from running code.
-    simresult <- try( do.call(currentmodel, args = arglist ) )
-    return(simresult)
+    checkres = NULL
+    if (class(simresult)!="list") #if the return from the simulator function is not a list, something went wrong
+    {
+      checkres <- 'Model run failed. Maybe unreasonable parameter values?'
+      return(checkres)
+    }
+    #if simeresult is a list, check that no values in time-series are NaN or NA or Inf
+    if (!is.null(simresult$ts))
+    {
+      if (   (sum(is.nan(unlist(simresult$ts)))>0) || (sum(is.na(unlist(simresult$ts)))>0) || (sum(is.infinite(unlist(simresult$ts)))>0) )
+      {
+        checkres <- 'Model run failed. Maybe unreasonable parameter values?'
+        return(checkres)
+      }
+    }
+    return(checkres)
   }
+
+  #check to make sure inputs to function provide information needed for code to run
+  if (is.null(modelsettings$simfunction)) { return("List element simfunction must be provided.") }
+  if (is.null(modelsettings$modeltype)) { return("List element modeltype must be provided.") }
 
 
   datall = NULL #will hold data for all different models and replicates
@@ -47,20 +61,22 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = 'stochastic'
-    currentmodel = modelfunction[grep('_stochastic',modelfunction)] # get the ode function
+    modelsettings$currentmodel = modelfunction[grep('_stochastic',modelfunction)] # get the right function
     noutbreaks = 0
-    for (nn in 1:modelsettings$nreps)
+    nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
+    for (nn in 1:nreps)
     {
-
-      #run model
-      simresult = runsimulation(modelsettings, currentmodel)
-      #if error occurs we exit
-      if (class(simresult)!="list")
+      #extract modesettings inputs needed for simulator function
+      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
       {
-        result <- 'Model run failed. Maybe unreasonable parameter values?'
-        return(result)
+        modelsettings$tmax = modelsettings$tfinal
       }
+      #create function call, then evaluate it to run model
+      #wrap in try command to catch errors
+      #send result from simulator to a check function. If that function does not return null, exit run_model with error message
+      simresult = try(eval(generate_fctcall(modelsettings)))
+      checkres <- check_results(simresult)
+      if (!is.null(checkres)) {return(checkres)}
 
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
@@ -88,26 +104,13 @@ run_model <- function(modelsettings) {
   ##################################
   #ode dynamical model execution
   ##################################
-  if (grepl('_ode_',modelsettings$modeltype))
+  if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
-    modelsettings$currentmodel = 'ode'
-    currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
-    if (length(modelsettings$simfunction)>1) #this means ODE model is run with another one, relabel variables to indicate ODE
-    {
-      #if 2+ models are run, stochastic might be used to produce UI, which doesn't have tstart and dt so need to produce those. Also parameter g for conversion rate needs to be set to 1.
-      if (is.null(modelsettings$tstart)) {modelsettings$tstart = 0}
-      if (is.null(modelsettings$dt)) {modelsettings$dt = modelsettings$tfinal/1000}
-      if (is.null(modelsettings$g)) {modelsettings$g = 1}
-    }
-
+    modelsettings$currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
     #run model
-    simresult = runsimulation(modelsettings, currentmodel)
-    #if error occurs we exit
-    if (class(simresult)!="list")
-    {
-      result <- 'Model run failed. Maybe unreasonable parameter values?'
-      return(result)
-    }
+    simresult = try(eval(generate_fctcall(modelsettings)))
+    checkres <- check_results(simresult)
+    if (!is.null(checkres)) {return(checkres)}
 
     simresult <- simresult$ts
     if (grepl('_and_',modelsettings$modeltype)) #this means ODE model is run with another one, relabel variables to indicate ODE
@@ -133,16 +136,11 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_discrete_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = 'discrete'
-    currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
+    modelsettings$currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
     #run model
-    simresult = runsimulation(modelsettings, currentmodel)
-    #if error occurs we exit
-    if (class(simresult)!="list")
-    {
-      result <- 'Model run failed. Maybe unreasonable parameter values?'
-      return(result)
-    }
+    simresult = try(eval(generate_fctcall(modelsettings)))
+    checkres <- check_results(simresult)
+    if (!is.null(checkres)) {return(checkres)}
 
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
@@ -165,8 +163,8 @@ run_model <- function(modelsettings) {
   #each other simulator function has its own code block below
   ##################################
 
-  #save all results to a list for processing plots and text
-  listlength = modelsettings$nplots
+  #save all results to a list for processing plots and text. If not provided, do a single plot.
+  listlength = ifelse(is.null(modelsettings$nplots),1,modelsettings$nplots)
   #here we do all simulations in the same figure
   result = vector("list", listlength) #create empty list of right size for results
 
@@ -186,6 +184,15 @@ run_model <- function(modelsettings) {
 
   result[[1]]$dat = datall
 
+  #set min and max for scales. If not provided ggplot will auto-set
+  if (!is.null(datall))
+  {
+    result[[1]]$ymin = 0.1
+    result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+    result[[1]]$xmin = 1e-12
+    result[[1]]$xmax = max(datall$xvals)
+  }
+
   #Meta-information for each plot
   #Might not want to hard-code here, can decide later
   result[[1]]$plottype = "Lineplot"
@@ -193,7 +200,9 @@ run_model <- function(modelsettings) {
   result[[1]]$ylab = "Numbers"
   result[[1]]$legend = "Compartments"
 
-  plotscale = modelsettings$plotscale
+  #if plotscale is not provided, assume no log scales for x and y, i.e. set to ''
+  plotscale = ifelse(is.null(modelsettings$plotscale),'',modelsettings$plotscale)
+
   result[[1]]$xscale = 'identity'
   result[[1]]$yscale = 'identity'
   if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
@@ -213,16 +222,10 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_usanalysis_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = 'other'
-    currentmodel = modelfunction
-    #run model
-    simresult = runsimulation(modelsettings, currentmodel)
-    #if error occurs we exit
-    if (class(simresult)!="list")
-    {
-      result <- 'Model run failed. Maybe unreasonable parameter values?'
-      return(result)
-    }
+    modelsettings$currentmodel = modelfunction
+    simresult = try(eval(generate_fctcall(modelsettings)))
+    checkres <- check_results(simresult)
+    if (!is.null(checkres)) {return(checkres)}
 
     #pull the indicator for non-steady state out of the dataframe, process separately
     steady = simresult$dat$steady
@@ -239,7 +242,6 @@ run_model <- function(modelsettings) {
     for (nn in 1:modelsettings$nplots) #for specified parameter, loop over outcomes
       {
         #data frame for each plot
-        #browser()
         xvals = simdat[,modelsettings$samplepar] #get parameter under consideration
         xvalname = modelsettings$samplepar
         yvals = simdat[,nn] #first 3 elements are outcomes
@@ -275,17 +277,10 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = 'fit'
-    currentmodel = modelfunction
-    #run model
-
-    simresult = runsimulation(modelsettings, currentmodel)
-    #if error occurs we exit
-    if (class(simresult)!="list")
-    {
-      result <- 'Model run failed. Maybe unreasonable parameter values?'
-      return(result)
-    }
+    modelsettings$currentmodel = modelfunction
+    simresult = try(eval(generate_fctcall(modelsettings)))
+    checkres <- check_results(simresult)
+    if (!is.null(checkres)) {return(checkres)}
 
     colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -306,6 +301,7 @@ run_model <- function(modelsettings) {
     fitdata$style = 'point'
     alldat = rbind(dat,fitdata)
 
+
     #code variable names as factor and level them so they show up right in plot
     mylevels = unique(alldat$varnames)
     alldat$varnames = factor(alldat$varnames, levels = mylevels)
@@ -314,6 +310,14 @@ run_model <- function(modelsettings) {
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = alldat
+
+    if (!is.null(datall))
+    {
+      result[[1]]$ymin = 0.1
+      result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+      result[[1]]$xmin = 1e-12
+      result[[1]]$xmax = max(datall$xvals)
+    }
 
     #Meta-information for each plot
     result[[1]]$plottype = "Mixedplot"
@@ -325,67 +329,29 @@ run_model <- function(modelsettings) {
     result[[1]]$maketext = FALSE
     result[[1]]$showtext = NULL
 
+
     ####################################################
-    #different choices for slightly different fit models
-    #best fit results to be displayed as text
-    #this is for basic fitting routine
+    #different choices for text display for different fit models
     if (grepl('basicmodel_fit',modelfunction))
     {
-      ssr = format(simresult$SSR, digits =2, nsmall = 2)
-      pfinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
-      bfinal = format(log10(simresult$bestpars[2]), digits =2, nsmall = 2)
-      dVfinal = format(simresult$bestpars[3], digits =2, nsmall = 2)
-
-      txt1 <- paste('Best fit values for parameters 10^p / 10^b / dV are ', pfinal, ' / ' ,bfinal,  ' / ' , dVfinal)
-      txt2 <- paste('Final SSR is ',ssr)
+      txt1 <- paste('Best fit values for parameters',paste(names(result[[1]]$simres$bestpars), collapse = '/'), ' are ', paste(format(result[[1]]$simres$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+      txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
-      #browser()
     }
-
-    #best fit results to be displayed as text
-    #this is for confidence interval routine
     if (grepl('confint_fit',modelfunction))
     {
-      ssr = format(simresult$SSR, digits =2, nsmall = 2)
-      bfinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
-      blowfit = format(log10(simresult$confint[1]), digits =2, nsmall = 2)
-      bhighfit = format(log10(simresult$confint[2]), digits =2, nsmall = 2)
-      dVfinal = format(simresult$bestpars[2], digits =2, nsmall = 2)
-      dVlowfit = format(simresult$confint[3], digits =2, nsmall = 2)
-      dVhighfit = format(simresult$confint[4], digits =2, nsmall = 2)
-
-      txt1 <- paste('Best fit values for parameters 10^b and dV are ',bfinal,' and ',dVfinal)
-      txt2 <- paste('Lower and upper bounds for 10^b are ',blowfit,' and ',bhighfit)
-      txt3 <- paste('Lower and upper bounds for dV are ',dVlowfit,' and ',dVhighfit)
-      txt4 <- paste('SSR is ',ssr)
-
+      txt1 <- paste('Best fit values for parameters', paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+      txt2 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[1]), collapse = '/'), ' are ', paste(format(simresult$confint[1:2],  digits =2, nsmall = 2), collapse = '/' ))
+      txt3 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[2]), collapse = '/'), ' are ', paste(format(simresult$confint[3:4],  digits =2, nsmall = 2), collapse = '/' ))
+      txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-
-
     #best fit results to be displayed as text
     #this is for model comparison fit  routine
     if (grepl('modelcomparison_fit',modelfunction))
     {
-
-      #store values for each variable
-      aicc = format(simresult$AICc, digits =2, nsmall = 2)
-      ssr = format(simresult$SSR, digits =2, nsmall = 2)
-      afinal = format(log10(simresult$bestpars[1]), digits =2, nsmall = 2)
-      bfinal = format(log10(simresult$bestpars[3]), digits =2, nsmall = 2)
-      r_or_dXfinal = format(simresult$bestpars[2], digits =2, nsmall = 2)
-
-      if (modelsettings$fitmodel == 1)
-      {
-        txt1 <- paste('Best fit values for model 1 parameters 10^a / 10^b / r  are ',afinal,'/',bfinal,'/',r_or_dXfinal)
-      }
-      if (modelsettings$fitmodel == 2)
-      {
-        txt1 <- paste('Best fit values for model 2 parameters 10^a / 10^b / dX are ',afinal,'/',bfinal,'/',r_or_dXfinal)
-      }
-
-      txt2 <- paste('SSR and AICc are ',ssr,' and ',aicc)
-
+      txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(result[[1]]$simres$bestpars), collapse = '/'), ' are ', paste(format(result[[1]]$simres$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+      txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
     }
 
@@ -400,15 +366,10 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_modelexploration_',modelsettings$modeltype))
   {
-    currentmodel = modelfunction
-    #run model
-    simresult = runsimulation(modelsettings, currentmodel)
-    #if error occurs we exit
-    if (class(simresult)!="list")
-    {
-      result <- 'Model run failed. Maybe unreasonable parameter values?'
-      return(result)
-    }
+    modelsettings$currentmodel = modelfunction
+    simresult = try(eval(generate_fctcall(modelsettings)))
+    checkres <- check_results(simresult)
+    if (!is.null(checkres)) {return(checkres)}
 
     steady = simresult$dat$steady
 

@@ -128,7 +128,7 @@ generate_ggplot <- function(res)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot()
+        p2 = p1 + ggplot2::geom_boxplot(size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Lineplot')
       {

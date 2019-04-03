@@ -120,7 +120,7 @@ generate_plotly <- function(res)
       }
 
 
-      #set line size as given by app or to 1.5 by default
+      #set line size as given by app or to some default
       linesize = ifelse(is.null(resnow$linesize), 3, resnow$linesize)
 
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
@@ -136,7 +136,7 @@ generate_plotly <- function(res)
       ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
-        py2 <- plotly::add_markers(py1, x = ~xvals , y = ~yvals, color = ~varnames, symbol = ~varnames)
+        py2 <- plotly::add_markers(py1, x = ~xvals , y = ~yvals, color = ~varnames,  colors = "Set1", symbol = ~varnames)
       }
       if (plottype == 'Boxplot')
       {
@@ -145,9 +145,16 @@ generate_plotly <- function(res)
 
       if (plottype == 'Lineplot')
       {
-        py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals,
-                            type = 'scatter', mode = 'lines', linetype = ~varnames,
+        if (length(unique(dat$varnames))<7) #plotly can only do 6 different line types
+        {
+        py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals, type = 'scatter', mode = 'lines', linetype = ~varnames,
                             line = list(color = ~varnames, width = linesize))
+        }
+        else
+        {
+          
+          py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals, type = 'scatter', mode = 'lines', color = ~varnames, colors = "Set1", line = list( width = linesize))
+        }
       }
 
       ###
