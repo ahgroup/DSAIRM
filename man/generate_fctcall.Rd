@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_fctcall.R
 \name{generate_fctcall}
 \alias{generate_fctcall}
-\title{A function that produces a call to a simulator functions for specific settings}
+\title{A helper function that produces a call to a simulator function for specific settings}
 \usage{
 generate_fctcall(modelsettings)
 }

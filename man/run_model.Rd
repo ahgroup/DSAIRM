@@ -2,25 +2,20 @@
 % Please edit documentation in R/run_model.R
 \name{run_model}
 \alias{run_model}
-\title{A function that runs a DSAIRM/DSAIDE app}
+\title{A function that runs an app for specific settings and processes results for plot and text generation}
 \usage{
 run_model(modelsettings)
 }
 \arguments{
 \item{modelsettings}{a list with model settings. Required list elements are: \cr
-List elements with names and values for inputs expected by simulation function.
-If not provided, defaults of simulator function are used.\cr
-modelsettings$simfunction - name of simulation function(s) as string.  \cr
+List elements with names and values for all inputs expected by simulation function. \cr
+modelsettings$simfunction - name of simulation function in variable  \cr
+modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), \cr
+modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) \cr
 modelsettings$modeltype - specify what kind of model should be run.
-Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . \cr
-modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app \cr
-Optinal list elements are: \cr
-modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
-If not provided or set to '', no log scales are used. \cr
-modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
-If not provided, a single plot is assumed.  \cr
-modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
-If not provided, a single run will be done. \cr}
+Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). \cr
+modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. \cr
+modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app \cr}
 }
 \value{
 A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.

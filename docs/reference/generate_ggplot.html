@@ -30,6 +30,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="A helper function that takes result from the simulators and produces plots — generate_ggplot" />
 
 <meta property="og:description" content="This function generates plots to be displayed in the Shiny UI.
@@ -64,7 +66,7 @@ This is a helper function. This function processes results returned from the sim
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -139,10 +141,10 @@ This is a helper function. This function processes results returned from the sim
     <tr>
       <th>res</th>
       <td><p>A list structure containing all simulation results that are to be plotted.
-The length of the list indicates the number of separate plots to make.
-Each list entry corresponds to one plot and
+The length of the main list indicates the number of separate plots to make.
+Each list entry is itself a list, and corresponds to one plot and
 needs to contain the following information/elements: <br />
-1. A data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be
+1. A data frame list element called "dat" or "ts". If the data frame is "ts" it is assumed to be
 a time series and by default a line plot will be produced and labeled Time/Numbers.
 For plotting, the data needs to be in a format with one column called xvals, one column yvals,
 one column called varnames that contains names for different variables.
@@ -158,7 +160,7 @@ optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "iden
 optional: xmin, xmax, ymin, ymax - Manual min and max for axes. <br />
 optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. <br />
 optional: legendtitle - Legend title, if NULL/not supplied, default is used <br />
-optional: legendlocation - if "left" is specified, top left. Otherwise top right. <br />
+optional: legendlocation - if "left" is specified, top left. Otherwise top. <br />
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. <br />
 optional: title - A title for each plot. <br />
 optional: for multiple plots, specify res[[1]]$ncols to define number of columns <br /></p></td>

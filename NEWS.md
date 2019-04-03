@@ -1,3 +1,10 @@
+# DSAIRM 0.8
+
+* Moved version number to be consistent with sister package DSAIDE
+* Updated vignette
+* Minor cleanup
+* More unit tests
+
 # DSAIRM 0.6
 
 ## User facing changes

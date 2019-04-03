@@ -9,7 +9,8 @@
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Dynamical Systems Approach to Immune Response Modeling">
+<script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
+<meta property="og:title" content="Dynamical Systems Approach to Immune Response Modeling">
 <meta property="og:description" content="A collection of 'shiny' apps that allow for the simulation and
     exploration of various within-host immune response scenarios.
     The purpose of the package is to help individuals learn 
@@ -35,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -97,34 +98,12 @@
 <div id="description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#description" class="anchor"></a>Description</h2>
-<p>This R package consists of a set of simulations (refered to here as apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective. By manipulating the models through a graphical (Shiny) user interface and working through the provided instructions, you can learn about some important concepts of within-host and immmune response modeling.</p>
+<p>DSAIRM is an R package containing a set of simulations (apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective. By exploring the models through a grahpical user interface and working through the instructions provided for each app, you can learn some important concepts of within-host and immmune response modeling. You will also learn how models can be used to study such concepts.</p>
 </div>
-<div id="installation" class="section level2">
+<div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>I assume you have <code>R</code> installed. I also highly recommend <code>RStudio</code>, though it’s not required.</p>
-<ol>
-<li>Install the CRAN release in the usual way with <code><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages('DSAIRM')</a></code>.</li>
-<li>The latest development version (more features but potentially buggy) can be installed from github, using the <code>devtools</code> package. If you don’t have it, install it first. The following commands will get you up and running:</li>
-</ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">'devtools'</span>)</a>
-<a class="sourceLine" id="cb1-2" title="2">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">'ahgroup/DSAIRM'</span>)</a></code></pre></div>
-</div>
-<div id="basic-use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#basic-use" class="anchor"></a>Basic Use</h2>
-<p>After install (which you need to do only once), load the package by runing <code><a href="https://www.rdocumentation.org/packages/base/topics/library">library('DSAIRM')</a></code>. You should receive a short greeting. Now you can open the DSAIRM main menu by running <code><a href="reference/dsairmmenu.html">dsairmmenu()</a></code>. From the main menu, choose the different apps corresponding to different modeling topics and scenarios. Each app contains information on the model and topic that are covered. Each app also contains a list of recommeded tasks to work through in order to learn about a specific topic. Once done exploring, close the main menu to exit back to the <code>R</code> console.</p>
-</div>
-<div id="advanced-use" class="section level2">
-<h2 class="hasAnchor">
-<a href="#advanced-use" class="anchor"></a>Advanced Use</h2>
-<p>You can call the underlying simulation functions directly from the <code>R</code> console. You can also download the code for all functions from the main menu and modify them to your own needs. See <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">the package vignette</a> for more details on the different ways to use the package.</p>
-</div>
-<div id="contributing-to-the-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
-<p>The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a> and let me know what you think.</p>
-<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it’s best to get in touch with me first via email or GitHub.</p>
+<a href="#getting-started" class="anchor"></a>Getting Started</h2>
+<p>For a quick introduction to the package and step-by-step instructions on getting started, <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">see the package tutorial (vignette)</a>.</p>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
@@ -138,8 +117,7 @@
 <div id="citation-and-contributors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation-and-contributors" class="anchor"></a>Citation and Contributors</h2>
-<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>.</p>
-<p>A full list of contributors <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
+<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>. A full list of contributors and a Bibtex entry for the citation <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
 </div>
 </div>
 

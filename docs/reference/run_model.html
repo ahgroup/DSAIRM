@@ -30,6 +30,8 @@
 
 
 
+  <link href="../extra.css" rel="stylesheet">
+  
 <meta property="og:title" content="A function that runs a DSAIRM/DSAIDE app — run_model" />
 
 <meta property="og:description" content="This function runs a model based on information
@@ -64,7 +66,7 @@ provided in the modelsettings list passed into it." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
       </span>
     </div>
 
@@ -139,14 +141,19 @@ provided in the modelsettings list passed into it.</p>
     <tr>
       <th>modelsettings</th>
       <td><p>a list with model settings. Required list elements are: <br />
-List elements with names and values for all inputs expected by simulation function. <br />
-modelsettings$simfunction - name of simulation function in variable  <br />
-modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), <br />
-modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) <br />
+List elements with names and values for inputs expected by simulation function.
+If not provided, defaults of simulator function are used.<br />
+modelsettings$simfunction - name of simulation function(s) as string.  <br />
 modelsettings$modeltype - specify what kind of model should be run.
-Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). <br />
-modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. <br />
-modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app <br /></p></td>
+Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . <br />
+modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app <br />
+Optinal list elements are: <br />
+modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
+If not provided or set to '', no log scales are used. <br />
+modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
+If not provided, a single plot is assumed.  <br />
+modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
+If not provided, a single run will be done. <br /></p></td>
     </tr>
     </table>
     

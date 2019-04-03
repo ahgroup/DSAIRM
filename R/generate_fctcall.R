@@ -1,4 +1,4 @@
-#' @title A function that produces a call to a simulator functions for specific settings
+#' @title A helper function that produces a call to a simulator function for specific settings
 #'
 #' @description This function takes a modelsettings structure and uses that information
 #' to create an unevaluated function call that runs the simulator function with the specified settings

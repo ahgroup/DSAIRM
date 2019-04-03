@@ -1,0 +1,25 @@
+
+.figure {
+  	width: 100%;
+	text-align: center;
+	font-style: italic;
+  	border: thin silver solid;
+	padding: 0.5em;
+	display: block;
+ 	margin-left: auto;
+  	margin-right: auto;
+	margin-bottom: 1em;
+}
+
+.img {
+  	width: 100%;
+	text-align: center;
+	font-style: italic;
+  	border: thin silver solid;
+	padding: 0.5em;
+	display: block;
+ 	margin-left: auto;
+  	margin-right: auto;
+	margin-bottom: 1em;
+}
+
