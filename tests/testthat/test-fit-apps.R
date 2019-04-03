@@ -32,6 +32,16 @@ test_that("fit apps all run correctly",
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
             testthat::  expect_is(generate_plotly(result), "plotly" )
 
+            #test model comparison fit app, 1nd model
+            modelsettings =  list(fitmodel = 2, iter = 10)
+            modelsettings$modeltype = "_fit_"
+            modelsettings$nplots = 1
+            modelsettings$simfunction = 'simulate_modelcomparison_fit'
+            result = run_model(modelsettings)
+            testthat::  expect_is(generate_ggplot(result), "ggplot" )
+            testthat::  expect_is(generate_plotly(result), "plotly" )
+
+
             #test CI fit app - this one should not work
             modelsettings =  list()
             result = run_model(modelsettings)

@@ -1,17 +1,22 @@
-#' @title A function that runs an app for specific settings and processes results for plot and text generation 
+#' @title A function that runs an app for specific settings and processes results for plot and text generation
 #'
 #' @description This function runs a model based on information
 #' provided in the modelsettings list passed into it.
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
-#' List elements with names and values for all inputs expected by simulation function. \cr
-#' modelsettings$simfunction - name of simulation function in variable  \cr
-#' modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both), \cr
-#' modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result) \cr
+#' modelsettings$simfunction - name of simulation function(s) as string.  \cr
 #' modelsettings$modeltype - specify what kind of model should be run.
-#' Currently one of (_ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ ). \cr
-#' modelsettings$nreps - needed for stochastic models to indicate numer of repeat simulations. \cr
-#' modelsettings$plottype - 'Boxplot' or 'Scatterplot' needed for US app \cr
+#' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . \cr
+#' modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app \cr
+#' Optinal list elements are: \cr
+#' List elements with names and values for inputs expected by simulation function.
+#' If not provided, defaults of simulator function are used.\cr
+#' modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
+#' If not provided or set to '', no log scales are used. \cr
+#' modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
+#' If not provided, a single plot is assumed.  \cr
+#' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
+#' If not provided, a single run will be done. \cr
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 #' @details This function runs a model for specific settings.
 #' @importFrom utils head tail
@@ -41,20 +46,25 @@ run_model <- function(modelsettings) {
     }
     return(checkres)
   }
-  
-  
+
+
+  #check to make sure inputs to function provide information needed for code to run
+  if (is.null(modelsettings$simfunction)) { return("List element simfunction must be provided.") }
+  if (is.null(modelsettings$modeltype)) { return("List element modeltype must be provided.") }
+
   datall = NULL #will hold data for all different models and replicates
   finaltext = NULL
-  modelfunction = modelsettings$simfunction #name(s) for model function(s) to run
+  simfunction = modelsettings$simfunction #name(s) for model function(s) to run
 
   ##################################
   #stochastic dynamical model execution
   ##################################
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = modelfunction[grep('_stochastic',modelfunction)] # get the ode function
+    modelsettings$currentmodel = simfunction[grep('_stochastic',simfunction)] # get the ode function
     noutbreaks = 0
-    for (nn in 1:modelsettings$nreps)
+    nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
+    for (nn in 1:nreps)
     {
       #extract modesettings inputs needed for simulator function
       if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
@@ -66,8 +76,8 @@ run_model <- function(modelsettings) {
       #send result from simulator to a check function. If that function does not return null, exit run_model with error message
       simresult = try(eval(generate_fctcall(modelsettings)))
       checkres <- check_results(simresult)
-      if (!is.null(checkres)) {return(checkres)} 
-      
+      if (!is.null(checkres)) {return(checkres)}
+
       #data for plots and text
       #needs to be in the right format to be passed to generate_plots and generate_text
       #see documentation for those functions for details
@@ -96,11 +106,11 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
-    modelsettings$currentmodel = modelfunction[grep('_ode',modelfunction)] #list of model functions, get the ode function
+    modelsettings$currentmodel = simfunction[grep('_ode',simfunction)] #list of model functions, get the ode function
     #run model
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)} 
+    if (!is.null(checkres)) {return(checkres)}
 
     simresult <- simresult$ts
     if (grepl('_and_',modelsettings$modeltype)) #this means ODE model is run with another one, relabel variables to indicate ODE
@@ -126,12 +136,12 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_discrete_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = modelfunction[grep('_discrete',modelfunction)] #list of model functions, get the ode function
+    modelsettings$currentmodel = simfunction[grep('_discrete',simfunction)] #list of model functions, get the ode function
     #run model
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)} 
-    
+    if (!is.null(checkres)) {return(checkres)}
+
     simresult <- simresult$ts
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
@@ -154,8 +164,7 @@ run_model <- function(modelsettings) {
   ##################################
 
   #save all results to a list for processing plots and text
-  listlength = modelsettings$nplots
-  #here we do all simulations in the same figure
+  listlength = ifelse(is.null(modelsettings$nplots),1,modelsettings$nplots)
   result = vector("list", listlength) #create empty list of right size for results
 
   ##################################
@@ -190,7 +199,8 @@ run_model <- function(modelsettings) {
   result[[1]]$ylab = "Numbers"
   result[[1]]$legend = "Compartments"
 
-  plotscale = modelsettings$plotscale
+  #if plotscale is not provided, assume no log scales for x and y, i.e. set to ''
+  plotscale = ifelse(is.null(modelsettings$plotscale),'',modelsettings$plotscale)
   result[[1]]$xscale = 'identity'
   result[[1]]$yscale = 'identity'
   if (plotscale == 'x' | plotscale == 'both') { result[[1]]$xscale = 'log10'}
@@ -210,11 +220,11 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_usanalysis_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = modelfunction
+    modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)} 
-    
+    if (!is.null(checkres)) {return(checkres)}
+
     #pull the indicator for non-steady state out of the dataframe, process separately
     steady = simresult$dat$steady
     simresult$dat$steady <- NULL
@@ -243,6 +253,9 @@ run_model <- function(modelsettings) {
         result[[ct]]$ylab = yvalname
         result[[ct]]$makelegend = FALSE #no legend for these plots
 
+        #if plotscale is not provided, assume no log scales for x and y, i.e. set to ''
+        plotscale = ifelse(is.null(modelsettings$plotscale),'',modelsettings$plotscale)
+
         result[[ct]]$xscale = 'identity'
         result[[ct]]$yscale = 'identity'
         if (plotscale == 'x' | plotscale == 'both') { result[[ct]]$xscale = 'log10'}
@@ -265,22 +278,22 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = modelfunction
+    modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)} 
-    
+    if (!is.null(checkres)) {return(checkres)}
 
-    colnames(simresult$timeseries)[1] = 'xvals' #rename time to xvals for consistent plotting
+
+    colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
-    rawdat = as.data.frame(simresult$timeseries)
+    rawdat = as.data.frame(simresult$ts)
     #using tidyr to reshape
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
 
-        dat$style = 'line'
+    dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data
@@ -288,16 +301,16 @@ run_model <- function(modelsettings) {
     fitdata$varnames = 'Data'
     fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
     fitdata$style = 'point'
-    alldat = rbind(dat,fitdata)
+    datall = rbind(dat,fitdata)
 
     #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(alldat$varnames)
-    alldat$varnames = factor(alldat$varnames, levels = mylevels)
+    mylevels = unique(datall$varnames)
+    datall$varnames = factor(datall$varnames, levels = mylevels)
 
     #data for plots and text
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = alldat
+    result[[1]]$dat = datall
 
     if (!is.null(datall))
     {
@@ -317,7 +330,7 @@ run_model <- function(modelsettings) {
     result[[1]]$maketext = FALSE
     result[[1]]$showtext = NULL
 
-    
+
     ####################################################
     #different choices for text display for different fit models
     if (grepl('basicmodel_fit',simfunction))
@@ -342,7 +355,7 @@ run_model <- function(modelsettings) {
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
     }
-    
+
   }
   ##################################
   #end model fitting code block
@@ -354,11 +367,11 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_modelexploration_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = modelfunction
+    modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)} 
-    
+    if (!is.null(checkres)) {return(checkres)}
+
     steady = simresult$dat$steady
 
     #these 3 settings are only needed for the shiny UI presentation

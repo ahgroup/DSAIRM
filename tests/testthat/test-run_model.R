@@ -25,5 +25,16 @@ test_that("run_model correctly runs different models",
             Ufinal = min(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals)
             testthat::expect_equal(Ufinal, 58)
 
+            #make model fail by setting start after end
+            modelsettings =  list(tstart = 10, tfinal = 0, dt = 0.1, modeltype = "_ode_", plotscale = 'y', nplots = 1)
+            modelsettings$simfunction = 'simulate_basicvirus_ode'
+            result = run_model(modelsettings)
+            testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
+
+            #make model fail by setting something to negative
+            modelsettings =  list(U = 10000, I = 0, V = -10, n = 0, modeltype = "_stochastic_",  nplots = 1,  nreps = 1)
+            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
+            result = run_model(modelsettings)
+            testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
 
 })
