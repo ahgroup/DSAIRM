@@ -7,10 +7,15 @@
 Dynamical Systems Approach to Immune Response Modeling
 
 ## Description
-DSAIRM is an R package containing a set of simulations (apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective. By exploring the models through a grahpical user interface and working through the instructions provided for each app, you can learn some important concepts of within-host and immmune response modeling. You will also learn how models can be used to study such concepts.
+DSAIRM is an R package that teach within-host infection dynamics and immune response modeling from a dynamical system perspective. You can explore a variety of simulation models through a graphical user interface, implemented in Shiny. By going through the documentation and instructions of each app, you will learn how models can be used to study within-host and immune response modeling. You can also access and modify all simulations to adapt them to our research needs.
 
 ## Getting Started
 For a quick introduction to the package and step-by-step instructions on getting started, [see the package tutorial (vignette)](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html).
+
+You can also give the package [a quick spin online, without having to install it](). 
+I still recommend you install it for as a regular R package should you decide that you want to use DSAIRM 'for real'.
+Note that I only have a free plan for shinyapps.io, where the online version is hosted. If the link fails to work it likely means I reached my maximum monthly allowed capacity. In that case, just go ahead and install the package following the tutorial. It's easy! 
+
 
 ## Further information
 * A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
