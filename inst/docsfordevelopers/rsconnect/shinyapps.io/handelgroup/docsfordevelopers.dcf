@@ -1,0 +1,10 @@
+name: docsfordevelopers
+title:
+username:
+account: handelgroup
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 935142
+bundleId: 2091836
+url: https://handelgroup.shinyapps.io/docsfordevelopers/
+when: 1558103074.72123

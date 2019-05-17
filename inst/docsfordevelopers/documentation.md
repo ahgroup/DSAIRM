@@ -80,6 +80,14 @@ file.copy(files, "C:/data/git/DSAIRM/inst/simulatorfunctions/", overwrite = TRUE
 * Run clean and rebuild, then build and reload using menu, or devtools::load_all()
 * Run the check, fix any errors 
 
+## To deploy package to shinyappsio
+* open app.R, set its folder as working directory
+* make sure latest version is on Github and passes tests
+* install the package through CRAN or github if we want to use the github version, e.g. devtools::install_github('ahgroup/DSAIRM')
+* uncomment the library(DSAIDE) statement in app.R 
+* to deploy, run the following rsconnect::deployApp()
+
+
 ### To-do at release time 
 * "by hand" edit the DESCRIPTION file to make sure it's up to date
 * Re-build documentation, re-build package

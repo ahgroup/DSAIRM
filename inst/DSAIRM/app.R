@@ -1,7 +1,6 @@
 #This is a bit of code and instructions for deployment of the package to shinyappsio
 #to deploy, follow these steps:
 #1. go into the folder where this file resides
-#2. copy the regular app.R file into this folder, add this bit of code on top of it
 #3. install the package through CRAN or github if we want to use the github version
 #devtools::install_github('ahgroup/DSAIRM')
 #4. to deploy, run the following

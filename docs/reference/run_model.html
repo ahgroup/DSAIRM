@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A function that runs a DSAIRM/DSAIDE app — run_model • DSAIRM</title>
+<title>A function that runs an app for specific settings and processes results for plot and text generation — run_model • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="A function that runs a DSAIRM/DSAIDE app — run_model" />
+<meta property="og:title" content="A function that runs an app for specific settings and processes results for plot and text generation — run_model" />
 
 <meta property="og:description" content="This function runs a model based on information
 provided in the modelsettings list passed into it." />
@@ -121,7 +121,7 @@ provided in the modelsettings list passed into it." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A function that runs a DSAIRM/DSAIDE app</h1>
+    <h1>A function that runs an app for specific settings and processes results for plot and text generation</h1>
     <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/run_model.R'><code>R/run_model.R</code></a></small>
     <div class="hidden name"><code>run_model.Rd</code></div>
     </div>
@@ -141,13 +141,13 @@ provided in the modelsettings list passed into it.</p>
     <tr>
       <th>modelsettings</th>
       <td><p>a list with model settings. Required list elements are: <br />
-List elements with names and values for inputs expected by simulation function.
-If not provided, defaults of simulator function are used.<br />
 modelsettings$simfunction - name of simulation function(s) as string.  <br />
 modelsettings$modeltype - specify what kind of model should be run.
 Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . <br />
 modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app <br />
 Optinal list elements are: <br />
+List elements with names and values for inputs expected by simulation function.
+If not provided, defaults of simulator function are used.<br />
 modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
 If not provided or set to '', no log scales are used. <br />
 modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
