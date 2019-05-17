@@ -1,3 +1,9 @@
+# DSAIRM 0.8.1
+
+* Fixed a few bugs 
+* Updated readme.md and package vignette/tutorial
+
+
 # DSAIRM 0.8
 
 * Moved version number to be consistent with sister package DSAIDE
