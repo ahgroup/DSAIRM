@@ -1,6 +1,6 @@
 ## Test environments
 
-* local Windows 10.1 x86_64, R 3.5.3
+* local Windows 10.1 x86_64, R 3.6
 * Travis-ci (Ubuntu, MacOS) 
 * Appveyor (Windows)
 * Rhub (Windows, Ubuntu, Fedora)

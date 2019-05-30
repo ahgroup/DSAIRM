@@ -184,13 +184,13 @@ run_model <- function(modelsettings) {
   result[[1]]$dat = datall
 
   #set min and max for scales. If not provided ggplot will auto-set
-  if (!is.null(datall))
-  {
-    result[[1]]$ymin = 0.1
-    result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
-    result[[1]]$xmin = 1e-12
-    result[[1]]$xmax = max(datall$xvals)
-  }
+  #if (!is.null(datall))
+  #{
+   # result[[1]]$ymin = 0.1
+  #  result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+  #  result[[1]]$xmin = 1e-12
+  #  result[[1]]$xmax = max(datall$xvals)
+  #}
 
   #Meta-information for each plot
   #Might not want to hard-code here, can decide later
@@ -312,13 +312,13 @@ run_model <- function(modelsettings) {
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = datall
 
-    if (!is.null(datall))
-    {
-      result[[1]]$ymin = 0.1
-      result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
-      result[[1]]$xmin = 1e-12
-      result[[1]]$xmax = max(datall$xvals)
-    }
+    #if (!is.null(datall))
+    #{
+    #  result[[1]]$ymin = 0.1
+    #  result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
+    #  result[[1]]$xmin = 1e-12
+    #  result[[1]]$xmax = max(datall$xvals)
+    #}
 
     #Meta-information for each plot
     result[[1]]$plottype = "Mixedplot"

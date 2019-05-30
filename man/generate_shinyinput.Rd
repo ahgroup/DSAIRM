@@ -2,26 +2,33 @@
 % Please edit documentation in R/generate_shinyinput.R
 \name{generate_shinyinput}
 \alias{generate_shinyinput}
-\title{A helper function that takes a model and generates the shiny UI elements for the analyze tab}
+\title{A helper function that takes a model and generates shiny UI elements}
 \usage{
 generate_shinyinput(mbmodel, otherinputs = NULL, packagename)
 }
 \arguments{
-\item{mbmodel}{a name of a function for which to build inputs}
+\item{mbmodel}{a string containing the name of a simulator function for which to build inputs}
 
-\item{otherinputs}{a list of other shiny inputs to include}
+\item{otherinputs}{a list of other shiny inputs to include in the UI}
 
-\item{packagename}{name of package using this function}
+\item{packagename}{name of package using this function (DSAIDE or DSAIRM)}
 }
 \value{
 A renderUI object that can be added to the shiny output object for display in a Shiny UI
 }
 \description{
-This function generates numeric shiny UI inputs for a supplied model.
+This function generates shiny UI inputs for a supplied model.
 This is a helper function called by the shiny app.
 }
 \details{
 This function is called by the Shiny app to produce the Shiny input UI elements.
-mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
-Non-numeric arguments of functions are removed.
+mbmodel is assumed to be the name of a function. The file correpsonding to this function is assumed to live in the
+simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package. 
+This R file will be loaded and the documentation parsed to create UI elements. 
+Therefore, all simulator_ R functions/scripts need to follow a specific syntax.
+Every argument needs to be of the form
+param X : param explanation : param type 
+example: 
+b : transmission rate : numeric
+Non-numeric arguments of functions are removed and need to be included in the otherinputs argument.
 }
