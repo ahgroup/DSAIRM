@@ -4,7 +4,7 @@
 #2. install the package through CRAN or github if we want to use the github version
 #devtools::install_github('ahgroup/DSAIRM')
 #3. #uncomment this line of code
-library('DSAIRM')
+#library('DSAIRM')
 #4. with the above 'library' statement active, deploy with:
 # run rsconnect::deployApp(account = 'epibiouga')
 # as suitable, change the account to another one, e.g. handelgroup
