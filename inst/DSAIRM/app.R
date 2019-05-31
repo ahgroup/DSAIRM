@@ -1,19 +1,17 @@
 #This is a bit of code and instructions for deployment of the package to shinyappsio
 #to deploy, follow these steps:
-#1. go into the folder where this file resides
-#3. install the package through CRAN or github if we want to use the github version
+#1. go into the folder where this file (app.R) resides
+#2. install the package through CRAN or github if we want to use the github version
 #devtools::install_github('ahgroup/DSAIRM')
-#4. to deploy, run the following
-#run rsconnect::deployApp()
+#3. #uncomment this line of code
+library('DSAIRM')
+#4. with the above 'library' statement active, deploy with:
+# run rsconnect::deployApp(account = 'epibiouga')
+# as suitable, change the account to another one, e.g. handelgroup
+# tokens need to be set up for the connection to work
+#5. comment out the library command again
 
-#this line of code needs to be here for shinyappsio deployment
-#should not be present for regular package use
-#library('DSAIRM')
-
-#copy this code on top of the regular app.R file
-#app.R file of package starts below
 ##############################################
-
 #This is the Shiny App for the main menu of DSAIRM
 
 #get names of all existing apps
