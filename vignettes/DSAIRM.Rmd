@@ -15,7 +15,9 @@ bibliography: vignetterefs.bib
 
 
 ## Summary
-_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows individuals to explore and learn about dynamical systems modeling of within-host infection and immune response dynamics, by interacting with models through a graphical user interface. It is not necessary - though possible - to read or write computer code.
+_Dynamical Systems Approaches to Immune Response Modeling (DSAIRM)_ is an R package that allows 
+you to explore and learn about dynamical systems modeling of within-host infection and immune response dynamics. 
+The main way of interactin with the models is through a graphical user interface. It is not necessary - though possible - to read or write computer code.
 
 The package also provides a path toward using and building your own models by relatively seamlessly moving from the graphical user interface to direct interaction with pre-written simulations all the way to modifying the underlying simulations to fit your needs. 
 
@@ -115,16 +117,21 @@ Once you finished exploring a specific app, you can return to the main menu. Eve
 
 ### Level 2: Directly interacting with the simulation functions
 
-```{r, eval=TRUE, echo=FALSE, message=FALSE}
-library('DSAIRM')
-```
-
 
 Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code. 
 
 To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved. You can call any of these functions directly, without going through the graphical interface. The _Further Information_ tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.
 
-Consider as example the first app, called "Basic Bacteria Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode`. A user interested in the latter can learn about the inputs and outputs of the function by looking at its documentation. This can be achieved by by typing the following into the `R` console (make sure the DSAIRM package is loaded): 
+Consider as example the first app, called "Basic Bacteria Model". This model has 2 underlying simulator functions, one that runs the discrete-time model called `simulate_basicbacteria_discrete` and one that runs the continuous, differential equation model called `simulate_basicbacteria_ode`. Assume you want to learn more about the latter model.
+
+After loading the package (if not already loaded) with 
+
+```{r, eval=TRUE, message=FALSE}
+library('DSAIRM')
+```
+
+you can learn about the inputs and outputs of the model/function by looking at its documentation 
+
 ```{r eval=FALSE, echo=TRUE}
 help('simulate_basicbacteria_ode')
 ```

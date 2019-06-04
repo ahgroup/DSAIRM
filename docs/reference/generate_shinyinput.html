@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A helper function that takes a model and generates the shiny UI elements for the analyze tab — generate_shinyinput • DSAIRM</title>
+<title>A helper function that takes a model and generates shiny UI elements — generate_shinyinput • DSAIRM</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="A helper function that takes a model and generates the shiny UI elements for the analyze tab — generate_shinyinput" />
+<meta property="og:title" content="A helper function that takes a model and generates shiny UI elements — generate_shinyinput" />
 
-<meta property="og:description" content="This function generates numeric shiny UI inputs for a supplied model.
+<meta property="og:description" content="This function generates shiny UI inputs for a supplied model.
 This is a helper function called by the shiny app." />
 <meta name="twitter:card" content="summary" />
 
@@ -121,14 +121,14 @@ This is a helper function called by the shiny app." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A helper function that takes a model and generates the shiny UI elements for the analyze tab</h1>
+    <h1>A helper function that takes a model and generates shiny UI elements</h1>
     <small class="dont-index">Source: <a href='https://github.com/ahgroup/DSAIRM/blob/master/R/generate_shinyinput.R'><code>R/generate_shinyinput.R</code></a></small>
     <div class="hidden name"><code>generate_shinyinput.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function generates numeric shiny UI inputs for a supplied model.
+    <p>This function generates shiny UI inputs for a supplied model.
 This is a helper function called by the shiny app.</p>
     
     </div>
@@ -140,15 +140,15 @@ This is a helper function called by the shiny app.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mbmodel</th>
-      <td><p>a name of a function for which to build inputs</p></td>
+      <td><p>a string containing the name of a simulator function for which to build inputs</p></td>
     </tr>
     <tr>
       <th>otherinputs</th>
-      <td><p>a list of other shiny inputs to include</p></td>
+      <td><p>a list of other shiny inputs to include in the UI</p></td>
     </tr>
     <tr>
       <th>packagename</th>
-      <td><p>name of package using this function</p></td>
+      <td><p>name of package using this function (DSAIDE or DSAIRM)</p></td>
     </tr>
     </table>
     
@@ -159,8 +159,15 @@ This is a helper function called by the shiny app.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function is called by the Shiny app to produce the Shiny input UI elements.
-mbmodel is assumed to be the name of a function which will be parsed to create UI elements.
-Non-numeric arguments of functions are removed.</p>
+mbmodel is assumed to be the name of a function. The file correpsonding to this function is assumed to live in the
+simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package. 
+This R file will be loaded and the documentation parsed to create UI elements. 
+Therefore, all simulator_ R functions/scripts need to follow a specific syntax.
+Every argument needs to be of the form
+param X : param explanation : param type 
+example: 
+b : transmission rate : numeric
+Non-numeric arguments of functions are removed and need to be included in the otherinputs argument.</p>
     
 
   </div>
