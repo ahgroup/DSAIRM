@@ -12,7 +12,7 @@ test_that("fit apps all run correctly",
             modelsettings$usesimdata = 0
             modelsettings$plotscale = 'y'
             modelsettings$solvertype = 1
-            modelsettings$simfunction = 'simulate_basicmodel_fit'
+            modelsettings$simfunction = 'simulate_fit_basicmodel'
 
             result = run_model(modelsettings)
             finaldatapoint = tail(result[[1]]$dat$yvals,1)
@@ -27,7 +27,7 @@ test_that("fit apps all run correctly",
             modelsettings$modeltype = "_fit_"
             modelsettings$nplots = 1
             modelsettings$plotscale = 'both'
-            modelsettings$simfunction = 'simulate_modelcomparison_fit'
+            modelsettings$simfunction = 'simulate_fit_modelcomparison'
             result = run_model(modelsettings)
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
             testthat::  expect_is(generate_plotly(result), "plotly" )
@@ -36,7 +36,7 @@ test_that("fit apps all run correctly",
             modelsettings =  list(fitmodel = 2, iter = 10)
             modelsettings$modeltype = "_fit_"
             modelsettings$nplots = 1
-            modelsettings$simfunction = 'simulate_modelcomparison_fit'
+            modelsettings$simfunction = 'simulate_fit_modelcomparison'
             result = run_model(modelsettings)
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
             testthat::  expect_is(generate_plotly(result), "plotly" )
@@ -49,7 +49,7 @@ test_that("fit apps all run correctly",
 
             #test CI fit app - this one should work
             modelsettings$modeltype = "_fit_"
-            modelsettings$simfunction = 'simulate_confint_fit'
+            modelsettings$simfunction = 'simulate_fit_confint'
             modelsettings$iter = 10
             result = run_model(modelsettings)
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
@@ -57,7 +57,7 @@ test_that("fit apps all run correctly",
 
             #test CI fit app - this one should work
             modelsettings$modeltype = "_fit_"
-            modelsettings$simfunction = 'simulate_confint_fit'
+            modelsettings$simfunction = 'simulate_fit_confint'
             modelsettings$parscale = "log"
             modelsettings$iter = 10
             result = run_model(modelsettings)

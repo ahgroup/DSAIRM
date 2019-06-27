@@ -299,7 +299,6 @@ run_model <- function(modelsettings) {
     fitdata  = simresult$data
     colnames(fitdata) = c('xvals','yvals')
     fitdata$varnames = 'Data'
-    fitdata$yvals = 10^fitdata$yvals #data is in log units, for plotting transform it
     fitdata$style = 'point'
     datall = rbind(dat,fitdata)
 
@@ -312,13 +311,6 @@ run_model <- function(modelsettings) {
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = datall
 
-    #if (!is.null(datall))
-    #{
-    #  result[[1]]$ymin = 0.1
-    #  result[[1]]$ymax = max(datall$yvals) #max of all variables ignoring time
-    #  result[[1]]$xmin = 1e-12
-    #  result[[1]]$xmax = max(datall$xvals)
-    #}
 
     #Meta-information for each plot
     result[[1]]$plottype = "Mixedplot"
@@ -326,20 +318,18 @@ run_model <- function(modelsettings) {
     result[[1]]$ylab = "Numbers"
     result[[1]]$legend = "Compartments"
 
-
     result[[1]]$maketext = FALSE
     result[[1]]$showtext = NULL
 
-
     ####################################################
     #different choices for text display for different fit models
-    if (grepl('basicmodel_fit',simfunction))
+    if (grepl('basicmodel',simfunction))
     {
-      txt1 <- paste('Best fit values for parameters',paste(names(result[[1]]$simres$bestpars), collapse = '/'), ' are ', paste(format(result[[1]]$simres$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+      txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
     }
-    if (grepl('confint_fit',simfunction))
+    if (grepl('confint',simfunction))
     {
       txt1 <- paste('Best fit values for parameters', paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[1]), collapse = '/'), ' are ', paste(format(simresult$confint[1:2],  digits =2, nsmall = 2), collapse = '/' ))
@@ -347,11 +337,9 @@ run_model <- function(modelsettings) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    #best fit results to be displayed as text
-    #this is for model comparison fit  routine
-    if (grepl('modelcomparison_fit',simfunction))
+    if (grepl('modelcomparison',simfunction))
     {
-      txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(result[[1]]$simres$bestpars), collapse = '/'), ' are ', paste(format(result[[1]]$simres$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+      txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
     }

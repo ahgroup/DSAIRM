@@ -10,7 +10,7 @@ appsettings$apptitle = "Basic model fitting"
 
 #name of underlying simulation function(s) to be used in the app
 #must be provided
-appsettings$simfunction = 'simulate_basicmodel_fit'
+appsettings$simfunction = 'simulate_fit_basicmodel'
 
 #number of plots to produce for output
 appsettings$nplots = 1

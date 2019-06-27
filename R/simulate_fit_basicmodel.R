@@ -42,9 +42,9 @@
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the code with default parameters just call the function:
-#' \dontrun{result <- simulate_basicmodel_fit()}
+#' \dontrun{result <- simulate_fit_basicmodel()}
 #' # To apply different settings, provide them to the simulator function, like such:
-#' result <- simulate_basicmodel_fit(iter = 5)
+#' result <- simulate_fit_basicmodel(iter = 5)
 #' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -54,7 +54,7 @@
 #' @export
 
 
-simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-4, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 5, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 5, noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
+simulate_fit_basicmodel <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-4, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 5, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 5, noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
 {
 
 
@@ -169,6 +169,8 @@ simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   output$bestpars = params
   output$SSR = ssrfinal
 
+  #return the data not on a log scale for consistency
+  fitdata$outcome = 10^fitdata$outcome
   output$data = fitdata
 
   #The output produced by the fitting routine

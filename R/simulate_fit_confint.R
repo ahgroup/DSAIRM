@@ -34,15 +34,15 @@
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the code with default parameters just call the function:
-#' \dontrun{result <- simulate_confint_fit()}
+#' \dontrun{result <- simulate_fit_confint()}
 #' # To apply different settings, provide them to the simulator function, like such:
-#' result <- simulate_confint_fit(iter = 5, nsample = 5)
+#' result <- simulate_fit_confint(iter = 5, nsample = 5)
 #' @importFrom utils read.csv
 #' @importFrom dplyr filter rename select
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, iter = 20, nsample = 10, rngseed = 100, parscale = 'lin')
+simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, iter = 20, nsample = 10, rngseed = 100, parscale = 'lin')
 {
 
   ###################################################################
@@ -178,9 +178,12 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   result = list()
   result$ts = simres
   result$bestpars = params
-  result$data = fitdata
   result$SSR = ssrfinal
   result$confint = ciall
+
+  #return the data not on a log scale for consistency
+  fitdata$outcome = 10^fitdata$outcome
+  result$data = fitdata
 
   #The output produced by the fitting routine
   return(result)

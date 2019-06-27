@@ -10,7 +10,7 @@ appsettings$apptitle = "Model comparison"
 
 #name of underlying simulation function(s) to be used in the app
 #must be provided
-appsettings$simfunction = 'simulate_modelcomparison_fit'
+appsettings$simfunction = 'simulate_fit_modelcomparison'
 
 #number of plots to produce for output
 appsettings$nplots = 1

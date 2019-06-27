@@ -169,6 +169,8 @@ simulate_basicmodel_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   output$bestpars = params
   output$SSR = ssrfinal
 
+  #return the data not on a log scale for consistency
+  fitdata$outcome = 10^fitdata$outcome
   output$data = fitdata
 
   #The output produced by the fitting routine
