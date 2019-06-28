@@ -237,7 +237,7 @@ iframe {
   padding: 0 20px 20px 20px;
   cursor: move;
   /* Fade out while not hovering */
-  opacity: 0.5;
+  opacity: 0.7;
   zoom: 0.9;
   transition: opacity 500ms 1s;
 }
