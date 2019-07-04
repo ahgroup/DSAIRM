@@ -49,8 +49,9 @@ While minimizing the sum of square difference between data and model prediction 
 
 ### Computer routines for fitting 
 
-The minimization of the sum of squares is done by a computer routine. Many such routines, generally referred to as 'optimizers', exist. For simple problems, e.g. fitting a linear regression model to data, any of the standard routines works fine. For the kind of minimization problem we face here, which involves a differential equation, it often makes a difference what numerical optimizer routine one uses. R has several packages for that purpose. In this app, we make use of several of the optimizers provided in the `nloptr` package. We have found those to have generally good performance. Nevertheless, it is often important to try different numerical routines and different starting points to ensure results are consistent.
+A computer routine does the minimization of the sum of squares. Many such routines, generally referred to as _optimizers_, exist. For simple problems, e.g., fitting a linear regression model to data, any of the standard routines work fine. For the kind of minimization problem we face here, which involves a differential equation, it often makes a difference what numerical optimizer routine one uses. `R` has several packages for that purpose. In this app, we make use of the optimizer algorithms called _COBYLA_, _Nelder-Mead_ and _Subplex_ from the the `nloptr` package. This package provides access to a large number of optimizers and is a good choice for many optimization/fitting tasks. For more information , see the help files for the `nloptr` package and especially the [nlopt website](https://nlopt.readthedocs.io/).
 
+For any problem that involves fitting ODE models to data, it is often important to try different numerical routines and different starting points to ensure results are consistent. This will be discussed a bit in the tasks.
 
 
 ## What to do {#shinytab3}
