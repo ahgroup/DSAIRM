@@ -20,6 +20,9 @@
 
 
 
+
+
+
 </head>
 
 <body>
@@ -56,7 +59,8 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 </div>
 <div id="computer-routines-for-fitting" class="section level3">
 <h3>Computer routines for fitting</h3>
-<p>The minimization of the sum of squares is done by a computer routine. Many such routines, generally referred to as ‘optimizers’, exist. For simple problems, e.g. fitting a linear regression model to data, any of the standard routines works fine. For the kind of minimization problem we face here, which involves a differential equation, it often makes a difference what numerical optimizer routine one uses. R has several packages for that purpose. In this app, we make use of several of the optimizers provided in the <code>nloptr</code> package. We have found those to have generally good performance. Nevertheless, it is often important to try different numerical routines and different starting points to ensure results are consistent.</p>
+<p>A computer routine does the minimization of the sum of squares. Many such routines, generally referred to as <em>optimizers</em>, exist. For simple problems, e.g., fitting a linear regression model to data, any of the standard routines work fine. For the kind of minimization problem we face here, which involves a differential equation, it often makes a difference what numerical optimizer routine one uses. <code>R</code> has several packages for that purpose. In this app, we make use of the optimizer algorithms called <em>COBYLA</em>, <em>Nelder-Mead</em> and <em>Subplex</em> from the the <code>nloptr</code> package. This package provides access to a large number of optimizers and is a good choice for many optimization/fitting tasks. For more information , see the help files for the <code>nloptr</code> package and especially the <a href="https://nlopt.readthedocs.io/">nlopt website</a>.</p>
+<p>For any problem that involves fitting ODE models to data, it is often important to try different numerical routines and different starting points to ensure results are consistent. This will be discussed a bit in the tasks.</p>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
@@ -67,10 +71,10 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <ul>
 <li>Start with 10<sup>6</sup> uninfected cells, no infected cells, 1 virion (assumed to be in the same units of the data, TCID50/ml).</li>
 <li>No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 0.</li>
-<li>For the parameters that are fit, set virus production rate to 10<sup>-3</sup>, infection rate to 10<sup>-1</sup> and virus decay rate to 1. These parameters are being fit, the values we specify here are the starting conditions for the optimizer.</li>
-<li>Set all “fitted” switches to YES to make sure the parameters are being fit. For each parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.</li>
-<li>Ignore the values for simulated data for now, set “fit to simulated data” to NO.</li>
-<li>Start with a 1 fitting step/iteration and solver type 1. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with these starting conditions. Notice that the virus load predicted by the model and the data are already fairly close. Also record the SSR so you can compare it with the value after the fit (value should be 3.09).</li>
+<li>Set virus production rate to 10<sup>-3</sup>, infection rate to 10<sup>-1</sup> and virus decay rate to 1. These parameters are being fit, the values we specify here are the starting conditions for the optimizer.</li>
+<li>For each fitted parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.</li>
+<li>Ignore the values for simulated data for now, set “usesimdata” to 0.</li>
+<li>Start with a maximum of 1 iteration/fitting step for the optimizer and solver type 1. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with these starting conditions. Notice that the virus load predicted by the model and the data are already fairly close. Also record the SSR so you can compare it with the value after the fit (value should be 3.09).</li>
 <li>Now fit for 50 iterations. Look at the results. The plot shows the final fit. The model-predicted virus curve will be closer to the data. Also, the SSR value should have gone down, indicating a better fit. Also printed below the figure are the values of the fitted parameters at the end of the fitting process.</li>
 <li>Repeat the same process, now fitting for 100 iterations. You should see some further improvement in SSR. That indicates the previous fit was not the ‘best’ fit. (The best fit is the one with the lowest possible SSR).</li>
 </ul>
@@ -148,7 +152,7 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <h2>Further Information</h2>
 <ul>
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying function running the simulation is called <code>simulate_basicmodel_fit</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_fit_basicmodel</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
 <li>A good source for fitting models in <code>R</code> is <span class="citation">(Bolker 2008)</span>. Note though that the focus is on ecological data and ODE-type models are not/barely discussed.</li>

@@ -1,3 +1,7 @@
+# DSAIRM 0.8.2
+
+* small bug fixes and feature enhancements
+
 # DSAIRM 0.8.1
 
 * Fixed a few bugs 

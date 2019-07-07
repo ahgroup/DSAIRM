@@ -14,6 +14,8 @@
 
 ## Submission History
 
+version 0.8.2: bug fixes and some small feature enhancements.
+
 version 0.8: upgrades to UI, improvement on backend. Sync versioning with 'sister' package DSAIDE.
 
 version 0.5.5: minor feature updates and bug fixes.

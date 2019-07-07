@@ -37,22 +37,22 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_ode.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicmodel_fit.html</loc>
-  </url>
-  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_stochastic.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_confint_fit.html</loc>
-  </url>
-  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_drugresistance_stochastic.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelcomparison_fit.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_basicmodel.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_confint.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_modelcomparison.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelexploration.html</loc>
