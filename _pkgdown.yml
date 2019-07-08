@@ -13,7 +13,6 @@ navbar:
     - articles
     - tutorials
     - news
-    - related packages
     right: github
   components:
     home:
@@ -28,11 +27,6 @@ navbar:
     news:
       text: Changelog
       href: news/index.html
-    related packages:
-      text: Related Packages
-      menu:
-      - text: DSAIDE
-      - href: https://ahgroup.github.io/DSAIDE/index.html
     github:
       icon: fa-github fa-lg
       href: https://github.com/ahgroup/DSAIRM
