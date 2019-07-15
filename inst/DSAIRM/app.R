@@ -6,7 +6,7 @@
 #3. #uncomment this line of code
 #library('DSAIRM')
 #4. with the above 'library' statement active, deploy with:
-# run rsconnect::deployApp(account = 'epibiouga')
+# rsconnect::deployApp(account = 'epibiouga')
 # as suitable, change the account to another one, e.g. handelgroup
 # tokens need to be set up for the connection to work
 #5. comment out the library command again
