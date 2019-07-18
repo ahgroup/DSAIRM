@@ -58,8 +58,9 @@ The model describes a simple viral infection system.
 \details{
 A simple compartmental ODE model mimicking acute viral infection
 is fitted to data.
-Data can either be real or created by running the model with known parameters and using the simulated data to
-determine if the model parameters can be identified.
+Confidence intervals are computed by simple bootstrapping of the data
+using the boot R package. Confidence intervals are computed using the
+percentage method in boot.ci. See the boot package for more information.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.
 }

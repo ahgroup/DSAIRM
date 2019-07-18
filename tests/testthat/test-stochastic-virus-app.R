@@ -24,18 +24,32 @@ test_that("test that stochastic virus app works",
             modelsettings$tfinal = 200
             modelsettings$dt = 0.1
 
-            modelsettings$modeltype = '_ode_and_stochastic_'
             modelsettings$nplots = 1
             modelsettings$nreps = 5
             modelsettings$simfunction = c('simulate_basicvirus_ode', 'simulate_basicvirus_stochastic')
             modelsettings$plotscale = 'y'
 
+            modelsettings$modeltype = '_ode_'
             result = run_model(modelsettings)
-
             testthat::expect_is( generate_ggplot(result), "ggplot" )
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
+
+            modelsettings$modeltype = '_stochastic_'
+            result = run_model(modelsettings)
+            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            testthat::expect_is( generate_plotly(result), "plotly" )
+            testthat::expect_is( generate_text(result), "html" )
+            testthat::expect_is( generate_text(result), "character" )
+
+            modelsettings$modeltype = '_ode_and_stochastic_'
+            result = run_model(modelsettings)
+            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            testthat::expect_is( generate_plotly(result), "plotly" )
+            testthat::expect_is( generate_text(result), "html" )
+            testthat::expect_is( generate_text(result), "character" )
+
 
             })
 

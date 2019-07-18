@@ -51,6 +51,7 @@ test_that("fit apps all run correctly",
             modelsettings$modeltype = "_fit_"
             modelsettings$simfunction = 'simulate_fit_confint'
             modelsettings$iter = 10
+            modelsettings$nsample = 40
             result = run_model(modelsettings)
             testthat::  expect_is(generate_ggplot(result), "ggplot" )
             testthat::  expect_is(generate_text(result), "html" )
