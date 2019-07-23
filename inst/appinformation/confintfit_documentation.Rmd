@@ -26,10 +26,12 @@ This app illustrates the method of bootstrapping data, which is one way one can 
 
 ## The Model {#shinytab2} 
 
-The data and the underlying simulation model are the same as in the 'Basic model fitting' app. If you haven't worked your way through that app, do that first.
+The data and the underlying simulation model are the same as in the _Basic model fitting_ app. If you haven't worked your way through that app, do that first.
 
 ### Fitting Approach
-This app allows you to fit the parameters either in linear or log space. Fitting in log space can be useful if you have a large range of parameters you want to try. The underlying problem is the same, no matter what scale you fit your parameters on, but sometimes one version or the other can lead to better performance of your solver.
+The basic fitting approach is the one described in the _Basic model fitting_ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
+
+There are a few new components in this app. You can fit the parameters either in linear or log space. Fitting in log space can be useful if you have a large range of parameters you want to try. The underlying problem is the same, no matter what scale you fit your parameters on, but sometimes one version or the other can lead to better performance of your solver.
 
 Note that while choosing to fit parameters on a linear or log scale is just done to optimize performance of the computer code, a decision to fit your data on a linear or log scale corresponds to different biological problems and underlying assumptions about the processes that generated the data and any uncertainty/noise. For this app, data is fit on a log scale. 
 

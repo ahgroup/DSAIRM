@@ -53,7 +53,7 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   ###################################################################
   #function that fits the ODE model to data
   ###################################################################
-  cifitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames, parscale)
+  cifitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames, parscale, LOD)
   {
 
     if (parscale == 'log') {params = exp(params)} #for simulation, need to move parameters back to original scale
@@ -71,8 +71,12 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
     #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
     #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
     #Therefore, we enforce a minimum value of 1e-10 for virus load before log-transforming
-    #fitfunction returns the log-transformed virus load obtained from the ODE model to the nls function
     logvirus=c(log10(pmax(1e-10,modelpred)));
+
+    #since the data is censored,
+    #set model prediction to LOD if it is below LOD
+    #this means we do not penalize model predictions below LOD
+    logvirus[(fitdata$outcome<=LOD & (fitdata$outcome-logvirus)>0)] = LOD
 
     #return the objective function, the sum of squares,
     #which is being minimized by the optimizer
@@ -89,7 +93,7 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   bootfct <- function(fitdata,indi, par_ini, lb, ub, Y0, xvals, fixedpars, fitparnames, maxsteps, parscale)
   {
     fitdata = fitdata[indi,] #get samples
-    bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames, parscale =parscale)
+    bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames, parscale =parscale, LOD = LOD)
     #extract best fit parameter values and from the result returned by the optimizer
     finalparams=bestfit$solution;
     return(finalparams)
@@ -108,11 +112,12 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
 
   #load data
   #This data is from Hayden et al 1996 JAMA
-  #We only use some of the data here
-  filename = system.file("extdata", "hayden96data.csv", package = "DSAIRM")
-  alldata = utils::read.csv(filename)
-  fitdata =  subset(alldata, Condition == 'notx', select=c("DaysPI", "LogVirusLoad"))
+  #We only use the data for the no-drug condition here
+  LOD = hayden96flu$LOD[1] #limit of detection, log scale
+  fitdata =  subset(hayden96flu, txtime == 200, select=c("HoursPI", "LogVirusLoad")) #only fit some of the data
   colnames(fitdata) = c("xvals",'outcome')
+  #convert to days
+  fitdata$xvals = fitdata$xvals / 24
 
   Y0 = c(U = U, I = I, V = V);  #combine initial conditions into a vector
   xvals = seq(0, max(fitdata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
@@ -135,7 +140,7 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale)
+  bestfit = nloptr::nloptr(x0=par_ini, eval_f=cifitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames,parscale = parscale,LOD=LOD)
 
   #extract best fit parameter values and from the result returned by the optimizer
 
@@ -168,11 +173,10 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
     ciall = exp(ciall)
   }
 
-
-  #compute sum of square residuals (SSR) for initial guess and final solution
-  modelpred = simres[match(fitdata$xvals,simres[,"time"]),"V"];
-
+  #compute SSR for final fit. See comments inside of fitting function for explanations.
+  modelpred = odeout$ts[match(fitdata$xvals,odeout$ts[,"time"]),"V"];
   logvirus=c(log10(pmax(1e-10,modelpred)));
+  logvirus[(fitdata$outcome<=LOD & (fitdata$outcome-logvirus)>0)] = LOD
   ssrfinal=(sum((logvirus-fitdata$outcome)^2))
 
   #list structure that contains all output

@@ -40,9 +40,11 @@ Depends:
     shiny (>= 1.0)
 Suggests:
     covr,
+    devtools,
     knitr (>= 1.15),
     pkgdown,
     rmarkdown (>= 1.10),
+    roxygen2,
     testthat
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr

@@ -40,7 +40,9 @@ This app fits the log viral titer of the data to the virus kinetics produced by 
 $$
 SSR= \sum_t (Vm_t - Vd_t)^2
 $$
-where $Vm_t$ is the virus load (in log units) predicted from the model simulation at days $t=1..8$ and $Vd_t$ is the data, reported in those units and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit. 
+where $Vm_t$ is the virus load (in log units) predicted from the model simulation at days $t=1..8$ and $Vd_t$ is the data, reported in those same units (log10) and on those time points. The underlying code varies model parameters to try to get the predicted viral load from the model as close as possible to the data, by minimizing the SSR. The app reports the final SSR for the fit. 
+
+For this dataset, there is a lower limit of detection (LOD) for the virus load. To account for this, if the data is at the LOD, we set any model prediction which is below the LOD to the LOD. This means we do not penalize the model if it predicts virus load to be at the LOD or any lower value. This is done before computing the SSR using the equation above.
 
 In general, with enough data, one could fit/estimate every parameter in the model and the initial conditions. However, with just the virus load data available, the data are not rich enough to allow estimation of all model parameters (even for a model as simple as this). The app is therefore implemented by assuming that most model parameters are known and fixed, and only 3, the rate of virus production, _p_, the rate of infection of cells, _b_, and the rate of virus death/removal, _d~V~_ can be estimated. The app also allows to keep some of those parameters fixed, we'll explore this in the tasks.
 

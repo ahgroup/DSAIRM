@@ -97,6 +97,9 @@ In general, models need to be carefully tailored to the question and setting. Th
 ### Data source
 The data being used in this app comes from [@hayden96]. Specifically, the data being fit is the 'no intervention' viral load data shown in Figure 2 of the paper.
 
+### Fitting Approach
+The basic fitting approach is the one described in the _Basic model fitting_ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
+
 
 ### Model comparison 
 There are different ways to evaluate how well a model fits to data, and to compare between different models. This app shows the approach of using Akaike's "An Information Criterion" (AIC), or more precisely, we'll use the one corrected for small sample size, AICc . If we fit by minimizing the sum of squares (SSR), as we do here, the formula for the AICC is:
