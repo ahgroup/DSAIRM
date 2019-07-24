@@ -241,7 +241,7 @@ ui <- fluidPage(
                       fluidRow(
                              actionButton("modelexploration", "Bacteria model exploration", class="mainbutton"),
                              actionButton("virusandtx", "Antiviral treatment model", class="mainbutton"),
-                             actionButton("basicmodelfit", "Basic model fitting", class="mainbutton"),
+                             actionButton("fitbasicmodel", "Basic model fitting", class="mainbutton"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
@@ -255,9 +255,10 @@ ui <- fluidPage(
 
                       tags$div(class='mainsectionheader', 'Model fitting topics'),
                       fluidRow(
-                               actionButton("confintfit", "Confidence intervals", class="mainbutton"),
-                               actionButton("modelcomparisonfit", "Model comparison", class="mainbutton"),
-                        class = "mainmenurow"
+                               actionButton("fitconfint", "Confidence intervals", class="mainbutton"),
+                               actionButton("fitmodelcomparison", "Model comparison", class="mainbutton"),
+                               actionButton("fitfludrug", "Influenza drug data", class="mainbutton"),
+                               class = "mainmenurow"
                       ), #close fluidRow structure for input
 
                       tags$div(class='mainsectionheader', 'Further topics'),

@@ -71,13 +71,13 @@ Additional packages are needed for development (but not use) of the package. Tho
 * To build new vignette, run devtools::build_vignettes()
 * To update the pkgdown website, run pkgdown::build_site()
 * To spell-check all Rmd documentation files, use these commands (adjust paths as needed):
-files = list.files(path = "C:/data/git/DSAIRM/inst/appinformation/", recursive=TRUE, pattern = "\\.Rmd$", full.names = TRUE)
+files = list.files(path = "C:/data/Github/DSAIRM/inst/appinformation/", recursive=TRUE, pattern = "\\.Rmd$", full.names = TRUE)
 spelling::spell_check_files(files)
 * To re-build all html documentation files from the rmd files at once, use the above command to get all files, then:
 for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(1)}
 * To copy simulator functions into the /inst/simulator folder:
 files = list.files(path = "C:/data/git/DSAIRM/R/", recursive=TRUE, pattern = "^simulate", full.names = TRUE)
-file.copy(files, "C:/data/git/DSAIRM/inst/simulatorfunctions/", overwrite = TRUE)
+file.copy(files, "C:/data/Github/DSAIRM/inst/simulatorfunctions/", overwrite = TRUE)
 
 ### To build the package
 * in RStudio, use the functions in the 'build' tab to test and build the package.
