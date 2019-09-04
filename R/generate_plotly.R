@@ -89,7 +89,7 @@ generate_plotly <- function(res)
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
-      dat$varnames = factor(dat$varnames, levels = mylevels)
+      dat$varnames = factor(dat$varnames, levels = mylevels, ordered = TRUE)
 
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
@@ -152,7 +152,7 @@ generate_plotly <- function(res)
         }
         else
         {
-          
+
           py2 <- plotly::add_trace(py1, x = ~xvals ,y = ~yvals, type = 'scatter', mode = 'lines', color = ~varnames, colors = "Set1", line = list( width = linesize))
         }
       }

@@ -87,16 +87,18 @@ generate_ggplot <- function(res)
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
-      dat$varnames = factor(dat$varnames, levels = mylevels)
+      dat$varnames = factor(dat$varnames, levels = mylevels, ordered = TRUE)
+
+
 
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
       yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
-      
+
       #lower and upper bounds for plots, these are used if none are provided by calling function
       lb = 1e-10;
       ub = 1e20;
-      
+
       #if we want a plot on log scale, set any value in the data at or below 0 to some small number
       if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
       if (yscaletrans !='identity') {dat$yvals[dat$yvals<=0]=lb}
@@ -183,11 +185,13 @@ generate_ggplot <- function(res)
         }
         legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
 
-        p5a = p5 + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
+        p5a = p5 + ggplot2::guides(col = ggplot2::guide_legend(nrow=2, byrow=TRUE,title.position = 'left'))
         p5b = p5a + ggplot2::theme(legend.position = legendlocation)
-        p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
-        p5d = p5c + ggplot2::scale_colour_discrete(name = legendtitle)
-        p6 = p5d + ggplot2::guides(fill=guide_legend(title.position="top", nrow=3, byrow=TRUE))
+        p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
+        p5d = p5c + ggplot2::scale_colour_discrete()
+        p5e = p5d + labs(linetype=legendtitle, color=legendtitle, shape = legendtitle)
+        p6 = p5e
+        #p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
       }
       else
       {
@@ -196,7 +200,7 @@ generate_ggplot <- function(res)
 
       #modify overall theme
       pfinal = p6
-      
+
       allplots[[n]] = pfinal
 
     } #end loop over individual plots

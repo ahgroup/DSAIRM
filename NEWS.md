@@ -1,3 +1,8 @@
+# DSAIRM 0.8.3
+
+* updated fitting apps
+
+
 # DSAIRM 0.8.2
 
 * small bug fixes and feature enhancements

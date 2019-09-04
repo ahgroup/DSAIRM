@@ -7,7 +7,7 @@
 simulate_fit_fludrug(U = 1e+05, I = 0, V = 1, Vlow = 1e-05,
   Vhigh = 1000, dI = 1, dV = 2, b = 1e-05, blow = 1e-06,
   bhigh = 0.001, p = 1, plow = 0.1, phigh = 2, g = 1,
-  glow = 1e-06, ghigh = 1e-04, e = 0, fitmodel = 1, iter = 100)
+  glow = 1e-06, ghigh = 10000, e = 0, fitmodel = 1, iter = 100)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}
