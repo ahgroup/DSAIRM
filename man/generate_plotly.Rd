@@ -30,7 +30,6 @@ optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
 optional: legendlocation - if "left" is specified, top left. Otherwise top right. \cr
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
 optional: title - A title for each plot. \cr
-optional: varnames - Provide custom name for each variable. Needs to match number of variables that will be plotted. \cr
 optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr}
 }
 \value{
