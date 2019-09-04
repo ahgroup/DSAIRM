@@ -45,16 +45,15 @@
 #' @importFrom utils read.csv
 #' @importFrom dplyr filter rename select
 #' @importFrom nloptr nloptr
-
 #' @export
 
-simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3, dI = 1, dV = 2, b = 1e-5, blow = 1e-6, bhigh = 1e-3, p = 1,  plow = 0.1, phigh = 2, g = 1, glow = 1e-6, ghigh = 1e-4, e = 0, fitmodel = 1, iter = 100)
+simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3, dI = 1, dV = 2, b = 1e-5, blow = 1e-6, bhigh = 1e-3, p = 1,  plow = 0.1, phigh = 2, g = 1, glow = 1e-6, ghigh = 1e4, e = 0, fitmodel = 1, iter = 100)
 {
 
   ###################################################################
   #function that fits the ODE model to data
   ###################################################################
-  fitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames,txtimes)
+  fitfunction <- function(params, fitdata, Y0, fixedpars, fitparnames,txtimes)
   {
     names(params) = fitparnames #for some reason nloptr strips names from parameters
     #call ode-solver lsoda to integrate ODEs
@@ -63,10 +62,10 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3
     #run ODE model for 3 different drug treatment scenarios (early/late/none)
     for (n in 1:3)
     {
-      allpars = c(Y0,params, tfinal = max(xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n])
-      odeout <- try(do.call(DSAIRM::simulate_basicvirus_ode, as.list(allpars)));
+      allpars = c(Y0,params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n])
+      odeout <- try(do.call(DSAIRM::simulate_virusandtx_ode, as.list(allpars)));
       #extract values for virus load at time points where data is available
-      modelpred = odeout$ts[match(fitdata$xvals,odeout$ts[,"time"]),"V"];
+      modelpred = odeout$ts[match(fitdata[[n]]$xvals,odeout$ts[,"time"]),"V"];
 
       #since the ODE returns values on the original scale, we need to transform it into log10 units for the fitting procedure
       #due to numerical issues in the ODE model, virus might become negative, leading to problems when log-transforming.
@@ -102,29 +101,26 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3
   #re-organize data and convert to days
   txtimes  = c(29,50,200)
   txscenarios = c('early','late','none')
+  fitdata = list()
   for (nn in 1:3)
   {
     nowdata = subset(hayden96flu, txtime == txtimes[nn], select=c("HoursPI", "LogVirusLoad"))
     nowdata$txscenario = txscenarios[nn]
     colnames(nowdata) = c("xvals",'outcome','txscenario')
     nowdata$xvals = nowdata$xvals / 24
-    fitdata <- ifelse(nn == 1, nowdata, rbind(fitdata,nowdata))
-    browser()
+    fitdata[[nn]] = nowdata
   }
   LOD = hayden96flu$LOD[1] #limit of detection, log scale
 
-
-
   Y0 = c(U = U, I = I, V = V);  #combine initial conditions into a vector
-  xvals = seq(0, max(fitdata$xvals), 0.1); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   # we fit either f or e in the model
   if (fitmodel == 1)
   {
     #parameters to be fit
     fitpars = as.numeric(c(V=V, b=b, g=g, p=p, e=e))
-    lb = as.numeric(c(Vlow, blow, glow, plow, elow))
-    ub = as.numeric(c(Vhigh, bhigh, ghigh, phigh, ehigh))
+    lb = as.numeric(c(Vlow, blow, glow, plow, 0))
+    ub = as.numeric(c(Vhigh, bhigh, ghigh, phigh, 1))
     fitparnames = names(fitpars)
     #combining fixed parameters into a parameter vector
     fixedpars = c(dI=dI,dV=dV,f=0,fitmodel=fitmodel);
@@ -143,7 +139,7 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=par_ini, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, xvals = xvals, fixedpars=fixedpars,fitparnames=fitparnames)
+  bestfit = nloptr::nloptr(x0=fitpars, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, fixedpars=fixedpars,fitparnames=fitparnames,txtimes=txtimes)
 
   #extract best fit parameter values and from the result returned by the optimizer
   params = bestfit$solution
@@ -156,12 +152,11 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3
   allode = NULL
   for (n in 1:3)
   {
-    allpars = c(Y0,params, tfinal = max(xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n])
-    odeout <- try(do.call(DSAIRM::simulate_basicvirus_ode, as.list(allpars)));
-    odeout = cbind(odeout, txscenario = txscenarios[n]) #add treatment scenario
-    allode = rbind(allode,odeout)
+    allpars = c(Y0,params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n])
+    odeout <- try(do.call(DSAIRM::simulate_virusandtx_ode, as.list(allpars)));
+    allode = rbind(allode,odeout$ts)
     #extract values for virus load at time points where data is available
-    modelpred = odeout$ts[match(fitdata$xvals,odeout$ts[,"time"]),"V"];
+    modelpred = odeout$ts[match(fitdata[[n]]$xvals,odeout$ts[,"time"]),"V"];
     logvirus=c(log10(pmax(1e-10,modelpred)));
     logvirus[(fitdata[[n]]$outcome<=LOD & (fitdata[[n]]$outcome-logvirus)>0)] = LOD
     SSR = SSR + (sum((logvirus-fitdata[[n]]$outcome)^2))
@@ -170,7 +165,7 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, Vlow = 1e-5, Vhigh = 1e3
 
   #compute AICc
   N=nrow(hayden96flu) #number of datapoints
-  K=length(par_ini); #fitted parameters for model
+  K=length(fitpars); #fitted parameters for model
   AICc= N * log(ssrfinal/N) + 2*(K+1)+(2*(K+1)*(K+2))/(N-K)
 
   #list structure that contains all output
