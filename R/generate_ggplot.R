@@ -190,7 +190,7 @@ generate_ggplot <- function(res)
         p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
         p5d = p5c + ggplot2::scale_colour_discrete()
         p5e = p5d + labs(linetype=legendtitle, color=legendtitle, shape = legendtitle)
-        p6 = p5e
+        p6 = p5d
         #p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
       }
       else

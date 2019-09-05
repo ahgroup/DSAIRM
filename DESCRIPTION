@@ -33,6 +33,7 @@ Imports:
     nloptr (>= 1.0.4),
     plotly,
     stats (>= 3.4),
+    tidyr,
     utils (>= 3.4), 
     XML (>= 3.98)
 Depends:

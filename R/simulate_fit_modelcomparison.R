@@ -220,6 +220,8 @@ simulate_fit_modelcomparison <- function(U = 1e5, I = 0, V = 1, X = 1, dI = 1, d
 
   #return the data not on a log scale for consistency
   fitdata$outcome = 10^fitdata$outcome
+  fitdata$varnames = 'V_data'
+  colnames(fitdata) = c("xvals",'yvals','varnames')
   result$data = fitdata
 
   #The output produced by the fitting routine

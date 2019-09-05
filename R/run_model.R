@@ -19,6 +19,10 @@
 #' If not provided, a single run will be done. \cr
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 #' @details This function runs a model for specific settings.
+#' @examples
+#' # Run stochastic virus model with all default settings
+#' modelsettings = list(modeltype = "_stochastic_", simfunction = 'simulate_basicvirus_stochastic')
+#' result <- run_model(modelsettings)
 #' @importFrom utils head tail
 #' @importFrom stats reshape
 #' @export
@@ -280,27 +284,35 @@ run_model <- function(modelsettings) {
   {
     modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
-    checkres <- check_results(simresult)
+    checkres <- check_results(simresult) #check if result produces error message, if yes return that to calling function
     if (!is.null(checkres)) {return(checkres)}
-
 
     colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
     rawdat = as.data.frame(simresult$ts)
+
+    if (grepl('fludrug',simfunction))
+    {
+      #only use virus load for plotting
+      rawdat <- rawdat[,c(1,4,7,10)]
+    }
+
     #using tidyr to reshape
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
-
+    dat = dplyr::select(dat,'xvals','yvals', dplyr::everything()) #reorder
+    #add plotting information
     dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data
-    colnames(fitdata) = c('xvals','yvals')
-    fitdata$varnames = 'Data'
     fitdata$style = 'point'
+
+    #combine model time-series and data into one dataframe
     datall = rbind(dat,fitdata)
+
 
     #code variable names as factor and level them so they show up right in plot
     mylevels = unique(datall$varnames)
@@ -310,6 +322,7 @@ run_model <- function(modelsettings) {
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = datall
+
 
 
     #Meta-information for each plot

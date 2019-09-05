@@ -20,7 +20,7 @@ test_that("fit apps all run correctly",
 
             modelsettings$usesimdata = 1
             result = run_model(modelsettings)
-            testthat::  expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
 
             #test model comparison fit app
             modelsettings =  list(fitmodel = 1, iter = 10)
@@ -29,8 +29,8 @@ test_that("fit apps all run correctly",
             modelsettings$plotscale = 'both'
             modelsettings$simfunction = 'simulate_fit_modelcomparison'
             result = run_model(modelsettings)
-            testthat::  expect_is(generate_ggplot(result), "ggplot" )
-            testthat::  expect_is(generate_plotly(result), "plotly" )
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_plotly(result), "plotly" )
 
             #test model comparison fit app, 1nd model
             modelsettings =  list(fitmodel = 2, iter = 10)
@@ -38,8 +38,8 @@ test_that("fit apps all run correctly",
             modelsettings$nplots = 1
             modelsettings$simfunction = 'simulate_fit_modelcomparison'
             result = run_model(modelsettings)
-            testthat::  expect_is(generate_ggplot(result), "ggplot" )
-            testthat::  expect_is(generate_plotly(result), "plotly" )
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_plotly(result), "plotly" )
 
 
             #test CI fit app - this one should not work
@@ -53,8 +53,8 @@ test_that("fit apps all run correctly",
             modelsettings$iter = 10
             modelsettings$nsample = 40
             result = run_model(modelsettings)
-            testthat::  expect_is(generate_ggplot(result), "ggplot" )
-            testthat::  expect_is(generate_text(result), "html" )
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_text(result), "html" )
 
             #test CI fit app - this one should work
             modelsettings$modeltype = "_fit_"
@@ -62,7 +62,16 @@ test_that("fit apps all run correctly",
             modelsettings$parscale = "log"
             modelsettings$iter = 10
             result = run_model(modelsettings)
-            testthat::  expect_is(generate_ggplot(result), "ggplot" )
-            testthat::  expect_is(generate_text(result), "html" )
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_text(result), "html" )
+
+            #test flu drug fit app
+            modelsettings =  list()
+            modelsettings$modeltype = "_fit_"
+            modelsettings$simfunction = 'simulate_fit_fludrug'
+            result = run_model(modelsettings)
+            testthat::expect_is(generate_ggplot(result), "ggplot" )
+            testthat::expect_is(generate_text(result), "html" )
+
 
 })

@@ -4,10 +4,10 @@
 \alias{simulate_fit_fludrug}
 \title{Fitting a simple viral infection model with 2 types of drug mechanisms to influenza data}
 \usage{
-simulate_fit_fludrug(U = 1e+05, I = 0, V = 1, Vlow = 1e-05,
-  Vhigh = 1000, dI = 1, dV = 2, b = 1e-05, blow = 1e-06,
-  bhigh = 0.001, p = 1, plow = 0.1, phigh = 2, g = 1,
-  glow = 1e-06, ghigh = 10000, e = 0, fitmodel = 1, iter = 100)
+simulate_fit_fludrug(U = 1e+05, I = 0, V = 1, dI = 2, dV = 4,
+  b = 0.001, blow = 1e-06, bhigh = 1000, p = 0.01, plow = 1e-06,
+  phigh = 1000, g = 0.001, glow = 0, ghigh = 10000, e = 0.8,
+  fitmodel = 1, iter = 100)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}
@@ -15,10 +15,6 @@ simulate_fit_fludrug(U = 1e+05, I = 0, V = 1, Vlow = 1e-05,
 \item{I}{: initial number of infected target cells : numeric}
 
 \item{V}{: initial number of infectious virions : numeric}
-
-\item{Vlow}{: lower bound for initial virions : numeric}
-
-\item{Vhigh}{: upper bound for initial virions : numeric}
 
 \item{dI}{: rate at which infected cells die : numeric}
 

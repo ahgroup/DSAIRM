@@ -32,3 +32,8 @@ provided in the modelsettings list passed into it.
 \details{
 This function runs a model for specific settings.
 }
+\examples{
+# Run stochastic virus model with all default settings
+modelsettings = list(modeltype = "_stochastic_", simfunction = 'simulate_basicvirus_stochastic')
+result <- run_model(modelsettings)
+}

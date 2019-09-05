@@ -90,7 +90,7 @@ simulate_fit_basicmodel <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
 
 
   #will contain final result
-  output <- list()
+  result <- list()
 
   #some settings for ode solver and optimizer
   #those are hardcoded here, could in principle be rewritten to allow user to pass it into function
@@ -170,14 +170,16 @@ simulate_fit_basicmodel <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   ssrfinal=(sum((logvirus-fitdata$outcome)^2))
 
   #list structure that contains all output
-  output$ts = odeout$ts
-  output$bestpars = params
-  output$SSR = ssrfinal
+  result$ts = odeout$ts
+  result$bestpars = params
+  result$SSR = ssrfinal
 
   #return the data not on a log scale for consistency
   fitdata$outcome = 10^fitdata$outcome
-  output$data = fitdata
+  fitdata$varnames = 'V_data'
+  colnames(fitdata) = c("xvals",'yvals','varnames')
+  result$data = fitdata
 
   #The output produced by the fitting routine
-  return(output)
+  return(result)
 }

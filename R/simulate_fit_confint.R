@@ -188,6 +188,8 @@ simulate_fit_confint <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
 
   #return the data not on a log scale for consistency
   fitdata$outcome = 10^fitdata$outcome
+  fitdata$varnames = 'V_data'
+  colnames(fitdata) = c("xvals",'yvals','varnames')
   result$data = fitdata
 
   #The output produced by the fitting routine
