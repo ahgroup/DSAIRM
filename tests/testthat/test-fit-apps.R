@@ -48,6 +48,7 @@ test_that("fit apps all run correctly",
             testthat::expect_equal(result, "List element simfunction must be provided.")
 
             #test CI fit app - this one should work
+            modelsettings =  list()
             modelsettings$modeltype = "_fit_"
             modelsettings$simfunction = 'simulate_fit_confint'
             modelsettings$iter = 10
@@ -56,19 +57,11 @@ test_that("fit apps all run correctly",
             testthat::expect_is(generate_ggplot(result), "ggplot" )
             testthat::expect_is(generate_text(result), "html" )
 
-            #test CI fit app - this one should work
-            modelsettings$modeltype = "_fit_"
-            modelsettings$simfunction = 'simulate_fit_confint'
-            modelsettings$parscale = "log"
-            modelsettings$iter = 10
-            result = run_model(modelsettings)
-            testthat::expect_is(generate_ggplot(result), "ggplot" )
-            testthat::expect_is(generate_text(result), "html" )
-
             #test flu drug fit app
             modelsettings =  list()
             modelsettings$modeltype = "_fit_"
             modelsettings$simfunction = 'simulate_fit_fludrug'
+            modelsettings$iter = 10
             result = run_model(modelsettings)
             testthat::expect_is(generate_ggplot(result), "ggplot" )
             testthat::expect_is(generate_text(result), "html" )

@@ -117,31 +117,31 @@ generate_ggplot <- function(res)
        #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
 	  if (is.null(dat$IDvar))
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, shape = varnames) )
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals) )
       }
       else
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, y = yvals, color = varnames, linetype = varnames, group = IDvar) )
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, group = IDvar) )
       }
 
       ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
-        p2 = p1 + ggplot2::geom_point( size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_point(data = dat, aes( y = yvals, color = varnames, shape = varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot(size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = yvals, color = varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Lineplot')
       {
-        p2 = p1 + ggplot2::geom_line(size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = yvals, color = varnames, linetype = varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Mixedplot')
       {
         #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
-        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), size = linesize)
-        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), size = 2.5*linesize)
+        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), aes( y = yvals, color = varnames, linetype = varnames), size = linesize)
+        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), aes( y = yvals, color = varnames, shape = varnames), size = 2.5*linesize)
       }
 
 
@@ -188,10 +188,18 @@ generate_ggplot <- function(res)
         p5a = p5 + ggplot2::guides(col = ggplot2::guide_legend(nrow=2, byrow=TRUE,title.position = 'left'))
         p5b = p5a + ggplot2::theme(legend.position = legendlocation)
         p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
-        p5d = p5c + ggplot2::scale_colour_discrete()
-        p5e = p5d + labs(linetype=legendtitle, color=legendtitle, shape = legendtitle)
-        p6 = p5d
-        #p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
+
+        #some trickery to set legend right for combined line and symbol
+        #adapted from here:
+        #https://stackoverflow.com/questions/37140266/how-to-merge-color-line-style-and-shape-legends-in-ggplot
+        # Compute the number of types and methods
+        npoints = length(unique(dplyr::filter(dat,style == 'point')$varnames))
+        nlines = length(unique(dplyr::filter(dat,style == 'line')$varnames))
+
+        p5d = p5c + ggplot2::scale_colour_discrete(name = legendtitle)
+        p5e = p5d + ggplot2::scale_linetype_manual(legendtitle, values = c(1:nlines, rep(NA,npoints)) )
+        p5f = p5e + ggplot2::scale_shape_manual(legendtitle, values = c(rep(NA,nlines), 15 + c(1:npoints)) )
+        p6 = p5f
       }
       else
       {
