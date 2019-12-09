@@ -8,21 +8,25 @@
 
 <title>Simulation of a basic viral infection model with drug treatment — simulate_virusandtx_ode • DSAIRM</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -32,8 +36,8 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Simulation of a basic viral infection model with drug treatment — simulate_virusandtx_ode" />
 
+<meta property="og:title" content="Simulation of a basic viral infection model with drug treatment — simulate_virusandtx_ode" />
 <meta property="og:description" content="This function runs a simulation of a compartment model
 using a set of ordinary differential equations.
 The model describes a simple viral infection system in the presence of drug treatment.
@@ -45,6 +49,7 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
 
 
 
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -53,6 +58,7 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -71,7 +77,7 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -92,8 +98,24 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Related Packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">DSAIDE</li>
+    <li>
+      <a href="https://ahgroup.github.io/DSAIDE/index.html"></a>
+    </li>
+    <li class="dropdown-header">modelbuilder</li>
+    <li>
+      <a href="https://ahgroup.github.io/modelbuilder/index.html"></a>
+    </li>
+  </ul>
+</li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ahgroup/DSAIRM">
@@ -108,6 +130,7 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -119,7 +142,6 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)" />
     </div>
 
     <div class="ref-description">
-    
     <p>This function runs a simulation of a compartment model
 using a set of ordinary differential equations.
 The model describes a simple viral infection system in the presence of drug treatment.
@@ -127,14 +149,13 @@ The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package.
 The function returns a list containing time-series of each variable and time.
 inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>simulate_virusandtx_ode</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
   <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>steadystate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>txstart</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -207,13 +228,12 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)</p>
       <td><p>: time at which treatment starts : numeric</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list. The list has only one element called ts.
 ts contains the time-series of the simulation.
 The 1st column of ts is Time, the other columns are the model variables.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A simple compartmental model is simulated as a set of ordinary differential
@@ -225,13 +245,11 @@ See the Basic Virus Model To-do section for an explanation.
 In this case, user supplied values for U0, I0, V0 are ignored.
 This code is part of the DSAIRM R package.
 For additional model details, see the corresponding app in the DSAIRM package.</p>
-    
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     <p>This function does not perform any error checking. So if
   you try to do something nonsensical (e.g. specify negative parameter or starting values),
   the code will likely abort with an error message.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
@@ -239,38 +257,38 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_virusandtx_ode</span>(<span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>)
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='img'><img src='simulate_virusandtx_ode-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='img'><img src='simulate_virusandtx_ode-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#warning">Warning</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://handelgroup.uga.edu/'>Andreas Handel</a>.</p>
+  <p>Developed by <a href='https://www.andreashandel.com'>Andreas Handel</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

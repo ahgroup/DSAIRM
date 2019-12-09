@@ -28,6 +28,9 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_text.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/hayden96flu.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/run_model.html</loc>
   </url>
   <url>
@@ -50,6 +53,9 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_confint.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_fludrug.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_modelcomparison.html</loc>

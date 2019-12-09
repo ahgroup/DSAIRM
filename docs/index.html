@@ -7,11 +7,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dynamical Systems Approach to Immune Response Modeling • DSAIRM</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><link href="extra.css" rel="stylesheet">
 <meta property="og:title" content="Dynamical Systems Approach to Immune Response Modeling">
-<meta property="og:description" content="A collection of 'shiny' apps that allow for the simulation and
+<meta property="og:description" content="A collection of shiny apps that allow for the simulation and
     exploration of various within-host immune response scenarios.
     The purpose of the package is to help individuals learn 
     about within-host infection and immune response modeling from a dynamical systems perspective.
@@ -37,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -58,6 +59,23 @@
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Related Packages
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li class="dropdown-header">DSAIDE</li>
+    <li>
+      <a href="https://ahgroup.github.io/DSAIDE/index.html"></a>
+    </li>
+    <li class="dropdown-header">modelbuilder</li>
+    <li>
+      <a href="https://ahgroup.github.io/modelbuilder/index.html"></a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -75,6 +93,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 
@@ -87,8 +106,8 @@
 <h2 class="hasAnchor">
 <a href="#description" class="anchor"></a>Description</h2>
 <p>DSAIRM is an R package containing a set of simulation modelss (apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective.</p>
-<p>You can explore the apps through a graphical user interface, implemented in Shiny. By going through the documentation and instructions of each app, you will learn important concepts of within-host and immune response modeling. You will also learn how simulation model can be used to study such concepts.</p>
-<p>You can also directly access and modify all simulations to adapt them to your research needs.</p>
+<p>All models can be explored through a graphical user interface, no reading or writing code is required. Each app comes with documenation and instructions which teach important concepts of within-host and immune response modeling, and how to use simulation models to understand such concepts.</p>
+<p>It is also possible to go beyond the graphical interface and directly access and modify all simulations to adapt them to your needs.</p>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
@@ -97,7 +116,7 @@
 <pre><code>install.packages('DSAIRM')
 library('DSAIRM')
 dsairmmenu()</code></pre>
-<p>You can also give the package <a href="https://handelgroup.shinyapps.io/dsairm/">a quick try online, without having to install it</a>. I still recommend you install it like any regular R package should you decide that you want to use it. Note that I only have a free plan for shinyapps.io, where the online version is hosted. If the link fails to work it likely means I reached my maximum monthly allowed capacity. In that case, just go ahead and install the package. It’s only 3 commands!</p>
+<p>You can also give the package <a href="https://handelgroup.shinyapps.io/dsairm/">a quick try online, without having to install it</a>. I still recommend you install it like any regular R package should you decide that you want to use it. Note that I only have a free plan for shinyapps.io, where the online version is hosted. If the link fails to work it likely means I reached my maximum monthly allowed capacity. In that case, just go ahead and install the package. It’s only 3 commands to get it up and running!</p>
 <p>For a quick introduction to the package, step-by-step instructions on getting started, and more information on the different ways you can use the package <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">see the tutorial (vignette)</a>.</p>
 </div>
 <div id="further-information" class="section level2">
@@ -107,6 +126,7 @@ dsairmmenu()</code></pre>
 <li>A ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/index.html">See the DSAIDE site for more information.</a>
 </li>
 <li>I have solutions (in progress) to most of the ‘What to do’ tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.</li>
+<li>I heard that DSAIRM doesn’t seem to work quite right using Docker. This is likely irrelevant for almost all users.</li>
 </ul>
 </div>
 <div id="acknowledgements" class="section level2">
@@ -140,7 +160,7 @@ dsairmmenu()</code></pre>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
-<a href="http://handelgroup.uga.edu/">Andreas Handel</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4622-1146" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<a href="https://www.andreashandel.com">Andreas Handel</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-4622-1146" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
@@ -153,22 +173,27 @@ dsairmmenu()</code></pre>
 <li><a href="https://codecov.io/github/ahgroup/DSAIRM?branch=master"><img src="https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://cran.r-project.org/package=DSAIRM"><img src="https://www.r-pkg.org/badges/version/DSAIRM" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/web/checks/check_results_DSAIRM.html"><img src="https://cranchecks.info/badges/summary/DSAIRM" alt="CRAN checks"></a></li>
+<li><a href="https://cran.r-project.org/package=DSAIRM"><img src="http://cranlogs.r-pkg.org/badges/DSAIDE" alt="metacran monthly downloads"></a></li>
+<li><a href="https://cran.r-project.org/package=DSAIRM"><img src="http://cranlogs.r-pkg.org/badges/grand-total/DSAIDE?color=ff69b4" alt="metacran downloads"></a></li>
 </ul>
 </div>
 </div>
 </div>
 
+
       <footer><div class="copyright">
-  <p>Developed by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>.</p>
+  <p>Developed by <a href="https://www.andreashandel.com">Andreas Handel</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
