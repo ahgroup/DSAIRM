@@ -4,10 +4,25 @@
 \alias{simulate_virusandtx_ode}
 \title{Simulation of a basic viral infection model with drug treatment}
 \usage{
-simulate_virusandtx_ode(U = 1e+05, I = 0, V = 1, n = 10000,
-  dU = 0.1, dI = 1, dV = 2, b = 1e-05, p = 10, g = 1, f = 0,
-  e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE,
-  txstart = 0)
+simulate_virusandtx_ode(
+  U = 1e+05,
+  I = 0,
+  V = 1,
+  n = 10000,
+  dU = 0.1,
+  dI = 1,
+  dV = 2,
+  b = 1e-05,
+  p = 10,
+  g = 1,
+  f = 0,
+  e = 0,
+  tstart = 0,
+  tfinal = 30,
+  dt = 0.1,
+  steadystate = FALSE,
+  txstart = 0
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

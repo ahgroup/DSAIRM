@@ -4,11 +4,32 @@
 \alias{simulate_fit_basicmodel}
 \title{Fitting a simple viral infection models to influenza data}
 \usage{
-simulate_fit_basicmodel(U = 1e+05, I = 0, V = 1, X = 1, n = 0,
-  dU = 0, dI = 1, g = 1, p = 10, plow = 0.001, phigh = 1000,
-  psim = 10, b = 1e-04, blow = 1e-06, bhigh = 0.001,
-  bsim = 1e-04, dV = 5, dVlow = 0.001, dVhigh = 1000, dVsim = 5,
-  noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
+simulate_fit_basicmodel(
+  U = 1e+05,
+  I = 0,
+  V = 1,
+  X = 1,
+  n = 0,
+  dU = 0,
+  dI = 1,
+  g = 1,
+  p = 10,
+  plow = 0.001,
+  phigh = 1000,
+  psim = 10,
+  b = 1e-04,
+  blow = 1e-06,
+  bhigh = 0.001,
+  bsim = 1e-04,
+  dV = 5,
+  dVlow = 0.001,
+  dVhigh = 1000,
+  dVsim = 5,
+  noise = 0,
+  iter = 100,
+  solvertype = 1,
+  usesimdata = 1
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

@@ -4,10 +4,26 @@
 \alias{simulate_fit_confint}
 \title{Fit a simple viral infection model and compute confidence intervals}
 \usage{
-simulate_fit_confint(U = 1e+05, I = 0, V = 10, n = 0, dU = 0,
-  dI = 2, p = 0.01, g = 0, b = 0.01, blow = 1e-06,
-  bhigh = 1000, dV = 2, dVlow = 0.001, dVhigh = 1000, iter = 20,
-  nsample = 10, rngseed = 100, parscale = "lin")
+simulate_fit_confint(
+  U = 1e+05,
+  I = 0,
+  V = 10,
+  n = 0,
+  dU = 0,
+  dI = 2,
+  p = 0.01,
+  g = 0,
+  b = 0.01,
+  blow = 1e-06,
+  bhigh = 1000,
+  dV = 2,
+  dVlow = 0.001,
+  dVhigh = 1000,
+  iter = 20,
+  nsample = 10,
+  rngseed = 100,
+  parscale = "lin"
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

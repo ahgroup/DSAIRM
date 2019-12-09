@@ -4,11 +4,31 @@
 \alias{simulate_fit_modelcomparison}
 \title{Fitting 2 simple viral infection models to influenza data}
 \usage{
-simulate_fit_modelcomparison(U = 1e+05, I = 0, V = 1, X = 1,
-  dI = 1, dV = 2, g = 0, p = 10, k = 1e-06, a = 1e-05,
-  alow = 1e-06, ahigh = 1e-04, b = 1e-05, blow = 1e-06,
-  bhigh = 0.001, r = 1, rlow = 0.1, rhigh = 2, dX = 1,
-  dXlow = 0.1, dXhigh = 10, fitmodel = 1, iter = 100)
+simulate_fit_modelcomparison(
+  U = 1e+05,
+  I = 0,
+  V = 1,
+  X = 1,
+  dI = 1,
+  dV = 2,
+  g = 0,
+  p = 10,
+  k = 1e-06,
+  a = 1e-05,
+  alow = 1e-06,
+  ahigh = 1e-04,
+  b = 1e-05,
+  blow = 1e-06,
+  bhigh = 0.001,
+  r = 1,
+  rlow = 0.1,
+  rhigh = 2,
+  dX = 1,
+  dXlow = 0.1,
+  dXhigh = 10,
+  fitmodel = 1,
+  iter = 100
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

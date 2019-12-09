@@ -23,7 +23,9 @@ test_that("test that modelexploration app returns the proper plots",
 
             result = run_model(modelsettings)
 
-            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            p = DSAIRM::generate_ggplot(result)
+            expect_true( is.ggplot(p))
+
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
@@ -32,9 +34,9 @@ test_that("test that modelexploration app returns the proper plots",
             modelsettings$pardist = "log"
             modelsettings$samplepar = "r"
             result = run_model(modelsettings)
-            testthat::expect_is( generate_ggplot(result), "ggplot" )
 
-
+            p = DSAIRM::generate_ggplot(result)
+            expect_true( is.ggplot(p))
 
             })
 

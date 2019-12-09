@@ -4,12 +4,37 @@
 \alias{simulate_virusandir_ode}
 \title{Simulation of a viral infection model with an immune response}
 \usage{
-simulate_virusandir_ode(U = 1e+05, I = 0, V = 10, T = 0, B = 1,
-  A = 0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000,
-  sF = 0.01, kA = 1e-05, kT = 1e-05, pF = 1, dF = 1, gF = 1,
-  Fmax = 1000, hV = 1e-06, hF = 1e-05, gB = 1, gT = 1e-04,
-  rT = 0.5, rA = 10, dA = 0.2, tstart = 0, tfinal = 30,
-  dt = 0.05)
+simulate_virusandir_ode(
+  U = 1e+05,
+  I = 0,
+  V = 10,
+  T = 0,
+  B = 1,
+  A = 0,
+  n = 0,
+  dU = 0,
+  dI = 1,
+  dV = 4,
+  b = 1e-05,
+  p = 1000,
+  sF = 0.01,
+  kA = 1e-05,
+  kT = 1e-05,
+  pF = 1,
+  dF = 1,
+  gF = 1,
+  Fmax = 1000,
+  hV = 1e-06,
+  hF = 1e-05,
+  gB = 1,
+  gT = 1e-04,
+  rT = 0.5,
+  rA = 10,
+  dA = 0.2,
+  tstart = 0,
+  tfinal = 30,
+  dt = 0.05
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

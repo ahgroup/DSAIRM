@@ -143,12 +143,37 @@ which tracks uninfected and infected cells, virus, innate immune response, T-cel
 The model is implemented as set of ordinary differential equations using the deSolve package.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_virusandir_ode</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>T</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sF</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>kA</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>kT</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>pF</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dF</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>gF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>Fmax</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>hV</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>, <span class='kw'>hF</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>gB</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>gT</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>rT</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>rA</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>dA</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_virusandir_ode</span>(
+  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>T</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>sF</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>kA</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>kT</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>pF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>gF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>Fmax</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>hV</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
+  <span class='kw'>hF</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>gB</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>gT</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>rT</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
+  <span class='kw'>rA</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>dA</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.05</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

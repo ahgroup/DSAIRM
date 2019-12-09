@@ -5,10 +5,24 @@
 \title{Simulation to illustrate parameter scan of the basic bacteria model
 #'}
 \usage{
-simulate_modelexploration(B = 10, I = 1, g = 1, Bmax = 1e+06,
-  dB = 0.1, k = 1e-07, r = 0.001, dI = 1, tstart = 0,
-  tfinal = 200, dt = 0.1, samples = 10, parmin = 1e-08,
-  parmax = 1e-05, samplepar = "k", pardist = "lin")
+simulate_modelexploration(
+  B = 10,
+  I = 1,
+  g = 1,
+  Bmax = 1e+06,
+  dB = 0.1,
+  k = 1e-07,
+  r = 0.001,
+  dI = 1,
+  tstart = 0,
+  tfinal = 200,
+  dt = 0.1,
+  samples = 10,
+  parmin = 1e-08,
+  parmax = 1e-05,
+  samplepar = "k",
+  pardist = "lin"
+)
 }
 \arguments{
 \item{B}{: Starting value for bacteria : numeric}

@@ -3,7 +3,6 @@
 \docType{package}
 \name{DSAIRM}
 \alias{DSAIRM}
-\alias{DSAIRM-package}
 \title{DSAIRM: A package to learn about Dynamical Systems Approaches to
 Immune Response Modeling}
 \description{

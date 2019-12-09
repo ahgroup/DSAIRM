@@ -4,10 +4,25 @@
 \alias{simulate_fit_fludrug}
 \title{Fitting a simple viral infection model with 2 types of drug mechanisms to influenza data}
 \usage{
-simulate_fit_fludrug(U = 1e+05, I = 0, V = 1, dI = 2, dV = 4,
-  b = 0.001, blow = 1e-06, bhigh = 1000, p = 0.01, plow = 1e-06,
-  phigh = 1000, g = 0.001, glow = 0, ghigh = 10000, e = 0.8,
-  fitmodel = 1, iter = 100)
+simulate_fit_fludrug(
+  U = 1e+05,
+  I = 0,
+  V = 1,
+  dI = 2,
+  dV = 4,
+  b = 0.001,
+  blow = 1e-06,
+  bhigh = 1000,
+  p = 0.01,
+  plow = 1e-06,
+  phigh = 1000,
+  g = 0.001,
+  glow = 0,
+  ghigh = 10000,
+  e = 0.8,
+  fitmodel = 1,
+  iter = 100
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

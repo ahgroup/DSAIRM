@@ -151,10 +151,25 @@ The function returns a list containing time-series of each variable and time.
 inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_virusandtx_ode</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>steadystate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>txstart</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_virusandtx_ode</span>(
+  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
+  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>steadystate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>txstart</span> <span class='kw'>=</span> <span class='fl'>0</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

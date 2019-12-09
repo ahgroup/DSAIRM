@@ -5,12 +5,41 @@
 \title{Simulation of a viral infection model with immune response
 The simulation illustrates different alternative models.}
 \usage{
-simulate_modelvariants_ode(U = 1e+05, I = 0, V = 10, F = 0,
-  A = 0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-05, p = 1000,
-  pF = 1, dF = 1, f1 = 1e-04, f2 = 0, f3 = 0, Fmax = 1000,
-  sV = 1e-10, k1 = 0.001, k2 = 0, k3 = 0, a1 = 1000, a2 = 0,
-  a3 = 0, hV = 1e-10, k4 = 0.001, k5 = 0, k6 = 0, sA = 1e-10,
-  dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_modelvariants_ode(
+  U = 1e+05,
+  I = 0,
+  V = 10,
+  F = 0,
+  A = 0,
+  n = 0,
+  dU = 0,
+  dI = 1,
+  dV = 4,
+  b = 1e-05,
+  p = 1000,
+  pF = 1,
+  dF = 1,
+  f1 = 1e-04,
+  f2 = 0,
+  f3 = 0,
+  Fmax = 1000,
+  sV = 1e-10,
+  k1 = 0.001,
+  k2 = 0,
+  k3 = 0,
+  a1 = 1000,
+  a2 = 0,
+  a3 = 0,
+  hV = 1e-10,
+  k4 = 0.001,
+  k5 = 0,
+  k6 = 0,
+  sA = 1e-10,
+  dA = 0.1,
+  tstart = 0,
+  tfinal = 30,
+  dt = 0.05
+)
 }
 \arguments{
 \item{U}{: initial number of uninfected target cells : numeric}

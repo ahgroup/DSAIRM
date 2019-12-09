@@ -4,9 +4,21 @@
 \alias{simulate_basicvirus_ode}
 \title{Basic Virus model - ODE}
 \usage{
-simulate_basicvirus_ode(U = 1e+05, I = 0, V = 1, n = 0, dU = 0,
-  dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0,
-  tfinal = 30, dt = 0.1)
+simulate_basicvirus_ode(
+  U = 1e+05,
+  I = 0,
+  V = 1,
+  n = 0,
+  dU = 0,
+  dI = 1,
+  dV = 2,
+  b = 2e-05,
+  p = 5,
+  g = 1,
+  tstart = 0,
+  tfinal = 30,
+  dt = 0.1
+)
 }
 \arguments{
 \item{U}{: Starting value for uninfected cells : numeric}

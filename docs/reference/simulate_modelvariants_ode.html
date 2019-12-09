@@ -150,12 +150,41 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 The function returns a matrix containing time-series of each variable and time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>simulate_modelvariants_ode</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>, <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>F</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>, <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>pF</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>dF</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>f1</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>f2</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>f3</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>Fmax</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>sV</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>, <span class='kw'>k1</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>k2</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>k3</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>a1</span> <span class='kw'>=</span> <span class='fl'>1000</span>, <span class='kw'>a2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>a3</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>hV</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>, <span class='kw'>k4</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>k5</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>k6</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>sA</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>,
-  <span class='kw'>dA</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</pre>
+    <pre class="usage"><span class='fu'>simulate_modelvariants_ode</span>(
+  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>F</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>,
+  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>pF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dF</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>f1</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>f2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>f3</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>Fmax</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>sV</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>,
+  <span class='kw'>k1</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>k2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>k3</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>a1</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>a2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>a3</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>hV</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>,
+  <span class='kw'>k4</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>k5</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>k6</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>sA</span> <span class='kw'>=</span> <span class='fl'>1e-10</span>,
+  <span class='kw'>dA</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.05</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

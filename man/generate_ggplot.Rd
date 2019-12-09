@@ -29,6 +29,7 @@ optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provid
 optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
 optional: legendlocation - if "left" is specified, top left. Otherwise top. \cr
 optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
+optional: pallette - overwrite plot colors by providing a vector of color names or hex numbers to be used for the plot. \cr
 optional: title - A title for each plot. \cr
 optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr}
 }

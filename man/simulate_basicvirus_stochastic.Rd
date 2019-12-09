@@ -4,9 +4,19 @@
 \alias{simulate_basicvirus_stochastic}
 \title{Stochastic simulation of a compartmental acute virus infection model}
 \usage{
-simulate_basicvirus_stochastic(U = 10000, I = 0, V = 5, n = 0,
-  dU = 0, b = 1e-04, dI = 1, p = 10, dV = 2, rngseed = 100,
-  tfinal = 30)
+simulate_basicvirus_stochastic(
+  U = 10000,
+  I = 0,
+  V = 5,
+  n = 0,
+  dU = 0,
+  b = 1e-04,
+  dI = 1,
+  p = 10,
+  dV = 2,
+  rngseed = 100,
+  tfinal = 30
+)
 }
 \arguments{
 \item{U}{: initial number of target cells. Needs to be an integer : numeric}

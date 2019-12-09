@@ -5,9 +5,22 @@
 \title{Stochastic simulation of a compartmental acute virus infection model
 with treatment and drug resistant strain}
 \usage{
-simulate_drugresistance_stochastic(U = 1e+05, Is = 0, Ir = 0,
-  Vs = 10, Vr = 0, b = 1e-05, dI = 1, e = 0, m = 1e-04,
-  p = 100, c = 4, f = 0.1, rngseed = 100, tfinal = 100)
+simulate_drugresistance_stochastic(
+  U = 1e+05,
+  Is = 0,
+  Ir = 0,
+  Vs = 10,
+  Vr = 0,
+  b = 1e-05,
+  dI = 1,
+  e = 0,
+  m = 1e-04,
+  p = 100,
+  c = 4,
+  f = 0.1,
+  rngseed = 100,
+  tfinal = 100
+)
 }
 \arguments{
 \item{U}{: initial number of target cells : numeric}

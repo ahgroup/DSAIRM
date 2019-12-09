@@ -31,21 +31,26 @@ test_that("test that stochastic virus app works",
 
             modelsettings$modeltype = '_ode_'
             result = run_model(modelsettings)
-            testthat::expect_is( generate_ggplot(result), "ggplot" )
+
+            p = DSAIRM::generate_ggplot(result)
+            expect_true( is.ggplot(p))
+
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
 
             modelsettings$modeltype = '_stochastic_'
             result = run_model(modelsettings)
-            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            p = DSAIRM::generate_ggplot(result)
+            expect_true( is.ggplot(p))
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
 
             modelsettings$modeltype = '_ode_and_stochastic_'
             result = run_model(modelsettings)
-            testthat::expect_is( generate_ggplot(result), "ggplot" )
+            p = DSAIRM::generate_ggplot(result)
+            expect_true( is.ggplot(p))
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )

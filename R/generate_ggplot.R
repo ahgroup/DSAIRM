@@ -24,6 +24,7 @@
 #'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
 #'    optional: legendlocation - if "left" is specified, top left. Otherwise top. \cr
 #'    optional: linesize - Width of line, numeric, i.e. 1.5, 2, etc. set to 1.5 if not supplied. \cr
+#'    optional: pallette - overwrite plot colors by providing a vector of color names or hex numbers to be used for the plot. \cr
 #'    optional: title - A title for each plot. \cr
 #'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
 #'
@@ -40,6 +41,12 @@
 
 generate_ggplot <- function(res)
 {
+    # change ggplot color palette to color-blind friendly
+    # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+    # I added 3 more colors at the end to have 12, enough for all simulations
+    # the ones I added are likely not color-blind friendly but rarely used in the app
+    #cbfpalette <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+    cbfpalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#00523B","#D5C711","#0019B2")
 
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
@@ -89,15 +96,13 @@ generate_ggplot <- function(res)
       mylevels = unique(dat$varnames)
       dat$varnames = factor(dat$varnames, levels = mylevels, ordered = TRUE)
 
-
-
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)
       yscaletrans <- ifelse(is.null(resnow$yscale), 'identity',resnow$yscale)
 
       #lower and upper bounds for plots, these are used if none are provided by calling function
-      lb = 1e-10;
-      ub = 1e20;
+      lb = 1e-10
+      ub = 1e20
 
       #if we want a plot on log scale, set any value in the data at or below 0 to some small number
       if (xscaletrans !='identity') {dat$xvals[dat$xvals<=0]=lb}
@@ -114,11 +119,11 @@ generate_ggplot <- function(res)
       #set line size as given by app or to 1.5 by default
       linesize = ifelse(is.null(resnow$linesize), 1.5, resnow$linesize)
 
-       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
-	  if (is.null(dat$IDvar))
-      {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals) )
-      }
+      #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
+	    if (is.null(dat$IDvar))
+	    {
+	      p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals) )
+	    }
       else
       {
         p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, group = IDvar) )
@@ -171,6 +176,10 @@ generate_ggplot <- function(res)
       #modify overall theme
       p5 = p4 + ggplot2::theme_bw(base_size = 18)
 
+      #default palette is set, overwritten if user provided
+      plotpalette = cbfpalette
+      if (!is.null(resnow$palette)) {plotpalette = resnow$palette }
+
 
       #do legend if TRUE or not provided
       if (is.null(resnow$makelegend) || resnow$makelegend)
@@ -185,25 +194,31 @@ generate_ggplot <- function(res)
         }
         legendtitle = ifelse(is.null(resnow$legendtitle), "Variables", resnow$legendtitle)
 
-        p5a = p5 + ggplot2::guides(col = ggplot2::guide_legend(nrow=2, byrow=TRUE,title.position = 'left'))
-        p5b = p5a + ggplot2::theme(legend.position = legendlocation)
-        p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
 
+
+        p5a = p5 + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
+        p5b = p5a + ggplot2::theme(legend.position = legendlocation)
+        p5c = p5b + ggplot2::scale_linetype_discrete(name = legendtitle) + ggplot2::scale_shape_discrete(name = legendtitle)
+        p5d = p5c + ggplot2::scale_colour_manual(values=plotpalette, name = legendtitle)
+        p6 = p5d + ggplot2::guides(fill=ggplot2::guide_legend(title.position="top", nrow=3, byrow=TRUE))
+
+        # seems to not work, need to check
         #some trickery to set legend right for combined line and symbol
         #adapted from here:
         #https://stackoverflow.com/questions/37140266/how-to-merge-color-line-style-and-shape-legends-in-ggplot
         # Compute the number of types and methods
-        npoints = length(unique(dplyr::filter(dat,style == 'point')$varnames))
-        nlines = length(unique(dplyr::filter(dat,style == 'line')$varnames))
-
-        p5d = p5c + ggplot2::scale_colour_discrete(name = legendtitle)
-        p5e = p5d + ggplot2::scale_linetype_manual(legendtitle, values = c(1:nlines, rep(NA,npoints)) )
-        p5f = p5e + ggplot2::scale_shape_manual(legendtitle, values = c(rep(NA,nlines), 15 + c(1:npoints)) )
-        p6 = p5f
+        #npoints = length(unique(dplyr::filter(dat,style == 'point')$varnames))
+        #nlines = length(unique(dplyr::filter(dat,style == 'line')$varnames))
+        #p5a = p5 + ggplot2::guides(col = ggplot2::guide_legend(nrow=2, byrow=TRUE,title.position = 'left'))
+        #p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line"))
+        #p5d = p5c + ggplot2::scale_colour_discrete(name = legendtitle)
+        #p5e = p5d + ggplot2::scale_linetype_manual(legendtitle, values = c(1:nlines, rep(NA,npoints)) )
+        #p5f = p5e + ggplot2::scale_shape_manual(legendtitle, values = c(rep(NA,nlines), 15 + c(1:npoints)) )
+        #p6 = p5f
       }
       else
       {
-          p6 = p5 + ggplot2::theme(legend.position="none")
+        p6 = p5 + ggplot2::theme(legend.position="none") + ggplot2::scale_colour_manual(values=plotpalette)
       }
 
       #modify overall theme
