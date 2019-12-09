@@ -3,8 +3,8 @@
 [![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg)](https://codecov.io/github/ahgroup/DSAIRM?branch=master)
 [![CRAN status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
 [![CRAN checks](https://cranchecks.info/badges/summary/DSAIRM)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
-[![metacran monthly downloads](http://cranlogs.r-pkg.org/badges/DSAIDE)](https://cran.r-project.org/package=DSAIRM)
-[![metacran downloads](http://cranlogs.r-pkg.org/badges/grand-total/DSAIDE?color=ff69b4)](https://cran.r-project.org/package=DSAIRM)
+[![metacran monthly downloads](http://cranlogs.r-pkg.org/badges/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
+[![metacran downloads](http://cranlogs.r-pkg.org/badges/grand-total/DSAIRM?color=ff69b4)](https://cran.r-project.org/package=DSAIRM)
 
 
 # DSAIRM
