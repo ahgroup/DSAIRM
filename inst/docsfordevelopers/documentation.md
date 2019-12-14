@@ -1,41 +1,48 @@
-# Documentation for working on the DSAIRM package 
+# Documentation for working on the DSAIDE/DSAIRM packages
 
-## Package structure 
+**The DSAIDE and DSAIRM packages are very similar in structure, so the text below applies to both. I mostly write DSAIDE, sometimes DSAIRM. Just substitute with whichever package you work on.**
+
+## Package structure/use 
+* The main use case is the user calling the dsaidemenu() function. This function calls a Shiny app (in the /inst/DSAIDE folder), which is the main user interface. The Shiny app in turn uses the various generate_ functions to build the UI. Users can select models/apps, which are each encoded by one or more simulate_ function. 
+* An alternative use case is for users to write code that directly calls the simulate_ functions.
+* The simulate_ functions can also be downloaded and modified by the user.
+* The package documentation contains more information.
+
+## Package organization
 
 ### Main functions
 * Folder /R contains the main R functions, i.e. the simulattors and various helper functions. 
-* All simulators, which are meant to be called by advanced users start with simulate_. 
-* The functions/files generate_text, generate_ggplot and generate_plotly can take results returned from the simulator functions and generate plots. 
-* All other functions/files are only needed for the package/UI to work and are not meant to be directly accessed by users.
-* While some of the functions are meant to be used as part of a shiny app, none deal with reactive content, all inputs and outputs are non-reactive objects.
+* All simulators, which can be called directly by advanced users start with simulate_. 
+* The functions/files generate_text, generate_ggplot and generate_plotly can take results returned from the simulator functions and generate plots. Users might want to use those combined with running the simulate_ functions. 
+* All other functions/files are only needed for the package/UI to work. They are public/exported, but are generally not meant to be directly accessed by users.
+* While some of the functions are meant to be used as part of a shiny app, none directly handle reactive onjects, all inputs and outputs are non-reactive objects/variables.
 
 ### App materials
 * The /inst folder contains several subfolders: 
   * The /appinformation subfolder contains files with documentation and settings for each simulator/app. Each App has an NNN_settings.R file and Rmd+HTML files containing the documentation. Those files contain the documentation displayed at the bottom of each app, and app-specific settings that are needed for proper display and running through the UI. Names of files and buttons in the main app.R need to agree.
-  * /docsfordevelopers sub-folder contains this file
-  * /DSAIRM subfolder contains the main app.R Shiny app. It also includes a css file for styling. A subfolder created by rsconnect during package upload to shinyapps.io might also be present. 
+ * /docsfordevelopers sub-folder contains this file
+  * /DSAIDE subfolder contains the main app.R Shiny app. It also includes a css file for styling. A subfolder created by rsconnect during package upload to shinyapps.io might also be present. 
   * /media sub-folder contains figures and a bib file used as part of the documentation (i.e. the Rmd files). 
-  * /simulatorfunctions subfolder contains the R code for all simulator functions. The functions in this folder are copies of the simulatorfunctions in the /R folder. They are used by the package to create the shiny UI (see the generate_shinyinput function). They are also contained in a zip folder which can be downloaded by users for easy access and editing.
+  * /simulatorfunctions subfolder contains the R code for all simulator functions. The functions in this folder are copies of the simulatorfunctions in the /R folder. They are used by the package to create the shiny UI (see the generate_shinyinput function). They are also contained in a zip folder which can be downloaded by users for easy access and editing. Before a new version of the package is released, it is important to ensure that the simulator_ functions in this subfolder and the zip file are up-to-date and correspond to the files in the /R folder.
 
 
 ### Other folders
 
-* /auxiliary contains related resources that are not used/needed for package use or build
+* /auxiliary contains subfoldes with related resources that are not used/needed for the package use/build but are useful (to the package authors) for maintenance/development/advertising/tracking of the package
 * /data contains data used as part of the R package. The data files are documented in data.R in the /R folder.
-* /doc contains the vignettes, this folder should not be edited, see below.
+* /doc contains the vignettes, this folder is auto-generated and should not be edited, see below.
 * /docs contains the package website created by the pkgdown package. Rebuild with pkgdown::build_site(). Don't edit manually.
 * /man contains the documentation for all public functions, automatically generated by roxygen
 * /Meta contains vignette information and is auto-created by devtools when package is built. Ignore.
-* /pkgdown contains extra files for styling of pkgdown created website
-* /tests contains unit tests, done with the testthat package
+* /pkgdown contains extra files for styling of pkgdown created website. Edit to change layout of package website.
+* /tests contains code/unit tests, done with the testthat package. Add tests as new functionality is added.
 * /vignettes contains the vignette - this is copied to /inst/doc during package building. edits should be done to the file in the /vignettes folder, not the /inst/doc folder.
-
 
 ## Adding new apps/features
 
 If you plan to build/contribute new apps or new features to the package, I would be delighted to include them! 
-The best idea is to first contact me by email (ahandel@uga.edu) or through the Github site and tell me that you would like to contribute. 
-We can then discuss a bit before you embark on the effort. 
+The best idea is to first contact me by email (ahandel@uga.edu) or through the Github site and tell me that you would like to contribute. We can then discuss a bit before you embark on the effort. 
+
 To build a new app, you need to create at minimum the following:
 
 * The main simulator_NNN function.
@@ -44,9 +51,9 @@ To build a new app, you need to create at minimum the following:
 Also needed (which could be done by you or me):
 
 * The NNN_settings.R file. 
-* A unit test for your new app in the testthat folder.
-* Editing of app.R to include your new function.
-* Adding any figures into the /media folder.
+* A test script for your new app in the testthat folder.
+* Editing of app.R to include your new app.
+* Adding any figures your app documentation includes to the /media folder.
 * Copying of your new simulator_NNN function into the simulatorfunctions folder and the zip file.
 * Adding any cited references to the .bib file in the appinformation folder.
 * Turning the documentation Rmd file into an HTML file.
@@ -55,14 +62,16 @@ Also needed (which could be done by you or me):
 
 ### To work on package through RStudio: 
 * Fork and clone package from Rstudio.
-* Load DSAIRM.Rproj in RStudio. Edit files as needed.
+* Load DSAIDE.Rproj in RStudio. Edit files as needed.
+* Use devtools/roxygen to build and document the package. Either use RStudio's functionality (or command line) to test/build packages using devtools. The package follows Hadley's recommendations and workflow described here: http://r-pkgs.had.co.nz/
 * Optionally, use RStudio tie-in with github to sync project to github (the 'git' tab). Alternativley, use your favorite git client.
-* Rtools needs to be installed (on Windows)
+* Rtools needs to be installed (on Windows).
 
 ### Dependency packages 
 All libraries/packages needed to allow the package to run should be loaded via the DESCRIPTION file and not in separate R files. See that file for dependencies.
 
 Additional packages are needed for development (but not use) of the package. Those are listed in the suggests section of the DESCRIPTION file. 
+
 
 ### To update R documentation and vignette
 * Edit documentation inside R functions. 
@@ -71,13 +80,13 @@ Additional packages are needed for development (but not use) of the package. Tho
 * To build new vignette, run devtools::build_vignettes()
 * To update the pkgdown website, run pkgdown::build_site()
 * To spell-check all Rmd documentation files, use these commands (adjust paths as needed):
-files = list.files(path = "C:/data/Github/DSAIRM/inst/appinformation/", recursive=TRUE, pattern = "\\.Rmd$", full.names = TRUE)
+files = list.files(path = "C:/data/git/DSAIDE/inst/appinformation/", recursive=TRUE, pattern = "\\.Rmd$", full.names = TRUE)
 spelling::spell_check_files(files)
 * To re-build all html documentation files from the rmd files at once, use the above command to get all files, then:
-for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(1)}
+for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(2)}
 * To copy simulator functions into the /inst/simulator folder:
-files = list.files(path = "C:/data/git/DSAIRM/R/", recursive=TRUE, pattern = "^simulate", full.names = TRUE)
-file.copy(files, "C:/data/Github/DSAIRM/inst/simulatorfunctions/", overwrite = TRUE)
+files = list.files(path = "C:/data/git/DSAIDE/R/", recursive=TRUE, pattern = "^simulate", full.names = TRUE)
+file.copy(files, "C:/data/git/DSAIDE/inst/simulatorfunctions/", overwrite = TRUE)
 
 ### To build the package
 * in RStudio, use the functions in the 'build' tab to test and build the package.
@@ -88,9 +97,9 @@ file.copy(files, "C:/data/Github/DSAIRM/inst/simulatorfunctions/", overwrite = T
 to deploy, follow these steps (also listed in the main app.R file):
 1. go into the folder where this file (app.R) resides
 2. install the package through CRAN or github if we want to use the github version
-devtools::install_github('ahgroup/DSAIRM')
+devtools::install_github('ahgroup/DSAIDE')
 3. uncomment this line of code
-library('DSAIRM')
+library('DSAIDE')
 4. with the above 'library' statement active, deploy with:
  run rsconnect::deployApp(account = 'epibiouga')
  as suitable, change the account to another one, e.g. handelgroup
