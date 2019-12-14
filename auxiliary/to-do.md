@@ -1,25 +1,33 @@
-## Test environments
-
-* local Windows 10.1 x86_64, R 3.6
-* Travis-ci (Ubuntu, MacOS) 
-* Appveyor (Windows)
-* Rhub (Windows, Ubuntu, Fedora)
-* Win-builder 
+# To-do list for DSAIRM package
 
 
-## R CMD check results
+## Code Improvements
+* Continue implementing unit tests using the testthat package
+* Provide a 'download scenario' button, which downloads code that reproduces a given scenario.
+* Add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
+* Continue streamlining code base to make it more general/modular/flexible
 
-0 errors v | 0 warnings v | 0 notes v
+## Content Improvement
+* Write/update all solutions
+* Add learning objectives to each overview tab
+* Implement further apps, see below
+* Clean up and make all model diagrams as nice as possible
 
 
-## Submission History
+## Apps to be implemented
+* More complicated HCV PK/PD (SISMID-U4-3/4)
+* U/S analysis using regression instead of correlation (U6-us3)
+* models with memory/dummy compartments (U9-memory)
+* discrete-time model with noise (U9-noise)
+* fitting of multiple datasets and types of data, e.g. Pawelek 2016 model
+* fitting of multiple-condition datasets, e.g. with and without drug present (find old R code for this) 
+* fitting using different likelihood approaches (instead of just SSR)
+* co-infection model
 
-version 0.8.2: bug fixes and some small feature enhancements.
 
-version 0.8: upgrades to UI, improvement on backend. Sync versioning with 'sister' package DSAIDE.
-
-version 0.5.5: minor feature updates and bug fixes.
-
-version 0.5.0: major rebuild of the backend from multiple shiny apps to a single app.
-
-version 0.4.0: This is the first submission of this package.
+## General thoughts and comments
+* look into R consortium package certification
+* Get best practices badge: https://bestpractices.coreinfrastructure.org/en
+* Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
+* Add/cite/connect to Ottar's book and package: https://github.com/objornstad/epimdr
+* Hashtags on twitter when promoting app: #rstats, #dynamicalsystems #immunology #infectiousdisease
