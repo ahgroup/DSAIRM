@@ -5,7 +5,7 @@ Description: A package for exploring simulation models (apps) of various within-
     The purpose of the package is to help individuals learn 
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
-	The development of this package was partially supported by NIH grant U19AI117891.
+	  The development of this package was partially supported by NIH grant U19AI117891.
 Version: 0.8.3
 Date: 2019-12-03
 Authors@R: c(
