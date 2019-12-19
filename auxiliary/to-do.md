@@ -31,3 +31,7 @@
 * Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
 * Add/cite/connect to Ottar's book and package: https://github.com/objornstad/epimdr
 * Hashtags on twitter when promoting DSAIRM app: #rstats, #dynamicalsystems #immunology #infectiousdisease
+
+* Good sources of shiny examples and tips and tricks that might be helpful:
+https://deanattali.com/blog/advanced-shiny-tips/
+https://shiny.rstudio.com/articles/dynamic-ui.html
