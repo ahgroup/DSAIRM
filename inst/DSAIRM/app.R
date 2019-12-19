@@ -263,7 +263,7 @@ ui <- fluidPage(
 
                       tags$div(class='mainsectionheader', 'Further topics'),
                       fluidRow(
-                         actionButton("pkpdmodel", "Pharacokinetics and pharmacodynamics", class="mainbutton"),
+                         actionButton("pkpdmodel", "Pharmacokinetics and pharmacodynamics", class="mainbutton"),
                          actionButton("drugresistance", "Influenza antivirals and resistance", class="mainbutton"),
                          class = "mainmenurow"
                       ), #close fluidRow structure for input
