@@ -1,0 +1,17 @@
+citHeader("To cite package 'DSAIRM' in publications use:")
+
+citEntry(entry="Article",
+  title         = "A software package for immunologists to learn simulation modeling",
+  author        = as.person("Andreas Handel"),
+  journal       = "BMC Immunology",
+  year          = "2020",
+  volume        = "21",
+  number        = "1",
+  url           = "https://doi.org/10.1186/s12865-019-0321-0",
+  publisher     = "Springer Nature",
+  textVersion  =
+  paste("Andreas Handel (2020).",
+        "A software package for immunologists to learn simulation modeling.",
+        "BMC Immunology 21(1).",
+        "URL https://doi.org/10.1186/s12865-019-0321-0")
+)
