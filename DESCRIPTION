@@ -44,7 +44,7 @@ Suggests:
     rmarkdown (>= 1.10),
     roxygen2,
     testthat
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 VignetteBuilder: knitr
 URL: https://ahgroup.github.io/DSAIRM, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues
