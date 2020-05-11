@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_documentation.R
 \name{generate_documentation}
 \alias{generate_documentation}
-\title{A helper function for the UI part of the Shiny apps}
+\title{A helper function which processes and displays the documentation part for each app}
 \usage{
 generate_documentation(docfilename)
 }

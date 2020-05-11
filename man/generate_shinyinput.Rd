@@ -23,12 +23,12 @@ This is a helper function called by the shiny app.
 \details{
 This function is called by the Shiny app to produce the Shiny input UI elements.
 mbmodel is assumed to be the name of a function. The file correpsonding to this function is assumed to live in the
-simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package. 
-This R file will be loaded and the documentation parsed to create UI elements. 
+simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package.
+This R file will be loaded and the documentation parsed to create UI elements.
 Therefore, all simulator_ R functions/scripts need to follow a specific syntax.
 Every argument needs to be of the form
-param X : param explanation : param type 
-example: 
+param X : param explanation : param type
+example:
 b : transmission rate : numeric
 Non-numeric arguments of functions are removed and need to be included in the otherinputs argument.
 }

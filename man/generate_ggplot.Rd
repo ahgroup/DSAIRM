@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_ggplot.R
 \name{generate_ggplot}
 \alias{generate_ggplot}
-\title{A helper function that takes result from the simulators and produces plots}
+\title{A helper function that takes simulation results and produces ggplot plots}
 \usage{
 generate_ggplot(res)
 }
@@ -41,10 +41,9 @@ This function generates plots to be displayed in the Shiny UI.
 This is a helper function. This function processes results returned from the simulation, supplied as a list.
 }
 \details{
-This function is called by the Shiny server to produce plots returned to the Shiny UI.
-Create plots run the simulation with default parameters just call the function:
-result <- simulate_basicbacteria()
-plot <- generate_ggplot(result)
+This function can be called to produce plots, i.e. those displayed for each app.
+The input needed by this function is produced by either calling the run_model() function (as done when going through the UI)
+or manually transforming the output from a simulate_ function into the correct list structure explained below.
 }
 \author{
 Andreas Handel

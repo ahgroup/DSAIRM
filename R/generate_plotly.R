@@ -1,12 +1,12 @@
-#' @title A helper function that takes result from the simulators and produces plots
+#' @title A helper function that takes simulation results and produces plotly plots
 #'
 #' @description This function generates plots to be displayed in the Shiny UI.
 #' This is a helper function. This function processes results returned from the simulation, supplied as a list.
 #' @param res A list structure containing all simulation results that are to be plotted.
-#'    The length of the list indicates the number of separate plots to make.
-#'    Each list entry corresponds to one plot and
+#'    The length of the main list indicates the number of separate plots to make.
+#'    Each list entry is itself a list, and corresponds to one plot and
 #'    needs to contain the following information/elements: \cr
-#'    1. A data frame called "dat" or "ts". If the data frame is "ts" it is assumed to be
+#'    1. A data frame list element called "dat" or "ts". If the data frame is "ts" it is assumed to be
 #'    a time series and by default a line plot will be produced and labeled Time/Numbers.
 #'    For plotting, the data needs to be in a format with one column called xvals, one column yvals,
 #'    one column called varnames that contains names for different variables.
@@ -18,7 +18,7 @@
 #'    2. Meta-data for the plot, provided in the following variables: \cr
 #'    optional: plottype - One of "Lineplot" (default is nothing is provided),"Scatterplot","Boxplot", "Mixedplot". \cr
 #'    optional: xlab, ylab - Strings to label axes. \cr
-#'    optional: xscale, yscale - Scaling of axes, valid ggplot expression, e.g. "identity" or "log10". \cr
+#'    optional: xscale, yscale - Scaling of axes, valid ggplot2 expression, e.g. "identity" or "log10". \cr
 #'    optional: xmin, xmax, ymin, ymax - Manual min and max for axes. \cr
 #'    optional: makelegend - TRUE/FALSE, add legend to plot. Assume true if not provided. \cr
 #'    optional: legendtitle - Legend title, if NULL/not supplied, default is used \cr
@@ -28,10 +28,9 @@
 #'    optional: for multiple plots, specify res[[1]]$ncols to define number of columns \cr
 #'
 #' @return A plotly plot structure for display in a Shiny UI.
-#' @details This function is called by the Shiny server to produce plots returned to the Shiny UI.
-#' Create plots run the simulation with default parameters just call the function:
-#' result <- simulate_basicbacteria()
-#' plot <- generate_plotly(result)
+#' @details This function can be called to produce plots, i.e. those displayed for each app.
+#' The input needed by this function is produced by either calling the run_model() function (as done when going through the UI)
+#' or manually transforming the output from a simulate_ function into the correct list structure explained below.
 #' @import plotly
 #' @importFrom stats reshape
 #' @author Yang Ge, Andreas Handel
@@ -89,7 +88,7 @@ generate_plotly <- function(res)
 
       #code variable names as factor and level them so they show up right in plot - factor is needed for plotting and text
       mylevels = unique(dat$varnames)
-      dat$varnames = factor(dat$varnames, levels = mylevels, ordered = TRUE)
+      dat$varnames = factor(dat$varnames, levels = mylevels)
 
       #see if user/calling function supplied x- and y-axis transformation information
       xscaletrans <- ifelse(is.null(resnow$xscale), 'identity',resnow$xscale)

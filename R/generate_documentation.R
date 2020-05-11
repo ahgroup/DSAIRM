@@ -1,4 +1,4 @@
-#' @title A helper function for the UI part of the Shiny apps
+#' @title A helper function which processes and displays the documentation part for each app
 #'
 #' @description This function take the documentation provided as html file
 #' and extracts sections

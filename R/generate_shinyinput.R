@@ -8,12 +8,12 @@
 #' @return A renderUI object that can be added to the shiny output object for display in a Shiny UI
 #' @details This function is called by the Shiny app to produce the Shiny input UI elements.
 #' mbmodel is assumed to be the name of a function. The file correpsonding to this function is assumed to live in the
-#' simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package. 
-#' This R file will be loaded and the documentation parsed to create UI elements. 
+#' simulatorfunctions subfolder and to be an exact copy of the same file in the /R folder of the source package.
+#' This R file will be loaded and the documentation parsed to create UI elements.
 #' Therefore, all simulator_ R functions/scripts need to follow a specific syntax.
 #' Every argument needs to be of the form
-#' param X : param explanation : param type 
-#' example: 
+#' param X : param explanation : param type
+#' example:
 #' b : transmission rate : numeric
 #' Non-numeric arguments of functions are removed and need to be included in the otherinputs argument.
 #' @export
@@ -28,7 +28,7 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
     }
 
     ###########################################
-    #create UI elements as input/output for shiny 
+    #create UI elements as input/output for shiny
 	#done by parsing a function/R code
     #requires that function arguments are given in a vector
     #find R file that contains the simulator_ code of the specified name
@@ -42,8 +42,8 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
     ip = formals(mbmodel) #get model inputs
     #remove function arguments that are not numeric
     ip = ip[unlist(lapply(ip,is.numeric))]
-    #build shiny numeric inputs for each numeric argument in function, 
-    #set the explanatory text from the file documentation as label, set the value to the function default 
+    #build shiny numeric inputs for each numeric argument in function,
+    #set the explanatory text from the file documentation as label, set the value to the function default
     modelargs = lapply(1:length(ip), function(n)
     {
         iplabel = paste0(names(ip[n]),', ', x3[n]) #text label for input
@@ -66,6 +66,7 @@ generate_shinyinput <- function(mbmodel, otherinputs = NULL, packagename)
             p(
                 shiny::actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
                 shiny::actionButton(inputId = "reset", label = "Reset Inputs", class = "submitbutton"),
+                shiny::downloadButton(outputId = "download_code", label = "Download Code", class = "submitbutton"),
                 align = 'center'),
             modelargs,
             otherargs
