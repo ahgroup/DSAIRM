@@ -16,6 +16,8 @@
 #' @details This function is called by the Shiny server to produce output returned to the Shiny UI.
 #' @author Andreas Handel
 #' @importFrom stats median reshape
+#' @importFrom rlang .data
+#' @author Andreas Handel
 #' @export
 
 generate_text <- function(res)
@@ -91,7 +93,7 @@ generate_text <- function(res)
         {
           #data for a given variable
           currentvar = allvarnames[[nn]]
-          vardat = dplyr::filter(dat, varnames == currentvar)
+          vardat = dplyr::filter(dat, .data$varnames == currentvar)
           #for lineplots, we show the min/max/final for each variable
           if (plottype == 'Lineplot')
           {

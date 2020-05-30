@@ -101,7 +101,7 @@ simulate_fit_basicmodel <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0,
   #This data is from Hayden et al 1996 JAMA
   #We only use the data for the no-drug condition here
   LOD = hayden96flu$LOD[1] #limit of detection, log scale
-  fitdata =  subset(hayden96flu, txtime == 200, select=c("HoursPI", "LogVirusLoad")) #only fit some of the data
+  fitdata =  subset(hayden96flu, hayden96flu$txtime == 200, select=c("HoursPI", "LogVirusLoad")) #only fit some of the data
   colnames(fitdata) = c("xvals",'outcome')
   #convert to days
   fitdata$xvals = fitdata$xvals / 24

@@ -102,7 +102,7 @@ simulate_fit_fludrug <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-3
   fitdata = list()
   for (nn in 1:3)
   {
-    nowdata = subset(hayden96flu, txtime == txtimes[nn], select=c("HoursPI", "LogVirusLoad"))
+    nowdata = subset(hayden96flu, hayden96flu$txtime == txtimes[nn], select=c("HoursPI", "LogVirusLoad"))
     nowdata$txscenario = txscenarios[nn]
     colnames(nowdata) = c("xvals",'outcome','txscenario')
     nowdata$xvals = nowdata$xvals / 24
