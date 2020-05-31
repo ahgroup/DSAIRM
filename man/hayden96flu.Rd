@@ -4,13 +4,15 @@
 \name{hayden96flu}
 \alias{hayden96flu}
 \title{Influenza virus load data}
-\format{A data frame with these variables:
+\format{
+A data frame with these variables:
 \describe{
 \item{HoursPI}{Hours post infection - measurements were taken daily.}
 \item{txtime}{Hours post infection when treatment started. The value of 29 is the average of the 2 reported early treatment times. A value of 200, which is later than the last recorded virus load, means no treatment.}
 \item{LogVirusLoad}{Average virus load for volunteers in a given treatment condition, in log10 units.}
 \item{LOD}{Limit of detection for virus load, in log10 units.}
-}}
+}
+}
 \usage{
 data(hayden96flu)
 }
