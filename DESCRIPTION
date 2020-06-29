@@ -6,8 +6,8 @@ Description: A package for exploring simulation models (apps) of various within-
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
 	  The development of this package was partially supported by NIH grant U19AI117891.
-Version: 0.8.3
-Date: 2019-12-03
+Version: 0.8.5
+Date: 2020-05-30
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Yang", "Ge",  role = "ctb"),
@@ -29,7 +29,8 @@ Imports:
     lhs (>= 0.15),
     nloptr (>= 1.0.4),
     plotly,
-    stats (>= 3.4),
+    rlang,
+	stats (>= 3.4),
     tidyr,
     utils (>= 3.4), 
     XML (>= 3.98)

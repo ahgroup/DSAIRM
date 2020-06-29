@@ -33,6 +33,7 @@
 #' or manually transforming the output from a simulate_ function into the correct list structure explained below.
 #' @import plotly
 #' @importFrom stats reshape
+#' @importFrom rlang .data
 #' @author Yang Ge, Andreas Handel
 #' @export
 
@@ -129,7 +130,7 @@ generate_plotly <- function(res)
       }
       else
       {
-        py1 <-  plotly::plot_ly(dplyr::group_by(dat, IDvar), x = ~xvals)
+        py1 <-  plotly::plot_ly(dplyr::group_by(dat, .data$IDvar), x = ~xvals)
       }
 
       ###choose between different types of plots

@@ -1,3 +1,8 @@
+# DSAIRM 0.8.5
+
+* updated some internals to better style
+* updated plotting functions
+
 # DSAIRM 0.8.3
 
 * updated fitting apps

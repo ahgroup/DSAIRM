@@ -35,6 +35,7 @@
 #' @rawNamespace import(ggplot2, except = last_plot)
 #' @importFrom stats reshape
 #' @importFrom gridExtra grid.arrange
+#' @importFrom rlang .data
 #' @author Andreas Handel
 #' @export
 
@@ -121,33 +122,35 @@ generate_ggplot <- function(res)
 
 
       #if the IDvar variable exists, use it for further stratification, otherwise just stratify on varnames
+	    #the unusual notation for the aes settings is needed for use inside a package
+      #see here: https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html
       if (is.null(dat$IDvar))
-      {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals) )
-      }
+	    {
+	      p1 = ggplot2::ggplot(dat, ggplot2::aes(x = .data$xvals) )
+	    }
       else
       {
-        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = xvals, group = IDvar) )
+        p1 = ggplot2::ggplot(dat, ggplot2::aes(x = .data$xvals, group = .data$IDvar) )
       }
 
       ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
-        p2 = p1 + ggplot2::geom_point(data = dat, aes( y = yvals, color = varnames, shape = varnames), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_point(data = dat, aes( y = .data$yvals, color = .data$varnames, shape = .data$varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = yvals, color = varnames), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = .data$yvals, color = .data$varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Lineplot')
       {
-        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = yvals, color = varnames, linetype = varnames), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = .data$yvals, color = .data$varnames, linetype = .data$varnames), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Mixedplot')
       {
         #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
-        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), aes( y = yvals, color = varnames, linetype = varnames), size = linesize)
-        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), aes( y = yvals, shape = varnames), size = 2.5*linesize) #no longer uses color as an aes; this was causing 3 legends to appear.
+        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), aes( y = .data$yvals, color = .data$varnames, linetype = .data$varnames), size = linesize)
+        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), aes( y = .data$yvals, color = .data$varnames, shape = .data$varnames), size = 2.5*linesize)
       }
 
 
