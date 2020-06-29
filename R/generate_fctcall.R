@@ -18,7 +18,10 @@ generate_fctcall <- function(modelsettings)
     #match values provided from UI with those expected by function
     settingsvec = unlist(modelsettings)
 
-    ip = unlist(formals(currentmodel)) #get all input arguments for function
+    #try to get input arguments for function
+    #at some point one should implement error handling for this
+    modelinput = formals(currentmodel)
+    ip = unlist(modelinput) #get all input arguments for function
 
     currentargs = settingsvec[match(names(ip), names(settingsvec))]
     #get rid of NA that might happen because inputs are not supplied for certain function inputs.

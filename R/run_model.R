@@ -149,6 +149,7 @@ run_model <- function(modelsettings) {
   {
     modelsettings$currentmodel = simfunction[grep('_discrete',simfunction)] #list of model functions, get the ode function
     #run model
+
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}

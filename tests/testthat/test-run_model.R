@@ -37,4 +37,18 @@ test_that("run_model correctly runs different models",
             result = run_model(modelsettings)
             testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
 
+            #no model type provided, should fail
+            modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, plotscale = 'x', nplots = 1)
+            modelsettings$simfunction = 'simulate_basicbacteria_discrete'
+            result = run_model(modelsettings)
+            testthat::expect_equal(result, "List element modeltype must be provided.")
+
+            #wrong model function name provided, should fail
+            # modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, modeltype = '_discrete_', plotscale = 'x', nplots = 1)
+            # modelsettings$simfunction = 'simulate_weirdbacteria_discrete'
+            # result = run_model(modelsettings)
+            # testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
+
+
+
 })
