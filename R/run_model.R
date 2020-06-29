@@ -56,9 +56,9 @@ run_model <- function(modelsettings) {
 
 
   #if the user sets the model type, apply that choice
-  if (!is.null(modelsettings$modeltypeUI))
+  #that happens for any models that have an "_and_" in their modeltype variable as defined in the spreadsheet
+  if (grepl('_and_',modelsettings$modeltype))
   {
-    #browser()
     modelsettings$modeltype = modelsettings$modeltypeUI
   }
 
@@ -104,7 +104,7 @@ run_model <- function(modelsettings) {
       dat$nreps = nn
       datall = rbind(datall,dat)
       modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
-      #keep track of outbreaks occurrence among stochastic simulations
+      #keep track of outbreaks occurence among stochastic simulations
       S0=head(simresult[,2],1)
       Sfinal=tail(simresult[,2],1)
       if ( (S0-Sfinal)/S0>0.2 ) {noutbreaks = noutbreaks + 1}
@@ -289,29 +289,27 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
+
+
     modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
 
-    browser()
 
     colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
-    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
+    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratification for each plot
     rawdat = as.data.frame(simresult$ts)
     #using tidyr to reshape
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
-    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], varnames = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL);
-    dat$id <- NULL
+    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
 
     dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data
-    colnames(fitdata) = c('xvals','yvals')
-    fitdata$varnames = 'Data'
     fitdata$style = 'point'
     datall = rbind(dat,fitdata)
 

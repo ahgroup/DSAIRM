@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Basic Model Fit</title>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic Model Fit</h1>
+
+
+
+<div id="shinytab1" class="section level2">
+<h2>Overview</h2>
+<p>This app illustrates an example of fitting data for different treatment conditions and exploring two different hypothetical drug mechanisms and drug efficacy.</p>
+</div>
+<div id="shinytab2" class="section level2">
+<h2>The Model</h2>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>For this app, viral load data from patients infected with influenza is being fit. The data is average log viral titer on days 1-8 post infection. The data comes from <span class="citation">(Hayden et al. 1996)</span>. Three treatment conditions are shown. One group of individuals did not receive treatment, one group received drug treatment (oseltamivir) early (around 24 hours) and one group late (around 48 hours).</p>
+</div>
+<div id="simulation-model" class="section level3">
+<h3>Simulation Model</h3>
+<p>The underlying model that is being fit to the data is the antiviral treatment model. See that app for a description of the model.</p>
+</div>
+<div id="fitting-model" class="section level3">
+<h3>Fitting Model</h3>
+<p>This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points. All information discussed for this fitting in previous apps applies.</p>
+<p>What is new here is that the model is being run three times. During one run, treatment (parameters <span class="math inline">\(f\)</span> or <span class="math inline">\(e\)</span> in the model) are not turned on. This simulation is fit to the no-treatment data. Similarly, treatment is turned on by setting the treatment parameters to non-zero values early or late, and fit to the data for the corresponding scenario. What is minimized is the total sum of squares over all three scenarios.</p>
+</div>
+</div>
+<div id="shinytab3" class="section level2">
+<h2>What to do</h2>
+<p>Specific tasks need to be written.</p>
+<p>The idea is to explore the 2 models and see which ones fit better.</p>
+</div>
+<div id="shinytab4" class="section level2">
+<h2>Further Information</h2>
+<ul>
+<li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
+<li>For this app, the underlying function running the simulation is called <code>simulate_fludrug_fit</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
+<li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
+<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
+<li>A model like this is used in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span> to illustrate one of the ways models can be used.</li>
+</ul>
+<div id="references" class="section level3 unnumbered">
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-handel20">
+<p>Handel, Andreas, Nicole L. La Gruta, and Paul G. Thomas. 2020. “Simulation Modelling for Immunologists.” <em>Nature Reviews. Immunology</em> 20 (3): 186–95. <a href="https://doi.org/10.1038/s41577-019-0235-3">https://doi.org/10.1038/s41577-019-0235-3</a>.</p>
+</div>
+<div id="ref-hayden96">
+<p>Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. “Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.” <em>JAMA</em> 275 (4): 295–99.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

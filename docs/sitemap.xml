@@ -13,6 +13,9 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_documentation.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_equations.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_fctcall.html</loc>
   </url>
   <url>
@@ -37,7 +40,13 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_discrete.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_modelexploration.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_ode.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_fit.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_ode.html</loc>
@@ -46,22 +55,16 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_stochastic.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_confint_fit.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_drugresistance_stochastic.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_basicmodel.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fludrug_fit.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_confint.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_fludrug.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fit_modelcomparison.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelexploration.html</loc>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelcomparison_fit.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_modelvariants_ode.html</loc>

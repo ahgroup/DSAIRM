@@ -61,6 +61,7 @@ simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, n=1e4, dU = 0.1, dI =
 
         enow = ifelse(t>txstart,e,0) #turn on drug at time txstart
         fnow = ifelse(t>txstart,f,0) #turn on drug at time txstart
+
         dUdt = n - dU*U - (1-fnow)*b*V*U
         dIdt = (1-fnow)*b*V*U - dI*I
         dVdt = (1-enow)*p*I - dV*V - g*b*U*V

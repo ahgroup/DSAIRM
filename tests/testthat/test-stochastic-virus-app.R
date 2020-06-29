@@ -15,9 +15,6 @@ test_that("test that stochastic virus app works",
             modelsettings$b = 1e-4
             modelsettings$p = 10
             modelsettings$g = 1
-            modelsettings$tstart = 0
-            modelsettings$tfinal = 100
-            modelsettings$dt = 0.1
 
             modelsettings$rngseed = 100
             modelsettings$tstart = 0
@@ -30,6 +27,9 @@ test_that("test that stochastic virus app works",
             modelsettings$plotscale = 'y'
 
             modelsettings$modeltype = '_ode_'
+
+            modelsettings$modeltype = '_ode_and_stochastic_'
+            modelsettings$modeltypeUI = '_ode_'
             result = run_model(modelsettings)
 
             p = DSAIRM::generate_ggplot(result)
@@ -39,6 +39,7 @@ test_that("test that stochastic virus app works",
             testthat::expect_is( generate_text(result), "html" )
             testthat::expect_is( generate_text(result), "character" )
 
+            modelsettings$modeltype = '_ode_and_stochastic_'
             modelsettings$modeltype = '_stochastic_'
             result = run_model(modelsettings)
             p = DSAIRM::generate_ggplot(result)
@@ -48,6 +49,7 @@ test_that("test that stochastic virus app works",
             testthat::expect_is( generate_text(result), "character" )
 
             modelsettings$modeltype = '_ode_and_stochastic_'
+            modelsettings$modeltypeUI = '_ode_and_stochastic_'
             result = run_model(modelsettings)
             p = DSAIRM::generate_ggplot(result)
             expect_true( is.ggplot(p))

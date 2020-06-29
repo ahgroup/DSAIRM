@@ -95,7 +95,7 @@ it is not the internal time step. The latter is set automatically by the ODE sol
 # To run the simulation with default parameters just call the function:
 \dontrun{res <- simulate_basicbacteria_modelexploration()}
 # To choose parameter values other than the standard one, specify them, like such:
-res <- simulate_basicbacteria_modelexploration(tfinal=100, samples=5, samplepar='Bmax', parmin=1e1, parmax=1e5)
+res <- simulate_basicbacteria_modelexploration(samples=5, samplepar='dI', parmin=1, parmax=10)
 # You should then use the simulation result returned from the function, like this:
 plot(res$dat[,"xvals"],res$data[,"Bpeak"],xlab='Parameter values',ylab='Peak Bacteria',type='l')
 }

@@ -11,7 +11,8 @@ run_model(modelsettings)
 modelsettings$simfunction - name of simulation function(s) as string.  \cr
 modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 modelsettings$modeltype - specify what kind of model should be run.
-Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_, _mixed_ . \cr
+Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
+For more than one model type, place _and_ between them. \cr
 modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app \cr
 Optinal list elements are: \cr
 List elements with names and values for inputs expected by simulation function.
