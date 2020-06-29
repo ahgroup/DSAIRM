@@ -335,13 +335,14 @@ run_model <- function(modelsettings) {
 
     ####################################################
     #different choices for text display for different fit models
-    if (grepl('fit_flu',simfunction))
+    #both DSAIDE and DSAIRM models
+    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction))
     {
       txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
     }
-    if (grepl('confint',simfunction))
+    if (grepl('confint_fit',simfunction))
     {
       txt1 <- paste('Best fit values for parameters', paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[1]), collapse = '/'), ' are ', paste(format(simresult$confint[1:2],  digits =2, nsmall = 2), collapse = '/' ))
@@ -349,7 +350,7 @@ run_model <- function(modelsettings) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    if (grepl('fit_noro',simfunction))
+    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction))
     {
       txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
