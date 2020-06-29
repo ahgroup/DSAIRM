@@ -18,7 +18,7 @@ test_that("test that modelexploration app returns the proper plots",
 
             modelsettings$modeltype = '_modelexploration_'
             modelsettings$nplots = 1
-            modelsettings$simfunction = 'simulate_modelexploration'
+            modelsettings$simfunction = 'simulate_basicbacteria_modelexploration'
             modelsettings$plotscale = 'x'
 
             result = run_model(modelsettings)

@@ -5,8 +5,10 @@
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
+#' modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 #' modelsettings$modeltype - specify what kind of model should be run.
-#' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_ . \cr
+#' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
+#' For more than one model type, place _and_ between them. \cr
 #' modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app \cr
 #' Optinal list elements are: \cr
 #' List elements with names and values for inputs expected by simulation function.
@@ -19,10 +21,6 @@
 #' If not provided, a single run will be done. \cr
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 #' @details This function runs a model for specific settings.
-#' @examples
-#' # Run stochastic virus model with all default settings
-#' modelsettings = list(modeltype = "_stochastic_", simfunction = 'simulate_basicvirus_stochastic')
-#' result <- run_model(modelsettings)
 #' @importFrom utils head tail
 #' @importFrom stats reshape
 #' @export
@@ -56,16 +54,25 @@ run_model <- function(modelsettings) {
   if (is.null(modelsettings$simfunction)) { return("List element simfunction must be provided.") }
   if (is.null(modelsettings$modeltype)) { return("List element modeltype must be provided.") }
 
+
+  #if the user sets the model type, apply that choice
+  if (!is.null(modelsettings$modeltypeUI))
+  {
+    #browser()
+    modelsettings$modeltype = modelsettings$modeltypeUI
+  }
+
   datall = NULL #will hold data for all different models and replicates
   finaltext = NULL
   simfunction = modelsettings$simfunction #name(s) for model function(s) to run
+
 
   ##################################
   #stochastic dynamical model execution
   ##################################
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
-    modelsettings$currentmodel = simfunction[grep('_stochastic',simfunction)] # get the ode function
+    modelsettings$currentmodel = simfunction[grep('_stochastic',simfunction)] # get the stochastic function
     noutbreaks = 0
     nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
     for (nn in 1:nreps)
@@ -97,7 +104,7 @@ run_model <- function(modelsettings) {
       dat$nreps = nn
       datall = rbind(datall,dat)
       modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
-      #keep track of outbreaks occurence among stochastic simulations
+      #keep track of outbreaks occurrence among stochastic simulations
       S0=head(simresult[,2],1)
       Sfinal=tail(simresult[,2],1)
       if ( (S0-Sfinal)/S0>0.2 ) {noutbreaks = noutbreaks + 1}
@@ -284,35 +291,29 @@ run_model <- function(modelsettings) {
   {
     modelsettings$currentmodel = simfunction
     simresult = try(eval(generate_fctcall(modelsettings)))
-    checkres <- check_results(simresult) #check if result produces error message, if yes return that to calling function
+    checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
+
+    browser()
 
     colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratifications for each plot
     rawdat = as.data.frame(simresult$ts)
-
-    if (grepl('fludrug',simfunction))
-    {
-      #only use virus load for plotting
-      rawdat <- rawdat[,c(1,4,7,10)]
-    }
-
     #using tidyr to reshape
     #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
-    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
-    dat = dplyr::select(dat,'xvals','yvals', dplyr::everything()) #reorder
-    #add plotting information
+    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], varnames = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL);
+    dat$id <- NULL
+
     dat$style = 'line'
 
     #next, add data that's being fit to data frame
     fitdata  = simresult$data
+    colnames(fitdata) = c('xvals','yvals')
+    fitdata$varnames = 'Data'
     fitdata$style = 'point'
-
-    #combine model time-series and data into one dataframe
     datall = rbind(dat,fitdata)
-
 
     #code variable names as factor and level them so they show up right in plot
     mylevels = unique(datall$varnames)
@@ -322,7 +323,6 @@ run_model <- function(modelsettings) {
     #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
     #each variable listed in varnames will also be processed to produce text
     result[[1]]$dat = datall
-
 
 
     #Meta-information for each plot
@@ -336,7 +336,7 @@ run_model <- function(modelsettings) {
 
     ####################################################
     #different choices for text display for different fit models
-    if (grepl('basicmodel',simfunction))
+    if (grepl('fit_flu',simfunction))
     {
       txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
@@ -350,13 +350,7 @@ run_model <- function(modelsettings) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    if (grepl('modelcomparison',simfunction))
-    {
-      txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
-      txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
-      result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
-    }
-    if (grepl('fludrug',simfunction))
+    if (grepl('fit_noro',simfunction))
     {
       txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))

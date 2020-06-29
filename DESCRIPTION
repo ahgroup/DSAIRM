@@ -34,7 +34,7 @@ Imports:
     utils (>= 3.4), 
     XML (>= 3.98)
 Depends:
-    R (>= 3.0),
+    R (>= 3.5),
     shiny (>= 1.0)
 Suggests:
     covr,

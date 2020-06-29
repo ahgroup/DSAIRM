@@ -14,3 +14,4 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^_pkgdown\.yml$
+^vignettes\related-resources.Rmd$

@@ -7,7 +7,7 @@
 generate_documentation(docfilename)
 }
 \arguments{
-\item{docfilename}{of html file containing the documentation}
+\item{docfilename}{full path and name to html file containing the documentation}
 }
 \value{
 tablist A list of tabs for display in a Shiny UI.

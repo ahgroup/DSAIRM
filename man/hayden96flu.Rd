@@ -14,7 +14,7 @@ A data frame with these variables:
 }
 }
 \usage{
-hayden96flu
+data(hayden96flu)
 }
 \description{
 Daily average virus load of volunteers infected with influenza.

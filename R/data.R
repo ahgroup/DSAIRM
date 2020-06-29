@@ -8,6 +8,10 @@
 #' Specifically, data was extracted from Figure 2.
 #' See this article and citations therein for more details on the data.
 #'
+#' @docType data
+#'
+#' @usage data(hayden96flu)
+#'
 #' @format A data frame with these variables:
 #' \describe{
 #' \item{HoursPI}{Hours post infection - measurements were taken daily.}

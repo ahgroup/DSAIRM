@@ -2,7 +2,7 @@
 #'
 #' @description This function takes a modelsettings structure and uses that information
 #' to create an unevaluated function call that runs the simulator function with the specified settings
-#' 
+#'
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
 #' List elements with names and values for all inputs expected by simulation function. \cr
@@ -17,7 +17,10 @@ generate_fctcall <- function(modelsettings)
     currentmodel = modelsettings$currentmodel
     #match values provided from UI with those expected by function
     settingsvec = unlist(modelsettings)
-    currentargs = settingsvec[match(names(unlist(formals(currentmodel))), names(settingsvec))]
+
+    ip = unlist(formals(currentmodel)) #get all input arguments for function
+
+    currentargs = settingsvec[match(names(ip), names(settingsvec))]
     #get rid of NA that might happen because inputs are not supplied for certain function inputs.
     #in that case we use the function defaults
     currentargs <- currentargs[!is.na(currentargs)]
@@ -27,11 +30,13 @@ generate_fctcall <- function(modelsettings)
     #preserve those that can't be converted
     numind = suppressWarnings(!is.na(as.numeric(arglist))) #find numeric values
     arglist[numind] = as.numeric(currentargs[numind])
+
     #add function name as first element to list
     fctlist = append(parse(text = currentmodel), arglist)
+
     #make fct call
-    fctcall <- as.call(fctlist) 
+    fctcall <- as.call(fctlist)
     return(fctcall)
 }
-  
+
 
