@@ -51,7 +51,7 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-3
   ###################################################################
   #function that fits the ODE model to data
   ###################################################################
-  fitfunction <- function(params, fitdata, Y0,  fixedpars, fitparnames,txtimes)
+  fitfunction <- function(params, fitdata, Y0,  fixedpars, fitparnames, txtimes)
   {
     names(params) = fitparnames #for some reason nloptr strips names from parameters
     #call ode-solver lsoda to integrate ODEs
