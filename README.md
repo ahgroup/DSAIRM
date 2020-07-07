@@ -26,7 +26,7 @@ library('DSAIRM')
 dsairmmenu()
 ```
 
-You can also give the package [a quick try online, without having to install it](https://handelgroup.shinyapps.io/dsairm/). I still recommend you install it like any regular R package should you decide that you want to use it. Note that I only have a free plan for shinyapps.io, where the online version is hosted. If the link fails to work it likely means I reached my maximum monthly allowed capacity. In that case, just go ahead and install the package. It's only 3 commands to get it up and running! 
+You can also give the package [a quick try online, without having to install it](https://shiny.ovpr.uga.edu/DSAIRM/). I still recommend you install it like any regular R package should you decide that you want to use it. It's only 3 commands to get it up and running! Note that the shiny server on which I host the online version of the package is not regularly monitored and the package is not updated that frequently. If the online app doesn't work, please let me know (through a Github Issue). 
 
 For a quick introduction to the package, step-by-step instructions on getting started, and more information on the different ways you can use the package [see the tutorial (vignette)](https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html).
 
