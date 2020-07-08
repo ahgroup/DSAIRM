@@ -1,17 +1,20 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 0.8.6 ] */
-
+/* [ Created with wxMaxima version 20.06.6 ] */
 /* [wxMaxima: input   start ] */
-solve([lam-b*U*V-d*U=0, b*U*V-delt*I=0, p*I-c*V=0],[U,I,V]);
+solve([n-b*U*V-dU*U=0, b*U*V-dI*I=0, p*I-dV*V-g*b*U*V=0],[U,I,V]);
 /* [wxMaxima: input   end   ] */
 
+
 /* [wxMaxima: input   start ] */
-factor(%o12);
+factor(%o1);
 /* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 ratsimp(subst(0, lam, %o1));
 /* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.06.6"$

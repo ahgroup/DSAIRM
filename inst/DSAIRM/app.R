@@ -336,7 +336,7 @@ server <- function(input, output, session)
 make_button <- function(at,appid)
 {
   id = which(at$appid == appid)
-  actionButton(at$appid[id], paste0(id,". ",at$apptitle[id]), class="mainbutton")
+  actionButton(at$appid[id], paste0(at$apptitle[id]), class="mainbutton")
 }
 
 
