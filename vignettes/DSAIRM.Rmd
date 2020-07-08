@@ -40,11 +40,11 @@ install.packages('DSAIRM')
 ```
 
 
-Alternatively, you can install the latest development version (with usually both more features and more bugs) from github, using the `devtools` package. The following commands, typed into the `R` console, will get you up and running:
+Alternatively, you can install the latest development version (with usually both more features and more bugs) from github, using the `remotes` package. The following commands, typed into the `R` console, will get you up and running:
 
 ```r
-install.packages('devtools') #if not already installed
-devtools::install_github('ahgroup/DSAIRM')
+install.packages('remotes') #if not already installed
+remotes::install_github('ahgroup/DSAIRM')
 ```
 
 The package depends on other packages, which will also be installed as needed. Package installation is a one-time process, unless you update or reinstall R itself, or want to install a newer version of DSAIRM. 
