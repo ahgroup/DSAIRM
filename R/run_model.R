@@ -66,7 +66,6 @@ run_model <- function(modelsettings) {
   finaltext = NULL
   simfunction = modelsettings$simfunction #name(s) for model function(s) to run
 
-
   ##################################
   #stochastic dynamical model execution
   ##################################

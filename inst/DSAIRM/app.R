@@ -44,7 +44,7 @@ simdir = system.file("simulatorfunctions", package = packagename) #find path to 
 #load app table that has all the app information
 at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
 
-appNames = at$shorttitle
+appNames = at$appid
 
 #path to simulator function zip file
 allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
@@ -77,7 +77,7 @@ server <- function(input, output, session)
       #each app has settings stored in apptable
       #read and assign to list called 'appsettings'
       #store in global variable
-      appsettings <<- as.list(at[which(at$shorttitle == appName),])
+      appsettings <<- as.list(at[which(at$appid == appName),])
 
       #a few apps have 2 simulator functions, combine here into vector
       if (nchar(appsettings$simfunction2) > 1)
@@ -116,9 +116,8 @@ server <- function(input, output, session)
       #the information is stored in a list called 'appsettings'
       #different models can have different variables
       #all models need the following:
-      #variable appid - ID of the app
+      #variable appid - ID (short name) of the app
       #variable apptitle - the name of the app. Used to display.
-      #variable shorttitle - short name of the app, including ID. needs to match docname.
       #variable docname - name of documentation file for app
       #variable modelfigname - name of figure file for app
       #variable simfunction - the name of the simulation function(s)
@@ -145,7 +144,7 @@ server <- function(input, output, session)
       #display all inputs and outputs on the analyze tab
       output$analyzemodel <- renderUI({
           tagList(
-            tags$div(id = "shinyapptitle", paste0(appsettings$appid,". ",appsettings$apptitle)),
+            tags$div(id = "shinyapptitle", appsettings$apptitle),
             tags$hr(),
             #Split screen with input on left, output on right
             fluidRow(
@@ -221,7 +220,6 @@ server <- function(input, output, session)
                      #if no random seed is set in UI, set it to 123.
                      if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
                      #run model, process inside run_model function based on settings
-
                      result <- run_model(modelsettings)
                      #if things worked, result contains a list structure for processing with the plot and text functions
                      #if things failed, result contains a string with an error message
@@ -335,9 +333,10 @@ server <- function(input, output, session)
 
 #simple function that creates app buttons for UI
 #specify data frame containing app info and the id of the app
-make_button <- function(at,id)
+make_button <- function(at,appid)
 {
-  actionButton(at$shorttitle[id], paste0(at$appid[id],". ",at$apptitle[id]), class="mainbutton")
+  id = which(at$appid == appid)
+  actionButton(at$appid[id], paste0(id,". ",at$apptitle[id]), class="mainbutton")
 }
 
 
@@ -360,40 +359,41 @@ ui <- fluidPage(
              tabPanel(title = "Menu",
                       tags$div(class='mainsectionheader', 'The Basics'),
                       fluidRow(
-                        make_button(at,1),
-                        make_button(at,2),
-                        make_button(at,3),
+                        make_button(at,"basicbacteria"),
+                        make_button(at,"basicvirus"),
+                        make_button(at,"virusandir"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
                       tags$div(class='mainsectionheader', 'Model use examples'),
                       fluidRow(
-                        make_button(at,4),
-                        make_button(at,5),
-                        make_button(at,6),
+                        make_button(at,"virusexploration"),
+                        make_button(at,"bacteriaexploration"),
+                        make_button(at,"virusandtx"),
+                        make_button(at,"fitbasicmodel"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
                       tags$div(class='mainsectionheader', 'What influences model results'),
                       fluidRow(
-                        make_button(at,7),
-                        make_button(at,8),
-                        make_button(at,9),
+                        make_button(at,"modelvariants"),
+                        make_button(at,"usanalysis"),
+                        make_button(at,"basicvirusstochastic"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
                       tags$div(class='mainsectionheader', 'Model fitting topics'),
                       fluidRow(
-                        make_button(at,10),
-                        make_button(at,11),
-                        make_button(at,12),
+                        make_button(at,"fitconfint"),
+                        make_button(at,"fitmodelcomparison"),
+                        make_button(at,"fitfludrug"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
                       tags$div(class='mainsectionheader', 'Further topics'),
                       fluidRow(
-                        make_button(at,13),
-                        make_button(at,14),
+                        make_button(at,"pkpdmodel"),
+                        make_button(at,"drugresistance"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
                       withTags({

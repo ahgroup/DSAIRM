@@ -13,9 +13,9 @@ test_that("generate_shinyinput correctly produces a shiny input structure",
             #load app table that has all the app information
             at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
 
-            appName = "1_basicbacteria"
+            appName = "basicbacteria"
 
-            appsettings <- as.list(at[which(at$shorttitle == appName),])
+            appsettings <- as.list(at[which(at$appid == appName),])
 
             #a few apps have 2 simulator functions, combine here into vector
             if (nchar(appsettings$simfunction2) > 1)

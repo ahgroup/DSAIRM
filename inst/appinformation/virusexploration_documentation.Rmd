@@ -1,0 +1,116 @@
+---
+title: Exploring the impact of parameter changes 
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: references.bib
+---
+
+```{r, include = FALSE}
+#*************************************
+#general setup to define package and get path locations
+#all paths are inside the package and retrieved with system.file
+packagename = "DSAIRM"
+helperdir = "helperfunctions"
+mbmodeldir = "mbmodels"
+figuredir = "media"
+appdocdir = "appinformation" 
+#*************************************
+#Note: for this to process/knit, several helper functions need to be available (sourced) first
+#those are in the inst/helperfunctions folder
+#Note: in general, the "processing-script.R" in the docsfordevelopers should be used to produce the html docs
+#manual knitting of each doc only during development/testing
+#*************************************
+files_to_source = list.files(system.file(helperdir,package = packagename),full.names=TRUE)
+sapply(files_to_source, source) #sourcing needs to happen inside each Rmd file since knitr starts a new environment
+#load the settings file for the current app 
+#so we can automatically include figure, list the functions in the further information section
+#and use other information specific to the current app for the task table generation
+currentrmdfile = knitr::current_input() 
+appsettings = get_settings(currentrmdfile,appdocdir,packagename)
+```
+
+
+## Overview {#shinytab1}
+This app allows you to explore the effect of specific model parameters on some outcomes of interest for the basic virus model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+## The Model {#shinytab2}
+
+### Model Overview
+The model used here is the one introduced in the _Basic Virus_ app. If you haven't done so, check out and explore that app first. 
+
+What's different here is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we track both the peak and final numbers for all variables (uninfected cells, infected cells, virus). In general, the number at the end of the simulation is meaningful if it means the model has settled into a steady state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition.
+
+You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the outcomes of interest computed. The resulting plot is one showing how the outcomes of interest vary with the parameter you investigated.
+
+
+
+### Model Diagram and equations
+As mentioned, this is the same model as used in the _Basic Virus_ app. Details can be found there. For ease of reference, the flow diagram and the equations are shown again here:
+
+
+```{r BIdiagram, fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
+knitr::include_graphics("../media/virusdiagram.png")
+```
+
+$$\dot U = n - d_U U - bUV$$ 
+$$\dot I = bUV - d_I I$$
+$$\dot V = pI - d_V V - gb UV$$
+
+
+## What to do {#shinytab3}
+
+*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).*
+
+### Task 1: 
+* Set numbers for initial uninfected cells, infected cells and virus to U=100000, I=0, and V=1.
+* Set uninfected birth and death rates to n=10000 and dU=0.1, infected cell death rate to 1 and virus death rate to 2. Rate of infection should be 2e-5, virus production at 5, conversion factor 1. 
+* Start simulation at time 0 and run for 100 days, time step of 0.1 (that value doesn't matter much).
+* Choose _p_ as the parameter to vary, between 1 and 10, do 10 different parameter values, linear spacing, and no log scales for plotting.
+* Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 10 days, note how some simulations did not reach steady state and how that affects results.
+
+### Task 2: 
+* Play around with the samples to run, i.e. the number of different parameter values. The higher the number, the more often the simulation runs, the longer it takes and the more detailed the results are. 
+* Also adjust the minimum and maximum, and linear or logarithmic spacing and plotting.
+* Take a look at the model equations and diagram and see if by 'staring' at them, you can understand why you got the results you see. Some results might be expected, for instance if you increase the rate at which infected cells produce virus, the virus peak goes up. Sometimes, results are less intuitive (see below). With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.
+
+### Task 3: 
+The model we have here is so simple that we can in fact figure out how some of the outcomes depend on parameters without having to run simulations but instead by doing some math. Specifically, we can compute the steady states. You saw how that is done in the _Basic Virus_ app. If this is unfamiliar to you or you need a refresher, (re)visit that app and go through the tasks. You found there (if you did the math) that the virus load at steady state is given by $V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V$. This equation suggests that as the rate at which infected cells produce virus, the virus load at steady state goes up, which you found above. It also suggests that the relation between virus load and the rate at which virus infects cell, $b$, is more complicated, since $b$ shows up both in the numerator and denominator. If you have practice reading equations, you might be able to visualize how $V_s$ behaves as $b$ is varied. You can always explore it numerically. Let's do that.
+
+* Set all parameters as previously, with _p=5_.
+* Choose _b_ as the parameter to vary, between 1e-6 and 1e-3, do 20 different parameter values, log spacing for parameter values and plot both axes on a logarithmic scale. Run the simulation. Observe the pattern you get for $V_s$ as a function of _b_ and see if it agrees with the equation (it should).
+
+We cannot compute similar mathematical expressions for the peak of the variables. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have.
+
+
+### Task 4: 
+* Let's explore the impact of a different parameter. Set all variables as in task 1.
+* Choose _d~I~_ as the parameter to vary and set lower and upper limit to 1 and 10.
+* Before you run the model, look at your equation for _V~s~_ and try to predict what you should see in the plot.
+* Similarly, while you don't have an analytical solution, you can look at the model equations and try to intuit what you might expect _V~peak~_ and _I~peak~_ to do as you increase _d~I~_. 
+* Now run the model, compare the results with your expectations. How do they agree or disagree?
+
+
+### Task 5: 
+* Do the same explorations you did above for any other parameter you want to investigate. 
+
+Note that here we focus on a single parameter at a time. With a little bit of coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. _V~peak~_ as a function of _b_ and _p_. This can be done by writing 2 loops (or some equivalent way of doing it) to scan over various combinations of parameter values for _b_ and _p_ and run the simulation for each such combination and record the results. These results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you'll learn about in the Uncertainty and Sensitivity App.
+
+
+
+## Further Information {#shinytab4}
+* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+
+
+### References
+
+

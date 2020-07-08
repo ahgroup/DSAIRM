@@ -43,11 +43,19 @@ test_that("run_model correctly runs different models",
             result = run_model(modelsettings)
             testthat::expect_equal(result, "List element modeltype must be provided.")
 
-            #wrong model function name provided, should fail
-            # modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, modeltype = '_discrete_', plotscale = 'x', nplots = 1)
-            # modelsettings$simfunction = 'simulate_weirdbacteria_discrete'
-            # result = run_model(modelsettings)
-            # testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
+            #another model try
+            packagename = 'DSAIRM'
+
+            #find path to apps
+            appdir = system.file("appinformation", package = packagename) #find path to apps
+            #load app table that has all the app information
+            at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
+            appName = "bacteriaexploration"
+            appsettings <- as.list(at[which(at$appid == appName),])
+            modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, plotscale = 'x')
+            modelsettings = c(appsettings,modelsettings)
+            result = run_model(modelsettings)
+            testthat::expect_equal(round(result[[1]]$dat$Bpeak[1]), 23038)
 
 
 
