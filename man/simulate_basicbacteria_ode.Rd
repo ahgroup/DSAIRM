@@ -29,7 +29,7 @@ simulate_basicbacteria_ode(
 
 \item{dB}{: bacteria death rate : numeric}
 
-\item{k}{: rate of bacteria killing by immune reesponse : numeric}
+\item{k}{: rate of bacteria killing by immune response : numeric}
 
 \item{r}{: immune response growth rate : numeric}
 

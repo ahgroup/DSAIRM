@@ -1,5 +1,5 @@
 ---
-title: Basic Model Fit 
+title: Fit Flu Drug Model 
 output:
   html_document:
     theme: null
@@ -38,8 +38,11 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename)
 
 
 ## Overview {#shinytab1}
+This app uses the same model and follows the same overall setup as the _Antiviral Treatment_ app. You should go through that app first before exploring this one. 
+The major difference is that for this app, instead of comparing model results to data in a qualitative manner, here the model is fit to the data. This provides a more rigorous, statistical way of comparing models and thus hypotheses.
+While this app does model fitting, the topic of fitting is not discussed here. There is a section in DSAIRM with multiple fitting related apps that focus on the details of how fitting simulation models to data works. For the purpose of this app, we treat all the fitting machinery as a 'black box'.
 
-This app illustrates an example of fitting data for different treatment conditions and exploring two different hypothetical drug mechanisms and drug efficacy.
+Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
 
 
 ## The Model {#shinytab2}
@@ -50,20 +53,57 @@ Three treatment conditions are shown. One group of individuals did not receive t
 
 
 ### Simulation Model 
-The underlying model that is being fit to the data is the antiviral treatment model. See that app for a description of the model. 
+The underlying model that is being fit to the data is the antiviral treatment model. See that app for a description of the model. For convenience, here are the flow diagram and equations. 
+
+
+```{r virandtxdiagram,  fig.cap='',  echo=FALSE}
+knitr::include_graphics("../media/hcvifndiagram.png")
+```
+
+$$\dot U = n - d_U U - (1-f)bUV$$ 
+$$\dot I = (1-f)bUV - d_I I$$
+$$\dot V = (1-e)pI - d_V V - (1-f)gbUV$$
+
+While the underlying model is able to simulate a chronic infection, we are looking at data for influenza and neuraminidase inhibitor drugs, which is an acute infection. To mimic that setting, natural birth and death of uninfected cells have been turned off, i.e. $n = d_U = 0$.
+
+### Drug treatment
+Terminology and setup for this model are just a little bit different than the previous model. Instead of setting either $e$ or $f$ in the model through the graphical interface, there is only a single drug efficacy parameter, $e$, and a selector to switch between model 1 and model 2. Model 1 corresponds to a model that assumes the drug acts on virus production, i.e. the actual $e$ in the model above. Model 2 corresponds to a model where the mechanism is assumed to reduce rate of cell infection, i.e. $e$ is being mapped onto model parameter $f$ above. For either model, the value provided for $e$ is only a starting value. The fit to the data determines the value which best describes the data.
 
 
 ### Fitting Model
-This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points. All information discussed for this fitting in previous apps applies. 
+This app fits the log viral titer of the data to the virus kinetics produced by the model simulation. The fit is evaluated by computing the sum of square errors between data and model for all data points. For details on how fitting works, see the apps in the fitting section. 
 
-What is new here is that the model is being run three times. During one run, treatment (parameters $f$ or $e$ in the model) are not turned on. This simulation is fit to the no-treatment data. Similarly, treatment is turned on by setting the treatment parameters to non-zero values early or late, and fit to the data for the corresponding scenario. What is minimized is the total sum of squares over all three scenarios. 
+Model parameters that are being fit are b, p, g and e. The other parameters are assumed to be known and kept fixed (otherwise, given the sparse amount of data, the model would likely overfit).
+
+Note that for this app, the model is being run three times. During one run, treatment (parameters $f$ or $e$ in the model) are not turned on. This simulation is fit to the no-treatment data. Similarly, treatment is turned on by setting the treatment parameters to non-zero values early or late, and fit to the data for the corresponding scenario. What is being fit is the model results for all three simulations to all the data for the three scenarios. 
+
+For the purpose of using and exploring this app, you can ignore the fitting details and just note that the fit allows us to statistically compare the model with the two drug mechanisms to the data so we can determine which model/mechanism fits the data better (and thus is more plausible).
 
 
 ## What to do {#shinytab3}
 
-Specific tasks need to be written.
 
-The idea is to explore the 2 models and see which ones fit better.
+
+### Task 1: 
+
+* Set number of uninfected cells to 10^5^, 1 virion, no infected cells.
+* Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours (remember to convert this to rates and units in days). Those parameters are fixed and not fitted.
+* Set virus production rate to 10^-2^, infection rate to 10^-2^ and conversion factor to 1. The bounds for these parameters help in the fitting. If you run your fitting routine long enough (which we don't do here), these bounds should not affect the results, just the time it might take to find the best fit. Note that this is the theory, in practice that's not always true. See the fitting section for more on that. For now you can leave them as they are. The one think you always need to make sure is that the lower bound is positive and the starting value is between the lower and upper bound.  
+* Start with drug efficacy at some intermediate level, e.g. 0.5. You don't need to specify bounds here since they are given to be between 0 and 1 and thus hard-coded.
+* I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. By turning off all but the virus model fits, things are easier to see.
+* Fit model 1 for 500 iterations. Be patient, this might take a little while. 
+
+Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load.
+
+Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, $e$. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike's Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We'll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2.
+
+### Task 2: 
+* Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells.
+* Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?
+
+### Task 3:
+* This model is also shown as an example in [@handel20]. Note that the terminology is a bit different, and models 1 and 2 are flipped. You'll see AICc reported in the paper to be lower. That suggests that what you did so far didn't yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits.
+
 
 
 ## Further Information {#shinytab4}

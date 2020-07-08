@@ -55,7 +55,7 @@
 #' @export
 
 
-simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 30, dt = 0.1, samples = 10, parmin=1e-8, parmax=1e-5, samplepar='b',  pardist = 'lin')
+simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 10000, dU = 0.1, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = 100, dt = 0.1, samples = 10, parmin=1, parmax=10, samplepar='p', pardist = 'lin')
   {
 
     #initialize vectors that will contain the outcomes of interest
@@ -93,12 +93,12 @@ simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 0,
         timeseries = odeout$ts
 
         #get peak and steady state for variables
-        Upeak[n]=max(timeseries[,"U"]);
-        Ipeak[n]=max(timeseries[,"I"]);
-        Vpeak[n]=max(timeseries[,"V"]);
-        Usteady[n] = utils::tail(timeseries[,"U"],1)
-        Isteady[n] = utils::tail(timeseries[,"I"],1)
-        Vsteady[n] = utils::tail(timeseries[,"V"],1)
+        Upeak[nn]=max(timeseries[,"U"]);
+        Ipeak[nn]=max(timeseries[,"I"]);
+        Vpeak[nn]=max(timeseries[,"V"]);
+        Usteady[nn] = utils::tail(timeseries[,"U"],1)
+        Isteady[nn] = utils::tail(timeseries[,"I"],1)
+        Vsteady[nn] = utils::tail(timeseries[,"V"],1)
 
         #a quick check to make sure the system is at steady state,
         #i.e. the value for B at the final time is not more than
@@ -106,7 +106,7 @@ simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 0,
         vl=nrow(timeseries);
         if ((abs(timeseries[vl,"U"]-timeseries[vl-10,"U"])/timeseries[vl,"U"])>1e-2)
         {
-          steady[n] = FALSE
+          steady[nn] = FALSE
         }
     }
 

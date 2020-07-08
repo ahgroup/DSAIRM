@@ -16,7 +16,7 @@
 #' @param g : maximum rate of bacteria growth : numeric
 #' @param Bmax : bacteria carrying capacity : numeric
 #' @param dB : bacteria death rate : numeric
-#' @param k : rate of bacteria killing by immune reesponse : numeric
+#' @param k : rate of bacteria killing by immune response : numeric
 #' @param r : immune response growth rate : numeric
 #' @param dI : immune response decay rate : numeric
 #' @param tstart : start time of simulation : numeric

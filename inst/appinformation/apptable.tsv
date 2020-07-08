@@ -11,6 +11,6 @@ usanalysis	Uncertainty and Sensitivity Analysis	usanalysis_documentation.html		s
 basicvirusstochastic	Stochastic Dynamics	basicvirusstochastic_documentation.html		simulate_basicvirus_stochastic	simulate_basicvirus_ode		FALSE	TRUE		1	_stochastic_and_ode_	"shiny::tagList(shiny::numericInput(""nreps"", ""Number of simulations"", min = 1, max = 50, value = 1, step = 1),shiny::selectInput(""modeltypeUI"", ""Models to run "",c(""ODE"" = '_ode_', 'stochastic' = '_stochastic_', 'both' = '_ode_and_stochastic_'), selected = '_ode_'))"
 fitconfint	Confidence Intervals	fitconfint_documentation.html		simulate_confint_fit			FALSE	TRUE		1	_fit_	
 fitmodelcomparison	Model Comparison	fitmodelcomparison_documentation.html		simulate_modelcomparison_fit			FALSE	TRUE		1	_fit_	
-fitfludrug	Influenza Drug Data	fitfludrug_documentation.html		simulate_fludrug_fit			FALSE	TRUE		1	_fit_	
+fitfludrug	Influenza Drug Model	fitfludrug_documentation.html		simulate_fludrug_fit			FALSE	TRUE		1	_fit_	
 pkpdmodel	Pharmacokinetics and Pharmacodynamics	pkpdmodel_documentation.html		simulate_pkpdmodel_ode			FALSE	TRUE		1	_ode_	
 drugresistance	Influenza Antivirals and Drug Resistance	drugresistance_documentation.html		simulate_drugresistance_stochastic			FALSE	TRUE		1	_stochastic_	"shiny::tagList(shiny::numericInput(""nreps"", ""Number of simulations"", min = 1, max = 50, value = 1, step = 1))"

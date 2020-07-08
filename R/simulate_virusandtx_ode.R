@@ -64,7 +64,7 @@ simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, n=1e4, dU = 0.1, dI =
 
         dUdt = n - dU*U - (1-fnow)*b*V*U
         dIdt = (1-fnow)*b*V*U - dI*I
-        dVdt = (1-enow)*p*I - dV*V - g*b*U*V
+        dVdt = (1-enow)*p*I - dV*V - (1-fnow)*g*b*U*V
 
         list(c(dUdt, dIdt, dVdt))
       }
@@ -72,7 +72,7 @@ simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 1, n=1e4, dU = 0.1, dI =
   } #end function specifying the ODEs
 
 
-  #override user-supplied initial conditions and instead start with steady state values
+  #override user-supplied initial conditions and instead start with steady state values (in absence of any treatment)
   if (steadystate == TRUE) {U = max(0,dV*dI/(b*(p-dI*g))); I = max(0, (b*n*(dI*g-p)+dI*dU*dV) /(b * (dI^2*g - dI*p))); V = max(0,  - (b*n*(dI*g-p)+dI*dU*dV) /  (b*dV*dI))}
 
   Y0 = c(U = U, I = I, V = V);  #combine initial conditions into a vector

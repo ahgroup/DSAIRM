@@ -43,8 +43,8 @@
 <div id="model-overview" class="section level3">
 <h3>Model Overview</h3>
 <p>The model used here is the one introduced in the <em>Basic Virus</em> app. If you haven’t done so, check out and explore that app first.</p>
-<p>What’s different here is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we track both the peak and final numbers for all variables (Uninfected cells, Infected cells, Virus). In general, the number at the end of the simulation is meaningful if it means the model has settled into a steadt state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition.</p>
-<p>You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the 4 outcomes of interest computed. The resulting plot is one showing how those 4 outcomes of interest vary with the parameter you investigated.</p>
+<p>What’s different here is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we track both the peak and final numbers for all variables (uninfected cells, infected cells, virus). In general, the number at the end of the simulation is meaningful if it means the model has settled into a steady state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition.</p>
+<p>You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the outcomes of interest computed. The resulting plot is one showing how the outcomes of interest vary with the parameter you investigated.</p>
 </div>
 <div id="model-diagram-and-equations" class="section level3">
 <h3>Model Diagram and equations</h3>
@@ -64,61 +64,46 @@ Flow diagram for a simple virus infection model.
 <div id="task-1" class="section level3">
 <h3>Task 1:</h3>
 <ul>
-<li>Set initial bacteria and immune response to 100 and 10.</li>
-<li>Set bacteria growth and death rate to 2 and 1. The former value does not matter since we’ll be exploring the simulation for different values of <em>g</em>.</li>
-<li>Set carrying capacity to 10<sup>5</sup>, IR kill rate and activation rate to 10<sup>-4</sup> and immune response death rate to 2.</li>
-<li>Choose <em>g</em> as the parameter to vary, go from 2 to 10, do 10 different parameter values, linear spacing, and no log scales for plotting.</li>
-<li>Set maximum simulation time to 100. Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 20 days, note how some simulations did not reach steady state and how that affects results.</li>
+<li>Set numbers for initial uninfected cells, infected cells and virus to U=100000, I=0, and V=1.</li>
+<li>Set uninfected birth and death rates to n=10000 and dU=0.1, infected cell death rate to 1 and virus death rate to 2. Rate of infection should be 2e-5, virus production at 5, conversion factor 1.</li>
+<li>Start simulation at time 0 and run for 100 days, time step of 0.1 (that value doesn’t matter much).</li>
+<li>Choose <em>p</em> as the parameter to vary, between 1 and 10, do 10 different parameter values, linear spacing, and no log scales for plotting.</li>
+<li>Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 10 days, note how some simulations did not reach steady state and how that affects results.</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2:</h3>
 <ul>
-<li>Play around with the number of different parameter values (the higher the number, the more often the simulation runs and the longer it takes), the minimum and maximum, and linear or logarithmic spacing and plotting.</li>
-<li>Think a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load increases? What about the fact that the peak and steady state immune response increases? And what about the steady state bacteria not increasing?</li>
+<li>Play around with the samples to run, i.e. the number of different parameter values. The higher the number, the more often the simulation runs, the longer it takes and the more detailed the results are.</li>
+<li>Also adjust the minimum and maximum, and linear or logarithmic spacing and plotting.</li>
+<li>Take a look at the model equations and diagram and see if by ‘staring’ at them, you can understand why you got the results you see. Some results might be expected, for instance if you increase the rate at which infected cells produce virus, the virus peak goes up. Sometimes, results are less intuitive (see below). With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.</li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3:</h3>
+<p>The model we have here is so simple that we can in fact figure out how some of the outcomes depend on parameters without having to run simulations but instead by doing some math. Specifically, we can compute the steady states. You saw how that is done in the <em>Basic Virus</em> app. If this is unfamiliar to you or you need a refresher, (re)visit that app and go through the tasks. You found there (if you did the math) that the virus load at steady state is given by <span class="math inline">\(V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V\)</span>. This equation suggests that as the rate at which infected cells produce virus, the virus load at steady state goes up, which you found above. It also suggests that the relation between virus load and the rate at which virus infects cell, <span class="math inline">\(b\)</span>, is more complicated, since <span class="math inline">\(b\)</span> shows up both in the numerator and denominator. If you have practice reading equations, you might be able to visualize how <span class="math inline">\(V_s\)</span> behaves as <span class="math inline">\(b\)</span> is varied. You can always explore it numerically. Let’s do that.</p>
 <ul>
-<li>Take a look at the model equations and diagram and see if by ‘staring’ at them, you can understand why you got the results you saw in the last task.</li>
+<li>Set all parameters as previously, with <em>p=5</em>.</li>
+<li>Choose <em>b</em> as the parameter to vary, between 1e-6 and 1e-3, do 20 different parameter values, log spacing for parameter values and plot both axes on a logarithmic scale. Run the simulation. Observe the pattern you get for <span class="math inline">\(V_s\)</span> as a function of <em>b</em> and see if it agrees with the equation (it should).</li>
 </ul>
-<p>With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.</p>
+<p>We cannot compute similar mathematical expressions for the peak of the variables. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have.</p>
 </div>
 <div id="task-4" class="section level3">
 <h3>Task 4:</h3>
-<p>The model we have here is so simple that we can in fact figure out two of the outcomes shown in the plot without having to run simulations but instead by doing some math. Specifically, we can compute the steady states for the bacteria and immune response variables. If you have done the basic virus tasks, you have encountered the steady state idea already.</p>
-<p>We repeat it here.</p>
+<ul>
+<li>Let’s explore the impact of a different parameter. Set all variables as in task 1.</li>
+<li>Choose <em>d<sub>I</sub></em> as the parameter to vary and set lower and upper limit to 1 and 10.</li>
+<li>Before you run the model, look at your equation for <em>V<sub>s</sub></em> and try to predict what you should see in the plot.</li>
+<li>Similarly, while you don’t have an analytical solution, you can look at the model equations and try to intuit what you might expect <em>V<sub>peak</sub></em> and <em>I<sub>peak</sub></em> to do as you increase <em>d<sub>I</sub></em>.</li>
+<li>Now run the model, compare the results with your expectations. How do they agree or disagree?</li>
+</ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5:</h3>
 <ul>
-<li>Compare the mathematical equations you found in the previous task with what you find in the plots. Things should be consistent, i.e. if the plot shows that <em>B<sub>steady</sub></em> does not depend on <em>g</em>, the mathematical equation should show the same. Similarly, since the plot shows that <em>I<sub>steady</sub></em> increases with <em>g</em>, that should be reflected in the mathematical equation for <em>I<sub>steady</sub></em> you got above.</li>
-</ul>
-<p>We cannot compute similar mathematical expressions for <em>B<sub>peak</sub></em> and <em>I<sub>peak</sub></em>. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have.</p>
-</div>
-<div id="task-6" class="section level3">
-<h3>Task 6:</h3>
-<ul>
-<li>Let’s explore the impact of a different parameter. Set all variables as in task 1.</li>
-<li>Choose <em>d<sub>I</sub></em> as the parameter to vary and set lower and upper limit to 1 and 10.</li>
-<li>Before you run the model, look at your equations for <em>B<sub>steady</sub></em> and <em>I<sub>steady</sub></em> and based on these, predict what you should see in the plot.</li>
-<li>Similarly, look at the model equations and try to intuit what you might expect <em>B<sub>peak</sub></em> and <em>I<sub>peak</sub></em> to do as you increase <em>d<sub>I</sub></em>.</li>
-<li>Now run the model, compare the results with your expectations. How do they agree or disagree?</li>
-</ul>
-</div>
-<div id="task-7" class="section level3">
-<h3>Task 7:</h3>
-<ul>
-<li>In the previous task, you should have noticed 2 different patterns of the outcomes for <em>d<sub>I</sub></em> less than 5 and greater than 5. Try to understand what happens (qualitatively) with your model in those 2 regimes and how that leads to the results you are seeing.</li>
-</ul>
-</div>
-<div id="task-8" class="section level3">
-<h3>Task 8:</h3>
-<ul>
 <li>Do the same explorations you did above for any other parameter you want to investigate.</li>
 </ul>
-<p>Note that here we focus on a single parameter at a time. With some coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. <em>B<sub>peak</sub></em> as a function of <em>g</em> and <em>r</em>. The results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you’ll learn about in the Uncertainty and Sensitivity App.</p>
+<p>Note that here we focus on a single parameter at a time. With a little bit of coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. <em>V<sub>peak</sub></em> as a function of <em>b</em> and <em>p</em>. This can be done by writing 2 loops (or some equivalent way of doing it) to scan over various combinations of parameter values for <em>b</em> and <em>p</em> and run the simulation for each such combination and record the results. These results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you’ll learn about in the Uncertainty and Sensitivity App.</p>
 </div>
 </div>
 <div id="shinytab4" class="section level2">

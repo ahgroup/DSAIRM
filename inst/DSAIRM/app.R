@@ -348,6 +348,19 @@ ui <- fluidPage(
   shinyjs::useShinyjs(),  # Set up shinyjs
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   includeCSS("packagestyle.css"), #use custom styling
+  tags$style(HTML("
+        input[type=number] {
+              -moz-appearance:textfield;
+        }
+        input[type=number]::{
+              -moz-appearance:textfield;
+        }
+        input[type=number]::-webkit-outer-spin-button,
+        input[type=number]::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+        }
+    ")), #meant to remove the selector arrows on numeric input boxes: https://community.rstudio.com/t/how-to-remove-numeric-inputs-spin-button-in-r-shiny/13769/3
   tags$div(id = "shinyheadertitle", "DSAIRM - Dynamical Systems Approach to Immune Response Modeling"),
   tags$div(id = "shinyheadertext",
     "A collection of Shiny/R Apps to explore and simulate infection and immune response dynamics.",
@@ -370,7 +383,7 @@ ui <- fluidPage(
                         make_button(at,"virusexploration"),
                         make_button(at,"bacteriaexploration"),
                         make_button(at,"virusandtx"),
-                        make_button(at,"fitbasicmodel"),
+                        make_button(at,"fitfludrug"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
@@ -384,9 +397,9 @@ ui <- fluidPage(
 
                       tags$div(class='mainsectionheader', 'Model fitting topics'),
                       fluidRow(
+                        make_button(at,"fitbasicmodel"),
                         make_button(at,"fitconfint"),
                         make_button(at,"fitmodelcomparison"),
-                        make_button(at,"fitfludrug"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 

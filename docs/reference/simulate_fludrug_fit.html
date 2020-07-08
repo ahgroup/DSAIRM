@@ -158,18 +158,18 @@ The function simulates the ODE using an ODE solver from the deSolve package.</p>
   <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
-  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
+  <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
+  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>glow</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>ghigh</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>ghigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
   <span class='kw'>fitmodel</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>
+  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>500</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -252,8 +252,8 @@ the best fit parameters, the data and the AICc for the model.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A simple compartmental ODE models describing an acute viral infection with drug treatment
-mechanism/model 1 assumes that drug treatment reduces rate of new cell infection
-mechanism/model 2 assumes that drug treatment reduces rate of new virus production.</p>
+mechanism/model 1 assumes that drug treatment reduces rate of new virus production.
+mechanism/model 2 assumes  that drug treatment reduces rate of new cell infection.</p>
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
     <p>This function does not perform any error checking. So if

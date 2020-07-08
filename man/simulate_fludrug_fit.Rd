@@ -10,18 +10,18 @@ simulate_fludrug_fit(
   V = 1,
   dI = 2,
   dV = 4,
-  b = 0.001,
-  blow = 1e-06,
-  bhigh = 1000,
+  b = 0.01,
+  blow = 1e-05,
+  bhigh = 10,
   p = 0.01,
-  plow = 1e-06,
-  phigh = 1000,
-  g = 0.001,
+  plow = 1e-05,
+  phigh = 10,
+  g = 1,
   glow = 0,
-  ghigh = 10000,
-  e = 0.8,
+  ghigh = 1000,
+  e = 0.5,
   fitmodel = 1,
-  iter = 100
+  iter = 500
 )
 }
 \arguments{
@@ -73,8 +73,8 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 }
 \details{
 A simple compartmental ODE models describing an acute viral infection with drug treatment
-mechanism/model 1 assumes that drug treatment reduces rate of new cell infection
-mechanism/model 2 assumes that drug treatment reduces rate of new virus production.
+mechanism/model 1 assumes that drug treatment reduces rate of new virus production.
+mechanism/model 2 assumes  that drug treatment reduces rate of new cell infection.
 }
 \section{Warning}{
  This function does not perform any error checking. So if

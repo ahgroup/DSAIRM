@@ -27,8 +27,8 @@
 #' @return The function returns a list containing the best fit timeseries,
 #' the best fit parameters, the data and the AICc for the model.
 #' @details A simple compartmental ODE models describing an acute viral infection with drug treatment
-#' mechanism/model 1 assumes that drug treatment reduces rate of new cell infection
-#' mechanism/model 2 assumes that drug treatment reduces rate of new virus production.
+#' mechanism/model 1 assumes that drug treatment reduces rate of new virus production.
+#' mechanism/model 2 assumes  that drug treatment reduces rate of new cell infection.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
@@ -45,7 +45,7 @@
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-3, blow = 1e-6, bhigh = 1e3, p = 1e-2,  plow = 1e-6, phigh = 1e3, g = 1e-3, glow = 0, ghigh = 1e4, e = 0.8, fitmodel = 1, iter = 100)
+simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-2, blow = 1e-5, bhigh = 1e1, p = 1e-2,  plow = 1e-5, phigh = 1e1, g = 1, glow = 0, ghigh = 1e3, e = 0.5, fitmodel = 1, iter = 500)
 {
 
   ###################################################################
@@ -133,6 +133,7 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-3
   }
 
   Y0 = c(U = U, I = I, V = V)
+  set.seed(123) #for reproducibility, since some solvers might use random numbers during optimization
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
