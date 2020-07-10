@@ -14,9 +14,9 @@
 #' @param A : initial level of adaptive response : numeric
 #' @param n : rate of uninfected cell production : numeric
 #' @param dU : rate of natural death of uninfected cells : numeric
-#' @param b : rate at which virus infects cells : numeric
 #' @param dI : rate at which infected cells die : numeric
 #' @param dV : rate at which infectious virus is cleared : numeric
+#' @param b : rate at which virus infects cells : numeric
 #' @param p : rate at which infected cells produce virus : numeric
 #' @param pF : rate of innate response production in absence of infection : numeric
 #' @param dF : rate of innate response removal in absence of infection : numeric
@@ -61,7 +61,7 @@
 #' @export
 
 
-simulate_modelvariants_ode <- function(U = 1e5, I = 0, V = 10, F=0, A=0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,pF=1,dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_modelvariants_ode <- function(U = 1e5, I = 0, V = 10, F=0, A=0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3, pF=1, dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
 {
 
 
