@@ -7,16 +7,16 @@
 simulate_basicvirus_ode(
   U = 1e+05,
   I = 0,
-  V = 1,
+  V = 10,
   n = 0,
   dU = 0,
   dI = 1,
-  dV = 2,
-  b = 2e-05,
-  p = 5,
+  dV = 4,
+  b = 1e-06,
+  p = 100,
   g = 1,
   tstart = 0,
-  tfinal = 30,
+  tfinal = 50,
   dt = 0.1
 )
 }

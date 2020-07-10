@@ -3,7 +3,7 @@ basicbacteria	Basic Bacteria Model	basicbacteria_documentation.html	bacteriamode
 basicvirus	Basic Virus Model	basicvirus_documentation.html		simulate_basicvirus_ode			FALSE	TRUE		1	_ode_	
 virusandir	Virus and Immune Response Model	virusandir_documentation.html		simulate_virusandir_ode			FALSE	TRUE		1	_ode_	
 virusexploration	Virus Model Exploration	virusexploration_documentation.html		simulate_basicvirus_modelexploration			FALSE	TRUE		1	_modelexploration_	"shiny::tagList(shiny::selectInput(""samplepar"", ""Parameter to vary"", c('n'='n','dU'='dU','dI'='dI','dV'='dV','b'='b','p'='p','g'='g')), shiny::selectInput(""pardist"", ""Spacing of parameter values"", c('linear' = 'lin', 'logarithmic' = 'log')))"
-virusandtx	Antiviral Treatment Model	virusandtx_documentation.html		simulate_virusandtx_ode			FALSE	TRUE		1	_ode_	
+virusandtx	Antiviral Treatment Model	virusandtx_documentation.html		simulate_virusandtx_ode			FALSE	TRUE		1	_ode_	"shiny::tagList(shiny::selectInput(""steadystate"", ""Start at steady state"",c(""yes"" = TRUE, 'no' = FALSE), selected = FALSE))"
 fitbasicmodel	Basic Virus Model Fitting	fitbasicmodel_documentation.html		simulate_basicvirus_fit			FALSE	TRUE		1	_fit_	
 bacteriaexploration	Bacteria Model Exploration	bacteriaexploration_documentation.html		simulate_basicbacteria_modelexploration			FALSE	TRUE		1	_modelexploration_	"shiny::tagList(shiny::selectInput(""samplepar"", ""Parameter to vary"", c('g'='g','Bmax'='Bmax','dB'='dB','k'='k','r'='r','dI'='dI')), shiny::selectInput(""pardist"", ""Spacing of parameter values"", c('linear' = 'lin', 'logarithmic' = 'log')))"
 modelvariants	Model Variant Exploration	modelvariants_documentation.html		simulate_modelvariants_ode			FALSE	TRUE		1	_ode_	

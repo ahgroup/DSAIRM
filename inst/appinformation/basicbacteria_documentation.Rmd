@@ -121,7 +121,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 Start with the following parameter settings in your model:
 
 * 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days).
-* Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (the inverse of the lifespan is the rate of death).
+* Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units).
 * Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day.
 * Only run the continuous time ODE model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.
 
