@@ -118,7 +118,7 @@ Also note the 'system might not have reached steady state' message. If for too m
 ### Task 5: 
 The above approach of exploring the impact of a parameter on results by varying bounds is tedious. Also, often we have bounds that are specified by biology, and not subject to us changing them. It would still be useful to know how a given parameter impacts the results. This is where sensitivity analysis comes in. We run the same simulations, but now instead of plotting outcomes as a boxplot, we produce scatterplots for outcomes as function of each varied parameter.
 
-* Set values back as in task 1. If you can't remember, close the app and reopen.
+* Set values back as in task 1 (using the reset button). 
 * Switch the plot type from boxplot to scatterplot, run the simulation.
 * Take a close look at the scatterplots to investigate the relation between different parameters and the various outcomes.
 * Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.)
