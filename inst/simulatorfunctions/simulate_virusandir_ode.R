@@ -27,10 +27,10 @@
 #' @param gF : rate of innate response growth during infection : numeric
 #' @param Fmax : maximum level of innate response : numeric
 #' @param hV : innate growth saturation constant : numeric
-#' @param gT : T-cell induction rate : numeric
-#' @param rT : T-cell expansion rate : numeric
 #' @param hF : B-cell growth saturation constant : numeric
 #' @param gB : maximum growth rate of B cells : numeric
+#' @param gT : T-cell induction rate : numeric
+#' @param rT : T-cell expansion rate : numeric
 #' @param rA : rate of antibody production by B cells : numeric
 #' @param dA : rate of antibody decay : numeric
 #' @param tstart : start time of simulation : numeric
@@ -56,7 +56,7 @@
 #' @export
 
 
-simulate_virusandir_ode <- function(U = 1e5, I = 0, V = 10, T = 0, B = 1, A = 0, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_virusandir_ode <- function(U = 1e5, I = 0, V = 10, T = 0, B = 0, A = 0, n=0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3,sF=1e-2,kA=1e-5,kT=1e-5,pF=1,dF=1,gF=1,Fmax=1e3,hV=1e-6,hF=1e-5,gB=1,gT=1e-4,rT=0.5,rA=10,dA=0.2, tstart = 0, tfinal = 30, dt = 0.05)
 {
 
   #function that specificies the ode model

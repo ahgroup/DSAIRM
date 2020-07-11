@@ -68,8 +68,8 @@ $$\dot I = r B I - d_I I$$
 *The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).*
 
 ### Task 1: 
-* Set initial bacteria and immune response to 100 and 10.
-* Set bacteria growth and death rate to 2 and 1. The former value does not matter since we'll be exploring the simulation for different values of _g_.
+* Set initial bacteria to 100 and immune response to 10.
+* Set bacteria growth rate to 2 and death rate to 1. The former value does not matter since we'll be exploring the simulation for different values of _g_.
 * Set carrying capacity to 10^5^, IR kill rate and activation rate to 10^-4^ and immune response death rate to 2.
 * Choose _g_ as the parameter to vary, go from 2 to 10, do 10 different parameter values, linear spacing, and no log scales for plotting.
 * Set maximum simulation time to 300. Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 20 days, note how some simulations did not reach steady state and how that affects results.

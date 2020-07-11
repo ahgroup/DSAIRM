@@ -97,7 +97,7 @@ _Note that the stochastic model does not allow specification of starting time an
 
 
 ### Task 1: 
-* When you start the app, by default the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
+* Run the simulation with the pre=set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
 * Change the random number seed and find a value for which you do get an outbreak. 
 * Set "Models to run" to both. You should get infections from each model. Compare how they differ.
 * Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. 
@@ -114,8 +114,8 @@ _Note that the stochastic model does not allow specification of starting time an
 
 
 ### Task 4: 
-* Turn off the deterministic model, keep all parameter values as before (if you changed them, exit the app and reload). Set number of simulations to 2, random number seed to 100.
-* Run simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
+* Turn off the deterministic model, reset all parameter values to their starting values. Set number of simulations to 2, random number seed to 100.
+* Run the simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
 * Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again.
 * From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative? 
 

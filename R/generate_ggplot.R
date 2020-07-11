@@ -219,12 +219,10 @@ generate_ggplot <- function(res)
           # Compute the number of types and methods
           npoints = length(unique(dplyr::filter(dat,style == 'point')$varnames))
           nlines = length(unique(dplyr::filter(dat,style == 'line')$varnames))
-          #p5f=p5c
+
           p5d = p5c + ggplot2::scale_colour_manual(name = legendtitle, values=plotpalette[1:(nlines+npoints)]) #color for each variable
           p5e = p5d + ggplot2::scale_linetype_discrete(name = legendtitle) #line type for each variable
           p5f = p5e + ggplot2::scale_shape_discrete(name = "") #symbol type for symbols; here is some trickery to make the legend look combined (turn off legend title/name)
-          #p5e = p5d + ggplot2::scale_linetype_manual(name = legendtitle, values = c(1:nlines, rep(NA,npoints)) )
-          #p5f = p5e + ggplot2::scale_shape_manual(name = legendtitle, values = c(rep(NA,nlines), 15 + c(1:npoints)) )
         }
         p6 = p5f
 

@@ -9,7 +9,7 @@ simulate_virusandir_ode(
   I = 0,
   V = 10,
   T = 0,
-  B = 1,
+  B = 0,
   A = 0,
   n = 0,
   dU = 0,

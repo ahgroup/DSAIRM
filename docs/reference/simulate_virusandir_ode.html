@@ -151,7 +151,7 @@ The model is implemented as set of ordinary differential equations using the deS
   <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>T</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
@@ -327,7 +327,7 @@ package for details on the underlying ODE simulator algorithm.</p></div>
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_virusandir_ode</span>(<span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>, <span class='kw'>kT</span><span class='kw'>=</span><span class='fl'>1e-7</span>)
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 345 y values &lt;= 0 omitted from logarithmic plot</span></div><div class='img'><img src='simulate_virusandir_ode-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 271 y values &lt;= 0 omitted from logarithmic plot</span></div><div class='img'><img src='simulate_virusandir_ode-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

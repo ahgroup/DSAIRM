@@ -35,7 +35,7 @@
 #' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l')
 #' @export
 
-simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 5, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 100, tfinal = 30)
+simulate_basicvirus_stochastic <- function(U = 1E4, I = 0, V = 1, n = 0, dU = 0, b = 1e-4, dI = 1, p = 1e1, dV = 2, rngseed = 111, tfinal = 30)
 {
 
   #this specifies the rates used by the adapativetau routine

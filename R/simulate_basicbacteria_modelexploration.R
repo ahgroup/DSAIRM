@@ -52,7 +52,7 @@
 #' @export
 
 
-simulate_basicbacteria_modelexploration <- function(B = 10, I = 1, g=1, Bmax=1e6, dB=1e-1, k=1e-7, r=1e-3, dI=1, tstart = 0, tfinal = 200, dt = 0.1, samples = 10, parmin=1e-8, parmax=1e-5, samplepar='k',  pardist = 'lin')
+simulate_basicbacteria_modelexploration <- function(B = 100, I = 10, g=2, Bmax=1e5, dB=1, k=1e-4, r=1e-4, dI=2, tstart = 0, tfinal = 300, dt = 0.1, samples = 10, parmin=2, parmax=10, samplepar='g',  pardist = 'lin')
   {
 
 

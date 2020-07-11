@@ -100,7 +100,7 @@ For the next few tasks, we consider a chronic viral infection and treatment (e.g
 
 * Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.001)
 * Run the simulation for 100 days. You should reach a steady state with 44900 virions present.
-* Set set 'start at steady state' to 'yes', confirm that all your variables stay at the steady state level they reached in the previous setting.
+* Set 'start at steady state' to 'yes', confirm that all your variables stay at the steady state level they reached in the previous setting.
 
 If you need an introduction or refresher on what the steady state means and how one could compute it, see the "Basic Virus" app.
 

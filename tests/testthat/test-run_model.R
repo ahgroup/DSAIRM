@@ -52,10 +52,12 @@ test_that("run_model correctly runs different models",
             at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
             appName = "bacteriaexploration"
             appsettings <- as.list(at[which(at$appid == appName),])
-            modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, plotscale = 'x')
+            modelsettings =  list(B = 100, I = 10, g=2, Bmax=1e5, dB=1, k=1e-4, r=1e-4, dI=2, tstart = 0, tfinal = 300, dt = 0.1, samples = 10, parmin=2, parmax=10, samplepar='g',  pardist = 'lin')
             modelsettings = c(appsettings,modelsettings)
             result = run_model(modelsettings)
-            testthat::expect_equal(round(result[[1]]$dat$Bpeak[1]), 23038)
+            Bpeak = round(result[[1]]$dat$Bpeak[1])
+
+            testthat::expect_equal(Bpeak, 49505)
 
 
 

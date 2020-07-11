@@ -6,21 +6,21 @@
 #'}
 \usage{
 simulate_basicbacteria_modelexploration(
-  B = 10,
-  I = 1,
-  g = 1,
-  Bmax = 1e+06,
-  dB = 0.1,
-  k = 1e-07,
-  r = 0.001,
-  dI = 1,
+  B = 100,
+  I = 10,
+  g = 2,
+  Bmax = 1e+05,
+  dB = 1,
+  k = 1e-04,
+  r = 1e-04,
+  dI = 2,
   tstart = 0,
-  tfinal = 200,
+  tfinal = 300,
   dt = 0.1,
   samples = 10,
-  parmin = 1e-08,
-  parmax = 1e-05,
-  samplepar = "k",
+  parmin = 2,
+  parmax = 10,
+  samplepar = "g",
   pardist = "lin"
 )
 }

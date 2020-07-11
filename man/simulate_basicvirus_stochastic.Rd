@@ -7,14 +7,14 @@
 simulate_basicvirus_stochastic(
   U = 10000,
   I = 0,
-  V = 5,
+  V = 1,
   n = 0,
   dU = 0,
   b = 1e-04,
   dI = 1,
   p = 10,
   dV = 2,
-  rngseed = 100,
+  rngseed = 111,
   tfinal = 30
 )
 }
