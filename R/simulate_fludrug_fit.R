@@ -185,7 +185,7 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-2
   for (nn in 1:3)
   {
     fitdata[[nn]]$outcome = 10^fitdata[[nn]]$outcome
-    fitdata[[nn]]$varnames = paste('Vd',txscenarios[nn],sep='_')
+    fitdata[[nn]]$varnames = paste('Vdata',txscenarios[nn],sep='_')
     fitdata[[nn]]$txscenario = NULL
     alldata = rbind(alldata,fitdata[[nn]])
   }

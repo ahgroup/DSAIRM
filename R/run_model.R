@@ -92,6 +92,10 @@ run_model <- function(modelsettings) {
       #needs to be in the right format to be passed to generate_plots and generate_text
       #see documentation for those functions for details
       simresult <- simresult$ts
+      if (grepl('_and_',modelsettings$modeltype)) #this means  model is run with another one, relabel variables to indicate stochastic
+      {
+        colnames(simresult) = paste0(colnames(simresult),'_sto')
+      }
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
       rawdat = as.data.frame(simresult)
@@ -154,6 +158,10 @@ run_model <- function(modelsettings) {
     if (!is.null(checkres)) {return(checkres)}
 
     simresult <- simresult$ts
+    if (grepl('_and_',modelsettings$modeltype)) #this means  model is run with another one, relabel variables to indicate discrete
+    {
+      colnames(simresult) = paste0(colnames(simresult),'_dis')
+    }
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     rawdat = as.data.frame(simresult)
