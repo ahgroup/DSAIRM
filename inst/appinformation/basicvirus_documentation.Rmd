@@ -64,7 +64,7 @@ For our system, we specify the following processes/flows:
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r BIdiagram, fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
+```{r virusdiagram, fig.cap='',  echo=FALSE, out.width = "70%"}
 knitr::include_graphics("../media/virusdiagram.png")
 ```
 

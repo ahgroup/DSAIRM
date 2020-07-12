@@ -56,7 +56,7 @@ Three treatment conditions are shown. One group of individuals did not receive t
 The underlying model that is being fit to the data is the antiviral treatment model. See that app for a description of the model. For convenience, here are the flow diagram and equations. 
 
 
-```{r virandtxdiagram,  fig.cap='',  echo=FALSE}
+```{r fludrugmodel,  fig.cap='',  echo=FALSE, out.width = "70%"}
 knitr::include_graphics("../media/hcvifndiagram.png")
 ```
 
@@ -82,7 +82,7 @@ For the purpose of using and exploring this app, you can ignore the fitting deta
 
 ## What to do {#shinytab3}
 
-
+__Note: This simulation can take time to run, so be patient.__
 
 ### Task 1: 
 

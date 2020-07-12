@@ -78,7 +78,7 @@ While this model and these processes make some biological sense, there are many 
 The diagram illustrating this compartmental model is shown in the figure.
 
 
-```{r VirusIR,  fig.cap='Flow diagram for virus infection model with several immune response components.',  echo=FALSE, out.width="70%"}
+```{r VirusIR,  fig.cap='',  echo=FALSE, out.width="70%"}
 knitr::include_graphics("../media/virusandIRmodel.png")
 ```
 
