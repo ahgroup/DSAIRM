@@ -76,7 +76,7 @@ The model describes a simple viral infection system." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.5.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.6</span>
       </span>
     </div>
 
@@ -147,30 +147,29 @@ The model describes a simple viral infection system.</p>
     </div>
 
     <pre class="usage"><span class='fu'>simulate_basicvirus_fit</span>(
-  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
+  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+06</span>,
   <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>X</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
-  <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+  <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>psim</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
+  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
   <span class='kw'>bsim</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>5</span>,
-  <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
-  <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+  <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>dVsim</span> <span class='kw'>=</span> <span class='fl'>5</span>,
   <span class='kw'>noise</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>1</span>,
   <span class='kw'>solvertype</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>usesimdata</span> <span class='kw'>=</span> <span class='fl'>1</span>
+  <span class='kw'>usesimdata</span> <span class='kw'>=</span> <span class='fl'>0</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -187,10 +186,6 @@ The model describes a simple viral infection system.</p>
     <tr>
       <th>V</th>
       <td><p>: initial number of infectious virions : numeric</p></td>
-    </tr>
-    <tr>
-      <th>X</th>
-      <td><p>: initial level of immune response : numeric</p></td>
     </tr>
     <tr>
       <th>n</th>

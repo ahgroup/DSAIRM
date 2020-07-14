@@ -5,30 +5,29 @@
 \title{Fitting a simple viral infection models to influenza data}
 \usage{
 simulate_basicvirus_fit(
-  U = 1e+05,
+  U = 1e+06,
   I = 0,
   V = 1,
-  X = 1,
   n = 0,
   dU = 0,
-  dI = 1,
-  g = 1,
-  p = 10,
-  plow = 0.001,
-  phigh = 1000,
+  dI = 2,
+  g = 0,
+  p = 0.001,
+  plow = 1e-04,
+  phigh = 100,
   psim = 10,
-  b = 1e-04,
-  blow = 1e-06,
-  bhigh = 0.001,
+  b = 0.1,
+  blow = 0.001,
+  bhigh = 10,
   bsim = 1e-04,
-  dV = 5,
-  dVlow = 0.001,
-  dVhigh = 1000,
+  dV = 1,
+  dVlow = 0.01,
+  dVhigh = 100,
   dVsim = 5,
   noise = 0,
-  iter = 100,
+  iter = 1,
   solvertype = 1,
-  usesimdata = 1
+  usesimdata = 0
 )
 }
 \arguments{
@@ -37,8 +36,6 @@ simulate_basicvirus_fit(
 \item{I}{: initial number of infected target cells : numeric}
 
 \item{V}{: initial number of infectious virions : numeric}
-
-\item{X}{: initial level of immune response : numeric}
 
 \item{n}{: rate of uninfected cell production : numeric}
 

@@ -91,10 +91,10 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * Set number of uninfected cells to 10^5^, 10 virions, no infected cells.
 * We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
 * Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
-* Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation time 20 days.  
+* Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation starts at time 0 and runs for 20 days.  
 * For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1.
-* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 0.
-* Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.55.
+* Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0.
+* Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57.
 
 
 ### Task 2: 
@@ -111,7 +111,7 @@ For the first few tasks, we consider an acute viral infection and treatment (e.g
 * Now we'll explore the Pd part of the model, i.e. the equation describing drug action. Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy).
 * Explore how different 50% efficacy levels affect the virus load.
 * Explore how different values for the drug efficacy increase parameter affect the virus load.
-* Explore how different drug max drug efficacy levels affect the virus load. Note that the highest biologically reasonable value for _E~max_ is 1, which means 100% efficacy. While you can stick higher values into the model, they don't make any sense (you'll be getting negative virus production). 
+* Explore how different drug max drug efficacy levels affect the virus load. Note that the highest biologically reasonable value for $E_{max}$ is 1, which means 100% efficacy. While you can stick higher values into the model, they don't make any sense (you'll be getting negative virus production). 
 * Note that for all the changes you did above, the drug time-series did not change.
 
 ### Task 5: 

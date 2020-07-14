@@ -6,7 +6,6 @@
 #' @param U : initial number of uninfected target cells : numeric
 #' @param I : initial number of infected target cells : numeric
 #' @param V : initial number of infectious virions : numeric
-#' @param X : initial level of immune response : numeric
 #' @param n : rate of uninfected cell production : numeric
 #' @param dU : rate at which uninfected cells die : numeric
 #' @param dI : rate at which infected cells die : numeric
@@ -54,7 +53,7 @@
 #' @export
 
 
-simulate_basicvirus_fit <- function(U = 1e5, I = 0, V = 1, X = 1, n = 0, dU = 0, dI = 1, g = 1, p = 10, plow = 1e-3, phigh = 1e3,  psim = 10, b = 1e-4, blow = 1e-6, bhigh = 1e-3,  bsim = 1e-4, dV = 5, dVlow = 1e-3, dVhigh = 1e3,  dVsim = 5, noise = 0, iter = 100, solvertype = 1, usesimdata = 1)
+simulate_basicvirus_fit <- function(U = 1e6, I = 0, V = 1, n = 0, dU = 0, dI = 2, g = 0, p = 1e-3, plow = 1e-4, phigh = 1e2,  psim = 10, b = 1e-1, blow = 1e-3, bhigh = 1e1,  bsim = 1e-4, dV = 1, dVlow = 1e-2, dVhigh = 1e2,  dVsim = 5, noise = 0, iter = 1, solvertype = 1, usesimdata = 0)
 {
 
 

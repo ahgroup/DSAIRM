@@ -93,8 +93,7 @@ library('DSAIDE')
 
 ### To-do for CRAN release  
 * "by hand" edit the DESCRIPTION file to make sure it's up to date
-* Re-build vignettes with devtools::build_vignettes()
-* Create clean versions of documentation, coopy latest versions of simulator functions - see above
+* run processing-script to Re-build documentation, vignettes and copy latest versions of simulator functions - see above
 * Run check and make sure no problems occur
 * update news.md and cran-comments.md
 * Re-create package site with pkgdown::build_site()

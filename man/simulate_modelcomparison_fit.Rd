@@ -5,29 +5,29 @@
 \title{Fitting 2 simple viral infection models to influenza data}
 \usage{
 simulate_modelcomparison_fit(
-  U = 1e+05,
+  U = 1e+06,
   I = 0,
   V = 1,
   X = 1,
   dI = 1,
-  dV = 2,
+  dV = 4,
+  p = 0.1,
   g = 0,
-  p = 10,
   k = 1e-06,
   a = 1e-05,
   alow = 1e-06,
   ahigh = 1e-04,
-  b = 1e-05,
+  b = 0.001,
   blow = 1e-06,
-  bhigh = 0.001,
-  r = 1,
-  rlow = 0.1,
+  bhigh = 0.01,
+  r = 0.1,
+  rlow = 0.01,
   rhigh = 2,
   dX = 1,
   dXlow = 0.1,
   dXhigh = 10,
   fitmodel = 1,
-  iter = 100
+  iter = 10
 )
 }
 \arguments{
@@ -43,9 +43,9 @@ simulate_modelcomparison_fit(
 
 \item{dV}{: rate at which infectious virus is cleared : numeric}
 
-\item{g}{: unit conversion factor : numeric}
-
 \item{p}{: rate at which infected cells produce virus : numeric}
+
+\item{g}{: unit conversion factor : numeric}
 
 \item{k}{: rate of killing of infected cells by T-cells (model 1) or virus by Ab (model 2) : numeric}
 

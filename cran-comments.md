@@ -1,6 +1,6 @@
 ## Test environments
 
-* local Windows 10.1 x86_64, R 3.6
+* local Windows 10.1 x86_64, R 4.02
 * Travis-ci (Ubuntu, MacOS) 
 * Appveyor (Windows)
 * Rhub (Windows, Ubuntu, Fedora)
@@ -13,6 +13,8 @@
 
 
 ## Submission History
+
+version 0.8.6: additional models, bug fixes and feature enhancements.
 
 version 0.8.2: bug fixes and some small feature enhancements.
 

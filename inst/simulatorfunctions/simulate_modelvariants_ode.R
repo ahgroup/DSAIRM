@@ -61,7 +61,7 @@
 #' @export
 
 
-simulate_modelvariants_ode <- function(U = 1e5, I = 0, V = 10, F=0, A=0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 1e3, pF=1, dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, tstart = 0, tfinal = 30, dt = 0.05)
+simulate_modelvariants_ode <- function(U = 1e5, I = 0, V = 10, F=0, A=0, n = 0, dU = 0, dI = 1, dV = 4, b = 1e-5, p = 100, pF=1, dF=1, f1 = 1e-4, f2 = 0, f3 = 0, Fmax = 1e3, sV = 1e-10, k1 = 1e-3, k2 = 0, k3 = 0, a1 = 1e3, a2 = 0, a3 = 0, hV = 1e-10, k4 = 1e-3, k5 = 0, k6 = 0, sA = 1e-10, dA = 0.1, tstart = 0, tfinal = 20, dt = 0.01)
 {
 
 

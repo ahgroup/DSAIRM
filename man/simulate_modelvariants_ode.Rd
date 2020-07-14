@@ -16,7 +16,7 @@ simulate_modelvariants_ode(
   dI = 1,
   dV = 4,
   b = 1e-05,
-  p = 1000,
+  p = 100,
   pF = 1,
   dF = 1,
   f1 = 1e-04,
@@ -37,8 +37,8 @@ simulate_modelvariants_ode(
   sA = 1e-10,
   dA = 0.1,
   tstart = 0,
-  tfinal = 30,
-  dt = 0.05
+  tfinal = 20,
+  dt = 0.01
 )
 }
 \arguments{

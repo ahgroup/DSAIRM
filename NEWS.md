@@ -1,3 +1,9 @@
+# DSAIRM 0.8.6
+
+* CRAN release
+* added another app
+* fixes and updates in instructions
+
 # DSAIRM 0.8.5
 
 * updated some internals to better style

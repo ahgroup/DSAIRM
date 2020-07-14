@@ -357,7 +357,7 @@ run_model <- function(modelsettings) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction))
+    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction))
     {
       txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
