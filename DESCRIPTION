@@ -1,7 +1,7 @@
 Package: DSAIRM
 Type: Package
 Title: Dynamical Systems Approach to Immune Response Modeling
-Description: A package for exploring simulation models (apps) of various within-host immune response scenarios.
+Description: Simulation models (apps) of various within-host immune response scenarios.
     The purpose of the package is to help individuals learn 
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
@@ -30,7 +30,6 @@ Imports:
     nloptr (>= 1.0.4),
     plotly,
     rlang,
-    shinyjs,
 	stats,
     tidyr,
     utils (>= 3.4), 
@@ -41,12 +40,12 @@ Depends:
 Suggests:
     covr,
     devtools,
-    knitr (>= 1.15),
+    knitr,
     pkgdown,
-    rmarkdown (>= 1.10),
+    rmarkdown,
     roxygen2,
     testthat
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 URL: https://ahgroup.github.io/DSAIRM, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues

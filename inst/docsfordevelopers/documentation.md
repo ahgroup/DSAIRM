@@ -99,5 +99,5 @@ library('DSAIDE')
 * Re-create package site with pkgdown::build_site()
 * Sync everything to github
 * Check vignette and function references on website, fix errors
-* Run devtools::check_rhub() and devtools::check_win_devel()
+* Run devtools::check_rhub(), devtools::check_win_release() and devtools::check_win_devel()
 * Do a test run of devtools::release() - fix any remaining issues, then re-run and release

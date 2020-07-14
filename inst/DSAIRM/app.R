@@ -345,7 +345,7 @@ make_button <- function(at,appid)
 #######################################################
 
 ui <- fluidPage(
-  shinyjs::useShinyjs(),  # Set up shinyjs
+  #shinyjs::useShinyjs(),  # Set up shinyjs - not currently used
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   includeCSS("packagestyle.css"), #use custom styling
   tags$style(HTML("
