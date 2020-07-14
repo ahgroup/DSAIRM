@@ -21,8 +21,8 @@ Encoding: UTF-8
 LazyData: TRUE
 Imports:
     adaptivetau (>= 2.2),
-    boot (>= 1.3-20),
-    deSolve (>= 1.20),
+    boot,
+    deSolve,
     dplyr (>= 0.7.4),
     ggplot2 (>= 2.2.1),
     gridExtra (>= 2.3),

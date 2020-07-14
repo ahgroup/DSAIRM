@@ -113,8 +113,8 @@ Note that here we focus on a single parameter at a time. With some coding effort
 
 
 ## Further Information {#shinytab4}
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. That function repeatedly calls ``r appsettings$underlying_function``. 
+* This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
 * You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
 * For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
 * Some 'real world' examples where models have been used to explore outcomes of interest as function of parameters for simple models applied to TB, see e.g. [@antia96] (specifically Figure 2B) or Malaria, see e.g. [@kochin10]. 

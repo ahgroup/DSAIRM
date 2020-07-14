@@ -1,4 +1,4 @@
-# DSAIRM 0.8.6
+# DSAIRM 0.8.6 (2020-07-14)
 
 * CRAN release
 * added another app
@@ -14,8 +14,9 @@
 * updated fitting apps
 
 
-# DSAIRM 0.8.2
+# DSAIRM 0.8.2 (2019-07-08)
 
+* CRAN release
 * small bug fixes and feature enhancements
 
 # DSAIRM 0.8.1
@@ -33,14 +34,9 @@
 
 # DSAIRM 0.6
 
-## User facing changes
-
 * User can switch between ggplot and plotly for figures
 * The list of "what to do" tasks can be floated
 * Additional UI improvement
-
-## Other changes
-
 * More unit tests
 
 # DSAIRM 0.5.5
