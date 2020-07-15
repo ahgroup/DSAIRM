@@ -97,7 +97,7 @@ _Note that the stochastic model does not allow specification of starting time an
 
 
 ### Task 1: 
-* Run the simulation with the pre=set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
+* Run the simulation with the pre-set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
 * Change the random number seed and find a value for which you do get an outbreak. 
 * Set "Models to run" to both. You should get infections from each model. Compare how they differ.
 * Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. 

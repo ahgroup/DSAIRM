@@ -145,7 +145,7 @@ It is useful to note that while the total numbers for each variable do not chang
 
 
 ### Task 9 
-Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that you can get all this dynamics without any immune response present. The interaction between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen. 
+Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that this model does not contain an immune response. The interactions between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen. 
 
 
 ## Further Information {#shinytab4}

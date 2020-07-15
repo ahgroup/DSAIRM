@@ -65,8 +65,6 @@ generate_text <- function(res)
       }
       else
       {
-        #using tidyr to reshape
-        #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
         #using basic reshape function to reformat data
         dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
       }

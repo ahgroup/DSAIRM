@@ -99,8 +99,6 @@ run_model <- function(modelsettings) {
       colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
       #reformat data to be in the right format for plotting
       rawdat = as.data.frame(simresult)
-      #using tidyr to reshape
-      #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
       #using basic reshape function to reformat data
       dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
       dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
@@ -134,9 +132,7 @@ run_model <- function(modelsettings) {
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     rawdat = as.data.frame(simresult)
-    #using tidyr to reshape
-    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
-    #using basic reshape function to reformat data
+     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
 
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for ode.
@@ -165,8 +161,6 @@ run_model <- function(modelsettings) {
     colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
     #reformat data to be in the right format for plotting
     rawdat = as.data.frame(simresult)
-    #using tidyr to reshape
-    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
     dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for discrete.
@@ -309,8 +303,6 @@ run_model <- function(modelsettings) {
     #reformat data to be in the right format for plotting
     #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratification for each plot
     rawdat = as.data.frame(simresult$ts)
-    #using tidyr to reshape
-    #dat = tidyr::gather(rawdat, -xvals, value = "yvals", key = "varnames")
     #using basic reshape function to reformat data
     dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
 

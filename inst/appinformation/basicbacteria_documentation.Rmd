@@ -134,7 +134,7 @@ Run the simulation, see what you get. You should see some oscillations and then 
 
 ### Task 3: 
 * Go back to both linear scales for plotting.
-* Set "Models to run" to "both"", which runs and shows both the continuous-time and discrete-time models.
+* Set "Models to run" to "both", which runs and shows both the continuous-time and discrete-time models.
 * Start with a discrete-time step of 0.01.
 * Leave all other settings as before.
 
@@ -155,8 +155,8 @@ You should notice that as _dt_ gets larger, the differences between discrete-tim
 
 ### Task 6: 
 * Turn off the discrete-time simulation, set everything back as in task 1.
-* What do you expect to see if you now change the bacteria growth rate from 1 to 2? Think about your expectations, then run the simulation to see what you get. If your see something you didn't expect, or didn't know what to expect, try to make sense of the results. 
-* Play around with the bacteria growth rate, try different values and see how it affect the results.
+* What do you expect to see if you now change the bacteria growth rate from 1 to 2? Think about your expectations, then run the simulation to see what you get. If you see something you didn't expect, or didn't know what to expect, try to make sense of the results. 
+* Play around with the bacteria growth rate, try different values and see how it affects the results.
 
 ### Task 7: 
 * Set everything back as in task 1.

@@ -31,7 +31,6 @@ Imports:
     plotly,
     rlang,
 	stats,
-    tidyr,
     utils (>= 3.4), 
     XML (>= 3.98)
 Depends:

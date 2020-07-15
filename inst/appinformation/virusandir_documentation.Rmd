@@ -135,12 +135,12 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * Set T-cell killing rate close to 0 (e.g. 10^-20^). Contemplate what you'd expect to see, run the simulation to confirm.
 * You should see the same size acute infection as before, namely with around 70217 infected cells. You will also see T-cells growing.
 * Now allow T-cells to kill infected cells by increasing the killing rate. First formulate your expectation, then test with the simulation.
-* As killing rate increase, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.
+* As killing rate increases, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.
 * Play around with the parameters that directly govern T-cell kinetics and impact (*r~T~*, *g~T~*, *k~T~*), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task). 
 
 ### Task 5: 
 * We now explore B-cell/antibody response.
-* Set everything as in task 2, B-cell growth rate rate to 0.5 and saturation constant to 10^2.
+* Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^.
 * Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^.
 * Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? Hint: Look at the equations and the initial conditions.
 * Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation.
