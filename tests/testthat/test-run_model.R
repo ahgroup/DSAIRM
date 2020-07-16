@@ -25,17 +25,18 @@ test_that("run_model correctly runs different models",
             Ufinal = min(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals)
             testthat::expect_equal(Ufinal, 58)
 
-            #make model fail by setting start after end
-            modelsettings =  list(tstart = 10, tfinal = 0, dt = 0.1, modeltype = "_ode_", plotscale = 'y', nplots = 1)
-            modelsettings$simfunction = 'simulate_basicvirus_ode'
+            modelsettings =  list(tstart = 10, tfinal = 100, B = 1, dt = 0.1, dU = 0, b = 1e-04, dI = 1, p = 10, gB = 0.1, modeltype = "_ode_", plotscale = 'y', nplots = 1)
+            modelsettings$simfunction = 'simulate_virusandir_ode'
             result = run_model(modelsettings)
-            testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
+            Bmax = result[[1]]$dat %>% dplyr::filter(varnames == "B")
+            Bmax = round(max(Bmax$yvals))
+            testthat::expect_equal(Bmax, 23)
 
             #make model fail by setting something to negative
-            modelsettings =  list(U = 10000, I = 0, V = -10, n = 0, modeltype = "_stochastic_",  nplots = 1,  nreps = 1)
+            modelsettings =  list(U = 10000, I = 0, V = 10, n = 0, modeltype = "_stochastic_",  nplots = 1,  nreps = 5,  rngseed = 115)
             modelsettings$simfunction = 'simulate_basicvirus_stochastic'
             result = run_model(modelsettings)
-            testthat::expect_equal(result, "Model run failed. Maybe unreasonable parameter values?")
+            testthat::expect_equal(nrow(result[[1]]$dat), 12519)
 
             #no model type provided, should fail
             modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, plotscale = 'x', nplots = 1)
