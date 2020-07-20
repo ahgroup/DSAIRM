@@ -33,231 +33,64 @@
 #This is the Shiny App for the main menu of DSAIRM
 ##############################################
 
+
+##############################################
+#Set up some variables, define all as global (the <<- notation)
 #name of R package
-packagename = "DSAIRM"
-
+packagename <<- "DSAIRM"
 #find path to apps
-appdir = system.file("appinformation", package = packagename) #find path to apps
-modeldir = system.file("mbmodels", package = packagename) #find path to apps
-simdir = system.file("simulatorfunctions", package = packagename) #find path to apps
-
+appdir <<- system.file("appinformation", package = packagename) #find path to apps
+modeldir <<- system.file("mbmodels", package = packagename) #find path to apps
+simdir <<- system.file("simulatorfunctions", package = packagename) #find path to apps
 #load app table that has all the app information
-at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
-
-appNames = at$appid
-
+at <<- read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
+appNames <<- at$appid
 #path to simulator function zip file
-allsimfctfile = paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
+allsimfctfile <<- paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
 currentdocfilename <<- NULL
 
-#this function is the server part of the app
+##############################################
+#define functions
+##############################################
+
+#simple function that creates app buttons for UI
+#specify data frame containing app info and the id of the app
+make_button <- function(at,appid)
+{
+  id = which(at$appid == appid)
+  actionButton(at$appid[id], paste0(at$apptitle[id]), class="mainbutton")
+}
+
+
+##############################################
+#main server function of the app
+##############################################
 server <- function(input, output, session)
 {
   #to get plot engine to be an object that is always be processed
   output$plotengine <- renderText('ggplot')
   outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
 
-  #######################################################
-  #start code that listens to model selection buttons and creates UI for a chosen model
-  #######################################################
-  lapply(appNames, function(appName)
-  {
-    observeEvent(input[[appName]],
-    {
-      #clear out anything that might be left over from previous app
-      output$ggplot <- NULL
-      output$plotly <- NULL
-      output$text <- NULL
-      output$floattask <- NULL
-      output$analyzemodel <- NULL
-      output$modelinputs <- NULL
-      appsettings <<- NULL
-      modelsettings <<- NULL
-
-      #each app has settings stored in apptable
-      #read and assign to list called 'appsettings'
-      #store in global variable
-      appsettings <<- as.list(at[which(at$appid == appName),])
-
-      #a few apps have 2 simulator functions, combine here into vector
-      if (nchar(appsettings$simfunction2) > 1)
-      {
-        appsettings$simfunction <<- c(appsettings$simfunction,appsettings$simfunction2)
-      }
-
-      #all columns are read in as characters, convert some
-      appsettings$use_mbmodel = as.logical(appsettings$use_mbmodel)
-      appsettings$use_doc = as.logical(appsettings$use_doc)
-      appsettings$nplots = as.numeric(appsettings$nplots)
-
-      #if an mbmodel should be used, check that it exists and load
-      appsettings$mbmodel <- NULL
-      if (appsettings$use_mbmodel)
-      {
-        appsettings$mbmodel = readRDS(paste0(modeldir,"/",appsettings$mbmodelname) )
-        if (! is.list(appsettings$mbmodel))  {return("mbmodel could not be loaded in app.R")}
-      }
-
-      #if the doc of a file should be parsed for UI generation, get it here
-      appsettings$filepath <- NULL
-      if (appsettings$use_doc)
-      {
-        filepath = paste0(simdir,'/',appsettings$simfunction[1],'.R')
-        if (! file.exists(filepath))  {return("file for function can't be found")}
-        appsettings$filepath = filepath
-      }
-
-      #file name for documentation
-      currentdocfilename <<- paste0(appdir,"/",appsettings$docname)
-
-      #make globally available
-      appsettings <<- appsettings
-
-      #the information is stored in a list called 'appsettings'
-      #different models can have different variables
-      #all models need the following:
-      #variable appid - ID (short name) of the app
-      #variable apptitle - the name of the app. Used to display.
-      #variable docname - name of documentation file for app
-      #variable modelfigname - name of figure file for app
-      #variable simfunction - the name of the simulation function(s)
-      #variable mbmodelname - if there is an mbmodel available, list its name
-      #variable modeltype - the type of the model to be run. if multiple, i.e. containing "_and_" it is set by UI.
-
-      #additional elements that can be provided:
-      #variable otherinputs - contains additional shiny UI elements that are not generated automatically by functions above
-      #for instance all non-numeric inputs need to be provided separately.
-      #this is provided as text
-      #If not needed, it is empty ""
-
-      #extract function and other inputs and turn them into a taglist
-      #this uses the 1st function provided by the settings file
-      #indexing sim function in case there are multiple
-
-      modelinputs <- generate_shinyinput(use_mbmodel = appsettings$use_mbmodel, mbmodel = appsettings$mbmodel,
-                                         use_doc = appsettings$use_doc, model_file = appsettings$filepath,
-                                         model_function = appsettings$simfunction[1],
-                                         otherinputs = appsettings$otherinputs, packagename = packagename)
-      output$modelinputs <- renderUI({modelinputs})
-
-
-      #display all inputs and outputs on the analyze tab
-      output$analyzemodel <- renderUI({
-          tagList(
-            tags$div(id = "shinyapptitle", appsettings$apptitle),
-            tags$hr(),
-            #Split screen with input on left, output on right
-            fluidRow(
-              column(6,
-                h2('Simulation Settings'),
-                wellPanel(uiOutput("modelinputs"))
-              ), #end sidebar column for inputs
-              column(6,
-                h2('Simulation Results'),
-                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "ggplot") ),
-                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") ),
-                htmlOutput(outputId = "text")
-              ) #end column with outcomes
-            ), #end fluidrow containing input and output
-            #Instructions section at bottom as tabs
-            h2('Instructions'),
-            #use external function to generate all tabs with instruction content
-            withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
-          ) #end tag list
-        }) # End renderUI for analyze tab
-
-      #once UI for the model in the analyze tab is created, switch to that tab
-      updateNavbarPage(session, packagename, selected = "Analyze")
-    }) #end observeEvent for the analyze tab
-
-  }) #end lapply function surrounding observeEvent to build app
-
-    #######################################################
-    #end code that listens to model selection buttons and creates UI for a chosen model
-    #######################################################
-
-    ###############
-    #Code to reset the model settings
-    ###############
-    observeEvent(input$reset, {
-      output$modelinputs <- NULL
-      modelinputs <- generate_shinyinput(use_mbmodel = appsettings$use_mbmodel, mbmodel = appsettings$mbmodel,
-                                         use_doc = appsettings$use_doc, model_file = appsettings$filepath,
-                                         model_function = appsettings$simfunction[1],
-                                         otherinputs = appsettings$otherinputs, packagename = packagename)
-      output$modelinputs <- renderUI({modelinputs})
-      output$plotly <- NULL
-      output$ggplot <- NULL
-      output$text <- NULL
-    })
-
-    #######################################################
-    #start code that listens to the 'run simulation' button and runs a model for the specified settings
-    #######################################################
-    observeEvent(input$submitBtn, {
-
-
-      #run model with specified settings
-      #run simulation, show a 'running simulation' message
-      withProgress(message = 'Running Simulation',
-                   detail = "This may take a while", value = 0,
-                   {
-                     #remove previous plots and text
-                     output$ggplot <- NULL
-                     output$plotly <- NULL
-                     output$text <- NULL
-                     #extract current model settings from UI input elements
-                     x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-                     #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-                     modelsettings = x3
-                     #remove nested list of shiny input tags
-                     appsettings$otherinputs <- NULL
-                     #add settings information from appsettings list
-                     modelsettings = c(appsettings, modelsettings)
-                     if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-                     #if no random seed is set in UI, set it to 123.
-                     if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-                     #run model, process inside run_model function based on settings
-                     result <- run_model(modelsettings)
-                     #if things worked, result contains a list structure for processing with the plot and text functions
-                     #if things failed, result contains a string with an error message
-                     if (is.character(result))
-                     {
-                       output$ggplot <- NULL
-                       output$plotly <- NULL
-                       output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
-                     }
-                     else #create plots and text, for plots, do either ggplot or plotly
-                     {
-                       if (modelsettings$plotengine == 'ggplot')
-                       {
-                         output$plotengine <- renderText('ggplot')
-                         output$ggplot  <- shiny::renderPlot({ generate_ggplot(result) })
-                       }
-                       if (modelsettings$plotengine == 'plotly')
-                       {
-                         output$plotengine <- renderText('plotly')
-                         output$plotly  <- plotly::renderPlotly({ generate_plotly(result) })
-                       }
-                       #create text from results
-                       output$text <- renderText({ generate_text(result) })
-                     }
-                   }) #end with-progress wrapper
-    } #end the expression being evaluated by observeevent
-    ) #end observe-event for analyze model submit button
-
-    #######################################################
-    #end code that listens to the 'run simulation' button and runs a model for the specified settings
-    #######################################################
+  ###############
+  #Code to reset the model settings for a given app
+  ###############
+  observeEvent(input$reset, {
+    output$modelinputs <- NULL
+    modelinputs <- generate_shinyinput(use_mbmodel = appsettings$use_mbmodel, mbmodel = appsettings$mbmodel,
+                                       use_doc = appsettings$use_doc, model_file = appsettings$filepath,
+                                       model_function = appsettings$simfunction[1],
+                                       otherinputs = appsettings$otherinputs, packagename = packagename)
+    output$modelinputs <- renderUI({modelinputs})
+    output$plotly <- NULL
+    output$ggplot <- NULL
+    output$text <- NULL
+  })
 
 
   #######################################################
   #start code that listens to the "download code" button
   #not currently implemented/activated
   #######################################################
-
   output$download_code <- downloadHandler(
     filename = function() {
       "output.R"
@@ -324,6 +157,193 @@ server <- function(input, output, session)
 
 
   #######################################################
+  #start code that listens to model selection buttons and creates UI for a chosen model
+  #placing it here in hopes it can fix some weird error message on some systems about appName not found
+  #not sure if that works might have to do with order in which app is built
+  #######################################################
+  lapply(appNames, function(appName)
+  {
+    observeEvent(input[[appName]],
+                 {
+                   #clear out anything that might be left over from previous app
+                   output$ggplot <- NULL
+                   output$plotly <- NULL
+                   output$text <- NULL
+                   output$floattask <- NULL
+                   output$analyzemodel <- NULL
+                   output$modelinputs <- NULL
+                   appsettings <<- NULL
+                   modelsettings <<- NULL
+
+                   #each app has settings stored in apptable
+                   #read and assign to list called 'appsettings'
+                   #store in global variable
+                   appsettings <<- as.list(at[which(at$appid == appName),])
+
+                   #a few apps have 2 simulator functions, combine here into vector
+                   if (nchar(appsettings$simfunction2) > 1)
+                   {
+                     appsettings$simfunction <<- c(appsettings$simfunction,appsettings$simfunction2)
+                   }
+
+                   #all columns are read in as characters, convert some
+                   appsettings$use_mbmodel = as.logical(appsettings$use_mbmodel)
+                   appsettings$use_doc = as.logical(appsettings$use_doc)
+                   appsettings$nplots = as.numeric(appsettings$nplots)
+
+                   #if an mbmodel should be used, check that it exists and load
+                   appsettings$mbmodel <- NULL
+                   if (appsettings$use_mbmodel)
+                   {
+                     appsettings$mbmodel = readRDS(paste0(modeldir,"/",appsettings$mbmodelname) )
+                     if (! is.list(appsettings$mbmodel))  {return("mbmodel could not be loaded in app.R")}
+                   }
+
+                   #if the doc of a file should be parsed for UI generation, get it here
+                   appsettings$filepath <- NULL
+                   if (appsettings$use_doc)
+                   {
+                     filepath = paste0(simdir,'/',appsettings$simfunction[1],'.R')
+                     if (! file.exists(filepath))  {return("file for function can't be found")}
+                     appsettings$filepath = filepath
+                   }
+
+                   #file name for documentation
+                   currentdocfilename <<- paste0(appdir,"/",appsettings$docname)
+
+                   #make globally available
+                   appsettings <<- appsettings
+
+                   #the information is stored in a list called 'appsettings'
+                   #different models can have different variables
+                   #all models need the following:
+                   #variable appid - ID (short name) of the app
+                   #variable apptitle - the name of the app. Used to display.
+                   #variable docname - name of documentation file for app
+                   #variable modelfigname - name of figure file for app
+                   #variable simfunction - the name of the simulation function(s)
+                   #variable mbmodelname - if there is an mbmodel available, list its name
+                   #variable modeltype - the type of the model to be run. if multiple, i.e. containing "_and_" it is set by UI.
+
+                   #additional elements that can be provided:
+                   #variable otherinputs - contains additional shiny UI elements that are not generated automatically by functions above
+                   #for instance all non-numeric inputs need to be provided separately.
+                   #this is provided as text
+                   #If not needed, it is empty ""
+
+                   #extract function and other inputs and turn them into a taglist
+                   #this uses the 1st function provided by the settings file
+                   #indexing sim function in case there are multiple
+
+                   modelinputs <- generate_shinyinput(use_mbmodel = appsettings$use_mbmodel, mbmodel = appsettings$mbmodel,
+                                                      use_doc = appsettings$use_doc, model_file = appsettings$filepath,
+                                                      model_function = appsettings$simfunction[1],
+                                                      otherinputs = appsettings$otherinputs, packagename = packagename)
+                   output$modelinputs <- renderUI({modelinputs})
+
+
+                   #display all inputs and outputs on the analyze tab
+                   output$analyzemodel <- renderUI({
+                     tagList(
+                       tags$div(id = "shinyapptitle", appsettings$apptitle),
+                       tags$hr(),
+                       #Split screen with input on left, output on right
+                       fluidRow(
+                         column(6,
+                                h2('Simulation Settings'),
+                                wellPanel(uiOutput("modelinputs"))
+                         ), #end sidebar column for inputs
+                         column(6,
+                                h2('Simulation Results'),
+                                conditionalPanel("output.plotengine == 'ggplot'", shiny::plotOutput(outputId = "ggplot") ),
+                                conditionalPanel("output.plotengine == 'plotly'", plotly::plotlyOutput(outputId = "plotly") ),
+                                htmlOutput(outputId = "text")
+                         ) #end column with outcomes
+                       ), #end fluidrow containing input and output
+                       #Instructions section at bottom as tabs
+                       h2('Instructions'),
+                       #use external function to generate all tabs with instruction content
+                       withMathJax(do.call(tabsetPanel, generate_documentation(currentdocfilename)))
+                     ) #end tag list
+                   }) # End renderUI for analyze tab
+
+                   #once UI for the model in the analyze tab is created, switch to that tab
+                   updateNavbarPage(session, packagename, selected = "Analyze")
+                 },
+                 priority = -100
+                 ) #end observeEvent for the analyze tab
+
+  }) #end lapply function surrounding observeEvent to build app
+
+  #######################################################
+  #end code that listens to model selection buttons and creates UI for a chosen model
+  #######################################################
+
+
+    #######################################################
+    #start code that listens to the 'run simulation' button and runs a model for the specified settings
+    #######################################################
+    observeEvent(input$submitBtn, {
+
+
+      #run model with specified settings
+      #run simulation, show a 'running simulation' message
+      withProgress(message = 'Running Simulation',
+                   detail = "This may take a while", value = 0,
+                   {
+                     #remove previous plots and text
+                     output$ggplot <- NULL
+                     output$plotly <- NULL
+                     output$text <- NULL
+                     #extract current model settings from UI input elements
+                     x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+                     x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
+                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
+                     #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+                     modelsettings = x3
+                     #remove nested list of shiny input tags
+                     appsettings$otherinputs <- NULL
+                     #add settings information from appsettings list
+                     modelsettings = c(appsettings, modelsettings)
+                     if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+                     #if no random seed is set in UI, set it to 123.
+                     if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+                     #run model, process inside run_model function based on settings
+                     result <- run_model(modelsettings)
+                     #if things worked, result contains a list structure for processing with the plot and text functions
+                     #if things failed, result contains a string with an error message
+                     if (is.character(result))
+                     {
+                       output$ggplot <- NULL
+                       output$plotly <- NULL
+                       output$text <- renderText({ paste("<font color=\"#FF0000\"><b>", result, "</b></font>") })
+                     }
+                     else #create plots and text, for plots, do either ggplot or plotly
+                     {
+                       if (modelsettings$plotengine == 'ggplot')
+                       {
+                         output$plotengine <- renderText('ggplot')
+                         output$ggplot  <- shiny::renderPlot({ generate_ggplot(result) })
+                       }
+                       if (modelsettings$plotengine == 'plotly')
+                       {
+                         output$plotengine <- renderText('plotly')
+                         output$plotly  <- plotly::renderPlotly({ generate_plotly(result) })
+                       }
+                       #create text from results
+                       output$text <- renderText({ generate_text(result) })
+                     }
+                   }) #end with-progress wrapper
+    } #end the expression being evaluated by observeevent
+    ) #end observe-event for analyze model submit button
+
+    #######################################################
+    #end code that listens to the 'run simulation' button and runs a model for the specified settings
+    #######################################################
+
+
+
+  #######################################################
   #Exit main menu
   observeEvent(input$Exit, {
     stopApp('Exit')
@@ -331,13 +351,9 @@ server <- function(input, output, session)
 
 } #ends the server function for the app
 
-#simple function that creates app buttons for UI
-#specify data frame containing app info and the id of the app
-make_button <- function(at,appid)
-{
-  id = which(at$appid == appid)
-  actionButton(at$appid[id], paste0(at$apptitle[id]), class="mainbutton")
-}
+
+
+
 
 
 #######################################################
