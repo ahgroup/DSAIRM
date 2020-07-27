@@ -49,6 +49,7 @@ appNames <<- at$appid
 allsimfctfile <<- paste0(system.file("simulatorfunctions", package = packagename),"/simulatorfunctions.zip")
 currentdocfilename <<- NULL
 
+
 ##############################################
 #define functions
 ##############################################
@@ -70,6 +71,7 @@ server <- function(input, output, session)
   #to get plot engine to be an object that is always be processed
   output$plotengine <- renderText('ggplot')
   outputOptions(output, "plotengine", suspendWhenHidden = FALSE)
+
 
   ###############
   #Code to reset the model settings for a given app
@@ -271,7 +273,7 @@ server <- function(input, output, session)
                    updateNavbarPage(session, packagename, selected = "Analyze")
                  },
                  priority = -100
-                 ) #end observeEvent for the analyze tab
+    ) #end observeEvent for the analyze tab
 
   }) #end lapply function surrounding observeEvent to build app
 
@@ -342,7 +344,6 @@ server <- function(input, output, session)
     #######################################################
 
 
-
   #######################################################
   #Exit main menu
   observeEvent(input$Exit, {
@@ -351,17 +352,11 @@ server <- function(input, output, session)
 
 } #ends the server function for the app
 
-
-
-
-
-
 #######################################################
 #This is the UI for the Main Menu of DSAIRM
 #######################################################
 
 ui <- fluidPage(
-  #shinyjs::useShinyjs(),  # Set up shinyjs - not currently used
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   includeCSS("packagestyle.css"), #use custom styling
   tags$style(HTML("
