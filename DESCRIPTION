@@ -13,6 +13,7 @@ Authors@R: c(
     person("Yang", "Ge",  role = "ctb"),
     person("Spencer", "Hall",  role = "ctb"),
     person("Sina", "Solaimanpour",  role = "ctb"),
+    person("Alexis", "Vittengl",  role = "ctb"),
     person("Henok", "Woldu",  role = "ctb") 
     )
 Maintainer: Andreas Handel <ahandel@uga.edu>
