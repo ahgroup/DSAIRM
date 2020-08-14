@@ -11,7 +11,7 @@
 ## Package organization
 
 ### Main functions
-* Folder /R contains the main R functions, i.e. the simulattors and various helper functions. 
+* Folder /R contains the main R functions, i.e. the simulators and various helper functions. 
 * All simulators, which can be called directly by advanced users start with simulate_. 
 * The functions/files generate_text, generate_ggplot and generate_plotly can take results returned from the simulator functions and generate plots. Users might want to use those combined with running the simulate_ functions. 
 * All other functions/files are only needed for the package/UI to work. They are public/exported, but are generally not meant to be directly accessed by users.
@@ -101,3 +101,7 @@ library('DSAIDE')
 * Check vignette and function references on website, fix errors
 * Run devtools::check_rhub(), devtools::check_win_release() and devtools::check_win_devel()
 * Do a test run of devtools::release() - fix any remaining issues, then re-run and release
+
+### Trouble-shooting
+* If you get the 'can't find qpdf error' during build, try this (on windows): https://stackoverflow.com/questions/41570633/how-to-build-qpdf-on-windows
+
