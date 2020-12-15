@@ -130,24 +130,24 @@ The model describes a simple viral infection system.</p>
     </div>
 
     <pre class="usage"><span class='fu'>simulate_confint_fit</span>(
-  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
-  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-06</span>,
-  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>dVlow</span> <span class='kw'>=</span> <span class='fl'>0.001</span>,
-  <span class='kw'>dVhigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>nsample</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>rngseed</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>parscale</span> <span class='kw'>=</span> <span class='st'>"lin"</span>
+  U = <span class='fl'>1e+05</span>,
+  I = <span class='fl'>0</span>,
+  V = <span class='fl'>10</span>,
+  n = <span class='fl'>0</span>,
+  dU = <span class='fl'>0</span>,
+  dI = <span class='fl'>2</span>,
+  p = <span class='fl'>0.01</span>,
+  g = <span class='fl'>0</span>,
+  b = <span class='fl'>0.01</span>,
+  blow = <span class='fl'>1e-06</span>,
+  bhigh = <span class='fl'>1000</span>,
+  dV = <span class='fl'>2</span>,
+  dVlow = <span class='fl'>0.001</span>,
+  dVhigh = <span class='fl'>1000</span>,
+  iter = <span class='fl'>20</span>,
+  nsample = <span class='fl'>10</span>,
+  rngseed = <span class='fl'>100</span>,
+  parscale = <span class='st'>"lin"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -248,9 +248,10 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the code with default parameters just call the function:</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_confint_fit</span>()
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_confint_fit</span>()
 <span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_confint_fit</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>nsample</span> <span class='kw'>=</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1] "All values of t are equal to  0.01749925 \n Cannot calculate confidence intervals"</div><div class='output co'>#&gt; <span class='warning'>Warning: extreme order statistics used as endpoints</span></div></pre>
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_confint_fit</span>(iter = <span class='fl'>5</span>, nsample = <span class='fl'>5</span>)
+</div><div class='output co'>#&gt; [1] "All values of t are equal to  0.01749925 \n Cannot calculate confidence intervals"</div><div class='output co'>#&gt; <span class='warning'>Warning: extreme order statistics used as endpoints</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -266,7 +267,7 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

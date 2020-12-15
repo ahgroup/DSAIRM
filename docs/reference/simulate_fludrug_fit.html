@@ -136,23 +136,23 @@ The function simulates the ODE using an ODE solver from the deSolve package.</p>
     </div>
 
     <pre class="usage"><span class='fu'>simulate_fludrug_fit</span>(
-  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
-  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>4</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>blow</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
-  <span class='kw'>bhigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>plow</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
-  <span class='kw'>phigh</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>glow</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>ghigh</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
-  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>fitmodel</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>500</span>
+  U = <span class='fl'>1e+05</span>,
+  I = <span class='fl'>0</span>,
+  V = <span class='fl'>1</span>,
+  dI = <span class='fl'>2</span>,
+  dV = <span class='fl'>4</span>,
+  b = <span class='fl'>0.01</span>,
+  blow = <span class='fl'>1e-05</span>,
+  bhigh = <span class='fl'>10</span>,
+  p = <span class='fl'>0.01</span>,
+  plow = <span class='fl'>1e-05</span>,
+  phigh = <span class='fl'>10</span>,
+  g = <span class='fl'>1</span>,
+  glow = <span class='fl'>0</span>,
+  ghigh = <span class='fl'>1000</span>,
+  e = <span class='fl'>0.5</span>,
+  fitmodel = <span class='fl'>1</span>,
+  iter = <span class='fl'>500</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -246,12 +246,16 @@ mechanism/model 2 assumes  that drug treatment reduces rate of new cell infectio
 
     <div class='dont-index'><p>See the Shiny app documentation corresponding to this
 function for more details on this model.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Andreas Handel</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the code with default parameters just call the function:</span>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) <span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>()
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>()
 <span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>(<span class='kw'>iter</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>fitmodel</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div></pre>
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>(iter = <span class='fl'>5</span>, fitmodel = <span class='fl'>1</span>)
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -267,7 +271,7 @@ function for more details on this model.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -128,17 +128,17 @@ Uninfected target cells (U), Infected cells (I), virus (V).</p>
     </div>
 
     <pre class="usage"><span class='fu'>simulate_basicvirus_stochastic</span>(
-  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>rngseed</span> <span class='kw'>=</span> <span class='fl'>111</span>,
-  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>
+  U = <span class='fl'>10000</span>,
+  I = <span class='fl'>0</span>,
+  V = <span class='fl'>1</span>,
+  n = <span class='fl'>0</span>,
+  dU = <span class='fl'>0</span>,
+  b = <span class='fl'>1e-04</span>,
+  dI = <span class='fl'>1</span>,
+  p = <span class='fl'>10</span>,
+  dV = <span class='fl'>2</span>,
+  rngseed = <span class='fl'>111</span>,
+  tfinal = <span class='fl'>30</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -212,11 +212,12 @@ the code will likely abort with an error message.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>()
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>()
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>(<span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e3</span>, <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>(U = <span class='fl'>1e3</span>, dI = <span class='fl'>0.1</span>)
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>)</div><div class='img'><img src='simulate_basicvirus_stochastic-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"time"</span>],<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"V"</span>],xlab=<span class='st'>'Time'</span>,ylab=<span class='st'>'Virus'</span>,type=<span class='st'>'l'</span>)
+</div><div class='img'><img src='simulate_basicvirus_stochastic-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -232,7 +233,7 @@ the code will likely abort with an error message.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

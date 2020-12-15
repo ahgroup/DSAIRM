@@ -138,23 +138,23 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)</p>
     </div>
 
     <pre class="usage"><span class='fu'>simulate_virusandtx_ode</span>(
-  <span class='kw'>U</span> <span class='kw'>=</span> <span class='fl'>1e+05</span>,
-  <span class='kw'>I</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>10000</span>,
-  <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>dI</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>dV</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>1e-05</span>,
-  <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>g</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>f</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>e</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>tstart</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>dt</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>steadystate</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>txstart</span> <span class='kw'>=</span> <span class='fl'>0</span>
+  U = <span class='fl'>1e+05</span>,
+  I = <span class='fl'>0</span>,
+  V = <span class='fl'>10</span>,
+  n = <span class='fl'>10000</span>,
+  dU = <span class='fl'>0.1</span>,
+  dI = <span class='fl'>1</span>,
+  dV = <span class='fl'>2</span>,
+  b = <span class='fl'>1e-05</span>,
+  p = <span class='fl'>10</span>,
+  g = <span class='fl'>1</span>,
+  f = <span class='fl'>0</span>,
+  e = <span class='fl'>0</span>,
+  tstart = <span class='fl'>0</span>,
+  tfinal = <span class='fl'>30</span>,
+  dt = <span class='fl'>0.1</span>,
+  steadystate = <span class='fl'>FALSE</span>,
+  txstart = <span class='fl'>0</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -254,11 +254,12 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_virusandtx_ode</span>()
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandtx_ode</span>()
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='no'>result</span> <span class='kw'>&lt;-</span> <span class='fu'>simulate_virusandtx_ode</span>(<span class='kw'>V</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>tfinal</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1e5</span>, <span class='kw'>dU</span> <span class='kw'>=</span> <span class='fl'>1e-2</span>)
+<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandtx_ode</span>(V = <span class='fl'>100</span>, tfinal = <span class='fl'>100</span>, n = <span class='fl'>1e5</span>, dU = <span class='fl'>1e-2</span>)
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"time"</span>],<span class='no'>result</span>$<span class='no'>ts</span>[,<span class='st'>"V"</span>],<span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>'Time'</span>,<span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>'Virus'</span>,<span class='kw'>type</span><span class='kw'>=</span><span class='st'>'l'</span>,<span class='kw'>log</span><span class='kw'>=</span><span class='st'>'y'</span>)</div><div class='img'><img src='simulate_virusandtx_ode-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"time"</span>],<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"V"</span>],xlab=<span class='st'>'Time'</span>,ylab=<span class='st'>'Virus'</span>,type=<span class='st'>'l'</span>,log=<span class='st'>'y'</span>)
+</div><div class='img'><img src='simulate_virusandtx_ode-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -274,7 +275,7 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
