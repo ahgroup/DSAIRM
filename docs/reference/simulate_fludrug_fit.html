@@ -8,6 +8,13 @@
 
 <title>Fitting a simple viral infection model with 2 types of drug mechanisms to influenza data — simulate_fludrug_fit • DSAIRM</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -48,6 +55,7 @@ using a set of ordinary differential equations.
 The model describes a simple viral infection system in the presence of drug treatment.
 The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package." />
+<meta property="og:image" content="https://ahgroup.github.io/DSAIRM/index.html/logo.png" />
 
 
 
@@ -87,7 +95,7 @@ The function simulates the ODE using an ODE solver from the deSolve package." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,7 +112,7 @@ The function simulates the ODE using an ODE solver from the deSolve package." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ahgroup/DSAIRM">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa-github"></span>
      
   </a>
 </li>
@@ -135,6 +143,7 @@ The user provides initial conditions and parameter values for the system.
 The function simulates the ODE using an ODE solver from the deSolve package.</p>
     </div>
 
+<<<<<<< Updated upstream
     <pre class="usage"><span class='fu'>simulate_fludrug_fit</span>(
   U = <span class='fl'>1e+05</span>,
   I = <span class='fl'>0</span>,
@@ -154,6 +163,27 @@ The function simulates the ODE using an ODE solver from the deSolve package.</p>
   fitmodel = <span class='fl'>1</span>,
   iter = <span class='fl'>500</span>
 )</pre>
+=======
+    <pre class="usage"><span class='fu'>simulate_fludrug_fit</span><span class='op'>(</span>
+  U <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  I <span class='op'>=</span> <span class='fl'>0</span>,
+  V <span class='op'>=</span> <span class='fl'>1</span>,
+  dI <span class='op'>=</span> <span class='fl'>2</span>,
+  dV <span class='op'>=</span> <span class='fl'>4</span>,
+  b <span class='op'>=</span> <span class='fl'>0.01</span>,
+  blow <span class='op'>=</span> <span class='fl'>1e-05</span>,
+  bhigh <span class='op'>=</span> <span class='fl'>10</span>,
+  p <span class='op'>=</span> <span class='fl'>0.01</span>,
+  plow <span class='op'>=</span> <span class='fl'>1e-05</span>,
+  phigh <span class='op'>=</span> <span class='fl'>10</span>,
+  g <span class='op'>=</span> <span class='fl'>1</span>,
+  glow <span class='op'>=</span> <span class='fl'>0</span>,
+  ghigh <span class='op'>=</span> <span class='fl'>1000</span>,
+  e <span class='op'>=</span> <span class='fl'>0.5</span>,
+  fitmodel <span class='op'>=</span> <span class='fl'>1</span>,
+  iter <span class='op'>=</span> <span class='fl'>500</span>
+<span class='op'>)</span></pre>
+>>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,9 +282,15 @@ function for more details on this model.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the code with default parameters just call the function:</span>
+<<<<<<< Updated upstream
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>()
 <span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
 <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span>(iter = <span class='fl'>5</span>, fitmodel = <span class='fl'>1</span>)
+=======
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
+<span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_fludrug_fit</span><span class='op'>(</span>iter <span class='op'>=</span> <span class='fl'>5</span>, fitmodel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
+>>>>>>> Stashed changes
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

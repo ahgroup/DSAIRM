@@ -14,10 +14,43 @@
 
 <title>Basic Model Fit</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -107,7 +140,7 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <li>Once you have a decent starting simulation, try the different solvers for different iterations and see how good you can get. A ‘trick’ for fitting is to run for some iterations and use the reported best-fit values as new starting conditions, then do another fit with the same or a different solver.</li>
 <li>The best fit I was able to find was an SSR of 4.21. You might be able to find something better. It might depend on the bounds for the parameters. If the best-fit value reported from the optimizer is the same as the lower or upper bound for that parameter, it likely means if you broaden the bounds the fits will get better. However, the parameters have biological meanings and certain values do not make sense. For instance a lower bound for the virus decay rate of 0.001/day would mean an average virus lifespan of 1000 days or around 3 years, which is not reasonable for flu in vivo.</li>
 </ul>
-<p>While that unit conversion factor shows up in most apps, it is arguably not that important if we explore our model without trying to fit it to data. But here, for fitting purposes, this is important. The experimental units are TCID50/mL, so in our model, virus load needs to have the same units. Then, to make all units work, <em>g</em> needs to have those units, i.e. convert from infectious virions at the site of infection to experimental units. Unfortunately, how one relates to the other is not quite clear. See e.g. <span class="citation">(Handel, Longini, and Antia 2007)</span> for a discussion of that. If you plan to fit models to data you collected, you need to pay attention to units and make sure what you simulate and the data you have are in agreement.</p>
+<p>While that unit conversion factor shows up in most apps, it is arguably not that important if we explore our model without trying to fit it to data. But here, for fitting purposes, this is important. The experimental units are TCID50/mL, so in our model, virus load needs to have the same units. Then, to make all units work, <em>g</em> needs to have those units, i.e. convert from infectious virions at the site of infection to experimental units. Unfortunately, how one relates to the other is not quite clear. See e.g. <span class="citation">(Handel, Longini, and Antia 2007)</span> for a discussion of that. If you plan to fit models to data you collected, you need to pay attention to units and make sure what you simulate and the data you have are in agreement.</p>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
@@ -145,7 +178,7 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <div id="task-9" class="section level3">
 <h3>Task 9</h3>
 <ul>
-<li>Keep exploring. Fitting these kind of models can be tricky at times, and you might find strange behavior in this app that you don’t expect. Try to get to the bottom of what might be going on. This is an open-ended exploration, so I can’t really give you a “hint”. Just try different things, try to understand as much as possible of what you observe.</li>
+<li>Keep exploring. Fitting these kind of models can be tricky at times, and you might find strange behavior in this app that you don’t expect. Try to get to the bottom of what might be going on. This is an open-ended exploration, so I can’t really give you a “hint.” Just try different things, try to understand as much as possible of what you observe.</li>
 </ul>
 </div>
 </div>
@@ -163,22 +196,22 @@ SSR= \sum_t (Vm_t - Vd_t)^2
 <li>Advanced functionality to fit stochastic models can be found in the <code>pomp</code> package in R. (If you don’t know what stochastic models are, check out the stochastic apps in DSAIRM.)</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-bolker08">
-<p>Bolker, Benjamin M. 2008. <em>Ecological Models and Data in R</em>. Princeton University Press.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bolker08" class="csl-entry">
+Bolker, Benjamin M. 2008. <em>Ecological Models and Data in r</em>. Princeton University Press.
 </div>
-<div id="ref-handel07">
-<p>Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. “Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.” <em>PLoS Comput Biol</em> 3 (12): e240. <a href="https://doi.org/10.1371/journal.pcbi.0030240">https://doi.org/10.1371/journal.pcbi.0030240</a>.</p>
+<div id="ref-handel07" class="csl-entry">
+Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. <span>“Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.”</span> <em>PLoS Comput Biol</em> 3 (12): e240. <a href="https://doi.org/10.1371/journal.pcbi.0030240">https://doi.org/10.1371/journal.pcbi.0030240</a>.
 </div>
-<div id="ref-hayden96">
-<p>Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. “Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.” <em>JAMA</em> 275 (4): 295–99.</p>
+<div id="ref-hayden96" class="csl-entry">
+Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. <span>“Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.”</span> <em>JAMA</em> 275: 295–99.
 </div>
-<div id="ref-hilborn97">
-<p>Hilborn, Ray, and Marc Mangel. 1997. <em>The ecological detective : confronting models with data</em>. Monographs in Population Biology 28. Princeton, N.J.: Princeton University Press.</p>
+<div id="ref-hilborn97" class="csl-entry">
+Hilborn, Ray, and Marc Mangel. 1997. <em><span class="nocase">The ecological detective : confronting models with data</span></em>. Monographs in Population Biology 28. Princeton, N.J.: Princeton University Press.
 </div>
-<div id="ref-miao11a">
-<p>Miao, Hongyu, Xiaohua Xia, Alan S. Perelson, and Hulin Wu. 2011. “On Identifiability of Nonlinear ODE Models and Applications in Viral Dynamics.” <em>SIAM Review</em> 53 (1): 3. <a href="https://doi.org/10.1137/090757009">https://doi.org/10.1137/090757009</a>.</p>
+<div id="ref-miao11a" class="csl-entry">
+Miao, Hongyu, Xiaohua Xia, Alan S. Perelson, and Hulin Wu. 2011. <span>“On Identifiability of Nonlinear <span>ODE</span> Models and Applications in Viral Dynamics.”</span> <em><span>SIAM</span> Review</em> 53 (1): 3. <a href="https://doi.org/10.1137/090757009">https://doi.org/10.1137/090757009</a>.
 </div>
 </div>
 </div>

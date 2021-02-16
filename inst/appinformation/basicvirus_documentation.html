@@ -14,10 +14,43 @@
 
 <title>Basic Virus Model</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -103,7 +136,7 @@
 <ul>
 <li>Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for <em>R<sub>0</sub></em> to figure out what value <em>R<sub>0</sub></em> needs to be for there (not) to be an infection. Figure out the threshold value for <em>R<sub>0</sub></em> at which you go from no infection to having an infection.</li>
 </ul>
-<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
+<p>To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; C. A. A. Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
@@ -118,7 +151,7 @@
 <li>Run the simulation. Nothing should happen, uninfected cells should stay at their starting value.</li>
 <li>Now play around with birth rate and death rate of uninfected cells and see how that affects the dynamics.</li>
 <li>The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <em>U<sub>0</sub></em> while keeping birth and death rate at some fixed values.</li>
-<li>One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for “some function”. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation.</li>
+<li>One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for “some function.” In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation.</li>
 <li>To test your equation, set birth rate to 20000, set initial condition for uninfected cells to 10<sup>5</sup> and find the value for the death rate that keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</li>
 </ul>
 </div>
@@ -155,35 +188,35 @@
 <li>For this app, the underlying function running the simulation is called <code>simulate_basicvirus_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
-<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
+<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(C. A. Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
+<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-beauchemin11">
-<p>Beauchemin, Catherine AA, and Andreas Handel. 2011. “A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.” <em>BMC Public Health</em> 11 (1): S7.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-beauchemin08" class="csl-entry">
+Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. <span>“Modeling Amantadine Treatment of Influenza a Virus in Vitro.”</span> <em>Journal of Theoretical Biology</em> 254 (September): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.
 </div>
-<div id="ref-beauchemin08">
-<p>Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. “Modeling Amantadine Treatment of Influenza a Virus in Vitro.” <em>Journal of Theoretical Biology</em> 254 (2): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.</p>
+<div id="ref-beauchemin11" class="csl-entry">
+Beauchemin, Catherine AA, and Andreas Handel. 2011. <span>“A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.”</span> <em>BMC Public Health</em> 11 (1): S7.
 </div>
-<div id="ref-chatterjee12">
-<p>Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. “Mathematical Modelling of Hcv Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?” <em>Antiviral Therapy</em> 17 (6 Pt B): 1171–82. <a href="https://doi.org/10.3851/IMP2428">https://doi.org/10.3851/IMP2428</a>.</p>
+<div id="ref-chatterjee12" class="csl-entry">
+Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. <span>“Mathematical Modelling of HCV Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?”</span> <em>Antiviral Therapy</em> 17: 1171–82. <a href="https://doi.org/10.3851/IMP2428">https://doi.org/10.3851/IMP2428</a>.
 </div>
-<div id="ref-guedj10">
-<p>Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. “A Perspective on Modelling Hepatitis c Virus Infection.” <em>Journal of Viral Hepatitis</em> 17 (12): 825–33. <a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">https://doi.org/10.1111/j.1365-2893.2010.01348.x</a>.</p>
+<div id="ref-guedj10" class="csl-entry">
+Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. <span>“A Perspective on Modelling Hepatitis c Virus Infection.”</span> <em>Journal of Viral Hepatitis</em> 17 (December): 825–33. <a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">https://doi.org/10.1111/j.1365-2893.2010.01348.x</a>.
 </div>
-<div id="ref-heffernan05a">
-<p>Heffernan, J M, R J Smith, and L M Wahl. 2005. “Perspectives on the Basic Reproductive Ratio.” <em>Journal of the Royal Society, Interface</em> 2 (4): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.</p>
+<div id="ref-heffernan05a" class="csl-entry">
+Heffernan, J M, R J Smith, and L M Wahl. 2005. <span>“Perspectives on the Basic Reproductive Ratio.”</span> <em>Journal of the Royal Society, Interface</em> 2 (September): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.
 </div>
-<div id="ref-perelson13">
-<p>Perelson, Alan S, and Ruy M Ribeiro. 2013. “Modeling the Within-Host Dynamics of Hiv Infection.” <em>BMC Biology</em> 11 (1): 96.</p>
+<div id="ref-perelson13" class="csl-entry">
+Perelson, Alan S, and Ruy M Ribeiro. 2013. <span>“Modeling the Within-Host Dynamics of HIV Infection.”</span> <em>BMC Biology</em> 11 (1): 96.
 </div>
-<div id="ref-roberts07">
-<p>Roberts, M G. 2007. “The Pluses and Minuses of R0.” <em>Journal of the Royal Society, Interface</em> 4 (16): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.</p>
+<div id="ref-roberts07" class="csl-entry">
+Roberts, M G. 2007. <span>“The Pluses and Minuses of R0.”</span> <em>Journal of the Royal Society, Interface</em> 4 (October): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.
 </div>
-<div id="ref-smith11">
-<p>Smith, Amber M, and Alan S Perelson. 2011. “Influenza a Virus Infection Kinetics: Quantitative Data and Models.” <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4): 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.</p>
+<div id="ref-smith11" class="csl-entry">
+Smith, Amber M, and Alan S Perelson. 2011. <span>“Influenza a Virus Infection Kinetics: Quantitative Data and Models.”</span> <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4): 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.
 </div>
 </div>
 </div>

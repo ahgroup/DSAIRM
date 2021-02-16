@@ -14,10 +14,43 @@
 
 <title>Fit Flu Drug Model</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -36,7 +69,7 @@
 
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
-<p>This app uses the same model and follows the same overall setup as the <em>Antiviral Treatment</em> app. You should go through that app first before exploring this one. The major difference is that for this app, instead of comparing model results to data in a qualitative manner, here the model is fit to the data. This provides a more rigorous, statistical way of comparing models and thus hypotheses. While this app does model fitting, the topic of fitting is not discussed here. There is a section in DSAIRM with multiple fitting related apps that focus on the details of how fitting simulation models to data works. For the purpose of this app, we treat all the fitting machinery as a ‘black box’.</p>
+<p>This app uses the same model and follows the same overall setup as the <em>Antiviral Treatment</em> app. You should go through that app first before exploring this one. The major difference is that for this app, instead of comparing model results to data in a qualitative manner, here the model is fit to the data. This provides a more rigorous, statistical way of comparing models and thus hypotheses. While this app does model fitting, the topic of fitting is not discussed here. There is a section in DSAIRM with multiple fitting related apps that focus on the details of how fitting simulation models to data works. For the purpose of this app, we treat all the fitting machinery as a ‘black box.’</p>
 <p>Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab. Learn more about the model and its origins in the “Further Information” tab.</p>
 </div>
 <div id="shinytab2" class="section level2">
@@ -105,13 +138,13 @@
 <li>A model like this is used in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span> to illustrate one of the ways models can be used.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-handel20">
-<p>Handel, Andreas, Nicole L. La Gruta, and Paul G. Thomas. 2020. “Simulation Modelling for Immunologists.” <em>Nature Reviews. Immunology</em> 20 (3): 186–95. <a href="https://doi.org/10.1038/s41577-019-0235-3">https://doi.org/10.1038/s41577-019-0235-3</a>.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-handel20" class="csl-entry">
+Handel, Andreas, Nicole L. La Gruta, and Paul G. Thomas. 2020. <span>“Simulation Modelling for Immunologists.”</span> <em>Nature Reviews. Immunology</em> 20 (March): 186–95. <a href="https://doi.org/10.1038/s41577-019-0235-3">https://doi.org/10.1038/s41577-019-0235-3</a>.
 </div>
-<div id="ref-hayden96">
-<p>Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. “Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.” <em>JAMA</em> 275 (4): 295–99.</p>
+<div id="ref-hayden96" class="csl-entry">
+Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. <span>“Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.”</span> <em>JAMA</em> 275: 295–99.
 </div>
 </div>
 </div>

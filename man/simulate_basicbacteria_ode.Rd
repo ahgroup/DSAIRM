@@ -5,16 +5,16 @@
 \title{Basic Bacteria model - ODE}
 \usage{
 simulate_basicbacteria_ode(
-  B = 10,
+  B = 100,
   I = 1,
   g = 1,
   Bmax = 1e+05,
-  dB = 0.1,
-  k = 1e-06,
-  r = 0.001,
-  dI = 1,
+  dB = 0.5,
+  k = 1e-04,
+  r = 1e-04,
+  dI = 2,
   tstart = 0,
-  tfinal = 30,
+  tfinal = 100,
   dt = 0.05
 )
 }

@@ -14,10 +14,43 @@
 
 <title>Virus and Drug Treatment Model</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -74,16 +107,16 @@
 <li>We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption.</li>
 <li>Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.</li>
 <li>Set virus production rate to 10, infection rate to 10<sup>-5</sup> and conversion factor to 1.</li>
-<li>Set simulation time to 20 days, both drug effects to 0, ‘start at steady state’ should be set to ‘no’.<br />
+<li>Set simulation time to 20 days, both drug effects to 0, ‘start at steady state’ should be set to ‘no.’<br />
 </li>
 <li>Run the simulation. You should get 28694 infected cells at the peak.</li>
-<li>Just for fun, set ‘start at steady state’ to ‘yes’, think about your expectations, run simulation and ensure your expectation and result agree.</li>
+<li>Just for fun, set ‘start at steady state’ to ‘yes,’ think about your expectations, run simulation and ensure your expectation and result agree.</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2:</h3>
 <ul>
-<li>Set ‘start at steady state’ back to ‘no’.</li>
+<li>Set ‘start at steady state’ back to ‘no.’</li>
 <li>Assume treatment starts at day 10 and it works through reduction of cell infection. Try different values for <em>f</em> (between 0 and 1) and see how results change.</li>
 <li>Repeat the same, now assuming that the drug works through reduction of virus production.</li>
 <li>Repeat those steps assuming treatment starts at day 7. Then do it again with treatment start on day 5.</li>
@@ -104,7 +137,7 @@
 <ul>
 <li>Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.001)</li>
 <li>Run the simulation for 100 days. You should reach a steady state with 44900 virions present.</li>
-<li>Set ‘start at steady state’ to ‘yes’, confirm that all your variables stay at the steady state level they reached in the previous setting.</li>
+<li>Set ‘start at steady state’ to ‘yes,’ confirm that all your variables stay at the steady state level they reached in the previous setting.</li>
 </ul>
 <p>If you need an introduction or refresher on what the steady state means and how one could compute it, see the “Basic Virus” app.</p>
 </div>
@@ -121,7 +154,7 @@
 <div id="task-6" class="section level3">
 <h3>Task 6:</h3>
 <ul>
-<li>Now set ‘start at steady state’ to ‘yes’. Note that this will ignore the starting values for <em>U</em>, <em>I</em> and <em>V</em> and instead compute the steady state from the model parameters (using the equations you learned about in the “Basic Virus” app).</li>
+<li>Now set ‘start at steady state’ to ‘yes.’ Note that this will ignore the starting values for <em>U</em>, <em>I</em> and <em>V</em> and instead compute the steady state from the model parameters (using the equations you learned about in the “Basic Virus” app).</li>
 <li>Run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameters <em>f</em> and <em>e</em>). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.</li>
 <li>Observed viral load kinetics in real patients following treatment looks often like in the following figure, i.e. it starts with a fast decline followed by a slower decline. Given that data, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic fast-then-slow virus load decline?</li>
 </ul>
@@ -153,26 +186,26 @@
 <li>For this app, the underlying function running the simulation is called <code>simulate_virusandtx_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. <span class="citation">(Handel, Longini, and Antia 2007; Beauchemin et al. 2008; Canini et al. 2014)</span>.</li>
-<li>For some examples of models that were applied to antiviral treatment in chronic infections (HIV, HCV), see e.g. <span class="citation">(Neumann et al. 1998; Dixit et al. 2004)</span>.</li>
+<li>For some examples of models that were used to study antivirals in acute infections, specifically influenza, see e.g. <span class="citation">(Handel, Longini, and Antia 2007; Beauchemin et al. 2008; Canini et al. 2014)</span>.</li>
+<li>For some examples of models that were applied to antiviral treatment in chronic infections (HIV, HCV), see e.g. <span class="citation">(Neumann et al. 1998; Dixit et al. 2004)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-beauchemin08">
-<p>Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. “Modeling Amantadine Treatment of Influenza a Virus in Vitro.” <em>Journal of Theoretical Biology</em> 254 (2): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-beauchemin08" class="csl-entry">
+Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. <span>“Modeling Amantadine Treatment of Influenza a Virus in Vitro.”</span> <em>Journal of Theoretical Biology</em> 254 (September): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.
 </div>
-<div id="ref-canini14a">
-<p>Canini, Laetitia, Jessica M Conway, Alan S Perelson, and Fabrice Carrat. 2014. “Impact of Different Oseltamivir Regimens on Treating Influenza a Virus Infection and Resistance Emergence: Insights from a Modelling Study.” <em>PLoS Computational Biology</em> 10 (4): e1003568. <a href="https://doi.org/10.1371/journal.pcbi.1003568">https://doi.org/10.1371/journal.pcbi.1003568</a>.</p>
+<div id="ref-canini14a" class="csl-entry">
+Canini, Laetitia, Jessica M Conway, Alan S Perelson, and Fabrice Carrat. 2014. <span>“Impact of Different Oseltamivir Regimens on Treating Influenza a Virus Infection and Resistance Emergence: Insights from a Modelling Study.”</span> <em>PLoS Computational Biology</em> 10 (April): e1003568. <a href="https://doi.org/10.1371/journal.pcbi.1003568">https://doi.org/10.1371/journal.pcbi.1003568</a>.
 </div>
-<div id="ref-dixit04">
-<p>Dixit, Narendra M, Jennifer E Layden-Almer, Thomas J Layden, and Alan S Perelson. 2004. “Modelling How Ribavirin Improves Interferon Response Rates in Hepatitis c Virus Infection.” <em>Nature</em> 432 (7019): 922–24. <a href="https://doi.org/10.1038/nature03153">https://doi.org/10.1038/nature03153</a>.</p>
+<div id="ref-dixit04" class="csl-entry">
+Dixit, Narendra M, Jennifer E Layden-Almer, Thomas J Layden, and Alan S Perelson. 2004. <span>“Modelling How Ribavirin Improves Interferon Response Rates in Hepatitis c Virus Infection.”</span> <em>Nature</em> 432 (December): 922–24. <a href="https://doi.org/10.1038/nature03153">https://doi.org/10.1038/nature03153</a>.
 </div>
-<div id="ref-handel07">
-<p>Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. “Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.” <em>PLoS Comput Biol</em> 3 (12): e240. <a href="https://doi.org/10.1371/journal.pcbi.0030240">https://doi.org/10.1371/journal.pcbi.0030240</a>.</p>
+<div id="ref-handel07" class="csl-entry">
+Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. <span>“Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.”</span> <em>PLoS Comput Biol</em> 3 (12): e240. <a href="https://doi.org/10.1371/journal.pcbi.0030240">https://doi.org/10.1371/journal.pcbi.0030240</a>.
 </div>
-<div id="ref-neumann98">
-<p>Neumann, A U, N P Lam, H Dahari, D R Gretch, T E Wiley, T J Layden, and A S Perelson. 1998. “Hepatitis c Viral Dynamics in Vivo and the Antiviral Efficacy of Interferon-Alpha Therapy.” <em>Science (New York, N.Y.)</em> 282 (5386): 103–7.</p>
+<div id="ref-neumann98" class="csl-entry">
+Neumann, A U, N P Lam, H Dahari, D R Gretch, T E Wiley, T J Layden, and A S Perelson. 1998. <span>“Hepatitis c Viral Dynamics in Vivo and the Antiviral Efficacy of Interferon-Alpha Therapy.”</span> <em>Science (New York, N.Y.)</em> 282 (October): 103–7.
 </div>
 </div>
 </div>

@@ -8,6 +8,13 @@
 
 <title>Basic Virus model - ODE — simulate_basicvirus_ode • DSAIRM</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -43,6 +50,7 @@
 
 <meta property="og:title" content="Basic Virus model - ODE — simulate_basicvirus_ode" />
 <meta property="og:description" content="A basic virus infection model with 3 compartments, implemented as ODEs. The model tracks uninfected and infected target cells and free virus. The processes modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death." />
+<meta property="og:image" content="https://ahgroup.github.io/DSAIRM/index.html/logo.png" />
 
 
 
@@ -82,7 +90,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +107,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ahgroup/DSAIRM">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa-github"></span>
      
   </a>
 </li>
@@ -125,6 +133,7 @@
     <p>A basic virus infection model with 3 compartments, implemented as ODEs. The model tracks uninfected and infected target cells and free virus. The processes modeled are infection, virus production, uninfected cell birth and death, infected cell and virus death.</p>
     </div>
 
+<<<<<<< Updated upstream
     <pre class="usage"><span class='fu'>simulate_basicvirus_ode</span>(
   U = <span class='fl'>1e+05</span>,
   I = <span class='fl'>0</span>,
@@ -140,6 +149,23 @@
   tfinal = <span class='fl'>50</span>,
   dt = <span class='fl'>0.1</span>
 )</pre>
+=======
+    <pre class="usage"><span class='fu'>simulate_basicvirus_ode</span><span class='op'>(</span>
+  U <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  I <span class='op'>=</span> <span class='fl'>0</span>,
+  V <span class='op'>=</span> <span class='fl'>10</span>,
+  n <span class='op'>=</span> <span class='fl'>0</span>,
+  dU <span class='op'>=</span> <span class='fl'>0</span>,
+  dI <span class='op'>=</span> <span class='fl'>1</span>,
+  dV <span class='op'>=</span> <span class='fl'>4</span>,
+  b <span class='op'>=</span> <span class='fl'>1e-06</span>,
+  p <span class='op'>=</span> <span class='fl'>100</span>,
+  g <span class='op'>=</span> <span class='fl'>1</span>,
+  tstart <span class='op'>=</span> <span class='fl'>0</span>,
+  tfinal <span class='op'>=</span> <span class='fl'>50</span>,
+  dt <span class='op'>=</span> <span class='fl'>0.1</span>
+<span class='op'>)</span></pre>
+>>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,7 +243,11 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters:</span>
+<<<<<<< Updated upstream
 <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_ode</span>()
+=======
+<span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_ode</span><span class='op'>(</span><span class='op'>)</span>
+>>>>>>> Stashed changes
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

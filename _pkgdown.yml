@@ -28,5 +28,5 @@ navbar:
       text: Changelog
       href: news/index.html
     github:
-      icon: fa-github fa-lg
+      icon: fab fa-github
       href: https://github.com/ahgroup/DSAIRM

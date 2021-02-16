@@ -9,6 +9,13 @@
 <title>Simulation to illustrate parameter scan of the basic virus model
 #' — simulate_basicvirus_modelexploration • DSAIRM</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -46,6 +53,7 @@
 #' — simulate_basicvirus_modelexploration" />
 <meta property="og:description" content="This function simulates the basic virus model ODE for a range of parameters.
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details)." />
+<meta property="og:image" content="https://ahgroup.github.io/DSAIRM/index.html/logo.png" />
 
 
 
@@ -85,7 +93,7 @@ The function returns a data frame containing the parameter that has been varied 
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,7 +110,7 @@ The function returns a data frame containing the parameter that has been varied 
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ahgroup/DSAIRM">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa-github"></span>
      
   </a>
 </li>
@@ -130,6 +138,7 @@ The function returns a data frame containing the parameter that has been varied 
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details).</p>
     </div>
 
+<<<<<<< Updated upstream
     <pre class="usage"><span class='fu'>simulate_basicvirus_modelexploration</span>(
   U = <span class='fl'>1e+05</span>,
   I = <span class='fl'>0</span>,
@@ -150,6 +159,28 @@ The function returns a data frame containing the parameter that has been varied 
   samplepar = <span class='st'>"p"</span>,
   pardist = <span class='st'>"lin"</span>
 )</pre>
+=======
+    <pre class="usage"><span class='fu'>simulate_basicvirus_modelexploration</span><span class='op'>(</span>
+  U <span class='op'>=</span> <span class='fl'>1e+05</span>,
+  I <span class='op'>=</span> <span class='fl'>0</span>,
+  V <span class='op'>=</span> <span class='fl'>1</span>,
+  n <span class='op'>=</span> <span class='fl'>10000</span>,
+  dU <span class='op'>=</span> <span class='fl'>0.1</span>,
+  dI <span class='op'>=</span> <span class='fl'>1</span>,
+  dV <span class='op'>=</span> <span class='fl'>2</span>,
+  b <span class='op'>=</span> <span class='fl'>2e-05</span>,
+  p <span class='op'>=</span> <span class='fl'>5</span>,
+  g <span class='op'>=</span> <span class='fl'>1</span>,
+  tstart <span class='op'>=</span> <span class='fl'>0</span>,
+  tfinal <span class='op'>=</span> <span class='fl'>100</span>,
+  dt <span class='op'>=</span> <span class='fl'>0.1</span>,
+  samples <span class='op'>=</span> <span class='fl'>10</span>,
+  parmin <span class='op'>=</span> <span class='fl'>1</span>,
+  parmax <span class='op'>=</span> <span class='fl'>10</span>,
+  samplepar <span class='op'>=</span> <span class='st'>"p"</span>,
+  pardist <span class='op'>=</span> <span class='st'>"lin"</span>
+<span class='op'>)</span></pre>
+>>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -267,11 +298,19 @@ function for more details on this model.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
+<<<<<<< Updated upstream
 <span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_modelexploration</span>()
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_modelexploration</span>(samples=<span class='fl'>5</span>, samplepar=<span class='st'>'dI'</span>, parmin=<span class='fl'>1</span>, parmax=<span class='fl'>10</span>)
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>res</span><span class='op'>$</span><span class='kw'>dat</span>[,<span class='st'>"xvals"</span>],<span class='kw'>res</span><span class='op'>$</span><span class='kw'>data</span>[,<span class='st'>"Vpeak"</span>],xlab=<span class='st'>'Parameter values'</span>,ylab=<span class='st'>'Virus Peak'</span>,type=<span class='st'>'l'</span>)
+=======
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_modelexploration</span><span class='op'>(</span><span class='op'>)</span>
+<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_modelexploration</span><span class='op'>(</span>samples<span class='op'>=</span><span class='fl'>5</span>, samplepar<span class='op'>=</span><span class='st'>'dI'</span>, parmin<span class='op'>=</span><span class='fl'>1</span>, parmax<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span>
+<span class='co'># You should then use the simulation result returned from the function, like this:</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>$</span><span class='va'>dat</span><span class='op'>[</span>,<span class='st'>"xvals"</span><span class='op'>]</span>,<span class='va'>res</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span>,<span class='st'>"Vpeak"</span><span class='op'>]</span>,xlab<span class='op'>=</span><span class='st'>'Parameter values'</span>,ylab<span class='op'>=</span><span class='st'>'Virus Peak'</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
+>>>>>>> Stashed changes
 </div><div class='img'><img src='simulate_basicvirus_modelexploration-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

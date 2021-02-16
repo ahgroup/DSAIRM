@@ -14,10 +14,43 @@
 
 <title>Virus and PkPD Model</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -163,22 +196,22 @@ Flow diagram for a virus infection model with drug treatment and Pk-Pd.
 <li>For this app, the underlying function running the simulation is called <code>simulate_pkpdmodel_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>If you want to learn a bit more about these kinds of models, see e.g. <span class="citation">(Powers et al. 2003; Talal et al. 2006; Handel, Margolis, and Levin 2009; Canini et al. 2014)</span>.</li>
+<li>If you want to learn a bit more about these kinds of models, see e.g. <span class="citation">(Powers et al. 2003; Talal et al. 2006; Handel, Margolis, and Levin 2009; Canini et al. 2014)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-canini14a">
-<p>Canini, Laetitia, Jessica M Conway, Alan S Perelson, and Fabrice Carrat. 2014. “Impact of Different Oseltamivir Regimens on Treating Influenza a Virus Infection and Resistance Emergence: Insights from a Modelling Study.” <em>PLoS Computational Biology</em> 10 (4): e1003568. <a href="https://doi.org/10.1371/journal.pcbi.1003568">https://doi.org/10.1371/journal.pcbi.1003568</a>.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-canini14a" class="csl-entry">
+Canini, Laetitia, Jessica M Conway, Alan S Perelson, and Fabrice Carrat. 2014. <span>“Impact of Different Oseltamivir Regimens on Treating Influenza a Virus Infection and Resistance Emergence: Insights from a Modelling Study.”</span> <em>PLoS Computational Biology</em> 10 (April): e1003568. <a href="https://doi.org/10.1371/journal.pcbi.1003568">https://doi.org/10.1371/journal.pcbi.1003568</a>.
 </div>
-<div id="ref-handel09b">
-<p>Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. “Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.” <em>Journal of Theoretical Biology</em> 256 (4): 655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.</p>
+<div id="ref-handel09b" class="csl-entry">
+Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. <span>“Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.”</span> <em>Journal of Theoretical Biology</em> 256 (February): 655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.
 </div>
-<div id="ref-powers03">
-<p>Powers, Kimberly A, Narendra M Dixit, Ruy M Ribeiro, Preeti Golia, Andrew H Talal, and Alan S Perelson. 2003. “Modeling viral and drug kinetics: hepatitis C virus treatment with pegylated interferon alfa-2b.” <em>Semin Liver Dis</em> 23 Suppl 1: 13–18. <a href="https://doi.org/10.1055/s-2003-41630">https://doi.org/10.1055/s-2003-41630</a>.</p>
+<div id="ref-powers03" class="csl-entry">
+Powers, Kimberly A, Narendra M Dixit, Ruy M Ribeiro, Preeti Golia, Andrew H Talal, and Alan S Perelson. 2003. <span>“<span class="nocase">Modeling viral and drug kinetics: hepatitis <span>C</span> virus treatment with pegylated interferon alfa-2<span class="nocase">b</span></span>.”</span> <em>Semin Liver Dis</em> 23 Suppl 1: 13–18. <a href="https://doi.org/10.1055/s-2003-41630">https://doi.org/10.1055/s-2003-41630</a>.
 </div>
-<div id="ref-talal06">
-<p>Talal, Andrew H, Ruy M Ribeiro, Kimberly A Powers, Michael Grace, Constance Cullen, Musaddeq Hussain, Marianthi Markatou, and Alan S Perelson. 2006. “Pharmacodynamics of Peg-IFN Alpha Differentiate Hiv/Hcv Coinfected Sustained Virological Responders from Nonresponders.” <em>Hepatology</em> 43 (5): 943–53.</p>
+<div id="ref-talal06" class="csl-entry">
+Talal, Andrew H, Ruy M Ribeiro, Kimberly A Powers, Michael Grace, Constance Cullen, Musaddeq Hussain, Marianthi Markatou, and Alan S Perelson. 2006. <span>“Pharmacodynamics of PEG-<span>IF</span>n Alpha Differentiate HIV/HCV Coinfected Sustained Virological Responders from Nonresponders.”</span> <em>Hepatology</em> 43 (5): 943–53.
 </div>
 </div>
 </div>

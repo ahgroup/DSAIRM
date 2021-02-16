@@ -14,10 +14,43 @@
 
 <title>Basic Bacteria and Immune Response Model</title>
 
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 
 
+
+<style type="text/css">
+/* for pandoc --citeproc since 2.11 */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
 
 
 
@@ -119,7 +152,7 @@
 <h3>Task 3:</h3>
 <ul>
 <li>Go back to both linear scales for plotting.</li>
-<li>Set “Models to run” to “both”, which runs and shows both the continuous-time and discrete-time models.</li>
+<li>Set “Models to run” to “both,” which runs and shows both the continuous-time and discrete-time models.</li>
 <li>Start with a discrete-time step of 0.01.</li>
 <li>Leave all other settings as before.</li>
 </ul>
@@ -182,20 +215,20 @@
 <li>For this app, the underlying functions running the simulation are called <code>simulate_basicbacteria_ode</code> and <code>simulate_basicbacteria_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
+<li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
 <li>For somewhat similar within-host models (applied to TB and antibiotic resistance), see <span class="citation">(Antia, Koella, and Perrot 1996; Handel, Margolis, and Levin 2009)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
-<h3>References</h3>
-<div id="refs" class="references">
-<div id="ref-antia96">
-<p>Antia, R, J C Koella, and V Perrot. 1996. “Models of the Within-Host Dynamics of Persistent Mycobacterial Infections.” <em>Proceedings. Biological Sciences</em> 263 (1368): 257–63. <a href="https://doi.org/10.1098/rspb.1996.0040">https://doi.org/10.1098/rspb.1996.0040</a>.</p>
+<h3 class="unnumbered">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-antia96" class="csl-entry">
+Antia, R, J C Koella, and V Perrot. 1996. <span>“Models of the Within-Host Dynamics of Persistent Mycobacterial Infections.”</span> <em>Proceedings. Biological Sciences</em> 263 (March): 257–63. <a href="https://doi.org/10.1098/rspb.1996.0040">https://doi.org/10.1098/rspb.1996.0040</a>.
 </div>
-<div id="ref-handel09b">
-<p>Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. “Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.” <em>Journal of Theoretical Biology</em> 256 (4): 655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.</p>
+<div id="ref-handel09b" class="csl-entry">
+Handel, Andreas, Elisa Margolis, and Bruce R Levin. 2009. <span>“Exploring the Role of the Immune Response in Preventing Antibiotic Resistance.”</span> <em>Journal of Theoretical Biology</em> 256 (February): 655–62. <a href="https://doi.org/10.1016/j.jtbi.2008.10.025">https://doi.org/10.1016/j.jtbi.2008.10.025</a>.
 </div>
-<div id="ref-otto11">
-<p>Otto, Sarah P, and Troy Day. 2011. <em>A Biologist’s Guide to Mathematical Modeling in Ecology and Evolution</em>. Princeton University Press.</p>
+<div id="ref-otto11" class="csl-entry">
+Otto, Sarah P, and Troy Day. 2011. <em>A Biologist’s Guide to Mathematical Modeling in Ecology and Evolution</em>. Princeton University Press.
 </div>
 </div>
 </div>

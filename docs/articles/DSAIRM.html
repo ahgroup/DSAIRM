@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DSAIRM Package Tutorial • DSAIRM</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -14,6 +20,7 @@
 <script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
 <meta property="og:title" content="DSAIRM Package Tutorial">
 <meta property="og:description" content="DSAIRM">
+<meta property="og:image" content="https://ahgroup.github.io/DSAIRM/index.html/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -40,7 +47,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -57,7 +64,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/ahgroup/DSAIRM">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa-github"></span>
      
   </a>
 </li>
@@ -71,13 +78,17 @@
 
       
 
-      </header><script src="DSAIRM_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="DSAIRM_files/header-attrs-2.6.4/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>DSAIRM Package Tutorial</h1>
                         <h4 class="author"><a href="http://handelgroup.uga.edu">Andreas Handel</a></h4>
             
+<<<<<<< Updated upstream
             <h4 class="date">2020-12-15</h4>
+=======
+            <h4 class="date">2021-02-16</h4>
+>>>>>>> Stashed changes
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/master/vignettes/DSAIRM.Rmd"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -104,6 +115,7 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>I assume you have <a href="https://www.r-project.org/">R</a> installed. I also highly recommend <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a>, though it is not required. After having opened R/Rstudio, you can install the package from CRAN by typing the following into the R console (the bottom left window if you are using RStudio):</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'DSAIRM'</span>)
 </pre></div>
@@ -112,6 +124,14 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">'remotes'</span>) <span class="co">#if not already installed</span>
 <span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">'ahgroup/DSAIRM'</span>)
 </pre></div>
+=======
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'DSAIRM'</span><span class="op">)</span></code></pre></div>
+<p>Alternatively, you can install the latest development version (with usually both more features and more bugs) from github, using the <code>remotes</code> package. The following commands, typed into the <code>R</code> console, will get you up and running:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'remotes'</span><span class="op">)</span> <span class="co">#if not already installed</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">'ahgroup/DSAIRM'</span><span class="op">)</span></code></pre></div>
+>>>>>>> Stashed changes
 <p>The package depends on other packages, which will also be installed as needed. Package installation is a one-time process, unless you update or reinstall R itself, or want to install a newer version of DSAIRM.</p>
 </div>
 <div id="using-the-package-through-the-graphical-user-interface-level-1" class="section level2">
@@ -119,6 +139,7 @@
 <a href="#using-the-package-through-the-graphical-user-interface-level-1" class="anchor"></a>Using the package through the graphical user interface (Level 1)</h2>
 <p>The interactive exploration of the models and infectious disease concepts through the graphical user interface is the main intended use of this package. The idea is that you start at Level 1, and then depending on needs and interests, you can decide to move on to the next levels, described below.</p>
 <p>After install, load the package by typing the following into the <code>R</code> console.</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span>)
 </pre></div>
@@ -127,6 +148,14 @@
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../reference/dsairmmenu.html">dsairmmenu</a></span>()
 </pre></div>
+=======
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
+<p>You need to load the package every time you start a new R/Rstudio session.</p>
+<p>If the package loads correctly, you should receive a short greeting. Now you can open the main menu by typing the following into the <code>R</code> console:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/dsairmmenu.html">dsairmmenu</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+>>>>>>> Stashed changes
 <p>If successful, you should see a graphical menu open in your browser that looks something like this:</p>
 <div class="figure">
 <img src="mainmenu.png" alt=""><p class="caption">Main menu of the DSAIRM package.</p>
@@ -151,8 +180,9 @@
 <a href="#directly-interacting-with-the-simulation-functions-level-2" class="anchor"></a>Directly interacting with the simulation functions (Level 2)</h2>
 <p>Once you are comfortable interacting with the models and have a good understanding of the concepts covered by the different apps, it is possible, without too much effort, to interact with the simulation models directly. This provides more flexibility at the cost of writing a limited amount of code.</p>
 <p>To facilitate direct interaction and modification of the underlying simulations, each app is structured in such a way that the underlying model/simulation is a stand-alone function. For some apps, there are multiple underlying functions involved. You can call any of these functions directly, without going through the graphical interface. The <em>Further Information</em> tab inside each app provides the name of the corresponding underlying function(s) and how to call their help files to get information on their use.</p>
-<p>Consider as example the first app, called “Basic Bacteria Model”. This model has 2 underlying simulator functions, one that runs the discrete-time model called <code>simulate_basicbacteria_discrete</code> and one that runs the continuous, differential equation model called <code>simulate_basicbacteria_ode</code>. Assume you want to learn more about the latter model.</p>
+<p>Consider as example the first app, called “Basic Bacteria Model.” This model has 2 underlying simulator functions, one that runs the discrete-time model called <code>simulate_basicbacteria_discrete</code> and one that runs the continuous, differential equation model called <code>simulate_basicbacteria_ode</code>. Assume you want to learn more about the latter model.</p>
 <p>After loading the package (if not already loaded) with</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb5"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span>)
 </pre></div>
@@ -175,11 +205,31 @@
 <span class="kw">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_basicbacteria_ode.html">simulate_basicbacteria_ode</a></span>(g = <span class="fl">0.5</span>, r = <span class="fl">0.002</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">result</span><span class="op">$</span><span class="kw">ts</span>[ , <span class="st">"time"</span>],<span class="kw">result</span><span class="op">$</span><span class="kw">ts</span>[ , <span class="st">"B"</span>],xlab=<span class="st">'Time'</span>,ylab=<span class="st">'Bacteria'</span>,type=<span class="st">'l'</span>)
 </pre></div>
+=======
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
+<p>you can learn about the inputs and outputs of the model/function by looking at its documentation</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="st">'simulate_basicbacteria_ode'</span><span class="op">)</span></code></pre></div>
+<p>The help file explains that one can run the simulation by specifying initial number of bacteria and immune response strength, the different model parameters, as well as some time values. Each parameter has some default, listed in the help file. Running a simulation model without any specifications runs it with the defaults:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_basicbacteria_ode.html">simulate_basicbacteria_ode</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p>Calling the simulation function execuctes the underlying dynamical model (which is described in the <em>Model</em> section of the app). Most simulation functions produce and return time-series for the dynamics of each of the variables that are tracked. Results are returned in a list structure, if a time-series exists, it is generally stored as <em>ts</em>. The <em>Value</em> section of the help file for each function explains in detail what the function returns.</p>
+<p>You can take the results returned from the simulation function and further process them. For instance you could plot the time-series for bacteria as function of time:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span> , <span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span> , <span class="st">"B"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Bacteria'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></code></pre></div>
+<p><img src="DSAIRM_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>You can overwrite the default settings by providing your own inputs for specific parameters, as shown in the next example, which sets the rate at which bacteria grow, <em>g</em>, and the rate at which the immune response is induced and grows, <em>r</em>, to values different than the defaults, while using the defaults for the remainder (this is equivalent to setting different inputs through the graphical interface in level 1):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_basicbacteria_ode.html">simulate_basicbacteria_ode</a></span><span class="op">(</span>g <span class="op">=</span> <span class="fl">0.5</span>, r <span class="op">=</span> <span class="fl">0.002</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span> , <span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span> , <span class="st">"B"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Bacteria'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></code></pre></div>
+>>>>>>> Stashed changes
 <p><img src="DSAIRM_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 <p>Any values that you do not specify will be kept at their defaults.</p>
 <p>Note that unless explicitly specified, the models do not have inherent time units. Instead, those depend on the time units you choose for the parameters. It is important to ensure that all quantities (parameters and time settings) have the same time units, e.g. days or months (or the inverse of those units for the rate parameters).</p>
 <p>Not all simulator functions return time-series. For instance the function underlying the uncertainty and sensitivity app returns specific outcomes (maximum and final state of variables) for different parameter values. In every instance, the documentation for the function explains what is returned, so you know how to take the returned results and further process them.</p>
 <p>The ability to call the simulation functions without using the graphical interface allows for more flexibilty in exploring the models. For instance if you wanted to explore the behavior of a model systematically for different values of a given parameter, this would need to be done manually through the graphical interface. Calling the function directly allows you automate this. As an illustration, assume you wanted to know how the peak bacteria load changes with changes in the immune response activation rate, <em>r</em>, (while keeping all other parameters at some specified fixed values). The following lines of code show how this can be achieved. A loop is run over different <em>r</em> values, for each <em>r</em> value the simulation is run and the peak of the bacteria is recorded. At the end, peak of bacteria as function of immune activation rate is plotted:</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb10"><pre class="downlit">
 <span class="co">#values for immune activation rate, r, for which to run the simulation</span>
 <span class="kw">rvec</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="op">-</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">2</span>,length=<span class="fl">20</span>)  
@@ -196,6 +246,23 @@
 <span class="co">#plot final result</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">rvec</span>,<span class="kw">Bpeak</span>,type=<span class="st">'p'</span>,xlab=<span class="st">'Immune activation rate'</span>,ylab=<span class="st">'Peak bacteria'</span>,log=<span class="st">'xy'</span>)
 </pre></div>
+=======
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#values for immune activation rate, r, for which to run the simulation</span>
+<span class="va">rvec</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">5</span>,<span class="op">-</span><span class="fl">2</span>,length<span class="op">=</span><span class="fl">20</span><span class="op">)</span>  
+<span class="co">#this variable will hold the peak values for each r</span>
+<span class="va">Bpeak</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">rvec</span><span class="op">)</span><span class="op">)</span> 
+<span class="kw">for</span> <span class="op">(</span><span class="va">n</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">rvec</span><span class="op">)</span><span class="op">)</span>   
+<span class="op">{</span>
+  <span class="co">#run the simulation model for different values of r </span>
+  <span class="co">#for simplicity, all other inputs are kept at their defaults</span>
+  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_basicbacteria_ode.html">simulate_basicbacteria_ode</a></span><span class="op">(</span>r <span class="op">=</span> <span class="va">rvec</span><span class="op">[</span><span class="va">n</span><span class="op">]</span><span class="op">)</span>
+  <span class="co">#record max number of bacteria for each value of r</span>
+  <span class="va">Bpeak</span><span class="op">[</span><span class="va">n</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"B"</span><span class="op">]</span><span class="op">)</span> 
+<span class="op">}</span>
+<span class="co">#plot final result</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">rvec</span>,<span class="va">Bpeak</span>,type<span class="op">=</span><span class="st">'p'</span>,xlab<span class="op">=</span><span class="st">'Immune activation rate'</span>,ylab<span class="op">=</span><span class="st">'Peak bacteria'</span>,log<span class="op">=</span><span class="st">'xy'</span><span class="op">)</span></code></pre></div>
+>>>>>>> Stashed changes
 <p><img src="DSAIRM_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Thus, you can add your own custom code to the existing simulator functions and with a few lines of extra code analyze and explore many more questions and scenarios than those accessible through the graphical interface. This provides a lot more flexibility, but requires writing some R code to interface with the supplied simulator functions.</p>
 </div>
@@ -209,6 +276,7 @@
 <p>To implement this, get the code for this model, which is <code>simulate_basicbacteria_ode.R</code>. (To make things easy, the name of a <code>.R</code> file containing the code and the name of the function itself are the same.) After finding the file, make a copy and rename it (we call it <code>mysimulator.R</code> here).</p>
 <p>Then open the file (ideally in RStudio) and make the following modifications to the code:</p>
 <p>old:</p>
+<<<<<<< Updated upstream
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>simulate_basicbacteria_ode &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">B =</span> <span class="dv">10</span>, <span class="dt">I =</span> <span class="dv">1</span>, <span class="dt">g =</span> <span class="dv">1</span>, <span class="dt">Bmax =</span> <span class="fl">1e+05</span>, <span class="dt">dB =</span> <span class="fl">0.1</span>, <span class="dt">k =</span> <span class="fl">1e-06</span>, <span class="dt">r =</span> <span class="fl">0.001</span>, <span class="dt">dI =</span> <span class="dv">1</span>, <span class="dt">tstart =</span> <span class="dv">0</span>, <span class="dt">tfinal =</span> <span class="dv">30</span>, <span class="dt">dt =</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <p>new:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mysimulator &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="dt">B =</span> <span class="dv">10</span>, <span class="dt">I =</span> <span class="dv">1</span>, <span class="dt">g =</span> <span class="dv">1</span>, <span class="dt">Bmax =</span> <span class="fl">1e+05</span>, <span class="dt">dB =</span> <span class="fl">0.1</span>, <span class="dt">k =</span> <span class="fl">1e-06</span>, <span class="dt">r=</span><span class="fl">1e3</span>, <span class="dt">dI=</span><span class="dv">1</span>, <span class="dt">tstart =</span> <span class="dv">0</span>, <span class="dt">tfinal =</span> <span class="dv">30</span>, <span class="dt">dt =</span> <span class="fl">0.05</span>, <span class="dt">s=</span><span class="fl">1E3</span>)</span></code></pre></div>
@@ -253,6 +321,46 @@
 <div class="sourceCode" id="cb18"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span>(<span class="kw">svec</span>,<span class="kw">Ipeak</span>,type=<span class="st">'p'</span>,xlab=<span class="st">'Saturation parameter, s'</span>,ylab=<span class="st">'Peak immune response'</span>,log=<span class="st">'xy'</span>)
 </pre></div>
+=======
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>simulate_basicbacteria_ode <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r =</span> <span class="fl">0.001</span>, <span class="at">dI =</span> <span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<p>new:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mysimulator <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r=</span><span class="fl">1e3</span>, <span class="at">dI=</span><span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>, <span class="at">s=</span><span class="fl">1E3</span>)</span></code></pre></div>
+<p>Note the changed default value for <em>r</em> to ensure the immune response is sufficiently triggered.</p>
+<p>old:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>g<span class="op">=</span><span class="va">g</span>,Bmax<span class="op">=</span><span class="va">Bmax</span>,dB<span class="op">=</span><span class="va">dB</span>,k<span class="op">=</span><span class="va">k</span>,r<span class="op">=</span><span class="va">r</span>,dI<span class="op">=</span><span class="va">dI</span><span class="op">)</span></code></pre></div>
+<p>new:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>g<span class="op">=</span><span class="va">g</span>,Bmax<span class="op">=</span><span class="va">Bmax</span>,dB<span class="op">=</span><span class="va">dB</span>,k<span class="op">=</span><span class="va">k</span>,r<span class="op">=</span><span class="va">r</span>,dI<span class="op">=</span><span class="va">dI</span>,s<span class="op">=</span><span class="va">s</span><span class="op">)</span></code></pre></div>
+<p>old:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dBdt</span> <span class="op">=</span> <span class="va">g</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">B</span><span class="op">/</span><span class="va">Bmax</span><span class="op">)</span> <span class="op">-</span> <span class="va">dB</span><span class="op">*</span><span class="va">B</span> <span class="op">-</span> <span class="va">k</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">I</span>
+<span class="va">dIdt</span> <span class="op">=</span> <span class="va">r</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">I</span> <span class="op">-</span> <span class="va">dI</span><span class="op">*</span><span class="va">I</span></code></pre></div>
+<p>new:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dBdt</span> <span class="op">=</span> <span class="va">g</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="op">(</span><span class="fl">1</span><span class="op">-</span><span class="va">B</span><span class="op">/</span><span class="va">Bmax</span><span class="op">)</span> <span class="op">-</span> <span class="va">dB</span><span class="op">*</span><span class="va">B</span> <span class="op">-</span> <span class="va">k</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">I</span>
+<span class="va">dIdt</span> <span class="op">=</span> <span class="va">r</span><span class="op">*</span><span class="va">B</span><span class="op">*</span><span class="va">I</span><span class="op">/</span><span class="op">(</span><span class="va">s</span><span class="op">+</span><span class="va">B</span><span class="op">)</span> <span class="op">-</span> <span class="va">dI</span><span class="op">*</span><span class="va">I</span></code></pre></div>
+<p>With these changes made, it is now possible to use the new <code>mysimulator</code> function to ask specific questions regarding this model, and thus the underlying biological system of interest for which this model is a - hopefully useful - approximation. For instance, you can explore how different values of the saturation parameter <em>s</em> impact the maximum level of the immune response. This requires a slight modification of the code shown above in <em>Level 2</em> as follows:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#initialize the new function</span>
+<span class="co">#it needs to be in the same directory as this code</span>
+<span class="kw"><a href="https://rdrr.io/r/base/source.html">source</a></span><span class="op">(</span><span class="st">'mysimulator.R'</span><span class="op">)</span> 
+<span class="co">#values of saturation parameter to explore</span>
+<span class="va">svec</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3</span>,<span class="fl">3</span>,length<span class="op">=</span><span class="fl">20</span><span class="op">)</span>  
+<span class="co">#this will record the maximum immune response level</span>
+<span class="va">Ipeak</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">svec</span><span class="op">)</span><span class="op">)</span> 
+<span class="kw">for</span> <span class="op">(</span><span class="va">n</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">svec</span><span class="op">)</span><span class="op">)</span>
+<span class="op">{</span>
+  <span class="co">#run the simulation model for different values of s </span>
+  <span class="co">#for simplicity, all other inputs are kept at their defaults</span>
+  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">mysimulator</span><span class="op">(</span>s <span class="op">=</span> <span class="va">svec</span><span class="op">[</span><span class="va">n</span><span class="op">]</span><span class="op">)</span> 
+  <span class="co">#record max immune response for each value of s</span>
+  <span class="va">Ipeak</span><span class="op">[</span><span class="va">n</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"I"</span><span class="op">]</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
+<p>A plot showing the results is:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">svec</span>,<span class="va">Ipeak</span>,type<span class="op">=</span><span class="st">'p'</span>,xlab<span class="op">=</span><span class="st">'Saturation parameter, s'</span>,ylab<span class="op">=</span><span class="st">'Peak immune response'</span>,log<span class="op">=</span><span class="st">'xy'</span><span class="op">)</span></code></pre></div>
+>>>>>>> Stashed changes
 <p><img src="DSAIRM_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 <p>Using one of the provided simulator functions as starting point and modifying it is likely easier than having to write a new model completely from scratch. Eventually, as you gain more coding experience, you have (almost) unlimited flexibility and power regarding the models you can create and questions you can address, of course at the cost of having to write increasingly more <code>R</code> code. You are essentially only limited by what can be accomplished using the <code>R</code> programming language and your ability and interest in writing code.</p>
 </div>
