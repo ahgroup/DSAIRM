@@ -143,33 +143,6 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 The function returns a matrix containing time-series of each variable and time.</p>
     </div>
 
-<<<<<<< Updated upstream
-    <pre class="usage"><span class='fu'>simulate_modelcomparison_fit</span>(
-  U = <span class='fl'>1e+06</span>,
-  I = <span class='fl'>0</span>,
-  V = <span class='fl'>1</span>,
-  X = <span class='fl'>1</span>,
-  dI = <span class='fl'>1</span>,
-  dV = <span class='fl'>4</span>,
-  p = <span class='fl'>0.1</span>,
-  g = <span class='fl'>0</span>,
-  k = <span class='fl'>1e-06</span>,
-  a = <span class='fl'>1e-05</span>,
-  alow = <span class='fl'>1e-06</span>,
-  ahigh = <span class='fl'>1e-04</span>,
-  b = <span class='fl'>0.001</span>,
-  blow = <span class='fl'>1e-06</span>,
-  bhigh = <span class='fl'>0.01</span>,
-  r = <span class='fl'>0.1</span>,
-  rlow = <span class='fl'>0.01</span>,
-  rhigh = <span class='fl'>2</span>,
-  dX = <span class='fl'>1</span>,
-  dXlow = <span class='fl'>0.1</span>,
-  dXhigh = <span class='fl'>10</span>,
-  fitmodel = <span class='fl'>1</span>,
-  iter = <span class='fl'>10</span>
-)</pre>
-=======
     <pre class="usage"><span class='fu'>simulate_modelcomparison_fit</span><span class='op'>(</span>
   U <span class='op'>=</span> <span class='fl'>1e+06</span>,
   I <span class='op'>=</span> <span class='fl'>0</span>,
@@ -195,7 +168,6 @@ The function returns a matrix containing time-series of each variable and time.<
   fitmodel <span class='op'>=</span> <span class='fl'>1</span>,
   iter <span class='op'>=</span> <span class='fl'>10</span>
 <span class='op'>)</span></pre>
->>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -317,15 +289,9 @@ function for more details on this model.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the code with default parameters just call the function:</span>
-<<<<<<< Updated upstream
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_modelcomparison_fit</span>()
-<span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_modelcomparison_fit</span>(iter = <span class='fl'>5</span>, fitmodel = <span class='fl'>1</span>)
-=======
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_modelcomparison_fit</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># To apply different settings, provide them to the simulator function, like such:</span>
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_modelcomparison_fit</span><span class='op'>(</span>iter <span class='op'>=</span> <span class='fl'>5</span>, fitmodel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

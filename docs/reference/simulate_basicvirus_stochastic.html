@@ -135,21 +135,6 @@ Uninfected target cells (U), Infected cells (I), virus (V)." />
 Uninfected target cells (U), Infected cells (I), virus (V).</p>
     </div>
 
-<<<<<<< Updated upstream
-    <pre class="usage"><span class='fu'>simulate_basicvirus_stochastic</span>(
-  U = <span class='fl'>10000</span>,
-  I = <span class='fl'>0</span>,
-  V = <span class='fl'>1</span>,
-  n = <span class='fl'>0</span>,
-  dU = <span class='fl'>0</span>,
-  b = <span class='fl'>1e-04</span>,
-  dI = <span class='fl'>1</span>,
-  p = <span class='fl'>10</span>,
-  dV = <span class='fl'>2</span>,
-  rngseed = <span class='fl'>111</span>,
-  tfinal = <span class='fl'>30</span>
-)</pre>
-=======
     <pre class="usage"><span class='fu'>simulate_basicvirus_stochastic</span><span class='op'>(</span>
   U <span class='op'>=</span> <span class='fl'>10000</span>,
   I <span class='op'>=</span> <span class='fl'>0</span>,
@@ -163,7 +148,6 @@ Uninfected target cells (U), Infected cells (I), virus (V).</p>
   rngseed <span class='op'>=</span> <span class='fl'>111</span>,
   tfinal <span class='op'>=</span> <span class='fl'>30</span>
 <span class='op'>)</span></pre>
->>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -236,19 +220,11 @@ the code will likely abort with an error message.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<<<<<<< Updated upstream
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span>(U = <span class='fl'>1e3</span>, dI = <span class='fl'>0.1</span>)
-<span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"time"</span>],<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"V"</span>],xlab=<span class='st'>'Time'</span>,ylab=<span class='st'>'Virus'</span>,type=<span class='st'>'l'</span>)
-=======
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicvirus_stochastic</span><span class='op'>(</span>U <span class='op'>=</span> <span class='fl'>1e3</span>, dI <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span>
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>$</span><span class='va'>ts</span><span class='op'>[</span>,<span class='st'>"time"</span><span class='op'>]</span>,<span class='va'>result</span><span class='op'>$</span><span class='va'>ts</span><span class='op'>[</span>,<span class='st'>"V"</span><span class='op'>]</span>,xlab<span class='op'>=</span><span class='st'>'Time'</span>,ylab<span class='op'>=</span><span class='st'>'Virus'</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div><div class='img'><img src='simulate_basicvirus_stochastic-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

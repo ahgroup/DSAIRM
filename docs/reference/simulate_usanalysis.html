@@ -135,31 +135,6 @@ using the simple, continuous-time basic bacteria model." />
 using the simple, continuous-time basic bacteria model.</p>
     </div>
 
-<<<<<<< Updated upstream
-    <pre class="usage"><span class='fu'>simulate_usanalysis</span>(
-  Bmin = <span class='fl'>1</span>,
-  Bmax = <span class='fl'>10</span>,
-  Imin = <span class='fl'>1</span>,
-  Imax = <span class='fl'>10</span>,
-  Bmaxmin = <span class='fl'>1e+05</span>,
-  Bmaxmax = <span class='fl'>1e+06</span>,
-  dBmin = <span class='fl'>0.1</span>,
-  dBmax = <span class='fl'>0.1</span>,
-  kmin = <span class='fl'>1e-07</span>,
-  kmax = <span class='fl'>1e-07</span>,
-  rmin = <span class='fl'>0.001</span>,
-  rmax = <span class='fl'>0.001</span>,
-  dImin = <span class='fl'>1</span>,
-  dImax = <span class='fl'>2</span>,
-  gmean = <span class='fl'>0.5</span>,
-  gvar = <span class='fl'>0.1</span>,
-  samples = <span class='fl'>10</span>,
-  rngseed = <span class='fl'>100</span>,
-  tstart = <span class='fl'>0</span>,
-  tfinal = <span class='fl'>200</span>,
-  dt = <span class='fl'>0.1</span>
-)</pre>
-=======
     <pre class="usage"><span class='fu'>simulate_usanalysis</span><span class='op'>(</span>
   Bmin <span class='op'>=</span> <span class='fl'>1</span>,
   Bmax <span class='op'>=</span> <span class='fl'>10</span>,
@@ -183,7 +158,6 @@ using the simple, continuous-time basic bacteria model.</p>
   tfinal <span class='op'>=</span> <span class='fl'>200</span>,
   dt <span class='op'>=</span> <span class='fl'>0.1</span>
 <span class='op'>)</span></pre>
->>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -310,26 +284,16 @@ function for more details on this model.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<<<<<<< Updated upstream
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_usanalysis</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_usanalysis</span>(dImin = <span class='fl'>0.1</span>, dImax = <span class='fl'>10</span>, samples = <span class='fl'>5</span>, tfinal = <span class='fl'>50</span>)
-=======
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_usanalysis</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_usanalysis</span><span class='op'>(</span>dImin <span class='op'>=</span> <span class='fl'>0.1</span>, dImax <span class='op'>=</span> <span class='fl'>10</span>, samples <span class='op'>=</span> <span class='fl'>5</span>, tfinal <span class='op'>=</span> <span class='fl'>50</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div><div class='output co'>#&gt; DLSODA-  At current T (=R1), MXSTEP (=I1) steps   
 #&gt;       taken on this call before reaching TOUT     
 #&gt; In above message, I1 = 5000
 #&gt;  
 #&gt; In above message, R1 = 22.0076
 #&gt;  </div><div class='output co'>#&gt; <span class='warning'>Warning: an excessive amount of work (&gt; maxsteps ) was done, but integration was not successful - increase maxsteps</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Returning early. Results are accurate, as far as they go</span></div><div class='input'><span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<<<<<<< Updated upstream
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>result</span><span class='op'>$</span><span class='kw'>dat</span>[,<span class='st'>"dI"</span>],<span class='kw'>result</span><span class='op'>$</span><span class='kw'>dat</span>[,<span class='st'>"Bpeak"</span>],xlab=<span class='st'>'values for d'</span>,ylab=<span class='st'>'Peak Bacteria'</span>,type=<span class='st'>'l'</span>)
-=======
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>$</span><span class='va'>dat</span><span class='op'>[</span>,<span class='st'>"dI"</span><span class='op'>]</span>,<span class='va'>result</span><span class='op'>$</span><span class='va'>dat</span><span class='op'>[</span>,<span class='st'>"Bpeak"</span><span class='op'>]</span>,xlab<span class='op'>=</span><span class='st'>'values for d'</span>,ylab<span class='op'>=</span><span class='st'>'Peak Bacteria'</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div><div class='img'><img src='simulate_usanalysis-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -137,39 +137,6 @@ which tracks uninfected and infected cells, virus, innate immune response, T-cel
 The model is implemented as set of ordinary differential equations using the deSolve package.</p>
     </div>
 
-<<<<<<< Updated upstream
-    <pre class="usage"><span class='fu'>simulate_virusandir_ode</span>(
-  U = <span class='fl'>1e+05</span>,
-  I = <span class='fl'>0</span>,
-  V = <span class='fl'>10</span>,
-  T = <span class='fl'>0</span>,
-  B = <span class='fl'>0</span>,
-  A = <span class='fl'>0</span>,
-  n = <span class='fl'>0</span>,
-  dU = <span class='fl'>0</span>,
-  dI = <span class='fl'>1</span>,
-  dV = <span class='fl'>4</span>,
-  b = <span class='fl'>1e-05</span>,
-  p = <span class='fl'>1000</span>,
-  sF = <span class='fl'>0.01</span>,
-  kA = <span class='fl'>1e-05</span>,
-  kT = <span class='fl'>1e-05</span>,
-  pF = <span class='fl'>1</span>,
-  dF = <span class='fl'>1</span>,
-  gF = <span class='fl'>1</span>,
-  Fmax = <span class='fl'>1000</span>,
-  hV = <span class='fl'>1e-06</span>,
-  hF = <span class='fl'>1e-05</span>,
-  gB = <span class='fl'>1</span>,
-  gT = <span class='fl'>1e-04</span>,
-  rT = <span class='fl'>0.5</span>,
-  rA = <span class='fl'>10</span>,
-  dA = <span class='fl'>0.2</span>,
-  tstart = <span class='fl'>0</span>,
-  tfinal = <span class='fl'>30</span>,
-  dt = <span class='fl'>0.05</span>
-)</pre>
-=======
     <pre class="usage"><span class='fu'>simulate_virusandir_ode</span><span class='op'>(</span>
   U <span class='op'>=</span> <span class='fl'>1e+05</span>,
   I <span class='op'>=</span> <span class='fl'>0</span>,
@@ -201,7 +168,6 @@ The model is implemented as set of ordinary differential equations using the deS
   tfinal <span class='op'>=</span> <span class='fl'>30</span>,
   dt <span class='op'>=</span> <span class='fl'>0.05</span>
 <span class='op'>)</span></pre>
->>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -351,19 +317,11 @@ package for details on the underlying ODE simulator algorithm.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<<<<<<< Updated upstream
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandir_ode</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='kw'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandir_ode</span>(V = <span class='fl'>100</span>, tfinal = <span class='fl'>50</span>, n = <span class='fl'>1e5</span>, dU = <span class='fl'>1e-2</span>, kT=<span class='fl'>1e-7</span>)
-<span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"time"</span>],<span class='kw'>result</span><span class='op'>$</span><span class='kw'>ts</span>[,<span class='st'>"V"</span>],xlab=<span class='st'>'Time'</span>,ylab=<span class='st'>'Virus'</span>,type=<span class='st'>'l'</span>,log=<span class='st'>'y'</span>)
-=======
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandir_ode</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='va'>result</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_virusandir_ode</span><span class='op'>(</span>V <span class='op'>=</span> <span class='fl'>100</span>, tfinal <span class='op'>=</span> <span class='fl'>50</span>, n <span class='op'>=</span> <span class='fl'>1e5</span>, dU <span class='op'>=</span> <span class='fl'>1e-2</span>, kT<span class='op'>=</span><span class='fl'>1e-7</span><span class='op'>)</span>
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>$</span><span class='va'>ts</span><span class='op'>[</span>,<span class='st'>"time"</span><span class='op'>]</span>,<span class='va'>result</span><span class='op'>$</span><span class='va'>ts</span><span class='op'>[</span>,<span class='st'>"V"</span><span class='op'>]</span>,xlab<span class='op'>=</span><span class='st'>'Time'</span>,ylab<span class='op'>=</span><span class='st'>'Virus'</span>,type<span class='op'>=</span><span class='st'>'l'</span>,log<span class='op'>=</span><span class='st'>'y'</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div><div class='output co'>#&gt; <span class='warning'>Warning: 271 y values &lt;= 0 omitted from logarithmic plot</span></div><div class='img'><img src='simulate_virusandir_ode-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

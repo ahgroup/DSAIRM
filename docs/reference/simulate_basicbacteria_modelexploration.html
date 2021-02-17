@@ -138,26 +138,6 @@ The function returns a data frame containing the parameter that has been varied 
 The function returns a data frame containing the parameter that has been varied and the outcomes (see details).</p>
     </div>
 
-<<<<<<< Updated upstream
-    <pre class="usage"><span class='fu'>simulate_basicbacteria_modelexploration</span>(
-  B = <span class='fl'>100</span>,
-  I = <span class='fl'>10</span>,
-  g = <span class='fl'>2</span>,
-  Bmax = <span class='fl'>1e+05</span>,
-  dB = <span class='fl'>1</span>,
-  k = <span class='fl'>1e-04</span>,
-  r = <span class='fl'>1e-04</span>,
-  dI = <span class='fl'>2</span>,
-  tstart = <span class='fl'>0</span>,
-  tfinal = <span class='fl'>300</span>,
-  dt = <span class='fl'>0.1</span>,
-  samples = <span class='fl'>10</span>,
-  parmin = <span class='fl'>2</span>,
-  parmax = <span class='fl'>10</span>,
-  samplepar = <span class='st'>"g"</span>,
-  pardist = <span class='st'>"lin"</span>
-)</pre>
-=======
     <pre class="usage"><span class='fu'>simulate_basicbacteria_modelexploration</span><span class='op'>(</span>
   B <span class='op'>=</span> <span class='fl'>100</span>,
   I <span class='op'>=</span> <span class='fl'>10</span>,
@@ -176,7 +156,6 @@ The function returns a data frame containing the parameter that has been varied 
   samplepar <span class='op'>=</span> <span class='st'>"g"</span>,
   pardist <span class='op'>=</span> <span class='st'>"lin"</span>
 <span class='op'>)</span></pre>
->>>>>>> Stashed changes
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -285,19 +264,11 @@ function for more details on this model.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># To run the simulation with default parameters just call the function:</span>
-<<<<<<< Updated upstream
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) <span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicbacteria_modelexploration</span>()
-<span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
-<span class='kw'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicbacteria_modelexploration</span>(samples=<span class='fl'>5</span>, samplepar=<span class='st'>'dI'</span>, parmin=<span class='fl'>1</span>, parmax=<span class='fl'>10</span>)
-<span class='co'># You should then use the simulation result returned from the function, like this:</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span>(<span class='kw'>res</span><span class='op'>$</span><span class='kw'>dat</span>[,<span class='st'>"xvals"</span>],<span class='kw'>res</span><span class='op'>$</span><span class='kw'>data</span>[,<span class='st'>"Bpeak"</span>],xlab=<span class='st'>'Parameter values'</span>,ylab=<span class='st'>'Peak Bacteria'</span>,type=<span class='st'>'l'</span>)
-=======
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicbacteria_modelexploration</span><span class='op'>(</span><span class='op'>)</span>
 <span class='co'># To choose parameter values other than the standard one, specify them, like such:</span>
 <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>simulate_basicbacteria_modelexploration</span><span class='op'>(</span>samples<span class='op'>=</span><span class='fl'>5</span>, samplepar<span class='op'>=</span><span class='st'>'dI'</span>, parmin<span class='op'>=</span><span class='fl'>1</span>, parmax<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span>
 <span class='co'># You should then use the simulation result returned from the function, like this:</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>$</span><span class='va'>dat</span><span class='op'>[</span>,<span class='st'>"xvals"</span><span class='op'>]</span>,<span class='va'>res</span><span class='op'>$</span><span class='va'>data</span><span class='op'>[</span>,<span class='st'>"Bpeak"</span><span class='op'>]</span>,xlab<span class='op'>=</span><span class='st'>'Parameter values'</span>,ylab<span class='op'>=</span><span class='st'>'Peak Bacteria'</span>,type<span class='op'>=</span><span class='st'>'l'</span><span class='op'>)</span>
->>>>>>> Stashed changes
 </div><div class='img'><img src='simulate_basicbacteria_modelexploration-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

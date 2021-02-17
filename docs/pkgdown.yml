@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   DSAIRM: DSAIRM.html
-last_built: 2021-02-16T21:01Z
+last_built: 2021-02-17T00:35Z
 urls:
   reference: https://ahgroup.github.io/DSAIRM/index.html/reference
   article: https://ahgroup.github.io/DSAIRM/index.html/articles

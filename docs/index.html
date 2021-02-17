@@ -84,51 +84,50 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-
-
-<div id="dsairm" class="section level1">
+<div id="dsaide-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#dsairm" class="anchor"></a>DSAIRM</h1></div>
-<p>Dynamical Systems Approach to Immune Response Modeling</p>
+<a href="#dsaide-" class="anchor"></a>DSAIDE <img src="reference/figures/logo.png" align="right" alt="" width="120">
+</h1></div>
+<!-- badges: start -->
+
+<p><strong>Dynamical Systems Approach to Immune Response Modeling</strong></p>
 <div id="description" class="section level2">
 <h2 class="hasAnchor">
 <a href="#description" class="anchor"></a>Description</h2>
 <p>DSAIRM is an R package containing a set of simulation modelss (apps) that teach within-host infection dynamics and immune response modeling from a dynamical system perspective.</p>
-<p>All models can be explored through a graphical user interface, no reading or writing code is required. Each app comes with documenation and instructions which teach important concepts of within-host and immune response modeling, and how to use simulation models to understand such concepts.</p>
+<p>All models can be explored through a graphical user interface, no reading or writing code is required. Each app comes with documentation and instructions which teach important concepts of within-host and immune response modeling, and how to use simulation models to understand such concepts.</p>
 <p>It is also possible to go beyond the graphical interface and directly access and modify all simulations to adapt them to your needs.</p>
 </div>
 <div id="getting-started" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h2>
-<p>The best approach to use this package is to install it, load it, and start the main menu, then you are ready to go. These lines of code typed into the <code>R</code> console will get you there:</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages('DSAIRM')
-library('DSAIRM')
-dsairmmenu()</a></code></pre>
-<p>You can also give the package <a href="https://shiny.ovpr.uga.edu/DSAIRM/">a quick try online, without having to install it</a>. I still recommend you install it like any regular R package should you decide that you want to use it. It’s only 3 commands to get it up and running! Note that the shiny server on which I host the online version of the package is not regularly monitored and the package is not updated that frequently. If the online app doesn’t work, please let me know (through a Github Issue).</p>
-<p>For a quick introduction to the package, step-by-step instructions on getting started, and more information on the different ways you can use the package <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">see the tutorial (vignette)</a>.</p>
+<p>While the main idea is to install the R package and use it locally, if you want to get a quick glimpse at the package to see if this package is for you, you can give it <a href="https://shiny.ovpr.uga.edu/DSAIRM/">a quick try online, without having to install it</a>. If you like what you see, you can install it and start using it with these 3 commands:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'DSAIRM'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">'DSAIRM'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dsairmmenu</span>()</span></code></pre></div>
+<p>For an introduction to the package, step-by-step instructions on getting started, and more information on the different ways you can use the package <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">see the <em>Get Started</em> tutorial (vignette)</a>.</p>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-information" class="anchor"></a>Further information</h2>
 <ul>
+<li>The <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">package tutorial (vignette)</a> contains detailed instructions on the different ways the package can be used.</li>
 <li>
-<a href="https://doi.org/10.1186/s12865-019-0321-0">I published a paper describing the package</a>.<br>
+<a href="https://doi.org/10.1186/s12865-019-0321-0">I published a paper describing the package</a>. The package has since been updated and changed, but the paper still describes the overall idea and context well.<br>
 </li>
-<li>The <a href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html">package tutorial (vignette)</a> contains up-to-date and detailed instructions on the different ways the package can be used.</li>
-<li>If you want to take a deeper look at the package, see <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. (If you plan to develop new apps, or make other substantial contributions, it is best to get in touch with me first.)</li>
-<li>A ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/">See the DSAIDE site for more information.</a>
+<li>I teach an annual workshop with my colleague Paul Thomas at <a href="https://si.biostat.washington.edu/suminst/sismid">SISMID</a> where we cover some of the topics you can learn about in DSAIRM (and we use the package). Workshop materials <a href="https://andreashandel.github.io/SMIcourse/">are freely available online</a>. * If you want to take a deeper look at the package, see <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. I’d be excited to receive any contributions from individuals who want to help improve the package. If you plan to develop new apps, or make other substantial contributions, it might be best to get in touch with me first.</li>
+<li>A ‘companion’ package to this one, called Dynamical Systems Approaches to Infectious Disease Epidemiology (DSAIDE), focuses on models at the population level. It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/">See the DSAIDE site for more information.</a>
 </li>
-<li>I heard that DSAIRM doesn’t seem to work quite right using Docker. This is likely irrelevant for almost all users.</li>
 </ul>
 </div>
 <div id="citation-and-contributors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation-and-contributors" class="anchor"></a>Citation and Contributors</h2>
-<p>If the DSAIRM package does in any way help you with your work such that it warrants citing it in one of your papers, please cite <a href="https://doi.org/10.1186/s12865-019-0321-0">the DSAIRM publication in BMC Immunology</a>.</p>
-<p>This R package is developed and maintained by <a href="https://www.andreashandel.com/">Andreas Handel</a>. A full list of contributors and a Bibtex entry for the citation <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>. The development of this package was partially supported by NIH grant U19AI117891.</p>
+<p>If the package does in any way help you with your work such that it warrants citing it, please cite <a href="https://doi.org/10.1186/s12865-019-0321-0">the DSAIRM publication in BMC Immunology</a>.</p>
+<p>This R package is developed and maintained by <a href="https://www.andreashandel.com/">Andreas Handel</a>. A full list of contributors and a Bibtex entry for the citation <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
+<p>The development of this package was partially supported by NIH grant U19AI117891.</p>
 </div>
 </div>
-
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -167,8 +166,9 @@ dsairmmenu()</a></code></pre>
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/ahgroup/DSAIRM/actions"><img src="https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/github/ahgroup/DSAIRM?branch=master"><img src="https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://github.com/ahgroup/DSAIRM/actions"><img src="https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/ahgroup/DSAIRM"><img src="https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg?token=OGO3sVEcPD" alt="Coverage status"></a></li>
+<li><a href="https://github.com/ahgroup/DSAIRM/actions"><img src="https://github.com/ahgroup/DSAIRM/workflows/test-coverage/badge.svg" alt="test-coverage"></a></li>
 <li><a href="https://cran.r-project.org/package=DSAIRM"><img src="https://www.r-pkg.org/badges/version/DSAIRM" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/web/checks/check_results_DSAIRM.html"><img src="https://cranchecks.info/badges/summary/DSAIRM" alt="CRAN checks"></a></li>
 <li><a href="https://cran.r-project.org/package=DSAIRM"><img src="http://cranlogs.r-pkg.org/badges/DSAIRM" alt="metacran monthly downloads"></a></li>
