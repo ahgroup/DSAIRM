@@ -16,3 +16,4 @@
 ^_pkgdown\.yml$
 ^vignettes\related-resources.Rmd$
 ^\.github$
+^README.Rmd
