@@ -6,8 +6,8 @@ Description: Simulation models (apps) of various within-host immune response sce
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
 	  The development of this package was partially supported by NIH grant U19AI117891.
-Version: 0.8.6.1
-Date: 2020-07-17
+Version: 0.8.7
+Date: 2021-03-17
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Yang", "Ge",  role = "ctb"),
