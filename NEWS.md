@@ -1,3 +1,8 @@
+# DSAIRM 0.8.7 (2021-03-19)
+
+* Fixes to pass CRAN checks on old R
+* Minor other bugfixes and enhancements
+
 # DSAIRM 0.8.6 (2020-07-14)
 
 * CRAN release

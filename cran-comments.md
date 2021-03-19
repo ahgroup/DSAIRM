@@ -1,10 +1,6 @@
 ## Test environments
 
-* local Windows 10.1 x86_64, R 4.02
-* Travis-ci (Ubuntu, MacOS) 
-* Appveyor (Windows)
-* Rhub (Windows, Ubuntu, Fedora)
-* Win-builder 
+
 
 
 ## R CMD check results
@@ -13,6 +9,8 @@
 
 
 ## Submission History
+
+version 0.8.7: bug fixes for CRAN, small other enhancements.
 
 version 0.8.6: additional models, bug fixes and feature enhancements.
 
