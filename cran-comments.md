@@ -2,10 +2,7 @@
 
 * local Windows 10.1 x86_64, R 4.0.4
 * R-CMD-Check (Github actions) 
-* Win-builder 
 * devtools: check_rhub(), check_win_release(), check_win_devel()
-
-
 
 ## R CMD check results
 
