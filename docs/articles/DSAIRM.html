@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.7</span>
       </span>
     </div>
 
@@ -78,13 +78,13 @@
 
       
 
-      </header><script src="DSAIRM_files/header-attrs-2.6.4/header-attrs.js"></script><div class="row">
+      </header><script src="DSAIRM_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>DSAIRM Package Tutorial</h1>
                         <h4 class="author"><a href="http://handelgroup.uga.edu">Andreas Handel</a></h4>
             
-            <h4 class="date">2021-02-23</h4>
+            <h4 class="date">2021-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/master/vignettes/DSAIRM.Rmd"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -110,7 +110,7 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>I assume you have <a href="https://www.r-project.org/">R</a> installed. I also highly recommend <a href="https://www.rstudio.com/products/rstudio/download/">RStudio</a>, though it is not required. After having opened R/Rstudio, you can install the package from CRAN by typing the following into the R console (the bottom left window if you are using RStudio):</p>
+<p>I assume you have <a href="https://www.r-project.org/">R</a> installed. I also highly recommend <a href="https://rstudio.com/products/rstudio/download/">RStudio</a>, though it is not required. After having opened R/Rstudio, you can install the package from CRAN by typing the following into the R console (the bottom left window if you are using RStudio):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">'DSAIRM'</span><span class="op">)</span></code></pre></div>
 <p>Alternatively, you can install the latest development version (with usually both more features and more bugs) from github, using the <code>remotes</code> package. The following commands, typed into the <code>R</code> console, will get you up and running:</p>
@@ -132,28 +132,20 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/dsairmmenu.html">dsairmmenu</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If successful, you should see a graphical menu open in your browser that looks something like this:</p>
 <div class="figure">
-<img src="mainmenu.png" alt="Main menu of the DSAIRM package." width="620"><p class="caption">
-Main menu of the DSAIRM package.
-</p>
+<img src="mainmenu.png" alt=""><p class="caption">Main menu of the DSAIRM package.</p>
 </div>
 <p>From the main menu, you can choose the different apps corresponding to different modeling topics and scenarios. Each app has the inputs you can set on the left and the outputs (figures and text) on the right. This is an example of one of the apps:</p>
 <div class="figure">
-<img src="appexample.png" alt="Screenshot of the input-output elements of one of the apps." width="609"><p class="caption">
-Screenshot of the input-output elements of one of the apps.
-</p>
+<img src="appexample.png" alt=""><p class="caption">Screenshot of the input-output elements of one of the apps.</p>
 </div>
 <p>As seen in the figure, below each app are four tabs with different sections providing information and instruction. The <em>Overview</em> and <em>Further Information</em> tabs provide a brief introduction and pointers to further exploration options, respectively.</p>
 <p>The two most important tabs are the <em>Model</em> and <em>What to do</em> tabs. The <em>Model</em> tab gives a detailed description of the model underlying the app, shows the model diagram and equations, and provides any other further information needed to understand what is going on. The following figure shows an example of this for one of the apps.</p>
 <div class="figure">
-<img src="modelexample.png" alt="Screenshot of the _Model_ section of one of the apps." width="600"><p class="caption">
-Screenshot of the <em>Model</em> section of one of the apps.
-</p>
+<img src="modelexample.png" alt=""><p class="caption">Screenshot of the <em>Model</em> section of one of the apps.</p>
 </div>
 <p>The <em>What to do</em> tab contains a list of suggested tasks you might want to go through. By doing those tasks, you will learn the topic a specific app is meant to teach. The following figure shows an example for part of one of those <em>What to do</em> sections for one of the apps.</p>
 <div class="figure">
-<img src="whattodoexample.png" alt="Screenshot of the _What to do_ section of one of the apps." width="603"><p class="caption">
-Screenshot of the <em>What to do</em> section of one of the apps.
-</p>
+<img src="whattodoexample.png" alt=""><p class="caption">Screenshot of the <em>What to do</em> section of one of the apps.</p>
 </div>
 <p>Once you finished exploring a specific app, you can return to the main menu. Eventually, you can exit back to the <code>R</code> console by clicking the <em>Exit</em> button. You will not need to read or write any code at this level of exploration and learning. If an when you want to learn more, you can proceed to level 2.</p>
 </div>
