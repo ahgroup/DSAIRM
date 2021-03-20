@@ -21,21 +21,21 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE
 Imports:
-    adaptivetau (>= 2.2),
+    adaptivetau,
     boot,
     deSolve,
-    dplyr (>= 0.7.4),
-    ggplot2 (>= 2.2.1),
-    gridExtra (>= 2.3),
-    lhs (>= 0.15),
-    nloptr (>= 1.0.4),
+    dplyr,
+    ggplot2,
+    gridExtra,
+    lhs,
+    nloptr,
     plotly,
     rlang,
 	stats,
-    utils (>= 3.4), 
-    XML (>= 3.98)
+    utils, 
+    XML
 Depends:
-    R (>= 3.5),
+    R (>= 4.0),
     shiny (>= 1.0)
 Suggests:
     covr,
