@@ -84,7 +84,7 @@
       <h1 data-toc-skip>DSAIRM Package Tutorial</h1>
                         <h4 class="author"><a href="http://handelgroup.uga.edu">Andreas Handel</a></h4>
             
-            <h4 class="date">2021-03-19</h4>
+            <h4 class="date">2021-03-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/master/vignettes/DSAIRM.Rmd"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -125,27 +125,35 @@
 <p>The interactive exploration of the models and infectious disease concepts through the graphical user interface is the main intended use of this package. The idea is that you start at Level 1, and then depending on needs and interests, you can decide to move on to the next levels, described below.</p>
 <p>After install, load the package by typing the following into the <code>R</code> console.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM/">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
 <p>You need to load the package every time you start a new R/Rstudio session.</p>
 <p>If the package loads correctly, you should receive a short greeting. Now you can open the main menu by typing the following into the <code>R</code> console:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/dsairmmenu.html">dsairmmenu</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If successful, you should see a graphical menu open in your browser that looks something like this:</p>
 <div class="figure">
-<img src="mainmenu.png" alt=""><p class="caption">Main menu of the DSAIRM package.</p>
+<img src="mainmenu.png" alt="Main menu of the DSAIRM package." width="620"><p class="caption">
+Main menu of the DSAIRM package.
+</p>
 </div>
 <p>From the main menu, you can choose the different apps corresponding to different modeling topics and scenarios. Each app has the inputs you can set on the left and the outputs (figures and text) on the right. This is an example of one of the apps:</p>
 <div class="figure">
-<img src="appexample.png" alt=""><p class="caption">Screenshot of the input-output elements of one of the apps.</p>
+<img src="appexample.png" alt="Screenshot of the input-output elements of one of the apps." width="609"><p class="caption">
+Screenshot of the input-output elements of one of the apps.
+</p>
 </div>
 <p>As seen in the figure, below each app are four tabs with different sections providing information and instruction. The <em>Overview</em> and <em>Further Information</em> tabs provide a brief introduction and pointers to further exploration options, respectively.</p>
 <p>The two most important tabs are the <em>Model</em> and <em>What to do</em> tabs. The <em>Model</em> tab gives a detailed description of the model underlying the app, shows the model diagram and equations, and provides any other further information needed to understand what is going on. The following figure shows an example of this for one of the apps.</p>
 <div class="figure">
-<img src="modelexample.png" alt=""><p class="caption">Screenshot of the <em>Model</em> section of one of the apps.</p>
+<img src="modelexample.png" alt="Screenshot of the _Model_ section of one of the apps." width="600"><p class="caption">
+Screenshot of the <em>Model</em> section of one of the apps.
+</p>
 </div>
 <p>The <em>What to do</em> tab contains a list of suggested tasks you might want to go through. By doing those tasks, you will learn the topic a specific app is meant to teach. The following figure shows an example for part of one of those <em>What to do</em> sections for one of the apps.</p>
 <div class="figure">
-<img src="whattodoexample.png" alt=""><p class="caption">Screenshot of the <em>What to do</em> section of one of the apps.</p>
+<img src="whattodoexample.png" alt="Screenshot of the _What to do_ section of one of the apps." width="603"><p class="caption">
+Screenshot of the <em>What to do</em> section of one of the apps.
+</p>
 </div>
 <p>Once you finished exploring a specific app, you can return to the main menu. Eventually, you can exit back to the <code>R</code> console by clicking the <em>Exit</em> button. You will not need to read or write any code at this level of exploration and learning. If an when you want to learn more, you can proceed to level 2.</p>
 </div>
@@ -157,7 +165,7 @@
 <p>Consider as example the first app, called “Basic Bacteria Model.” This model has 2 underlying simulator functions, one that runs the discrete-time model called <code>simulate_basicbacteria_discrete</code> and one that runs the continuous, differential equation model called <code>simulate_basicbacteria_ode</code>. Assume you want to learn more about the latter model.</p>
 <p>After loading the package (if not already loaded) with</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ahgroup.github.io/DSAIRM/">'DSAIRM'</a></span><span class="op">)</span></code></pre></div>
 <p>you can learn about the inputs and outputs of the model/function by looking at its documentation</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/help.html">help</a></span><span class="op">(</span><span class="st">'simulate_basicbacteria_ode'</span><span class="op">)</span></code></pre></div>

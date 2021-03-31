@@ -67,8 +67,8 @@ package [see the *Get Started* tutorial
     [SISMID](https://si.biostat.washington.edu/suminst/sismid) where we
     cover some of the topics you can learn about in DSAIRM (and we use
     the package). Workshop materials [are freely available
-    online](https://andreashandel.github.io/SMIcourse/). \* If you want
-    to take a deeper look at the package, see [this Markdown
+    online](https://andreashandel.github.io/SMIcourse/).
+-   If you want to take a deeper look at the package, see [this Markdown
     file](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md)
     which provides further information on the details of the package
     structure. I’d be excited to receive any contributions from
@@ -92,5 +92,5 @@ Handel](https://www.andreashandel.com/). A full list of contributors and
 a Bibtex entry for the citation [can be found
 here](https://ahgroup.github.io/DSAIRM/authors.html).
 
-The development of this package was partially supported by NIH grant
-U19AI117891.
+The development of this package was/is partially supported by NIH grants
+U19AI117891 and U01AI150747.
