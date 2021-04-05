@@ -54,5 +54,5 @@ If the package does in any way help you with your work such that it warrants cit
 
 This R package is developed and maintained by [Andreas Handel](https://www.andreashandel.com/). A full list of contributors and a Bibtex entry for the citation [can be found here](https://ahgroup.github.io/DSAIRM/authors.html).
 
-The development of this package was/is partially supported by NIH grants U19AI117891 and U01AI150747. 
+This project was/is partially supported by NIH grants U19AI117891 and U01AI150747. 
 
