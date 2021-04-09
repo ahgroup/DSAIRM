@@ -117,20 +117,57 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 
 
 
-### Task 1: 
-Start with the following parameter settings in your model:
 
-* 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days).
-* Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units).
-* Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day.
-* Only run the continuous time ODE model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.
 
-Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003. 
 
-### Task 2: 
-* Switch the plotting to have x-axis, y-axis or both plotted on a log scale. 
-* Leave all other settings as before.
-* Note that while the look of the plot changes a lot, nothing has changed about the underlying simulation. The results are exactly the same in each case, only plotted differently. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic.
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Start with 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days). Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day. Only run the continuous time ODE model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003"
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Leave all other settings as before. Note that while the look of the plot changes a lot, nothing has changed about the underlying simulation. The results are exactly the same in each case, only plotted differently. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic."
+nrec = 2 # number of items to record
+out_records = c("something",
+            "something")
+out_types = rep("Numeric",nrec)
+out_notes = rep("Round to two significant digits, report as non-scientic notation (as X.YZ)",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+``` 
+
 
 ### Task 3: 
 * Go back to both linear scales for plotting.
@@ -173,6 +210,26 @@ You should get a plot where bacteria numbers drop to below 1 and take on fractio
 ### Task 9: 
 * Go crazy :) change any parameters you want to change, see how it affects the results.
 * While going crazy, remember to continue to think about what you are doing and what you are seeing and what it all means...
+
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0('dsaide_',appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+alloutcomes$Answer = "" #add empty answer column, just for consistency. Should probably be removed here.
+write.table(alloutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
 
 
 ## Further Information {#shinytab4}

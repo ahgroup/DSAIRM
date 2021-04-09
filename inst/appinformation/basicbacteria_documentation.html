@@ -129,25 +129,6 @@ div.csl-indent {
 </ul>
 <p><strong>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a cell lives for a week, you need to convert it to 7 days, then take the inverse if you want a death rate, which is what usually goes into the model).</strong></p>
 </div>
-<div id="task-1" class="section level3">
-<h3>Task 1:</h3>
-<p>Start with the following parameter settings in your model:</p>
-<ul>
-<li>100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days).</li>
-<li>Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10<sup>5</sup> and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units).</li>
-<li>Assume the immune response is activated at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day.</li>
-<li>Only run the continuous time ODE model. Therefore, the value for the time-step <em>dt</em> for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale.</li>
-</ul>
-<p>Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003.</p>
-</div>
-<div id="task-2" class="section level3">
-<h3>Task 2:</h3>
-<ul>
-<li>Switch the plotting to have x-axis, y-axis or both plotted on a log scale.</li>
-<li>Leave all other settings as before.</li>
-<li>Note that while the look of the plot changes a lot, nothing has changed about the underlying simulation. The results are exactly the same in each case, only plotted differently. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic.</li>
-</ul>
-</div>
 <div id="task-3" class="section level3">
 <h3>Task 3:</h3>
 <ul>
@@ -205,6 +186,23 @@ div.csl-indent {
 <ul>
 <li>Go crazy :) change any parameters you want to change, see how it affects the results.</li>
 <li>While going crazy, remember to continue to think about what you are doing and what you are seeing and what it all means…</li>
+</ul>
+</div>
+<div id="task-1" class="section level3">
+<h3>Task 1</h3>
+<p>Start with 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days). Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10<sup>5</sup> and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Assume the immune response is activated at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day. Only run the continuous time ODE model. Therefore, the value for the time-step <em>dt</em> for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Nothing</li>
+</ul>
+</div>
+<div id="task-2" class="section level3">
+<h3>Task 2</h3>
+<p>Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Leave all other settings as before. Note that while the look of the plot changes a lot, nothing has changed about the underlying simulation. The results are exactly the same in each case, only plotted differently. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic.</p>
+<p><strong>Record</strong></p>
+<ul>
+<li><p>something</p></li>
+<li><p>something</p></li>
 </ul>
 </div>
 </div>
