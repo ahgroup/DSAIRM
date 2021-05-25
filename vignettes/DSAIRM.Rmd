@@ -95,7 +95,7 @@ knitr::include_graphics("modelexample.png")
 ```
 
 
-The _What to do_ tab contains a list of suggested tasks you might want to go through. By doing those tasks, you will learn the topic a specific app is meant to teach. The following figure shows an example for part of one of those _What to do_ sections for one of the apps. 
+The _What to do_ tab contains a list of suggested tasks you might want to go through. By doing those tasks, you will learn the topic a specific app is meant to teach. The following figure shows an example for part of one of those _What to do_ sections. 
 
 ```{r whattodoexample,  fig.cap='Screenshot of the _What to do_ section of one of the apps.', echo=FALSE}
 knitr::include_graphics("whattodoexample.png")

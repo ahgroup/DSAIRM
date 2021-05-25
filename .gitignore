@@ -7,3 +7,5 @@ doc
 DSAIRM.Rcheck/
 DSAIRM*.tar.gz
 DSAIRM*.tgz
+/doc/
+/Meta/
