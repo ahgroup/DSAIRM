@@ -50,7 +50,7 @@ For an introduction to the package, step-by-step instructions on getting started
 * A 'companion' package to this one, called Dynamical Systems Approaches to Infectious Disease Epidemiology (DSAIDE), focuses on models at the population level. It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/)
 
 ## Citation and Contributors
-If the package does in any way help you with your work such that it warrants citing it, please cite [the DSAIRM publication in BMC Immunology](https://doi.org/10.1186/s12865-019-0321-0). 
+If the package does in any way help you with your work such that it warrants citing it, please cite [this publication in BMC Immunology](https://doi.org/10.1186/s12865-019-0321-0). 
 
 This R package is developed and maintained by [Andreas Handel](https://www.andreashandel.com/). A full list of contributors and a Bibtex entry for the citation [can be found here](https://ahgroup.github.io/DSAIRM/authors.html).
 
