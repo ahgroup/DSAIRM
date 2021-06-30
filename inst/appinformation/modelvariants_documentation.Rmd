@@ -6,7 +6,7 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: references.bib
+bibliography: dsairm_references.bib
 ---
 
 ```{r, include = FALSE}

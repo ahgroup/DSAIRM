@@ -8,30 +8,20 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: references.bib
+bibliography: dsairm_references.bib
 ---
 
 ```{r, include = FALSE}
-#*************************************
-#general setup to define package and get path locations
-#all paths are inside the package and retrieved with system.file
-packagename = "DSAIRM"
-helperdir = "helperfunctions"
-mbmodeldir = "mbmodels"
-figuredir = "media"
-appdocdir = "appinformation" 
-#*************************************
-#Note: for this to process/knit, several helper functions need to be available (sourced) first
-#those are in the inst/helperfunctions folder
-#Note: in general, the "processing-script.R" in the docsfordevelopers should be used to produce the html docs
-#manual knitting of each doc only during development/testing
-#*************************************
-files_to_source = list.files(system.file(helperdir,package = packagename),full.names=TRUE)
-sapply(files_to_source, source) #sourcing needs to happen inside each Rmd file since knitr starts a new environment
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+#source helper functions (defined in the startup script)
+#needs to happen inside each Rmd file since knitr starts a new environment
+sapply(files_to_source, source) 
 #load the settings file for the current app 
 #so we can automatically include figure, list the functions in the further information section
 #and use other information specific to the current app for the task table generation
 currentrmdfile = knitr::current_input() 
+#currentrmdfile = "basicbacteria_documentation.Rmd" #for debugging
 appsettings = get_settings(currentrmdfile,appdocdir,packagename)
 ```
 
@@ -54,8 +44,8 @@ In the app, those 4 outcomes of interest are labeled _Bpeak_, _Ipeak_, _Bsteady_
 ### Model Diagram and equations
 As mentioned, this is the same model as used in the 'Simple Bacteria Model' app. Details can be found there. For ease of reference, the flow diagram and the equations of the continuous model are shown again here:
 
-```{r BIdiagram,  fig.cap='Flow diagram for simple bacteria infection model..',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics("../media/bacteriamodel.png")
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 $$\dot B = gB(1-\frac{B}{B_{max}})-d_B B - k BI$$ 

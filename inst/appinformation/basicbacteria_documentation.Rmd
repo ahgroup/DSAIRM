@@ -8,49 +8,39 @@ output:
     fig_caption: true
     mathjax: default 
     keep_md: false
-bibliography: references.bib
+bibliography: dsairm_references.bib
 ---
 
 ```{r, include = FALSE}
-#*************************************
-#general setup to define package and get path locations
-#all paths are inside the package and retrieved with system.file
-packagename = "DSAIRM"
-helperdir = "helperfunctions"
-mbmodeldir = "mbmodels"
-figuredir = "media"
-appdocdir = "appinformation" 
-#*************************************
-#Note: for this to process/knit, several helper functions need to be available (sourced) first
-#those are in the inst/helperfunctions folder
-#Note: in general, the "processing-script.R" in the docsfordevelopers should be used to produce the html docs
-#manual knitting of each doc only during development/testing
-#*************************************
-files_to_source = list.files(system.file(helperdir,package = packagename),full.names=TRUE)
-sapply(files_to_source, source) #sourcing needs to happen inside each Rmd file since knitr starts a new environment
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+#source helper functions (defined in the startup script)
+#needs to happen inside each Rmd file since knitr starts a new environment
+sapply(files_to_source, source) 
 #load the settings file for the current app 
 #so we can automatically include figure, list the functions in the further information section
 #and use other information specific to the current app for the task table generation
 currentrmdfile = knitr::current_input() 
+#currentrmdfile = "basicbacteria_documentation.Rmd" #for debugging
 appsettings = get_settings(currentrmdfile,appdocdir,packagename)
 ```
 
 
 ## Overview {#shinytab1}
-This app allows exploration of a very basic bacteria infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with dynamical systems models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in "The Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of a very basic bacteria (or other extracellular pathogen) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in _The Model_ tab. Then do the tasks described in the _What to do_ tab.
 
 
 ## The Model {#shinytab2}
 
 ### Model Overview
-This model is a compartmental model. Compartmental means that we place the agents/players/entities/individuals of interest into distinct compartments. We then only track the total number of individuals in each of these compartments. In this simple model, we track bacteria and some (fairly abstract) notion of immune response strength, using the following notation:
+All the models we consider are compartmental models. Compartmental means that we place the agents/players/entities/individuals of interest into distinct compartments/categories. We then only track the total number of individuals in each of these compartments. In this simple model, we track bacteria and some (fairly abstract) notion of immune response strength, using the following notation:
 
 * **B** - bacteria 
 * **I** - immune response
 
-This model is of course very simple and abstract. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
+This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
 
-In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+In addition to specifying the **compartments** or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes or **flows** that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
 For our system, we specify the following processes/flows: 
 
@@ -63,10 +53,10 @@ For our system, we specify the following processes/flows:
 
 ### Model Diagram
 A very good way to describe compartmental models and move from a verbal description toward a mathematical/computational formulation is by using diagrams. Being able to go back and forth between verbal description, diagram and mathematical/computational model is a crucial skill when building models. 
-The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
+The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment/variable (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
 
-```{r BIdiagram,  fig.cap='',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics("../media/bacteriamodel.png")
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 For the diagrams in this R package, solid arrows indicate physical flows, i.e. movement from a compartment to another (e.g. bacteria moving out of the compartment because of death, or bacteria increasing in the compartment due to growth), while dashed arrows indicate interactions without physical flow (e.g. infected cells killing bacteria). This notation is not universal and it is common in the literature to see no distinction made between these 2 types of flows and only solid arrows being used.
@@ -79,9 +69,6 @@ The most common way to implement compartmental models is as a **continuous-time,
 
 $$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
-
-**Note that if the equations don't display properly, open the app in a browser, they should look ok there. For some reason, on some systems, the Rstudio internal viewer doesn't render the equations right. If you know how to fix it, let me know!**
-
 We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:
 $$\frac{d}{dt}B(t) = gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t)$$ 
 $$\frac{d}{dt} I(t) = r B(t) I(t) - d_I I(t)$$
@@ -93,7 +80,7 @@ Continuous time models implemented as ordinary differential equations are the mo
 
 $$B_{t+dt} = B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) $$ 
 $$ I_{t+dt} = I_t + dt \left( r I_t B_t - d_I I_t \right)$$
-In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a "smart" version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the 'deSolve' R package documentation, which we use to run our simulations. 
+In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the `deSolve` R package documentation, which we use to run our simulations. 
 
 
 
@@ -109,7 +96,7 @@ In words, the number of bacteria and immune response at a time step _dt_ in the 
 
 * Some of the tasks below (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking what you expect, observing it, and if discrepancies occur, figure out why. Essentially, the best way to use these apps is to _do your own science/research_ with them.
 
-* You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A 'hacky' solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the "Model stochasticity" app. For most apps, neither approach is taken, so you'll see numbers less than 1. That's ok for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
+* You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You'll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hacky solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you'll see numbers less than 1. That's ok for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
 
 * This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months..., based on what's most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each "What to do" section what kind of units I have in mind for the different tasks.
 
@@ -132,11 +119,11 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "Start with 100 initial bacteria, an initial level of 1 for the immune response, a simulation start time of 0 and final time of 100 (which we assume to be days). Assume bacteria grow at a rate of 1 per day, the carrying capacity is 10^5^ and they live for about 2 days (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Assume the immune response is activated at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day. Only run the continuous time ODE model. Therefore, the value for the time-step _dt_ for the discrete model does not matter, you can leave it as is. Plot both x- and y-axes on a linear scale. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003"
+tasktext = "Start with 100 initial bacteria and an initial level of 1 for the immune response. Assume bacteria grow at a rate of 1 per day (i.e., g = 1), the carrying capacity is 10^5^ and they live for about 2 days (remember that the inverse of the lifespan is the rate of death). Assume the immune response is activated and grows at a rate of 10^-4^, kills bacteria at a rate of 10^-4^ and decays at a rate of 2 per day. Set simulation start time to 0 and final time of 100 (which we assume to be days). Set the time step to 0.01. As you'll see, if we run an ODE model, the time step is only relevant for plotting, not for the underlying model simulation (while this is not the case for the discrete time model). Only run the continuous time ODE model. Plot both x- and y-axes on a linear scale (i.e, no log scales for now). You can stick with ggplot as the plot engine. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003. Change the time step to 0.05, re-run the simulation. Record the number of bacteria at the end of the simulation (Hint: not much changes)."
 nrec = 1 # number of items to record
-out_records = c("Nothing")
-out_types = rep("None",nrec)
-out_notes = c("")
+out_records = c("Number of bacteria at end of simulation.")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -150,10 +137,105 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Leave all other settings as before. Note that while the look of the plot changes a lot, nothing has changed about the underlying simulation. The results are exactly the same in each case, only plotted differently. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic."
+tasktext = "Play around with the plot settings. Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Also try plotly as the plot engine. Leave all other settings as before. You should see that while the look of the plot changes, the underlying numbers do not. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic. One nice feature about plotly is that the plot is interactive and you can read off numbers. Use this feature to determine the day at which the bacteria and immune response have their second peak. (Hint: day 32 for bacteria, a bit later for the immune response.)"
+nrec = 1 # number of items to record
+out_records = c("Day of second peak for bacteria")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Go back to both linear scales for plotting. Keep all variable and parameter settings as before. Set _Models to run_ to _both_. This runs and shows both the continuous-time and discrete-time models. Start with a time step of 0.01. Run the simulation. You should see the results from the 2 models essentially on top of each other and barely distinguishable. You should see that the maximum number of bacteria is 49,513 for the ODE model, and a little bit higher for the discrete-time model."
+nrec = 1 # number of items to record
+out_records = c("Maximum number of bacteria for the discrete-time model")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Now try different values for the time step, _dt_. Leave all other settings as before. You should notice that as _dt_ gets larger, the continuous-time model results remain the same, but the discrete-time models change and start moving away from those of the continous-time model. At a time step above 0.1, the results start to look very different. Somewhere above a time step of 0.5, it becomes so large that for these parameter settings, the simulation 'crashes' and you get an error message."
+nrec = 1 # number of items to record
+out_records = c("Final value for B, continous model",
+            "Final value for B, discrete-time model")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Now we'll explore how model parameters impact outcomes. Set _dt_ to 0.01, change the simulation time (tfinal) to 200 days. Also change the bacteria growth rate from 1 to 2 per day. Leave all other settings as before (you can keep running the discrete model, or switch back to ODE only). Run the simulation. Switch back and forth between growth rates of 1 and 2 and examine how bacteria and immune response dynamics change. Then also try a growth rate of 3."
 nrec = 2 # number of items to record
-out_records = c("something",
-            "something")
+out_records = c("Final value for B, continous model, g = 2",
+                "Final value for B, continous model, g = 3")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "In the previous task, you might have been surprised to find that the bacteria growth rate has no impact on the number of bacteria at the final, steady state. (One can mathematically show that, you will explore this in the _Bacteria Model Exploration_ app). This is an indication that even a simple 2-variable model can lead to interesting, and maybe non-intuitive results. Explore this further by changing any model parameter you like. To start building intuition, it is best to change one quantity at a time. Before you run a simulation with new settings, contemplate what you think might happen. Then see if it does. Always go through an iterative cylce: Think about expectations -> run simulation -> update understanding (_Do Science/Research_ with the model)."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Set everything back as in task 1 (you can use the _Reset Inputs_ button). Set y-axis to log for the plot. Change immune response decay rate (dI) to 0.2. You should get a plot where both immune response and bacteria numbers drop below 1 and take on fractional values. Contemplate what that means. If not clear, re-read the bullet points at the start of this page. This is one of the draw-backs of ODE based models, and we'll revisit this topic in the stochastic apps."
+nrec = 2 # number of items to record
+out_records = c("Minimum value of B",
+            "Minimum value of I")
 out_types = rep("Numeric",nrec)
 out_notes = rep("Round to two significant digits, report as non-scientic notation (as X.YZ)",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -165,62 +247,37 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
+#########################
+# Task 8
+#########################
+tid = tid + 1
+tasktext = "Go wild! Change any inputs you want to change, see how it affects the results. While going crazy, remember to continue to think about what you are doing and what you are seeing and what it all means."
+nrec = 2 # number of items to record
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 ``` 
-
-
-### Task 3: 
-* Go back to both linear scales for plotting.
-* Set "Models to run" to "both", which runs and shows both the continuous-time and discrete-time models.
-* Start with a discrete-time step of 0.01.
-* Leave all other settings as before.
-
-Run the simulation, see what you get. You should see the results from the 2 models essentially on top of each other and barely distinguishable.
-
-### Task 4: 
-* Now try different values for _dt_. 
-* Leave all other settings as before.
-
-You should notice that as _dt_ gets larger, the differences between discrete-time and continuous-time models increase. At a time step above 0.1, the results start to look very different. Once you go about around 0.5 for the time-step, it becomes so large that for these parameter settings, the simulation 'crashes' and you get an error message.
-
-
-### Task 5: 
-* Set _dt_ to 0.6. 
-* Leave all other settings as before.
-* Run the simulation. It should not work, you should get an error message.
-* Now play with the bacteria growth rate parameter and see for what values you can get the discrete-time simulation to work again.
-
-### Task 6: 
-* Turn off the discrete-time simulation, set everything back as in task 1.
-* What do you expect to see if you now change the bacteria growth rate from 1 to 2? Think about your expectations, then run the simulation to see what you get. If you see something you didn't expect, or didn't know what to expect, try to make sense of the results. 
-* Play around with the bacteria growth rate, try different values and see how it affects the results.
-
-### Task 7: 
-* Set everything back as in task 1.
-* Now repeat what you did in the previous task, but this time investigate how changes in the immune response death rate parameter affect results. 
-* __Make sure to always go through the iterative 'think about expectations -> run simulation -> update understanding' process (i.e. 'do science' with the model).__
-
-### Task 8: 
-* Set everything back as in task 1.
-* Set y-axis to log for the plot.
-* Set immune response death rate to 0.1.
-
-You should get a plot where bacteria numbers drop to below 1 and take on fractional values (e.g. 10^-4^ or less). Contemplate what that means. This is one of the draw-backs of ODE based models, and we'll revisit this topic in the stochastic apps.
-
-### Task 9: 
-* Go crazy :) change any parameters you want to change, see how it affects the results.
-* While going crazy, remember to continue to think about what you are doing and what you are seeing and what it all means...
-
 
 
 
 ```{r echo=FALSE}
 #save the fully filled task table to a tsv file
-alloutcomes$QuizID = paste0('dsaide_',appsettings$appid)
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
 alloutcomes$AppTitle = appsettings$apptitle
 alloutcomes$AppID = appsettings$appid
-alloutcomes$Answer = "" #add empty answer column, just for consistency. Should probably be removed here.
-write.table(alloutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
 ```
 
 
@@ -228,7 +285,6 @@ write.table(alloutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FA
 # Take all the text stored in the table and print the tasks and items to record
 write_tasktext(alloutcomes)
 ```
-
 
 
 
