@@ -257,15 +257,18 @@ plot(svec,Ipeak,type='p',xlab='Saturation parameter, s',ylab='Peak immune respon
 Using one of the provided simulator functions as starting point and modifying it is likely easier than having to write a new model completely from scratch. Eventually, as you gain more coding experience, you have (almost) unlimited flexibility and power regarding the models you can create and questions you can address, of course at the cost of having to write increasingly more `R` code. You are essentially only limited by what can be accomplished using the `R` programming language and your ability and interest in writing code. 
 
 
-
 ## Contributing to the package
+The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a [GitHub issue](https://github.com/ahgroup/DSAIRM/issues) and let me know what you think.
 
-This R package is developed and maintained by [Andreas Handel](http://handelgroup.uga.edu/). A full list of contributors [can be found here](https://ahgroup.github.io/DSAIRM/authors.html).
-
-The package is developed on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a [GitHub issue](https://github.com/ahgroup/DSAIRM/issues) and let me know what you think.
-
-The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it's best to get in touch with me first via email or GitHub.
+The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/master/auxiliary/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it's best to get in touch with me first via email or GitHub.
 
 ## Further information
-* A 'companion' package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/index.html)
-* I have solutions (in progress) to most of the 'What to do' tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.
+See the [package website](https://ahgroup.github.io/DSAIRM/) for useful additional information.
+
+## Contributors
+This R package is developed and maintained by [Andreas Handel](https://www.andreashandel.com/). A full list of contributors and a Bibtex entry for the citation [can be found here](https://ahgroup.github.io/DSAIDE/authors.html).
+
+## Citation
+If the package does in any way help you with your work such that it warrants citing in one of your papers, please cite [this publication in BMC Immunology](https://doi.org/10.1186/s12865-019-0321-0).  
+
+## References
