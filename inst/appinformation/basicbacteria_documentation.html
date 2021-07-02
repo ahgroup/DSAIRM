@@ -70,6 +70,14 @@ div.csl-indent {
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
 <p>This app allows exploration of a very basic bacteria (or other extracellular pathogen) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in <em>The Model</em> tab. Then do the tasks described in the <em>What to do</em> tab.</p>
+<div id="learning-objectives" class="section level3">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Become familiar with simulation models.</li>
+<li>Learn about steady states and how to compute them.</li>
+<li>Understand how model parameters impact outcomes.</li>
+</ul>
+</div>
 </div>
 <div id="shinytab2" class="section level2">
 <h2>The Model</h2>
@@ -83,13 +91,13 @@ div.csl-indent {
 <p>This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.</p>
 <p>In addition to specifying the <strong>compartments</strong> or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes or <strong>flows</strong> that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
 <p>For our system, we specify the following processes/flows:</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li>Bacteria grow/divide at some maximum rate (which we label <em>g</em>) and saturate as they approach some maximum carrying capacity, <em>B<sub>max</sub></em>.</li>
 <li>Bacteria die at a natural death rate (which we label <em>d<sub>B</sub></em>).</li>
 <li>Bacteria are killed by the immune response at some rate <em>k</em>.</li>
 <li>The immune response grows proportional to the number of bacteria and itself at some rate <em>r</em>.</li>
 <li>The immune response decays at some rate (which we label <em>d<sub>I</sub></em>).</li>
-</ol>
+</ul>
 </div>
 <div id="model-diagram" class="section level3">
 <h3>Model Diagram</h3>
@@ -137,7 +145,7 @@ Model Diagram
 <p>Start with 100 initial bacteria and an initial level of 1 for the immune response. Assume bacteria grow at a rate of 1 per day (i.e., g = 1), the carrying capacity is 10<sup>5</sup> and they live for about 2 days (remember that the inverse of the lifespan is the rate of death). Assume the immune response is activated and grows at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day. Set simulation start time to 0 and final time of 100 (which we assume to be days). Set the time step to 0.01. As you’ll see, if we run an ODE model, the time step is only relevant for plotting, not for the underlying model simulation (while this is not the case for the discrete time model). Only run the continuous time ODE model. Plot both x- and y-axes on a linear scale (i.e, no log scales for now). You can stick with ggplot as the plot engine. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003. Change the time step to 0.05, re-run the simulation. Record the number of bacteria at the end of the simulation (Hint: not much changes).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Number of bacteria at end of simulation.</li>
+<li>Number of bacteria at end of simulation, dt=0.05.</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
@@ -150,7 +158,7 @@ Model Diagram
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<p>Go back to both linear scales for plotting. Keep all variable and parameter settings as before. Set <em>Models to run</em> to <em>both</em>. This runs and shows both the continuous-time and discrete-time models. Start with a time step of 0.01. Run the simulation. You should see the results from the 2 models essentially on top of each other and barely distinguishable. You should see that the maximum number of bacteria is 49,513 for the ODE model, and a little bit higher for the discrete-time model.</p>
+<p>Go back to both linear scales for plotting. Keep all variable and parameter settings as before. Set <em>Models to run</em> to <em>both</em>. This runs and shows both the continuous-time and discrete-time models. Start with a time step of 0.01. Run the simulation. You should see the results from the 2 models essentially on top of each other and barely distinguishable. You should see that the maximum number of bacteria is 49,513 for the ODE model, and very close for the discrete-time model.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li>Maximum number of bacteria for the discrete-time model</li>
@@ -161,8 +169,8 @@ Model Diagram
 <p>Now try different values for the time step, <em>dt</em>. Leave all other settings as before. You should notice that as <em>dt</em> gets larger, the continuous-time model results remain the same, but the discrete-time models change and start moving away from those of the continous-time model. At a time step above 0.1, the results start to look very different. Somewhere above a time step of 0.5, it becomes so large that for these parameter settings, the simulation ‘crashes’ and you get an error message.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model</p></li>
-<li><p>Final value for B, discrete-time model</p></li>
+<li><p>Final value for B, continous model, dt=0.1</p></li>
+<li><p>Final value for B, discrete-time model, dt=0.1</p></li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
@@ -176,10 +184,15 @@ Model Diagram
 </div>
 <div id="task-6" class="section level3">
 <h3>Task 6</h3>
-<p>In the previous task, you might have been surprised to find that the bacteria growth rate has no impact on the number of bacteria at the final, steady state. (One can mathematically show that, you will explore this in the <em>Bacteria Model Exploration</em> app). This is an indication that even a simple 2-variable model can lead to interesting, and maybe non-intuitive results. Explore this further by changing any model parameter you like. To start building intuition, it is best to change one quantity at a time. Before you run a simulation with new settings, contemplate what you think might happen. Then see if it does. Always go through an iterative cylce: Think about expectations -&gt; run simulation -&gt; update understanding (<em>Do Science/Research</em> with the model).</p>
+<p>In the previous task, you might have been surprised to find that the bacteria growth rate has no impact on the number of bacteria at the final, steady state. This is an indication that even a simple 2-variable model can lead to interesting, and maybe non-intuitive results. For a model as simple as the one we have here, one can mathematically compute the steady state, i.e. the state at which bacteria and immune response don’t change further. To do so, realize that <em>no change</em> means both left hand sides of the ODE model are zero. Equivalently, for the discrete time model, it means <span class="math inline">\(B_{t+dt} = B_t\)</span> and the same for <span class="math inline">\(I\)</span>. We’ll focus on the ODE model here. With the right side of the equations being zero, the model turns into just 2 algebraic equations, namely <span class="math inline">\(0= g B (1-B/B_{max}) - d_B B - k BI\)</span> and <span class="math inline">\(0 = r B I - d_I I\)</span>. You can now solve this such that you end up with two equations of the form <span class="math inline">\(B = XX\)</span> and <span class="math inline">\(I = YY\)</span> where <span class="math inline">\(XX\)</span> and <span class="math inline">\(YY\)</span> are some combinations of model parameters. Let’s do that for the second equation. We rewrite <span class="math inline">\(r B I = d_I I\)</span>, divide by <span class="math inline">\(I\)</span> and <span class="math inline">\(r\)</span> to arrive at <span class="math inline">\(B = d_I/r\)</span>. This shows that indeed, the number of bacteria at the steady state does not depend on the growth rate <span class="math inline">\(g\)</span>. I’ll let you do the same for the first equation to get <span class="math inline">\(I\)</span> at steady state (note that at some poin in the solving process, you’ll have to insert the steady state value of B we just found into the equation). You should end up with <span class="math inline">\(I = (r B_{max} (g-d_B) - d_I g(/k r B_{max}\)</span>. Based on this, we expect that doubling <span class="math inline">\(d_I\)</span> will lead to an increase (doubling) in <span class="math inline">\(B\)</span> at steady state, and a decrease in <span class="math inline">\(I\)</span>. Let’s test that. Set everything as it was at the beginning, but increase the simulation time to 200 days (to ensure we reach steady state). Run the model. Record <span class="math inline">\(B\)</span> and <span class="math inline">\(I\)</span> at the end. Then set <span class="math inline">\(d_I=3\)</span>, run again, and again record values for <span class="math inline">\(B\)</span> and <span class="math inline">\(I\)</span>. Do it again for <span class="math inline">\(d_I=4\)</span>.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Nothing</li>
+<li><p>Final value for B, continous model, dI = 2</p></li>
+<li><p>Final value for B, continous model, dI = 3</p></li>
+<li><p>Final value for B, continous model, dI = 4</p></li>
+<li><p>Final value for I, continous model, dI = 2</p></li>
+<li><p>Final value for I, continous model, dI = 3</p></li>
+<li><p>Final value for I, continous model, dI = 4</p></li>
 </ul>
 </div>
 <div id="task-7" class="section level3">
@@ -187,13 +200,13 @@ Model Diagram
 <p>Set everything back as in task 1 (you can use the <em>Reset Inputs</em> button). Set y-axis to log for the plot. Change immune response decay rate (dI) to 0.2. You should get a plot where both immune response and bacteria numbers drop below 1 and take on fractional values. Contemplate what that means. If not clear, re-read the bullet points at the start of this page. This is one of the draw-backs of ODE based models, and we’ll revisit this topic in the stochastic apps.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Minimum value of B</p></li>
-<li><p>Minimum value of I</p></li>
+<li><p>Minimum value of B (report as X.YZ)</p></li>
+<li><p>Minimum value of I (report as X.YZ)</p></li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
 <h3>Task 8</h3>
-<p>Go wild! Change any inputs you want to change, see how it affects the results. While going crazy, remember to continue to think about what you are doing and what you are seeing and what it all means.</p>
+<p>Go wild! Change any inputs you want to change, see how it affects the results. To start building intuition, it is best to change one quantity at a time. Before you run a simulation with new settings, contemplate what you think might happen. Then see if it does. Always go through an iterative cylce: Think about expectations -&gt; run simulation -&gt; update understanding (<strong>Do Science/Research</strong>).</p>
 <p><strong>Record</strong></p>
 <ul>
 <li>Nothing</li>

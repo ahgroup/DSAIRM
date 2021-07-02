@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DSAIRM</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.8</span>
       </span>
     </div>
 
@@ -47,7 +47,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,13 +78,13 @@
 
       
 
-      </header><script src="DSAIRM_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
+      </header><script src="DSAIRM_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>DSAIRM Package Tutorial</h1>
                         <h4 class="author"><a href="http://handelgroup.uga.edu">Andreas Handel</a></h4>
             
-            <h4 class="date">2021-05-25</h4>
+            <h4 class="date">2021-07-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/master/vignettes/DSAIRM.Rmd"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -132,28 +132,20 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/dsairmmenu.html">dsairmmenu</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If successful, you should see a graphical menu open in your browser that looks something like this:</p>
 <div class="figure">
-<img src="mainmenu.png" alt="Main menu of the DSAIRM package." width="478"><p class="caption">
-Main menu of the DSAIRM package.
-</p>
+<img src="mainmenu.png" alt=""><p class="caption">Main menu of the DSAIRM package.</p>
 </div>
 <p>From the main menu, you can choose the different apps corresponding to different modeling topics and scenarios. Each app has the inputs you can set on the left and the outputs (figures and text) on the right. This is an example of one of the apps:</p>
 <div class="figure">
-<img src="appexample.png" alt="Screenshot of the input-output elements of one of the apps." width="609"><p class="caption">
-Screenshot of the input-output elements of one of the apps.
-</p>
+<img src="appexample.png" alt=""><p class="caption">Screenshot of the input-output elements of one of the apps.</p>
 </div>
 <p>As seen in the figure, below each app are four tabs with different sections providing information and instruction. The <em>Overview</em> and <em>Further Information</em> tabs provide a brief introduction and pointers to further exploration options, respectively.</p>
 <p>The two most important tabs are the <em>Model</em> and <em>What to do</em> tabs. The <em>Model</em> tab gives a detailed description of the model underlying the app, shows the model diagram and equations, and provides any other further information needed to understand what is going on. The following figure shows an example of this for one of the apps.</p>
 <div class="figure">
-<img src="modelexample.png" alt="Screenshot of the _Model_ section of one of the apps." width="682"><p class="caption">
-Screenshot of the <em>Model</em> section of one of the apps.
-</p>
+<img src="modelexample.png" alt=""><p class="caption">Screenshot of the <em>Model</em> section of one of the apps.</p>
 </div>
 <p>The <em>What to do</em> tab contains a list of suggested tasks you might want to go through. By doing those tasks, you will learn the topic a specific app is meant to teach. The following figure shows an example for part of one of those <em>What to do</em> sections.</p>
 <div class="figure">
-<img src="whattodoexample.png" alt="Screenshot of the _What to do_ section of one of the apps." width="603"><p class="caption">
-Screenshot of the <em>What to do</em> section of one of the apps.
-</p>
+<img src="whattodoexample.png" alt=""><p class="caption">Screenshot of the <em>What to do</em> section of one of the apps.</p>
 </div>
 <p>Once you finished exploring a specific app, you can return to the main menu. Eventually, you can exit back to the <code>R</code> console by clicking the <em>Exit</em> button. You will not need to read or write any code at this level of exploration and learning. If an when you want to learn more, you can proceed to level 2.</p>
 </div>
@@ -258,18 +250,27 @@ Screenshot of the <em>What to do</em> section of one of the apps.
 <div id="contributing-to-the-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing-to-the-package" class="anchor"></a>Contributing to the package</h2>
-<p>This R package is developed and maintained by <a href="http://handelgroup.uga.edu/">Andreas Handel</a>. A full list of contributors <a href="https://ahgroup.github.io/DSAIRM/authors.html">can be found here</a>.</p>
-<p>The package is developed on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a> and let me know what you think.</p>
-<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/inst/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it’s best to get in touch with me first via email or GitHub.</p>
+<p>The package is on GitHub and you can use the usual GitHub process to file bug reports, send feature requests, contribute updates and bug fixes, etc. If you have any comments or feedback, I very much welcome them. Please file a <a href="https://github.com/ahgroup/DSAIRM/issues">GitHub issue</a> and let me know what you think.</p>
+<p>The package is built in a way that makes it (hopefully) easy for others to contribute new simulations/apps. To that end, the package contains <a href="https://github.com/ahgroup/DSAIRM/blob/master/auxiliary/docsfordevelopers/documentation.md">this Markdown file</a> which provides further information on the details of the package structure. If you plan to develop new apps, or make other substantial contributions, it’s best to get in touch with me first via email or GitHub.</p>
 </div>
 <div id="further-information" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-information" class="anchor"></a>Further information</h2>
-<ul>
-<li>A ‘companion’ package to this one, called Dynamical Systems Approaches for Infectious Disease Epidemiology (DSAIDE), focuses on models for infectious disease epidemiology (the population level). It has the same structure as DSAIRM. <a href="https://ahgroup.github.io/DSAIDE/index.html">See the DSAIDE site for more information.</a>
-</li>
-<li>I have solutions (in progress) to most of the ‘What to do’ tasks for the different apps. If you are an instructor using this package as part of a class, email me if you are interested in having access to these solutions.</li>
-</ul>
+<p>See the <a href="https://ahgroup.github.io/DSAIRM/">package website</a> for useful additional information.</p>
+</div>
+<div id="contributors" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contributors" class="anchor"></a>Contributors</h2>
+<p>This R package is developed and maintained by <a href="https://www.andreashandel.com/">Andreas Handel</a>. A full list of contributors and a Bibtex entry for the citation <a href="https://ahgroup.github.io/DSAIDE/authors.html">can be found here</a>.</p>
+</div>
+<div id="citation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#citation" class="anchor"></a>Citation</h2>
+<p>If the package does in any way help you with your work such that it warrants citing in one of your papers, please cite <a href="https://doi.org/10.1186/s12865-019-0321-0">this publication in BMC Immunology</a>.</p>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
 </div>
   </div>
 

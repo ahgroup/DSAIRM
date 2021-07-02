@@ -11,29 +11,29 @@ output:
 bibliography: dsairm_references.bib
 ---
 
+
 ```{r, include = FALSE}
 #load various variable definitions that are the same for each app
 source('startup_script.R')
-#source helper functions (defined in the startup script)
-#needs to happen inside each Rmd file since knitr starts a new environment
-sapply(files_to_source, source) 
-#load the settings file for the current app 
-#so we can automatically include figure, list the functions in the further information section
-#and use other information specific to the current app for the task table generation
-currentrmdfile = knitr::current_input() 
-#currentrmdfile = "basicbacteria_documentation.Rmd" #for debugging
-appsettings = get_settings(currentrmdfile,appdocdir,packagename)
+sapply(files_to_source, source) #source some helper files defined in the files_to_source variable
+currentrmdfile = knitr::current_input()  #get current file name
+appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings for current app
 ```
 
 
+
 ## Overview {#shinytab1}
-This app allows you to explore the effect of specific model parameters on some outcomes of interest for the simple bacteria model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows you to explore the effect of specific model parameters on some outcomes of interest for the __Basic Bacteria Model__. I assume you worked your way through that app. If not, do that first. Then read more about the scenario in this app in the __Model__ tab. Then do the tasks described in the __What to do__ tab.
+
+
+### Learning Objectives
+* Learn the concept of model exploration for a range of parameters.
 
 
 ## The Model {#shinytab2}
 
 ### Model Overview
-The model used here is the one introduced in the 'Simple Bacteria Model' app. If you haven't done so, check out and explore that app first. Here we are only considering the continuous time, ordinary differential equation implementation of the model.
+The model used here is the one introduced in the __Basic Bacteria Model__ app. If you haven't done so, check out and explore that app first. Here we are only considering the continuous time, ordinary differential equation implementation of the model.
 
 What's different here compared to the 'Simple Bacteria Model' app is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we consider the maximum number of bacteria and immune response, and their values at the end of the simulation, when the system has settled down to a steady state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition.
 
@@ -57,48 +57,235 @@ $$\dot I = r B I - d_I I$$
 
 *The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).*
 
+
+
+```{r, echo=FALSE, eval=TRUE}
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Set initial bacteria to 100 and immune response to 10. Set bacteria growth rate to 2. The value does actually not matter since we'll be exploring the simulation for different values of _g_. Assume that bacteria live for a day, set the death rate accordingly (remember to convert duration to rate). Set carrying capacity to 10^5^, rate at which bacteria are killed by the immune response (IR), and rate at whhich IR is activated and grows to 10^-4^ and immune response death rate to 2. Choose _g_ as the parameter to vary, go from 2 to 10, do 10 different parameter values/samples, linear spacing, and no log scales for plotting. Set maximum simulation time to 300. Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 20 days, note how some simulations did not reach steady state and how that affects results."
+nrec = 1 # number of items to record
+out_records = c("Average number of susceptible at end of simulation")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Now set waning immunity rate to 0.2, simulation time 5 years. Keep everything as before. Run the simulation, you should find that the system settles to some kind of stochastic version of a steady state, namely S-E-I-R values that fluctuate around some level. Note that there is still a mix of simulations that did and didn't produce an outbreak. In fact, that number of simulations that produce an outbreak dropped from 5 to 4. Just by chance the inclusion of waning immunity meant that processes in the model got executed differently at the start of the simulation and a simulation that took off earlier now didn't. Let's - just for fun - look into that more closely and see if we can identify the simulation. To that end, set the number of simulations to run to 1, start with random seed 123, no waning immunity. Run the simulation. You'll see that this produces no outbreak. We want to find the one that produces an outbreak in the absence of waning immunity and does not with waning immunity turned on. So let's move to the next one, run the simulation for random seed 124 (remember from the previous app that if you run 10 simulations, internally the seed is increased each time). Again no outbreak, so let's do 125. You'll see an outbreak. Now turn on waning immunity see if you still get an outbreak (you will). Keep trying the random seeds (up to 132) until you find the seed for which you get an outbreak without waning immunity but none with waning immunity. Note that this has nothing directly to do with the waning immunity process, it just happens to mix up the random numbers in the simulation that now we don't get an outbreak."
+nrec = 1 # number of items to record
+out_records = c("Random number seed for which you get an outbreak in the absence of waning immunity and no outbreak in the presence of waning immunity")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Let's go back to the settings at the beginning of the previous task, namely w=0.2, 10 simulations, random seed 123. You can see that the reported final value for the susceptibles does not agree with what you see for those simulations which have a steady-state like scenario with non-zero infected. That's because the average includes also those scenarios where no outbreak happened. Essentially, the average is computed here by doing 6/10\\*1000 (simulations without an outbreak) + 4/10\\*Sfinal_outbreak (simulations with outbreak), where Sfinal_outbreak is the average value of susceptibles at the end of the simulation for those scenarios where you get an outbreak. Approximately read off a value for Sfinal_outbreak and convince yourself that adding the non-outbreak and outbreak scenarios together gives you the reported mean."
+nrec = 1 # number of items to record
+out_records = c("Average number (across all simulations) of susceptible at end of simulation, as reported by DSAIDE")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Sometimes you do want to know the overall average, including both settings where an outbreak happened and where it didn't. However, often combining those two very different scenarios can be confusing. So let's change our setup to make sure we get outbreaks every time. You learned previously that if there are more initial infected, chances of an outbreak are larger. Let's do that. Keep all settings as before, but change initial number of symptomatic infected to 2. You'll see that there are a few more outbreaks than with 1 infected, but still not all. Keep increasing the starting value for _I_ until all 10 simulations lead to outbreaks."   
+nrec = 1 # number of items to record
+out_records = c("Minimum number infected such that all 10 simulations produce outbreaks")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Set initial number infected to 10, set gI=1, leave all other settings as in the previous task (bE=0, bI=0.005, gE=4, w=0.2). Run the simulation for 5 years. You should find an average of around 133 infected at the end. While there is no guarantee that the average of the stochastic model agrees with an equivalent deterministic model for the types of (nonlinear) models we are exploring, they are often close. We can check that by computing the steady states for the deterministic version of the model. If you want to practice doing steady states, you can go ahead and solve the SEIR ODE model for the steady states of the variables. See e.g. the _Patterns of ID_ app for an explanation on how to do it.  If you don't want to practice, I'll tell you that the steady state value for S is S=(g~E~ * g~I~)/(b~E~ * g~I~ + b~I~ * g~E~). Use the current values to compute S and compare with results from the simulation."
+nrec = 2 # number of items to record
+out_records = c("Theoretical value for susceptible at steady state, based on equation",
+                "Average number (across all simulations) of susceptible at end of simulation")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "Let's repeat the previous simulation, but turn off waning immunity. Also set back to gI=2. Still 10 initial infected, random seed at 123, do 20 simulations (be patient), run for 5 years. Record the average number of susceptible left at the end of the simulation. Use that value to compute R~0~ using the final size equation. Then compare it with the R~0~ value computed based on the model (this is the same as for the SIR model, the E compartment does not make a difference here)."
+nrec = 2 # number of items to record
+out_records = c("Average number (across all 20 simulations) of susceptible at end of simulation",
+                "R0 based on model equation")
+out_types = c("Rounded_Integer","Numeric")
+out_notes = c("Report the rounded integer","Report to one decimal place")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Finally, let's explore extinctions. We'll start with 100 individuals in each compartment, b~E~=0 and b~I~=0.01, g~E~=4, g~I~=2, w=1. No births and deaths, start simulation at 0, run for 60 months, time step arbitrary. Run 10 simulations with seed of 123. You should see some initial ups and downs, and then for each simulation, you'll see fluctuations around some type of steady state, with an average number of infected at the end of 57. For those settings, in the absence of transmission from the _E_ class, the basic reproductive number (if everyone were susceptible) is R~0~ = S~0~b~I~/g~I~ = 0.01*400/2 = 2. Now, reduce transmission to bI=0.006. Compute R~0~ for this value. Run simulations for 60 months. You will find that for some of these simulations, the pathogen goes extinct (and susceptible go up to the maximum value of 400). Now double simulation time to 10 years. You will find that for most simulations, extinction occured."
+nrec = 2 # number of items to record
+out_records = c("Number of simulations that DO NOT lead to extinction after 10 years of simulation (with bI=0.006)",
+                "Reproductive number for bI=0.006")
+out_types = c("Rounded_Integer","Numeric")
+out_notes = c("Report the rounded integer","Report to one decimal place")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+
+#########################
+# Task 8
+#########################
+tid = tid + 1
+tasktext = "Keep everything as in the previous task, but change infected tranmission rate to b~I~=0.007. Compute R~0~ for this value. Run 10 simulations for 10 years. You will find that for most simulations, extinction did not occur."
+nrec = 2 # number of items to record
+out_records = c("Number of simulations that DO lead to extinction after 10 years of simulation (with bI=0.007)",
+                "Reproductive number for bI=0.007")
+out_types = c("Rounded_Integer","Numeric")
+out_notes = c("Report the rounded integer","Report to one decimal place")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 9
+#########################
+tid = tid + 1
+tasktext = "Keep exploring. You can test how R~0~ and other model quantities affect extinction, and how the longer you run the simulations, the more extinctions you get. You can also turn on births and deaths and see how they affect the overall patterns you find. There is a lot more to explore. For some settings, i.e. if you want to run many replicates for a long time, things are starting to slow down. That's a disadvantage of stochastic models, they often take longer to run."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
 ### Task 1: 
-* Set initial bacteria to 100 and immune response to 10.
-* Set bacteria growth rate to 2 and death rate to 1. The former value does not matter since we'll be exploring the simulation for different values of _g_.
-* Set carrying capacity to 10^5^, IR kill rate and activation rate to 10^-4^ and immune response death rate to 2.
-* Choose _g_ as the parameter to vary, go from 2 to 10, do 10 different parameter values, linear spacing, and no log scales for plotting.
-* Set maximum simulation time to 300. Run simulation, check to ensure all simulations reach steady state (see output message below plot). Then reduce simulation time to 20 days, note how some simulations did not reach steady state and how that affects results.
 
 ### Task 2: 
-* Play around with the number of different parameter values (the higher the number, the more often the simulation runs and the longer it takes), the minimum and maximum, and linear or logarithmic spacing and plotting.
-* Think a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load increases? What about the fact that the peak and steady state immune response increases? And what about the steady state bacteria not increasing? 
+Play around with the number of different parameter values (the higher the number, the more often the simulation runs and the longer it takes), the minimum and maximum, and linear or logarithmic spacing and plotting. Think a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load increases? What about the fact that the peak and steady state immune response increases? And what about the steady state bacteria not increasing? 
 
 
 ### Task 3: 
-* Take a look at the model equations and diagram and see if by 'staring' at them, you can understand why you got the results you saw in the last task. 
-
-With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.
+Take a look at the model equations and diagram and see if by 'staring' at them, you can understand why you got the results you saw in the last task. With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations.
 
 ### Task 4: 
-The model we have here is so simple that we can in fact figure out two of the outcomes shown in the plot without having to run simulations but instead by doing some math. Specifically, we can compute the steady states for the bacteria and immune response variables. If you have done the basic virus tasks, you have encountered the steady state idea already. We repeat it here.
-
-Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations:
-$0 = gB(1-\frac{B}{B_{max}})-d_B B - k BI$ and $0 = r B I - d_I I$. One can solve those equations for each of the compartments to get a mathematical expression of what _B_ and _I_ are at steady state. Try to do this. You should find that $B_{steady} = d_I / r$ and a similar equation for $I_{steady}$. 
+The model we have here is so simple that we can in fact figure out two of the outcomes shown in the plot without having to run simulations but instead by doing some math. Specifically, we can compute the steady states for the bacteria and immune response variables. If you have done the basic virus tasks, you have encountered the steady state idea already. We repeat it here. Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations: $0 = gB(1-\frac{B}{B_{max}})-d_B B - k BI$ and $0 = r B I - d_I I$. One can solve those equations for each of the compartments to get a mathematical expression of what _B_ and _I_ are at steady state. Try to do this. You should find that $B_{steady} = d_I / r$ and a similar equation for $I_{steady}$. 
 
 ### Task 5: 
-* Compare the mathematical equations you found in the previous task with what you find in the plots. Things should be consistent, i.e. if the plot shows that _B~steady~_ does not depend on _g_, the mathematical equation should show the same. Similarly, since the plot shows that _I~steady~_ increases with _g_, that should be reflected in the mathematical equation for _I~steady~_ you got above.
-
-We cannot compute similar mathematical expressions for _B~peak~_ and _I~peak~_. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have.
+Compare the mathematical equations you found in the previous task with what you find in the plots. Things should be consistent, i.e. if the plot shows that _B~steady~_ does not depend on _g_, the mathematical equation should show the same. Similarly, since the plot shows that _I~steady~_ increases with _g_, that should be reflected in the mathematical equation for _I~steady~_ you got above. We cannot compute similar mathematical expressions for _B~peak~_ and _I~peak~_. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have.
 
 ### Task 6: 
-* Let's explore the impact of a different parameter. Set all variables as in task 1.
-* Choose _d~I~_ as the parameter to vary and set lower and upper limit to 1 and 10.
-* Before you run the model, look at your equations for _B~steady~_ and _I~steady~_ and based on these, predict what you should see in the plot.
-* Similarly, look at the model equations and try to intuit what you might expect _B~peak~_ and _I~peak~_ to do as you increase _d~I~_. 
-* Now run the model, compare the results with your expectations. How do they agree or disagree?
+Let's explore the impact of a different parameter. Set all variables as in task 1. Choose _d~I~_ as the parameter to vary and set lower and upper limit to 1 and 10. Before you run the model, look at your equations for _B~steady~_ and _I~steady~_ and based on these, predict what you should see in the plot. Similarly, look at the model equations and try to intuit what you might expect _B~peak~_ and _I~peak~_ to do as you increase _d~I~_.  Now run the model, compare the results with your expectations. How do they agree or disagree?
 
 ### Task 7: 
-* In the previous task, you should have noticed 2 different patterns of the outcomes for _d~I~_ less than 5 and greater than 5. Try to understand what happens (qualitatively) with your model in those 2 regimes and how that leads to the results you are seeing. 
+In the previous task, you should have noticed 2 different patterns of the outcomes for _d~I~_ less than 5 and greater than 5. Try to understand what happens (qualitatively) with your model in those 2 regimes and how that leads to the results you are seeing. 
 
 ### Task 8: 
-* Do the same explorations you did above for any other parameter you want to investigate. 
-
-Note that here we focus on a single parameter at a time. With some coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. _B~peak~_ as a function of _g_ and _r_. The results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you'll learn about in the Uncertainty and Sensitivity App.
+Do the same explorations you did above for any other parameter you want to investigate. Note that here we focus on a single parameter at a time. With some coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. _B~peak~_ as a function of _g_ and _r_. The results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you'll learn about in the Uncertainty and Sensitivity App.
 
 
 

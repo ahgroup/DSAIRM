@@ -11,28 +11,13 @@ output:
 bibliography: dsairm_references.bib
 ---
 
+
 ```{r, include = FALSE}
-#*************************************
-#general setup to define package and get path locations
-#all paths are inside the package and retrieved with system.file
-packagename = "DSAIRM"
-helperdir = "helperfunctions"
-mbmodeldir = "mbmodels"
-figuredir = "media"
-appdocdir = "appinformation" 
-#*************************************
-#Note: for this to process/knit, several helper functions need to be available (sourced) first
-#those are in the inst/helperfunctions folder
-#Note: in general, the "processing-script.R" in the docsfordevelopers should be used to produce the html docs
-#manual knitting of each doc only during development/testing
-#*************************************
-files_to_source = list.files(system.file(helperdir,package = packagename),full.names=TRUE)
-sapply(files_to_source, source) #sourcing needs to happen inside each Rmd file since knitr starts a new environment
-#load the settings file for the current app 
-#so we can automatically include figure, list the functions in the further information section
-#and use other information specific to the current app for the task table generation
-currentrmdfile = knitr::current_input() 
-appsettings = get_settings(currentrmdfile,appdocdir,packagename)
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+sapply(files_to_source, source) #source some helper files defined in the files_to_source variable
+currentrmdfile = knitr::current_input()  #get current file name
+appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings for current app
 ```
 
 

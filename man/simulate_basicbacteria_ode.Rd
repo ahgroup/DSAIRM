@@ -15,7 +15,7 @@ simulate_basicbacteria_ode(
   dI = 2,
   tstart = 0,
   tfinal = 100,
-  dt = 0.05
+  dt = 0.01
 )
 }
 \arguments{

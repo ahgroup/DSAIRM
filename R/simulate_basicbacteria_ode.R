@@ -40,7 +40,7 @@
 #' the code will likely abort with an error message.
 #' @export
 
-simulate_basicbacteria_ode <- function(B = 100, I = 1, g = 1, Bmax = 1e+05, dB = 0.5, k = 1e-4, r = 1e-4, dI = 2, tstart = 0, tfinal = 100, dt = 0.05)
+simulate_basicbacteria_ode <- function(B = 100, I = 1, g = 1, Bmax = 1e+05, dB = 0.5, k = 1e-4, r = 1e-4, dI = 2, tstart = 0, tfinal = 100, dt = 0.01)
 {
 
   #Block of ODE equations for deSolve
