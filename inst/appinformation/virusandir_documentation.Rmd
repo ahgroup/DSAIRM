@@ -88,8 +88,19 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 *The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
 
 
-### Task 1: 
-* Start with 10^5^ uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code.
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "* Start with 10^5^ uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code.
 * Set birth and death rate of uninfected cells to 0.
 * Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.
 * Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^.
@@ -97,43 +108,153 @@ $$\dot A = r_A B - d_A A - k_A A V$$
 * By looking at the equations, convince yourself that if you have no B-cells and no baseline production and extra induction of the innate response (*p~F~*=*g~F~*=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.
 * Run your model for 30 days, start at 0 and set the time step for which solutions are returned to 0.01.
 * Confirm/test with the model that this is the case.
-* If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.
+* If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 2: 
-* Now we'll slowly add immune response components. We start with the innate response.
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "* Now we'll slowly add immune response components. We start with the innate response.
 * Set innate response production rate to 100, removal rate to 1. Leave innate growth rate at 0.
 * Set T-cell induction  rate to 0.
 * Set virus reduction by innate response parameter to 10^-12^ (almost 0).
 * Leave everything as before.
 * By looking at the equations, convince yourself that while there will now be an innate response, it does not affect the infection dynamics. Also convince yourself that there will still be no B-cells and T-cells.
-* Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells.
+* Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 3: 
-* Allow the innate response to impact virus production by increasing *s~F~*. Contemplate what you expect to see, check with the simulation.
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "* Allow the innate response to impact virus production by increasing *s~F~*. Contemplate what you expect to see, check with the simulation.
 * Now allow the innate response to grow in the presence of the virus by setting innate growth to a non-zero value. Explore different values.
 * Explore the innate response by trying different values for all innate response related parameters (i.e. *p~F~*, *d~F~*, *g~F~*, *s~F~*, *h~V~* and *F~max~* )
-* If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response).
+* If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response)."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 4: 
-* Now instead of having the innate response reduce virus production, we consider its effect on T-cell activation.
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "* Now instead of having the innate response reduce virus production, we consider its effect on T-cell activation.
 * Set everything as in task 2, then set T-cell induction rate to 0.1 and T-cell growth rate to 0.5.
 * Set T-cell killing rate close to 0 (e.g. 10^-20^). Contemplate what you'd expect to see, run the simulation to confirm.
 * You should see the same size acute infection as before, namely with around 70217 infected cells. You will also see T-cells growing.
 * Now allow T-cells to kill infected cells by increasing the killing rate. First formulate your expectation, then test with the simulation.
 * As killing rate increases, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.
-* Play around with the parameters that directly govern T-cell kinetics and impact (*r~T~*, *g~T~*, *k~T~*), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task). 
+* Play around with the parameters that directly govern T-cell kinetics and impact (*r~T~*, *g~T~*, *k~T~*), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task)."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 5: 
-* We now explore B-cell/antibody response.
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "* We now explore B-cell/antibody response.
 * Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^.
 * Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^.
 * Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? Hint: Look at the equations and the initial conditions.
 * Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation.
-* The maximum number of infected cells is as before. I'm sure it's clear why: While the B-cells and antibodies are there now, they don't "do" anything just yet.
-* Allow the antibodies to impact virus by slowly increasing the virus removal rate, *k~A~*. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens.
+* The maximum number of infected cells is as before. I'm sure it's clear why: While the B-cells and antibodies are there now, they don't 'do' anything just yet.
+* Allow the antibodies to impact virus by slowly increasing the virus removal rate, *k~A~*. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 6: 
-So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it's time to look at "everything". This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of 'knobs to turn' and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That's often tricky. 
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it's time to look at 'everything'. This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of 'knobs to turn' and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That's often tricky."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
 
 
 ## Further Information {#shinytab4}
