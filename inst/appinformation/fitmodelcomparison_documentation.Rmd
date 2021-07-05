@@ -121,19 +121,90 @@ Note that the absolute value of the AIC is unimportant and varies from dataset t
 *The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
 
 
-### Task 1: 
-* Take a look at the inputs and outputs for the app. It's similar to the "Basic Fitting" app (which you should do before this one).
-* Each model has 3 parameters that are being estimated, the best fit estimates are shown under the figure, together with the SSR and AICc. Switch to model 2, run and compare how it differs from model 1.
+```{r, echo=FALSE, eval=TRUE}
 
-### Task 2:
-* You probably noticed that the default setting is only 10 iterations for the solver. That's way too few to find the best fit, so comparing the 2 models after such few iterations is not very meaningful. Increase the iterations to 100 or more and re-run both models.
-* You'll likely find that even with 100 iterations, the fits don't look that great. Explore different starting values for the parameters that are being fit (a,b and r/dX) and see if you can get better fits. You can also explore different values for the fixed parameters. Usually, those should not be changed since they are fixed based in biological a priori information. If we didn't know those parameter values, we would also try to fit them - though that can lead to overfitting, as you learned in another of the fitting apps. For this exercise, you can play with those fixed values.
+#this is the running counter for the records which starts at 1 
+rc=1
 
-### Task 3:
-* Based on the AICc for both models after 100 or more iterations, what do you conclude regarding the quality of each model? 
-* Take a look at SSR for both models. You should see the model with the lower AICc also have the lower SSR. Why is that so? Is that always true for any 2 models? (It's not: The 2 models here are in some sense special, understand how/why.)
-* If you haven't figured out the last question, and also for a general check, compute AICc 'by hand' for each of the models using the reported SSR and the formula given in the "Models" section. You should of course find the values shown below the plot.
-* By doing all this, you should have realized that since the models have the same numbers of parameters (and are fit to the same data, which always has to be the case if you want to compare models), all the terms in the AICc equation other than SSR are the same for the 2 models. Thus, in this case, SSR and AICc behave the same. If one of the models had more parameters than the other, you could find a model with lower SSR but higher AIC (because the additional complexity of the model, evidenced by more parameters, doesn't lower the SSR enough for the AIC to go down.)
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Take a look at the inputs and outputs for the app. It's similar to the 'Basic Fitting' app (which you should do before this one). Each model has 3 parameters that are being estimated, the best fit estimates are shown under the figure, together with the SSR and AICc. Switch to model 2, run and compare how it differs from model 1."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "You probably noticed that the default setting is only 10 iterations for the solver. That's way too few to find the best fit, so comparing the 2 models after such few iterations is not very meaningful. Increase the iterations to 100 or more and re-run both models. You'll likely find that even with 100 iterations, the fits don't look that great. Explore different starting values for the parameters that are being fit (a,b and r/dX) and see if you can get better fits. You can also explore different values for the fixed parameters. Usually, those should not be changed since they are fixed based in biological a priori information. If we didn't know those parameter values, we would also try to fit them - though that can lead to overfitting, as you learned in another of the fitting apps. For this exercise, you can play with those fixed values."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Based on the AICc for both models after 100 or more iterations, what do you conclude regarding the quality of each model? Take a look at SSR for both models. You should see the model with the lower AICc also have the lower SSR. Why is that so? Is that always true for any 2 models? (It's not: The 2 models here are in some sense special, understand how/why.) If you haven't figured out the last question, and also for a general check, compute AICc 'by hand' for each of the models using the reported SSR and the formula given in the 'Models' section. You should of course find the values shown below the plot. By doing all this, you should have realized that since the models have the same numbers of parameters (and are fit to the same data, which always has to be the case if you want to compare models), all the terms in the AICc equation other than SSR are the same for the 2 models. Thus, in this case, SSR and AICc behave the same. If one of the models had more parameters than the other, you could find a model with lower SSR but higher AIC (because the additional complexity of the model, evidenced by more parameters, doesn't lower the SSR enough for the AIC to go down.)"
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
 
 
 ## Further Information {#shinytab4}
