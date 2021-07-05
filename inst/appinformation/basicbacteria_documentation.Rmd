@@ -263,7 +263,6 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 #########################
 tid = tid + 1
 tasktext = "Go wild! Change any inputs you want to change, see how it affects the results. To start building intuition, it is best to change one quantity at a time. Before you run a simulation with new settings, contemplate what you think might happen. Then see if it does. Always go through an iterative cylce: Think about expectations -> run simulation -> update understanding (__Do Science/Research__)."
-nrec = 2 # number of items to record
 nrec = 1 # number of items to record
 out_records = c("Nothing")
 out_types = rep("None",nrec)
