@@ -136,7 +136,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 #########################
 tid = tid + 1
 tasktext = "A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. _n=d~U~=0_), *R~0~* = *bpU~0~*/(*d~V~ d~I~*). Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for *R~0~* to figure out what value *R~0~* needs to be for there (not) to be an infection. Figure out the threshold value for *R~0~* at which you go from no infection to having an infection. To learn more about *R~0~*, see e.g. [@heffernan05a; @roberts07; @beauchemin08]. Some of those references describe *R~0~* in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level."
-nrec = 1 # number of items to record
+nrec = 2 # number of items to record
 out_records = c("Final value for B, continous model",
             "Final value for B, discrete-time model")
 out_types = rep("Rounded_Integer",nrec)

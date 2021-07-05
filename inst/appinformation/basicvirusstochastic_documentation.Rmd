@@ -83,41 +83,171 @@ removal of V            |  V => V-1                     |   dV*V          |
 _Note that the stochastic model does not allow specification of starting time and time step. It always starts at *t=0* and the time step depends on the simulation. Therefore to allow comparison with the ODE, the start time for the ODE is fixed to 0. Also the time step at which data is returned is fixed at tfinal/1000._
 
 
-### Task 1: 
-* Run the simulation with the pre-set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
-* Change the random number seed and find a value for which you do get an outbreak. 
-* Set "Models to run" to both. You should get infections from each model. Compare how they differ.
-* Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. 
-* Try the previous 2 steps for several different random number seeds.
 
-### Task 2: 
-* Turn off the deterministic model. 
-* Run the stochastic model with 5 simulations for different random seeds. See how the maximum number of infected cells changes.
-* Now repeat for 50 stochastic simulations. You should see less variation now since you average over more simulations. The more simulations, the more robust the results are (but it takes longer to run). Ideally, you'd like to always be in a setting where arbitrary choices, such as the initial random number seed, do not (or only negligibly) influence your results.
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Run the simulation with the pre-set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak. Change the random number seed and find a value for which you do get an outbreak. Set 'Models to run' to both. You should get infections from each model. Compare how they differ. Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. Try the previous 2 steps for several different random number seeds."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Turn off the deterministic model. Run the stochastic model with 5 simulations for different random seeds. See how the maximum number of infected cells changes. Now repeat for 50 stochastic simulations. You should see less variation now since you average over more simulations. The more simulations, the more robust the results are (but it takes longer to run). Ideally, you'd like to always be in a setting where arbitrary choices, such as the initial random number seed, do not (or only negligibly) influence your results."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 3: 
-* Turn the deterministic model back on, run 50 stochastic simulations. Notice that the deterministic model is not 'the average' of the stochastic simulations. It is true that for _linear_ models, the mean of many stochastic models is described by the deterministic model. But that is not true for _nonlinear_ models like the one we have here. It's an important point to keep in mind if you build models and try both a deterministic and stochastic one. You don't necessarily get the same results, even if you average over many stochastic model runs.
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Turn the deterministic model back on, run 50 stochastic simulations. Notice that the deterministic model is not 'the average' of the stochastic simulations. It is true that for _linear_ models, the mean of many stochastic models is described by the deterministic model. But that is not true for _nonlinear_ models like the one we have here. It's an important point to keep in mind if you build models and try both a deterministic and stochastic one. You don't necessarily get the same results, even if you average over many stochastic model runs."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Turn off the deterministic model, reset all parameter values to their starting values. Set number of simulations to 2, random number seed to 100. Run the simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again. From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative?"
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Currently, stochasticity/randomness is a determining factor for the take-off or not of an infection. Once an infection has started, the resulting time-series look fairly smooth and not too noisy. Play around with the model parameters to try and find a regime where the whole infection dynamics looks stochastic/noisy."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 4: 
-* Turn off the deterministic model, reset all parameter values to their starting values. Set number of simulations to 2, random number seed to 100.
-* Run the simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
-* Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again.
-* From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative? 
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "In doing the last task, you likely figured out that for small numbers, you get more noisy results. Set the number of uninfected cells to 100 and the infection rate to 10^-2^. Run several stochastic outbreaks. You should see fairly random virus and infected cell plots.  The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) "
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
 
 
-### Task 5: 
-* Currently, stochasticity/randomness is a determining factor for the take-off or not of an infection. Once an infection has started, the resulting time-series look fairly smooth and not too noisy. Play around with the model parameters to try and find a regime where the whole infection dynamics looks stochastic/noisy.
 
 
-### Task 6: 
-* In doing the last task, you likely figured out that for small numbers, you get more noisy results. Set the number of uninfected cells to 100 and the infection rate to 10^-2^. Run several stochastic outbreaks. You should see fairly random virus and infected cell plots. 
 
-The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) 
 
-### Task 7: 
-* Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations.
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+
+
+
 
 ## Further Information {#shinytab4}
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
