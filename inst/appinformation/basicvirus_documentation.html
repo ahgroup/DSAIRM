@@ -70,6 +70,9 @@ div.csl-indent {
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
 <p>This app allows exploration of a basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
+<div id="learning-objectives" class="section level3">
+<h3>Learning Objectives</h3>
+</div>
 </div>
 <div id="shinytab2" class="section level2">
 <h2>The Model</h2>
@@ -112,26 +115,27 @@ Model Diagram
 <p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<p>Set the initial conditions to 10<sup>5</sup> uninfected cells, no infected cells and 10 virus particles. We start by considering an acute viral infection. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-6</sup>. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1). Run the simulation for 50 days, produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising and declining. At the end you should be left with around 11068 uninfected cells (and no infected cells and virus).</p>
+<p>Set the initial conditions to 10<sup>5</sup> uninfected cells, no infected cells and 10 virus particles. We start by considering an acute viral infection. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-6</sup>. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1). Run the simulation for 50 days, produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising and declining. At the end you should be left with around 11069 uninfected cells (and no infected cells and virus).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Number of bacteria at end of simulation.</li>
+<li>Number of infected cells at the peak of infection</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2</h3>
-<p>Slowly increase the virus death rate. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection. You will have to adjust the simulation time for that, too.</p>
+<p>Slowly increase the virus death rate in increments of 0.5. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection. You will have to adjust the simulation time for that, too.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Day of second peak for bacteria</li>
+<li><p>Virus death rate at which no infection occurs</p></li>
+<li><p>Virus lifespan (in days) corresponding to the death rate at which no infection occurs</p></li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<p>Set the virus death rate back to what it was in task 1. Now change the virus production rate until you reach the value at which the virus does not cause any infection. You can also repeat this process for the infected cell death rate and the infection rate.</p>
+<p>Set the virus death rate back to what it was in task 1. Now change the virus production rate (in increments of 10) until you reach the value at which the virus does not cause any infection. You can also repeat this process for the infected cell death rate and the infection rate.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Maximum number of bacteria for the discrete-time model</li>
+<li>Virus production rate at which the virus does not cause any infection</li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
@@ -139,17 +143,15 @@ Model Diagram
 <p>A well-studied quantity in infectious disease epidemiology is the basic reproductive number (<em>R<sub>0</sub></em>), which determines if a pathogen can cause an outbreak at the population level. An equivalent <em>R<sub>0</sub></em> can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. <em>n=d<sub>U</sub>=0</em>), <em>R<sub>0</sub></em> = <em>bpU<sub>0</sub></em>/(<em>d<sub>V</sub> d<sub>I</sub></em>). Plug numbers for the parameters from your simulations in task 2 and 3 into the equation for <em>R<sub>0</sub></em> to figure out what value <em>R<sub>0</sub></em> needs to be for there (not) to be an infection. Figure out the threshold value for <em>R<sub>0</sub></em> at which you go from no infection to having an infection. To learn more about <em>R<sub>0</sub></em>, see e.g. <span class="citation">(Heffernan, Smith, and Wahl 2005; Roberts 2007; C. A. A. Beauchemin et al. 2008)</span>. Some of those references describe <em>R<sub>0</sub></em> in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model</p></li>
-<li><p>Final value for B, discrete-time model</p></li>
+<li>Threshold value for <em>R<sub>0</sub></em> at which you go from no infection to having an infection</li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<p>Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep <em>n=0</em>). Production of new uninfected cells is an example of <em>resource replenishment</em>. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). Let’s explore the model with uninfected cell production, i.e. resource replenishment. We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10<sup>5</sup>, set birth and death of uninfected cells to zero. Run the simulation. Nothing should happen, uninfected cells should stay at their starting value. Now play around with birth rate and death rate of uninfected cells and see how that affects the dynamics. The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <em>U<sub>0</sub></em> while keeping birth and death rate at some fixed values. One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for <em>some function</em>. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation. To test your equation, set birth rate to 20000, set initial condition for uninfected cells to 10<sup>5</sup> and find the value for the death rate that keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</p>
+<p>Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep <em>n=0</em>). Production of new uninfected cells is an example of <em>resource replenishment</em>. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). Let’s explore the model with uninfected cell production, i.e. resource replenishment. We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10<sup>5</sup>, set birth and death of uninfected cells to zero. Run the simulation. Nothing should happen, uninfected cells should stay at their starting value. Now, play around with birth rate and death rate of uninfected cells and see how that affects the dynamics. The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <em>U<sub>0</sub></em> while keeping birth and death rate at some fixed values. One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for <em>some function</em>. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation. To test your equation, set birth rate to 20000, set initial condition for uninfected cells to 10<sup>5</sup> and find the value for the death rate that keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, g = 2</p></li>
-<li><p>Final value for B, continous model, g = 3</p></li>
+<li>Value for uninfected cell death rate at steady state</li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
@@ -157,8 +159,8 @@ Model Diagram
 <p>Now we’ll explore an infection in the presence of uninfected cell birth and death. Set all parameters as in task 1. Set birth and death as described at the end of the previous task. Run the simulation. You should get an initial large increase in virus load, which then settles down and reaches a steady state of around 295000. Similarly, the variables <em>U</em> and <em>I</em> settle down to steady state values.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, g = 2</p></li>
-<li><p>Final value for B, continous model, g = 3</p></li>
+<li><p>Number of uninfected cells at steady state</p></li>
+<li><p>Number of infected cells at steady state</p></li>
 </ul>
 </div>
 <div id="task-7" class="section level3">
@@ -166,8 +168,7 @@ Model Diagram
 <p>Investigate how the steady state values for <em>U</em>, <em>I</em> and <em>V</em> depend on the parameters <em>b</em>, <em>p</em>, <em>d<sub>V</sub></em> and <em>d<sub>I</sub></em>. You might need to increase the simulation time to ensure the system has settled down to its steady state. Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations: <em>0 = n - d<sub>U</sub> U - bUV</em>, <em>0 = bUV - d<sub>I</sub></em>, <em>0 = pI - d<sub>V</sub> V - gb UV</em>. One can solve those equations for each of the compartments to get a mathematical expression of what <em>U</em>, <em>I</em> and <em>V</em> are at steady state. If your algebra is not too rusty, try to do this. You should find that <em>U<sub>s</sub> = d<sub>I</sub> d<sub>V</sub>/(b(p - d<sub>I</sub> g))</em> and similar (slightly bigger) equations for <em>I<sub>s</sub></em> and <em>V<sub>s</sub></em> (the subscript <em>s</em> denotes that these are the steady-state values of the variables). If you haven’t done algebra in a while, or if you find doing math by hand too tedious, modern computer software often helps. R cannot solve such equations analytically, but other software packages can. The main ones used for analytic math are Mathematica and Maple. Both are powerful and expensive. If you only need to solve simple equations occasionally, there is <a href="http://maxima.sourceforge.net/">Maxima</a>, which is free. You can download it and enter the equations above and it will solve it for you. Note that once you go beyond 4-5 variables, the steady state equations are usually very complicated, often so much so that they are not useful anymore. And once you go beyond 5 variables, in most cases your software will struggle to give you something meaningful. Fortunately, while it is less quick and elegant, you can always simulate your model and see what (if any) steady state it reaches. Once you found the steady state equations, either by hand or with the help of some computer software, check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values <em>U<sub>s</sub></em>, <em>I<sub>s</sub></em> and <em>V<sub>s</sub></em> you computed with the equations is the same as you get as steady state value from the simulation. If that’s not the case, it means your equations aren’t right yet. It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, g = 2</p></li>
-<li><p>Final value for B, continous model, g = 3</p></li>
+<li>TRUE or FALSE: There is only a single, unique combination of the parameters <em>b</em>, <em>p</em>, <em>d<sub>V</sub></em>, and <em>d<sub>I</sub></em> that can produce a steady state.</li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
@@ -175,8 +176,7 @@ Model Diagram
 <p>Continue to explore the model. Even though it’s a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that this model does not contain an immune response. The interactions between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, g = 2</p></li>
-<li><p>Final value for B, continous model, g = 3</p></li>
+<li><em>Nothing</em></li>
 </ul>
 </div>
 </div>
@@ -194,28 +194,28 @@ Model Diagram
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-beauchemin08" class="csl-entry">
-Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. <span>“Modeling Amantadine Treatment of Influenza <span>A</span> Virus in Vitro.”</span> <em>Journal of Theoretical Biology</em> 254 (2): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.
+Beauchemin, Catherine A A, James J McSharry, George L Drusano, Jack T Nguyen, Gregory T Went, Ruy M Ribeiro, and Alan S Perelson. 2008. <span>“Modeling Amantadine Treatment of Influenza a Virus in Vitro.”</span> <em>Journal of Theoretical Biology</em> 254 (September): 439–51. <a href="https://doi.org/10.1016/j.jtbi.2008.05.031">https://doi.org/10.1016/j.jtbi.2008.05.031</a>.
 </div>
 <div id="ref-beauchemin11" class="csl-entry">
-Beauchemin, Catherine AA, and Andreas Handel. 2011. <span>“A Review of Mathematical Models of Influenza <span>A</span> Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.”</span> <em>BMC Public Health</em> 11 (1): S7.
+Beauchemin, Catherine AA, and Andreas Handel. 2011. <span>“A Review of Mathematical Models of Influenza a Infections Within a Host or Cell Culture: Lessons Learned and Challenges Ahead.”</span> <em>BMC Public Health</em> 11 (1): S7.
 </div>
 <div id="ref-chatterjee12" class="csl-entry">
-Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. <span>“Mathematical Modelling of <span>HCV</span> Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?”</span> <em>Antiviral Therapy</em> 17 (6 Pt B): 1171–82. <a href="https://doi.org/10.3851/IMP2428">https://doi.org/10.3851/IMP2428</a>.
+Chatterjee, Anushree, Jeremie Guedj, and Alan S Perelson. 2012. <span>“Mathematical Modelling of HCV Infection: What Can It Teach Us in the Era of Direct-Acting Antiviral Agents?”</span> <em>Antiviral Therapy</em> 17: 1171–82. <a href="https://doi.org/10.3851/IMP2428">https://doi.org/10.3851/IMP2428</a>.
 </div>
 <div id="ref-guedj10" class="csl-entry">
-Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. <span>“A Perspective on Modelling Hepatitis <span>C</span> Virus Infection.”</span> <em>Journal of Viral Hepatitis</em> 17 (12): 825–33. <a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">https://doi.org/10.1111/j.1365-2893.2010.01348.x</a>.
+Guedj, J, L Rong, H Dahari, and A S Perelson. 2010. <span>“A Perspective on Modelling Hepatitis c Virus Infection.”</span> <em>Journal of Viral Hepatitis</em> 17 (December): 825–33. <a href="https://doi.org/10.1111/j.1365-2893.2010.01348.x">https://doi.org/10.1111/j.1365-2893.2010.01348.x</a>.
 </div>
 <div id="ref-heffernan05a" class="csl-entry">
-Heffernan, J M, R J Smith, and L M Wahl. 2005. <span>“Perspectives on the Basic Reproductive Ratio.”</span> <em>Journal of the Royal Society, Interface</em> 2 (4): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.
+Heffernan, J M, R J Smith, and L M Wahl. 2005. <span>“Perspectives on the Basic Reproductive Ratio.”</span> <em>Journal of the Royal Society, Interface</em> 2 (September): 281–93. <a href="https://doi.org/10.1098/rsif.2005.0042">https://doi.org/10.1098/rsif.2005.0042</a>.
 </div>
 <div id="ref-perelson13" class="csl-entry">
-Perelson, Alan S, and Ruy M Ribeiro. 2013. <span>“Modeling the Within-Host Dynamics of <span>HIV</span> Infection.”</span> <em>BMC Biology</em> 11 (1): 96.
+Perelson, Alan S, and Ruy M Ribeiro. 2013. <span>“Modeling the Within-Host Dynamics of HIV Infection.”</span> <em>BMC Biology</em> 11 (1): 96.
 </div>
 <div id="ref-roberts07" class="csl-entry">
-Roberts, M G. 2007. <span>“The Pluses and Minuses of <span>R0</span>.”</span> <em>Journal of the Royal Society, Interface</em> 4 (16): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.
+Roberts, M G. 2007. <span>“The Pluses and Minuses of R0.”</span> <em>Journal of the Royal Society, Interface</em> 4 (October): 949–61. <a href="https://doi.org/10.1098/rsif.2007.1031">https://doi.org/10.1098/rsif.2007.1031</a>.
 </div>
 <div id="ref-smith11" class="csl-entry">
-Smith, Amber M, and Alan S Perelson. 2011. <span>“Influenza <span>A</span> Virus Infection Kinetics: Quantitative Data and Models.”</span> <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4): 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.
+Smith, Amber M, and Alan S Perelson. 2011. <span>“Influenza a Virus Infection Kinetics: Quantitative Data and Models.”</span> <em>Wiley Interdiscip Rev Syst Biol Med</em> 3 (4): 429–45. <a href="https://doi.org/10.1002/wsbm.129">https://doi.org/10.1002/wsbm.129</a>.
 </div>
 </div>
 </div>

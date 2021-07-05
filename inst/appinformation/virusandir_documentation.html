@@ -70,6 +70,9 @@ div.csl-indent {
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
 <p>This app allows exploration of a virus infection model that includes several components of the immune response. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
+<div id="learning-objectives" class="section level3">
+<h3>Learning Objectives</h3>
+</div>
 </div>
 <div id="shinytab2" class="section level2">
 <h2>The Model</h2>
@@ -117,7 +120,7 @@ div.csl-indent {
 <h2>What to do</h2>
 <p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>
 <div id="task-1" class="section level3">
-<h3>Task 1:</h3>
+<h3>Task 1</h3>
 <ul>
 <li>Start with 10<sup>5</sup> uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, <em>p<sub>F</sub></em>/<em>d<sub>F</sub></em>. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code.</li>
 <li>Set birth and death rate of uninfected cells to 0.</li>
@@ -129,9 +132,13 @@ div.csl-indent {
 <li>Confirm/test with the model that this is the case.</li>
 <li>If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.</li>
 </ul>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
+</ul>
 </div>
 <div id="task-2" class="section level3">
-<h3>Task 2:</h3>
+<h3>Task 2</h3>
 <ul>
 <li>Now we’ll slowly add immune response components. We start with the innate response.</li>
 <li>Set innate response production rate to 100, removal rate to 1. Leave innate growth rate at 0.</li>
@@ -141,18 +148,26 @@ div.csl-indent {
 <li>By looking at the equations, convince yourself that while there will now be an innate response, it does not affect the infection dynamics. Also convince yourself that there will still be no B-cells and T-cells.</li>
 <li>Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells.</li>
 </ul>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
+</ul>
 </div>
 <div id="task-3" class="section level3">
-<h3>Task 3:</h3>
+<h3>Task 3</h3>
 <ul>
 <li>Allow the innate response to impact virus production by increasing <em>s<sub>F</sub></em>. Contemplate what you expect to see, check with the simulation.</li>
 <li>Now allow the innate response to grow in the presence of the virus by setting innate growth to a non-zero value. Explore different values.</li>
 <li>Explore the innate response by trying different values for all innate response related parameters (i.e. <em>p<sub>F</sub></em>, <em>d<sub>F</sub></em>, <em>g<sub>F</sub></em>, <em>s<sub>F</sub></em>, <em>h<sub>V</sub></em> and <em>F<sub>max</sub></em> )</li>
 <li>If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response).</li>
 </ul>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
+</ul>
 </div>
 <div id="task-4" class="section level3">
-<h3>Task 4:</h3>
+<h3>Task 4</h3>
 <ul>
 <li>Now instead of having the innate response reduce virus production, we consider its effect on T-cell activation.</li>
 <li>Set everything as in task 2, then set T-cell induction rate to 0.1 and T-cell growth rate to 0.5.</li>
@@ -162,22 +177,34 @@ div.csl-indent {
 <li>As killing rate increases, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.</li>
 <li>Play around with the parameters that directly govern T-cell kinetics and impact (<em>r<sub>T</sub></em>, <em>g<sub>T</sub></em>, <em>k<sub>T</sub></em>), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task).</li>
 </ul>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
+</ul>
 </div>
 <div id="task-5" class="section level3">
-<h3>Task 5:</h3>
+<h3>Task 5</h3>
 <ul>
 <li>We now explore B-cell/antibody response.</li>
 <li>Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10<sup>2</sup>.</li>
 <li>Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10<sup>-20</sup>.</li>
 <li>Run the simulation. Why don’t you see any increasing numbers of B-cells and antibodies? Hint: Look at the equations and the initial conditions.</li>
 <li>Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation.</li>
-<li>The maximum number of infected cells is as before. I’m sure it’s clear why: While the B-cells and antibodies are there now, they don’t “do” anything just yet.</li>
+<li>The maximum number of infected cells is as before. I’m sure it’s clear why: While the B-cells and antibodies are there now, they don’t ‘do’ anything just yet.</li>
 <li>Allow the antibodies to impact virus by slowly increasing the virus removal rate, <em>k<sub>A</sub></em>. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens.</li>
+</ul>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
-<h3>Task 6:</h3>
-<p>So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it’s time to look at “everything.” This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of ‘knobs to turn’ and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That’s often tricky.</p>
+<h3>Task 6</h3>
+<p>So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it’s time to look at ‘everything.’ This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of ‘knobs to turn’ and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That’s often tricky.</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Something</li>
+</ul>
 </div>
 </div>
 <div id="shinytab4" class="section level2">

@@ -70,6 +70,9 @@ div.csl-indent {
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
 <p>This app allows exploration of the concept of uncertainty and sensitivity analysis. For this purpose, we use the basic bacteria infection model introduced in the app of that name. If you haven’t done so yet, familiarize yourself and work through that app first.</p>
+<div id="learning-objectives" class="section level3">
+<h3>Learning Objectives</h3>
+</div>
 </div>
 <div id="shinytab2" class="section level2">
 <h2>The Model</h2>
@@ -113,70 +116,68 @@ div.csl-indent {
 <p>First, familiarize yourself with the setup of the app, it looks different from most others. Parameters are not set to specific values. Instead, most parameters have a lower and upper bound. For each simulation that is run, random values for the parameter are chosen uniformly between those bounds. The parameter <em>g</em> does not have a uniform but instead a gamma distribution, you can specify its mean and variance to determine the distribution from which values are sampled.</p>
 <p>The default outcome plots are boxplots, which show the distribution of the 3 outcomes of interest for the different parameter samples. You can set the number of samples you want to run. Samples are constructed using the latin hypercube method to efficiently span the space of possible parameter values. In general, more samples are better, but of course take longer to run.</p>
 <div id="task-1" class="section level3">
-<h3>Task 1:</h3>
-<p>Since the creation of parameter samples involves some element of uncertainty, we need to make use of random numbers. We still want results to be reproducible. That’s where the random number seed comes in. As long as the seed is the same, the code should produce the same pseudo-random numbers each time, thus ensuring reproducibility. Let’s explore this.</p>
+<h3>Task 1</h3>
+<p>Since the creation of parameter samples involves some element of uncertainty, we need to make use of random numbers. We still want results to be reproducible. That’s where the random number seed comes in. As long as the seed is the same, the code should produce the same pseudo-random numbers each time, thus ensuring reproducibility. Let’s explore this. Leave all settings as they are, run 20 samples twice with the same random number seed, check to make sure you get exactly the same result twice. Now change the random number seed to a different value, run again. You should see results changed. (It doesn’t matter if you change the seed by just a bit or a lot.) The more samples you have, the more robust the results are to changes in the underlying sample generation (determined by the random number seed). Try checking this by running 10 samples with 2 different random number seeds, then running 100+ samples (or as many as you can do without waiting too long) with 2 different seeds. You should see less variability in the central quantities (mean, median) for the larger sample size. Note that each sample means one simulation of the underlying dynamical model, so as sample numbers increase, things slow down. Also note the ‘system might not have reached steady state’ message. If for too many of the samples steady state has not been reached, the results for <em>B<sub>steady</sub></em> and <em>I<sub>steady</sub></em> are not correct. In that case you need to increase the simulation time to allow the system to settle into steady state. For some parameter combinations, that can take very long.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Leave all settings as they are, run 20 samples twice with the same random number seed, check to make sure you get exactly the same result twice.</li>
-<li>Now change the random number seed to a different value, run again. You should see results changed. (It doesn’t matter if you change the seed by just a bit or a lot.)</li>
-<li>The more samples you have, the more robust the results are to changes in the underlying sample generation (determined by the random number seed). Try checking this by running 10 samples with 2 different random number seeds, then running 100+ samples (or as many as you can do without waiting too long) with 2 different seeds. You should see less variability in the central quantities (mean, median) for the larger sample size.</li>
+<li>Something</li>
 </ul>
-<p>Note that each sample means one simulation of the underlying dynamical model, so as sample numbers increase, things slow down. Also note the ‘system might not have reached steady state’ message. If for too many of the samples steady state has not been reached, the results for <em>B<sub>steady</sub></em> and <em>I<sub>steady</sub></em> are not correct. In that case you need to increase the simulation time to allow the system to settle into steady state. For some parameter combinations, that can take very long.</p>
 </div>
 <div id="task-2" class="section level3">
-<h3>Task 2:</h3>
+<h3>Task 2</h3>
+<p>Recall the underlying dynamical model and its behavior. If you can’t, revisit the ‘Basic Bacteria’ app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, <em>r</em>. Increase lower/upper bounds by a factor of 10, from 10<sup>-5</sup>/10<sup>-4</sup> to 10<sup>-4</sup>/10<sup>-3</sup>. Run simulations, see how results change. Now go the opposite, lower the initial lower/upper bounds by a factor of 10. Run simulations, see how results change.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Recall the underlying dynamical model and its behavior. If you can’t, revisit the “Basic Bacteria” app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, <em>r</em>.</li>
-<li>Increase lower/upper bounds by a factor of 10, from 10<sup>-5</sup>/10<sup>-4</sup> to 10<sup>-4</sup>/10<sup>-3</sup>. Run simulations, see how results change.</li>
-<li>Now go the opposite, lower the initial lower/upper bounds by a factor of 10. Run simulations, see how results change.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
-<h3>Task 3:</h3>
+<h3>Task 3</h3>
+<p>Now let’s explore what happens if we change ranges for the bacteria carrying capacity, <em>Bmax</em>. If we increase it, which of the outcomes do you expect to change, and in which direction? Test your assumption by increasing and decreasing lower/upper bounds for <em>Bmax</em> by a factor of 10. Set <em>r</em> back to the initial values, leave all other parameters as before.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Now let’s explore what happens if we change ranges for the bacteria carrying capacity, <em>Bmax</em>. If we increase it, which of the outcomes do you expect to change, and in which direction?</li>
-<li>Test your assumption by increasing and decreasing lower/upper bounds for <em>Bmax</em> by a factor of 10. Set <em>r</em> back to the initial values, leave all other parameters as before.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
-<h3>Task 4:</h3>
+<h3>Task 4</h3>
+<p>Continue exploring by changing ranges for different parameters, see what you find. It is likely that for some settings you’ll see warning or error messages on the <code>R</code> console. That generally means that the parameters for a given simulation are such that the differential equation solver can’t properly run the model. That usually corresponds to biologically unrealistic parameter settings. We’ll ignore them, but if you did a research project and you got such warning or error messages, you’d have to figure out why you get them and only once you fully understand why is it maybe ok to ignore them.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Continue exploring by changing ranges for different parameters, see what you find. It is likely that for some settings you’ll see warning or error messages on the <code>R</code> console. That generally means that the parameters for a given simulation are such that the differential equation solver can’t properly run the model. That usually corresponds to biologically unrealistic parameter settings. We’ll ignore them, but if you did a research project and you got such warning or error messages, you’d have to figure out why you get them and only once you fully understand why is it maybe ok to ignore them.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
-<h3>Task 5:</h3>
-<p>The above approach of exploring the impact of a parameter on results by varying bounds is tedious. Also, often we have bounds that are specified by biology, and not subject to us changing them. It would still be useful to know how a given parameter impacts the results. This is where sensitivity analysis comes in. We run the same simulations, but now instead of plotting outcomes as a boxplot, we produce scatterplots for outcomes as function of each varied parameter.</p>
+<h3>Task 5</h3>
+<p>The above approach of exploring the impact of a parameter on results by varying bounds is tedious. Also, often we have bounds that are specified by biology, and not subject to us changing them. It would still be useful to know how a given parameter impacts the results. This is where sensitivity analysis comes in. We run the same simulations, but now instead of plotting outcomes as a boxplot, we produce scatterplots for outcomes as function of each varied parameter. Set values back as in task 1 (using the reset button). Switch the plot type from boxplot to scatterplot, run the simulation. Take a close look at the scatterplots to investigate the relation between different parameters and the various outcomes. Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.) Increase sample size to 100+ or whatever number runs within a reasonable amount of time. With more samples, the patterns of correlation are clearer in the plots.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Set values back as in task 1 (using the reset button).</li>
-<li>Switch the plot type from boxplot to scatterplot, run the simulation.</li>
-<li>Take a close look at the scatterplots to investigate the relation between different parameters and the various outcomes.</li>
-<li>Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.)</li>
-<li>Increase sample size to 100+ or whatever number runs within a reasonable amount of time. With more samples, the patterns of correlation are clearer in the plots.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
-<h3>Task 6:</h3>
-<p>Since our model is rather simple, we can actually determine relations between parameters and some of the outcomes analytically. Specifically, it is possible to compute the steady state values for <em>B</em> and <em>I</em>, <em>B<sub>steady</sub></em> and <em>I<sub>steady</sub></em>. If you don’t know what steady states are and how to compute them, go through the “Bacterium Model Exploration” app, where this is explained.</p>
+<h3>Task 6</h3>
+<p>Since our model is rather simple, we can actually determine relations between parameters and some of the outcomes analytically. Specifically, it is possible to compute the steady state values for <em>B</em> and <em>I</em>, <em>B<sub>steady</sub></em> and <em>I<sub>steady</sub></em>. If you don’t know what steady states are and how to compute them, go through the ‘Bacterium Model Exploration’ app, where this is explained. If you haven’t done it yet or can’t remember the equations for the steady states, compute them. You should find that <span class="math inline">\(B_{steady} = d_I / r\)</span> and a similar equation for <em>I<sub>steady</sub></em>. Compare the scatterplots and correlation coefficients with the results from these equations. For instance based on the equation, you should see a linear correlation between _B<sub>steady</sub> and <em>d<sub>I</sub></em>. You might find that there is a lot of scatter in the data, too much to see clear patterns. One could always increase sample size which should help detect patterns, but it takes longer to run. Another option is to restrict the variability to a subset of parameters, which we’ll do next.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>If you haven’t done it yet or can’t remember the equations for the steady states, compute them. You should find that <span class="math inline">\(B_{steady} = d_I / r\)</span> and a similar equation for <em>I<sub>steady</sub></em>.</li>
-<li>Compare the scatterplots and correlation coefficients with the results from these equations. For instance based on the equation, you should see a linear correlation between _B<sub>steady</sub> and <em>d<sub>I</sub></em>. You might find that there is a lot of scatter in the data, too much to see clear patterns. One could always increase sample size which should help detect patterns, but it takes longer to run. Another option is to restrict the variability to a subset of parameters, which we’ll do next.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-7" class="section level3">
-<h3>Task 7:</h3>
+<h3>Task 7</h3>
+<p>Let’s explore in more detail how different parameters impact results by making the system less ‘noisy.’ To do so, we’ll impose no variability for some parameters. For the following parameters, set <strong>both</strong> their lower and upper bound to the specified value: B<sub>0</sub> = I<sub>0</sub> = 1, <em>B<sub>max</sub></em> = 1e5, <em>d<sub>B</sub></em> = 1, <em>k</em> = 10<sup>-7</sup>, r = 10<sup>-4</sup>. Let <em>d<sub>I</sub></em> vary between 1 and 2 and give <em>g</em> a mean of 5 and variance of 1. Run the simulation. You’ll get a bunch of warning messages from the function that computes the correlations, ignore them. You should now see nice patterns of correlation between <em>g</em> and <em>d<sub>I</sub></em> and the different outcomes. Confirm that - as expected from the steady state equations - that <em>B<sub>steady</sub></em> depends linearly on <em>d<sub>I</sub></em> and that it has no correlation with <em>g</em>. Both the scatterplots and the correlation coefficient should give you that information. Also note the distribution for <em>g</em> and <em>d<sub>I</sub></em>. The former has more points around its mean and less for lower/higher values, while <em>d<sub>I</sub></em> values are uniformly distributed along the x-axis. This comes from the underlying assumption about how the parameters are distributed, gamma-distribution versus uniform distribution.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Let’s explore in more detail how different parameters impact results by making the system less ‘noisy.’ To do so, we’ll impose no variability for some parameters. For the following parameters, set <strong>both</strong> their lower and upper bound to the specified value: B<sub>0</sub> = I<sub>0</sub> = 1, <em>B<sub>max</sub></em> = 1e5, <em>d<sub>B</sub></em> = 1, <em>k</em> = 10<sup>-7</sup>, r = 10<sup>-4</sup>.</li>
-<li>Let <em>d<sub>I</sub></em> vary between 1 and 2 and give <em>g</em> a mean of 5 and variance of 1. Run the simulation. You’ll get a bunch of warning messages from the function that computes the correlations, ignore them.</li>
-<li>You should now see nice patterns of correlation between <em>g</em> and <em>d<sub>I</sub></em> and the different outcomes. Confirm that - as expected from the steady state equations - that <em>B<sub>steady</sub></em> depends linearly on <em>d<sub>I</sub></em> and that it has no correlation with <em>g</em>. Both the scatterplots and the correlation coefficient should give you that information.</li>
-<li>Also note the distribution for <em>g</em> and <em>d<sub>I</sub></em>. The former has more points around its mean and less for lower/higher values, while <em>d<sub>I</sub></em> values are uniformly distributed along the x-axis. This comes from the underlying assumption about how the parameters are distributed, gamma-distribution versus uniform distribution.</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
-<h3>Task 8:</h3>
+<h3>Task 8</h3>
+<p>Above, you should have found for the <em>I<sub>steady</sub></em> equation that <span class="math inline">\(I_{steady} = g(1-d_I/(r*B_{max})-d_B)/k\)</span>. Let’s compare the results from the equation with the simulation. Run the simulations several times, once with <em>d<sub>I</sub></em> ranging 0.1 to 2, then from 1.5 to 2, and then from 0.1 to 0.6. Investigate the plot and correlation coefficient for <em>d<sub>I</sub></em> and <em>I<sub>steady</sub></em> for both settings. What differences do you note based on the values? How could those be explained? The important take-home message from this task is that the influence of a parameter on some outcome can be different over different ranges. For instance in range A-B, the parameter might have a major influence, but once the parameter value goes above B, the parameter does not further influence the result. If you have large uncertainty in your parameters, it might be worth considering both the full range, and dividing the range into smaller areas to see how the parameter behaves.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Above, you should have found for the <em>I<sub>steady</sub></em> equation that <span class="math inline">\(I_{steady} = g(1-d_I/(r*B_{max})-d_B)/k\)</span>. Let’s compare the results from the equation with the simulation. Run the simulations several times, once with <em>d<sub>I</sub></em> ranging 0.1 to 2, then from 1.5 to 2, and then from 0.1 to 0.6. Investigate the plot and correlation coefficient for <em>d<sub>I</sub></em> and <em>I<sub>steady</sub></em> for both settings. What differences do you note based on the values? How could those be explained?</li>
+<li>Something</li>
 </ul>
-<p>The important take-home message from this task is that the influence of a parameter on some outcome can be different over different ranges. For instance in range A-B, the parameter might have a major influence, but once the parameter value goes above B, the parameter does not further influence the result. If you have large uncertainty in your parameters, it might be worth considering both the full range, and dividing the range into smaller areas to see how the parameter behaves.</p>
 </div>
 </div>
 <div id="shinytab4" class="section level2">
