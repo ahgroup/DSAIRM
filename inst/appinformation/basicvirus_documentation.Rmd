@@ -26,7 +26,8 @@ This app allows exploration of a basic virus infection model, with compartments 
 
 ### Learning Objectives
 
-
+* Learn about steady states and how to compute them.
+* Introduce the concept of basic reproduction numbers for within-host models
 
 
 ## The Model {#shinytab2}
