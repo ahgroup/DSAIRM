@@ -26,6 +26,11 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app illustrates the method of bootstrapping data, which is one way one can obtain confidence intervals for parameters when fitting mechanistic models to data.
 
 
+### Learning Objectives
+
+
+
+
 ## The Model {#shinytab2} 
 
 The data and the underlying simulation model are the same as in the _Basic model fitting_ app. If you haven't worked your way through that app, do that first.

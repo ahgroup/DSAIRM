@@ -24,6 +24,13 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview

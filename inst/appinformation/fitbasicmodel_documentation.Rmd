@@ -26,6 +26,11 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model.
 
 
+
+### Learning Objectives
+
+
+
 ## The Model {#shinytab2}
 
 ### Data

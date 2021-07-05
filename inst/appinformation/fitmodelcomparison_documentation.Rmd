@@ -26,6 +26,12 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview

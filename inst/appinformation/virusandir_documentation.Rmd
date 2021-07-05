@@ -25,6 +25,13 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app allows exploration of a virus infection model that includes several components of the immune response. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview

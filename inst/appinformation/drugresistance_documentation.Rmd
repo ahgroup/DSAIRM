@@ -28,6 +28,11 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app allows exploration of a stochastic model that simulates emergence of drug resistance during an acute virus infection (e.g. influenza) in the presence of an antiviral. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Description

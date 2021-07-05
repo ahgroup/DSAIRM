@@ -25,6 +25,13 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app allows you to explore the effect of specific model parameters on some outcomes of interest for the basic virus model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview

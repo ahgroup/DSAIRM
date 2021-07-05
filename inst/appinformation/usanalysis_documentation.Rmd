@@ -27,6 +27,13 @@ This app allows exploration of the concept of uncertainty and sensitivity analys
 For this purpose, we use the basic bacteria infection model introduced in the app of that name. If you haven't done so yet, familiarize yourself and work through that app first.
 
 
+
+### Learning Objectives
+
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview

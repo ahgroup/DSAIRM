@@ -30,6 +30,12 @@ While this app does model fitting, the topic of fitting is not discussed here. T
 Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
 
 
+
+### Learning Objectives
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Data

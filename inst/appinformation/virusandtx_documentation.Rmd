@@ -28,6 +28,12 @@ This app allows exploration of the basic virus infection model in the presence o
 Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
 
 
+
+### Learning Objectives
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview
