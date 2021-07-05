@@ -70,51 +70,180 @@ $$e = E_{max} \frac{C^k}{C^k+C_{50}}$$
 
 ## What to do {#shinytab3}
 
-### Task 1: 
-For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days.
+```{r, echo=FALSE, eval=TRUE}
 
-* Set number of uninfected cells to 10^5^, 10 virions, no infected cells.
-* We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
-* Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
-* Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation starts at time 0 and runs for 20 days.  
-* For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1.
-* Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0.
-* Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57.
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days. Set number of uninfected cells to 10^5^, 10 virions, no infected cells. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average lifespan of 1 day, virus of 12 hours. Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1, simulation starts at time 0 and runs for 20 days. For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1. Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0. Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Since max drug efficacy was 0, the drug had no impact. Now change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see? Now start drug treatment earlier, at days 9,8,.. down to day 1. Observe how the drug now has more of an impact."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 2: 
-* Since max drug efficacy was 0, the drug had no impact. Now change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see?
-* Now start drug treatment earlier, at days 9,8,.. down to day 1. Observe how the drug now has more of an impact.
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Let's explore the Pk part of the model, i.e. the kinetics of the drug. Start drug on day 5, leave everything as above. Explore how different dosing intervals affect the drug Pk and thereby the virus load. Explore how different drug decay rates affect the drug Pk and thereby the virus load. Explore how different drug doses affect the drug Pk and thereby the virus load."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 3: 
-* Let's explore the Pk part of the model, i.e. the kinetics of the drug. Start drug on day 5, leave everything as above.
-* Explore how different dosing intervals affect the drug Pk and thereby the virus load.
-* Explore how different drug decay rates affect the drug Pk and thereby the virus load.
-* Explore how different drug doses affect the drug Pk and thereby the virus load.
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Now we'll explore the Pd part of the model, i.e. the equation describing drug action. Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy). Explore how different 50% efficacy levels affect the virus load. Explore how different values for the drug efficacy increase parameter affect the virus load. Explore how different drug max drug efficacy levels affect the virus load. Note that the highest biologically reasonable value for $E_{max}$ is 1, which means 100% efficacy. While you can stick higher values into the model, they don't make any sense (you'll be getting negative virus production). Note that for all the changes you did above, the drug time-series did not change."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 4: 
-* Now we'll explore the Pd part of the model, i.e. the equation describing drug action. Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy).
-* Explore how different 50% efficacy levels affect the virus load.
-* Explore how different values for the drug efficacy increase parameter affect the virus load.
-* Explore how different drug max drug efficacy levels affect the virus load. Note that the highest biologically reasonable value for $E_{max}$ is 1, which means 100% efficacy. While you can stick higher values into the model, they don't make any sense (you'll be getting negative virus production). 
-* Note that for all the changes you did above, the drug time-series did not change.
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy). Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? (You should find around 56819 uninfected cells for one of the scenarios and around 64799 for the other). If drug side-effects were an issue, would your decision change? Why or why not?"
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 5: 
-* Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy).
-* Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? (You should find around 56819 uninfected cells for one of the scenarios and around 64799 for the other).
-* If drug side-effects were an issue, would your decision change? Why or why not?
 
-### Task 6: 
-* Let's consider a chronic situation. Set everything as in task 1, then set birth rate and death rate of uninfected cells to 10000 and 0.1.  
-* For the drug, assume treatment starts at day 50, max simulation time of 100 days, and drug is given weekly at a dose of 1.
-* Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1.
-* Run the simulation. You should see an infection settling to some steady state, then drug treatment starts and virus levels go up and down with around 24389 at 100 days. Importantly, the virus does not show some overall decline, it only goes up and down. Make sure you understand why that is.
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "Let's consider a chronic situation. Set everything as in task 1, then set birth rate and death rate of uninfected cells to 10000 and 0.1. For the drug, assume treatment starts at day 50, max simulation time of 100 days, and drug is given weekly at a dose of 1. Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1. Run the simulation. You should see an infection settling to some steady state, then drug treatment starts and virus levels go up and down with around 24389 at 100 days. Importantly, the virus does not show some overall decline, it only goes up and down. Make sure you understand why that is."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 7: 
-* Play with the different Pk parameters as described in task 3 and see how it affects virus load and what is needed to get the virus to low levels.
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Play with the different Pk parameters as described in task 3 and see how it affects virus load and what is needed to get the virus to low levels."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 8: 
-* Play with the different Pd parameters as described in task 4 and see how it affects virus load and what is needed to get the virus to low levels.
+#########################
+# Task 8
+#########################
+tid = tid + 1
+tasktext = "Play with the different Pd parameters as described in task 4 and see how it affects virus load and what is needed to get the virus to low levels."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
 
 
 ## Further Information {#shinytab4}
