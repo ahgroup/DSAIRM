@@ -72,6 +72,10 @@ div.csl-indent {
 <p>This app allows exploration of a virus infection model that includes several components of the immune response. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
+<ul>
+<li><p>Explore the interplay of model processes and variables (analogous to immune responses during infections)</p></li>
+<li><p>Understand the challenges of building complex models</p></li>
+</ul>
 </div>
 </div>
 <div id="shinytab2" class="section level2">
@@ -121,81 +125,59 @@ div.csl-indent {
 <p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<ul>
-<li>Start with 10<sup>5</sup> uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, <em>p<sub>F</sub></em>/<em>d<sub>F</sub></em>. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code.</li>
-<li>Set birth and death rate of uninfected cells to 0.</li>
-<li>Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours.</li>
-<li>Assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-5</sup>.</li>
-<li>Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)</li>
-<li>By looking at the equations, convince yourself that if you have no B-cells and no baseline production and extra induction of the innate response (<em>p<sub>F</sub></em>=<em>g<sub>F</sub></em>=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.</li>
-<li>Run your model for 30 days, start at 0 and set the time step for which solutions are returned to 0.01.</li>
-<li>Confirm/test with the model that this is the case.</li>
-<li>If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217.</li>
-</ul>
+<p>Start with 10<sup>5</sup> uninfected cells, no infected cells, 10 virus particles and no initial B-cells, T-cells or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, <em>p<sub>F</sub></em>/<em>d<sub>F</sub></em>. This is hard-coded, if you wanted to change this, you will have to edit the underlying simulation code. Set birth and death rate of uninfected cells to 0. Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours. Also assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-5</sup>. Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)</p>
+<p>By looking at the equations, convince yourself that if you have no T- or B-cells and no baseline production and extra induction of the innate response (<em>p<sub>F</sub></em>=<em>g<sub>F</sub></em>=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.</p>
+<p>Run your model for 30 days, start at 0 and set the time step for which solutions are returned to 0.01.</p>
+<p>If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217. Confirm that the immune response quantities were zero throughout.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Day at which the viral load peaks</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2</h3>
-<ul>
-<li>Now we’ll slowly add immune response components. We start with the innate response.</li>
-<li>Set innate response production rate to 100, removal rate to 1. Leave innate growth rate at 0.</li>
-<li>Set T-cell induction rate to 0.</li>
-<li>Set virus reduction by innate response parameter to 10<sup>-12</sup> (almost 0).</li>
-<li>Leave everything as before.</li>
-<li>By looking at the equations, convince yourself that while there will now be an innate response, it does not affect the infection dynamics. Also convince yourself that there will still be no B-cells and T-cells.</li>
-<li>Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells.</li>
-</ul>
+<p>Now we’ll slowly add immune response components. We start with the innate response.</p>
+<p>Set innate response production rate to 100, removal rate to 1. Leave innate growth rate at 0. Set T-cell induction rate to 0. Set the suppression of virus production by innate response parameter to 10<sup>-12</sup> (almost 0). Leave everything else as before.</p>
+<p>By looking at the equations, convince yourself that while there will now be an innate response, it does not affect the infection dynamics. Also convince yourself that there will still be no B-cells and T-cells.</p>
+<p>Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Day at which the number of infected cells peaks</li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<ul>
-<li>Allow the innate response to impact virus production by increasing <em>s<sub>F</sub></em>. Contemplate what you expect to see, check with the simulation.</li>
-<li>Now allow the innate response to grow in the presence of the virus by setting innate growth to a non-zero value. Explore different values.</li>
-<li>Explore the innate response by trying different values for all innate response related parameters (i.e. <em>p<sub>F</sub></em>, <em>d<sub>F</sub></em>, <em>g<sub>F</sub></em>, <em>s<sub>F</sub></em>, <em>h<sub>V</sub></em> and <em>F<sub>max</sub></em> )</li>
-<li>If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response).</li>
-</ul>
+<p>Allow the innate response to impact virus production by increasing <em>s<sub>F</sub></em> to 0.01. Contemplate what you expect to see, then check with the simulation.</p>
+<p>Now, allow the innate response to also grow in the presence of the virus by setting innate response growth to 1. Contemplate what you expect to see, check with the simulation.</p>
+<p>Explore the innate response by trying different values for all innate response related parameters (i.e. <em>p<sub>F</sub></em>, <em>d<sub>F</sub></em>, <em>g<sub>F</sub></em>, <em>s<sub>F</sub></em>, <em>h<sub>V</sub></em> and <em>F<sub>max</sub></em> )</p>
+<p>If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Day at which viral load peaks with <em>s<sub>F</sub></em> = 0.01 and <em>g<sub>F</sub></em> = 0</p></li>
+<li><p>Day at which viral load peaks with <em>s<sub>F</sub></em> = 0.01 and <em>g<sub>F</sub></em> = 1</p></li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
 <h3>Task 4</h3>
-<ul>
-<li>Now instead of having the innate response reduce virus production, we consider its effect on T-cell activation.</li>
-<li>Set everything as in task 2, then set T-cell induction rate to 0.1 and T-cell growth rate to 0.5.</li>
-<li>Set T-cell killing rate close to 0 (e.g. 10<sup>-20</sup>). Contemplate what you’d expect to see, run the simulation to confirm.</li>
-<li>You should see the same size acute infection as before, namely with around 70217 infected cells. You will also see T-cells growing.</li>
-<li>Now allow T-cells to kill infected cells by increasing the killing rate. First formulate your expectation, then test with the simulation.</li>
-<li>As killing rate increases, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.</li>
-<li>Play around with the parameters that directly govern T-cell kinetics and impact (<em>r<sub>T</sub></em>, <em>g<sub>T</sub></em>, <em>k<sub>T</sub></em>), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task).</li>
-</ul>
+<p>Now instead of having the innate response reduce virus production, let’s consider its effect on T-cell activation.</p>
+<p>Set everything as in task 2. Then set T-cell induction rate to 0.1 and T-cell growth rate to 0.5. Set T-cell killing rate close to 0 (e.g. 10<sup>-20</sup>). Contemplate what you’d expect to see; run the simulation to confirm.</p>
+<p>You should see the same size acute infection as before, namely with around 70217 infected cells at the peak. You will also see T-cells growing.</p>
+<p>Now, allow T-cells to kill infected cells by increasing the killing rate. First formulate your expectation, then test with the simulation. As killing rate increases, you should see a steeper decline of infected cells and virus toward the end of the infection. The peak will also be somewhat affected.</p>
+<p>Play around with the parameters that directly govern T-cell kinetics and impact (<em>r<sub>T</sub></em>, <em>g<sub>T</sub></em>, <em>k<sub>T</sub></em>), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>TRUE or FALSE: It is possible to prevent any cells from being infected by setting the T-cell killing rate arbitrarily high.</li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<ul>
-<li>We now explore B-cell/antibody response.</li>
-<li>Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10<sup>2</sup>.</li>
-<li>Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10<sup>-20</sup>.</li>
-<li>Run the simulation. Why don’t you see any increasing numbers of B-cells and antibodies? Hint: Look at the equations and the initial conditions.</li>
-<li>Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation.</li>
-<li>The maximum number of infected cells is as before. I’m sure it’s clear why: While the B-cells and antibodies are there now, they don’t ‘do’ anything just yet.</li>
-<li>Allow the antibodies to impact virus by slowly increasing the virus removal rate, <em>k<sub>A</sub></em>. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens.</li>
-</ul>
+<p>Let’s now explore B-cell/antibody response. Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10<sup>2</sup>. Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10<sup>-20</sup>. Run the simulation. Why don’t you see any increasing numbers of B-cells and antibodies? <em>Hint: Look at the equations and the initial conditions.</em></p>
+<p>Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation. The maximum number of infected cells is as before. I’m sure it’s clear why: While the B-cells and antibodies are there now, they don’t <em>do</em> anything just yet.</p>
+<p>Allow the antibodies to impact virus by slowly increasing the virus removal rate, <em>k<sub>A</sub></em>. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Number of B-cells after 20 days with <em>k<sub>A</sub></em> = 0.1</p></li>
+<li><p>Peak number of infected cells with <em>k<sub>A</sub></em> = 0.1</p></li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
@@ -203,7 +185,7 @@ div.csl-indent {
 <p>So far, we have only had a single immune response component at a time act on the virus or infected cells. Now it’s time to look at ‘everything.’ This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model - while still in some sense fairly small and simple - is nevertheless already fairly complex, with lots of ‘knobs to turn’ and parameters to adjust, and things going on. This is a challenge when building models: Smaller models are less realistic, but easier to build and study. Larger models are potentially more realistic, but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That’s often tricky.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Nothing</li>
 </ul>
 </div>
 </div>
@@ -220,7 +202,7 @@ div.csl-indent {
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-handel10" class="csl-entry">
-Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2010. <span>“Towards a Quantitative Understanding of the Within-Host Dynamics of Influenza <span>A</span> Infections.”</span> <em>Journal of The Royal Society Interface</em> 7 (42): 35–47. <a href="https://doi.org/10.1098/rsif.2009.0067">https://doi.org/10.1098/rsif.2009.0067</a>.
+Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2010. <span>“Towards a Quantitative Understanding of the Within-Host Dynamics of Influenza a Infections.”</span> <em>J R Soc Interface</em> 7 (42): 35–47. <a href="https://doi.org/10.1098/rsif.2009.0067">https://doi.org/10.1098/rsif.2009.0067</a>.
 </div>
 </div>
 </div>
