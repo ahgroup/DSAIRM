@@ -51,8 +51,15 @@ As mentioned, the underlying model is the continuous-time, ODE version of the mo
 knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
-$$\dot B = gB(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
-$$\dot I = r B I - d_I I$$
+
+Set of ODE equations:
+
+$$
+\begin{aligned}
+\dot B & = gB(1-\frac{B}{B_{max}})-d_B B - k BI \\
+\dot I & = r B I - d_I I
+\end{aligned}
+$$
 
 
 
