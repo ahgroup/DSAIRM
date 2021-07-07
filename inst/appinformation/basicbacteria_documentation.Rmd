@@ -142,9 +142,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Play around with the plot settings. Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Also try plotly as the plot engine. Leave all other settings as before. You should see that while the look of the plot changes, the underlying numbers do not. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic. One nice feature about plotly is that the plot is interactive and you can read off numbers. Use this feature to determine the day at which the bacteria and immune response have their second peak. (Hint: day 32 for bacteria, a bit later for the immune response.)"
+tasktext = "Play around with the plot settings. Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Also try plotly as the plot engine. Leave all other settings as before. You should see that while the look of the plot changes, the underlying numbers do not. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic. One nice feature about plotly is that the plot is interactive and you can read off numbers. Use this feature to determine the day at which the bacteria and immune response have their second peak. (*Hint: day 32 for bacteria, a bit later for the immune response.*)"
 nrec = 1 # number of items to record
-out_records = c("Day of second peak for bacteria")
+out_records = c("Day of second peak for the immune response")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
