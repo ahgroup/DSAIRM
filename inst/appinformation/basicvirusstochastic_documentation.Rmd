@@ -53,8 +53,9 @@ The one difference to the deterministic virus model is that we do not include an
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r BIdiagram,  fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
-knitr::include_graphics("../media/virusdiagram.png")
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 
