@@ -47,8 +47,9 @@ You can choose one of the model parameters to be varied between some minimum and
 As mentioned, this is the same model as used in the _Basic Virus_ app. Details can be found there. For ease of reference, the flow diagram and the equations are shown again here:
 
 
-```{r BIdiagram, fig.cap='Flow diagram for a simple virus infection model.',  echo=FALSE}
-knitr::include_graphics("../media/virusdiagram.png")
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 $$\dot U = n - d_U U - bUV$$ 

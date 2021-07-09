@@ -72,8 +72,8 @@ While this model and these processes make some biological sense, there are many 
 The diagram illustrating this compartmental model is shown in the figure.
 
 
-```{r VirusIR,  fig.cap='',  echo=FALSE, out.width="70%"}
-knitr::include_graphics("../media/virusandIRmodel.png")
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 

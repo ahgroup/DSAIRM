@@ -56,7 +56,13 @@
 #' @export
 
 
-simulate_usanalysis <- function(Bmin = 1, Bmax = 10, Imin = 1, Imax = 10, Bmaxmin=1e5, Bmaxmax=1e6, dBmin=1e-1, dBmax = 1e-1, kmin=1e-7, kmax=1e-7, rmin=1e-3, rmax=1e-3, dImin=1, dImax=2, gmean=0.5, gvar=0.1, samples = 10, rngseed = 100, tstart = 0, tfinal = 200, dt = 0.1)
+simulate_usanalysis <- function(Bmin = 100, Bmax = 200, Imin = 1, Imax = 2,
+                                Bmaxmin=1e5, Bmaxmax=2e5,
+                                dBmin=0.5, dBmax = 1, kmin=1e-4, kmax=2e-4,
+                                rmin=1e-4, rmax=2e-4, dImin=1, dImax=2,
+                                gmean=2, gvar=0.5,
+                                samples = 10, rngseed = 100,
+                                tstart = 0, tfinal = 300, dt = 0.5)
   {
 
     #this creates a LHS with the specified number of samples for all 8 parameters

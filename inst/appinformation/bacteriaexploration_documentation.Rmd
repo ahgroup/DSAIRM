@@ -37,9 +37,9 @@ The model used here is the one introduced in the __Basic Bacteria Model__ app. I
 
 What's different here compared to the __Basic Bacteria Model__ app is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. 
 
-For the __Outcomes of Interest__, we consider the maximum number of bacteria and immune response, and their values at the end of the simulation, when the system has settled down to a steady state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition. You learned about steady states in the __Basic Bacteria Model__ app. In the app, those 4 steady-state outcomes of interest are labeled _Bpeak_, _Ipeak_, _Bsteady_ and _Isteady_. 
+For the __Outcomes of Interest__, we consider the maximum number of bacteria and immune response, and their values at the end of the simulation, when the system has settled down to a steady state. You learned about steady states in the __Basic Bacteria Model__ app. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition. In this app, those 4 steady-state outcomes of interest are labeled _Bpeak_, _Ipeak_, _Bsteady_ and _Isteady_. 
 
-The __Inputs of Interest__ are the different model parameters. You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the 4 outcomes of interest computed. The resulting plot is one showing how those 4 outcomes of interest vary with the parameter you investigated.
+The __Inputs of Interest__ are the different model parameters. You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the 4 outcomes of interest computed. The resulting plot shows how those 4 outcomes of interest vary with the parameter you investigated.
 
 
 
@@ -51,8 +51,15 @@ As mentioned, the underlying model is the continuous-time, ODE version of the mo
 knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
-$$\dot B = gB(1-\frac{B}{B_{max}})-d_B B - k BI$$ 
-$$\dot I = r B I - d_I I$$
+
+Set of ODE equations:
+
+$$
+\begin{aligned}
+\dot B & = gB(1-\frac{B}{B_{max}})-d_B B - k BI \\
+\dot I & = r B I - d_I I
+\end{aligned}
+$$
 
 
 
@@ -92,7 +99,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Set simulation time back to 300, leave everything else the same. Play around with the number of parameter samples. A higher number gives you a more detailed plot, but it also means the simulation runs more often and it takes longer. Next, explore how changing the minimum and maximum of the parameter range you scan over changes the results. Next, explore how spacing of parameter values (linear versus log) changes results. Compare and contrast that with plotting results on a linear versus log scale. Think a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load first increases, but then levels off? What about the fact that the steady state value for the bacteria does not change as the growth rate changes? And the immune response peak and steady state both increase, even though the parameter you vary is the bacteria growth rate. Is that surprising? At this point, you might want to go back to the steady state tasks of the Basic Bacteria app and compare what you found there with what you see here. You should expect the mathematical expressions and the numerical results to agree. You can use the mathematical expression to check the result you are asked to report and read off from the plot."
+tasktext = "Set simulation time back to 300, leave everything else the same. Play around with the number of parameter samples. A higher number gives you a more detailed plot, but it also means the simulation runs more often and it takes longer. Next, explore how changing the minimum and maximum of the parameter range you scan over changes the results. Then, explore how spacing of parameter values (linear versus log) changes results. Compare and contrast that with plotting results on a linear versus log scale. 
+
+\nThink a bit about the results you see in the plot for the different outcomes. Would you have expected that as the bacteria growth rate increases, the peak bacteria load first increases, but then levels off? What about the fact that the steady state value for the bacteria does not change as the growth rate changes? And that the immune response peak and steady state both increase, even though the parameter you vary is the bacteria growth rate. Is that surprising? At this point, you might want to go back to the steady state tasks of the Basic Bacteria app and compare what you found there with what you see here. You should expect the mathematical expressions and the numerical results to agree. You can use the mathematical expression to check the result you are asked to report and read off from the plot."
 nrec = 1 # number of items to record
 out_records = c("Bsteady for pretty much all values of g (get it from plotly plot)")
 out_types = rep("Integer",nrec)
@@ -112,9 +121,11 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "As you learned in the Basic Bacteria app, this model is simple enough that we can compute the steady states mathematically, without needing to run simulations. However, even for a simple model like this, one can't write down similar equations for the maximum of B and I. You can take a look at the model equations and diagram and see if by thinking through them, you can understand why you got the results for the peak values you find when running the simulations. With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations. Let's explore this a bit for a different parameter. Reset all inputs to their defaults. Then set the parameter to vary to be **dI**. Choose 1-10 as the range for the parameter, 20 samples. For the Bsteady and Isteady values, you can compare the results with the mathematical expressions. For the peak values, you can try to intuit what you might expect _B~peak~_ and _I~peak~_ do as you increase _d~I~_ based on looking at the model equations. You can then check by running the simulations. You'll see that _I~peak~_ goes to zero above _d~I~ = 5_. Try to understand what is going on here. Also, at values above around 5, _B~peak~_ remains unchanged. Try to understand why that is. (Hint: It's an interaction between the parameters of growth and decay)."
+tasktext = "As you learned in the Basic Bacteria app, this model is simple enough that we can compute the steady states mathematically, without needing to run simulations. However, even for a simple model like this, one can't write down similarly simple equations for the maximum of B and I. You can take a look at the model equations and diagram and see if by thinking through them, you can understand why you got the results for the peak values you find when running the simulations. With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations. 
+
+\nLet's explore this a bit for a different parameter. Reset all inputs to their defaults. Then set the parameter to vary to be **dI**. Choose 1 to 10 as the range for the parameter, 20 samples. For the Bsteady and Isteady values, you can compare the results with the mathematical expressions. For the peak values, you can try to intuit what you might expect _B~peak~_ and _I~peak~_ do as you increase _d~I~_ based on looking at the model equations. You can then check by running the simulations. You'll see that _I~peak~_ stays at 10 (the initial value) above _d~I~ = 5_. Try to understand what is going on here. Also, as _d~I~_ increases,  _B~steady~_ approaches _B~peak~_ and both reach and remain at the same value. Try to understand why that is. (Hint: At high _d~I~_, the immune response is so small it has no more effect in the dynamics of the bacteria.)."
 nrec = 1 # number of items to record
-out_records = c("Bpeak for values of dI>5 (get it from plotly plot)")
+out_records = c("Bsteady for values of dI>5 (get it from plotly plot)")
 out_types = rep("Integer",nrec)
 out_notes = rep("Report the integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),

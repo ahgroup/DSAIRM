@@ -275,7 +275,7 @@ run_model <- function(modelsettings) {
         if (plotscale == 'y' | plotscale == 'both') { result[[ct]]$yscale = 'log10'}
 
         #the following are for text display for each plot
-        result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur insinde generate_text
+        result[[ct]]$maketext = TRUE #if true we want the generate_text function to process data and generate text, if 0 no result processing will occur inside generate_text
         result[[ct]]$finaltext = paste("System might not have reached steady state", length(steady) - sum(steady), "times")
 
         ct = ct + 1

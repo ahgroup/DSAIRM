@@ -5,27 +5,27 @@
 \title{Simulation to illustrate uncertainty and sensitivity analysis}
 \usage{
 simulate_usanalysis(
-  Bmin = 1,
-  Bmax = 10,
+  Bmin = 100,
+  Bmax = 200,
   Imin = 1,
-  Imax = 10,
+  Imax = 2,
   Bmaxmin = 1e+05,
-  Bmaxmax = 1e+06,
-  dBmin = 0.1,
-  dBmax = 0.1,
-  kmin = 1e-07,
-  kmax = 1e-07,
-  rmin = 0.001,
-  rmax = 0.001,
+  Bmaxmax = 2e+05,
+  dBmin = 0.5,
+  dBmax = 1,
+  kmin = 1e-04,
+  kmax = 2e-04,
+  rmin = 1e-04,
+  rmax = 2e-04,
   dImin = 1,
   dImax = 2,
-  gmean = 0.5,
-  gvar = 0.1,
+  gmean = 2,
+  gvar = 0.5,
   samples = 10,
   rngseed = 100,
   tstart = 0,
-  tfinal = 200,
-  dt = 0.1
+  tfinal = 300,
+  dt = 0.5
 )
 }
 \arguments{

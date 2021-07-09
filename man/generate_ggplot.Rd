@@ -42,8 +42,8 @@ This is a helper function. This function processes results returned from the sim
 }
 \details{
 This function can be called to produce plots, i.e. those displayed for each app.
-The input needed by this function is produced by either calling the run_model() function (as done when going through the UI)
-or manually transforming the output from a simulate_ function into the correct list structure explained below.
+The input needed by this function is produced by either calling the \code{\link{run_model}} function (as done when going through the UI)
+or manually transforming the output from a simulate_ function into the correct list structure as explained here.
 }
 \author{
 Andreas Handel

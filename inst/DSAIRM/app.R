@@ -454,7 +454,7 @@ ui <- fluidPage(
            a("GPL-3.", href="https://www.gnu.org/licenses/gpl-3.0.en.html" , target="_blank")
            ,
            br(),
-           "The development of this package was partially supported by NIH grant U19AI117891.",
+           "This project was/is partially supported by NIH grants U19AI117891, U01AI150747, R25AI147391 and R25GM089694.",
            align = "center", style="font-size:small") #end paragraph
   )
 ) #end fluidpage

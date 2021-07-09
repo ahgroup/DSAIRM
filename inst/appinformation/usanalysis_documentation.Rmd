@@ -24,20 +24,21 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 ## Overview {#shinytab1}
 This app allows exploration of the concept of uncertainty and sensitivity analysis. 
-For this purpose, we use the basic bacteria infection model introduced in the app of that name. If you haven't done so yet, familiarize yourself and work through that app first.
-
-
+For this purpose, we use the _Basic Bacteria Model_ introduced in the app of that name. If you haven't done so yet, familiarize yourself and work through that app first. It might also be a good idea to go through the __Bacteria Model Exploration__ app to familiarize yourself further with the model and the idea of recording outcomes of interest as a function of changing parameters.
 
 ### Learning Objectives
 
-
-
-
+* Be familiar with the motivation behind doing an uncertainty and sensitivity (U/S) analysis 
+* Know the steps involved in doing an U/S analysis.
 
 ## The Model {#shinytab2}
 
 ### Model Overview
-The model is the continuous time model in the 'basic bacteria model' app. See the documentation there for the model description. For convenience, here is a quick summary and the equations again.
+
+The underlying model is the continuous-time, ODE version of the model from the  __Basic Bacteria Model__ app. Details can be found there. 
+
+
+For convenience, here is a quick summary, diagram and equations again.
 
 We model 2 compartments:
 
@@ -46,20 +47,33 @@ We model 2 compartments:
 
 We specify the following processes/flows: 
 
-1. Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, _B~max~_. 
-2. Bacteria die at a natural death rate (which we label _d~B~_).
-3. Bacteria are killed by the immune response at some rate _k_.
-4. The immune response grows proportional to the number of bacteria and itself at some rate _r_.
-5. The immune response decays at some rate (which we label _d~I~_).
+* Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, _B~max~_. 
+* Bacteria die at a natural death rate (which we label _d~B~_).
+* Bacteria are killed by the immune response at some rate _k_.
+* The immune response grows proportional to the number of bacteria and itself at some rate _r_.
+* The immune response decays at some rate (which we label _d~I~_).
 
 The equations are given by:
 
-$$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$
-$$\dot I = r B I - d_I I$$
+$$
+\begin{aligned}
+\dot B & = gB(1-\frac{B}{B_{max}})-d_B B - k BI \\
+\dot I & = r B I - d_I I
+\end{aligned}
+$$
+
+And the flow diagram is as follows
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```
+
+
 
 
 ### Uncertainty and Sensitivity analysis
-Often, for a given system we want to model, we only have rough estimates for the model parameters and starting values. Instead of specifying fixed values (which results in a single time-series), we can instead specify parameter ranges, choose sets of parameter values from these ranges, and run the model for multiple sets of parameters. 
+
+For the system we want to study and model, we often have only rough estimates for the model parameters and starting values. Instead of specifying fixed values (which results in a single time-series), we can instead specify parameter ranges, choose sets of parameter values from these ranges, and run the model for multiple sets of parameters. 
 
 The simplest way of specifying parameter ranges is to set an upper and lower bound (based on what we know about the biology of the system) and randomly choose any value within those bounds. We can almost always set bounds even if we know very little about a system. Assume we want to model the death rate of some cell type (e.g. NK cells) in humans. We might not know anything, but we can still be fairly confident that their lifespan is at least 1 second and less than 100 years. That's of course a wide range and we should and usually can narrow ranges further, based on biological knowledge of a given system.
 
@@ -71,11 +85,13 @@ The way the samples are drawn could be done completely randomly, but that would 
 
 Once we specify the ranges for each parameter, the sampling method, and the number of samples, the simulation draws that many samples, runs the model for each sample, and records outcomes of interest. While the underlying simulation returns a time-series for each sample, we are usually not interested in the full time-series. Instead, we are interested in some summary quantity. For instance in this model, we might be interested in the maximum/peak level of bacteria during the infection, the level of bacteria at the end (the steady state) of the infection, and the level of the immune response at steady state. This app records and reports those 3 quantities as _B~peak~_, _B~steady~_ and _I~steady~_.
 
-Results from such simulations for multiple samples can be analyzed in different ways. The most basic one, called *uncertainty analysis* only asks what level of uncertainty we have in our outcomes of interest, given the amount of uncertainty in our model parameter values. This can be graphically represented with a boxplot, and is one of the plot options for this app.
+Results from such simulations for multiple samples can be analyzed in different ways. The most basic one, called **Uncertainty Analysis** only asks what level of uncertainty we have in our outcomes of interest, given the amount of uncertainty in our model parameter values. This can be graphically represented with a boxplot, and is one of the plot options for this app.
 
-In a next step, we can ask 'how sensitive is the outcome(s) of interest to variation in specific parameters' - that part is the *sensitivity analysis*. When you run the simulations, you essentially do both uncertainty and sensitivity analysis at the same time, it's just a question of how you further process the results. We can graphically inspect the relation between outcome and some parameter with scatterplots. If we find that there is a monotone up or down (or neither) trend between parameter and outcome, we can also summarize the finding using a correlation coefficient. For this type of analysis, using the Spearman rank correlation coefficient is useful, which is what the app produces below the figures.
+In a next step, we can ask 'how sensitive is the outcome(s) of interest to variation in specific parameters' - that part is the **Sensitivity Analysis**. When you run the simulations, you essentially do both uncertainty and sensitivity analysis at the same time, it's just a question of how you further process the results. We can graphically inspect the relation between outcome and some parameter with scatterplots. If we find that there is a monotone up or down (or neither) trend between parameter and outcome, we can also summarize the finding using a correlation coefficient. For this type of analysis, using the Spearman rank correlation coefficient is useful, which is what the app produces below the figures.
+
 
 ### A note on randomness in computer simulations
+
 This simulation (as well as some of the others) involves sampling. This leads to some level of randomness. In science, we want to be as reproducible as possible. Fortunately, random numbers on a computer are not completely random, but can be reproduced. In practice, this is done by specifying a random number seed, in essence a starting position for the algorithm to produce pseudo-random numbers. As long as the seed is the same, the code should produce the same pseudo-random numbers each time, thus ensuring reproducibility.
 
 
@@ -84,6 +100,8 @@ This simulation (as well as some of the others) involves sampling. This leads to
 First, familiarize yourself with the setup of the app, it looks different from most others. Parameters are not set to specific values. Instead, most parameters have a lower and upper bound. For each simulation that is run, random values for the parameter are chosen  uniformly between those bounds. The parameter _g_ does not have a uniform but instead a gamma distribution, you can specify its mean and variance to determine the distribution from which values are sampled. 
 
 The default outcome plots are boxplots, which show the distribution of the 3 outcomes of interest for the different parameter samples. You can set the number of samples you want to run. Samples are constructed using the latin hypercube method to efficiently span the space of possible parameter values. In general, more samples are better, but of course take longer to run.
+
+```{r, echo=FALSE, eval=TRUE}
 
 ```{r, echo=FALSE, eval=TRUE}
 
@@ -97,9 +115,13 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "Since the creation of parameter samples involves some element of uncertainty, we need to make use of random numbers. We still want results to be reproducible. That's where the random number seed comes in. As long as the seed is the same, the code should produce the same pseudo-random numbers each time, thus ensuring reproducibility. Let's explore this. Leave all settings as they are, run 20 samples twice with the same random number seed, check to make sure you get exactly the same result twice. Now change the random number seed to a different value, run again. You should see results changed. (It doesn't matter if you change the seed by just a bit or a lot.) The more samples you have, the more robust the results are to changes in the underlying sample generation (determined by the random number seed). Try checking this by running 10 samples with 2 different random number seeds, then running 100+ samples (or as many as you can do without waiting too long) with 2 different seeds. You should see less variability in the central quantities (mean, median) for the larger sample size. Note that each sample means one simulation of the underlying dynamical model, so as sample numbers increase, things slow down. Also note the 'system might not have reached steady state' message. If for too many of the samples steady state has not been reached, the results for _B~steady~_ and _I~steady~_ are not correct. In that case you need to increase the simulation time to allow the system to settle into steady state. For some parameter combinations, that can take very long. "
+tasktext = "The creation of parameter samples involves some element of uncertainty, and we need to make use of random numbers. We still want results to be reproducible. That's where the random number seed comes in. As long as the seed is the same, the code should produce the same pseudo-random numbers each time, thus ensuring reproducibility. 
+
+\nLet's explore this. Leave all settings at their default values. Run the simulation. You should find that the median for Bsteady is around 10736 (as printed below the plot). Run the simulation again with the same settings, you should get exactly the same results. 
+
+\nNow change the random number seed (rngseed) to 101. Run the simulation again. The median value should be lower. Note that the only thing that is different is that the computer drew different random samples for the parameter values. Keep exploring other rngseed values. You should notice that sometimes results change a bit, sometimes a lot, and that it doesn't matter if you change the seed by just a bit or a lot."
 nrec = 1 # number of items to record
-out_records = c("Something")
+out_records = c("Median for Bsteady with rngseed = 101.")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -115,9 +137,11 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Recall the underlying dynamical model and its behavior. If you can't, revisit the 'Basic Bacteria' app and go through it. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, _r_.  Increase lower/upper bounds by a factor of 10, from 10^-5^/10^-4^ to 10^-4^/10^-3^. Run simulations, see how results change. Now go the opposite, lower the initial lower/upper bounds by a factor of 10. Run simulations, see how results change."
+tasktext = "The more samples you have, the more robust the results are to changes in the underlying sample generation (determined by the random number seed). Try checking this by running 100 samples, instead of 10, with the two random number seeds from above. Be patient, this might take a good while. Since each sample means a run of the underlying simulation model, things start to go slow for increased sample size. 
+
+\nFor rngseed = 100, the median of Bsteady is around 9306, for the second rngseed value it is somewhat higher. You might have noticed that the variability shrinks in the central quantities (mean, median) for the larger sample size, not much in the extremes (min/max). You might have also noticed that some Bpeak is inherently more variable than Bsteady and Isteady. Also note the 'system might not have reached steady state' message. If for too many of the samples steady state has not been reached, the results for _B~steady~_ and _I~steady~_ are not correct. In that case you need to increase the simulation time to allow the system to settle into steady state. For some parameter combinations, that can take very long."
 nrec = 1 # number of items to record
-out_records = c("Something")
+out_records = c("Median for Bsteady with rngseed = 101, 100 samples.")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -128,15 +152,16 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
                       Note = out_notes)
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
-
 
 #########################
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "Now let's explore what happens if we change ranges for the bacteria carrying capacity, _Bmax_. If we increase it, which of the outcomes do you expect to change, and in which direction? Test your assumption by increasing and decreasing lower/upper bounds for _Bmax_ by a factor of 10. Set _r_ back to the initial values, leave all other parameters as before."
+tasktext = "Recall the underlying model and its behavior. If you can't, revisit the __Basic Bacteria__ app. Use your understanding of the model to predict what happens if you increase both lower and upper bound for the immune response activation rate, _r_. Increase both lower and upper bounds (rmin and rmax) by a factor of 10. Set seed to 100, with 50 samples. Leave everything else at the default values. Run the simulations and see how results change. 
+
+\nNow go the opposite direction, lower the initial lower/upper bounds by a factor of 10 from their original value. Run simulations, see how results change. Especially for the steady states, you know from previous apps how things should change as you change _r_. Compare your simulation results with your expectations."
 nrec = 1 # number of items to record
-out_records = c("Something")
+out_records = c("Median for Bsteady rmin = 0.001 and rmax = 0.002.")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -147,16 +172,17 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
                       Note = out_notes)
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
 
 #########################
 # Task 4
 #########################
 tid = tid + 1
-tasktext = "Continue exploring by changing ranges for different parameters, see what you find. It is likely that for some settings you'll see warning or error messages on the `R` console. That generally means that the parameters for a given simulation are such that the differential equation solver can't properly run the model. That usually corresponds to biologically unrealistic parameter settings. We'll ignore them, but if you did a research project and you got such warning or error messages, you'd have to figure out why you get them and only once you fully understand why is it maybe ok to ignore them."
+tasktext = "Continue this exploration as you change ranges for different parameters. Note that while you change ranges for some parameters, every time you get samples for all parameters in those ranges. This is different from the __Basic Bacteria Exploration__ app where only the parameter we scanned over changed and every other parameter remainded fixed. Usually, you have a parameter you are most interested in, and you'll explore that parameter in detail, while allowing for variability in the others. As you play around, it is likely that for some settings you'll see warning or error messages on the `R` console. That generally means that the parameters for a given simulation are such that the differential equation solver can't properly run the model. That usually corresponds to biologically unrealistic parameter settings. We'll ignore them, but if you did a research project and you got such warning or error messages, you'd have to figure out why you get them and only once you fully understand why is it maybe ok to ignore them."
 nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -166,15 +192,20 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
+
 #########################
 # Task 5
 #########################
 tid = tid + 1
-tasktext = "The above approach of exploring the impact of a parameter on results by varying bounds is tedious. Also, often we have bounds that are specified by biology, and not subject to us changing them. It would still be useful to know how a given parameter impacts the results. This is where sensitivity analysis comes in. We run the same simulations, but now instead of plotting outcomes as a boxplot, we produce scatterplots for outcomes as function of each varied parameter. Set values back as in task 1 (using the reset button). Switch the plot type from boxplot to scatterplot, run the simulation. Take a close look at the scatterplots to investigate the relation between different parameters and the various outcomes. Look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.) Increase sample size to 100+ or whatever number runs within a reasonable amount of time. With more samples, the patterns of correlation are clearer in the plots."
+tasktext = "So far, we only looked at the total variability in outcomes as parameters are being varied/sampled (i.e. the boxplots and summary measures printed underneath the plots). The above approach of exploring the impact of a parameter on results by varying bounds and repeatedly looking at boxplots or summary measures is somewhat tedious. This is where sensitivity analysis comes in. By running the same simulations, but plotting outcomes as scatterplots, we can explore how variation in a paramter leads to variation in outcomes. Let's explore this. 
+
+\nSet all input values to their defaults. Then set sample size to 50 and switch the plot type from boxplot to scatterplot. Run the simulation. You'll see how the 3 outcomes of interest vary with one of the varied inputs. Here this is the initial starting value for the bacteria. Which in some sense is not a model parameter, but an initial condition. However, for the purpose of U/S analysis, either is considered a varied input/parameter. Also look at the text below the plots. For each parameter-output pair, the code computes a rank correlation coefficient. Numbers close to 0 mean there is essentially no correlation, close to 1 or -1 means a large positive or negative correlation. (One could compute p-values for these correlations, but they are somewhat meaningless since the values will get smaller the more samples you use, so you can basically produce any p-value you want.). 
+
+\nLet's explore this correlation for a parameter we are familiar with from previous apps, the bacteria growth rate. Set all inputs to their defaults, then set samples to 100. Also switch the plot type to _Scatterplot_ and _Parameter for scatterplot_ to $g$. Run the simulation. We found earlier that $B$ at steady state does not depend on $g$, while $I$ does. The correlation coefficients show this as well. Note that they are not exactly 0 and 1 since there is additional variability due to the other parameters being sampled as well."
 nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
+out_records = c("Rank Correlation Coefficient between g and Isteady (2 decimal places).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Report the value rounded to two significant digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -189,11 +220,13 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 6
 #########################
 tid = tid + 1
-tasktext = "Since our model is rather simple, we can actually determine relations between parameters and some of the outcomes analytically. Specifically, it is possible to compute the steady state values for _B_ and _I_, _B~steady~_ and _I~steady~_. If you don't know what steady states are and how to compute them, go through the 'Bacterium Model Exploration' app, where this is explained. If you haven't done it yet or can't remember the equations for the steady states, compute them. You should find that $B_{steady} = d_I / r$ and a similar equation for _I~steady~_. Compare the scatterplots and correlation coefficients with the results from these equations. For instance based on the equation, you should see a linear correlation between _B~steady~ and _d~I~_.  You might find that there is a lot of scatter in the data, too much to see clear patterns. One could always increase sample size which should help detect patterns, but it takes longer to run. Another option is to restrict the variability to a subset of parameters, which we'll do next."
+tasktext = "Let's explore in more detail how variability in different parameters impacts results. We'll pretend that we happen to know several model inputs with certainty. To do so, we'll impose no variability for some parameters. For the following parameters, set **both** their lower and upper bound to the specified value: initial value for bacteria and immune response = 1,  _B~max~_ = 1e5,  _d~B~_ = 1, _k_ = r = 10^-4^. Let _d~I~_ vary between 1 and 2 and give $g$ a mean of 5 and variance of 1. 100 samples, seed at 100, scatterplot for $g$. Run the simulation. You'll see a very clear pattern relating the outcomes to $g$. Switch to plotting $d_I$, you'll again see nice patterns. 
+
+\nConfirm that - as expected from the steady state equations - that _I~steady~_ depends positively on $g$ and negatively on $d_I$. Both the scatterplots and the correlation coefficient should give you that information. Also note the distribution for _g_ and _d~I~_. The former has more points around its mean and less for lower/higher values, while _d~I~_ values are uniformly distributed along the x-axis. This comes from the underlying assumption about how the parameters are distributed, gamma-distribution versus uniform distribution."
 nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
+out_records = c("Rank Correlation Coefficient between g and Isteady (2 decimal places).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Report the value rounded to two significant digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -207,11 +240,15 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 7
 #########################
 tid = tid + 1
-tasktext = "Let's explore in more detail how different parameters impact results by making the system less 'noisy'. To do so, we'll impose no variability for some parameters. For the following parameters, set **both** their lower and upper bound to the specified value: B~0~ = I~0~ = 1,  _B~max~_ = 1e5,  _d~B~_ = 1, _k_ = 10^-7^, r = 10^-4^. Let _d~I~_ vary between 1 and 2 and give _g_ a mean of 5 and variance of 1. Run the simulation. You'll get a bunch of warning messages from the function that computes the correlations, ignore them. You should now see nice patterns of correlation between _g_ and _d~I~_ and the different outcomes. Confirm that - as expected from the steady state equations - that _B~steady~_ depends linearly on _d~I~_ and that it has no correlation with _g_. Both the scatterplots and the correlation coefficient should give you that information. Also note the distribution for _g_ and _d~I~_. The former has more points around its mean and less for lower/higher values, while _d~I~_ values are uniformly distributed along the x-axis. This comes from the underlying assumption about how the parameters are distributed, gamma-distribution versus uniform distribution."
+tasktext = "In the __Bacteria Model Exploration__ app, we investigated the fact that for some value of $d_I$, we get a switch from a steady state to no steady state (if you don't remember, I suggest you revisit that app first). This behavior can also (accidentally) happen when you sample over parameters. That's not ideal since it means you combine to qualitatively different results in a single distribution. Let's explore this. 
+
+\nReset all values to their defaults. Then set ranges for $d_I$ to be from 1 to 5, 100 samples, a scatterplot with $d_I$ on the x-axis. Also change to plotly as the plot engine. Run the simulation. You should see mostly non-zero values for $I_{steady}$ (you might need to click the auto-scale button on the plot). Now change the range for $d_I$ to be from 10 to 14. You'll now see a large number of zeros for $I_{steady}$, especially for high $d_I$ values. 
+
+\nThe important take-home message from this is that the influence of a parameter on some outcome can be different over different ranges. For instance in range A-B, the parameter might have a major influence, but once the parameter value goes above B, the parameter does not further influence the result. If you have large uncertainty in your parameters, it might be worth considering both the full range, and dividing the range into smaller areas to see how the parameter behaves."
 nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
+out_records = c("Rank Correlation Coefficient between dI and Isteady for range 10-14 (2 decimal places).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Report the value rounded to two significant digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -220,26 +257,7 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
                       Note = out_notes)
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
-
-#########################
-# Task 8
-#########################
-tid = tid + 1
-tasktext = "Above, you should have found for the _I~steady~_ equation that $I_{steady} = g(1-d_I/(r*B_{max})-d_B)/k$. Let's compare the results from the equation with the simulation. Run the simulations several times, once with _d~I~_ ranging 0.1 to 2, then from 1.5 to 2, and then from 0.1 to 0.6. Investigate the plot and correlation coefficient for _d~I~_ and _I~steady~_ for both settings. What differences do you note based on the values? How could those be explained? The important take-home message from this task is that the influence of a parameter on some outcome can be different over different ranges. For instance in range A-B, the parameter might have a major influence, but once the parameter value goes above B, the parameter does not further influence the result. If you have large uncertainty in your parameters, it might be worth considering both the full range, and dividing the range into smaller areas to see how the parameter behaves."
-nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
-outcomes = data.frame( TaskID = rep(tid,nrec),
-                       TaskText = rep(tasktext,nrec),
-                      RecordID = paste0('T',tid,'R',(1:nrec)),
-                      Record = out_records, 
-                      Type = out_types, 
-                      Note = out_notes)
-alloutcomes = rbind(alloutcomes,outcomes)
-rc = rc + nrec #increment record counter by number of outcomes to record for this task 
-
-```
+``` 
 
 
 
@@ -258,6 +276,10 @@ write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = 
 # Take all the text stored in the table and print the tasks and items to record
 write_tasktext(alloutcomes)
 ```
+
+
+
+
 
 
 
