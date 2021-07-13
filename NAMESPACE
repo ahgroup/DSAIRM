@@ -2,7 +2,6 @@
 
 export(dsairmmenu)
 export(generate_documentation)
-export(generate_equations)
 export(generate_fctcall)
 export(generate_ggplot)
 export(generate_plotly)

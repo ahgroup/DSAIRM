@@ -32,8 +32,8 @@ test_that("generate_shinyinput correctly produces a shiny input structure",
             appsettings$nplots = as.numeric(appsettings$nplots)
 
             #if an mbmodel should be used, check that it exists and load
-            appsettings$mbmodel <- NULL
-            #appsettings$mbmodel = readRDS(paste0(modeldir,"/",appsettings$mbmodelname) )
+            #appsettings$mbmodel <- NULL
+            appsettings$mbmodel = readRDS(paste0(modeldir,"/",appsettings$mbmodelname) )
 
             #if the doc of a file should be parsed for UI generation, get it here
             filepath = paste0(simdir,'/',appsettings$simfunction[1],'.R')
@@ -59,9 +59,20 @@ test_that("generate_shinyinput correctly produces a shiny input structure",
             expect_false(grepl('Bacteria',modelinputs3[[2]][[1]][[3]]))
             expect_true(grepl('B',modelinputs3[[2]][[1]][[3]]))
 
-            #can be done if we turn on mbmodel
-            #expect_equal(length(modelinputs1),length(modelinputs2))
-            #expect_equal(length(modelinputs1),length(modelinputs3))
+
+            #try function for an mbmodel
+            #currently no mbmodels are used for any of the apps, but might in the future
+
+
+            #this requires an mbmodel for the basicbacteria app to be present, even if not used in DSAIRM
+            modelinputs1 <- generate_shinyinput(use_mbmodel = TRUE, mbmodel = appsettings$mbmodel,
+                                                use_doc = FALSE, model_file = appsettings$filepath,
+                                                model_function = appsettings$simfunction[1],
+                                                otherinputs = appsettings$otherinputs, packagename = packagename)
+
+
+            expect_equal(length(modelinputs1),length(modelinputs2))
+            expect_equal(length(modelinputs1),length(modelinputs3))
 })
 
 

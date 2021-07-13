@@ -1,4 +1,4 @@
-context("test-modelexploration.R")
+context("test-basicbacteria-modelexploration.R")
 
 test_that("test that modelexploration app returns the proper plots",
           {
@@ -24,7 +24,7 @@ test_that("test that modelexploration app returns the proper plots",
             result = run_model(modelsettings)
 
             p = DSAIRM::generate_ggplot(result)
-            expect_true( is.ggplot(p))
+            testthat::expect_true( is.ggplot(p))
 
             testthat::expect_is( generate_plotly(result), "plotly" )
             testthat::expect_is( generate_text(result), "html" )
@@ -36,7 +36,17 @@ test_that("test that modelexploration app returns the proper plots",
             result = run_model(modelsettings)
 
             p = DSAIRM::generate_ggplot(result)
-            expect_true( is.ggplot(p))
+            testthat::expect_true( is.ggplot(p))
+
+            modelsettings$samplepar = "dI"
+            modelsettings$parmin = 1e-1
+            modelsettings$parmax = 1
+            modelsettings$samples = 10
+            modelsettings$tfinal = 20
+            result = run_model(modelsettings)
+
+            expect_true(grepl("10 times",result[[1]]$finaltext))
+
 
             })
 

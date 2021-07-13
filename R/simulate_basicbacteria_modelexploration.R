@@ -69,15 +69,15 @@ simulate_basicbacteria_modelexploration <- function(B = 100, I = 10, g=2, Bmax=1
 
 
     steady = rep(TRUE,samples) #indicates if steady state has not been reached
-    for (n in 1:samples)
+    for (nn in 1:samples)
     {
         #replace value of parameter we want to vary
-        if (samplepar == 'g') {g = parvec[n]}
-        if (samplepar == 'Bmax') {Bmax = parvec[n]}
-        if (samplepar == 'dB') {dB = parvec[n]}
-        if (samplepar == 'k') {k = parvec[n]}
-        if (samplepar == 'r') {r = parvec[n]}
-        if (samplepar == 'dI') {dI = parvec[n]}
+        if (samplepar == 'g') {g = parvec[nn]}
+        if (samplepar == 'Bmax') {Bmax = parvec[nn]}
+        if (samplepar == 'dB') {dB = parvec[nn]}
+        if (samplepar == 'k') {k = parvec[nn]}
+        if (samplepar == 'r') {r = parvec[nn]}
+        if (samplepar == 'dI') {dI = parvec[nn]}
 
 
         #this runs the bacteria ODE model for each parameter sample
@@ -86,18 +86,22 @@ simulate_basicbacteria_modelexploration <- function(B = 100, I = 10, g=2, Bmax=1
 
         timeseries = odeout$ts
 
-        Bpeak[n]=max(timeseries[,"B"]); #get the peak for B
-        Ipeak[n]=max(timeseries[,"I"]);
-        Bsteady[n] = utils::tail(timeseries[,"B"],1)
-        Isteady[n] = utils::tail(timeseries[,"I"],1)
+        Bpeak[nn]=max(timeseries[,"B"]); #get the peak for B
+        Ipeak[nn]=max(timeseries[,"I"]);
+        Bsteady[nn] = utils::tail(timeseries[,"B"],1)
+        Isteady[nn] = utils::tail(timeseries[,"I"],1)
 
         #a quick check to make sure the system is at steady state,
-        #i.e. the value for B at the final time is not more than
-        #1% different than B several time steps earlier
+        #i.e. there is no absolute change larger than 0.1
+        #AND the value for at the final time is not more than
+        #1% different than several time steps earlier
+        #the abs() functions are there since sometimes for small values, they can become numerically negative
         vl=nrow(timeseries);
-        if ((abs(timeseries[vl,"B"]-timeseries[vl-10,"B"])/timeseries[vl,"B"])>1e-2)
+        finaldiff = abs(timeseries[vl,"B"]-timeseries[vl-10,"B"])
+        finalrel = finaldiff/abs(timeseries[vl,"B"])
+        if (finaldiff>0.1 || finalrel > 1e-2)
         {
-          steady[n] = FALSE
+          steady[nn] = FALSE
         }
     }
 

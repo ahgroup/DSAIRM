@@ -7,7 +7,7 @@
 #general setup to define package and get path locations
 #all paths are inside the package and retrieved with system.file
 packagename = "DSAIRM"
-helperdir = "helperfunctions"
+helperdir = "auxiliary/helperfunctions"
 mbmodeldir = "mbmodels"
 figuredir = "media"
 appdocdir = "appinformation"
@@ -20,6 +20,6 @@ appdocdir = "appinformation"
 # get_settings.R reads settings from apptable.tsv
 # write_tasktext.R writes the text for all tasks into the Rmd/Html file
 filenames = c("get_settings.R","write_tasktext.R")
-files_to_source = paste(system.file(helperdir,package = packagename),filenames,sep="/")
+files_to_source = paste(here::here(),helperdir,filenames,sep="/")
 #source these files
 sapply(files_to_source, source)
