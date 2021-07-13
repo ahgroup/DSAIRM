@@ -1,4 +1,4 @@
-context("test-modelexploration.R")
+context("test-basicbacteria-modelexploration.R")
 
 test_that("test that modelexploration app returns the proper plots",
           {

@@ -82,19 +82,138 @@ For any problem that involves fitting ODE models to data, it is often important 
 
 The model is assumed to run in units of days.
 
+
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Start with 1E6 uninfected cells, no infected cells, 1 virion (assumed to be in the same units of the data, TCID50/ml). No uninfected cell birth and deaths. Lifespan of infected cells 12 hours (make sure to convert to a rate). Unit conversion factor 0. Set virus production rate to 0.001, with lower and upper bounds of 0.0001 and 100. psim can be anything for now. Set the infection rate to b=0.1 with lower/upper bounds of 0.001/10. bsim can be anything. Set the virus decay rate to 1, with lower/upper bounds of 0.01/100. dVsim can again be anything.
+
+The parameters **p**, **b** and **dV** are being fit, the values we specify here are the starting conditions for the optimizer and the upper and lower bounds which the parameters must remain inside. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model. Ww ignore the values for simulated data for now, to do so set _usesimdata_ to 0. This also means the _noise_ variable is ignored, you can set it to anything. Start with a maximum of 1 iteration/fitting step for the optimizer and _solvertype_ 1. Choose to plot the y-axis on a log scale using either ggplot or plotly. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with the starting conditions we picked for the parameters. Notice that the virus load predicted by the model and the data are already fairly close. Look at the SSR value reported underneath the plot. It should be 3.25. As we fit, if things work ok, this value will go down, indicating an improved fit.
+
+Now choose iter = 10, i.e. fit for 20 iterations. Run the simulation. Look at the results. The plot shows the final fit. The model-predicted virus curve will be closer to the data. Record the SSR value, it should have gone down, indicating a better fit. Also printed below the figure are the values of the fitted parameters at the end of the fitting process, they should differ from the values you started with."
+nrec = 1 # number of items to record
+out_records = c("SSR after 20 interations (round to 2 digits).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Repeat the same process, now fitting for 40 iterations. You should see some more improvement in the SSR, meaning a further improvement in fit. 
+For a real problem, instead of fixing the number of iterations, you would let the optimizer run until there is no further improvement. In this example, it happens quickly. Keep increasing iterations until you find no further reduction in SSR."
+nrec = 1 # number of items to record
+out_records = c("SSR after 40 interations (round to 2 digits).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "The goal is to find the best fit, the one with the lowest SSR posssible (for a given model and data set). While in theory, there is always one (or maybe more than one) best fit, for the kind of models we are fitting here, it is often hard to numerically find this best fit (that's a big difference to many standard statistical models, where the numeric routine is fairly straightforward). To explore this, start with the same input values as for task 1, run the optimizer for 40 steps, but now use solver/optimizer type "2". Then repeat for type "3". You should find that solver 2 is at an SSR after 40 steps that's above solver 1, while solver 3 found a value that's below what type 1 is able to find, no matter for how many iterations you run type 1."
+nrec = 1 # number of items to record
+out_records = c("SSR after 40 interations, solver type 3 (round to 2 digits).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "It's maybe not surprising that different numerical methods take different number of steps to find the optimal solution. We are fine with that, as long as they can all find the same best fit given enough time/iterations. This doesn't always work. Let's, explore this. Run each solver for 1000 iterations, then 2000. Depending on the speed of your computer, this might take a while, so be patient. You should find that each solver produces the same SSR for 1000 and 2000 steps, so each solver has converged (reached what it thinks is the overall best fit). Unfortunately, the solvers don't agree on what the best fit is. In this example, solver 2 performs best, with an SSR slightly below 1. This illustrates the challenge when fitting the kind of models we have here, namely that we often have to explore different solvers (and starting conditions, we'll get there) to be reasonably sure we can find the overall best fit. This general problem gets worse the more parameters you try to fit."
+nrec = 1 # number of items to record
+out_records = c("SSR after 1000 interations, solver type 2 (round to 2 digits).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "To explore the role that different starting values for the estimated parameters can have, set p=0.01, b=0.01, dV=10. Run a single iteration with solver 1. SSR should be 3.54, similar but not the same as for the start of task 1. Now run each of the 3 solvers for 1000 iterations. You'll find that all of them are able to find better fits than previously. Note that the scientific question has not changed, the model and the data are the same and we are still trying to find the combination of parameter values that give the best agreement between model and data. All we have changed is giving the optimizers a different starting position from which to go and find the best fit. In many basic statistical models, you can start anywhere and always arrive at the same answer. This is not the case here. Thus again emphasizing the point that for these kinds of models, you'll likely need to try different starting values and different numerical methods to be reasonably confident you found the overall best fit."
+nrec = 1 # number of items to record
+out_records = c("SSR after 1000 interations, solver type 2 (round to 2 digits).")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+```
+
+
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
 ### Task 1 
-* Start with 10^6^ uninfected cells, no infected cells, 1 virion (assumed to be in the same units of the data, TCID50/ml).
-* No uninfected cell birth and deaths, lifespan of infected cells 12 hours, unit conversion 0.
-* Set virus production rate to 10^-3^, infection rate to 10^-1^ and virus decay rate to 1. These parameters are being fit, the values we specify here are the starting conditions for the optimizer. 
-* For each fitted parameter, choose some lower and upper bounds. Note that if the lower bound is not lower/equal and the upper not higher/equal than the parameter, you will get an error message when you try to run the model.
-* Ignore the values for simulated data for now, set "usesimdata" to 0. 
-* Start with a maximum of 1 iteration/fitting step for the optimizer and solver type 1. Choose to plot the y-axis on a log scale. Run the simulation. Since you only do a single iteration, nothing is really optimized. We are just doing this so you can see the time-series produced with these starting conditions. Notice that the virus load predicted by the model and the data are already fairly close. Also record the SSR so you can compare it with the value after the fit. The value should be 3.25.
-* Now fit for 50 iterations. Look at the results. The plot shows the final fit. The model-predicted virus curve will be closer to the data. Also, the SSR value should have gone down, indicating a better fit. Also printed below the figure are the values of the fitted parameters at the end of the fitting process, they should differ from the values you started with.
-* Repeat the same process, now fitting for 100 iterations. You might or might not see a further reduction in SSR, meaning a further improvement in fit. You can continue increasing the number of steps until the SSR doesn't reduce any further (or you ran out of patience since it takes too long). 
 
 ### Task 2 
-* The goal is to find the best fit, the one with the lowest SSR posssible (for a given model and data set). Unfortunately, for the types of models that are formulated as differential equations (or equivalent discrete-time or stochastic versions), finding the best fit is often tricky in practice. To explore this, repeat the steps above, now using the solvers/optimizers "2" and "3" for fitting. Also change the number of iterations. If your computer is fast enough, keep increasing them.
-* See what the lowest SSR is you can get and record the best parameter values.
+
 
 Generally, with increasing iterations, the fits get better. A fitting step or iteration is essentially a 'try' of the underlying code to find the best possible model. Increasing the tries usually improves the fit. In practice, one should not specify a fixed number of iterations, that is just done here so things run reasonably fast. Instead, one should ask the solver to run as long as it takes until it can't find a way to further improve the fit (don't further reduce the SSR). The technical expression for this is that the solver has converged to the solution. This can be done with the solver used here (`nloptr` R package), but it would take too long, so we implement a "hard stop" after the specified number of iterations.
 

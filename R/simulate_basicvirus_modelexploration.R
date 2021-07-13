@@ -101,10 +101,14 @@ simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 10
         Vsteady[nn] = utils::tail(timeseries[,"V"],1)
 
         #a quick check to make sure the system is at steady state,
-        #i.e. the value for B at the final time is not more than
-        #1% different than B several time steps earlier
+        #i.e. there is no absolute change larger than 0.1
+        #AND the value for at the final time is not more than
+        #1% different than several time steps earlier
+        #the abs() functions are there since sometimes for small values, they can become numerically negative
         vl=nrow(timeseries);
-        if ((abs(timeseries[vl,"U"]-timeseries[vl-10,"U"])/timeseries[vl,"U"])>1e-2)
+        finaldiff = abs(timeseries[vl,"U"]-timeseries[vl-10,"U"])
+        finalrel = finaldiff/abs(timeseries[vl,"U"])
+        if (finaldiff>0.1 || finalrel > 1e-2)
         {
           steady[nn] = FALSE
         }

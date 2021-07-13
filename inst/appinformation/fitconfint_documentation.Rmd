@@ -28,10 +28,29 @@ This app illustrates the method of bootstrapping data, which is one way one can 
 
 ## The Model {#shinytab2} 
 
-The data and the underlying simulation model are the same as in the _Basic model fitting_ app. If you haven't worked your way through that app, do that first.
+The data and the underlying simulation model are the same as in the __Basic Virus Model Fitting__ app. If you haven't worked your way through that app, do that first.
+
+The underlying model that is being fit to the data is again the __Basic Virus Model__, here is a repeat of the model diagram and equations for easy reference.
+
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```
+
+
+$$
+\begin{aligned}
+\dot U & = n - d_U U - bUV \\
+\dot I & = bUV - d_I I \\
+\dot V & = pI - d_V V - gb UV
+\end{aligned}
+$$
+
+
 
 ### Fitting Approach
-The basic fitting approach is the one described in the _Basic model fitting_ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
+
+The basic fitting approach is the one described in the __Basic Virus Model Fitting__ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
 
 There are a few new components in this app. You can fit the parameters either in linear or log space. Fitting in log space can be useful if you have a large range of parameters you want to try. The underlying problem is the same, no matter what scale you fit your parameters on, but sometimes one version or the other can lead to better performance of your solver.
 
