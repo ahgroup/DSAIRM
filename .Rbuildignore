@@ -6,14 +6,10 @@
 ^inst/media$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
 ^CRAN-RELEASE$
 ^README\.md$
 ^cran-comments\.md$
-^to-do\.md$
-^appveyor\.yml$
 ^codecov\.yml$
 ^_pkgdown\.yml$
-^vignettes\related-resources.Rmd$
 ^\.github$
 ^README.Rmd

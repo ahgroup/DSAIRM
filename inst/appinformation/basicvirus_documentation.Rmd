@@ -61,9 +61,13 @@ knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=
 ### Model Equations
 Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
 
-$$\dot U = n - d_U U - bUV$$ 
-$$\dot I = bUV - d_I I$$
-$$\dot V = pI - d_V V - gb UV$$
+$$
+\begin{aligned}
+\dot U & = n - d_U U - bUV \\
+\dot I & = bUV - d_I I \\
+\dot V & = pI - d_V V - gb UV
+\end{aligned}
+$$
 
 
 

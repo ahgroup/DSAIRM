@@ -26,6 +26,10 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model.
 
 
+### Learning Objectives
+* Be familiar with the basic concepts of fitting ODE models to time-series data
+
+
 ## The Model {#shinytab2}
 
 ### Data
@@ -34,7 +38,23 @@ For this app, viral load data from patients infected with influenza is being fit
 Another source of 'data' is by using our simulation to produce artificial data.
 
 ### Simulation Model 
-The underlying model that is being fit to the data is the basic virus model used in the app of this name. See that app for a description of the model.
+The underlying model that is being fit to the data is the __Basic Virus Model__ used in the app of that name (and some of the others). See that app for a detailed description of the model. Here is a repeat of the model diagram and equations for easy reference.
+
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```
+
+
+$$
+\begin{aligned}
+\dot U & = n - d_U U - bUV \\
+\dot I & = bUV - d_I I \\
+\dot V & = pI - d_V V - gb UV
+\end{aligned}
+$$
+
+
 
 
 ### Fitting Model
