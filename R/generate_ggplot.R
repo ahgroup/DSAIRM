@@ -218,8 +218,8 @@ generate_ggplot <- function(res)
           p5b = p5a + ggplot2::theme(legend.position = legendlocation) #default is top
           p5c = p5b + ggplot2::theme(legend.key.width = grid::unit(3, "line")) #line thickness
           p5d = p5c + ggplot2::scale_colour_manual(name = legendtitle, values=plotpalette[1:(nlines+npoints)]) #color for each variable
-          p5e = p5d + ggplot2::scale_linetype_discrete(name = legendtitle, guide = FALSE) #symbol type for symbols; here is some trickery to make the legend look combined (turn off legend title/name)
-          pfinal = p5e + ggplot2::scale_shape_discrete(name = "", guide = FALSE) #symbol type for symbols
+          p5e = p5d + ggplot2::scale_linetype_discrete(name = legendtitle, guide = "none") #symbol type for symbols; here is some trickery to make the legend look combined (turn off legend title/name)
+          pfinal = p5e + ggplot2::scale_shape_discrete(name = "", guide = "none") #symbol type for symbols
         }
       } #end doing legend
       else

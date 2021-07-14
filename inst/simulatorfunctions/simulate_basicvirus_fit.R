@@ -53,7 +53,12 @@
 #' @export
 
 
-simulate_basicvirus_fit <- function(U = 1e6, I = 0, V = 1, n = 0, dU = 0, dI = 2, g = 0, p = 1e-3, plow = 1e-4, phigh = 1e2,  psim = 10, b = 1e-1, blow = 1e-3, bhigh = 1e1,  bsim = 1e-4, dV = 1, dVlow = 1e-2, dVhigh = 1e2,  dVsim = 5, noise = 0, iter = 1, solvertype = 1, usesimdata = 0)
+simulate_basicvirus_fit <- function(U = 1e6, I = 0, V = 1,
+                                    n = 0, dU = 0, dI = 2, g = 0,
+                                    p = 1e-3, plow = 1e-4, phigh = 1e2,  psim = 1e-3,
+                                    b = 1e-1, blow = 1e-3, bhigh = 1e1,  bsim = 1e-1,
+                                    dV = 1, dVlow = 1e-2, dVhigh = 1e2,  dVsim = 1,
+                                    noise = 0, iter = 1, solvertype = 1, usesimdata = 0)
 {
 
 
