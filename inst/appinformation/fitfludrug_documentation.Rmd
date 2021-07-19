@@ -30,6 +30,12 @@ While this app does model fitting, the topic of fitting is not discussed here. T
 Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab. Learn more about the model and its origins in the "Further Information" tab.
 
 
+
+### Learning Objectives
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Data
@@ -69,25 +75,89 @@ For the purpose of using and exploring this app, you can ignore the fitting deta
 
 __Note: This simulation can take time to run, so be patient.__
 
-### Task 1: 
 
-* Set number of uninfected cells to 10^5^, 1 virion, no infected cells.
-* Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours (remember to convert this to rates and units in days). Those parameters are fixed and not fitted.
-* Set virus production rate to 10^-2^, infection rate to 10^-2^ and conversion factor to 1. The bounds for these parameters help in the fitting. If you run your fitting routine long enough (which we don't do here), these bounds should not affect the results, just the time it might take to find the best fit. Note that this is the theory, in practice that's not always true. See the fitting section for more on that. For now you can leave them as they are. The one thing you always need to make sure is that the lower bound is positive and the starting value is between the lower and upper bound.  
-* Start with drug efficacy at some intermediate level, e.g. 0.5. You don't need to specify bounds here since they are given to be between 0 and 1 and thus hard-coded.
-* I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. By turning off all but the virus model fits, things are easier to see.
-* Fit model 1 for 500 iterations. Be patient, this might take a little while. 
+```{r, echo=FALSE, eval=TRUE}
 
-Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load.
+#this is the running counter for the records which starts at 1 
+rc=1
 
-Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, $e$. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike's Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We'll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2.
+#empty object, will hold all outcomes
+alloutcomes = NULL
 
-### Task 2: 
-* Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells.
-* Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Set number of uninfected cells to 10^5^, 1 virion, no infected cells. Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours (remember to convert this to rates and units in days). Those parameters are fixed and not fitted. Set virus production rate to 10^-2^, infection rate to 10^-2^ and conversion factor to 1. The bounds for these parameters help in the fitting. If you run your fitting routine long enough (which we don't do here), these bounds should not affect the results, just the time it might take to find the best fit. Note that this is the theory, in practice that's not always true. See the fitting section for more on that. For now you can leave them as they are. The one thing you always need to make sure is that the lower bound is positive and the starting value is between the lower and upper bound. Start with drug efficacy at some intermediate level, e.g. 0.5. You don't need to specify bounds here since they are given to be between 0 and 1 and thus hard-coded. I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. By turning off all but the virus model fits, things are easier to see. Fit model 1 for 500 iterations. Be patient, this might take a little while. Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load. Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, $e$. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike's Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We'll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 3:
-* This model is also shown as an example in [@handel20]. Note that the terminology is a bit different, and models 1 and 2 are flipped. You'll see AICc reported in the paper to be lower. That suggests that what you did so far didn't yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits.
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells. Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?"
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "This model is also shown as an example in [@handel20]. Note that the terminology is a bit different, and models 1 and 2 are flipped. You'll see AICc reported in the paper to be lower. That suggests that what you did so far didn't yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
 
 
 

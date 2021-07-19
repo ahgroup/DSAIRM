@@ -1,0 +1,40 @@
+"QuizID"	"AppID"	"AppTitle"	"TaskID"	"TaskText"	"RecordID"	"Record"	"Type"	"Note"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	1	"For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days.
+
+* Set number of uninfected cells to 10^5^, 10 virions, no infected cells.
+* We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. 
+* Assume that infected cells have an average lifespan of 1 day, virus of 12 hours.
+* Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1. 
+* Set simulation time to 20 days, both drug effects to 0, 'start at steady state' should be set to 'no'.  
+* Run the simulation. You should get 28694 infected cells at the peak.
+* Just for fun, set 'start at steady state' to 'yes', think about your expectations, run simulation and ensure your expectation and result agree."	"T1R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	2	"* Set 'start at steady state' back to 'no'. 
+* Assume treatment starts at day 10 and it works through reduction of cell infection. Try different values for _f_ (between 0 and 1) and see how results change. 
+* Repeat the same, now assuming that the drug works through reduction of virus production.
+* Repeat those steps assuming treatment starts at day 7. Then do it again with treatment start on day 5."	"T2R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	3	"* If you knew the drug would be administered at day 4 and it reduced infection of cells by 50%, what do you predict the maximum number of infected cells would be?
+* Use the model to predict if it would be better to design a drug that either reduces cell infection by 50% or virus production by 50% (and that drug was given on day 4).
+* Use the model to predict if it would be better to double drug efficacy for reducing virus production from 40% to 80%, or decide to give the drug on day 2 instead of day 4.
+* Can you find a scenario (i.e. values for the different model parameters) in which giving drug at day 2 instead of day 4 beats the 40% vs 80% approach?"	"T3R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	4	"For the next few tasks, we consider a chronic viral infection and treatment (e.g. HCV or HIV). The model is assumed to run in units of days.
+
+* Set all parameters as in task 1, but now allow for uninfected cell births (10000 per day) and cell death (rate of 0.001)
+* Run the simulation for 100 days. You should reach a steady state with 44900 virions present.
+* Set 'start at steady state' to 'yes', confirm that all your variables stay at the steady state level they reached in the previous setting.
+
+If you need an introduction or refresher on what the steady state means and how one could compute it, see the 'Basic Virus' app."	"T4R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	5	"A model like this has been applied to study the interferon treatment for Hepatitis C Virus [@neumann98]. (Today's standard of care for HCV does not involve interferon anymore, but it is still a useful example to consider). One question the investigators wanted to answer is if one of the 2 mechanisms, i.e. reduction of cell infection (parameter _f_) or reduction of virus production (parameter _e_) is better at explaining/predicting observed viral kinetics.
+
+* Set starting conditions to 10^7^ uninfected cells, no infected cells, 10 virions.
+* Set uninfected cell birth rate to 10000, death rate to 0.001.
+* Set the infected cell lifespan to 5 days, virus production rate to 100, virus lifespan to 4 hours, infection rate 10^-7^, conversion factor 1, no treatment. 
+* Run simulation for 400 days with and without starting at steady state. Confirm that you end up with about 821667 virions at the end of the simulation. Plotting with y-axis on a log scale is likely best."	"T5R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	6	"* Now set 'start at steady state' to 'yes'. Note that this will ignore the starting values for _U_, _I_ and _V_ and instead compute the steady state from the model parameters (using the equations you learned about in the 'Basic Virus' app).
+* Run the simulation for 20 days and turn on treatment at 10 days. Try different strengths of treatment efficacy (values for parameters _f_ and _e_). It might be useful to plot the y-axis on a logarithmic scale to better see the virus kinetics.
+* Observed viral load kinetics in real patients following treatment looks often like in the following figure, i.e. it starts with a fast decline followed by a slower decline. Given that data, which of the 2 drug action mechanisms would you predict is more likely to happen? Or do you need both mechanisms present, or can neither reproduce a bi-phasic fast-then-slow virus load decline?
+ref figure {r hcvdata,  fig.cap='Source: Neumann et al 1998 Science.',  echo=FALSE}
+knitr::include_graphics('../media/hcvdata.png')"	"T6R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	7	"* Keep parameter settings as in the previous task. For a drug that reduced the rate of infection of cells by 80%, what virus load do you predict on day 30 (with treatment start on day 10)?  
+* If you were told that the virus load you just found was reached with a drug that reduced viral production, approximately what drug efficacy would you predict? (Answer 0.63, confirm that you get this). "	"T7R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"
+"DSAIRM_virusandtx"	"virusandtx"	"Antiviral Treatment Model"	8	"* Run the simulations from task 6 for a longer time and observe what the different variables do.
+* Change some of the other model parameters around and investigate how this affects the impact of the drug treatment in the model."	"T8R1"	"Something"	"Rounded_Integer"	"Report the rounded integer"

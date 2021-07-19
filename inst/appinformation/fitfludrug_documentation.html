@@ -71,6 +71,9 @@ div.csl-indent {
 <h2>Overview</h2>
 <p>This app uses the same model and follows the same overall setup as the <em>Antiviral Treatment</em> app. You should go through that app first before exploring this one. The major difference is that for this app, instead of comparing model results to data in a qualitative manner, here the model is fit to the data. This provides a more rigorous, statistical way of comparing models and thus hypotheses. While this app does model fitting, the topic of fitting is not discussed here. There is a section in DSAIRM with multiple fitting related apps that focus on the details of how fitting simulation models to data works. For the purpose of this app, we treat all the fitting machinery as a ‘black box.’</p>
 <p>Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab. Learn more about the model and its origins in the “Further Information” tab.</p>
+<div id="learning-objectives" class="section level3">
+<h3>Learning Objectives</h3>
+</div>
 </div>
 <div id="shinytab2" class="section level2">
 <h2>The Model</h2>
@@ -101,30 +104,27 @@ div.csl-indent {
 <h2>What to do</h2>
 <p><strong>Note: This simulation can take time to run, so be patient.</strong></p>
 <div id="task-1" class="section level3">
-<h3>Task 1:</h3>
+<h3>Task 1</h3>
+<p>Set number of uninfected cells to 10<sup>5</sup>, 1 virion, no infected cells. Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours (remember to convert this to rates and units in days). Those parameters are fixed and not fitted. Set virus production rate to 10<sup>-2</sup>, infection rate to 10<sup>-2</sup> and conversion factor to 1. The bounds for these parameters help in the fitting. If you run your fitting routine long enough (which we don’t do here), these bounds should not affect the results, just the time it might take to find the best fit. Note that this is the theory, in practice that’s not always true. See the fitting section for more on that. For now you can leave them as they are. The one thing you always need to make sure is that the lower bound is positive and the starting value is between the lower and upper bound. Start with drug efficacy at some intermediate level, e.g. 0.5. You don’t need to specify bounds here since they are given to be between 0 and 1 and thus hard-coded. I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. By turning off all but the virus model fits, things are easier to see. Fit model 1 for 500 iterations. Be patient, this might take a little while. Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load. Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, <span class="math inline">\(e\)</span>. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike’s Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We’ll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Set number of uninfected cells to 10<sup>5</sup>, 1 virion, no infected cells.</li>
-<li>Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours (remember to convert this to rates and units in days). Those parameters are fixed and not fitted.</li>
-<li>Set virus production rate to 10<sup>-2</sup>, infection rate to 10<sup>-2</sup> and conversion factor to 1. The bounds for these parameters help in the fitting. If you run your fitting routine long enough (which we don’t do here), these bounds should not affect the results, just the time it might take to find the best fit. Note that this is the theory, in practice that’s not always true. See the fitting section for more on that. For now you can leave them as they are. The one thing you always need to make sure is that the lower bound is positive and the starting value is between the lower and upper bound.<br />
-</li>
-<li>Start with drug efficacy at some intermediate level, e.g. 0.5. You don’t need to specify bounds here since they are given to be between 0 and 1 and thus hard-coded.</li>
-<li>I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. By turning off all but the virus model fits, things are easier to see.</li>
-<li>Fit model 1 for 500 iterations. Be patient, this might take a little while.</li>
+<li>Something</li>
 </ul>
-<p>Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load.</p>
-<p>Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, <span class="math inline">\(e\)</span>. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike’s Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We’ll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2.</p>
 </div>
 <div id="task-2" class="section level3">
-<h3>Task 2:</h3>
+<h3>Task 2</h3>
+<p>Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells. Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells.</li>
-<li>Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?</li>
+<li>Something</li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
-<h3>Task 3:</h3>
+<h3>Task 3</h3>
+<p>This model is also shown as an example in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span>. Note that the terminology is a bit different, and models 1 and 2 are flipped. You’ll see AICc reported in the paper to be lower. That suggests that what you did so far didn’t yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits.</p>
+<p><strong>Record</strong></p>
 <ul>
-<li>This model is also shown as an example in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span>. Note that the terminology is a bit different, and models 1 and 2 are flipped. You’ll see AICc reported in the paper to be lower. That suggests that what you did so far didn’t yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits.</li>
+<li>Something</li>
 </ul>
 </div>
 </div>

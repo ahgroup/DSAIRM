@@ -24,6 +24,13 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
 
+
+### Learning Objectives
+
+
+
+
+
 ## The Model {#shinytab2}
 
 ### Model Overview
@@ -92,30 +99,144 @@ _It is recommended that before you work your way through this app and tasks, you
 
 _For the tasks below, it is assumed that the model is run in units of days_
 
-### Task 1: 
-* We'll begin with the basic virus model by turning off any immune response related component.
-* Set all parameter values related to the immune response such that there is no _F_ and _A_ present at any time during the simulation.
-* Set target cell and virus starting conditions to 10^5^ initial uninfected cells, no infected cells, 10 virions. 
-* Set infection rate to 10^-5^, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours respectively. Rate of virus production should be 100 per day.
-* You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells.
+```{r, echo=FALSE, eval=TRUE}
 
-### Task 2: 
-* Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all innate growth parameters (the _f~i~_) and all innate actions (_k~1~_, _k~2~_, _k~3~_) to 0. 
-* Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn't change (i.e. you should get the same maximum number of infected cells as above).
+#this is the running counter for the records which starts at 1 
+rc=1
 
-### Task 3: 
-* Now explore the different types of innate response induction by playing with the _f~i~_ parameters and the saturation parameter, _s~V~_. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the _k~i~_ at 0. This means the rest of the variables should not change.
+#empty object, will hold all outcomes
+alloutcomes = NULL
 
-### Task 4: 
-* Now explore what happens when you have non-zero _k~i~_. You'll find that the action of the innate response impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex.
-* Pay attention to how different processes of innate activation and innate action do or don't produce different overall dynamics.
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "We'll begin with the basic virus model by turning off any immune response related component. Set all parameter values related to the immune response such that there is no _F_ and _A_ present at any time during the simulation. Set target cell and virus starting conditions to 10^5^ initial uninfected cells, no infected cells, 10 virions. Set infection rate to 10^-5^, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours respectively. Rate of virus production should be 100 per day. You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 5: 
-* Finally turn on the adaptive response. Note that in this model, there is no adaptive response without innate response (check it by setting the innate response to 0 while having non-zero adaptive growth rates, _a~i~_).
-* Turn the innate response back on and explore how different non-zero adaptive growth rates, _a~i~_, affect the adaptive response dynamics. Start by leaving the adaptive action parameters at 0. Then play with those parameters as well and set them to non-zero values. Also explore the impact of the saturation constants.
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Let's explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all innate growth parameters (the _f~i~_) and all innate actions (_k~1~_, _k~2~_, _k~3~_) to 0. Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn't change (i.e. you should get the same maximum number of infected cells as above)."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
-### Task 6: 
-* As you'll notice, some of the specific model choices (i.e. specific parameters/terms in the model being turned on or off) lead to similar results, while other times results are quite different. For a specific system under study, some ways to formulate the immune response and the dynamics one gets might be better than others. Think about a system you are familiar with and consider which (if any) of the possible mechanisms implemented in this model might best describe that system.
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Now explore the different types of innate response induction by playing with the _f~i~_ parameters and the saturation parameter, _s~V~_. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the _k~i~_ at 0. This means the rest of the variables should not change."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Now explore what happens when you have non-zero _k~i~_. You'll find that the action of the innate response impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex. Pay attention to how different processes of innate activation and innate action do or don't produce different overall dynamics."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Finally turn on the adaptive response. Note that in this model, there is no adaptive response without innate response (check it by setting the innate response to 0 while having non-zero adaptive growth rates, _a~i~_). Turn the innate response back on and explore how different non-zero adaptive growth rates, _a~i~_, affect the adaptive response dynamics. Start by leaving the adaptive action parameters at 0. Then play with those parameters as well and set them to non-zero values. Also explore the impact of the saturation constants."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "As you'll notice, some of the specific model choices (i.e. specific parameters/terms in the model being turned on or off) lead to similar results, while other times results are quite different. For a specific system under study, some ways to formulate the immune response and the dynamics one gets might be better than others. Think about a system you are familiar with and consider which (if any) of the possible mechanisms implemented in this model might best describe that system."
+nrec = 1 # number of items to record
+out_records = c("Something")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
 
 
 ## Further Information {#shinytab4}

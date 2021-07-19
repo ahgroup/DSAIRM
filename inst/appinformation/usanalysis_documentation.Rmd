@@ -101,6 +101,7 @@ First, familiarize yourself with the setup of the app, it looks different from m
 
 The default outcome plots are boxplots, which show the distribution of the 3 outcomes of interest for the different parameter samples. You can set the number of samples you want to run. Samples are constructed using the latin hypercube method to efficiently span the space of possible parameter values. In general, more samples are better, but of course take longer to run.
 
+```{r, echo=FALSE, eval=TRUE}
 
 ```{r, echo=FALSE, eval=TRUE}
 
