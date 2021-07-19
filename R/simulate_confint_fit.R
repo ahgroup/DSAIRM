@@ -27,9 +27,9 @@
 #' @param iter : max number of steps to be taken by optimizer : numeric
 #' @param nsample : number of samples for conf int determination : numeric
 #' @param rngseed : seed for random number generator to allow reproducibility : numeric
-#' @param parscale :  'lin' or 'log' to fit parameters in linear or log space : character
+#' @param parscale : 1 for linear, 2 for log space parameter fitting : numeric
 #' @return The function returns a list containing the best fit time series, the best fit parameters for
-#' the data, the final SSR, and the bootstrapped confidence intervals.
+#' the data, the final SSR, and the bootstrapped 95 percent confidence intervals.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
@@ -43,7 +43,12 @@
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, p = 0.01, g = 0, b = 1e-2, blow = 1e-6, bhigh = 1e3,  dV = 2, dVlow = 1e-3, dVhigh = 1e3, iter = 20, nsample = 10, rngseed = 100, parscale = 'lin')
+simulate_confint_fit <- function(U = 1e5, I = 0, V = 10,
+                                 n = 0, dU = 0, dI = 2,
+                                 p = 0.01, g = 0,
+                                 b = 1e-2, blow = 1e-6, bhigh = 1e3,
+                                 dV = 2, dVlow = 1e-3, dVhigh = 1e3,
+                                 iter = 20, nsample = 10, rngseed = 100, parscale = 1)
 {
 
   ###################################################################
@@ -56,7 +61,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   cifitfunction <- function(params, fitdata, Y0, xvals, fixedpars, fitparnames, parscale, LOD)
   {
 
-    if (parscale == 'log') {params = exp(params)} #for simulation, need to move parameters back to original scale
+    if (parscale == 2) {params = exp(params)} #for simulation, need to move parameters back to original scale
     names(params) = fitparnames #for some reason nloptr strips names from parameters
     allpars = c(Y0,params, tfinal = max(xvals), dt = 0.1, tstart = 0, fixedpars)
 
@@ -130,7 +135,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   ub = as.numeric(c(bhigh, dVhigh))
   fitparnames = c('b', 'dV')
 
-  if (parscale == 'log') #fitting parameters log scale
+  if (parscale == 2) #fitting parameters log scale
   {
     par_ini = log(par_ini)
     lb = log(lb)
@@ -145,7 +150,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   #extract best fit parameter values and from the result returned by the optimizer
 
   params = bestfit$solution
-  if (parscale == 'log') #fitting parameters log scale
+  if (parscale == 2) #fitting parameters log scale
   {
     params = exp(bestfit$solution)
   }
@@ -168,7 +173,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10, n = 0, dU = 0, dI = 2, 
   ci.b=boot::boot.ci(bssample,index=1,type = "perc")
   ci.dV=boot::boot.ci(bssample,index=2, type = "perc")
   ciall = c(blow = ci.b$perc[4], bhigh = ci.b$perc[5], dVlow = ci.dV$perc[4], dVhigh = ci.dV$perc[5])
-  if (parscale == 'log') #fitting parameters log scale
+  if (parscale == 2) #fitting parameters log scale
   {
     ciall = exp(ciall)
   }

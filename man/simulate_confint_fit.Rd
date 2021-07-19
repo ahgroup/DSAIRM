@@ -22,7 +22,7 @@ simulate_confint_fit(
   iter = 20,
   nsample = 10,
   rngseed = 100,
-  parscale = "lin"
+  parscale = 1
 )
 }
 \arguments{
@@ -60,11 +60,11 @@ simulate_confint_fit(
 
 \item{rngseed}{: seed for random number generator to allow reproducibility : numeric}
 
-\item{parscale}{:  'lin' or 'log' to fit parameters in linear or log space : character}
+\item{parscale}{: 1 for linear, 2 for log space parameter fitting : numeric}
 }
 \value{
 The function returns a list containing the best fit time series, the best fit parameters for
-the data, the final SSR, and the bootstrapped confidence intervals.
+the data, the final SSR, and the bootstrapped 95 percent confidence intervals.
 }
 \description{
 This function runs a simulation of a compartment model

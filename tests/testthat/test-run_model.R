@@ -1,60 +1,42 @@
 context("test-run_model.R")
 
-
 test_that("run_model correctly runs different models",
-{
-            tfinal = 120
-            modelsettings =  list(U = 1e5,I=0,V=10, n = 0, dU = 0,dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tstart = 0, tfinal = tfinal, dt = 0.1, modeltype = "_ode_", plotscale = 'y', nplots = 1)
-            modelsettings$simfunction = 'simulate_basicvirus_ode'
-            result = run_model(modelsettings)
-            #check that simulation ran until max time
-            testthat::expect_equal(max(result[[1]]$dat$xvals), tfinal)
-
-            modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, modeltype = "_discrete_", plotscale = 'y', nplots = 1)
-            modelsettings$simfunction = 'simulate_basicbacteria_discrete'
-            result = run_model(modelsettings)
-            #check that simulation returned specific value of susceptible at end
-            Ifinal = round(tail(result[[1]]$dat$yvals,1))
-            testthat::expect_equal(Ifinal, 13594)
-
-
-            modelsettings =  list(U = 10000, I = 0, V = 10, n = 0, dU = 0, b = 1e-04, dI = 1, p = 10, dV = 2, rngseed = 115, tfinal = 100, modeltype = "_stochastic_", plotscale = 'y', nplots = 1,  nreps = 1)
-            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
-            result = run_model(modelsettings)
-            #check that simulation returned specific value of susceptible at end
-            Ufinal = min(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals)
-            testthat::expect_equal(Ufinal, 58)
-
-            modelsettings =  list(tstart = 10, tfinal = 100, B = 1, dt = 0.1, dU = 0, b = 1e-04, dI = 1, p = 10, gB = 0.1, modeltype = "_ode_", plotscale = 'y', nplots = 1)
-            modelsettings$simfunction = 'simulate_virusandir_ode'
-            result = run_model(modelsettings)
-            Bmax = result[[1]]$dat %>% dplyr::filter(varnames == "B")
-            Bmax = round(max(Bmax$yvals))
-            testthat::expect_equal(Bmax, 23)
-
-            #make model fail by setting something to negative
-            modelsettings =  list(U = 10000, I = 0, V = 10, n = 0, modeltype = "_stochastic_",  nplots = 1,  nreps = 5,  rngseed = 115)
-            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
-            result = run_model(modelsettings)
-            testthat::expect_equal(nrow(result[[1]]$dat), 12519)
-
-            #no model type provided, should fail
-            modelsettings =  list(B = 10, I = 1, g = 1, Bmax = 1e6, dB = 0.1, k = 1e-07, r = 1e-3, dI = 1, tstart = 0, tfinal = 50, dt = 0.01, plotscale = 'x', nplots = 1)
-            modelsettings$simfunction = 'simulate_basicbacteria_discrete'
-            result = run_model(modelsettings)
-            testthat::expect_equal(result, "List element modeltype must be provided.")
-
-            #another model try
+          {
+            ########################################
+            # see if apptable can be loaded and used
             packagename = 'DSAIRM'
 
             #find path to apps
             appdir = system.file("appinformation", package = packagename) #find path to apps
             #load app table that has all the app information
-            at = read.table(file = paste0(appdir,"/apptable.tsv"), sep = '\t', header = TRUE)
+            at = read.table(
+              file = paste0(appdir, "/apptable.tsv"),
+              sep = '\t',
+              header = TRUE
+            )
+            #test basic bacteria model
+            #supply all input settings as list
             appName = "bacteriaexploration"
-            appsettings <- as.list(at[which(at$appid == appName),])
-            modelsettings =  list(B = 100, I = 10, g=2, Bmax=1e5, dB=1, k=1e-4, r=1e-4, dI=2, tstart = 0, tfinal = 300, dt = 0.1, samples = 10, parmin=2, parmax=10, samplepar='g',  pardist = 'lin')
-            modelsettings = c(appsettings,modelsettings)
+            appsettings <- as.list(at[which(at$appid == appName), ])
+            modelsettings =  list(
+              B = 100,
+              I = 10,
+              g = 2,
+              Bmax = 1e5,
+              dB = 1,
+              k = 1e-4,
+              r = 1e-4,
+              dI = 2,
+              tstart = 0,
+              tfinal = 300,
+              dt = 0.1,
+              samples = 10,
+              parmin = 2,
+              parmax = 10,
+              samplepar = 'g',
+              pardist = 'lin'
+            )
+            modelsettings = c(appsettings, modelsettings)
             result = run_model(modelsettings)
             Bpeak = round(result[[1]]$dat$Bpeak[1])
 
@@ -62,4 +44,98 @@ test_that("run_model correctly runs different models",
 
 
 
-})
+            ########################################
+            #run basic virus model
+            modelsettings =  list()
+            modelsettings$simfunction = 'simulate_basicvirus_ode'
+            #use default values for simulation function,
+            #they need to be part of modelsettings otherwise run_model won't work
+            defpar = formals(modelsettings$simfunction)
+            modelsettings = c(modelsettings, defpar)
+            modelsettings$tfinal  = 120
+            modelsettings$modeltype = "_ode_"
+
+            result = run_model(modelsettings)
+            #check that simulation ran until max time
+            testthat::expect_equal(max(result[[1]]$dat$xvals), modelsettings$tfinal)
+
+            ########################################
+            #run basic bacteria model
+            modelsettings =  list()
+            modelsettings$simfunction = 'simulate_basicbacteria_discrete'
+            #use default values for simulation function,
+            #they need to be part of modelsettings otherwise run_model won't work
+            defpar = formals(modelsettings$simfunction)
+            modelsettings = c(modelsettings, defpar)
+            modelsettings$tfinal = 50
+            modelsettings$modeltype = "_discrete_"
+            modelsettings$plotscale = 'y'
+            modelsettings$nplots = 1
+            result = run_model(modelsettings)
+            #check that simulation returned specific value of susceptible at end
+            Ifinal = round(tail(result[[1]]$dat$yvals, 1))
+            testthat::expect_equal(Ifinal, 13594)
+
+            #no model type provided, should fail
+            modelsettings =  list()
+            modelsettings$simfunction = 'simulate_basicbacteria_discrete'
+            result = run_model(modelsettings)
+            testthat::expect_equal(result, "List element modeltype must be provided.")
+
+
+            ########################################
+            #run basic virus stochastic model
+            modelsettings =  list()
+            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
+            #use default values for simulation function,
+            #they need to be part of modelsettings otherwise run_model won't work
+            defpar = formals(modelsettings$simfunction)
+            modelsettings = c(modelsettings, defpar)
+
+            modelsettings$V = 10
+            modelsettings$rngseed = 115
+            modelsettings$tfinal = 100
+            modelsettings$modeltype = "_stochastic_"
+            modelsettings$plotscale = 'y'
+            modelsettings$nplots = 1
+            modelsettings$nreps = 1
+            result = run_model(modelsettings)
+            #check that simulation returned specific value of susceptible at end
+            Ufinal = min(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals)
+            testthat::expect_equal(Ufinal, 58)
+
+            #5 reps
+            modelsettings$nreps = 5
+            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
+            result = run_model(modelsettings)
+            testthat::expect_equal(nrow(result[[1]]$dat), 12519)
+
+
+            ########################################
+            #run virus and IR model
+            modelsettings =  list()
+            modelsettings$simfunction = 'simulate_virusandir_ode'
+            #use default values for simulation function,
+            #they need to be part of modelsettings otherwise run_model won't work
+            defpar = formals(modelsettings$simfunction)
+            modelsettings = c(modelsettings, defpar)
+            modelsettings$tstart = 10
+            modelsettings$tfinal = 100
+            modelsettings$B = 1
+            modelsettings$dt = 0.1
+            modelsettings$dU = 0
+            modelsettings$b = 1e-04
+            modelsettings$p = 10
+            modelsettings$gB = 0.1
+            modelsettings$modeltype = "_ode_"
+            modelsettings$plotscale = 'y'
+            result = run_model(modelsettings)
+            Bmax = result[[1]]$dat %>% dplyr::filter(varnames == "B")
+            Bmax = round(max(Bmax$yvals))
+            testthat::expect_equal(Bmax, 23)
+
+
+
+
+
+          })

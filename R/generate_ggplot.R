@@ -71,10 +71,11 @@ generate_ggplot <- function(res)
         rawdat = resnow$dat
       }
 
-      plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype} #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      #if nothing is provided, we assume a line plot. That could lead to silly plots.
+      plottype <- if(is.null(resnow$plottype)) {'Lineplot'} else  {resnow$plottype}
 
       #if the first column is called 'Time' (as returned from several of the simulators)
-      #rename to xvals for consistency and so the code below will work
+      #rename to xvals for consistency so the code below will work
       if ( colnames(rawdat)[1] == 'Time' | colnames(rawdat)[1] == 'time' ) {colnames(rawdat)[1] <- 'xvals'}
 
       #for the plotting below, the data need to be in the form xvals/yvals/varnames
@@ -139,11 +140,11 @@ generate_ggplot <- function(res)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot(ggplot2::aes(y = .data$yvals, color = .data$varnames), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames)), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Lineplot')
       {
-        p2 = p1 + ggplot2::geom_line( ggplot2::aes(y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), size = linesize, na.rm=TRUE)
       }
       if (plottype == 'Mixedplot')
       {
