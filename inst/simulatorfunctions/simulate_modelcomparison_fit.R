@@ -55,7 +55,7 @@ simulate_modelcomparison_fit <- function(U = 1e6, I = 0, V = 1, X = 1,
                                          dI = 2, dV = 4, p = 0.1, g = 0, k = 0.001,
                                          a = 0.001, alow = 1e-5, ahigh = 10,
                                          b = 0.001, blow = 1e-6, bhigh = 10,
-                                         r = 0.1,  rlow = 0.01, rhigh = 2,
+                                         r = 0.1,  rlow = 1e-3, rhigh = 10,
                                          dX = 1, dXlow = 0.1, dXhigh = 10, fitmodel = 1, iter = 1)
 {
 

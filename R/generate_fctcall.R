@@ -13,7 +13,7 @@
 
 generate_fctcall <- function(modelsettings)
 {
-    #extract modeslettings inputs needed for simulator function
+    #extract modelsettings inputs needed for simulator function
     currentmodel = modelsettings$currentmodel
     #match values provided from UI with those expected by function
     settingsvec = unlist(modelsettings)

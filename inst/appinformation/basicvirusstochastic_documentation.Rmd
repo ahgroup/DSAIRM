@@ -25,10 +25,14 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 
 ## Overview {#shinytab1}
-This app allows exploration of a stochastic model that is almost identical to the deterministic basic virus infection model. In fact, both models are being run so comparison is possible. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of a stochastic model that is almost identical to the deterministic model introduced in the __Basic Virus Model__ app. In fact, both models are being run so comparison is possible. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
 
+### Learning Objectives
+* Be familiar with stochastic compartmental models.
+* Understand the advantages and disadvantages of stochastic models.
 
 ## The Model {#shinytab2}
+
 
 ### Model Description
 This model consists of 3 compartments and is almost identical to the deterministic basic virus infection model. We track the following entities, by assigning each to a compartment:
@@ -42,16 +46,16 @@ In addition to specifying the *compartments* of a model, we need to specify the 
 
 For this model, we consider the following processes: 
 
-1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _dU_.
+1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _d~U~_.
 2. Virus infects cells at rate _b_.
-3. Infected cells produce new virus at rate _p_ and die at rate _dI_.
-4. Free virus is removed at rate _dV_ or goes on to infect further uninfected cells. 
+3. Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
+4. Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
 
 The one difference to the deterministic virus model is that we do not include an additional conversion factor to account for experimental units. The reason is that this stochastic model makes the assumption that all entities/variables are in discrete units, i.e. number of cells and number of (infectious) virions, and can only change by integer numbers. Because of that, our model requires that virus is in units of actual virion numbers and we don't need to convert. That also means that the parameter _g_ of the deterministic model - which we run for comparison - is set to 1.
 
 
 ### Model Diagram
-The diagram illustrating this compartmental model is shown in the figure.
+The diagram illustrating this compartmental model is shown in the figure (with $g=1$ for this model).
 
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
@@ -60,65 +64,213 @@ knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=
 
 
 ### Model Equations
-*If* we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
+If we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
 
-$$\dot U = n - dU - bUV$$
-$$\dot I = bUV - d_I I$$
-$$\dot V = pI - d_V V - b UV$$
+$$
+\begin{aligned}
+\dot U & = n - d_U U - bUV \\
+\dot I & = bUV - d_I I \\
+\dot V & = pI - d_V V - b UV
+\end{aligned}
+$$
 
 *However* we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their propensities (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:
 
-Event type              |  Transitions                  |   Propensity      |
-----------              |  -----------                  |   ----------      |
-Production of U         |  U => U+1                     |   n*U            |
-death/removal of U      |  U => U-1                     |   dU*U           |
-infection               |  U => U-1, V => V-1, I => I+1 |   b*U*V           |
-death if I              |  I => I-1                     |   dI*I          |
-production of V         |  V => V+1                     |   p*I          |
-removal of V            |  V => V-1                     |   dV*V          | 
+Event type              |  Transitions                     |   Propensity      |
+----------              |  -----------                     |   ----------      |
+Production of U         |  U => U+1                        |   n*U             |
+death/removal of U      |  U => U-1                        |   d~U~*U          |
+infection               |  U => U-1, V => V-1, I => I+1    |   b\*U*V          |
+death if I              |  I => I-1                        |   d~I~*I          |
+production of V         |  V => V+1                        |   p*I             |
+removal of V            |  V => V-1                        |   d~V~*V          | 
 
 
 
 ## What to do {#shinytab3}
 
-_Note that the stochastic model does not allow specification of starting time and time step. It always starts at *t=0* and the time step depends on the simulation. Therefore to allow comparison with the ODE, the start time for the ODE is fixed to 0. Also the time step at which data is returned is fixed at tfinal/1000._
+_Note that the `adaptivetau` package/function we use to run the stochastic model does not allow specification of starting time and time step. It always starts at *t=0* and each time step is chosen by the simulation routine based on the adaptivetau algorithm. Therefore to allow comparison with the ODE, the start time for the ODE is fixed to 0. Also the time step at which data is returned is fixed at tfinal/1000._
 
 
-### Task 1: 
-* Run the simulation with the pre-set parameter values. It runs the deterministic model is run and you should see an infection happening. Switch to the stochastic model with the same parameter settings and run the model. You should not see an outbreak.
-* Change the random number seed and find a value for which you do get an outbreak. 
-* Set "Models to run" to both. You should get infections from each model. Compare how they differ.
-* Increase the number of simulations (for the stochastic model) to 10, then 20. Look at the results, try to understand what you see. 
-* Try the previous 2 steps for several different random number seeds.
-
-### Task 2: 
-* Turn off the deterministic model. 
-* Run the stochastic model with 5 simulations for different random seeds. See how the maximum number of infected cells changes.
-* Now repeat for 50 stochastic simulations. You should see less variation now since you average over more simulations. The more simulations, the more robust the results are (but it takes longer to run). Ideally, you'd like to always be in a setting where arbitrary choices, such as the initial random number seed, do not (or only negligibly) influence your results.
 
 
-### Task 3: 
-* Turn the deterministic model back on, run 50 stochastic simulations. Notice that the deterministic model is not 'the average' of the stochastic simulations. It is true that for _linear_ models, the mean of many stochastic models is described by the deterministic model. But that is not true for _nonlinear_ models like the one we have here. It's an important point to keep in mind if you build models and try both a deterministic and stochastic one. You don't necessarily get the same results, even if you average over many stochastic model runs.
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Run the simulation with the pre-set parameter values. It runs the deterministic model and you should see an infection happening. Switch to the stochastic model (under _Models to run_) with the same parameter settings and run the stochastic model. You should see no infection. Change the random number seed to 122 and re-run. You should get an infection. Now set _Models to run_ to both. You should get infections from each model, however, they look somewhat different. The infection produced by the stochastic model takes off faster. It also leads to slightly more infected cells. Figure out how you can determine the total number of infected cells caused by the infection. Hint: The maximum number of infected cells is not the same as the total number. Another hint: Contemplate what happens to the uninfected cells, and therefore what the final value of the uninfected cells might tell you about the infected cells."
+nrec = 2 # number of items to record
+out_records = c("Total number of infected cells for ODE model",
+                "Total number of infected cells for stochastic model (rngseed = 122)")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "With the settings as they just were, increase the number of simulations (for the stochastic model) to 2, re-run the simulation. Notice that you see two distinct outcomes for the two stochastic simulations. Also look at the message below the plot (what the app calls an outbreak is what I call an infection here, basically a within-host outbreak). Based on that, make sense of the fact that the average total number of infected cells for the stochastic simulation is much higher than for the deterministic (which contrasts to the finding from the previous task)."
+nrec = 1 # number of items to record
+out_records = c("Average total number of total infected cells for stochastic model")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Set number of simulations to 4, keep everything else the same. You'll get 2 outbreaks. The maximum value for the virus for the stochastic simulations is around half that of the deterministic model. Based on the text below the plot, you know that the stochastic results are the averages over all runs. Thus, you are adding two values that are similar to the ODE model to 2 values that are 0. Reporting the average (mean) over situations that both do and don't lead to infection might not be too insightful. It might be better to report the number/fraction of times you get an infection, and then just the average for some quantities for those simulations where an infection occurs. For these settings, is it true that the average of the virus peak for the stochastic simulations is above that of the ODE? You might want to switch to plotly and zoom in on the peaks to determine this." 
+nrec = 1 # number of items to record
+out_records = c("The average virus peak for the stochastic simulations that lead to an infection is above the ODE value (True/False)")
+out_types = rep("Logical",nrec)
+out_notes = rep("Report True or False",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 4: 
-* Turn off the deterministic model, reset all parameter values to their starting values. Set number of simulations to 2, random number seed to 100.
-* Run the simulation. You should see 2 stochastic model runs, one where you get an infection and one where you don't. 
-* Look at the min/max/final values reported. Then do 4 stochastic runs, look at min/max/final values again.
-* From that, what do you conclude about how the mean is calculated? What other way of reporting it might be a reasonable alternative? 
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Set _Model to run_ to stochastic, number of simulations 20. Run the simulation. The message under the plot should inform you that for 5 runs, an infection/outbreak occured. The reason we sometimes do not get an infection is that we start with a single virion, which sometimes, just by chance, goes extinct before the infection can take off. This does never happen for the deterministic model. If the infection starts with more virions, the chance of all of them going extinct is much less. Test that by starting with 5 initial virions, re-run the simulation. You should find 13 outbreaks/infections happening. Repeat for 10 virions. You can explore different random seeds and more simulations to convince yourself that an increase in initial virus leading to more infections is a robust result (and doesn't depend on specific choices of the random seed or number of samples)."
+nrec = 1 # number of items to record
+out_records = c("Number of outbreaks/infections when starting with 10 virions")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 5: 
-* Currently, stochasticity/randomness is a determining factor for the take-off or not of an infection. Once an infection has started, the resulting time-series look fairly smooth and not too noisy. Play around with the model parameters to try and find a regime where the whole infection dynamics looks stochastic/noisy.
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "The starting number of virions has a strong impact on the chance an infection occurs. Some model parameters do as well. If the virus is fitter (e.g. higher virus production rate, faster rate of infection), the chances that an infection occurs also increases. Let's try that. Reset all inputs. Turn on stochastic simulations, set to 20. Run the model. You should now get 4 outbreaks/infections (the random number seed is different from above). Now set p=10. Re-run. The number of infections should have increased. Return to p=5 and set b=0.0002. You will again get more outbreaks/infections. Again, play with the random number seed and the number of simulations to convince yourself that this is a general finding."
+
+nrec = 1 # number of items to record
+out_records = c("Number of outbreaks/infections for b=0.0002.")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
 
-### Task 6: 
-* In doing the last task, you likely figured out that for small numbers, you get more noisy results. Set the number of uninfected cells to 100 and the infection rate to 10^-2^. Run several stochastic outbreaks. You should see fairly random virus and infected cell plots. 
 
-The important take-home message from this is that for small numbers (e.g. at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a fairly good job describing the system dynamics. (Law of large numbers.) 
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "With the model settings we explored so far, stochasticity/randomness matters in deciding if an infection occurs or not. Once it has started, the resulting time-series look fairly smooth and not too noisy. The reason for that is that the numbers of virus growh quickly, and there are a lot of cells, thus in general the law of large numbers applies and the overall behavior of the system is fairly well approximated by a deterministic model. We can change this by reducing the number of cells. Reset all inputs. Then set U=1000. To make up for this change, increase b to b=0.002. Run 20 simulations of the stochastic model. You will see that the time-series looks much noisier, even at the peak. You should find that 4 simulations produce an infection. Record the average number of peak/maximum infected cells.
+
+The important take-home message from this is that for small numbers (e.g., at the start or end of an infection, or when overall numbers are large), stochasticity is often important. Once numbers are fairly large (100s or more), then deterministic models are usually doing a good job describing the system dynamics."
+nrec = 1 # number of items to record
+out_records = c("Average number peak/max infected cells (round to integer).")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Round to integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Keep exploring. You can for instance turn on births and deaths of uninfected cells to explore chronic/steady state conditions and see how stochasticity impacts those."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+```
+
+
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+
+```
+
+
+
 
 ### Task 7: 
-* Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations.
+* 
 
 ## Further Information {#shinytab4}
 * This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.

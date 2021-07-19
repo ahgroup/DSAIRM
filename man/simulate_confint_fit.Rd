@@ -19,7 +19,7 @@ simulate_confint_fit(
   dV = 2,
   dVlow = 0.001,
   dVhigh = 1000,
-  iter = 20,
+  iter = 1,
   nsample = 10,
   rngseed = 100,
   parscale = 1

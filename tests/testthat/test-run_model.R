@@ -47,7 +47,7 @@ test_that("run_model correctly runs different models",
             ########################################
             #run basic virus model
             modelsettings =  list()
-            modelsettings$simfunction = 'simulate_basicvirus_ode'
+            modelsettings$simfunction = 'simulate_Basic_Virus_Model_ode'
             #use default values for simulation function,
             #they need to be part of modelsettings otherwise run_model won't work
             defpar = formals(modelsettings$simfunction)
@@ -86,7 +86,7 @@ test_that("run_model correctly runs different models",
             ########################################
             #run basic virus stochastic model
             modelsettings =  list()
-            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
+            modelsettings$simfunction = 'simulate_Basic_Virus_Model_stochastic'
             #use default values for simulation function,
             #they need to be part of modelsettings otherwise run_model won't work
             defpar = formals(modelsettings$simfunction)
@@ -101,14 +101,14 @@ test_that("run_model correctly runs different models",
             modelsettings$nreps = 1
             result = run_model(modelsettings)
             #check that simulation returned specific value of susceptible at end
-            Ufinal = min(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals)
-            testthat::expect_equal(Ufinal, 58)
+            Ufinal = tail(dplyr::filter(result[[1]]$dat, varnames == "U")$yvals,1)
+            testthat::expect_equal(Ufinal, 1858)
 
             #5 reps
             modelsettings$nreps = 5
-            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
+            modelsettings$simfunction = 'simulate_Basic_Virus_Model_stochastic'
             result = run_model(modelsettings)
-            testthat::expect_equal(nrow(result[[1]]$dat), 12519)
+            testthat::expect_equal(nrow(result[[1]]$dat), 19200)
 
 
             ########################################

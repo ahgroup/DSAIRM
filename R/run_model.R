@@ -57,7 +57,7 @@ run_model <- function(modelsettings) {
 
 
   #if the user sets the model type, apply that choice
-  #that happens for any models that have an "_and_" in their modeltype variable as defined in the spreadsheet
+  #that happens for any models that have an "_and_" in their modeltype variable as defined in the apptable.tsv spreadsheet
   if (grepl('_and_',modelsettings$modeltype))
   {
     modelsettings$modeltype = modelsettings$modeltypeUI
@@ -77,11 +77,13 @@ run_model <- function(modelsettings) {
     nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
     for (nn in 1:nreps)
     {
-      #extract modesettings inputs needed for simulator function
-      if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
-      {
-        modelsettings$tmax = modelsettings$tfinal
-      }
+      #extract modelsettings inputs needed for simulator function
+
+      #all models should be using tfinal so turn this off
+      #if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
+      #{
+        #modelsettings$tmax = modelsettings$tfinal
+      #}
 
       #create function call, then evaluate it to run model
       fctcall = generate_fctcall(modelsettings)
@@ -127,7 +129,15 @@ run_model <- function(modelsettings) {
   ##################################
   if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
+
+    # stochastic doesn't support tstart and dt as inputs, thus they are not in the UI
+    # but they are needed if we run ode models at the same time
+    # therefore set here if they don't exist
+    if (is.null(modelsettings$tstart) ) {modelsettings$tstart = 0 }
+    if (is.null(modelsettings$dt) ) {modelsettings$dt = modelsettings$tfinal/1000 }
+
     modelsettings$currentmodel = simfunction[grep('_ode',simfunction)] #list of model functions, get the ode function
+
     #make the call to the simulator function by parsing inputs
     fctcall = generate_fctcall(modelsettings)
     # this means an error occurred making the call
