@@ -6,6 +6,7 @@
 * Add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
 * Continue streamlining code base to make it more general/modular/flexible
 * Fix/finish plot function edits (see code in generate_ggplot)
+* Make sure Latex equations work well when floating task list
 
 ## Content Improvement
 * Write/update all solutions

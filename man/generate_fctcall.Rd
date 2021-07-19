@@ -12,7 +12,7 @@ List elements with names and values for all inputs expected by simulation functi
 modelsettings$simfunction - name of simulation function in variable  \cr}
 }
 \value{
-A string containing an unevaluated function call with the specified settings
+A string containing an unevaluated function call with the specified settings, or an error message
 }
 \description{
 This function takes a modelsettings structure and uses that information

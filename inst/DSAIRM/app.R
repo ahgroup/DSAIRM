@@ -6,8 +6,10 @@
 #Shouldn't affect deployment as R package.
 #Will not apply to loading to shinyappsio (would need to create a new google analytics property)
 
-#This is a bit of code and instructions for deployment of the package to shinyappsio
-#to deploy, follow these steps:
+##############################################
+#This is a bit of code and instructions for deployment of the package to a server
+##############################################
+#to deploy to shinyappsio, follow these steps:
 #1. go into the folder where this file (app.R) resides
 #2. install the package through CRAN or github if we want to use the github version
 #3. #uncomment the library() command below
@@ -20,12 +22,13 @@
 # 'tokens' and copy the command into the console
 #5. comment out the library command again
 
-#for deployment to a shiny server, steps are similar
+##############################################
+#to deploy to a self-hosted shiny server, steps are similar
 #1. install package on server, either CRAN or Github version
 #2. uncomment the library() command below
 #3. save app.R, copy it and packagestyle.css to the server app folder
 #4. comment out the library command again
-#5. as needed, update package on server by running: sudo su - -c "R -e \"devtools::install_github('ahgroup/DSAIRM')\""
+#5. as needed, update package on server by running: sudo su - -c "R -e \"devtools::install_github('ahgroup/DSAIDE')\""
 
 #library('DSAIRM')
 
@@ -140,14 +143,14 @@ server <- function(input, output, session)
   #Button to create floating task list
   observeEvent(input$detachtasks, {
     x = withMathJax(generate_documentation(currentdocfilename))
-    #browser()
+
     x1 = x[[2]][[3]] #task tab
     x2 = x1[[3]]
     x3 = x2[[1]][[3]] #pull out task list without buttons
     output$floattask <- renderUI({
-      absolutePanel(x3, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
-                    draggable = TRUE, top = 100, left = "auto", right = 20, bottom = "auto",
-                    width = "30%", height = "auto")
+      withMathJax(absolutePanel(x3, id = "taskfloat", class = "panel panel-default", fixed = TRUE,
+                                draggable = TRUE, top = 100, left = "auto", right = 20, bottom = "auto",
+                                width = "30%", height = "auto"))
     })
   })
 
@@ -360,6 +363,10 @@ ui <- fluidPage(
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   tags$head(tags$script('window.onbeforeunload = function() { return "Please use the button on the webpage"; };')), #warning message if user hits browser back button
   includeCSS("packagestyle.css"), #use custom styling
+  tags$style(type="text/css",
+             ".shiny-output-error { visibility: hidden; }",
+             ".shiny-output-error:before { visibility: hidden; }"
+  ), #this hides shiny warning messages in console which might be confusing. For debugging/development, one might want to turn this off. Doesn't seem to work?
   tags$style(HTML("
         input[type=number] {
               -moz-appearance:textfield;
@@ -389,18 +396,17 @@ ui <- fluidPage(
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'Model use examples'),
+                      tags$div(class='mainsectionheader', 'Model exploration examples'),
                       fluidRow(
-                        make_button(at,"virusexploration"),
                         make_button(at,"bacteriaexploration"),
+                        make_button(at,"virusexploration"),
+                        make_button(at,"modelvariants"),
                         make_button(at,"virusandtx"),
-                        make_button(at,"fitfludrug"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'What influences model results'),
+                      tags$div(class='mainsectionheader', 'Uncertainty and sampling'),
                       fluidRow(
-                        make_button(at,"modelvariants"),
                         make_button(at,"usanalysis"),
                         make_button(at,"basicvirusstochastic"),
                         class = "mainmenurow"
@@ -411,6 +417,7 @@ ui <- fluidPage(
                         make_button(at,"fitbasicmodel"),
                         make_button(at,"fitconfint"),
                         make_button(at,"fitmodelcomparison"),
+                        make_button(at,"fitfludrug"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
@@ -422,7 +429,6 @@ ui <- fluidPage(
                       ), #close fluidRow structure for input
                       withTags({
                         div(style = "text-align:left", class="bottomtext",
-
                             tags$div(id = "bottomtext", 'This collection of model simulations/apps covers within-host and immune response modeling from a dynamical systems perspective. The software is meant to provide you with a "learning by doing" approach. You will likely learn best and fastest by using this software as part of a course on the topic, taught by a knowledgable instructor who can provide any needed background information and help if you get stuck. Alternatively, you should be able to self-learn and obtain the needed background information by going through the materials listed in the "Further Information" section of the apps.'),
                             tags$div(id = "bottomtext", "The main way of using the simulations is through this graphical interface. You can also access the simulations directly. This requires a bit of R coding but gives you many more options of things you can try. See the", a("package vignette/tutorial",  href="https://ahgroup.github.io/DSAIRM/articles/DSAIRM.html", target="_blank"), " or the Further Information section of the apps for more on that."),
                             tags$div(id = "bottomtext", 'The simulations are ordered in a sequence that makes sense for learning the material, so if you are completely new to this, it is best to go in order (each section top to bottom, within each section left to right). Some simulations also build on earlier ones.')

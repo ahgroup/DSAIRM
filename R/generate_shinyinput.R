@@ -53,13 +53,30 @@ generate_shinyinput <- function(use_mbmodel = FALSE, mbmodel = NULL,
                 value = mbmodel$par[[n]]$parval, min = 0, step = mbmodel$par[[n]]$parval/100)
             )
         })
+        #for a stochastic model, add the random seed setting as input
         allt = lapply(1:length(mbmodel$time), function(n) {
             myclassfct(numericInput(mbmodel$time[[n]]$timename, paste0(mbmodel$time[[n]]$timetext,' (',mbmodel$time[[n]]$timename,')'),
                 value = mbmodel$time[[n]]$timeval, min = 0, step = mbmodel$time[[n]]$timeval/100)
             )
         })
     modelargs = c(allv,allp,allt)
+    ###########################################
+    #for stochastic model, add a few input elements
+    #for packages other than DSAIDE, need to check if/how to do that and not do things double (see code for modelbuilder below)
+    if ( (packagename == "DSAIDE") && grepl("_stochastic",model_function) )
+    {
+      stochasticui <- shiny::tagList(
+        shiny::numericInput("nreps", "Number of simulations", min = 1, max = 100, value = 1, step = 1),
+        shiny::numericInput("rngseed", "Random number seed", min = 1, max = 1000, value = 123, step = 1)
+      ) #end taglist
+      stochasticui = lapply(stochasticui,myclassfct)
+      modelargs = c(modelargs,stochasticui)
+    } #end the stochastic addition
+
+
+
     #end input construction for mbmodel
+    #this uses the header/documentation of an R simulation function to generate UI
     } else if (use_doc) {
 
       if (!file.exists(model_file)) {return("Please provide path to a valid model R file.")}
@@ -116,11 +133,15 @@ generate_shinyinput <- function(use_mbmodel = FALSE, mbmodel = NULL,
     )
     otherargs = lapply(otherargs,myclassfct)
 
+
     if (!is.null(otherinputs) && nchar(otherinputs)>1)
     {
         moreargs = lapply(eval(str2expression(otherinputs)),myclassfct)
         otherargs = c(moreargs,otherargs)
     }
+
+    #browser()
+
 
     #############################################################
     #for modelbuilder package, create additional UI elements

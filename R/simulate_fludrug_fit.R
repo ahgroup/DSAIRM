@@ -45,7 +45,12 @@
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1, dI = 2, dV = 4, b = 1e-2, blow = 1e-5, bhigh = 1e1, p = 1e-2,  plow = 1e-5, phigh = 1e1, g = 1, glow = 0, ghigh = 1e3, e = 0.5, fitmodel = 1, iter = 500)
+simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
+                                 dI = 2, dV = 4,
+                                 b = 1e-2, blow = 1e-5, bhigh = 1e1,
+                                 p = 1e-2,  plow = 1e-5, phigh = 1e1,
+                                 g = 1, glow = 0, ghigh = 1e3,
+                                 e = 0.5, fitmodel = 1, iter = 1)
 {
 
   ###################################################################

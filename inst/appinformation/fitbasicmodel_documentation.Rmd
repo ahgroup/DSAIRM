@@ -1,5 +1,5 @@
 ---
-title: Basic Virus Model Fit 
+title: Basic Virus Model Fitting 
 output:
   html_document:
     theme: null
@@ -27,8 +27,9 @@ This app illustrates how to fit a mechanistic dynamical model to data and how to
 
 
 ### Learning Objectives
-* Be familiar with the basic concepts of fitting ODE models to time-series data
-
+* Be familiar with the basic concepts of fitting ODE models to time-series data.
+* Know about the technical difficulties when fitting ODE-type models.
+* Understand the concept of overfitting/identifiability and how to test for it.
 
 ## The Model {#shinytab2}
 

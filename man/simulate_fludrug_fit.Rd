@@ -21,7 +21,7 @@ simulate_fludrug_fit(
   ghigh = 1000,
   e = 0.5,
   fitmodel = 1,
-  iter = 500
+  iter = 1
 )
 }
 \arguments{
