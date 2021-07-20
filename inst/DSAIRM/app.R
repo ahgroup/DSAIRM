@@ -396,23 +396,23 @@ ui <- fluidPage(
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'Model exploration examples'),
+                      tags$div(class='mainsectionheader', 'Model Exploration Examples'),
                       fluidRow(
-                        make_button(at,"bacteriaexploration"),
-                        make_button(at,"virusexploration"),
+                        make_button(at,"basicbacteriaexploration"),
+                        make_button(at,"basicvirusexploration"),
                         make_button(at,"modelvariants"),
                         make_button(at,"virusandtx"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'Uncertainty and sampling'),
+                      tags$div(class='mainsectionheader', 'Uncertainty and Sampling'),
                       fluidRow(
                         make_button(at,"usanalysis"),
                         make_button(at,"basicvirusstochastic"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'Model fitting topics'),
+                      tags$div(class='mainsectionheader', 'Model Fitting Topics'),
                       fluidRow(
                         make_button(at,"fitbasicmodel"),
                         make_button(at,"fitconfint"),
@@ -421,7 +421,7 @@ ui <- fluidPage(
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
-                      tags$div(class='mainsectionheader', 'Further topics'),
+                      tags$div(class='mainsectionheader', 'Further Topics'),
                       fluidRow(
                         make_button(at,"pkpdmodel"),
                         make_button(at,"drugresistance"),
