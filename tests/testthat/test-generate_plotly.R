@@ -2,21 +2,15 @@ context("test-generate_plotly.R")
 
 test_that("generate_plotly returns a plotly plot",
           {
-            simresult=DSAIRM::simulate_basicvirus_ode()
-            result = vector("list", 1)
-            result[[1]]$dat = simresult$ts
-            expect_is( DSAIRM::generate_plotly(result), "plotly" )
-
-
 
             #manual call of simulator
-            simresult=DSAIRM::simulate_basicvirus_ode()
+            simresult=DSAIRM::simulate_Basic_Virus_Model_ode()
             result = vector("list", 1)
             result[[1]]$dat = simresult$ts
             expect_is( DSAIRM::generate_plotly(result), "plotly" )
 
 
-            simresult = DSAIRM::simulate_basicvirus_stochastic()
+            simresult = DSAIRM::simulate_Basic_Virus_Model_stochastic()
             result = vector("list", 1)
             result[[1]]=simresult
             expect_is( DSAIRM::generate_plotly(result), "plotly" )
