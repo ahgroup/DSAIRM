@@ -9,7 +9,7 @@ simulate_virusandtx_ode(
   I = 0,
   V = 10,
   n = 10000,
-  dU = 0.1,
+  dU = 0.001,
   dI = 1,
   dV = 2,
   b = 1e-05,

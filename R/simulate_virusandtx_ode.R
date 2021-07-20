@@ -48,7 +48,7 @@
 #' plot(result$ts[,"time"],result$ts[,"V"],xlab='Time',ylab='Virus',type='l',log='y')
 #' @export
 
-simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 10, n=1e4, dU = 0.1, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE, txstart = 0)
+simulate_virusandtx_ode <- function(U = 1e5, I = 0, V = 10, n=1e4, dU = 0.001, dI = 1, dV = 2, b = 1e-5, p = 10, g = 1, f = 0, e = 0, tstart = 0, tfinal = 30, dt = 0.1, steadystate = FALSE, txstart = 0)
 {
 
 

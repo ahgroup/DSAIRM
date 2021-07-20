@@ -264,8 +264,6 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 
 
 
-
-
 ```{r echo=FALSE}
 #save the fully filled task table to a tsv file
 alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
@@ -281,61 +279,6 @@ write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = 
 # Take all the text stored in the table and print the tasks and items to record
 write_tasktext(alloutcomes)
 ```
-
-
-
-
-```
-
-
-
-
-### Task 7: 
-* 
-
-#########################
-# Task 7
-#########################
-tid = tid + 1
-tasktext = "Keep exploring. For instance investigate chronic/steady state conditions (with uninfected cell birth/death turned on) and see how they might or might not differ between the deterministic and (average) stochastic simulations."
-nrec = 1 # number of items to record
-out_records = c("Something")
-out_types = rep("Rounded_Integer",nrec)
-out_notes = rep("Report the rounded integer",nrec)
-outcomes = data.frame( TaskID = rep(tid,nrec),
-                       TaskText = rep(tasktext,nrec),
-                      RecordID = paste0('T',tid,'R',(1:nrec)),
-                      Record = out_records, 
-                      Type = out_types, 
-                      Note = out_notes)
-alloutcomes = rbind(alloutcomes,outcomes)
-rc = rc + nrec #increment record counter by number of outcomes to record for this task 
-
-```
-
-
-
-
-
-
-```{r echo=FALSE}
-#save the fully filled task table to a tsv file
-alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
-alloutcomes$AppTitle = appsettings$apptitle
-alloutcomes$AppID = appsettings$appid
-#remove a few variables from the data frame
-savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
-write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
-```
-
-
-```{r, echo=FALSE, results='asis'}
-# Take all the text stored in the table and print the tasks and items to record
-write_tasktext(alloutcomes)
-```
-
-
-
 
 
 
