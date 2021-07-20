@@ -16,7 +16,7 @@ test_that("run_model correctly runs different models",
             )
             #test basic bacteria model
             #supply all input settings as list
-            appName = "bacteriaexploration"
+            appName = "basicbacteriaexploration"
             appsettings <- as.list(at[which(at$appid == appName), ])
             modelsettings =  list(
               B = 100,

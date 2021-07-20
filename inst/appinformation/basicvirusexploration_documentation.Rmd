@@ -1,0 +1,206 @@
+---
+title: Exploring the impact of parameter changes 
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: dsairm_references.bib
+---
+
+
+```{r, include = FALSE}
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+sapply(files_to_source, source) #source some helper files defined in the files_to_source variable
+currentrmdfile = knitr::current_input()  #get current file name
+appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings for current app
+```
+
+
+## Overview {#shinytab1}
+This app allows you to explore the effect of specific model parameters on some outcomes of interest for the basic virus model. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+
+
+
+### Learning Objectives
+
+
+
+
+
+## The Model {#shinytab2}
+
+### Model Overview
+The model used here is the one introduced in the _Basic Virus_ app. If you haven't done so, check out and explore that app first. 
+
+What's different here is that instead of running the simulation once for a given choice of parameter values and looking at the resulting time-series, this app lets you explore the impact of each model parameter on some outcomes. Specifically, we track both the peak and final numbers for all variables (uninfected cells, infected cells, virus). In general, the number at the end of the simulation is meaningful if it means the model has settled into a steady state. To ensure a steady state, you need to run the simulation for a long enough time. A steady state corresponds biologically to a chronic infection condition.
+
+You can choose one of the model parameters to be varied between some minimum and maximum value. The other parameter values remain fixed. For each parameter value, the model is run and the outcomes of interest computed. The resulting plot is one showing how the outcomes of interest vary with the parameter you investigated.
+
+
+
+### Model Diagram and equations
+As mentioned, this is the same model as used in the _Basic Virus_ app. Details can be found there. For ease of reference, the flow diagram and the equations are shown again here:
+
+
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```
+
+$$\dot U = n - d_U U - bUV$$ 
+$$\dot I = bUV - d_I I$$
+$$\dot V = pI - d_V V - gb UV$$
+
+
+## What to do {#shinytab3}
+
+*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).*
+
+
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Set numbers for initial uninfected cells, infected cells and virus to U=100000, I=0, and V=1. Set uninfected birth and death rates to n=10000 and dU=0.1, infected cell death rate to 1 and virus death rate to 2. Rate of infection should be 2e-5, virus production at 5, conversion factor 1. Start simulation at time 0 and run for 300 days, time step of 0.1 (that value doesn't matter much). Choose _p_ as the parameter to vary, between 1 and 10, do 10 different parameter values, linear spacing, and no log scales for plotting. 
+
+\nRun the simulations; check to ensure all simulations reach steady state (see output message below plot). Then, reduce simulation time to 30 days, note how some simulations did not reach steady state and how that affects results."
+nrec = 4 # number of items to record
+out_records = c("Isteady for p = 7 and 300 days simulation time", "TRUE or FALSE: As p increases, Vsteady also increases.", "Number of simulations that did not reach steady state for 30 days simulation time", "Isteady for p = 7 and 30 days simulation time")
+out_types = c("Rounded_Integer", "Logical","Integer", "Rounded_Integer")
+out_notes = c("Report the rounded integer", "Report TRUE or FALSE","Report the integer", "Report the rounded integer")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Play around with the samples to run, i.e. the number of different parameter values. The higher the number, the more often the simulation runs, the longer it takes and the more detailed the results are. Also adjust the minimum and maximum, and linear or logarithmic spacing and plotting. Take a look at the model equations and diagram and see if by 'staring' at them, you can understand why you got the results you see. Some results might be expected, for instance if you increase the rate at which infected cells produce virus, the virus peak goes up. Sometimes, results are less intuitive (see below). With enough practice, it is often possible to intuit specific results based on the underlying equations - but that requires a good bit of modeling practice. As models get more complicated, even experienced modelers can often not intuit what model behavior one should expect as specific parameters vary. Often the only way to find out is by actually running the simulations."
+nrec = 3 # number of items to record
+out_records = c("Value for p when Isteady ~= Usteady, 96 samples, p to vary from 1 to 20 on a linear scale (Hint: use plotly to zoom-in)", "Number of values for p that are > 5 with 96 samples, p to vary from 1 to 20 on a linear scale", "Number of values for p that are > 5 with 96 samples, p to vary from 1 to 20 on a log scale")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "The model we have here is so simple that we can in fact figure out how some of the outcomes depend on parameters without having to run simulations but instead by doing some math. Specifically, we can compute the steady states. You saw how that is done in the __Basic Virus Model__ app. If this is unfamiliar to you or you need a refresher, (re)visit that app and go through the tasks. You found there (if you did the math) that the virus load at steady state is given by $V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V$. This equation suggests that as the rate at which infected cells produce virus increases, the virus load at steady state goes up, which you found above. It also suggests that the relation between virus load and the rate at which virus infects cell, $b$, is more complicated, since $b$ shows up both in the numerator and denominator. If you have practice reading equations, you might be able to visualize how $V_s$ behaves as $b$ is varied. You can always explore it numerically. Let's do that.
+
+\nSet all parameters as previously, with _p=5_ and 300 days simulation time. Choose _b_ as the parameter to vary, between 1e-6 and 1e-3, do 20 different parameter values, log spacing for parameter values and plot both axes on a logarithmic scale. Run the simulation. Observe the pattern you get for $V_s$ as a function of _b_ and see if it agrees with the equation (it should). 
+
+\nWe cannot compute similar mathematical expressions for the peak of the variables. In general, as soon as our model reaches a certain level of complexity (maybe around 5 equations and more), getting analytic/mathematical equations for most outcomes of interest is not possible and the numerical approach of running the simulations and looking at the results is the only option we have."
+nrec = 2 # number of items to record
+out_records = c("Using equation, Vsteady when b = 6.16e-6", "Using plotly output, Vsteady when b ~= 6.16e-6")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Let's explore the impact of a different parameter. Set all variables as in task 1.
+
+\nChoose _d~I~_ as the parameter to vary and set lower and upper limit to 0.25 and 5 and the number of samples to 20. Before you run the model, look at your equation for _V~s~_ and try to predict what you should see in the plot. Similarly, while you don't have an analytical solution, you can look at the model equations and try to intuit what you might expect _V~peak~_ and _I~peak~_ to do as you increase _d~I~_. 
+
+\nNow run the model, compare the results with your expectations. How do they agree or disagree?"
+nrec = 1 # number of items to record
+out_records = c("Vsteady when _d~I~_ = 2.5")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Report the rounded numeric to 2 decimal places",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Do the same explorations you did above for any other parameter you want to investigate. 
+
+\nNote that here we focus on a single parameter at a time. With a little bit of coding effort, we could change the underlying simulation to loop over say 2 parameters and produce outcomes for sets of parameter values, e.g. _V~peak~_ as a function of _b_ and _p_. This can be done by writing 2 loops (or some equivalent way of doing it) to scan over various combinations of parameter values for _b_ and _p_ and run the simulation for each such combination and record the results. These results could be plotted as a 2-dimensional heatmap. While this could be extended to more than 2 parameters, it will become hard to visualize and long to run. If there are many parameters that could change, a different approach is useful, which you'll learn about in the Uncertainty and Sensitivity App."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = rep("",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+## Further Information {#shinytab4}
+* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. That function repeatedly calls ``r appsettings$underlying_function``. 
+* This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+
+### References
+
+
