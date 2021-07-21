@@ -50,7 +50,11 @@
 #' @author Andreas Handel
 #' @export
 
-simulate_pkpdmodel_ode <- function(U = 1e5, I = 0, V = 10, n=0, dU = 0, dI = 1, dV = 2, b = 1e-5, g = 1, p = 10, C0 = 1, dC = 1, C50 = 1, k = 1, Emax = 0, txstart = 10, txinterval = 1, tstart = 0, tfinal = 20, dt = 0.01)
+simulate_pkpdmodel_ode <- function(U = 1e5, I = 0, V = 10,
+                                   n=0, dU = 0, dI = 1, dV = 2,
+                                   b = 1e-5, g = 1, p = 10,
+                                   C0 = 1, dC = 1, C50 = 1, k = 1, Emax = 0,
+                                   txstart = 10, txinterval = 1, tstart = 0, tfinal = 20, dt = 0.01)
 {
 
   #function that specificies the ode model
@@ -60,12 +64,12 @@ simulate_pkpdmodel_ode <- function(U = 1e5, I = 0, V = 10, n=0, dU = 0, dI = 1, 
       as.list(c(y,parms)), #lets us access variables and parameters stored in y and parms by name
       {
         e=Emax*C^k/(C^k + C50) #drug efficacy, based on level of C
+        dCdt = - dC*C
         dUdt = n - dU*U - b*V*U
         dIdt = b*V*U - dI*I
         dVdt = (1-e)*p*I - dV*V - g*b*V*U
-        dCdt = - dC*C
 
-        list(c(dUdt, dIdt, dVdt, dCdt))
+        list(c(dCdt, dUdt, dIdt, dVdt))
       }
     ) #close with statement
   } #end function specifying the ODEs
@@ -77,7 +81,7 @@ simulate_pkpdmodel_ode <- function(U = 1e5, I = 0, V = 10, n=0, dU = 0, dI = 1, 
     return(y)
   }
 
-  Y0 = c(U = U, I = I, V = V, C = 0);  #combine initial conditions into a vector - drug starts at zero in ODE
+  Y0 = c(C = 0, U = U, I = I, V = V);  #combine initial conditions into a vector - drug starts at zero in ODE
   timevec = seq(tstart, tfinal, by = dt); #vector of times for which solution is returned (not that internal timestep of the integrator is different)
 
   #combining parameters into a parameter vector
