@@ -114,6 +114,7 @@ Model Diagram
 <p>Note that for this app, the model is being run three times. During one run, treatment (parameters <em>f</em> or <em>e</em> in the model) are not turned on. This simulation is fit to the no-treatment data. Similarly, treatment is turned on by setting the treatment parameters to non-zero values early or late, and fit to the data for the corresponding scenario. What is being fit is the model results for all three simulations to all the data for the three scenarios.</p>
 <p>For the purpose of using and exploring this app, you can ignore the fitting details and just note that the fit allows us to statistically compare the model with the two drug mechanisms to the data so we can determine which model/mechanism fits the data better (and thus is more plausible).</p>
 <p>Since we are running the model to fit to the data, you can’t decide the starting and ending times or time-step for the model. Those are set to ensure a match with the data.</p>
+<p>Another important point to note is that the limit of detection (LOD) for the virus load data is 0.5 (in log units) and any model predictions below this level are treated as if they are at the LOD. Thus, at times fits might look visually different but are not that much different given the way the LOD is factored in and the SSR is computed.</p>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
@@ -122,27 +123,44 @@ Model Diagram
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
 <p>Set number of uninfected cells to 10E7, 1 virion, no infected cells. Assume that infected cells have an average lifespan of 12 hours and virus of 6 hours. We run the model in days, so convert these lifespans to daily rates. Those parameters are fixed and not fitted. Set virus production rate and infection rate both to 0.002, conversion factor to <em>g=0</em>. Set upper and lower bounds for each of these parameters to 0 and 100. For a discussion on parameter bounds, see some of the other fitting apps. The bounds for the treatment strength are hard coded to be 0 and 1.</p>
-<p>Start with drug turned off. Run 1 iteration of model 1. I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. You should see all 3 curves (no treatment, early treatment, late treatment) on top of each other, and an AICc of around 47. Now set drug efficacy to 1, run model 1 for 1 iteration, then repeat for model 2. You should</p>
-<p>Fit model 1 for 500 iterations. Be patient, this might take a little while. Once done, look at the fit. You can turn off uninfected and infected cells by clicking on their legends in the plotly plot. This way you can see more clearly the data and the model component that is fit to the data, namely virus load. Next, take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, this is further discussed in the apps in the fitting section). For now, focus on the value for drug efficacy, <span class="math inline">\(e\)</span>. You should find it to be 1, i.e. a perfect drug. Next, note the line below. It shows SSR (Sum of Square Residuals) and AICc (Akaike’s Information Criterion corrected for small sample size). Again, more information on those is covered in the fitting section. What you should note for now is the value of AICc, which should be -35.93. If you compare models, a smaller value indicates a better model. We’ll now compare model 1 we just fit (with mechanism of drug reducing virus production) to model 2.</p>
+<p>Start with drug turned off. Run 1 iteration of model 1. I suggest you choose a log scale for the y-axis and plotly as the plot engine. Using plotly allows you to click on the - rather busy - figure and turn on/off specific model components. You should see all 3 curves (no treatment, early treatment, late treatment) on top of each other, and an SSR of around 39. Now set drug efficacy to 1, run model 1 for 1 iteration, then repeat for model 2. You should cleary see the impact of the drug on the virus load curves. You’ll find an SSR a bit above 7 for model 1 and a slightly lower SSR and AIC for model 2 (as you learn in another fitting app, if the models have the same number of parameters, which is the case here, SSR and AIC move together and contain the same information, namely lower value means a better fitting model).</p>
+<p>Now fit model 1 for 500 iterations. Be patient, this might take a little while. SSR will have decreased to a bit over 4. Take a look at the numbers below the plot. Those are the estimated values for the parameters at the final iteration of the model (this might or might not be the overall best fit, we’ll get back to this). For now, focus on the value for drug efficacy (<em>f</em> for model 1). You should find it to be 1, i.e. a perfect drug. Next, fit model 2 for 500 iterations. You’ll find that it performs slightly better than model 1, and the best fit estimate for the drug efficacy is again 1.</p>
+<p>If your computer is fast enough, you can increase to 1000 or more iterations for both models. Results should not change. Based on this, we might conclude that the mechanism of the drug preventing virus production is more likely, given the data and model, and that our estimate for the drug efficacy is that it’s a perfect drug. However, as we’ll see next, this is not quite a robust result.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>SSR for model 1, k = 1, 1 iteration</p></li>
+<li><p>SSR for model 2, k = 1, 1 iteration</p></li>
+<li><p>SSR for model 1, k = 1, 500 iterations</p></li>
+<li><p>SSR for model 2, k = 1, 500 iterations</p></li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2</h3>
-<p>Leave everything as before, but now switch to fitting model 2. That model implements the mechanism of drug acting on infection of uninfected cells. Compare both the plot and the AICc value to model 1. Based on that, what do you conclude, does the mechanism in model 1 or model 2 explain the data better?</p>
+<p>Leave everything as you just had, but now chose the starting value for drug efficacy to be <em>k=0.5</em>. Note that this is only a starting value, <em>k</em> is being fit and thus in theory we should get the same best fit model and best fit estimate for <em>k</em>, no matter where we start. Test that by running models 1 and 2 for 500 iterations with this changed starting value of <em>k</em>. You’ll find that the final iteration for model 1 produces a worse SSR and a different estimate for drug efficacy (compared to starting at <em>k</em> = 1), while model 2 leads to a better fit than before, and also a reduced drug efficacy. If your computer is fast enough, you can again increase the number of iterations. You’ll find that the results don’t change.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>SSR for model 1, k = 0.5, 500 iterations</p></li>
+<li><p>drug efficacy estimate for model 1</p></li>
+<li><p>SSR for model 2, k = 0.5, 500 iterations</p></li>
+<li><p>drug efficacy estimate for model 2</p></li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<p>This model is also shown as an example in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span>. Note that the terminology is a bit different, and models 1 and 2 are flipped. You’ll see AICc reported in the paper to be lower. That suggests that what you did so far didn’t yet produce the best model fit. You can explore a bit more by changing starting conditions, parameter bounds and number of iterations to see if you can get better fits.</p>
+<p>The finding from the previous task shows another example of the practical difficulty of obtaining the best fit. As discussed in the other apps, for a real research problem, we would need to try different solvers/optimizers, different starting values for the fitted parameters, and fitting to simulated data. This might give us some confidence that we are not overfitting and that our results are robust. If we do that, we might be able to trust our finding, which will tell us which model (and thus mechanism) is more consistent with the data, and what the estimate for the drug efficacy is. You can explore this to see what the best fit is you can find for different starting values of the fitted parameters, and different models and iterations. (I found one for model 2 with SSR = 3.0. There might be even better ones for either model.)</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Nothing</li>
+</ul>
+</div>
+<div id="task-4" class="section level3">
+<h3>Task 4</h3>
+<p>Note that changing starting values of the fitted parameters as you did in the previous task should in theory not change the best fit. If you change values for the fixed parameters, you change your assumptions abou the biological problem and thus results are expected to be different. Let’s test that briefly. Reset inputs to default values. That should produce an average lifespan for infected cells of 24 hours and for virus of 12 hours (twice what we used above). Set drug efficacy to <em>k = 1</em>, run both models 1 and 2 for one iteration. You’ll see that the starting values are worse compared to those in the first task. Remember, starting values are not that meaningful, what matters is the final fit result. Run both models 1 and 2 for 500 iterations.</p>
+<p>You should find an SSR somewhat above 7 for model 1 and above 4 for model 2. You can try more iterations and different starting values for the fitted parameters to see if you can find better fits. I explored a bit (not exhaustively) and found an SSR of 4.03 for model 2, model 1 always results in a higher value. So it seems if we change the underlying assumptions of the lifespan of infected cells and virus (which needs to come from external knowledge), model 2 is still better for this specific setup and estimates of drug efficacy are similar. This is not generally the case. If the biological setup changes, model performance can change. All model parameters (and the model structure) need to either be justified based on biological knowledge, or through fitting to data. Usually, it is a combination of both.</p>
+<p><strong>Record</strong></p>
+<ul>
+<li><p>SSR for model 1, k = 1, 500 iterations</p></li>
+<li><p>SSR for model 2, k = 1, 500 iterations</p></li>
 </ul>
 </div>
 </div>
@@ -153,13 +171,16 @@ Model Diagram
 <li>This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
 <li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
 <li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>A model like this is used in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span> to illustrate one of the ways models can be used.</li>
+<li>A model like this is used in <span class="citation">(Handel, La Gruta, and Thomas 2020)</span> to illustrate one of the ways models can be used. The same data and similar models were also fit in <span class="citation">(Handel, Longini, and Antia 2007)</span>.</li>
 </ul>
 <div id="references" class="section level3 unnumbered">
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-handel20" class="csl-entry">
 Handel, Andreas, Nicole L. La Gruta, and Paul G. Thomas. 2020. <span>“Simulation Modelling for Immunologists.”</span> <em>Nature Reviews. Immunology</em> 20 (March): 186–95. <a href="https://doi.org/10.1038/s41577-019-0235-3">https://doi.org/10.1038/s41577-019-0235-3</a>.
+</div>
+<div id="ref-handel07" class="csl-entry">
+Handel, Andreas, Ira M Longini Jr, and Rustom Antia. 2007. <span>“Neuraminidase Inhibitor Resistance in Influenza: Assessing the Danger of Its Generation and Spread.”</span> <em>PLoS Comput Biol</em> 3 (12): e240. <a href="https://doi.org/10.1371/journal.pcbi.0030240">https://doi.org/10.1371/journal.pcbi.0030240</a>.
 </div>
 <div id="ref-hayden96" class="csl-entry">
 Hayden, F G, J J Treanor, R F Betts, M Lobo, J D Esinhart, and E K Hussey. 1996. <span>“Safety and Efficacy of the Neuraminidase Inhibitor Gg167 in Experimental Human Influenza.”</span> <em>JAMA</em> 275: 295–99.
