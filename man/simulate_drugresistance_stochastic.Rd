@@ -14,12 +14,12 @@ simulate_drugresistance_stochastic(
   b = 1e-05,
   dI = 1,
   e = 0,
-  m = 1e-04,
+  m = 0.001,
   p = 100,
   c = 4,
   f = 0.1,
   rngseed = 100,
-  tfinal = 100
+  tfinal = 30
 )
 }
 \arguments{
@@ -79,7 +79,7 @@ the code will likely abort with an error message.
 # To run the simulation with default parameters just call the function:
 result <- simulate_drugresistance_stochastic()
 # To choose parameter values other than the standard one, specify them, like such:
-result <- simulate_drugresistance_stochastic(tfinal = 200, e = 0.5)
+result <- simulate_drugresistance_stochastic(tfinal = 100, e = 0.5)
 # You should then use the simulation result returned from the function, like this:
 plot(result$ts[,"time"],result$ts[,"Vs"],xlab='Time',ylab='Uninfected cells',type='l')
 }

@@ -36,7 +36,7 @@
   # Copy simulator functions into the /inst/simulator folder and zip
   ##################################################
 
-  #delete files in /simulatorfunctions/ and the zip file
+  #get names and paths to source R functions and copies as well as zip file
   zipfilename = paste0(basepath,"/inst/simulatorfunctions/simulatorfunctions.zip")
   simulation_originals = list.files(path = paste0(basepath,"/R/"), recursive=TRUE, pattern = "^simulate", full.names = TRUE)
   simulation_copies = list.files(path = paste0(basepath,"/inst/simulatorfunctions/"), recursive=TRUE, pattern = "^simulate", full.names = TRUE)

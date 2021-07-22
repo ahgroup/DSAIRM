@@ -21,22 +21,22 @@
 #' @param g : unit conversion factor : numeric
 #' @param glow : lower bound for unit conversion factor : numeric
 #' @param ghigh : upper bound for unit conversion factor : numeric
-#' @param e : drug efficacy (between 0-1) : numeric
+#' @param k : drug efficacy (between 0-1) : numeric
 #' @param fitmodel : fitting model 1 or 2 : numeric
 #' @param iter : max number of steps to be taken by optimizer : numeric
 #' @return The function returns a list containing the best fit timeseries,
 #' the best fit parameters, the data and the AICc for the model.
 #' @details A simple compartmental ODE models describing an acute viral infection with drug treatment
-#' mechanism/model 1 assumes that drug treatment reduces rate of new virus production.
-#' mechanism/model 2 assumes  that drug treatment reduces rate of new cell infection.
+#' mechanism/model 1 assumes that drug treatment reduces rate of new cell infection.
+#' mechanism/model 2 assumes  that drug treatment reduces rate of new virus production.
 #' @section Warning: This function does not perform any error checking. So if
 #'   you try to do something nonsensical (e.g. specify negative parameter or starting values),
 #'   the code will likely abort with an error message.
 #' @examples
 #' # To run the code with default parameters just call the function:
-#' \dontrun{result <- simulate_fludrug_fit()}
+#' result <- simulate_fludrug_fit()
 #' # To apply different settings, provide them to the simulator function, like such:
-#' result <- simulate_fludrug_fit(iter = 5, fitmodel = 1)
+#' result <- simulate_fludrug_fit(k = 0.5, iter = 5, fitmodel = 2)
 #' @seealso See the Shiny app documentation corresponding to this
 #' function for more details on this model.
 #' @author Andreas Handel
@@ -45,18 +45,18 @@
 #' @importFrom nloptr nloptr
 #' @export
 
-simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
-                                 dI = 2, dV = 4,
-                                 b = 1e-2, blow = 1e-5, bhigh = 1e1,
-                                 p = 1e-2,  plow = 1e-5, phigh = 1e1,
-                                 g = 1, glow = 0, ghigh = 1e3,
-                                 e = 0.5, fitmodel = 1, iter = 1)
+simulate_fludrug_fit <- function(U = 1e7, I = 0, V = 1,
+                                 dI = 1, dV = 2,
+                                 b = 0.002, blow = 0, bhigh = 1e2,
+                                 p = 0.002,  plow = 0, phigh = 1e2,
+                                 g = 0, glow = 0, ghigh = 1e2,
+                                 k = 0, fitmodel = 1, iter = 1)
 {
 
   ###################################################################
   #function that fits the ODE model to data
   ###################################################################
-  fitfunction <- function(params, fitdata, Y0,  fixedpars, fitparnames, txtimes)
+  flufitfunction <- function(params, fitdata, Y0,  fixedpars, fitparnames, txtimes)
   {
     names(params) = fitparnames #for some reason nloptr strips names from parameters
     #call ode-solver lsoda to integrate ODEs
@@ -65,8 +65,8 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
     #run ODE model for 3 different drug treatment scenarios (early/late/none)
     for (n in 1:3)
     {
-      allpars = c(Y0,params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n]/24)
-      odeout <- try(do.call(DSAIRM::simulate_virusandtx_ode, as.list(allpars)));
+      allpars = c(Y0, fixedpars, params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n]/24)
+      odeout <- try(do.call(simulate_virusandtx_ode, as.list(allpars)));
       #extract values for virus load at time points where data is available
       modelpred = odeout$ts[match(fitdata[[n]]$xvals,odeout$ts[,"time"]),"V"];
 
@@ -95,7 +95,7 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
 
   #some settings for ode solver and optimizer
   #those are hardcoded here, could in principle be rewritten to allow user to pass it into function
-  atolv=1e-8; rtolv=1e-8; #accuracy settings for the ODE solver routine
+  atolv=1e-10; rtolv=1e-10; #accuracy settings for the ODE solver routine
   maxsteps = iter #number of steps/iterations for algorithm
 
   #load data
@@ -118,23 +118,23 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
   # we fit either f or e in the model
   if (fitmodel == 1)
   {
-    #parameters to be fit
-    fitpars = c(b=b, g=g, p=p, e=e)
+    #parameters to be fit - input parameter k is mapped to model parameter f
+    fitpars = c(b=b, g=g, p=p, f = k)
     fitparnames = names(fitpars)
     lb = as.numeric(c(blow, glow, plow, 0))
     ub = as.numeric(c(bhigh, ghigh, phigh, 1))
     #combining fixed parameters into a parameter vector
-    fixedpars = c(dI=dI,dV=dV,f=0,fitmodel=fitmodel);
+    fixedpars = c(dI=dI, dV=dV, e=0);
   }
   if (fitmodel == 2)
   {
-    #parameters to be fit - input parameter e is model parameter f now
-    fitpars = c(b=b, g=g, p=p, f=e)
+    #parameters to be fit - input parameter k is mapped to model parameter f
+    fitpars = c(b=b, g=g, p=p, e = k)
     fitparnames = names(fitpars)
     lb = as.numeric(c(blow, glow, plow, 0))
     ub = as.numeric(c(bhigh, ghigh, phigh, 1))
     #combining fixed parameters into a parameter vector
-    fixedpars = c(dI=dI,dV=dV,e=0,fitmodel=fitmodel);
+    fixedpars = c(dI=dI, dV=dV, f=0);
   }
 
   Y0 = c(U = U, I = I, V = V)
@@ -142,22 +142,28 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
   #this line runs the simulation, i.e. integrates the differential equations describing the infection process
   #the result is saved in the odeoutput matrix, with the 1st column the time, all other column the model variables
   #in the order they are passed into Y0 (which needs to agree with the order in virusode)
-  bestfit = nloptr::nloptr(x0=fitpars, eval_f=fitfunction,lb=lb,ub=ub,opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0), fitdata=fitdata, Y0 = Y0, fixedpars=fixedpars,fitparnames=fitparnames,txtimes=txtimes)
+  bestfit = nloptr::nloptr(x0 = fitpars, eval_f = flufitfunction, lb = lb, ub = ub,
+                           opts=list("algorithm"="NLOPT_LN_NELDERMEAD",xtol_rel=1e-10,maxeval=maxsteps,print_level=0),
+                           fitdata=fitdata, Y0 = Y0, fixedpars=fixedpars,fitparnames=fitparnames,txtimes=txtimes)
 
   #extract best fit parameter values and from the result returned by the optimizer
   params = bestfit$solution
   names(params) = fitparnames #for some reason nloptr strips names from parameters
   modelpars = c(params,fixedpars)
 
-  #compute sum of square residuals (SSR) for final solution
-  SSR = 0
+
+  #################################################
+  # after fitting is done do the following
+
   #run best fitting ODE model for 3 different drug treatment scenarios (early/late/none)
+  #also compute sum of square residuals (SSR) for final solution
   allode = NULL
+  SSR = 0
 
   for (n in 1:3)
   {
-    allpars = c(Y0,params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n]/24)
-    odeout <- try(do.call(DSAIRM::simulate_virusandtx_ode, as.list(allpars)));
+    allpars = c(Y0, fixedpars, params, tfinal = max(fitdata[[n]]$xvals), dt = 0.1, tstart = 0, n = 0, dU = 0, txstart = txtimes[n]/24)
+    odeout <- try(do.call(simulate_virusandtx_ode, as.list(allpars)));
     #combine all time-series, add variable labeling treatment scenario
     #extract values for virus load at time points where data is available
     modelpred = odeout$ts[match(fitdata[[n]]$xvals,odeout$ts[,"time"]),"V"];
@@ -173,9 +179,9 @@ simulate_fludrug_fit <- function(U = 1e5, I = 0, V = 1,
   ssrfinal=SSR
 
   #compute AICc
-  N=nrow(hayden96flu) #number of datapoints
-  K=length(fitpars); #fitted parameters for model
-  AICc= N * log(ssrfinal/N) + 2*(K+1)+(2*(K+1)*(K+2))/(N-K)
+  nvars = nrow(hayden96flu) #number of datapoints
+  npars = length(fitpars); #fitted parameters for model
+  AICc= nvars * log(ssrfinal/nvars) + 2*(npars+1)+(2*(npars+1)*(npars+2))/(nvars-npars)
 
   #list structure that contains all output
   result = list()

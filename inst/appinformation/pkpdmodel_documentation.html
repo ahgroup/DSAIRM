@@ -12,7 +12,7 @@
 
 
 
-<title>Virus and PkPD Model</title>
+<title>Pharmacokinetics and Pharmacodynamics</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
@@ -63,18 +63,19 @@ div.csl-indent {
 
 
 
-<h1 class="title toc-ignore">Virus and PkPD Model</h1>
+<h1 class="title toc-ignore">Pharmacokinetics and Pharmacodynamics</h1>
 
 
 
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
-<p>This app allows exploration of a basic virus infection model in the presence of treatment. Drug pharmacokinetics (Pk) and pharmacodynamics (Pd) is included in the model. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
+<p>This app allows exploration of a model that is very similar to the <strong>Antiviral Treatment Model</strong> (which in turn is based on the <strong>Basic Virus Model</strong>.)</p>
+<p>The new feature in this app is that the drug is explicitly modeled. Such models go by the name of pharmacokinetics/pharmacodynamics (PK/PD) models. Read about the model in the <em>Model</em> tab. Then do the tasks described in the <em>What to do</em> tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
 <ul>
-<li>Be familiar with a simple Pk/Pd model</li>
-<li>Appreciate the impact different drug Pk/Pd can have on pathogen dynamics</li>
+<li>Be familiar with a simple PK/PD model.</li>
+<li>Appreciate the impact different drug PK/PD can have on pathogen dynamics.</li>
 </ul>
 </div>
 </div>
@@ -82,7 +83,7 @@ div.csl-indent {
 <h2>The Model</h2>
 <div id="model-overview" class="section level3">
 <h3>Model Overview</h3>
-<p>This model consists of 4 compartments modeling a the basic dynamics of a viral infection in the presence of a drug. In this model, we track the following entities by assigning each to a compartment:</p>
+<p>This model consists of 4 compartments modeling the basic dynamics of a viral infection in the presence of a drug. In this model, we track the following entities by assigning each to a compartment:</p>
 <ul>
 <li><strong>U</strong> - uninfected cells</li>
 <li><strong>I</strong> - infected cells</li>
@@ -112,74 +113,99 @@ Flow diagram for a virus infection model with drug treatment and Pk-Pd.
 <div id="model-equations" class="section level3">
 <h3>Model Equations</h3>
 <p>Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations.</p>
-<p><span class="math display">\[\dot U = n - d_U U - bUV\]</span> <span class="math display">\[\dot I = bUV - d_I I\]</span> <span class="math display">\[\dot V = (1-e)pI - d_V V - gb UV\]</span> <span class="math display">\[\dot C =  - d_C C, \qquad C=C+C_0 \textrm{ at } t = t_{interval} \]</span></p>
-<p><em>t<sub>interval</sub></em> is the time at which a new drug dose is given. Prior to treatment start, i.e. (<em>t</em> &lt; <em>t<sub>xstart</sub></em>), there is no drug and <em>C=0</em>. The drug efficacy <em>e</em> is given by its own equation which depends on <em>C</em> as follows: <span class="math display">\[e = E_{max} \frac{C^k}{C^k+C_{50}}\]</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+\dot U &amp; = n - d_U U - bUV \\
+\dot I &amp; = bUV - d_I I \\
+\dot V &amp; = (1-e)pI - d_V V - gb UV \\
+\dot C &amp; =  - d_C C, \qquad C=C+C_0 \textrm{ at } t = t_{interval} 
+\end{aligned}
+\]</span></p>
+<p><em>t<sub>interval</sub></em> is the time at which a new drug dose is given. Prior to treatment start, i.e. (<em>t</em> &lt; <em>t<sub>xstart</sub></em>), there is no drug and <em>C=0</em>. The drug efficacy <em>e</em> is given by its own equation which depends on <em>C</em> as follows:</p>
+<p><span class="math display">\[
+e = E_{max} \frac{C^k}{C^k+C_{50}}
+\]</span></p>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
 <h2>What to do</h2>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<p>For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days. Set number of uninfected cells to 10<sup>5</sup>, 10 virions, no infected cells. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average lifespan of 1 day, virus of 12 hours. Set virus production rate to 10, infection rate to 10<sup>-5</sup> and conversion factor to 1, simulation starts at time 0 and runs for 20 days. For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Drug decays at a rate of 1. Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0. Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57.</p>
+<p>For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days. Set number of uninfected cells to 10<sup>5</sup>, 10 virions, no infected cells. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average lifespan of 1 day, virus of 12 hours. Set virus production rate to 10, infection rate to 10<sup>-5</sup> and conversion factor to 1. Start simulation at time 0 and run for 20 days. For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Assume the drug decays at a rate of 1 per day. Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0. Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57. Since the drug levels are fairly low, you might need to plot the y-axis on a log scale and use plotly and zoom into the drug part to see it’s up and down pattern.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Final number of uninfected cells</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2</h3>
-<p>Since max drug efficacy was 0, the drug had no impact. Now change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see? Now start drug treatment earlier, at days 9,8,.. down to day 1. Observe how the drug now has more of an impact.</p>
+<p>Since we just had the maximum drug efficacy at 0, the drug had no impact at reducing virus production. Now change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see? You should notice only a small impact, with the final number of uninfected cells having increased a bit. Now start drug treatment earlier, at days 8, 6, 4, 2, 0. Observe how the drug now has more of an impact. Not surprisingly, the earlier the drug is started, the more of an impact it has. The drug is however not strong enough to suppress the infection. We explore this further next.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Final number of uninfected cells, Emax = 1, txstart = 10</p></li>
+<li><p>Final number of uninfected cells, Emax = 1, txstart = 2</p></li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<p>Let’s explore the Pk part of the model, i.e. the kinetics of the drug. Start drug on day 5, leave everything as above. Explore how different dosing intervals affect the drug Pk and thereby the virus load. Explore how different drug decay rates affect the drug Pk and thereby the virus load. Explore how different drug doses affect the drug Pk and thereby the virus load.</p>
+<p>Let’s explore the PK part of the model, i.e. the kinetics of the drug as described by the drug concentration equation. Reset all inputs. Then set maximum drug efficacy to 1, start drug on day 2. Run the model, set the plot engine to plotly with a log y-axis. By reading off the values for the drug from the graph (or looking at the reported values below the graph), convince yourself that the peak drug concentration starts at 1 and slowly over the first few days increases to around 1.5. Now set the drug decay rate to 5. Convince yourself that the peak drug concentration does not go beyond 1, i.e. there is no build-up. Now set <em>dC = 0.1</em>. You’ll now see a build up to a concentration of almost 9.</p>
+<p>Now set drug decay rate back to <em>dC = 1</em> and change treatment interval to 3 days. Run simulation and convince yourself that the drug concentration does again not really go above the administered dose of 1. Re-do for a decay rate of <em>dC = 0.1</em>. You’ll see some drug build-up, but less. You can keep exploring how dose, decay rate of drug and time between treatment impact the curve you see for <em>C</em>. The impact of each of those components should be fairly easy to understand, but it’s still worth playing with it a bit.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Maximum drug concentration for dC = 0.1, txinterval = 1</p></li>
+<li><p>Maximum drug concentration for dC = 0.1, txinterval = 3</p></li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
 <h3>Task 4</h3>
-<p>Now we’ll explore the Pd part of the model, i.e. the equation describing drug action. Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy). Explore how different 50% efficacy levels affect the virus load. Explore how different values for the drug efficacy increase parameter affect the virus load. Explore how different drug max drug efficacy levels affect the virus load. Note that the highest biologically reasonable value for <span class="math inline">\(E_{max}\)</span> is 1, which means 100% efficacy. While you can stick higher values into the model, they don’t make any sense (you’ll be getting negative virus production). Note that for all the changes you did above, the drug time-series did not change.</p>
+<p>Now we’ll explore the PD part of the model, i.e. the equation <em>e = …</em> which describes the impact of the drug for a given drug concentration. Reset all inputs. Start treatment at day 2. Run the model for <em>Emax = 0</em>, you should get the same values as in task 1. Now explore <em>Emax</em>. Set it to 0.5, then 1. You should see a substantial increase in the impact of the drug, evidenced by higher uninfected number of cells remaining. You might habe noticed that by increasing Emax, the infection is delayed, which is especially noticable for <em>Emax = 1</em>. To account for this, set the simulation time to 100 days, then run again for the 3 different <em>Emax</em> levels (0, 0.5, 1). You’ll still find that an increased drug efficacy leads to fewer infected cells. Note that for the way we set up the model, the highest biologically reasonable value for <em>Emax</em> is 1, which means <em>e = 1</em>. While you can stick higher values into the model, they don’t make any sense (you’ll be getting negative virus production). Depending on how the model is formulated, <em>Emax</em> values above 1 could be possible.</p>
+<p>Next explore the parameter k by running the simulation for values of 1,2 and 3. Leave everything else as it is (i.e. <em>Emax = 1</em>, <em>tfinal = 100</em>). You’ll find that it doesn’t have much of an impact on the infection. Finally, we’ll explore the C50 parameter. Set k back to 1, run the model for C50 values of 1, 0.1 and 10. You’ll notice that this parameter has a strong impact.</p>
+<p>Note that for all the changes you just did, the drug time-series (the PK part) did not change.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Final number of uninfected cells, Emax = 1, tfinal = 100</p></li>
+<li><p>Final number of uninfected cells, C50 = 0.1, tfinal = 100</p></li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<p>Go back to settings at the beginning of task 3 (i.e. task 1 settings with treatment start at day 5 and max drug efficacy). Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? (You should find around 56819 uninfected cells for one of the scenarios and around 64799 for the other). If drug side-effects were an issue, would your decision change? Why or why not?</p>
+<p>Reset all inputs. Set treatment start time to 2, max drug efficacy to 1. Run the model, take a look at the remaining number of uninfected cells. Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? Test both scenarios. You should find that the for both changes, the number of uninfected cells is somewhat above 90K, and reducing the C50 value is slightly better (this of course depends on other model parameters, you can try to find a set of combinations of the other parameters at which the impact of these two hypothetical drug improvements switches). Based on what you just found, which improved drug would you pick? If drug side-effects were an issue, would your decision change? Why or why not?</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Final value of uninfected cells, dC = 0.5</p></li>
+<li><p>Final value of uninfected cells, C50 = 0.5</p></li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
 <h3>Task 6</h3>
-<p>Let’s consider a chronic situation. Set everything as in task 1, then set birth rate and death rate of uninfected cells to 10000 and 0.1. For the drug, assume treatment starts at day 50, max simulation time of 100 days, and drug is given weekly at a dose of 1. Set the efficacy increase parameter to 1, the 50% efficacy level to 1 and max drug efficacy to 1. Run the simulation. You should see an infection settling to some steady state, then drug treatment starts and virus levels go up and down with around 24389 at 100 days. Importantly, the virus does not show some overall decline, it only goes up and down. Make sure you understand why that is.</p>
+<p>Let’s briefly consider a chronic situation. Reset all inputs, then set birth rate and death rate of uninfected cells to 10000 and 0.1. Run simulation for 100 days. You should get a steady state. Now turn on drug with <em>Emax = 1</em>, treatment start at day 50, and a drug that’s given weekly at a dose of 1. Run the simulation. You should see that once the drug is administered, the system is knocked out of its steady state, and settles back to another state. This is not a steady state, but instead a repeating patter of virus increase and decrease. Make sure you understand why (take a look at the drug PK, you might need a log plot for that). Importantly, the drug can’t clear the infection.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Viral load at end of simulation in presence of treatment</li>
 </ul>
 </div>
 <div id="task-7" class="section level3">
 <h3>Task 7</h3>
-<p>Play with the different Pk parameters as described in task 3 and see how it affects virus load and what is needed to get the virus to low levels.</p>
+<p>Play with the different PK parameters. Set <em>C0 = 10</em>. Not surprisingly, as the drug concentration increases, the virus load is reduced. Play around with the other PK parameters (<em>dC</em> and <em>txinterval</em>) to explore how changing those impacts the virus load.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Viral load at end of simulation for <em>C0 = 10</em></li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
 <h3>Task 8</h3>
-<p>Play with the different Pd parameters as described in task 4 and see how it affects virus load and what is needed to get the virus to low levels.</p>
+<p>Now let’s revisit the PD parameters. Reset <em>C0 = 1</em>. Set C50 to 0.1. You should see a drop in the virus load compared to a value of 1. Now let’s set <em>C0 = 0.01</em>. For this value, even small levels of drug are highly effective. You’ll see that for this scenario, the drug is strong enough to drive the virus towards zero/extinction, and the uninfected cells recover to almost their starting value.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Final number of uninfected cells, C0=0.01</li>
+</ul>
+</div>
+<div id="task-9" class="section level3">
+<h3>Task 9</h3>
+<p>Keep exploring. For both the acute and chronic infections, you can further explore how changes in PK (the model parameters that influence drug concentration) and PD (the model parameters that influence drug efficacy for a given concentration) lead to overall impact on the infection dynamics.</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Nothing</li>
 </ul>
 </div>
 </div>

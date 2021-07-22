@@ -5,21 +5,21 @@
 \title{Fitting a simple viral infection model with 2 types of drug mechanisms to influenza data}
 \usage{
 simulate_fludrug_fit(
-  U = 1e+05,
+  U = 1e+07,
   I = 0,
   V = 1,
-  dI = 2,
-  dV = 4,
-  b = 0.01,
-  blow = 1e-05,
-  bhigh = 10,
-  p = 0.01,
-  plow = 1e-05,
-  phigh = 10,
-  g = 1,
+  dI = 1,
+  dV = 2,
+  b = 0.002,
+  blow = 0,
+  bhigh = 100,
+  p = 0.002,
+  plow = 0,
+  phigh = 100,
+  g = 0,
   glow = 0,
-  ghigh = 1000,
-  e = 0.5,
+  ghigh = 100,
+  k = 0,
   fitmodel = 1,
   iter = 1
 )
@@ -53,7 +53,7 @@ simulate_fludrug_fit(
 
 \item{ghigh}{: upper bound for unit conversion factor : numeric}
 
-\item{e}{: drug efficacy (between 0-1) : numeric}
+\item{k}{: drug efficacy (between 0-1) : numeric}
 
 \item{fitmodel}{: fitting model 1 or 2 : numeric}
 
@@ -73,8 +73,8 @@ The function simulates the ODE using an ODE solver from the deSolve package.
 }
 \details{
 A simple compartmental ODE models describing an acute viral infection with drug treatment
-mechanism/model 1 assumes that drug treatment reduces rate of new virus production.
-mechanism/model 2 assumes  that drug treatment reduces rate of new cell infection.
+mechanism/model 1 assumes that drug treatment reduces rate of new cell infection.
+mechanism/model 2 assumes  that drug treatment reduces rate of new virus production.
 }
 \section{Warning}{
  This function does not perform any error checking. So if
@@ -84,9 +84,9 @@ mechanism/model 2 assumes  that drug treatment reduces rate of new cell infectio
 
 \examples{
 # To run the code with default parameters just call the function:
-\dontrun{result <- simulate_fludrug_fit()}
+result <- simulate_fludrug_fit()
 # To apply different settings, provide them to the simulator function, like such:
-result <- simulate_fludrug_fit(iter = 5, fitmodel = 1)
+result <- simulate_fludrug_fit(k = 0.5, iter = 5, fitmodel = 2)
 }
 \seealso{
 See the Shiny app documentation corresponding to this

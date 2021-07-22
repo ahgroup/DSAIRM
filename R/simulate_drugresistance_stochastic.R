@@ -35,7 +35,7 @@
 #' # To run the simulation with default parameters just call the function:
 #' result <- simulate_drugresistance_stochastic()
 #' # To choose parameter values other than the standard one, specify them, like such:
-#' result <- simulate_drugresistance_stochastic(tfinal = 200, e = 0.5)
+#' result <- simulate_drugresistance_stochastic(tfinal = 100, e = 0.5)
 #' # You should then use the simulation result returned from the function, like this:
 #' plot(result$ts[,"time"],result$ts[,"Vs"],xlab='Time',ylab='Uninfected cells',type='l')
 #' @references See the manual for the adaptivetau package for details on the algorithm.
@@ -47,7 +47,9 @@
 
 
 
-simulate_drugresistance_stochastic <- function(U = 1E5, Is = 0, Ir = 0, Vs = 10, Vr =0, b = 1e-5, dI = 1, e = 0, m = 1e-4, p = 1e2, c = 4, f = 0.1, rngseed = 100, tfinal = 100)
+simulate_drugresistance_stochastic <- function(U = 1E5, Is = 0, Ir = 0, Vs = 10, Vr =0,
+                                               b = 1e-5, dI = 1, e = 0, m = 1e-3, p = 1e2,
+                                               c = 4, f = 0.1, rngseed = 100, tfinal = 30)
 {
 
 
