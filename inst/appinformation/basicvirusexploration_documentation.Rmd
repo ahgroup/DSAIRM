@@ -27,7 +27,9 @@ This app allows you to explore the effect of specific model parameters on some o
 
 
 ### Learning Objectives
-
+* Further understanding of model exploration using ranges for parameters
+* Develop intuition for model outputs
+* Practice comparing mathematical and numerical solutions
 
 
 

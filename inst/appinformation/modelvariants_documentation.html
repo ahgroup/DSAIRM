@@ -84,6 +84,9 @@ div.csl-indent {
 <p>This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
+<ul>
+<li>Explore structural uncertainty for model parameterization</li>
+</ul>
 </div>
 </div>
 <div id="shinytab2" class="section level2">
@@ -122,7 +125,7 @@ div.csl-indent {
 <ol style="list-style-type: upper-alpha">
 <li>Proportional to the innate response at rate <em>a<sub>1</sub></em>.</li>
 <li>Proportional to virus at rate <em>a<sub>2</sub></em>, with a growth rate saturating at high levels of virus, determined by the saturation constant <em>h<sub>V</sub></em>.</li>
-<li>Proportional to both virus and innate response at rate <em>a<sub>3</sub></em>, with a growth rate saturating at high levels of virus and innate response, determined by the saturation constant <em>h~V</em>~.</li>
+<li>Proportional to both virus and innate response at rate <em>a<sub>3</sub></em>, with a growth rate saturating at high levels of virus and innate response, determined by the saturation constant <em>h<sub>V</sub></em>.</li>
 </ol></li>
 <li>The adaptive response can <em>act</em> on the system in 3 ways:
 <ol style="list-style-type: upper-alpha">
@@ -130,7 +133,7 @@ div.csl-indent {
 <li>By killing infected cells at rate <em>k<sub>5</sub></em>, with saturation of the maximum killing rate for high adaptive response levels, determined by the saturation constant <em>s<sub>A</sub></em>.</li>
 <li>By killing virus at rate <em>k<sub>6</sub></em>.</li>
 </ol></li>
-<li>Adaptive immune response decays at a rate <em>d<sub>A</sub></em>.</li>
+<li>The adaptive immune response decays at a rate <em>d<sub>A</sub></em>.</li>
 </ul>
 <p>The idea explored in this app and implemented by this model is that results sometimes, but not always, change depending on different (biologically reasonable) ways the immune response is modeled. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.</p>
 <p>Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don’t know enough to pick the “right” model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.</p>
@@ -148,19 +151,19 @@ Flow diagram for the model with different innate and adaptive response variants.
 </div>
 <div id="model-equations" class="section level3">
 <h3>Model Equations</h3>
-<p><span class="math display">\[\dot U =n - d_U U - bVU - k_1FU \]</span> <span class="math display">\[\dot I = bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A}\]</span> <span class="math display">\[\dot V = \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV\]</span> <span class="math display">\[\dot F = p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F\]</span> <span class="math display">\[\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A \]</span></p>
+<p><span class="math display">\[\dot U =n - d_U U - bVU - k_1FU \]</span> <span class="math display">\[\dot I = bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A}\]</span> <span class="math display">\[\dot V = \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV\]</span> <span class="math display">\[\dot F = p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F\]</span> <span class="math display">\[\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A - d_A A\]</span></p>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
 <h2>What to do</h2>
 <p><em>It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the “Basic Virus Model” and “Virus and Immune Response Model” apps.</em></p>
-<p><em>For the tasks below, it is assumed that the model is run in units of days</em></p>
+<p><em>For the tasks below, it is assumed that the model is run in units of days.</em></p>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<p>We’ll begin with the basic virus model by turning off any immune response related component. Set all parameter values related to the immune response such that there is no <em>F</em> and <em>A</em> present at any time during the simulation. Set target cell and virus starting conditions to 10<sup>5</sup> initial uninfected cells, no infected cells, 10 virions. Set infection rate to 10<sup>-5</sup>, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours respectively. Rate of virus production should be 100 per day. You should get a single acute virus infection with no immune response present and a maximum of 70217 infected cells.</p>
+<p>We’ll begin with the basic virus model by turning off any immune response related component. Set all parameter values related to the immune response such that there is no <em>F</em> and <em>A</em> present at any time during the simulation. Set initial conditions to 10<sup>5</sup> uninfected cells, no infected cells, and 10 virions. Set the infection rate to 10<sup>-5</sup>, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours, respectively. The rate of virus production should be 100 per day. You should get a single acute viral infection with no immune response present and a maximum of 70217 infected cells.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Day at which the viral load peaks</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
@@ -168,39 +171,80 @@ Flow diagram for the model with different innate and adaptive response variants.
 <p>Let’s explore different mechanisms for the innate response. Keep initial level of innate response at 0, but set innate production and removal rate to 1. Set all innate growth parameters (the <em>f<sub>i</sub></em>) and all innate actions (<em>k<sub>1</sub></em>, <em>k<sub>2</sub></em>, <em>k<sub>3</sub></em>) to 0. Run the simulation, confirm that you get an innate response that settles at a steady state (balance between production and removal), but that there is no further increase and that the rest of the dynamics doesn’t change (i.e. you should get the same maximum number of infected cells as above).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Maximum number of infected cells</p></li>
+<li><p>Value for innate response at steady state</p></li>
 </ul>
 </div>
 <div id="task-3" class="section level3">
 <h3>Task 3</h3>
-<p>Now explore the different types of innate response induction by playing with the <em>f<sub>i</sub></em> parameters and the saturation parameter, <em>s<sub>V</sub></em>. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the <em>k<sub>i</sub></em> at 0. This means the rest of the variables should not change.</p>
+<p>Now, let’s explore the different types of innate response induction by playing with the <em>f<sub>i</sub></em> parameters and the saturation parameter, <em>s<sub>V</sub></em>. First, set <em>f<sub>1</sub></em> to 10<sup>-5</sup> and <em>F<sub>MAX</sub></em> to 1000. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the <em>k<sub>i</sub></em> at 0. This means the rest of the variables should not change. Make ten-fold changes to <em>f<sub>1</sub></em> and <em>F<sub>MAX</sub></em>. Try to predict what will happen and then test your predictions by running the simulation.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Peak of F with <em>f<sub>1</sub></em> = 10<sup>-5</sup> and <em>F<sub>MAX</sub></em> = 1000</p></li>
+<li><p>Day at which F peaks with <em>f<sub>1</sub></em> = 10<sup>-5</sup> and <em>F<sub>MAX</sub></em> = 1000</p></li>
+<li><p>Peak of F with <em>f<sub>1</sub></em> = 10<sup>-6</sup> and <em>F<sub>MAX</sub></em> = 1000</p></li>
+<li><p>Day at which F peaks with <em>f<sub>1</sub></em> = 10<sup>-6</sup> and <em>F<sub>MAX</sub></em> = 1000</p></li>
+<li><p>Peak of F with <em>f<sub>1</sub></em> = 10<sup>-5</sup> and <em>F<sub>MAX</sub></em> = 10000</p></li>
+<li><p>Day at which F peaks with <em>f<sub>1</sub></em> = 10<sup>-5</sup> and <em>F<sub>MAX</sub></em> = 10000</p></li>
 </ul>
 </div>
 <div id="task-4" class="section level3">
 <h3>Task 4</h3>
-<p>Now explore what happens when you have non-zero <em>k<sub>i</sub></em>. You’ll find that the action of the innate response impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex. Pay attention to how different processes of innate activation and innate action do or don’t produce different overall dynamics.</p>
+<p>Let’s switch to the alternative innate response induction proceses. Set <em>f<sub>1</sub></em> back to zero. Then, set <em>f<sub>2</sub></em> to 3 and <em>s<sub>V</sub></em> to 10<sup>5</sup>. Play around with different values for <em>f<sub>2</sub></em> and <em>s<sub>V</sub></em>, each time trying to predict how changes in the parameters will affect the model.</p>
+<p>Next, set <em>f<sub>2</sub></em> to zero and set <em>f<sub>3</sub></em> to 2. For any given value of <em>s<sub>V</sub></em>, how does switching between innate response induction via <em>f<sub>2</sub></em> differ from <em>f<sub>3</sub></em>? (<em>Hint: take another look at the model equations.</em>) Play around with different values for <em>f<sub>3</sub></em> and <em>s<sub>V</sub></em>, again trying to predict the output and then running the simulation to confirm. Remember, each time you switch processes, ‘turn off’ the alternative ones.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Peak of F with <em>f<sub>2</sub></em> = 3 and <em>s<sub>V</sub></em> = 10<sup>5</sup></p></li>
+<li><p>Peak of F with <em>f<sub>2</sub></em> = 3 and <em>s<sub>V</sub></em> = 10<sup>7</sup></p></li>
+<li><p>Peak of F with <em>f<sub>3</sub></em> = 2 and <em>s<sub>V</sub></em> = 10<sup>5</sup></p></li>
+<li><p>Peak of F with <em>f<sub>3</sub></em> = 2 and <em>s<sub>V</sub></em> = 10<sup>7</sup></p></li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<p>Finally turn on the adaptive response. Note that in this model, there is no adaptive response without innate response (check it by setting the innate response to 0 while having non-zero adaptive growth rates, <em>a<sub>i</sub></em>). Turn the innate response back on and explore how different non-zero adaptive growth rates, <em>a<sub>i</sub></em>, affect the adaptive response dynamics. Start by leaving the adaptive action parameters at 0. Then play with those parameters as well and set them to non-zero values. Also explore the impact of the saturation constants.</p>
+<p>Explore the alternative representations of innate response induction by switching modeled process. Do you think that any of the modeled processes is more <strong><em>biologically reasonable</em></strong> than the others? Why or why not? Are you able to recreate similar dynamics regardless of which process is modeled? What happens if you turn more than one of the alternative processes on at once; is <em>this</em> <strong><em>biologically reasonable</em></strong>? Can you think of improvements to the parameterization?</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li>Nothing</li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
 <h3>Task 6</h3>
-<p>As you’ll notice, some of the specific model choices (i.e. specific parameters/terms in the model being turned on or off) lead to similar results, while other times results are quite different. For a specific system under study, some ways to formulate the immune response and the dynamics one gets might be better than others. Think about a system you are familiar with and consider which (if any) of the possible mechanisms implemented in this model might best describe that system.</p>
+<p>Now, let’s explore what happens when you have non-zero <em>k<sub>i</sub></em>. First, set the innate induction parameters as follows: <em>f<sub>3</sub></em> = 5, <em>f<sub>1</sub></em> = <em>f<sub>2</sub></em> = 0, and <em>s<sub>V</sub></em> = 10<sup>5</sup> (this way we can explore the <em>k<sub>i</sub></em> effects using the same innate activation processes). Try different values for the <em>k<sub>i</sub></em> parameters. At first, turn on one process at a time; after, mix and match.</p>
+<p>You’ll find that the action of the innate response now impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex. Pay attention to how different processes of innate activation and innate action do or don’t produce different overall dynamics.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Something</li>
+<li><p>Peak of I with <em>k<sub>1</sub></em> = 0.001, other <em>k<sub>i</sub></em> = 0</p></li>
+<li><p>Peak of I with <em>k<sub>2</sub></em> = 0.001, other <em>k<sub>i</sub></em> = 0</p></li>
+<li><p>Peak of I with <em>k<sub>3</sub></em> = 0.001, other <em>k<sub>i</sub></em> = 0</p></li>
+<li><p>TRUE or FALSE: you can track the extent of the infection (i.e., how many total cells were infected) by calculating the difference between the number of <strong><em>uninfected cells</em></strong> at the beginning and the end of the simulation for all non-zero values of <em>k<sub>1</sub></em>, <em>k<sub>2</sub></em>, and <em>k<sub>3</sub></em>.</p></li>
+</ul>
+</div>
+<div id="task-7" class="section level3">
+<h3>Task 7</h3>
+<p>Finally, turn on the adaptive response. Note that in this model, there is no adaptive response without innate response (check it by setting the innate response to 0 while having non-zero adaptive growth rates, <em>a<sub>i</sub></em>). Also, note that the alternative adaptive growth processes for <em>a<sub>1</sub></em> and <em>a<sub>3</sub></em> further need an initial non-zero value for the adaptive immune response to be able to grow (again, check it for yourself either by reviewing the model equations or running the simulation).</p>
+<p>Turn the innate response back on as in Task 6 with <em>k<sub>2</sub></em> = 0.001 and <em>k<sub>1</sub></em> = <em>k<sub>3</sub></em> = 0. Explore how different non-zero adaptive growth rates, <em>a<sub>i</sub></em>, affect the adaptive response dynamics. Start by leaving the adaptive action parameters at 0. Then, fiddle with those parameters as well and set them to non-zero values. Also, pay attention to the impact of the saturation constants.</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Nothing</li>
+</ul>
+</div>
+<div id="task-8" class="section level3">
+<h3>Task 8</h3>
+<p>Now that we have played with each of the immune response processes, let’s see if we can put together a bit more complicated model.</p>
+<p>Set <em>d<sub>F</sub></em> = 10, the innate response growth parameters to <em>f<sub>3</sub></em> = 15, <em>f<sub>1</sub></em> = <em>f<sub>2</sub></em> = 0, and <em>s<sub>V</sub></em> = 10<sup>5</sup>, and the innate response action parameters to <em>k<sub>2</sub></em> = 0.001 and <em>k<sub>1</sub></em> = <em>k<sub>3</sub></em> = 0. Set the adaptive response initial value to 1, adaptive response growth parameters to <em>a<sub>3</sub></em> = 5, <em>a<sub>1</sub></em> = <em>a<sub>2</sub></em> = 0, and <em>h<sub>V</sub></em> = 10<sup>7</sup>, and the adaptive response action parameters to <em>k<sub>4</sub></em> = 0, <em>k<sub>5</sub></em>= 0.01, <em>k<sub>6</sub></em> = 0.1, and <em>s<sub>A</sub></em> = 1000. Can you intuit what the model output will look like? Run the simulation for 100 days. You should have about 3 uninfected cells remaining at the end of the simulation.</p>
+<p>Now, let’s add some processes for the birth and death of uninfected cells. Set the rate of uninfected cell production, <em>n</em>, to 10000 and the rate of natural death of uninfected cells to a value that would, in the absence of infection, equate to a constant 10<sup>5</sup> number of uninfected cells throughout the simulation. If you have difficulty determining the corresponding value for <em>d<sub>U</sub></em>, you can review steady states in the <strong><em>Basic Virus</em></strong> app. Run the simulation. You should get a pretty interesting pattern. How would you interpret this? Does this model, parameter or dynamics, seem <strong><em>biologically reasonable</em></strong>?</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Peak of A</li>
+</ul>
+</div>
+<div id="task-9" class="section level3">
+<h3>Task 9</h3>
+<p>As you’ll notice, some of the specific model choices (i.e. specific parameters/terms in the model being turned on or off) lead to similar results, while other times results are quite different. For a specific system under study, some ways to formulate the immune response and the dynamics one gets might be better than others. Think about a system you are familiar with and consider which (if any) of the possible mechanisms implemented in this model might best describe that system. Keep playing with the model and see if you can recreate the system!</p>
+<p><strong>Record</strong></p>
+<ul>
+<li>Nothing</li>
 </ul>
 </div>
 </div>
