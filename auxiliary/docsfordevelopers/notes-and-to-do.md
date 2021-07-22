@@ -13,6 +13,7 @@
 * Add learning objectives to each overview tab
 * Implement further apps, see below
 * Clean up and make all model diagrams as nice as possible
+  + model variants diagram: change k2 and k4 processes to outflows
 
 ## Apps to be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)
