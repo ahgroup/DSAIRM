@@ -1,5 +1,5 @@
 ---
-title: Basic Bacteria and Immune Response Model
+title: Basic Bacteria Model
 output:
   html_document:
     theme: null
@@ -27,7 +27,7 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename)
 
 
 ## Overview {#shinytab1}
-This app allows exploration of a very basic bacteria (or other extracellular pathogen) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in _The Model_ tab. Then do the tasks described in the _What to do_ tab.
+This app allows exploration of a very basic bacteria (or other extracellular pathogens) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
 
 ### Learning Objectives
 * Become familiar with simulation models.
@@ -45,15 +45,15 @@ All the models we consider are compartmental models. Compartmental means that we
 
 This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
 
-In addition to specifying the **compartments** or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes or **flows** that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+In addition to specifying the ***compartments*** or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are ***processes*** or ***flows*** that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
 For our system, we specify the following processes/flows: 
 
-* Bacteria grow/divide at some maximum rate (which we label _g_) and saturate as they approach some maximum carrying capacity, _B~max~_. 
-* Bacteria die at a natural death rate (which we label _d~B~_).
-* Bacteria are killed by the immune response at some rate _k_.
-* The immune response grows proportional to the number of bacteria and itself at some rate _r_.
-* The immune response decays at some rate (which we label _d~I~_).
+* Bacteria grow/divide at some maximum rate, _g_, and saturate as they approach some maximum carrying capacity, _B~max~_. 
+* Bacteria die at a natural death rate, _d~B~_.
+* Bacteria are killed by the immune response at some rate, _k_.
+* The immune response grows proportional to the number of bacteria and itself at some rate, _r_.
+* The immune response decays at some rate, _d~I~_.
 
 
 ### Model Diagram
@@ -66,54 +66,47 @@ knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=
 
 For the diagrams in this R package, solid arrows indicate physical flows, i.e. movement from a compartment to another (e.g. bacteria moving out of the compartment because of death, or bacteria increasing in the compartment due to growth), while dashed arrows indicate interactions without physical flow (e.g. infected cells killing bacteria). This notation is not universal and it is common in the literature to see no distinction made between these 2 types of flows and only solid arrows being used.
 
-Next, we need to implement this verbal model and flow diagram in a way that it can be run on a computer. While we already specified some of the model features, e.g. that we only track compartments/total numbers and not individual bacteria, both the verbal model and diagram do not yet fully specify the underlying mathematical model. In fact, there are several ways the diagram could be translated into a mathematical/computer model. For this app, we consider two approaches, namely **discrete-time deterministic** and **continuous-time deterministic** models. In some of the other apps, you will see another variant, namely **continuous-time stochastic** model implementations.
+Next, we need to implement this verbal model and flow diagram in a way that it can be run on a computer. While we already specified some of the model features, e.g. that we only track compartments/total numbers and not individual bacteria, both the verbal model and diagram do not yet fully specify the underlying mathematical model. In fact, there are several ways the diagram could be translated into a mathematical/computer model. For this app, we consider two approaches, namely ***discrete-time deterministic*** and ***continuous-time deterministic*** models. In some of the other apps, you will see another variant, namely ***continuous-time stochastic*** model implementations.
 
 
-### Model Implementation I
-The most common way to implement compartmental models is as a **continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)**. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
+### Model Equations
+
+#### Implementation I
+The most common way to implement compartmental models is as a ***continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)***. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
 
 $$\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI$$ 
 $$\dot I = r B I - d_I I$$
 We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:
+
 $$\frac{d}{dt}B(t) = gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t)$$ 
 $$\frac{d}{dt} I(t) = r B(t) I(t) - d_I I(t)$$
-This notation specifies explicitly that $B$ and $I$ are functions of time, and that the differentiation is with respect to time. Since this is always the case in our models, it is not necessary to be that explicit and the more compact notation shown above is the one you will see in this package and it's also the most common throughout the literature.
+This notation specifies explicitly that **B** and **I** are functions of time, and that the differentiation is with respect to time. Since this is always the case in our models, it is not necessary to be that explicit and the more compact notation shown above is the one you will see in this package and it's also the most common throughout the literature.
 
 
-### Model Implementation II
-Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a **discrete-time deterministic** equivalent to the ODE model. For such an implementation, the equations are:
+#### Model Implementation II
+Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a ***discrete-time deterministic*** equivalent to the ODE model. For such an implementation, the equations are:
 
 $$B_{t+dt} = B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) $$ 
 $$ I_{t+dt} = I_t + dt \left( r I_t B_t - d_I I_t \right)$$
-In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the `deSolve` R package documentation, which we use to run our simulations. 
+In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, **t**, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the `deSolve` R package documentation, which we use to run our simulations. 
 
 
 
-### Some notes
-* In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called _initial conditions_.
+### Notes
+* In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called ***initial conditions***.
 * In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _d~B~_, _k_, _r_ and _d~I~_. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour. 
- 
+* This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months..., based on what's most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each *What To To* section what kind of units I have in mind for the different tasks. 
+* You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You'll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hack-y solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you'll see numbers less than 1. That's okay for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
+* Some of the tasks in the *What To Do* section (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking about what you expect, observing it, and, if discrepancies occur, figuring out why. Essentially, the best way to use these apps is to _do your own science/research_ with them.
 
+## What To Do {#shinytab3}
 
-## What to do {#shinytab3}
-
-### A few general notes
-
-* Some of the tasks below (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking what you expect, observing it, and if discrepancies occur, figure out why. Essentially, the best way to use these apps is to _do your own science/research_ with them.
-
-* You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You'll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hacky solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you'll see numbers less than 1. That's ok for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
-
-* This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months..., based on what's most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each "What to do" section what kind of units I have in mind for the different tasks.
+### A Few General Notes
 
 **The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a cell lives for a week, you need to convert it to 7 days, then take the inverse if you want a death rate, which is what usually goes into the model).**
 
 
-
-
-
-
 ```{r, echo=FALSE, eval=TRUE}
-
 #this is the running counter for the records which starts at 1 
 rc=1
 
@@ -306,12 +299,13 @@ write_tasktext(alloutcomes)
 
 ## Further Information {#shinytab4}
 
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying functions running the simulation are called ``r appsettings$simfunction[1]`` and ``r appsettings$simfunction[2]``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
-* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
-* The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [@otto11]. The models in those references are described in the context of ecology, but results transfer to within-host situation. 
-* For somewhat similar within-host models (applied to TB and antibiotic resistance), see [@antia96; @handel09b].
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results. For this app, the underlying functions running the simulation are called ``r appsettings$simfunction[1]`` and ``r appsettings$simfunction[2]``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. [@otto11]. The models in those references are described in the context of ecology, but results transfer to within-host situation. For somewhat similar within-host models (applied to TB and antibiotic resistance), see [@antia96; @handel09b].
 
 ### References
 
