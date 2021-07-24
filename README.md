@@ -19,13 +19,13 @@ downloads](http://cranlogs.r-pkg.org/badges/DSAIRM)](https://cran.r-project.org/
 downloads](http://cranlogs.r-pkg.org/badges/grand-total/DSAIRM?color=ff69b4)](https://cran.r-project.org/package=DSAIRM)
 <!-- badges: end -->
 
-**Dynamical Systems Approach to Immune Response Modeling**
+**DSAIRM - Dynamical Systems Approach to Immune Response Modeling**
 
 ## Description
 
-DSAIRM is an R package containing a set of simulation modelss (apps)
-that teach within-host infection dynamics and immune response modeling
-from a dynamical system perspective.
+DSAIRM is an R package containing a set of simulation models (apps) that
+teach within-host infection dynamics and immune response modeling from a
+dynamical system perspective.
 
 All models can be explored through a graphical user interface, no
 reading or writing code is required. Each app comes with documentation
@@ -68,26 +68,33 @@ package [see the *Get Started* tutorial
     cover some of the topics you can learn about in DSAIRM (and we use
     the package). Workshop materials [are freely available
     online](https://andreashandel.github.io/SMIcourse/).
--   If you want to take a deeper look at the package, see [this Markdown
+-   I have full solutions and quiz sheets for all of the **What to do**
+    tasks for each app. If you are an instructor using this package as
+    part of a class, email me if you are interested in having access to
+    the materials.
+-   Contributions to the package are very welcome! If you want to take a
+    deeper look at the package, see [this Markdown
     file](https://github.com/ahgroup/DSAIRM/blob/master/auxiliary/docsfordevelopers/documentation.md)
     which provides further information on the details of the package
     structure. I’d be excited to receive any contributions from
     individuals who want to help improve the package. If you plan to
     develop new apps, or make other substantial contributions, it might
     be best to get in touch with me first.
--   A ‘companion’ package to this one, called Dynamical Systems
-    Approaches to Infectious Disease Epidemiology (DSAIDE), focuses on
+-   A companion package to this one, called *Dynamical Systems
+    Approaches to Infectious Disease Epidemiology (DSAIDE)*, focuses on
     models at the population level. It has the same structure as DSAIRM.
     [See the DSAIDE site for more
     information.](https://ahgroup.github.io/DSAIDE/)
+-   I send out a monthly newsletter in which I announce any noteworthy
+    updates to my R packages. If you want to stay updated, [you can sign
+    up here](https://www.andreashandel.com/susbscribe/).
 
 ## Citation and Contributors
 
 If the package does in any way help you with your work such that it
-warrants citing it, please cite [the DSAIRM publication in BMC
-Immunology](https://doi.org/10.1186/s12865-019-0321-0).
-
-This R package is developed and maintained by [Andreas
+warrants citing it, please cite [this publication in BMC
+Immunology](https://doi.org/10.1186/s12865-019-0321-0). This R package
+is developed and maintained by [Andreas
 Handel](https://www.andreashandel.com/). A full list of contributors and
 a Bibtex entry for the citation [can be found
 here](https://ahgroup.github.io/DSAIRM/authors.html).
