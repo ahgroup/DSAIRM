@@ -1,5 +1,5 @@
 ---
-title: Different Model Formulations
+title: Model Variant Exploration
 output:
   html_document:
     theme: null
@@ -21,7 +21,7 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 
 ## Overview {#shinytab1}
-This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in ***The Model*** tab. Then, work through the tasks described in the ***What To Do*** tab.
 
 
 
@@ -41,9 +41,9 @@ This model consists of several compartments that capture some of the basic dynam
 * **F** - innate immune response
 * **A** - adaptive immune response
 
-Both the innate and adaptive response are modeled in a rather abstract manner. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon for the innate and CD8 T-cells for the adaptive response. 
 
-In addition to specifying the *compartments* of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+
+In addition to specifying the compartments of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
 
 For the purpose of this app, we specify several alternative processes that allow us to explore different model variants by 'turning on and off' specific components of the model.
 
@@ -72,31 +72,37 @@ We specify the following processes/flows:
 
 The idea explored in this app and implemented by this model is that results sometimes, but not always, change depending on different (biologically reasonable) ways the immune response is modeled. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
 
-Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
+
 
 ### Model Diagram
 
-<div class = "diagramfig">
-```{r modelvariants,  fig.cap='Flow diagram for the model with different innate and adaptive response variants.',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics("../media/modelvariants.png")
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
-</div>
+
 
 ### Model Equations
 
+The model is implemented as a set of ordinary differential equations:
 
-$$\dot U =n - d_U U - bVU - k_1FU $$
-$$\dot I = bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A}$$
-$$\dot V = \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV$$
-$$\dot F = p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F$$
-$$\dot A = a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A - d_A A$$
+\begin{align}
+\dot U &= n - d_U U - bVU - k_1FU \\
+\dot I &= bVU - d_II - k_2FI - k_4 A I - k_5 \frac{A I}{A+s_A} \\
+\dot V &= \frac{pI}{1+k_3 F} - d_VV - bVU - k_6AV \\
+\dot F &= p_F - d_F F + f_1  V (F_{max} - F) + f_2  \frac{V}{V+s_V} F + f_3  \frac{VI}{VI+s_V} F \\
+\dot A &= a_1 F A + a_2\frac{V}{V+h_V}F + a_3  \frac{F  V}{ F  V + h_V}  A - d_A A
+\end{align}
 
+### Notes
+* Both the innate and adaptive response are modeled in a rather abstract manner. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon for the innate and CD8 T-cells for the adaptive response. 
 
-## What to do {#shinytab3}
+* Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
 
-_It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the "Basic Virus Model" and "Virus and Immune Response Model" apps._ 
+* It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the ***Basic Virus Model*** and ***Virus and Immune Response Model*** apps.
 
-_For the tasks below, it is assumed that the model is run in units of days._
+## What To Do {#shinytab3}
+
+__For the tasks below, it is assumed that the model is run in units of days.__
 
 ```{r, echo=FALSE, eval=TRUE}
 
@@ -110,7 +116,7 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "We'll begin with the basic virus model by turning off any immune response related component. Set all parameter values related to the immune response such that there is no _F_ and _A_ present at any time during the simulation. Set initial conditions to 10^5^ uninfected cells, no infected cells, and 10 virions. Set the infection rate to 10^-5^, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours, respectively. The rate of virus production should be 100 per day. You should get a single acute viral infection with no immune response present and a maximum of 70217 infected cells."
+tasktext = "We'll begin with the basic virus model by turning off any immune response related component. Set all parameter values related to the immune response such that there is no __F__ and __A__ present at any time during the simulation. Set initial conditions to 10^5^ uninfected cells, no infected cells, and 10 virions. Set the infection rate to 10^-5^, no production or death of uninfected cells, lifespan of infected cells and virus of 1 day and 6 hours, respectively. The rate of virus production should be 100 per day. You should get a single acute viral infection with no immune response present and a maximum of 70217 infected cells."
 nrec = 1 # number of items to record
 out_records = c("Day at which the viral load peaks")
 out_types = rep("Rounded_Integer",nrec)
@@ -147,9 +153,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "Now, let's explore the different types of innate response induction by playing with the _f~i~_ parameters and the saturation parameter, _s~V~_. First, set _f~1~_ to 10^-5^ and _F~MAX~_ to 1000. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the _k~i~_ at 0. This means the rest of the variables should not change. Make ten-fold changes to _f~1~_ and _F~MAX~_. Try to predict what will happen and then test your predictions by running the simulation."
+tasktext = "Now, let's explore the different types of innate response induction by playing with the _f~i~_ parameters and the saturation parameter, _s~V~_. First, set _f~1~_ to 10^-5^ and _F~max~_ to 1000. Relate what you see in the plots to the equations so you get an idea of how different terms in the equations behave. Continue to keep the _k~i~_ at 0. This means the rest of the variables should not change. Make ten-fold changes to _f~1~_ and _F~max~_. Try to predict what will happen and then test your predictions by running the simulation."
 nrec = 6 # number of items to record
-out_records = c("Peak of F with _f~1~_ = 10^-5^ and _F~MAX~_ = 1000", "Day at which F peaks with _f~1~_ = 10^-5^ and _F~MAX~_ = 1000", "Peak of F with _f~1~_ = 10^-6^ and _F~MAX~_ = 1000", "Day at which F peaks with _f~1~_ = 10^-6^ and _F~MAX~_ = 1000", "Peak of F with _f~1~_ = 10^-5^ and _F~MAX~_ = 10000", "Day at which F peaks with _f~1~_ = 10^-5^ and _F~MAX~_ = 10000")
+out_records = c("Peak of **F** with _f~1~_ = 10^-5^ and _F~max~_ = 1000", "Day at which **F** peaks with _f~1~_ = 10^-5^ and _F~MAX~_ = 1000", "Peak of **F** with _f~1~_ = 10^-6^ and _F~max~_ = 1000", "Day at which **F** peaks with _f~1~_ = 10^-6^ and _F~max~_ = 1000", "Peak of **F** with _f~1~_ = 10^-5^ and _F~max~_ = 10000", "Day at which **F** peaks with _f~1~_ = 10^-5^ and _F~max~_ = 10000")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -170,7 +176,7 @@ tasktext = "Let's switch to the alternative innate response induction proceses. 
 
 \nNext, set _f~2~_ to zero and set _f~3~_ to 2. For any given value of _s~V~_, how does switching between innate response induction via _f~2~_ differ from _f~3~_? (*Hint: take another look at the model equations.*) Play around with different values for _f~3~_ and _s~V~_, again trying to predict the output and then running the simulation to confirm. Remember, each time you switch processes, 'turn off' the alternative ones."
 nrec = 4 # number of items to record
-out_records = c("Peak of F with _f~2~_ = 3 and _s~V~_ = 10^5^", "Peak of F with _f~2~_ = 3 and _s~V~_ = 10^7^", "Peak of F with _f~3~_ = 2 and _s~V~_ = 10^5^", "Peak of F with _f~3~_ = 2 and _s~V~_ = 10^7^")
+out_records = c("Peak of **F** with _f~2~_ = 3 and _s~V~_ = 10^5^", "Peak of **F** with _f~2~_ = 3 and _s~V~_ = 10^7^", "Peak of **F** with _f~3~_ = 2 and _s~V~_ = 10^5^", "Peak of **F** with _f~3~_ = 2 and _s~V~_ = 10^7^")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -215,7 +221,7 @@ tasktext = "Now, let's explore what happens when you have non-zero _k~i~_. First
 
 \nYou'll find that the action of the innate response now impacts the other variables, which in turn can impact further innate activation. Some of the resulting dynamics can get complex. Pay attention to how different processes of innate activation and innate action do or don't produce different overall dynamics."
 nrec = 4 # number of items to record
-out_records = c("Peak of I with _k~1~_ = 0.001, other _k~i~_ = 0", "Peak of I with _k~2~_ = 0.001, other _k~i~_ = 0", "Peak of I with _k~3~_ = 0.001, other _k~i~_ = 0", "TRUE or FALSE: you can track the extent of the infection (i.e., how many total cells were infected) by calculating the difference between the number of ***uninfected cells*** at the beginning and the end of the simulation for all non-zero values of _k~1~_, _k~2~_, and _k~3~_.")
+out_records = c("Peak of **I** with _k~1~_ = 0.001, other _k~i~_ = 0", "Peak of **I** with _k~2~_ = 0.001, other _k~i~_ = 0", "Peak of **I** with _k~3~_ = 0.001, other _k~i~_ = 0", "TRUE or FALSE: you can track the extent of the infection (i.e., how many total cells were infected) by calculating the difference between the number of ***uninfected cells*** at the beginning and the end of the simulation for all non-zero values of _k~1~_, _k~2~_, and _k~3~_.")
 out_types = c(rep("Rounded_Integer",3), "Logical")
 out_notes = c(rep("Report the rounded integer",3), "Report TRUE or FALSE")
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -262,7 +268,7 @@ tasktext = "Now that we have played with each of the immune response processes, 
 
 \nNow, let's add some processes for the birth and death of uninfected cells. Set the rate of uninfected cell production, _n_, to 10000 and the rate of natural death of uninfected cells to a value that would, in the absence of infection, equate to a constant 10^5^ number of uninfected cells throughout the simulation. If you have difficulty determining the corresponding value for _d~U~_, you can review steady states in the ***Basic Virus*** app. Run the simulation. You should get a pretty interesting pattern. How would you interpret this? Does this model, parameter or dynamics, seem ***biologically reasonable***?"
 nrec = 1 # number of items to record
-out_records = c("Peak of A")
+out_records = c("Peak of **A**")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -319,11 +325,15 @@ write_tasktext(alloutcomes)
 
 
 ## Further Information {#shinytab4}
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
-* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
-* Explorations of different models and their impacts on outcomes for acute virus infections in general can be found in e.g. [@li14] and a more detailed discussion of previously published models and comparison to data for influenza can be found in [@dobrovolny13]. 
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+  
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+Explorations of different models and their impacts on outcomes for acute virus infections in general can be found in e.g. [@li14] and a more detailed discussion of previously published models and comparison to data for influenza can be found in [@dobrovolny13]. 
 
 ### References
 
