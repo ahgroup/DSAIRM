@@ -45,7 +45,7 @@ The __Inputs of Interest__ are the different model parameters. You can choose on
 
 ### Model Diagram
 
-As mentioned, the underlying model is the continuous-time, ODE version of the model from the  ___Basic Bacteria Model___ app. Details can be found there. For ease of reference, the flow diagram and the equations of the continuous model are shown again here:
+As mentioned, the underlying model is the continuous-time, ODE version of the model from the  ___Basic Bacteria Model___ app. Details can be found there. For ease of reference, the flow diagram is shown again here:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
 knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
@@ -67,7 +67,7 @@ Set of ODE equations:
 
 ## What To Do {#shinytab3}
 
-*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).*
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days).**
 
 
 
