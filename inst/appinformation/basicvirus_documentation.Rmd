@@ -61,20 +61,20 @@ knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=
 ### Model Equations
 Implementing this model as a ***continuous-time, deterministic model*** leads to the following set of ***ordinary differential equations***. 
 
-$$
+
 \begin{aligned}
 \dot U & = n - d_U U - bUV \\
 \dot I & = bUV - d_I I \\
 \dot V & = pI - d_V V - gb UV
 \end{aligned}
-$$
+
 
 
 
 
 ## What To Do {#shinytab3}
 
-*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).**
 
 
 
