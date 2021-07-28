@@ -1,5 +1,5 @@
 ---
-title: Confidence Intervals via Bootstrapping
+title: Confidence Intervals
 output:
   html_document:
     theme: null
@@ -33,50 +33,66 @@ This app illustrates the method of bootstrapping data, which is one way one can 
 
 ## The Model {#shinytab2} 
 
-The data and the underlying simulation model are the same as in the __Basic Virus Model Fitting__ app. If you haven't worked your way through that app, do that first.
+### Model Overview
 
-The underlying model that is being fit to the data is again the __Basic Virus Model__, here is a repeat of the model diagram and equations for easy reference.
+The data and the underlying simulation model are the same as in the ___Basic Virus Model Fitting___ app. If you haven't worked your way through that app, do that first.
 
+The underlying model that is being fit to the data is again the ___Basic Virus Model___; check out that app for a more detailed description.
+
+### Model Diagram
+
+The model is represented by this flow diagram:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
 knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 
-$$
-\begin{aligned}
+
+### Model Equations
+
+The model is implemented as a set of ordinary differential equations:
+
+
+\begin{align}
 \dot U & = n - d_U U - bUV \\
 \dot I & = bUV - d_I I \\
 \dot V & = pI - d_V V - gb UV
-\end{aligned}
-$$
+\end{align}
 
 
 
-### Fitting Approach
+### Model Concepts
 
-The basic fitting approach is the one described in the __Basic Virus Model Fitting__ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
+#### Fitting Approach
+
+The basic fitting approach is the one described in the __Basic Virus Model Fitting__ app, i.e. we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account. One minute difference is, now, we only estimate parameters *b* and *d~V~*. 
 
 There are a few new components in this app. You can fit the parameters either in linear or log space. Fitting in log space can be useful if you have a large range of parameters you want to try. The underlying scientific problem is the same, no matter what scale you fit your parameters on, but sometimes one version or the other can lead to better performance of your solver.
 
-Note that while choosing to fit **model parameters** on a linear or log scale is just done to optimize performance of the computer code, a decision to fit **your observed data** on a linear or log scale corresponds to different biological problems and underlying assumptions about the processes that generated the data and any uncertainty/noise. Which approach to choose is a scientific judgment call you need to make. For this app, data is fit on a log scale. 
+The fit is run multiple times. First, the model is fit to the actual data. Then, the model is fit again for a specified number of bootstrap samples of data created by the ***bootstrap sampling process***.
+
+#### Bootstrapping
+
+The main new feature of this app is the inclusion of ***bootstrapping***: a sampling process that allows one to obtain confidence intervals for the estimated parameters. The basic approach goes like this:
+
+1. Resample your data (with replacement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you'll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data.
+2. Fit your model to this newly generated dataset you obtained through sampling. Record the best-fit estimates for your parameters.
+3. Do this _sample, then re-fit_ (steps 1 and 2) approach multiple times (generally 100s or more) to obtain distributions for your parameter estimates.
+4. From these distributions, extract measures of ***uncertainty***, e.g., 95% confidence intervals.
 
 
-### Bootstrapping
-The main new feature of this app is the inclusion of bootstrapping, a sampling process that allows one to obtain confidence intervals for the estimated parameters. The basic approach goes like this:
+### Notes
 
-* Resample your data (with replacement), to get a new dataset as large as the original one. For instance if you had 20 data points in the original dataset, you'll again have 20 data points. But now some of them might occur more than once, and others might be missing. This approach tries to mimic the idea that if you had done another experiment, you might have gotten slightly different data.
-* Fit your model to this newly generated dataset you obtained through sampling. Record the best-fit estimates for your parameters.
-* Do this _sample, then re-fit_ approach multiple times (generally 100s or more) to obtain distributions for your parameter estimates.
-* From these distributions, extract measures of uncertainty, e.g., 95% confidence intervals.
+* While choosing to fit ***model parameters*** on a linear or log scale is just done to optimize performance of the computer code, a decision to fit *your observed data* on a linear or log scale corresponds to different biological problems and underlying assumptions about the processes that generated the data and any uncertainty/noise. Which approach to choose is a scientific judgment call you need to make. For this app, data is fit on a log scale. 
 
-Bootstrapping is conceptually easy to understand and also fairly easy to implement. The big drawback is that it takes time to run. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers and simple models. For the purpose of teaching the ideas, and to make sure things complete in a reasonable amount of time, we'll use a simple model, only few bootstrap samples and a limited number of iterations per fit. In practice, you'd likely have many samples, and run each fit until it converges. That can take a long time.
+* Bootstrapping is conceptually easy to understand and also fairly easy to implement. The big drawback is that it takes time to run. Instead of fitting your model (until it converges) once, you now have to do it many times. That can take time and usually requires a mix of fast computers, parallelization, good/quick optimizers, and simple models. For the purpose of teaching the ideas, and to make sure things complete in a reasonable amount of time, we'll use a simple model, only few bootstrap samples, and a limited number of iterations per fit. In practice, you'd likely have many samples, and run each fit until it converges. That can take a long time.
 
+* The default for the number of fitting iterations and the number of bootstrap samples are both very low. Usually, we would likely want to take as many steps as it takes until we found the best fit (which could be a lot), and we generally would also want 100s or 1000s of bootstrap samples. Unfortunately, that would take very long, so for the purposes of this teaching app, we'll keep both iterations and bootstrap samples at values less than you should use in a real world situation.
 
-## What to do {#shinytab3}
+## What To Do {#shinytab3}
 
-The fit is run multiple times. First, the model is fit to the actual data. Then, the model is fit again for the specified number of bootstrap samples to data created by the bootstrap sampling process. Note that the default for the number of fitting iterations and the number of bootstrap samples are both very low. Usually, we might want to take as many steps as it takes until we found the best fit (which could be a lot). And we generally also want 100s or 1000s of bootstrap samples. Unfortunately, that would take very long, so for the purposes of this teaching app, we'll keep both iterations and bootstrap samples at values less than you should use in a real world situation.
-
+**The model is assumed to run in units of days.**
 
 
 
@@ -92,13 +108,13 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "Keep all inputs at their default values. Run the simulation. This will perform _nsample = 10_ fits on resampled data for _iter = 20_ iterations each (much too few for any real problem, but we'll keep it low to make things run reasonably quickly). Instead of a single best-fit estimate for the parameters, you now get 10 estimates, from which one can compute uncertainty measures such as confidence intervals. You see the lower and upper bounds for a 95% confidence interval reported below the plot. For this example, you should find the best estimate (fitting to the actual data) for the parameter b to be 0.017, while the bounds for this parameter, obtained through repeat-fitting to the bootstrap samples, are 0.011 and 0.018. 
+tasktext = "Keep all inputs at their default values. Run the simulation. This will perform _nsample = 10_ fits on resampled data for _iter = 20_ iterations each (much too few for any real problem, but we'll keep it low to make things run reasonably quickly). Instead of a single best-fit estimate for the parameters, you now get 10 estimates from which one can compute uncertainty measures such as confidence intervals. You see the lower and upper bounds for a 95% confidence interval reported below the plot. For this example, you should find the best estimate (fitting to the actual data) for the parameter _b_ to be 0.017, while the bounds for this parameter, obtained through repeat-fitting to the bootstrap samples, are 0.011 and 0.018. 
 
-Since bootstrapping involves random sampling, different random number seeds will lead to different results. First confirm that if you keep the seed the same, the result will be the same by running the simulation again. Then change the seed to _rngseed = 99_. The point estimate won't change, because it's again the same fit to the data, but the confidence intervals, which involve random sampling of the data, change somewhat. If the speed of your computer allows, increase the number of bootstrap samples (and iterations). Re-run with different random number seeds. As you use more samples, the impact of the random seed setting should diminish and eventually the results should be robust enough that you get essentially the same confidence intervals independent of random number seed.
+\nSince bootstrapping involves random sampling, different random number seeds will lead to different results. First, confirm that if you keep the seed the same, the result will be the same by running the simulation again. Then, change the seed to _rngseed = 99_. The point estimate won't change, because it's again the same fit to the data, but the confidence intervals, which involve random sampling of the data, change somewhat. If the speed of your computer allows, increase the number of bootstrap samples (and iterations). Re-run with different random number seeds. As you use more samples, the impact of the random seed setting should diminish and eventually the results should be robust enough that you get essentially the same confidence intervals independent of random number seed.
 
-(As a side note, some optimizers/solvers have a random component. In that case, setting a seed even if not resampling the data is important for reproducibility.)"
+\n(As a side note, some optimizers/solvers have a random component. In that case, setting a seed even if not resampling the data is important for reproducibility.)"
 nrec = 1 # number of items to record
-out_records = c("Upper bound for b with rngseed = 99 (round to 3 digits).")
+out_records = c("Upper bound for _b_ with _rngseed_ = 99 (round to 3 digits).")
 out_types = rep("Rounded_Numeric",nrec)
 out_notes = rep("Round to two significant digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -114,14 +130,16 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Fitting parameters in log space vs. linear space does not change the scientific assumptions, but it can sometimes help the optimizer perform faster/better. Let's explore this. Reset all inputs, run the simulation. Then, set _parscale = 2_ and repeat. In this case, the results change somewhat. This is maybe not surprising, given that we only take a few steps. In theory, if we ran the solver long enough until it converged (and did enough samples), the results should be the same. However, this does not always happen. Sometimes a solver can get stuck if fitting parameters on one scale, but won't get stuck on another scale. This is often the case if a parameter varies over a wide range, in that case fitting in log space is often advantageous. 
+tasktext = "Fitting parameters in log space vs. linear space does not change the scientific assumptions, but it can sometimes help the optimizer perform faster/better. Let's explore this. 
 
-While we can't fully test this (it would take too long), we can explore this a bit. Rest all inputs. Then set iterations to 500, samples to 1 (i.e., we won't do bootstrap, just fitting of the data.) You should get an SSR = 2.53. Now switch to _parscale = 2_, redo the fit. You should find a somewhat higher SSR. Repeat with 1000 iterations (and if your computer is fast enough, 2000). You should find that the SSR do not change. Thus, the same solver ended up at a different best fit, and the rescaling did in fact not help. You can explore different starting values and see how that impacts results. 
+\nReset all inputs, run the simulation. Then, set _parscale = 2_ and repeat. In this case, the results change somewhat. This is maybe not surprising, given that we only take a few steps. In theory, if we ran the solver long enough until it converged (and did enough samples), the results should be the same. However, this does not always happen. Sometimes a solver can get stuck if fitting parameters on one scale but won't get stuck on another scale. This is often the case if a parameter varies over a wide range; in that case fitting in log space is often advantageous. While we can't fully test this (it would take too long), we can explore this a bit. 
 
-The overall take-home message from this is that sometimes fitting parameter in their natural (linear) scale is best, at other times transforming them, e.g. to a log scale, improves results. Unfortunately it is hard to know beforehand if transformation helps, thus often trying it both ways is best." 
+\nReset all inputs. Then, set iterations to 500, samples to 1 (i.e., we won't do bootstrap, just fitting of the data). You should get an SSR = 2.53. Now, switch to _parscale = 2_ and redo the fit. You should find a somewhat higher SSR. Repeat with 1000 iterations (and if your computer is fast enough, 2000). You should find that the SSR do not change. Thus, the same solver ended up at a different best fit, and the rescaling did in fact not help. You can explore different starting values and see how that impacts results. 
+
+\nThe overall take-home message from this is that sometimes fitting parameter in their natural (linear) scale is best; other times, transforming them, e.g. to a log scale, improves results. Unfortunately, it is hard to know beforehand if transformation helps. Therefore, often trying it both ways is best." 
 
 nrec = 1 # number of items to record
-out_records = c("SSR for parscale = 2 and 500 iterations (round to 2 digits).")
+out_records = c("SSR for _parscale_ = 2 and 500 iterations (round to 2 digits).")
 out_types = rep("Rounded_Numeric",nrec)
 out_notes = rep("Round to two significant digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -137,7 +155,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "Expore the app further. The main ideas you should get out of it are that bootstrapping the data is one way you can get confidence intervals - at the cost of longer run times - , and that while fitting parameters on different scales does not change the scientific question, it can influence the performance of the optimizer."
+tasktext = "Expore the app further. The main ideas you should get out of it are that bootstrapping the data is one way you can get confidence intervals (at the cost of longer run times), and that while fitting parameters on different scales does not change the scientific question, it can influence the performance of the optimizer."
 nrec = 1 # number of items to record
 out_records = c("Nothing")
 out_types = rep("None",nrec)
@@ -177,12 +195,15 @@ write_tasktext(alloutcomes)
 
 
 ## Further Information {#shinytab4}
-* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. That function repeatedly calls ``r appsettings$underlying_function``. 
-* This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
-* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
-* The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model.
-* There are different versions of bootstrapping, i.e. data sampling. Some make assumptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. That function repeatedly calls ``r appsettings$underlying_function``. 
+  
+This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+
+The bootstrapping routine is implemented with the `boot` package, which does the sampling and repeatedly calls the `nloptr` solver, which in turn runs the underlying simulation model. There are different versions of bootstrapping, i.e. data sampling. Some make assumptions about the distribution of the data (parametric bootstrap), others are very useful for time-series data, e.g. the concept of block-bootstrapping. See for instance [@efron93] for more information.
 
 ### References
 
