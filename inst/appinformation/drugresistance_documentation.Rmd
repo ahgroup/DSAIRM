@@ -119,7 +119,7 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "Run the model with the default settings. Confirm that you get a single infection with sensitive virus, with a virus peak of around 1.4M virions. You get also get a few resistant virus particles that are generated, but they don't take off and lead to an infection. Try to figure out why that is so."
+tasktext = "Run the model with the default settings. Confirm that you get a single infection with sensitive virus, with a virus peak of around 1.5M virions. You get also get a few resistant virus particles that are generated, but they don't take off and lead to an infection. Try to figure out why that is so."
 nrec = 1 # number of items to record
 out_records = c("Peak of resistant virus")
 out_types = rep("Integer",nrec)

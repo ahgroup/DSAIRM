@@ -231,7 +231,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 7
 #########################
 tid = tid + 1
-tasktext = "Play with the different PK parameters. Set __C~0~__ = 10. Not surprisingly, as the drug concentration increases, the virus load is reduced. Play around with the other PK parameters (e.g., _d~C~_ and _t~interval~_) to explore how changing those impacts the virus load."
+tasktext = "Keep the settings as they were in the previous task. Play with the different PK parameters. Set __C~0~__ = 10. Not surprisingly, as the drug concentration increases, the virus load is reduced. Play around with the other PK parameters (e.g., _d~C~_ and _t~interval~_) to explore how changing those impacts the virus load."
 nrec = 1 # number of items to record
 out_records = c("Viral load at end of simulation for __C~0~__ = 10")
 out_types = rep("Rounded_Integer",nrec)
@@ -249,9 +249,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 8
 #########################
 tid = tid + 1
-tasktext = "Now, let's revisit the PD parameters. Reset __C~0~__ = 1. Set _C~50~_ to 0.1. You should see a drop in the virus load compared to a value of 1. Next, let's set __C~0~__ = 0.01. For this value, even small levels of drug are highly effective. You'll see that for this scenario, the drug is strong enough to drive the virus towards zero/extinction, and the uninfected cells recover to almost their starting value."
+tasktext = "Now, let's revisit the PD parameters. Reset __C~0~__ = 1. Set _C~50~_ to 0.1. You should see a drop in the virus load compared to a value of 1. Next, let's set _C~50~_ = 0.01. For this value, even small levels of drug are highly effective. You'll see that for this scenario, the drug is strong enough to drive the virus towards zero/extinction, and the uninfected cells recover to almost their starting value."
 nrec = 1 # number of items to record
-out_records = c("Final number of uninfected cells, __C~0~__ = 0.01")
+out_records = c("Final number of uninfected cells, _C~50~_ = 0.01")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
