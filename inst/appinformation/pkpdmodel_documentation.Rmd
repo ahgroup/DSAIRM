@@ -22,9 +22,9 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 
 ## Overview {#shinytab1}
-This app allows exploration of a model that is very similar to the __Antiviral Treatment Model__ (which in turn is based on the __Basic Virus Model__.) 
+This app allows exploration of a model that is very similar to the ___Antiviral Treatment Model___ (which in turn is based on the ___Basic Virus Model___.) 
 
-The new feature in this app is that the drug is explicitly modeled. Such models go by the name of pharmacokinetics/pharmacodynamics (PK/PD) models. Read about the model in the _Model_ tab. Then do the tasks described in the _What to do_ tab.
+The new feature in this app is that the drug is explicitly modeled. Such models go by the name of pharmacokinetics/pharmacodynamics (PK/PD) models. Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
 
 ### Learning Objectives
 * Be familiar with a simple PK/PD model.
@@ -41,45 +41,45 @@ This model consists of 4 compartments modeling the basic dynamics of a viral inf
 * **V** - (free) virus
 * **C** - drug concentration
 
-In addition to specifying the *compartments* of a model, we need to specify the processes governing the model dynamics. For our system, we specify the following processes/flows: 
+In addition to specifying the ***compartments*** of a model, we need to specify the processes governing the model dynamics. For our system, we specify the following ***processes/flows***: 
 
-* Uninfected cells are produced at some rate _n_ and naturally die at some rate _d~U~_.
-* Virus infects cells at rate _b_, with unit conversion factor _g_.
-* Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
-* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
-* Once treatment has started (_t_ > _t~xstart~_),  a new drug dose, _C~0~_, is administered at fixed time intervals (_t~interval~_), which increases _C_ at that time to _C_ + _C~0~_. This is modeled by an instantaneous increase. In between every dose, drug kinetics is modeled as decaying exponentially at rate *d~C~*. 
-* The efficacy of the drug, *e*, depends on the concentration of the drug, given by a so called Emax-equation. *E~max~* is the maximum efficacy at high drug concentration (and should be between 0 and 1), *C~50~* is the drug concentration at which the drug has half its maximum efficacy, and the parameter *k* dictates how rapidly efficacy increases as drug concentration increases.
+1. Uninfected cells are produced at some rate _n_ and naturally die at some rate _d~U~_.
+2. Virus infects cells at rate _b_, with unit conversion factor _g_.
+3. Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
+4. Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. 
+5. Once treatment has started (_t_ > _t~xstart~_),  a new drug dose, __C~0~__, is administered at fixed time intervals, _t~interval~_, which increases __C__ at that time to __C__ + __C~0~__. This is modeled by an instantaneous increase. In between every dose, drug kinetics is modeled as decaying exponentially at rate *d~C~*. 
+6. The efficacy of the drug, *e*, depends on the concentration of the drug, given by a so called Emax-equation. *E~max~* is the maximum efficacy at high drug concentration (and should be between 0 and 1), *C~50~* is the drug concentration at which the drug has half its maximum efficacy, and the parameter *k* dictates how rapidly efficacy increases as drug concentration increases.
 
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r PkPddiagram,  fig.cap='Flow diagram for a virus infection model with drug treatment and Pk-Pd.',  echo=FALSE, out.width='70%'}
-knitr::include_graphics("../media/pkpdmodel.png")
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width='70%'}
+knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 
 ### Model Equations
-Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations. 
+Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations: 
 
-$$
-\begin{aligned}
+
+\begin{align}
 \dot U & = n - d_U U - bUV \\
 \dot I & = bUV - d_I I \\
 \dot V & = (1-e)pI - d_V V - gb UV \\
-\dot C & =  - d_C C, \qquad C=C+C_0 \textrm{ at } t = t_{interval} 
-\end{aligned}
-$$
-
-
-*t~interval~* is the time at which a new drug dose is given. Prior to treatment start, i.e. (_t_ < _t~xstart~_), there is no drug and *C=0*. The drug efficacy _e_ is given by its own equation which depends on _C_ as follows:
-
-$$
-e = E_{max} \frac{C^k}{C^k+C_{50}}
-$$
+\dot C & =  - d_C C, \qquad C=C+C_0 \textrm{ at } t = t_{interval}
+\end{align}
 
 
 
-## What to do {#shinytab3}
+*t~interval~* is the time at which a new drug dose is given. Prior to treatment start, i.e., _t_ < _t~xstart~_, there is no drug and **C** = 0. The drug efficacy _e_ is given by its own equation which depends on __C__ as follows:
+
+$$e = E_{max} \frac{C^k}{C^k+C_{50}}$$
+
+
+
+## What To Do {#shinytab3}
+
+__The model is assumed to run in units of days.__
 
 ```{r, echo=FALSE, eval=TRUE}
 
@@ -93,7 +93,7 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs). The model is assumed to run in units of days. Set number of uninfected cells to 10^5^, 10 virions, no infected cells. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average lifespan of 1 day, virus of 12 hours. Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1. Start simulation at time 0 and run for 20 days. For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Assume the drug decays at a rate of 1 per day. Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0. Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57. Since the drug levels are fairly low, you might need to plot the y-axis on a log scale and use plotly and zoom into the drug part to see it's up and down pattern."
+tasktext = "For the first few tasks, we consider an acute viral infection and treatment (e.g. influenza and neuraminidase inhibitor drugs).  Set number of uninfected cells to 10^5^, 10 virions, no infected cells. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average lifespan of 1 day, virus of 12 hours. Set virus production rate to 10, infection rate to 10^-5^ and conversion factor to 1. Start simulation at time 0 and run for 20 days. For the drug, assume treatment starts at day 10 and occurs daily thereafter at a dose of 1. Assume the drug decays at a rate of 1 per day. Set the concentration-dependent drug effect parameter to 1, the half maximum effect level to 1 and max drug efficacy to 0. Run the simulation. You should get 28694 infected cells at the peak and a max drug dose of 1.57. Since the drug levels are fairly low, you might need to plot the y-axis on a log scale and use plotly and zoom into the drug part to see it's up and down pattern."
 nrec = 1 # number of items to record
 out_records = c("Final number of uninfected cells")
 out_types = rep("Rounded_Integer",nrec)
@@ -111,11 +111,12 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Since we just had the maximum drug efficacy at 0, the drug had no impact at reducing virus production. Now change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see? You should notice only a small impact, with the final number of uninfected cells having increased a bit.
-Now start drug treatment earlier, at days 8, 6, 4, 2, 0. Observe how the drug now has more of an impact. Not surprisingly, the earlier the drug is started, the more of an impact it has. The drug is however not strong enough to suppress the infection. We explore this further next."
+tasktext = "Since we just had the maximum drug efficacy at 0, the drug had no impact at reducing virus production. Now, change to maximum impact by setting this parameter to 1. What do you expect to see? What do you see? You should notice only a small impact with the final number of uninfected cells having increased a bit.
+
+\nNow, start drug treatment earlier, at days 8, 6, 4, 2, 0. Observe how the drug now has more of an impact. Not surprisingly, the earlier the drug is started, the more of an impact it has. The drug is however not strong enough to suppress the infection. We explore this further next."
 nrec = 2 # number of items to record
-out_records = c("Final number of uninfected cells, Emax = 1, txstart  = 10",
-                "Final number of uninfected cells, Emax = 1, txstart  = 2")
+out_records = c("Final number of uninfected cells, _E~max~_ = 1, _t~xstart~_  = 10",
+                "Final number of uninfected cells, _E~max~_ = 1, _t~xstart~_  = 2")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -132,12 +133,14 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "Let's explore the PK part of the model, i.e. the kinetics of the drug as described by the drug concentration equation. Reset all inputs. Then set maximum drug efficacy to 1, start drug on day 2. Run the model, set the plot engine to plotly with a log y-axis. By reading off the values for the drug from the graph (or looking at the reported values below the graph), convince yourself that the peak drug concentration starts at 1 and slowly over the first few days increases to around 1.5. Now set the drug decay rate to 5. Convince yourself that the peak drug concentration does not go beyond 1, i.e. there is no build-up. Now set _dC = 0.1_. You'll now see a build up to a concentration of almost 9.
+tasktext = "Let's explore the PK part of the model, i.e., the kinetics of the drug as described by the drug concentration equation. Reset all inputs. Then, set maximum drug efficacy to 1 and start drug on day 2. Set the plot engine to plotly with a log y-axis. Run the model. 
 
-Now set drug decay rate back to _dC = 1_ and change treatment interval to 3 days. Run simulation and convince yourself that the drug concentration does again not really go above the administered dose of 1. Re-do for a decay rate of _dC = 0.1_. You'll see some drug build-up, but less. You can keep exploring how dose, decay rate of drug and time between treatment impact the curve you see for _C_. The impact of each of those components should be fairly easy to understand, but it's still worth playing with it a bit."
+\nBy reading off the values for the drug from the graph (or looking at the reported values below the graph), convince yourself that the peak drug concentration starts at 1 and slowly over the first few days increases to around 1.5. Now set the drug decay rate to 5. Convince yourself that the peak drug concentration does not go beyond 1, i.e. there is no build-up. Now, set _dC = 0.1_. You'll now see a build up to a concentration of almost 9.
+
+\nNext, set drug decay rate back to _dC = 1_ and change treatment interval to 3 days. Run simulation and convince yourself that the drug concentration again does not really go above the administered dose of 1. Re-do for a decay rate of _dC = 0.1_. You'll see some drug build-up, but less. You can keep exploring how dose, decay rate of drug and time between treatment impact the curve you see for __C__. The impact of each of those components should be fairly easy to understand, but it's still worth playing with it a bit."
 nrec = 2 # number of items to record
-out_records = c("Maximum drug concentration for dC = 0.1, txinterval = 1",
-                "Maximum drug concentration for dC = 0.1, txinterval = 3")
+out_records = c("Maximum drug concentration for _d~C~_ = 0.1, _t~interval~_ = 1",
+                "Maximum drug concentration for _d~C~_ = 0.1, _t~interval~_ = 3")
 out_types = rep("Rounded_Numeric",nrec)
 out_notes = rep("Report rounded to two digits",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -153,14 +156,18 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 4
 #########################
 tid = tid + 1
-tasktext = "Now we'll explore the PD part of the model, i.e. the equation _e = ..._ which describes the impact of the drug for a given drug concentration. Reset all inputs. Start treatment at day 2. Run the model for _Emax = 0_, you should get the same values as in task 1. Now explore _Emax_. Set it to 0.5, then 1. You should see a substantial increase in the impact of the drug, evidenced by higher uninfected number of cells remaining. You might habe noticed that by increasing Emax, the infection is delayed, which is especially noticable for _Emax = 1_. To account for this, set the simulation time to 100 days, then run again for the 3 different _Emax_ levels (0, 0.5, 1). You'll still find that an increased drug efficacy leads to fewer infected cells. Note that for the way we set up the model, the highest biologically reasonable value for _Emax_ is 1, which means _e = 1_. While you can stick higher values into the model, they don't make any sense (you'll be getting negative virus production). Depending on how the model is formulated, _Emax_ values above 1 could be possible.
+tasktext = "Now, we'll explore the PD part of the model, i.e., the equation $e = E_{max} \frac{C^k}{C^k+C_{50}}$, which describes the impact of the drug for a given drug concentration. Reset all inputs. Start treatment at day 2. Run the model for _E~max~ = 0_, you should get the same values as in task 1. 
 
-Next explore the parameter k by running the simulation for values of 1,2 and 3. Leave everything else as it is (i.e. _Emax = 1_, _tfinal = 100_). You'll find that it doesn't have much of an impact on the infection. Finally, we'll explore the C50 parameter. Set k back to 1, run the model for C50 values of 1, 0.1 and 10. You'll notice that this parameter has a strong impact. 
+\nNow, explore _E~max~_. Set it to 0.5, then 1. You should see a substantial increase in the impact of the drug, evidenced by higher uninfected number of cells remaining. You might habe noticed that by increasing _E~max~_, the infection is delayed, which is especially noticable for _E~max~ = 1_. To account for this, set the simulation time to 100 days, then run again for the 3 different _E~max~_ levels (0, 0.5, 1). You'll still find that an increased drug efficacy leads to fewer infected cells. Note that for the way we set up the model, the highest biologically reasonable value for _E~max~_ is 1, which means _e = 1_. While you can stick higher values into the model, they don't make any sense (you'd get negative virus production). Depending on how the model is formulated, _E~max~_ values above 1 could be possible.
+
+\nNext, explore the parameter _k_ by running the simulation for values of 1, 2, and 3. Leave everything else as it is (i.e. _E~max~ = 1_, _tfinal = 100_). You'll find that it doesn't have much of an impact on the infection. Finally, we'll explore the _C~50~_ parameter. 
+
+\nSet _k_ back to 1, and run the model for _C~50~_ values of 1, 0.1 and 10. You'll notice that this parameter has a strong impact. 
 
 Note that for all the changes you just did, the drug time-series (the PK part) did not change."
-nrec = 1 # number of items to record
-out_records = c("Final number of uninfected cells, Emax = 1, tfinal = 100",
-                "Final number of uninfected cells, C50 = 0.1, tfinal = 100")
+nrec = 2 # number of items to record
+out_records = c("Final number of uninfected cells, _E~max~_ = 1, _tfinal_ = 100",
+                "Final number of uninfected cells, _C~50~_ = 0.1, _tfinal_ = 100")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -176,10 +183,16 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 5
 #########################
 tid = tid + 1
-tasktext = "Reset all inputs. Set treatment start time to 2, max drug efficacy to 1. Run the model, take a look at the remaining number of uninfected cells. Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e. reduce decay rate by a factor of 2) or to reduce the concentration at which the drug has 50% action by half? Test both scenarios. You should find that the for both changes, the number of uninfected cells is somewhat above 90K, and reducing the C50 value is slightly better (this of course depends on other model parameters, you can try to find a set of combinations of the other parameters at which the impact of these two hypothetical drug improvements switches). Based on what you just found, which improved drug would you pick? If drug side-effects were an issue, would your decision change? Why or why not?"
+tasktext = "Reset all inputs. Set treatment start time to 2 and max drug efficacy to 1. Run the model. 
+
+\nTake a look at the remaining number of uninfected cells. Assume your goal was to prevent as many uninfected cells from getting infected as possible. For that purpose, would you want to try and double the half-life of the drug (i.e., reduce decay rate by a factor of 2) or reduce the concentration at which the drug has 50% action by half? Test both scenarios. 
+
+\nYou should find that the for both changes, the number of uninfected cells is somewhat above 90K, and reducing the C50 value is slightly better (this of course depends on other model parameters, you can try to find a set of combinations of the other parameters at which the impact of these two hypothetical drug improvements switches). 
+
+\nBased on what you just found, which improved drug would you pick? If drug side-effects were an issue, would your decision change? Why or why not?"
 nrec = 2 # number of items to record
-out_records = c("Final value of uninfected cells, dC = 0.5",
-                "Final value of uninfected cells, C50 = 0.5")
+out_records = c("Final value of uninfected cells, _d~C~_ = 0.5",
+                "Final value of uninfected cells, _C~50~_ = 0.5")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -196,7 +209,11 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 6
 #########################
 tid = tid + 1
-tasktext = "Let's briefly consider a chronic situation. Reset all inputs, then set birth rate and death rate of uninfected cells to 10000 and 0.1. Run simulation for 100 days. You should get a steady state. Now turn on drug with _Emax = 1_, treatment start at day 50, and a drug that's given weekly at a dose of 1. Run the simulation. You should see that once the drug is administered, the system is knocked out of its steady state, and settles back to another state. This is not a steady state, but instead a repeating patter of virus increase and decrease. Make sure you understand why (take a look at the drug PK, you might need a log plot for that). Importantly, the drug can't clear the infection."
+tasktext = "Let's briefly consider a chronic situation. Reset all inputs, then set birth rate and death rate of uninfected cells to 10000 and 0.1. Run the simulation for 100 days. 
+
+\nYou should get a steady state. Now, turn on drug with _E~max~ = 1_, treatment start at day 50, and a drug that's given weekly at a dose of 1. Run the simulation. 
+
+\nYou should see that once the drug is administered, the system is knocked out of its steady state, and settles back to another state. This is not a steady state, but instead a repeating pattern of virus increase and decrease. Make sure you understand why (take a look at the drug PK, you might need a log plot for that). Importantly, the drug can't clear the infection."
 nrec = 1 # number of items to record
 out_records = c("Viral load at end of simulation in presence of treatment")
 out_types = rep("Rounded_Integer",nrec)
@@ -214,9 +231,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 7
 #########################
 tid = tid + 1
-tasktext = "Play with the different PK parameters. Set _C0 = 10_. Not surprisingly, as the drug concentration increases, the virus load is reduced. Play around with the other PK parameters (_dC_ and _txinterval_) to explore how changing those impacts the virus load."
+tasktext = "Play with the different PK parameters. Set __C~0~__ = 10. Not surprisingly, as the drug concentration increases, the virus load is reduced. Play around with the other PK parameters (e.g., _d~C~_ and _t~interval~_) to explore how changing those impacts the virus load."
 nrec = 1 # number of items to record
-out_records = c("Viral load at end of simulation for _C0 = 10_")
+out_records = c("Viral load at end of simulation for __C~0~__ = 10")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -232,9 +249,9 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 8
 #########################
 tid = tid + 1
-tasktext = "Now let's revisit the PD parameters. Reset _C0 = 1_. Set C50 to 0.1. You should see a drop in the virus load compared to a value of 1. Now let's set _C0 = 0.01_. For this value, even small levels of drug are highly effective. You'll see that for this scenario, the drug is strong enough to drive the virus towards zero/extinction, and the uninfected cells recover to almost their starting value."
+tasktext = "Now, let's revisit the PD parameters. Reset __C~0~__ = 1. Set _C~50~_ to 0.1. You should see a drop in the virus load compared to a value of 1. Next, let's set __C~0~__ = 0.01. For this value, even small levels of drug are highly effective. You'll see that for this scenario, the drug is strong enough to drive the virus towards zero/extinction, and the uninfected cells recover to almost their starting value."
 nrec = 1 # number of items to record
-out_records = c("Final number of uninfected cells, C0=0.01")
+out_records = c("Final number of uninfected cells, __C~0~__ = 0.01")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -284,11 +301,16 @@ write_tasktext(alloutcomes)
 
 
 ## Further Information {#shinytab4}
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
-* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
-* If you want to learn a bit more about these kinds of models, see e.g. [@powers03; @talal06; @handel09b; @canini14a]. 
+
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+  
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+If you want to learn a bit more about these kinds of models, see e.g. [@powers03; @talal06; @handel09b; @canini14a]. 
 
 
 ### References
