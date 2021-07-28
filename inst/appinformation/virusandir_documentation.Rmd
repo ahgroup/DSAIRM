@@ -29,7 +29,6 @@ This app allows exploration of a virus infection model that includes several com
 ### Learning Objectives
 
 * Explore the interplay of model processes and variables (analogous to immune responses during infections).
-
 * Understand the challenges of building complex models.
 
 
@@ -85,12 +84,15 @@ Implementing this model as a continuous-time, deterministic model leads to the f
 \dot A &= r_A B - d_A A - k_A A V 
 \end{align}
 
+### Model Concepts
+
+The innate response is modeled in a rather abstract sense. We could think of it as some form of cumulative effect of all innate response components, or alternatively a single dominant innate response component, e.g., interferon. If one knows more about a specific system and has enough data, one can of course model the innate response in more detail (e.g., with additional compartments). For the sake of simplicity, we only look at a single compartment.
+
+We are ignoring the death of T-cells and B-cells in this model. As such, it is only applicable to systems where we want to study the dynamics during the growth/expansion phase of the adaptive response and not further. This is valid for most acute infections, but would not be a suitable model for something like HIV or other chronic viral infections.
+
 ### Notes
-* The innate response is modeled in a rather abstract sense. We could think of it as some form of cumulative effect of all innate response components, or alternatively a single dominant innate response component, e.g., interferon. If one knows more about a specific system and has enough data, one can of course model the innate response in more detail (e.g., with additional compartments). For the sake of simplicity, we only look at a single compartment.
 
 * The initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded; if you wanted to change this, you will have to edit the underlying simulation code.
-
-* We are ignoring the death of T-cells and B-cells in this model. As such, it is only applicable to systems where we want to study the dynamics during the growth/expansion phase of the adaptive response and not further. This is valid for most acute infections, but would not be a suitable model for something like HIV or other chronic viral infections.
 
 * While this model and these processes make some biological sense, there are many other possible alternatives one could formulate the detailed processes going on. Based on what you know about the system you want to model, you might have good information about some of the components and for other parts you will have to make reasonable assumptions. Another app deals specifically with this issue of having different ways to formulate a model and how that can sometimes impact results. For this app, reasonable terms were chosen with a focus on showcasing a variety of different ways certain immune response processes are often implemented.
 

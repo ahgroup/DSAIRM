@@ -93,24 +93,25 @@ This notation specifies explicitly that **B** and **I** are functions of time, a
 Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a ***discrete-time deterministic*** equivalent to the ODE model. For such an implementation, the equations are:
 
 \begin{align}
-B_{t+dt} = B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) \\
-I_{t+dt} = I_t + dt \left( r I_t B_t - d_I I_t \right)
+B_{t+dt} &= B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) \\
+I_{t+dt} &= I_t + dt \left( r I_t B_t - d_I I_t \right)
 \end{align}
 
 In words, the number of bacteria and immune response at a time step _dt_ in the future is given by the number at the current time, **t**, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the `deSolve` R package documentation, which we use to run our simulations. 
 
 
+### Model Concepts
+
+In general, the entities that change in our model (i.e. here **B** and **I**) are called ___variables___; they are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called ***initial conditions***.
+
+In contrast, the quantities that are usually fixed for a given scenario are called ___parameters___. For this model, those are _g_, _d~B~_, _k_, _r_ and _d~I~_. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour. 
+
+You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You'll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hack-y solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you'll see numbers less than 1. That's okay for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
 
 ### Notes
 * This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.
 
-* In general, the entities that change in our model (i.e. here **B** and **I**) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called ***initial conditions***.
-
-* In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are _g_, _d~B~_, _k_, _r_ and _d~I~_. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour. 
-
 * This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months..., based on what's most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each *What To Do* section what kind of units I have in mind for the different tasks. 
-
-* You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You'll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hack-y solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you'll see numbers less than 1. That's okay for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.  
 
 * Some of the tasks in the *What To Do* section (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking about what you expect, observing it, and, if discrepancies occur, figuring out why. Essentially, the best way to use these apps is to _do your own science/research_ with them.
 

@@ -72,7 +72,7 @@ knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=p
 
 ### Model Equations
 
-If we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
+If we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations: 
 
 \begin{align}
 \dot U & =  - bUV_s - bU V_r \\
@@ -80,7 +80,7 @@ If we were to implement this model as a continuous-time, deterministic model, it
 \dot I_r & = bUV_r - d_I I_r \\
 \dot V_s & = (1-e)(1-m)pI_s - d_V V_s \\
 \dot V_r & = (1-e)mpI_s + (1-f)pI_r - d_V V_r
-\end{aligned}
+\end{align}
 
 
 However we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their ***propensities*** (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:

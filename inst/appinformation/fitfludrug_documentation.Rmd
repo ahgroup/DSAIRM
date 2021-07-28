@@ -87,7 +87,7 @@ For this app, the simulation is being run three times. During one run, treatment
 
 ### Notes
 
-* While the underlying model is able to simulate a chronic infection, we are looking at data for influenza and neuraminidase inhibitor drugs which corresponds to an acute infection / treatment scenario. To mimic that setting, natural birth and death of uninfected cells have been turned off, i.e., _n = d_U = 0_.
+* While the underlying model is able to simulate a chronic infection, we are looking at data for influenza and neuraminidase inhibitor drugs which corresponds to an acute infection / treatment scenario. To mimic that setting, natural birth and death of uninfected cells have been turned off, i.e., _n = d~U~ = 0_.
 
 * For the purpose of using and exploring this app, you can ignore the fitting details and just note that the fit allows us to statistically compare the model with the two drug mechanisms. Therefore, we can determine which model/mechanism fits the data better (and is more plausible).
 

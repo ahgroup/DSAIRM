@@ -14,7 +14,7 @@ generate_documentation <- function(docfilename)
 {
     #take HTML file and split it into components for each tab
     tablist = NULL
-    tabtitles = c('Overview','The Model','What to do','Further Information')
+    tabtitles = c('Overview','The Model','What To Do','Further Information')
     html.raw <- XML::htmlTreeParse(docfilename, useInternalNodes = TRUE, encoding='UTF-8')
     shinyblocks = XML::getNodeSet(html.raw, "//div[@id[starts-with(., 'shinytab')]]")
     for (i in 1:4)
@@ -27,7 +27,7 @@ generate_documentation <- function(docfilename)
       htmlcontent = gsub(pattern,"<br>",htmlcontent)
       taskhtml1 =  actionButton("detachtasks", "Float Task List", class="submitbutton")
       taskhtml2 =  actionButton("destroytasks", "Remove Task Float", class="submitbutton")
-      if (tabtitles[i] == "What to do")
+      if (tabtitles[i] == "What To Do")
       {
         htmlcontent = tagList(taskhtml1, taskhtml2, htmlcontent)
       }

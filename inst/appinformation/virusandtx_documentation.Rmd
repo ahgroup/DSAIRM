@@ -69,18 +69,22 @@ Implementing this model as a continuous-time, deterministic model leads to the f
 \end{align}
 
 
-### Notes
+### Model Concepts
 
-* The drug is not explicitly modeled here, it is not given its own compartment/equation. Instead, we model the drug by its effects on some of the model parameters and assume that this effect is either absent or present but does not otherwise change with time. The ___Pharmacokinetics and Pharmacodynamics___ app provides a model that includes explicit modeling of drug uptake and decay.
-
-* Efficacy and effectiveness are not *technically* the same measures, but, with respect to our computer simulations, we will use the terms interchangeably.
-
-* We'll be comparing our model results to data from hepatitis C virus- (HCV-) infected individuals who received interferon (IFN) treatment. The following figure from [@neumann98] shows the data we'll be referring to in some of the tasks. One often observes viral load kinetics following treatment that starts with a fast decline followed by a slower decline.
+We'll be comparing our model results to data from hepatitis C virus- (HCV-) infected individuals who received interferon (IFN) treatment. The following figure from [@neumann98] shows the data we'll be referring to in some of the tasks. One often observes viral load kinetics following treatment that starts with a fast decline followed by a slower decline.
 
 ```{r, fig.cap='HCV virus load in patients following IFN treatment.',  echo=FALSE}
 knitr::include_graphics('../media/hcvdata.png')
 ```
 
+
+
+
+### Notes
+
+* The drug is not explicitly modeled here, it is not given its own compartment/equation. Instead, we model the drug by its effects on some of the model parameters and assume that this effect is either absent or present but does not otherwise change with time. The ___Pharmacokinetics and Pharmacodynamics___ app provides a model that includes explicit modeling of drug uptake and decay.
+
+* Efficacy and effectiveness are not *technically* the same measures, but, with respect to our computer simulations, we will use the terms interchangeably.
 
 
 ## What To Do {#shinytab3}
