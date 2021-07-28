@@ -48,7 +48,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10,
                                  p = 0.01, g = 0,
                                  b = 1e-2, blow = 1e-6, bhigh = 1e3,
                                  dV = 2, dVlow = 1e-3, dVhigh = 1e3,
-                                 iter = 1, nsample = 10, rngseed = 100, parscale = 1)
+                                 iter = 20, nsample = 10, rngseed = 100, parscale = 1)
 {
 
   ###################################################################
