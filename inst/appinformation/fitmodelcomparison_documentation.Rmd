@@ -23,18 +23,20 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 
 ## Overview {#shinytab1}
-This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in the "Model" tab. Then do the tasks described in the "What to do" tab.
+This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
 
 
 ### Learning Objectives
-* Understand the idea of model selection and how it relates to hypothesis testing
-* Be familiar with one method for performing model selection
+* Understand the idea of model selection and how it relates to hypothesis testing.
+* Be familiar with one method for performing model selection.
 
 
 ## The Model {#shinytab2}
 
 ### Model Overview
-This app fits 2 different models to virus load data from humans. The idea is that by comparing both models to the data, we can determine which one fits the data better, and thus tentatively suggest that the mechanisms which are part of the better-fitting model might be more realistic descriptions of the underlying biological system.
+This app fits 2 different models to virus load data from humans. The idea is that by comparing both models to the data, we can determine which one fits the data better, and, therefore, tentatively suggest that the mechanisms which are part of the better-fitting model might be more realistic descriptions of the underlying biological system.
+
+
 
 
 #### Model 1
@@ -48,10 +50,10 @@ This model consists of 4 compartments. The following entities are modeled:
 
 The following processes/flows are included in the model: 
 
-* Virus infects cells at rate _b_.
-* Infected cells produce new virus at rate _p_, are killed by T-cells at rate _k_ and die due to other causes at rate _d~I~_.
-* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. It can also infect new cells at rate _b_, with unit conversion factor _g_.
-* T-cells are activated proportional to virus at rate _a_ and undergo exponential growth at rate _r_.
+1. Virus infects cells at rate _b_.
+2. Infected cells produce new virus at rate _p_, are killed by T-cells at rate _k_ and die due to other causes at rate _d~I~_.
+3. Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells. It can also infect new cells at rate _b_, with unit conversion factor _g_.
+4. T-cells are activated proportional to virus at rate _a_ and undergo exponential growth at rate _r_.
 
 
 #### Model 2
@@ -65,17 +67,17 @@ This model also consists of 4 compartments. The following entities are modeled:
 
 The following processes/flows are included in the model: 
 
-* Virus infects cells at rate _b_.
-* Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
-* Free virus is removed by antibodies at rate _k_, and by other mechanisms at rate _d~V~_. It can also infect new cells at rate _b_, with unit conversion factor _g_.
-* B-cells/antibodies grow exponentially proportional to virus at rate _a_ and decay at rate _d~X~_. We assume that the number/amount of antibodies closely follows the number/amount of B-cells and thus we don't model them separately but instead combine them into a single equation. One could add a separate equation for antibodies, but it won't change things much in this example (and make the model more complicated).
+1. Virus infects cells at rate _b_.
+2. Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
+3. Free virus is removed by antibodies at rate _k_, and by other mechanisms at rate _d~V~_. It can also infect new cells at rate _b_, with unit conversion factor _g_.
+4. B-cells/antibodies grow exponentially proportional to virus at rate _a_ and decay at rate _d~X~_. 
 
 
 ### Model Diagram
 The diagram illustrates both compartmental models, with colors to indicate mechanisms that are part of either model 1 or model 2.
 
 ```{r twomodeldiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
-knitr::include_graphics("../media/modelcomparison.png")
+knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 
@@ -103,46 +105,54 @@ $$
 \end{aligned}
 $$
 
-### Comments
+### Model Concepts
 
-To summarize the models and their differences in words, the main difference between the models are the immune response components. In the first model, T-cells are activated proportional to virus at rate _a_, then grow exponentially at rate _r_ and kill infected cells at rate _k_. In the second model, B-cells grow proportional to both virus and B-cells at rate _a_, and die at rate _d~X~_. They remove virus at rate _k_.
+#### Data Source
 
-Note that both models are rather simple and - arguably - somewhat unrealistic. For instance we assume that the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection - as done here for influenza - where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. For both models, we ignored birth/death of uninfected cells, which is possibly ok for an acute infection (but needs to be determined based on known biology for a given system). 
-
-We also assume for model 2 that the dynamics of B-cells and antibodies track each other close enough that we can lump them together into a single equation.
-
-In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting. The more data you have available, the more complex a model you can usually justify (as long as you know enough about the system to postulate reasonable hypothetical mechanisms/processes). 
-
-
-### Data source
 The data being used in this app comes from [@hayden96]. Specifically, the data being fit is the 'no intervention' viral load data shown in Figure 2 of the paper.
 
-### Fitting Approach
-The basic fitting approach is the one described in the __Basic Virus Model Fitting__ app, i.e., we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
+#### Fitting Approach
+
+The basic fitting approach is the one described in the ___Basic Virus Model Fitting___ app, i.e., we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.
 
 
-### Model comparison 
+#### Model Comparison 
 
-There are different ways to evaluate how well a model fits to data, and to compare between different models. This app shows the approach of using Akaike's "An Information Criterion" (AIC), or more precisely, we'll use the one corrected for small sample size, AICc. If we fit by minimizing the sum of squares (SSR), as we do here, the formula for the AICc is:
+There are different ways to evaluate how well a model fits to data, and to compare between different models. This app shows the approach of using ___Akaike's "An Information Criterion" (AIC)___, or more precisely, we'll use the one corrected for small sample size, ___AICc___. If we fit by minimizing the sum of squares (SSR), as we do here, the formula for the AICc is:
 
 $$
 AICc = N \log(\frac{SSR}{N})+2(K+1)+\frac{2(K+1)(K+2)}{N-K}
 $$
 
-where _N_ is the number of data points, _SSR_ is the sum of squares residual at the final fit, and _K_ is the number of parameters being fit. A lower value means a better model. 
+where _N_ is the number of data points, _SSR_ is the sum of squares residual at the final fit, and _K_ is the number of parameters being fit. A lower value for AICc means a better model. 
 
-This combination of SSR (or more generally, some measure of goodness of fit), with the number of parameters (or more generally, model complexity), tries to find a trade-off between how well a model fits and how big it is. Generally speaking, bigger models fit better. But this can lead to overfitting. We want to find a good balance between model complexity and fit quality. AIC is one way to do that. For AIC, it means a bigger model with lower SSR might still have a higher AIC since model complexity gets penalized. (In our case, since both models have the same number of parameters, the two quantities move in the same direction.) 
+This combination of SSR (or more generally, some measure of ___goodness of fit___) with the number of parameters (or more generally, model complexity) tries to find a trade-off between how well a model fits and how big it is. Generally speaking, bigger models fit better. But, this can lead to overfitting. We want to find a good balance between model complexity and fit quality. ___AIC___ is one way to do that. For AIC, it means a bigger model with lower SSR might still have a higher AIC since model complexity gets penalized. (In our case, since both models have the same number of parameters, the two quantities move in the same direction.) 
 
-One nice feature of the AIC is that one can compare as many models as one wants without having issues with p-values and correcting for multiple comparison, and the models do not need to be nested (i.e. each smaller model being contained inside the larger models). That said, AIC has its drawbacks. Nowadays, if one has enough data available, the best approach is to evaluate model performance by a method like cross-validation [@hastie11], and/or if available, building models with one dataset and testing them on a different dataset.
+One nice feature of the AIC is that one can compare as many models as one wants without having issues with p-values or correcting for multiple comparison, and the models do not need to be nested (i.e., each smaller model being contained inside the larger models / a criterion for likelihood ratio tests). That said, AIC has its drawbacks. Nowadays, if one has enough data available, the best approach is to evaluate model performance by a method like cross-validation [@hastie11], and/or if available, building models with one dataset and testing them on a different dataset.
 
-For evaluation of models with different AIC, there is fortunately no arbitrary, magic value (like p=0.05). A rule of thumb is that if models differ by AIC of more than 2, the one with the smaller one is considered statistically better supported (don't use the word _significant_ since that is usually associated with a p-value<0.05, which we don't have here). I tend to be more conservative and want AIC differences to be at least >10 before I'm willing to favor a given model. Also, I think that visual inspection of the fits is useful. If one model has a lower AIC, but the fit doesn't look that convincing biologically (e.g. very steep increases or decreases in some quantity), I'd be careful drawing very strong conclusions.
+For evaluation of models with different AIC, there is fortunately no arbitrary, magic value (e.g., p=0.05). A rule of thumb is that if models differ by AIC of more than 2, the one with the smaller one is considered statistically better supported (don't use the word _significant_ since that is usually associated with a p-value<0.05, which we don't have here). I tend to be more conservative and want AIC differences to be at least >10 before I'm willing to favor a given model. Also, I think that visual inspection of the fits is useful. If one model has a lower AIC, but the fit doesn't look that convincing biologically (e.g., very steep increases or decreases in some quantity), I'd be careful drawing very strong conclusions.
 
-Note that the absolute value of the AIC is unimportant and varies from dataset to dataset. Only relative differences matter. And it goes without saying that we can only compare models that are fit to exactly the same data.
+
+### Notes
+
+* To summarize the models and their differences in words: the main difference between the models are the immune response components. 
+  + In the first model, T-cells are activated proportional to virus at rate _a_, then grow exponentially at rate _r_ and kill infected cells at rate _k_. 
+  + In the second model, B-cells grow proportional to both virus and B-cells at rate _a_, and die at rate _d~X~_. They remove virus at rate _k_.
+
+* Both models are rather simple and, arguably, somewhat unrealistic. 
+  + We assume that the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection (as done here for influenza) where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. 
+  + We assume that the number/amount of antibodies closely follows the number/amount of B-cells and thus we don't model them separately but instead combine them into a single equation. One could add a separate equation for antibodies, but it won't change things much in this example (and make the model more complicated).
+  + For both models, we ignored birth/death of uninfected cells, which is possibly okay for an acute infection (but needs to be determined based on known biology for a given system). 
+
+* In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting. The more data you have available, the more complex a model you can usually justify (as long as you know enough about the system to postulate reasonable hypothetical mechanisms/processes). 
+
+* The absolute value of the AIC is unimportant and varies from dataset to dataset. Only relative differences matter. And it goes without saying that we can only compare models that are fit to exactly the same data.
+
 
 
 ## What to do {#shinytab3}
 
-*The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).*
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).**
 
 ```{r, echo=FALSE, eval=TRUE}
 
