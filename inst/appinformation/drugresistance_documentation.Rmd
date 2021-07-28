@@ -26,19 +26,19 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 ## Overview {#shinytab1}
 
-This app allows exploration of a stochastic model to simulate emergence of drug resistance during an acute virus infection (e.g. influenza) in the presence of an antiviral. Read about the model in the _Model_ tab. Then do the tasks described in the _What to do_ tab.
+This app allows exploration of a stochastic model to simulate emergence of drug resistance during an acute virus infection (e.g. influenza) in the presence of an antiviral. Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
 
 
 
 ### Learning Objectives
-* Be familiar with a way one can model resistance generation during drug treatment
-* Understand the interactions between drug and fitness cost at influencing resistance emergence
+* Be familiar with a way one can model resistance generation during drug treatment.
+* Understand the interactions between drug and fitness cost at influencing resistance emergence.
 
 ## The Model {#shinytab2}
 
-### Model Description
+### Model Overview
 
-The model we use here is a modification and extension of the model described in the __Stochastic Dynamics__ app. It is recommended that you go through that app first. Doing the __Antiviral Treatment Model__ app before this one is a good idea too, so you can get familiar with a model that includes drug treatment.
+The model we use here is a modification and extension of the model described in the ___Stochastic Dynamics___ app. It is recommended that you go through that app first. Doing the ___Antiviral Treatment Model___ app before this one is a good idea too, so you can get familiar with a model that includes drug treatment.
 
 For the current model, we track 2 types of virus, drug sensitive wild-type virus, and a drug resistant mutant. Cells can be infected with either type. We do not explicitly model the dynamics of the drug. 
 
@@ -53,12 +53,12 @@ This model consists of 5 compartments:
 
 For this model, we consider the following processes: 
 
-* Drug-sensitive or drug resistant Virus infects uninfected cells at (the same) rate _b_.
-* Drug-sensitive infected cells produce new drug-sensitive virus at rate _(1-m)p_ and occasionally generate a resistant mutant virus at a (low) rate _mp_. 
-* Drug-resistant infected cells produce new drug-resistant virus at rate _(1-f)p_. The factor _f_ accounts for the cost of fitness generally observed for drug resistant strains.
-* Infected cells die at the rate _d~I~_, independent of the virus type they are infected with.
-* Sensitive and resistant virus are both removed at rate _d~V~_, loss of virus due to infecting new cells is ignored.
-* A drug reduces production of sensitive virus by a factor _e_, (which leads to multiplication of the drug production rate _p_ by the factor _(1-e)_, as seen in prior models. Drug treatment is assumed to not affect resistant virus.
+1. Drug-sensitive or drug resistant Virus infects uninfected cells at (the same) rate _b_.
+2. Drug-sensitive infected cells produce new drug-sensitive virus at rate _(1-m)p_ and occasionally generate a resistant mutant virus at a (low) rate _mp_. 
+3. Drug-resistant infected cells produce new drug-resistant virus at rate _(1-f)p_. The factor _f_ accounts for the cost of fitness generally observed for drug resistant strains.
+4. Infected cells die at the rate _d~I~_, independent of the virus type they are infected with.
+5. Sensitive and resistant virus are both removed at rate _d~V~_, loss of virus due to infecting new cells is ignored.
+6. A drug reduces production of sensitive virus by a factor _e_, (which leads to multiplication of the drug production rate _p_ by the factor _(1-e)_, as seen in prior models. Drug treatment is assumed to not affect resistant virus.
 
 For simplicity, we ignore the possibility that a cell might be infected by both drug sensitive and infected virus and might produce a mix of them.
 
@@ -66,7 +66,7 @@ For simplicity, we ignore the possibility that a cell might be infected by both 
 
 
 ```{r resistancemodeldiagram,  fig.cap='Flow diagram for the drug resistance model.',  echo=FALSE}
-knitr::include_graphics("../media/drugresistancemodel.png")
+knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
 ```
 
 
@@ -74,20 +74,16 @@ knitr::include_graphics("../media/drugresistancemodel.png")
 
 If we were to implement this model as a continuous-time, deterministic model, it would have the following set of ordinary differential equations. 
 
-
-$$
-\begin{aligned}
+\begin{align}
 \dot U & =  - bUV_s - bU V_r \\
 \dot I_s & = bUV_s - d_I I_s \\
 \dot I_r & = bUV_r - d_I I_r \\
 \dot V_s & = (1-e)(1-m)pI_s - d_V V_s \\
 \dot V_r & = (1-e)mpI_s + (1-f)pI_r - d_V V_r
 \end{aligned}
-$$
 
 
-
-However we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their propensities (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:
+However we use a stochastic model here. For such a model, the differential equation formulation is not valid. One can write down an equivalent formulation as a stochastic model by specifying every possible process (also called transition/event/reaction) that can occur and their ***propensities*** (the propensity multiplied with the time step gives the probability that a given process/event/transition occurs). For our model these are the following:
 
 Event type                |  Transitions                |   Propensity                       |
 ----------                |  -----------                |   ----------                       |
@@ -101,11 +97,14 @@ production of V~r~         |  V~r~ => V~r~ + 1             |   (1-e)\*m\*p\*I~s~
 removal of V~r~            |  V~r~ => V~r~ - 1             |   d~V~*V~r~                           | 
 
 
+### Notes
+
+* As in other apps that include randomness, this model allows you to set a random number seed. This ensures reproducibility. If you choose the same seed and run the simulation twice, the same random numbers are generated and you get the same trajectory. To get different results, you can change the random number seed. For this stochastic model, variables can only take on integer values. Thus, if you try to run the model with non-integer variable starting values, it won't work.
 
 
-## What to do {#shinytab3}
+## What To Do {#shinytab3}
 
-*As in other apps that include randomness, this model allows you to set a random number seed. This ensures reproducibility. If you choose the same seed and run the simulation twice, the same random numbers are generated and you get the same trajectory. To get different results, you can change the random number seed. For this stochastic model, variables can only take on integer values. Thus, if you try to run the model with non-integer variable starting values, it won't work.*
+__The model is assumed to run in units of days.__
 
 
 ```{r, echo=FALSE, eval=TRUE}
@@ -138,7 +137,13 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Set fraction of restant mutants created to _m = 0.01_. That means about 1% of all virions produced by a cell infected with sensitive virus are resistant mutants. Run the simulation. You'll see higher values for resistant virus, but still not as high as the sensitive virus. This could be just by chance. Therefore, let's run more than one scenario, set number of simulations to 20. You'll see that for all runs, the resistant mutant does not grow much. One reason for this is that the sensitive virus has an early start. By the time the resistant one is generated, it can't catch up anymore. Let's change this by turning off resistant mutant generation and instead start with 10 resistant and 10 susceptible virions. Run again 20 iterations. You'll see that the resistant virus now reaches higher levels, but still not as high as the sensitive. Why?"
+tasktext = "Set fraction of restant mutants created to _m = 0.01_. That means about 1% of all virions produced by a cell infected with sensitive virus are resistant mutants. Run the simulation. 
+
+\nYou'll see higher values for resistant virus, but still not as high as the sensitive virus. This could be just by chance. Therefore, let's run more than one scenario. Set number of simulations to 20 and run them. 
+
+\nYou'll see that for all runs, the resistant mutant does not grow much. One reason for this is that the sensitive virus has an early start. By the time the resistant one is generated, it can't catch up anymore. Let's change this by turning off resistant mutant generation and instead start with 10 resistant and 10 susceptible virions. Run 20 iterations again. 
+
+\nYou'll see that the resistant virus now reaches higher levels, but still not as high as the sensitive. Why?"
 nrec = 2 # number of items to record
 out_records = c("Average peak of sensitive infected cells for equal virus starting values, no mutation",
                 "Average peak of resistant infected cells for equal virus starting values, no mutation")
@@ -160,10 +165,12 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 3
 #########################
 tid = tid + 1
-tasktext = "You probably figured out that the resistant virus is not growing as much because we gave it a fitness cost. Let's remove that and set _f = 0._ Keep everything as before, run again. You should now find that the two strains produce on average similar sized infections. Though for any one simulation run, one strain or the other usually dominates. You can explore this by running one simulation at a time for different random seeds."
+tasktext = "You probably figured out that the resistant virus is not growing as much because we gave it a fitness cost. Let's remove that and set _f = 0._ Keep everything as before, run again. 
+
+\nYou should now find that the two strains produce on average similar sized infections. Though, for any one simulation run, one strain or the other usually dominates. You can explore this by running one simulation at a time for different random seeds."
 nrec = 2 # number of items to record
-out_records = c("Average peak of sensitive infected cells for equal virus starting values, m = 0, f = 0",
-                "Average peak of resistant infected cells for equal virus starting values, m = 0, f = 0")
+out_records = c("Average peak of sensitive infected cells for equal virus starting values, _m_ = 0, _f_ = 0",
+                "Average peak of resistant infected cells for equal virus starting values, _m_ = 0, _f_ = 0")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -179,10 +186,16 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 4
 #########################
 tid = tid + 1
-tasktext = "We established that in the absence of a drug, if a resistant strain has a fitness cost, it is unlikley to out-compete the drug sensitive strain. A drug can change the fitness balance and by suppressing the generation of sensitive virus, make the resistant virus more competitive. Let's explore this. Reset all inputs. Run 20 simulations just to confirm there is not much drug resistant virus. Then set drug efficacy to 0.6. Run the simulation. You'll find that the resistant strain becomes much more competitive. Next, try a drug with _e = 0.9_. You should find that for some simulation runs, the drug is so good at quickly removing the sensitive virus that there is no time to generate resistant virus, thus no infection occurs with either type. This points to a trade-off: At low drug efficacy, the sensitive strain doesn't have much of a fitness loss and still can outcompete the resistant strain, so no resistance emerges. At very high drug efficacy, the drug might be able to prevent replication of the sensitive virus quickly enough to prevent generation of resistant virus in the first place. At intermediate levels, the resistant strain has the best chance to emerge. The drug is not strong enough to reduce susceptible virus replication enough to prevent resistance generation, but it is strong enough to give the resistant strain a fitness advantage once it has been generated."
+tasktext = "We established that in the absence of a drug, if a resistant strain has a fitness cost, it is unlikley to out-compete the drug sensitive strain. A drug can change the fitness balance and by suppressing the generation of sensitive virus, making the resistant virus more competitive. Let's explore this. 
+
+\nReset all inputs. Run 20 simulations just to confirm there is not much drug resistant virus. Then, set drug efficacy to 0.6. Run the simulation. 
+
+\nYou'll find that the resistant strain becomes much more competitive. Next, try a drug with _e = 0.9_. 
+
+\nYou should find that for some simulation runs, the drug is so good at quickly removing the sensitive virus that there is no time to generate resistant virus; thus, no infection occurs with either type. This points to a trade-off: At low drug efficacy, the sensitive strain doesn't have much of a fitness loss and still can outcompete the resistant strain, so no resistance emerges. At very high drug efficacy, the drug might be able to prevent replication of the sensitive virus quickly enough to prevent generation of resistant virus in the first place. At intermediate levels, the resistant strain has the best chance to emerge. The drug is not strong enough to reduce susceptible virus replication enough to prevent resistance generation, but it is strong enough to give the resistant strain a fitness advantage once it has been generated."
 nrec = 2 # number of items to record
-out_records = c("Average peak of sensitive infected cells for e = 0.6",
-                "Average peak of resistant infected cells for e = 0.6")
+out_records = c("Average peak of sensitive infected cells for _e_ = 0.6",
+                "Average peak of resistant infected cells for _e_ = 0.6")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -198,7 +211,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 5
 #########################
 tid = tid + 1
-tasktext = "Keep exploring how different levels of fitness cost, _f_, rate of resistance generation, _m_, and drug efficacy, _e_, change the competition and outcome. If you are comfortable with a bit of coding, namely the Level 2 approach described in the package tutorial, you could write a loop over different drug efficacy values and for each value, run a number of simulations and record for how many the resistant strain dominates. You will find that resistance emergence is most likely at intermediate drug efficacy levels. Note that for this model, the start of the treatment occurs at the beginning. In a more realistic model, one would likely assume that drug treatment starts some time after the infection has started." 
+tasktext = "Keep exploring how different levels of fitness cost, _f_, rate of resistance generation, _m_, and drug efficacy, _e_, change the competition and outcome. If you are comfortable with a bit of coding, namely the Level 2 approach described in the package tutorial, you could write a loop over different drug efficacy values and for each value, run a number of simulations and record for how many the resistant strain dominates. You will find that resistance emergence is most likely at intermediate drug efficacy levels. Note that, for this model, the start of the treatment occurs at the beginning. In a more realistic model, one would likely assume that drug treatment starts some time after the infection has started." 
 nrec = 1 # number of items to record
 out_records = c("Nothing")
 out_types = rep("None",nrec)
@@ -237,11 +250,15 @@ write_tasktext(alloutcomes)
 
 
 ## Further Information {#shinytab4}
-* This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
-* For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
-* You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
-* For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
-* A very similar model was used and explored in [@handel07] and reference [@canini14a] analyzed a similar, more detailed model.
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+  
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+A very similar model was used and explored in [@handel07] and reference [@canini14a] analyzed a similar, more detailed model.
 
 
 ### References
