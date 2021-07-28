@@ -12,7 +12,7 @@
 
 
 
-<title>Basic Bacteria and Immune Response Model</title>
+<title>Basic Bacteria Model</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
@@ -63,13 +63,13 @@ div.csl-indent {
 
 
 
-<h1 class="title toc-ignore">Basic Bacteria and Immune Response Model</h1>
+<h1 class="title toc-ignore">Basic Bacteria Model</h1>
 
 
 
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
-<p>This app allows exploration of a very basic bacteria (or other extracellular pathogen) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in <em>The Model</em> tab. Then do the tasks described in the <em>What to do</em> tab.</p>
+<p>This app allows exploration of a very basic bacteria (or other extracellular pathogens) infection model, with one compartment for bacteria and one compartment for the immune response. The main goal for this app is to get you familiar with simulation models, as well as the overall setup and ideas behind using these simulations, and how to run them. Read about the model in <em>The Model</em> tab. Then, work through the tasks described in the <em>What To Do</em> tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
 <ul>
@@ -88,16 +88,15 @@ div.csl-indent {
 <li><strong>B</strong> - bacteria</li>
 <li><strong>I</strong> - immune response</li>
 </ul>
-<p>This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.</p>
-<p>In addition to specifying the <strong>compartments</strong> or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes or <strong>flows</strong> that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
+<p>In addition to specifying the <strong><em>compartments</em></strong> or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are <strong><em>processes</em></strong> or <strong><em>flows</em></strong> that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
 <p>For our system, we specify the following processes/flows:</p>
-<ul>
-<li>Bacteria grow/divide at some maximum rate (which we label <em>g</em>) and saturate as they approach some maximum carrying capacity, <em>B<sub>max</sub></em>.</li>
-<li>Bacteria die at a natural death rate (which we label <em>d<sub>B</sub></em>).</li>
-<li>Bacteria are killed by the immune response at some rate <em>k</em>.</li>
-<li>The immune response grows proportional to the number of bacteria and itself at some rate <em>r</em>.</li>
-<li>The immune response decays at some rate (which we label <em>d<sub>I</sub></em>).</li>
-</ul>
+<ol style="list-style-type: decimal">
+<li>Bacteria grow/divide at some maximum rate, <em>g</em>, and saturate as they approach some maximum carrying capacity, <em>B<sub>max</sub></em>.</li>
+<li>Bacteria die at a natural death rate, <em>d<sub>B</sub></em>.</li>
+<li>Bacteria are killed by the immune response at some rate, <em>k</em>.</li>
+<li>The immune response grows proportional to the number of bacteria and itself at some rate, <em>r</em>.</li>
+<li>The immune response decays at some rate, <em>d<sub>I</sub></em>.</li>
+</ol>
 </div>
 <div id="model-diagram" class="section level3">
 <h3>Model Diagram</h3>
@@ -109,43 +108,58 @@ Model Diagram
 </p>
 </div>
 <p>For the diagrams in this R package, solid arrows indicate physical flows, i.e. movement from a compartment to another (e.g. bacteria moving out of the compartment because of death, or bacteria increasing in the compartment due to growth), while dashed arrows indicate interactions without physical flow (e.g. infected cells killing bacteria). This notation is not universal and it is common in the literature to see no distinction made between these 2 types of flows and only solid arrows being used.</p>
-<p>Next, we need to implement this verbal model and flow diagram in a way that it can be run on a computer. While we already specified some of the model features, e.g. that we only track compartments/total numbers and not individual bacteria, both the verbal model and diagram do not yet fully specify the underlying mathematical model. In fact, there are several ways the diagram could be translated into a mathematical/computer model. For this app, we consider two approaches, namely <strong>discrete-time deterministic</strong> and <strong>continuous-time deterministic</strong> models. In some of the other apps, you will see another variant, namely <strong>continuous-time stochastic</strong> model implementations.</p>
 </div>
-<div id="model-implementation-i" class="section level3">
-<h3>Model Implementation I</h3>
-<p>The most common way to implement compartmental models is as a <strong>continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)</strong>. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:</p>
-<p><span class="math display">\[\dot B = g B (1-\frac{B}{B_{max}}) - d_B B - k BI\]</span> <span class="math display">\[\dot I = r B I - d_I I\]</span> We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is: <span class="math display">\[\frac{d}{dt}B(t) = gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t)\]</span> <span class="math display">\[\frac{d}{dt} I(t) = r B(t) I(t) - d_I I(t)\]</span> This notation specifies explicitly that <span class="math inline">\(B\)</span> and <span class="math inline">\(I\)</span> are functions of time, and that the differentiation is with respect to time. Since this is always the case in our models, it is not necessary to be that explicit and the more compact notation shown above is the one you will see in this package and it’s also the most common throughout the literature.</p>
+<div id="model-equations" class="section level3">
+<h3>Model Equations</h3>
+<p>Next, we need to implement this verbal model and flow diagram in a way that it can be run on a computer. While we already specified some of the model features, e.g. that we only track compartments/total numbers and not individual bacteria, both the verbal model and diagram do not yet fully specify the underlying mathematical model. In fact, there are several ways the diagram could be translated into a mathematical/computer model. For this app, we consider two approaches, namely <strong><em>discrete-time deterministic</em></strong> and <strong><em>continuous-time deterministic</em></strong> models. In some of the other apps, you will see another variant, namely <strong><em>continuous-time stochastic</em></strong> model implementations.</p>
+<div id="implementation-i" class="section level4">
+<h4>Implementation I</h4>
+<p>The most common way to implement compartmental models is as a <strong><em>continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)</em></strong>. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:</p>
+<p><span class="math display">\[\begin{align}
+\dot B &amp;= g B (1-\frac{B}{B_{max}}) - d_B B - k BI \\
+\dot I &amp;= r B I - d_I I
+\end{align}\]</span></p>
+<p>We are using here the short-hand notation where a dot over the variable indicates differentiation with respect to time, and we also do not explicitly indicate that all variables depend on time. This is the most common notation. A more detailed, completely equivalent notation is:</p>
+<p><span class="math display">\[\begin{align}
+\frac{d}{dt}B(t) &amp;= gB(t)(1-\frac{B(t)}{B_{max}})-d_B B(t) - k B(t)I(t) \\
+\frac{d}{dt} I(t) &amp;= r B(t) I(t) - d_I I(t)
+\end{align}\]</span></p>
+<p>This notation specifies explicitly that <strong>B</strong> and <strong>I</strong> are functions of time, and that the differentiation is with respect to time. Since this is always the case in our models, it is not necessary to be that explicit and the more compact notation shown above is the one you will see in this package and it’s also the most common throughout the literature.</p>
 </div>
-<div id="model-implementation-ii" class="section level3">
-<h3>Model Implementation II</h3>
-<p>Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a <strong>discrete-time deterministic</strong> equivalent to the ODE model. For such an implementation, the equations are:</p>
-<p><span class="math display">\[B_{t+dt} = B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) \]</span> <span class="math display">\[ I_{t+dt} = I_t + dt \left( r I_t B_t - d_I I_t \right)\]</span> In words, the number of bacteria and immune response at a time step <em>dt</em> in the future is given by the number at the current time, t, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the <code>deSolve</code> R package documentation, which we use to run our simulations.</p>
+<div id="implementation-ii" class="section level4">
+<h4>Implementation II</h4>
+<p>Continuous time models implemented as ordinary differential equations are the most common types of models. However, other implementations of the above model are possible. One alternative formulation is a <strong><em>discrete-time deterministic</em></strong> equivalent to the ODE model. For such an implementation, the equations are:</p>
+<p><span class="math display">\[\begin{align}
+B_{t+dt} &amp;= B_t + dt \left( gB_t (1-\frac{B}{B_{max}}) - d_B B_t - k I_t B_t \right) \\
+I_{t+dt} &amp;= I_t + dt \left( r I_t B_t - d_I I_t \right)
+\end{align}\]</span></p>
+<p>In words, the number of bacteria and immune response at a time step <em>dt</em> in the future is given by the number at the current time, <strong>t</strong>, plus/minus the various growth and death/removal processes. The latter need to be multiplied by the time step, since less of these events can happen if the time step is smaller. As the time-step gets small, this discrete-time model approximates the continuous-time model above. In fact, when we implement a continuous-time model on a computer, the underlying simulator runs a smart version of a discrete-time model and makes sure the steps taken are so small that the numerical simulation is a good approximation of the continuous-time model. If you want to learn more about that, you can check out the <code>deSolve</code> R package documentation, which we use to run our simulations.</p>
 </div>
-<div id="some-notes" class="section level3">
-<h3>Some notes</h3>
+</div>
+<div id="model-concepts" class="section level3">
+<h3>Model Concepts</h3>
+<p>In general, the entities that change in our model (i.e. here <strong>B</strong> and <strong>I</strong>) are called <strong><em>variables</em></strong>; they are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called <strong><em>initial conditions</em></strong>.</p>
+<p>In contrast, the quantities that are usually fixed for a given scenario are called <strong><em>parameters</em></strong>. For this model, those are <em>g</em>, <em>d<sub>B</sub></em>, <em>k</em>, <em>r</em> and <em>d<sub>I</sub></em>. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour.</p>
+<p>You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You’ll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hack-y solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you’ll see numbers less than 1. That’s okay for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.</p>
+</div>
+<div id="notes" class="section level3">
+<h3>Notes</h3>
 <ul>
-<li>In general, the entities that change in our model (i.e. here <strong>B</strong> and <strong>I</strong>) are called variables: They are variable and change during the simulation. To run a simulation, we need to specify the starting values for each variable. Those are often called <em>initial conditions</em>.</li>
-<li>In contrast, the quantities that are usually fixed for a given scenario are called parameters. For this model, those are <em>g</em>, <em>d<sub>B</sub></em>, <em>k</em>, <em>r</em> and <em>d<sub>I</sub></em>. Values for parameters are chosen to match the known biology of a specific disease/scenario we want to model. All parameters need to be in the same time units, e.g. per day or per hour.</li>
+<li><p>This model is of course very simple. However, as you will see, even with just 2 entities and their interactions, we can get interesting dynamics. This model could be extended by introducing further compartments. For instance we could include separate compartments for the innate and adaptive immune response. You will encounter more detailed models in some of the other apps.</p></li>
+<li><p>This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months…, based on what’s most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each <em>What To Do</em> section what kind of units I have in mind for the different tasks.</p></li>
+<li><p>Some of the tasks in the <em>What To Do</em> section (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking about what you expect, observing it, and, if discrepancies occur, figuring out why. Essentially, the best way to use these apps is to <em>do your own science/research</em> with them.</p></li>
 </ul>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
-<h2>What to do</h2>
-<div id="a-few-general-notes" class="section level3">
-<h3>A few general notes</h3>
-<ul>
-<li><p>Some of the tasks below (and in future apps) are fairly open-ended. The idea is that these tasks give you something to get started, but you should feel free to explore the simulations any way you want. Play with them, query them, go through iterations of thinking what you expect, observing it, and if discrepancies occur, figure out why. Essentially, the best way to use these apps is to <em>do your own science/research</em> with them.</p></li>
-<li><p>You might find for some parameter settings that numbers for bacteria/immune response/virus/cells/etc. drop below 1 (and possibly rebound later). You’ll see that in one of the tasks below. If the units of our model are assumed to be in number of pathogen/cells, this of course is biologically not reasonable. Numbers less than 1 are an artifact of the underlying differential equation model. All ODE models (and the discrete time model we consider here) have that problem. A hacky solution is to monitor the simulation and if a quantity drops below 1, set it to 0 or stop the simulation. A cleaner solution is to treat all entities (virus, cell) as discrete units and allow them to only change in integer steps (in a probabilistic manner). This approach will be discussed in the apps that use stochastic models. For most apps, neither approach is taken, so you’ll see numbers less than 1. That’s ok for the purpose we use the apps here. Just be careful if you use these kinds of models in your research you might need to pay attention to this issue.</p></li>
-<li><p>This and most other simulations/apps do not have natural time units (unless specifically stated). You could, therefore, assume that your model runs in units of days or minutes/hours/weeks/months…, based on what’s most suitable for the system you want to study. You have to make sure that all your parameters are in the right time units. Always make sure to check if a given simulation can handle different time units or assumes specific ones. In general, I specify for each “What to do” section what kind of units I have in mind for the different tasks.</p></li>
-</ul>
+<h2>What To Do</h2>
 <p><strong>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a cell lives for a week, you need to convert it to 7 days, then take the inverse if you want a death rate, which is what usually goes into the model).</strong></p>
-</div>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<p>Start with 100 initial bacteria and an initial level of 1 for the immune response. Assume bacteria grow at a rate of 1 per day (i.e., g = 1), the carrying capacity is 10<sup>5</sup> and they live for about 2 days (remember that the inverse of the lifespan is the rate of death). Assume the immune response is activated and grows at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day. Set simulation start time to 0 and final time of 100 (which we assume to be days). Set the time step to 0.01. As you’ll see, if we run an ODE model, the time step is only relevant for plotting, not for the underlying model simulation (while this is not the case for the discrete time model). Only run the continuous time ODE model. Plot both x- and y-axes on a linear scale (i.e, no log scales for now). You can stick with ggplot as the plot engine. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003. Change the time step to 0.05, re-run the simulation. Record the number of bacteria at the end of the simulation (Hint: not much changes).</p>
+<p>Start with 100 initial bacteria and an initial level of 1 for the immune response. Assume bacteria grow at a rate of 1 per day (i.e., g = 1), the carrying capacity is 10<sup>5</sup> and they live for about 2 days (remember that the inverse of the lifespan is the rate of death). Assume the immune response is activated and grows at a rate of 10<sup>-4</sup>, kills bacteria at a rate of 10<sup>-4</sup> and decays at a rate of 2 per day. Set simulation start time to 0 and final time of 100 (which we assume to be days). Set the time step to 0.01. As you’ll see, if we run an ODE model, the time step is only relevant for plotting, not for the underlying model simulation (while this is not the case for the discrete time model). Only run the continuous time ODE model. Plot both x- and y-axes on a linear scale (i.e, no log scales for now). You can stick with ggplot as the plot engine. Run the simulation, see what you get. You should see some oscillations and then the system settles down, with bacteria and immune response at the end of the simulation at around 19996 and 3003, respectively. Change the time step to 0.05, re-run the simulation. Record the number of bacteria at the end of the simulation (Hint: not much changes).</p>
 <p><strong>Record</strong></p>
 <ul>
-<li>Number of bacteria at end of simulation, dt=0.05.</li>
+<li>Number of bacteria at end of simulation, <em>dt</em>=0.05</li>
 </ul>
 </div>
 <div id="task-2" class="section level3">
@@ -169,39 +183,42 @@ Model Diagram
 <p>Now try different values for the time step, <em>dt</em>. Leave all other settings as before. You should notice that as <em>dt</em> gets larger, the continuous-time model results remain the same, but the discrete-time models change and start moving away from those of the continous-time model. At a time step above 0.1, the results start to look very different. Somewhere above a time step of 0.5, it becomes so large that for these parameter settings, the simulation ‘crashes’ and you get an error message.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, dt=0.1</p></li>
-<li><p>Final value for B, discrete-time model, dt=0.1</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>dt</em>=0.1</p></li>
+<li><p>Final value for <strong>B</strong>, discrete-time model, <em>dt</em>=0.1</p></li>
 </ul>
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<p>Now we’ll explore how model parameters impact outcomes. Set <em>dt</em> to 0.01, change the simulation time (tfinal) to 200 days. Also change the bacteria growth rate from 1 to 2 per day. Leave all other settings as before (you can keep running the discrete model, or switch back to ODE only). Run the simulation. Switch back and forth between growth rates of 1 and 2 and examine how bacteria and immune response dynamics change. Then also try a growth rate of 3.</p>
+<p>Now we’ll explore how model parameters impact outcomes. Set <em>dt</em> to 0.01, change the simulation time, <em>tfinal</em>, to 200 days. Also change the bacteria growth rate from 1 to 2 per day. Leave all other settings as before (you can keep running the discrete model, or switch back to ODE only). Run the simulation. Switch back and forth between growth rates of 1 and 2 and examine how bacteria and immune response dynamics change. Then, also try a growth rate of 3.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, g = 2</p></li>
-<li><p>Final value for B, continous model, g = 3</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>g</em> = 2</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>g</em> = 3</p></li>
 </ul>
 </div>
 <div id="task-6" class="section level3">
 <h3>Task 6</h3>
-<p>In the previous task, you might have been surprised to find that the bacteria growth rate has no impact on the number of bacteria at the final, steady state. This is an indication that even a simple 2-variable model can lead to interesting, and maybe non-intuitive results. For a model as simple as the one we have here, one can mathematically compute the steady state, i.e. the state at which bacteria and immune response don’t change further. To do so, realize that <em>no change</em> means both left hand sides of the ODE model are zero. Equivalently, for the discrete time model, it means <span class="math inline">\(B_{t+dt} = B_t\)</span> and the same for <span class="math inline">\(I\)</span>. We’ll focus on the ODE model here. With the right side of the equations being zero, the model turns into just 2 algebraic equations, namely <span class="math inline">\(0= g B (1-B/B_{max}) - d_B B - k BI\)</span> and <span class="math inline">\(0 = r B I - d_I I\)</span>. You can now solve this such that you end up with two equations of the form <span class="math inline">\(B = XX\)</span> and <span class="math inline">\(I = YY\)</span> where <span class="math inline">\(XX\)</span> and <span class="math inline">\(YY\)</span> are some combinations of model parameters. Let’s do that for the second equation. We rewrite the equation as <span class="math inline">\(r B I = d_I I\)</span>, then divide by <span class="math inline">\(I\)</span> and <span class="math inline">\(r\)</span> to arrive at <span class="math inline">\(B = d_I/r\)</span>. This shows that indeed, the number of bacteria at the steady state does not depend on the growth rate <span class="math inline">\(g\)</span>. I’ll let you do the same for the first equation to get <span class="math inline">\(I\)</span> at steady state (note that at some poin in the solving process, you’ll have to insert the steady state value of B we just found into the equation). You should end up with <span class="math inline">\(I = (r B_{max} (g-d_B) - d_I g)/(k r B_{max})\)</span>. Based on this, we expect that doubling <span class="math inline">\(d_I\)</span> will lead to an increase (doubling) in <span class="math inline">\(B\)</span> at steady state, and a decrease in <span class="math inline">\(I\)</span>. Let’s test that. Set everything as it was at the beginning, but increase the simulation time to 200 days (to ensure we reach steady state). Run the model. Record <span class="math inline">\(B\)</span> and <span class="math inline">\(I\)</span> at the end. Then set <span class="math inline">\(d_I=3\)</span>, run again, and again record values for <span class="math inline">\(B\)</span> and <span class="math inline">\(I\)</span>. Do it again for <span class="math inline">\(d_I=4\)</span>.</p>
+<p>In the previous task, you might have been surprised to find that the bacteria growth rate has no impact on the number of bacteria at the final, steady state. This is an indication that even a simple 2-variable model can lead to interesting, and maybe non-intuitive results.</p>
+<p>For a model as simple as the one we have here, one can mathematically compute the steady state, i.e., the state at which bacteria and immune response don’t change further. To do so, realize that <em>no change</em> means both left hand sides of the ODE model are zero. Equivalently, for the discrete time model, it means <span class="math inline">\(B_{t+dt} = B_t\)</span> and the same for <strong>I</strong>. We’ll focus on the ODE model here. With the right side of the equations being zero, the model turns into just 2 algebraic equations, namely <span class="math inline">\(0= g B (1-B/B_{max}) - d_B B - k BI\)</span> and <span class="math inline">\(0 = r B I - d_I I\)</span>. You can now solve this such that you end up with two equations of the form <span class="math inline">\(B = XX\)</span> and <span class="math inline">\(I = YY\)</span> where <em>XX</em> and <em>YY</em> are some combinations of model parameters. Let’s do that for the second equation.</p>
+<p>We rewrite the equation as <span class="math inline">\(r B I = d_I I\)</span>, then divide by <strong>I</strong> and <em>r</em> to arrive at <span class="math inline">\(B = d_I/r\)</span>. This shows that indeed, the number of bacteria at the steady state does not depend on the growth rate <em>g</em>. I’ll let you do the same for the first equation to get <strong>I</strong> at steady state (note that at some poin in the solving process, you’ll have to insert the steady state value of <strong>B</strong> we just found into the equation). You should end up with <span class="math inline">\(I = (r B_{max} (g-d_B) - d_I g)/(k r B_{max})\)</span>. Based on this, we expect that doubling <em>d_I</em> will lead to an increase (doubling) in <span class="math inline">\(B\)</span> at steady state, and a decrease in <strong>I</strong>. Let’s test that.</p>
+<p>Set everything back as in task 1 (you can use the <em>Reset Inputs</em> button), but increase the simulation time to 200 days (to ensure we reach steady state). Run the model. Record <strong>B</strong> and <strong>I</strong> at the end. Then set <span class="math inline">\(d_I=3\)</span>, run again, and again record values for <strong>B</strong> and <strong>I</strong>. Do it again for <span class="math inline">\(d_I=4\)</span>.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Final value for B, continous model, dI = 2</p></li>
-<li><p>Final value for B, continous model, dI = 3</p></li>
-<li><p>Final value for B, continous model, dI = 4</p></li>
-<li><p>Final value for I, continous model, dI = 2</p></li>
-<li><p>Final value for I, continous model, dI = 3</p></li>
-<li><p>Final value for I, continous model, dI = 4</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>d<sub>I</sub></em> = 2</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>d<sub>I</sub></em> = 3</p></li>
+<li><p>Final value for <strong>B</strong>, continous model, <em>d<sub>I</sub></em> = 4</p></li>
+<li><p>Final value for <strong>I</strong>, continous model, <em>d<sub>I</sub></em> = 2</p></li>
+<li><p>Final value for <strong>I</strong>, continous model, <em>d<sub>I</sub></em> = 3</p></li>
+<li><p>Final value for <strong>I</strong>, continous model, <em>d<sub>I</sub></em> = 4</p></li>
 </ul>
 </div>
 <div id="task-7" class="section level3">
 <h3>Task 7</h3>
-<p>Set everything back as in task 1 (you can use the <em>Reset Inputs</em> button). Set y-axis to log for the plot. Change immune response decay rate (dI) to 0.2. You should get a plot where both immune response and bacteria numbers drop below 1 and take on fractional values. Contemplate what that means. If not clear, re-read the bullet points at the start of this page. This is one of the draw-backs of ODE based models, and we’ll revisit this topic in the stochastic apps.</p>
+<p>Again, set everything back as in task 1 (you can use the <em>Reset Inputs</em> button). Set the y-axis to log for the plot. Change immune response decay rate, <em>d<sub>I</sub></em>, to 0.2. You should get a plot where both immune response and bacteria numbers drop below 1 and take on fractional values. Contemplate what that means. If not clear, re-read the bullet points at the start of this page. This is one of the draw-backs of ODE based models, and we’ll revisit this topic in the stochastic apps.</p>
 <p><strong>Record</strong></p>
 <ul>
-<li><p>Minimum value of B (report as X.YZ)</p></li>
-<li><p>Minimum value of I (report as X.YZ)</p></li>
+<li><p>Minimum value of <strong>B</strong> (report as X.YZ)</p></li>
+<li><p>Minimum value of <strong>I</strong> (report as X.YZ)</p></li>
 </ul>
 </div>
 <div id="task-8" class="section level3">
@@ -215,14 +232,10 @@ Model Diagram
 </div>
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
-<ul>
-<li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying functions running the simulation are called <code>simulate_basicbacteria_ode</code> and <code>simulate_basicbacteria_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
-<li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
-<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation.</li>
-<li>For somewhat similar within-host models (applied to TB and antibiotic resistance), see <span class="citation">(Antia, Koella, and Perrot 1996; Handel, Margolis, and Levin 2009)</span>.</li>
-</ul>
+<p>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results. For this app, the underlying functions running the simulation are called <code>simulate_basicbacteria_ode</code> and <code>simulate_basicbacteria_discrete</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</p>
+<p>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</p>
+<p>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</p>
+<p>The model we are exploring here belongs to a class of well-studied models in ecology known as predator-prey models. If you want to learn more about these kinds of models, see e.g. <span class="citation">(Otto and Day 2011)</span>. The models in those references are described in the context of ecology, but results transfer to within-host situation. For somewhat similar within-host models (applied to TB and antibiotic resistance), see <span class="citation">(Antia, Koella, and Perrot 1996; Handel, Margolis, and Levin 2009)</span>.</p>
 <div id="references" class="section level3 unnumbered">
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">

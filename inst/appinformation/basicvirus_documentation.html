@@ -69,12 +69,12 @@ div.csl-indent {
 
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
-<p>This app allows exploration of a basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
+<p>This app allows exploration of a basic virus infection model, with compartments for uninfected cells, infected cells and (free) virus. Read about the model in <em>The Model</em> tab. Then, work through the tasks described in the <em>What To Do</em> tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
 <ul>
 <li>Learn about steady states and how to compute them.</li>
-<li>Introduce the concept of basic reproduction numbers for within-host models</li>
+<li>Introduce the concept of basic reproduction numbers for within-host models.</li>
 </ul>
 </div>
 </div>
@@ -88,7 +88,7 @@ div.csl-indent {
 <li><strong>I</strong> - infected cells</li>
 <li><strong>V</strong> - (free) virus</li>
 </ul>
-<p>In addition to specifying the <em>compartments</em> of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
+<p>In addition to specifying the <strong><em>compartments</em></strong> of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are <strong><em>processes</em></strong> that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows.</p>
 <p>For our system, we specify the following processes/flows:</p>
 <ol style="list-style-type: decimal">
 <li>Uninfected cells are produced at some rate <em>n</em> and naturally die at some rate <em>d<sub>U</sub></em>.</li>
@@ -110,23 +110,21 @@ Model Diagram
 </div>
 <div id="model-equations" class="section level3">
 <h3>Model Equations</h3>
-<p>Implementing this model as a continuous-time, deterministic model leads to the following set of ordinary differential equations.</p>
-<p><span class="math display">\[
-\begin{aligned}
+<p>Implementing this model as a <strong><em>continuous-time, deterministic model</em></strong> leads to the following set of <strong><em>ordinary differential equations</em></strong>.</p>
+<span class="math display">\[\begin{aligned}
 \dot U &amp; = n - d_U U - bUV \\
 \dot I &amp; = bUV - d_I I \\
 \dot V &amp; = pI - d_V V - gb UV
-\end{aligned}
-\]</span></p>
+\end{aligned}\]</span>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
-<h2>What to do</h2>
-<p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>
+<h2>What To Do</h2>
+<p><strong>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</strong></p>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
-<p>Set the initial conditions to 10<sup>5</sup> uninfected cells, no infected cells and 10 virus particles. We start by considering an acute viral infection. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-6</sup>. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1).</p>
-<p>Run the simulation for 50 days, produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising and declining. At the end you should be left with around 11069 uninfected cells (and no infected cells and virus).</p>
+<p>Let’s start by considering an acute viral infection. Set the initial conditions to 10<sup>5</sup> uninfected cells, no infected cells, and 10 virus particles. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume also that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10<sup>-6</sup>. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1).</p>
+<p>Run the simulation for 50 days; produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising at first and then declining. At the end you should be left with around 11069 uninfected cells and no infected cells or virus.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li>Number of infected cells at the peak of infection</li>
@@ -134,7 +132,7 @@ Model Diagram
 </div>
 <div id="task-2" class="section level3">
 <h3>Task 2</h3>
-<p>Slowly increase the virus death rate in increments of 0.5. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection. You will have to adjust the simulation time for that, too.</p>
+<p>Slowly increase the virus death rate in increments of 0.5. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection (i.e., &lt; 1% initial uninfected cells become infected). You will have to adjust the simulation time for that, too.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li><p>Virus death rate at which no infection occurs</p></li>
@@ -161,8 +159,9 @@ Model Diagram
 </div>
 <div id="task-5" class="section level3">
 <h3>Task 5</h3>
-<p>Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep <em>n=0</em>). Production of new uninfected cells is an example of <em>resource replenishment</em>. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity).</p>
-<p>Let’s explore the model with uninfected cell production, i.e. resource replenishment. We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10<sup>5</sup>, set birth and death of uninfected cells to zero. Run the simulation. Nothing should happen, uninfected cells should stay at their starting value. Now, play around with birth rate and death rate of uninfected cells and see how that affects the dynamics. The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <em>U<sub>0</sub></em> while keeping birth and death rate at some fixed values. One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <em>U<sub>s</sub></em> = f(<em>n</em>,<em>d<sub>U</sub></em>), where f() is the mathematical symbol for <em>some function</em>. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <em>U<sub>s</sub></em>, figure out this equation. To test your equation, set birth rate to 20000, set initial condition for uninfected cells to 10<sup>5</sup> and find the value for the death rate that keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</p>
+<p>Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep <em>n=0</em>). Production of new uninfected cells is an example of <em>resource replenishment</em>. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). Let’s explore the model with uninfected cell production, i.e. resource replenishment.</p>
+<p>We start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10<sup>5</sup>, set birth and death of uninfected cells to zero. Run the simulation. Nothing should happen, uninfected cells should stay at their starting value. Now, play around with birth rate and death rate of uninfected cells and see how that affects the dynamics. The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for <strong>U<sub>0</sub></strong> while keeping birth and death rate at some fixed values. One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. <span class="math inline">\(U_s = f(n,d_U)\)</span>, where <em>f()</em> is the mathematical symbol for <em>some function</em>. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of <strong>U<sub>s</sub></strong>, figure out this equation.</p>
+<p>To test your solution, set birth rate to 20000, the initial uninfected cells to 10<sup>5</sup>, and initial virus to 0, and discover whether the value for the death rate keeps the number of uninfected cells unchanged at 10<sup>5</sup>.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li>Value for uninfected cell death rate at steady state</li>
@@ -170,7 +169,7 @@ Model Diagram
 </div>
 <div id="task-6" class="section level3">
 <h3>Task 6</h3>
-<p>Now we’ll explore an infection in the presence of uninfected cell birth and death. Set all parameters as in task 1. Set birth and death as described at the end of the previous task. Run the simulation. You should get an initial large increase in virus load, which then settles down and reaches a steady state of around 295000. Similarly, the variables <em>U</em> and <em>I</em> settle down to steady state values.</p>
+<p>Now we’ll explore an infection in the presence of uninfected cell birth and death. Set all parameters as in task 1. Set birth and death as described at the end of the previous task. Run the simulation. You should get an initial large increase in virus load, which then settles down and reaches a steady state of around 295000. Similarly, the variables <strong>U</strong> and <strong>I</strong> settle down to steady state values.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li><p>Number of uninfected cells at steady state</p></li>
@@ -179,8 +178,8 @@ Model Diagram
 </div>
 <div id="task-7" class="section level3">
 <h3>Task 7</h3>
-<p>Investigate how the steady state values for <em>U</em>, <em>I</em> and <em>V</em> depend on the parameters <em>b</em>, <em>p</em>, <em>d<sub>V</sub></em> and <em>d<sub>I</sub></em>. You might need to increase the simulation time to ensure the system has settled down to its steady state. Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations: <em>0 = n - d<sub>U</sub> U - bUV</em>, <em>0 = bUV - d<sub>I</sub></em>, <em>0 = pI - d<sub>V</sub> V - gb UV</em>. One can solve those equations for each of the compartments to get a mathematical expression of what <em>U</em>, <em>I</em> and <em>V</em> are at steady state. If your algebra is not too rusty, try to do this. You should find that <span class="math inline">\(U_s = d_I d_V/(b(p - d_I g))\)</span>, <span class="math inline">\(V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V\)</span> and and equation with the same numerator but slightly different denominator for <em>I<sub>s</sub></em> (the subscript <em>s</em> denotes that these are the steady-state values of the variables). If you haven’t done algebra in a while, or if you find doing math by hand too tedious, modern computer software often helps. R cannot solve such equations analytically, but other software packages can. The main ones used for analytic math are Mathematica and Maple. Both are powerful and expensive. If you only need to solve simple equations occasionally, there is <a href="http://maxima.sourceforge.net/">Maxima</a>, which is free. You can download it and enter the equations above and it will solve it for you. Note that once you go beyond 4-5 variables, the steady state equations are usually very complicated, often so much so that they are not useful anymore. And once you go beyond 5 variables, in most cases your software will struggle to give you something meaningful. Fortunately, while it is less quick and elegant, you can always simulate your model and see what (if any) steady state it reaches.</p>
-<p>Once you found the steady state equations, either by hand or with the help of some computer software, check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values <em>U<sub>s</sub></em>, <em>I<sub>s</sub></em> and <em>V<sub>s</sub></em> you computed with the equations is the same as you get as steady state value from the simulation. If that’s not the case, it means your equations aren’t right yet. It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change.</p>
+<p>Investigate how the steady state values for <strong>U</strong>, <strong>I</strong> and <strong>V</strong> depend on the parameters <em>b</em>, <em>p</em>, <em>d<sub>V</sub></em> and <em>d<sub>I</sub></em>. You might need to increase the simulation time to ensure the system has settled down to its steady state. Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations: <em>0 = n - d<sub>U</sub> U - bUV</em>, <em>0 = bUV - d<sub>I</sub></em>, <em>0 = pI - d<sub>V</sub> V - gb UV</em>. One can solve those equations for each of the compartments to get a mathematical expression of what <strong>U</strong>, <strong>I</strong> and <strong>V</strong> are at steady state. If your algebra is not too rusty, try to do this. You should find that <span class="math inline">\(U_s = d_I d_V/(b(p - d_I g))\)</span>, <span class="math inline">\(V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V\)</span> and and equation with the same numerator but slightly different denominator for <strong>I<sub>s</sub></strong> (the subscript <em>s</em> denotes that these are the steady-state values of the variables). If you haven’t done algebra in a while, or if you find doing math by hand too tedious, modern computer software often helps. R cannot solve such equations analytically, but other software packages can. The main ones used for analytic math are Mathematica and Maple. Both are powerful and expensive. If you only need to solve simple equations occasionally, there is <a href="http://maxima.sourceforge.net/">Maxima</a>, which is free. You can download it and enter the equations above and it will solve it for you. Note that once you go beyond 4-5 variables, the steady state equations are usually very complicated, often so much so that they are not useful anymore. And once you go beyond 5 variables, in most cases your software will struggle to give you something meaningful. Fortunately, while it is less quick and elegant, you can always simulate your model and see what (if any) steady state it reaches.</p>
+<p>Once you found the steady state equations, either by hand or with the help of some computer software, check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values <strong>U<sub>s</sub></strong>, <strong>I<sub>s</sub></strong> and <strong>V<sub>s</sub></strong> you computed with the equations is the same as you get as steady state value from the simulation. If that’s not the case, it means your equations aren’t right yet. It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change.</p>
 <p><strong>Record</strong></p>
 <ul>
 <li>TRUE or FALSE: There is only a single, unique combination of the parameters <em>b</em>, <em>p</em>, <em>d<sub>V</sub></em>, and <em>d<sub>I</sub></em> that can produce a steady state.</li>
@@ -197,14 +196,10 @@ Model Diagram
 </div>
 <div id="shinytab4" class="section level2">
 <h2>Further Information</h2>
-<ul>
-<li>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</li>
-<li>For this app, the underlying function running the simulation is called <code>simulate_Basic_Virus_Model_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</li>
-<li>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding.</li>
-<li>For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</li>
-<li>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(C. A. Beauchemin and Handel 2011; Smith and Perelson 2011)</span>.</li>
-<li>A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</li>
-</ul>
+<p>This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.</p>
+<p>For this app, the underlying function running the simulation is called <code>simulate_Basic_Virus_Model_ode</code>. You can call them directly, without going through the shiny app. Use the <code>help()</code> command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself.</p>
+<p>You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you’ll need to do some coding. For examples on using the simulators directly and how to modify them, read the package vignette by typing <code>vignette(&#39;DSAIRM&#39;)</code> into the R console.</p>
+<p>If you want to learn a bit more about these kinds of models applied to acute viral infections, specifically influenza, see e.g. <span class="citation">(C. A. Beauchemin and Handel 2011; Smith and Perelson 2011)</span>. A few examples of these kinds of models applied to chronic viral infections, see e.g. <span class="citation">(Guedj et al. 2010; Chatterjee, Guedj, and Perelson 2012; Perelson and Ribeiro 2013)</span>.</p>
 <div id="references" class="section level3 unnumbered">
 <h3 class="unnumbered">References</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">

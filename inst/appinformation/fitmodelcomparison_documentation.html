@@ -69,12 +69,12 @@ div.csl-indent {
 
 <div id="shinytab1" class="section level2">
 <h2>Overview</h2>
-<p>This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in the “Model” tab. Then do the tasks described in the “What to do” tab.</p>
+<p>This app shows some basic fitting of data to 2 simple infection models. This shows the concept of model/hypothesis testing. Read about the model in <em>The Model</em> tab. Then, work through the tasks described in the <em>What To Do</em> tab.</p>
 <div id="learning-objectives" class="section level3">
 <h3>Learning Objectives</h3>
 <ul>
-<li>Understand the idea of model selection and how it relates to hypothesis testing</li>
-<li>Be familiar with one method for performing model selection</li>
+<li>Understand the idea of model selection and how it relates to hypothesis testing.</li>
+<li>Be familiar with one method for performing model selection.</li>
 </ul>
 </div>
 </div>
@@ -82,7 +82,7 @@ div.csl-indent {
 <h2>The Model</h2>
 <div id="model-overview" class="section level3">
 <h3>Model Overview</h3>
-<p>This app fits 2 different models to virus load data from humans. The idea is that by comparing both models to the data, we can determine which one fits the data better, and thus tentatively suggest that the mechanisms which are part of the better-fitting model might be more realistic descriptions of the underlying biological system.</p>
+<p>This app fits 2 different models to virus load data from humans. The idea is that by comparing both models to the data, we can determine which one fits the data better, and, therefore, tentatively suggest that the mechanisms which are part of the better-fitting model might be more realistic descriptions of the underlying biological system.</p>
 <div id="model-1" class="section level4">
 <h4>Model 1</h4>
 <p>This model consists of 4 compartments. The following entities are modeled:</p>
@@ -93,12 +93,12 @@ div.csl-indent {
 <li><strong>X</strong> - T-cells</li>
 </ul>
 <p>The following processes/flows are included in the model:</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Virus infects cells at rate <em>b</em>.</li>
 <li>Infected cells produce new virus at rate <em>p</em>, are killed by T-cells at rate <em>k</em> and die due to other causes at rate <em>d<sub>I</sub></em>.</li>
 <li>Free virus is removed at rate <em>d<sub>V</sub></em> or goes on to infect further uninfected cells. It can also infect new cells at rate <em>b</em>, with unit conversion factor <em>g</em>.</li>
 <li>T-cells are activated proportional to virus at rate <em>a</em> and undergo exponential growth at rate <em>r</em>.</li>
-</ul>
+</ol>
 </div>
 <div id="model-2" class="section level4">
 <h4>Model 2</h4>
@@ -110,12 +110,12 @@ div.csl-indent {
 <li><strong>X</strong> - B-cells/antibodies</li>
 </ul>
 <p>The following processes/flows are included in the model:</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li>Virus infects cells at rate <em>b</em>.</li>
 <li>Infected cells produce new virus at rate <em>p</em> and die at rate <em>d<sub>I</sub></em>.</li>
 <li>Free virus is removed by antibodies at rate <em>k</em>, and by other mechanisms at rate <em>d<sub>V</sub></em>. It can also infect new cells at rate <em>b</em>, with unit conversion factor <em>g</em>.</li>
-<li>B-cells/antibodies grow exponentially proportional to virus at rate <em>a</em> and decay at rate <em>d<sub>X</sub></em>. We assume that the number/amount of antibodies closely follows the number/amount of B-cells and thus we don’t model them separately but instead combine them into a single equation. One could add a separate equation for antibodies, but it won’t change things much in this example (and make the model more complicated).</li>
-</ul>
+<li>B-cells/antibodies grow exponentially proportional to virus at rate <em>a</em> and decay at rate <em>d<sub>X</sub></em>.</li>
+</ol>
 </div>
 </div>
 <div id="model-diagram" class="section level3">
@@ -148,37 +148,50 @@ Flow diagram for the 2 models.
 \end{aligned}
 \]</span></p>
 </div>
-<div id="comments" class="section level3">
-<h3>Comments</h3>
-<p>To summarize the models and their differences in words, the main difference between the models are the immune response components. In the first model, T-cells are activated proportional to virus at rate <em>a</em>, then grow exponentially at rate <em>r</em> and kill infected cells at rate <em>k</em>. In the second model, B-cells grow proportional to both virus and B-cells at rate <em>a</em>, and die at rate <em>d<sub>X</sub></em>. They remove virus at rate <em>k</em>.</p>
-<p>Note that both models are rather simple and - arguably - somewhat unrealistic. For instance we assume that the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection - as done here for influenza - where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak. For both models, we ignored birth/death of uninfected cells, which is possibly ok for an acute infection (but needs to be determined based on known biology for a given system).</p>
-<p>We also assume for model 2 that the dynamics of B-cells and antibodies track each other close enough that we can lump them together into a single equation.</p>
-<p>In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting. The more data you have available, the more complex a model you can usually justify (as long as you know enough about the system to postulate reasonable hypothetical mechanisms/processes).</p>
-</div>
-<div id="data-source" class="section level3">
-<h3>Data source</h3>
+<div id="model-concepts" class="section level3">
+<h3>Model Concepts</h3>
+<div id="data-source" class="section level4">
+<h4>Data Source</h4>
 <p>The data being used in this app comes from <span class="citation">(Hayden et al. 1996)</span>. Specifically, the data being fit is the ‘no intervention’ viral load data shown in Figure 2 of the paper.</p>
 </div>
-<div id="fitting-approach" class="section level3">
-<h3>Fitting Approach</h3>
-<p>The basic fitting approach is the one described in the <strong>Basic Virus Model Fitting</strong> app, i.e., we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.</p>
+<div id="fitting-approach" class="section level4">
+<h4>Fitting Approach</h4>
+<p>The basic fitting approach is the one described in the <strong><em>Basic Virus Model Fitting</em></strong> app, i.e., we minimize the sum of squares of the log differences between model predictions and virus load data, taking censored values into account.</p>
 </div>
-<div id="model-comparison" class="section level3">
-<h3>Model comparison</h3>
-<p>There are different ways to evaluate how well a model fits to data, and to compare between different models. This app shows the approach of using Akaike’s “An Information Criterion” (AIC), or more precisely, we’ll use the one corrected for small sample size, AICc. If we fit by minimizing the sum of squares (SSR), as we do here, the formula for the AICc is:</p>
+<div id="model-comparison" class="section level4">
+<h4>Model Comparison</h4>
+<p>There are different ways to evaluate how well a model fits to data, and to compare between different models. This app shows the approach of using <strong><em>Akaike’s “An Information Criterion” (AIC)</em></strong>, or more precisely, we’ll use the one corrected for small sample size, <strong><em>AICc</em></strong>. If we fit by minimizing the sum of squares (SSR), as we do here, the formula for the AICc is:</p>
 <p><span class="math display">\[
 AICc = N \log(\frac{SSR}{N})+2(K+1)+\frac{2(K+1)(K+2)}{N-K}
 \]</span></p>
-<p>where <em>N</em> is the number of data points, <em>SSR</em> is the sum of squares residual at the final fit, and <em>K</em> is the number of parameters being fit. A lower value means a better model.</p>
-<p>This combination of SSR (or more generally, some measure of goodness of fit), with the number of parameters (or more generally, model complexity), tries to find a trade-off between how well a model fits and how big it is. Generally speaking, bigger models fit better. But this can lead to overfitting. We want to find a good balance between model complexity and fit quality. AIC is one way to do that. For AIC, it means a bigger model with lower SSR might still have a higher AIC since model complexity gets penalized. (In our case, since both models have the same number of parameters, the two quantities move in the same direction.)</p>
-<p>One nice feature of the AIC is that one can compare as many models as one wants without having issues with p-values and correcting for multiple comparison, and the models do not need to be nested (i.e. each smaller model being contained inside the larger models). That said, AIC has its drawbacks. Nowadays, if one has enough data available, the best approach is to evaluate model performance by a method like cross-validation <span class="citation">(Hastie, Tibshirani, and Friedman 2011)</span>, and/or if available, building models with one dataset and testing them on a different dataset.</p>
-<p>For evaluation of models with different AIC, there is fortunately no arbitrary, magic value (like p=0.05). A rule of thumb is that if models differ by AIC of more than 2, the one with the smaller one is considered statistically better supported (don’t use the word <em>significant</em> since that is usually associated with a p-value&lt;0.05, which we don’t have here). I tend to be more conservative and want AIC differences to be at least &gt;10 before I’m willing to favor a given model. Also, I think that visual inspection of the fits is useful. If one model has a lower AIC, but the fit doesn’t look that convincing biologically (e.g. very steep increases or decreases in some quantity), I’d be careful drawing very strong conclusions.</p>
-<p>Note that the absolute value of the AIC is unimportant and varies from dataset to dataset. Only relative differences matter. And it goes without saying that we can only compare models that are fit to exactly the same data.</p>
+<p>where <em>N</em> is the number of data points, <em>SSR</em> is the sum of squares residual at the final fit, and <em>K</em> is the number of parameters being fit. A lower value for AICc means a better model.</p>
+<p>This combination of SSR (or more generally, some measure of <strong><em>goodness of fit</em></strong>) with the number of parameters (or more generally, model complexity) tries to find a trade-off between how well a model fits and how big it is. Generally speaking, bigger models fit better. But, this can lead to overfitting. We want to find a good balance between model complexity and fit quality. <strong><em>AIC</em></strong> is one way to do that. For AIC, it means a bigger model with lower SSR might still have a higher AIC since model complexity gets penalized. (In our case, since both models have the same number of parameters, the two quantities move in the same direction.)</p>
+<p>One nice feature of the AIC is that one can compare as many models as one wants without having issues with p-values or correcting for multiple comparison, and the models do not need to be nested (i.e., each smaller model being contained inside the larger models / a criterion for likelihood ratio tests). That said, AIC has its drawbacks. Nowadays, if one has enough data available, the best approach is to evaluate model performance by a method like cross-validation <span class="citation">(Hastie, Tibshirani, and Friedman 2011)</span>, and/or if available, building models with one dataset and testing them on a different dataset.</p>
+<p>For evaluation of models with different AIC, there is fortunately no arbitrary, magic value (e.g., p=0.05). A rule of thumb is that if models differ by AIC of more than 2, the one with the smaller one is considered statistically better supported (don’t use the word <em>significant</em> since that is usually associated with a p-value&lt;0.05, which we don’t have here). I tend to be more conservative and want AIC differences to be at least &gt;10 before I’m willing to favor a given model. Also, I think that visual inspection of the fits is useful. If one model has a lower AIC, but the fit doesn’t look that convincing biologically (e.g., very steep increases or decreases in some quantity), I’d be careful drawing very strong conclusions.</p>
+</div>
+</div>
+<div id="notes" class="section level3">
+<h3>Notes</h3>
+<ul>
+<li><p>To summarize the models and their differences in words: the main difference between the models are the immune response components.</p>
+<ul>
+<li>In the first model, T-cells are activated proportional to virus at rate <em>a</em>, then grow exponentially at rate <em>r</em> and kill infected cells at rate <em>k</em>.</li>
+<li>In the second model, B-cells grow proportional to both virus and B-cells at rate <em>a</em>, and die at rate <em>d<sub>X</sub></em>. They remove virus at rate <em>k</em>.</li>
+</ul></li>
+<li><p>Both models are rather simple and, arguably, somewhat unrealistic.</p>
+<ul>
+<li>We assume that the T-cells grow exponentially without any limit. This model can be justified if one only tries to fit data from an acute infection (as done here for influenza) where the infection is over (i.e. virus drops below level of detection) before T-cells reach their peak.</li>
+<li>We assume that the number/amount of antibodies closely follows the number/amount of B-cells and thus we don’t model them separately but instead combine them into a single equation. One could add a separate equation for antibodies, but it won’t change things much in this example (and make the model more complicated).</li>
+<li>For both models, we ignored birth/death of uninfected cells, which is possibly okay for an acute infection (but needs to be determined based on known biology for a given system).</li>
+</ul></li>
+<li><p>In general, models need to be carefully tailored to the question and setting. This is true for models used in fitting even more than for models that are used without trying to perform data fitting. The more data you have available, the more complex a model you can usually justify (as long as you know enough about the system to postulate reasonable hypothetical mechanisms/processes).</p></li>
+<li><p>The absolute value of the AIC is unimportant and varies from dataset to dataset. Only relative differences matter. And it goes without saying that we can only compare models that are fit to exactly the same data.</p></li>
+</ul>
 </div>
 </div>
 <div id="shinytab3" class="section level2">
 <h2>What to do</h2>
-<p><em>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</em></p>
+<p><strong>The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).</strong></p>
 <div id="task-1" class="section level3">
 <h3>Task 1</h3>
 <p>Take a look at the inputs and outputs for the app. It is similar to the previous fitting apps. To keep things simple, the confidece interval computation part is not present. Each model has 3 parameters which are being estimated (<em>a</em>, <em>b</em> and and <em>r</em> for model 1 and <em>a</em>, <em>b</em> and <em>dX</em> for model 2). You might wonder why the other parameters are fixed, especially since in previous examples we fitted parameters such as <em>p</em> and <em>dV</em>. The only reason here is to keep things simple, and given the small amount of data, it is not possible to estimate more parameters. For a real problem, you would need good outside scientific knowledge to justify fixing some parameters (e.g., those were measured fairly precisely in separate experiments). Otherwise, you would need to fit those parameters, or, if you don’t have enough data (i.e., you might be overfitting), you’ll have to simplify your model.</p>
