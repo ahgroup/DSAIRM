@@ -174,7 +174,7 @@ In this example, the model with the lower AICc also have the lower SSR. Why is t
 
 nrec = 2 # number of items to record
 out_records = c("AICc for model 2, 500 interation (round to 2 digits).",
-                "AICc and SSR agree in ranking different models if the models have the same number of parameters (True/False).")
+                "TRUE or FALSE: AICc and SSR agree in ranking different models if the models have the same number of parameters.")
 out_types = c("Rounded_Numeric","Logical")
 out_notes = c("Round to two significant digits","Report True/False")
 outcomes = data.frame( TaskID = rep(tid,nrec),
