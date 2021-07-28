@@ -1,6 +1,6 @@
 ## Test environments
 
-* local Windows 10.1 x86_64, R 4.0.4
+* local Windows 10.1 x86_64, R 4.1
 * R-CMD-Check (local, Github actions) 
 * devtools: check_rhub(), check_win_release(), check_win_devel()
 
@@ -10,6 +10,8 @@
 
 
 ## Submission History
+
+version 0.9.3: major updates to app tasks, small bug fixes and other enhancements.
 
 version 0.8.7: bug fixes for CRAN, small other enhancements.
 

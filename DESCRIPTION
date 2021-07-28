@@ -6,7 +6,7 @@ Description: Simulation models (apps) of various within-host immune response sce
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
 Version: 0.9.3
-Date: 2021-07-16
+Date: 2021-07-26
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Cody", "Dailey",  role = "ctb"), 

@@ -63,11 +63,11 @@ package [see the *Get Started* tutorial
     package](https://doi.org/10.1186/s12865-019-0321-0). The package has
     since been updated and changed, but the paper still describes the
     overall idea and context well.  
--   I teach an annual workshop with my colleague Paul Thomas at
-    [SISMID](https://si.biostat.washington.edu/suminst/sismid) where we
-    cover some of the topics you can learn about in DSAIRM (and we use
-    the package). Workshop materials [are freely available
-    online](https://andreashandel.github.io/SMIcourse/).
+-   Several live-coding video recordings showing the different ways of
+    using DSAIRM are available on the website [Simulation Modeling in
+    Immunology (SMI)](https://andreashandel.github.io/SMIcourse/). See
+    the *DSAIRM* section under *Modeling*. That website also contains a
+    lot of other potentially interesting materials.
 -   I have full solutions and quiz sheets for all of the **What to do**
     tasks for each app. If you are an instructor using this package as
     part of a class, email me if you are interested in having access to
