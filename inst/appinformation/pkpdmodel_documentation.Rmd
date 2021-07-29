@@ -156,7 +156,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 4
 #########################
 tid = tid + 1
-tasktext = "Now, we'll explore the PD part of the model, i.e., the equation $e = E_{max} \frac{C^k}{C^k+C_{50}}$, which describes the impact of the drug for a given drug concentration. Reset all inputs. Start treatment at day 2. Run the model for _E~max~ = 0_, you should get the same values as in task 1. 
+tasktext = "Now, we'll explore the PD part of the model, i.e., the equation $e = E_{max} \\frac{C^k}{C^k+C_{50}}$, which describes the impact of the drug for a given drug concentration. Reset all inputs. Start treatment at day 2. Run the model for _E~max~ = 0_, you should get the same values as in task 1. 
 
 \nNow, explore _E~max~_. Set it to 0.5, then 1. You should see a substantial increase in the impact of the drug, evidenced by higher uninfected number of cells remaining. You might habe noticed that by increasing _E~max~_, the infection is delayed, which is especially noticable for _E~max~ = 1_. To account for this, set the simulation time to 100 days, then run again for the 3 different _E~max~_ levels (0, 0.5, 1). You'll still find that an increased drug efficacy leads to fewer infected cells. Note that for the way we set up the model, the highest biologically reasonable value for _E~max~_ is 1, which means _e = 1_. While you can stick higher values into the model, they don't make any sense (you'd get negative virus production). Depending on how the model is formulated, _E~max~_ values above 1 could be possible.
 
