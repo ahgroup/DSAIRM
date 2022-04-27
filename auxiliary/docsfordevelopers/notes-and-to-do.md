@@ -9,12 +9,10 @@
 * Make sure Latex equations work well when floating task list
 
 ## Content Improvement
-* Write/update all solutions
-* Add learning objectives to each overview tab
+* Check tasks/solutions, especially fitting/nloptr related
+* Check learning objectives to each overview tab
 * Implement further apps, see below
-* Clean up and make all model diagrams as nice as possible
-  + ensure processes reflected as described in basic bacteria
-  + model variants diagram: change k2 and k4 processes to outflows
+* Once flowdiagramr is ready, use it to re-do model diagrams
 
 ## Apps to be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)
@@ -31,7 +29,6 @@
 * Create more docs
 * Find classes/instructors who could use package.
 * Make videos for levels 1/2/3 for packages 
-
 
 ## General thoughts and comments
 * look into R consortium package certification
