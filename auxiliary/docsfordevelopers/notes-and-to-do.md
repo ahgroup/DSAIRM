@@ -5,13 +5,13 @@
 * Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
 
 
-
 # To-do Cody
 
 * work through all comments at bottom
 * implement "download scenario" button?
 * videos or other teaching materials?
 * review new apps once ready
+* Check that tasks/solutions are still correct, especially fitting/nloptr related
 
 
 
@@ -23,13 +23,13 @@
 * Add checks to parameter settings, don't allow unreasonable (e.g. negative) ones
 * Continue streamlining code base to make it more general/modular/flexible
 * Fix/finish plot function edits (see code in generate_ggplot)
-* Make sure Latex equations work well when floating task list
+* Make sure float works ok with inputs and is above
 
 ## Content Improvement
-* Check tasks/solutions, especially fitting/nloptr related
 * Check learning objectives to each overview tab
 * Implement further apps, see below
 * Once flowdiagramr is ready, use it to re-do model diagrams
+
 
 ## Apps to be implemented
 * More complicated HCV PK/PD (SISMID-U4-3/4)
