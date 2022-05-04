@@ -1,3 +1,20 @@
+# To-do Andreas
+
+* Implement new acute virus with simple IR app - level 1, show GUI approach. similar to virus and IR model, but simpler (no chronic, only 1 or 2 IR equations).
+* Implement chronic virus with simple IR app - level 2, show systematic model exploration. similar to virus model exploration but with IR.
+* Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
+
+
+
+# To-do Cody
+
+* work through all comments at bottom
+* implement "download scenario" button?
+* videos or other teaching materials?
+* review new apps once ready
+
+
+
 # To-do list for DSAIRM package
 
 ## Code Improvements
@@ -31,11 +48,15 @@
 * Make videos for levels 1/2/3 for packages 
 
 ## General thoughts and comments
+* Maybe change name of package
 * look into R consortium package certification
 * Get best practices badge: https://bestpractices.coreinfrastructure.org/en
 * Maybe submit for Ropensci review: https://github.com/ropensci/onboarding
 * Hashtags on twitter when promoting DSAIRM app: #rstats, #dynamicalsystems #immunology #infectiousdisease
-* Identifiability vs overfitting?
+
+
+
+# Old comments, probably from Cody
 
 ## Consistency
 * Sectioning
@@ -71,6 +92,7 @@
 * Concepts or keywords or vocabulary in bold italics
   + first time introduced? maybe a couple after if within same doc
   
+
 ## App specific
 
 * Virus and Treatment

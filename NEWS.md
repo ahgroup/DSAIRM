@@ -1,8 +1,9 @@
-# DSAIRM 0.9.3 
+# DSAIRM 0.9.3 (2021-07-28)
 
 * Updated documentation to include more explicit reporting, DSAIDE style
 * Created full solutions to all apps
 * general bug-fixes and updates
+
 
 # DSAIRM 0.8.8 
 
@@ -14,16 +15,19 @@
 * Fixes to pass CRAN checks on old R
 * Minor other bugfixes and enhancements
 
+
 # DSAIRM 0.8.6 (2020-07-14)
 
 * CRAN release
 * added another app
 * fixes and updates in instructions
 
+
 # DSAIRM 0.8.5
 
 * updated some internals to better style
 * updated plotting functions
+
 
 # DSAIRM 0.8.3
 
@@ -35,18 +39,20 @@
 * CRAN release
 * small bug fixes and feature enhancements
 
+
 # DSAIRM 0.8.1
 
 * Fixed a few bugs 
 * Updated readme.md and package vignette/tutorial
 
 
-# DSAIRM 0.8
+# DSAIRM 0.8 (2019-04-04)
 
 * Moved version number to be consistent with sister package DSAIDE
 * Updated vignette
 * Minor cleanup
 * More unit tests
+
 
 # DSAIRM 0.6
 
@@ -55,20 +61,23 @@
 * Additional UI improvement
 * More unit tests
 
-# DSAIRM 0.5.5
+
+# DSAIRM 0.5.5 (2019-02-11)
 
 * Released to CRAN
 * Improved way to download simulator functions
 * Fixed typos and other minor mistakes in app documentations
 * Included functionality that allows shinyappsio deployment
 
-# DSAIRM 0.5.0
+
+# DSAIRM 0.5.0 (2019-01-17)
 
 * Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one
 * Some user-facing updates and enhancements
 * Fixed typos and other minor mistakes in app documentations
 
-# DSAIRM 0.4.0
+
+# DSAIRM 0.4.0 (2018-08-13)
 
 * Fully functional first release to CRAN
 
