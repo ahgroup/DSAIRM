@@ -66,7 +66,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10,
     allpars = c(Y0,params, tfinal = max(xvals), dt = 0.1, tstart = 0, fixedpars)
 
     #this function catches errors
-    odeout <- try(do.call(simulate_Basic_Virus_Model_ode, as.list(allpars)));
+    odeout <- try(do.call(simulate_basicvirus_ode, as.list(allpars)));
 
     simres = odeout$ts
 
@@ -161,7 +161,7 @@ simulate_confint_fit <- function(U = 1e5, I = 0, V = 10,
 
   allpars = c(Y0,tfinal = max(fitdata$xvals), tstart = 0, dt = 0.1, modelpars)
 
-  odeout <- do.call(simulate_Basic_Virus_Model_ode, as.list(allpars))
+  odeout <- do.call(simulate_basicvirus_ode, as.list(allpars))
 
   simres = odeout$ts
 

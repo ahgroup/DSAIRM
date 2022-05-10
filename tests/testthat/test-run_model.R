@@ -47,7 +47,7 @@ test_that("run_model correctly runs different models",
             ########################################
             #run basic virus model
             modelsettings =  list()
-            modelsettings$simfunction = 'simulate_Basic_Virus_Model_ode'
+            modelsettings$simfunction = 'simulate_basicvirus_ode'
             #use default values for simulation function,
             #they need to be part of modelsettings otherwise run_model won't work
             defpar = formals(modelsettings$simfunction)
@@ -86,7 +86,7 @@ test_that("run_model correctly runs different models",
             ########################################
             #run basic virus stochastic model
             modelsettings =  list()
-            modelsettings$simfunction = 'simulate_Basic_Virus_Model_stochastic'
+            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
             #use default values for simulation function,
             #they need to be part of modelsettings otherwise run_model won't work
             defpar = formals(modelsettings$simfunction)
@@ -106,7 +106,7 @@ test_that("run_model correctly runs different models",
 
             #5 reps
             modelsettings$nreps = 5
-            modelsettings$simfunction = 'simulate_Basic_Virus_Model_stochastic'
+            modelsettings$simfunction = 'simulate_basicvirus_stochastic'
             result = run_model(modelsettings)
             testthat::expect_equal(nrow(result[[1]]$dat), 19200)
 

@@ -26,9 +26,9 @@
 #' The \code{ts} dataframe has one column per compartment/variable. The first column is time.
 #' @examples
 #' # To run the simulation with default parameters:
-#' result <- simulate_Basic_Virus_Model_stochastic()
+#' result <- simulate_basicvirus_stochastic()
 #' # To choose values other than the standard one, specify them like this:
-#' result <- simulate_Basic_Virus_Model_stochastic(U = 2e+05,I = 0,V = 2)
+#' result <- simulate_basicvirus_stochastic(U = 2e+05,I = 0,V = 2)
 #' # You can display or further process the result, like this:
 #' plot(result$ts[,'time'],result$ts[,'U'],xlab='Time',ylab='Numbers',type='l')
 #' print(paste('Max number of U: ',max(result$ts[,'U'])))
@@ -39,7 +39,7 @@
 #' @section Code creation date: 2021-07-19
 #' @export
 
-simulate_Basic_Virus_Model_stochastic <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tfinal = 30, rngseed = 123)
+simulate_basicvirus_stochastic <- function(U = 1e+05, I = 0, V = 1, n = 0, dU = 0, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, tfinal = 30, rngseed = 123)
 {
   #Block of ODE equations for adaptivetau
   Basic_Virus_Model_fct <- function(y, parms, t)

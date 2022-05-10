@@ -1,0 +1,294 @@
+---
+title: Acute Virus Infection and Immune Response Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: dsairm_references.bib
+---
+
+```{r, include = FALSE}
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+currentrmdfile = knitr::current_input() 
+appsettings = get_settings(currentrmdfile,appdocdir,packagename)
+```
+
+
+
+## Overview {#shinytab1}
+This app allows exploration of an acute virus infection model, with compartments for uninfected cells, infected cells and (free) virus. The model also includes abstract versions of the innate and adaptive immune response. Read about the model in *The Model* tab. Then, work through the tasks described in the *What To Do* tab.
+
+The model used here is a variation of the one introduced in the ___Basic Virus Model___ app. If you haven't done so, check out and explore that app first. 
+
+
+### Learning Objectives
+
+* Learn about acute virus infection dynamics.
+* Understand the impact the immune response can have on outcomes in this model.
+
+
+## The Model {#shinytab2}
+
+### Model Overview
+This model consists of 5 compartments and can capture some of the basic dynamics of viral infections and the ensuing immune response. In this model, we track the following entities, by assigning each to a compartment:
+
+* **U** - uninfected cells 
+* **I** - infected cells
+* **V** - (free) virus
+* **F** - innate (interferon) response
+* **T** - adaptive (T-cell) response
+
+
+In addition to specifying the ***compartments*** of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are ***processes*** that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+
+For our system, we specify the following processes/flows: 
+
+* Virus infects cells at rate _b_.
+* Infected cells produce new virus at rate _p_ and die at rate _d~I~_.
+* Free virus is removed at rate _d~V~_ or goes on to infect further uninfected cells at rate _gb_. To allow conversion from infectious virus units in the model to some experimental units (e.g. plaque forming units), an additional conversion factor, _g_, is included in the model.
+* The innate (interferon) response is induced proportional to the number of infected cells at rate _r~F~_ and decays at rate _d~F~_. The innate response lowers the rate of virus production by infected cells, with strength of reduction controlled by parameter _k_.
+* The adaptive (CD8 T-cell) response grows exponentially, proportional to the virus load at rate _r~T~_ and decays at rate _d~T~_. T-cells kill infected cells at rate _k~T~_.
+
+
+### Model Diagram
+The diagram illustrating this compartmental model is shown in the figure.
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```
+
+
+### Model Equations
+Implementing this model as a ***continuous-time, deterministic model*** leads to the following set of ***ordinary differential equations***. 
+
+
+\begin{aligned}
+\dot U & = - b U V  \\
+\dot I & = b U V - d_I I - k_T T I   \\
+\dot V & = \frac{p}{1+k_F F}I - d_V V - gb UV \\
+\dot F & = r_F I - d_F F \\
+\dot T & = r_T T V - d_T T
+\end{aligned}
+
+
+
+
+
+## What To Do {#shinytab3}
+
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a week, you need to convert it to 7 days).**
+
+
+
+```{r, echo=FALSE, eval=TRUE}
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Let's start by considering infection dynamics in the absence of the immune response. Set the initial conditions to 10^5^ uninfected cells, no infected cells, and 10 virus particles. Assume also that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1). Set the starting values for the immune response variables ~F~ and ~T~ to 0, and also set the two immune response induction rates to 0. With those choices, the values for the other immune response related parameters do not matter. If you want, you can also set them all to 0.
+
+\nRun the simulation for 50 days; produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising at first and then declining. At the end you should be left with around 11069 uninfected cells and essentially no infected cells or virus."
+nrec = 1 # number of items to record
+out_records = c("Number of infected cells at the peak of infection")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "In the absence of the immune response, this model is the same as the one covered in the first part of the _Basic Virus_ app. Convince yourself that you can get at most one rise, then decline of virus, and confirm that this acute infection increases as you increase virus production and infection rates, and that it decreases as you increase infected and virus death rates. 
+
+\nRun a simulation for 50 days with a doubling of virus production and infection rate (compared to the previous task).
+
+Slowly increase the virus death rate in increments of 0.5. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection (i.e., < 1% initial uninfected cells become infected). You will have to adjust the simulation time for that, too."
+nrec = 2 # number of items to record
+out_records = c("Virus death rate at which no infection occurs", "Virus lifespan (in days) corresponding to the death rate at which no infection occurs")
+out_types = rep("Numeric", nrec)
+out_notes = rep("Round to two significant digits, report as non-scientic notation (as X.YZ)",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Set the virus death rate back to what it was in task 1. Now change the virus production rate (in increments of 10) until you reach the value at which the virus does not cause any infection. You can also repeat this process for the infected cell death rate and the infection rate."
+nrec = 1 # number of items to record
+out_records = c("Virus production rate at which the virus does not cause any infection")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. _n=d~U~=0_), *R~0~* = *bpU~0~*/(*d~V~ d~I~*). 
+
+\nPlug numbers for the parameters from your simulations in task 2 and 3 into the equation for *R~0~* to figure out what value *R~0~* needs to be for there (not) to be an infection. Figure out the threshold value for *R~0~* at which you go from no infection to having an infection. 
+
+\nTo learn more about *R~0~*, see e.g. [@heffernan05a; @roberts07; @beauchemin08]. Some of those references describe *R~0~* in the context of infectious disease epidemiology, but if you replace humans/hosts with cells, the same concepts apply at the within-host level."
+nrec = 1 # number of items to record
+out_records = c("Threshold value for *R~0~* at which you go from no infection to having an infection")
+out_types = rep("Integer",nrec)
+out_notes = rep("Report the integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Without birth/production of new uninfected cells, the most you can get is a single acute infection (or no infection at all). To convince yourself that it is impossible to produce a chronic infection, play around with the model, try all kinds of parameter values (but keep _n=0_). Production of new uninfected cells is an example of _resource replenishment_. This is needed to allow a steady state/chronic infection, and this concept applies in general (e.g. on the population level, new susceptible individuals need to be created either through birth or through losing immunity). Let's explore the model with uninfected cell production, i.e. resource replenishment. 
+
+\nWe start by focusing on the dynamics of uninfected cells only. To that end, set the number of initial infected cells and virus particles to 0. Keep the number of uninfected cells at 10^5^, set birth and death of uninfected cells to zero. Run the simulation. Nothing should happen, uninfected cells should stay at their starting value. Now, play around with birth rate and death rate of uninfected cells and see how that affects the dynamics. The number of uninfected cells once the system has settled down only depends on the birth and death rate, not the starting conditions. Confirm this by trying different values for **U~0~** while keeping birth and death rate at some fixed values. One can write down an equation for uninfected cells at steady state as a function of birth and death rate, i.e. $U_s = f(n,d_U)$, where *f()* is the mathematical symbol for _some function_. In this case, it is a very simple function. Based on your explorations of different values for birth and death rate and the resulting values of **U~s~**, figure out this equation. 
+
+\nTo test your solution, set birth rate to 20000, the initial uninfected cells to 10^5^, and initial virus to 0, and discover whether the value for the death rate keeps the number of uninfected cells unchanged at 10^5^."
+nrec = 1 # number of items to record
+out_records = c("Value for uninfected cell death rate at steady state")
+out_types = rep("Numeric",nrec)
+out_notes = rep("Round to two significant digits, report as non-scientic notation (as X.YZ)",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "Now we'll explore an infection in the presence of uninfected cell birth and death.  Set all parameters as in task 1. Set birth and death as described at the end of the previous task. Run the simulation. You should get an initial large increase in virus load, which then settles down and reaches a steady state of around 295000. Similarly, the variables **U** and **I** settle down to steady state values."
+nrec = 2 # number of items to record
+out_records = c("Number of uninfected cells at steady state",
+                "Number of infected cells at steady state")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Investigate how the steady state values for **U**, **I** and **V** depend on the parameters _b_, _p_, _d~V~_ and _d~I~_. You might need to increase the simulation time to ensure the system has settled down to its steady state. Once the system has settled down, there are no more changes in the numbers for each compartment. Mathematically, that means that the left side of the differential equations becomes 0, and they turn into the following algebraic equations: _0 = n - d~U~ U - bUV_, _0 = bUV - d~I~_, _0 = pI - d~V~ V - gb UV_. One can solve those equations for each of the compartments to get a mathematical expression of what **U**, **I** and **V** are at steady state. If your algebra is not too rusty, try to do this. You should find that $U_s = d_I d_V/(b(p - d_I g))$, $V_s = (bnp-bd_Ign-d_Id_Ud_V)/bd_Id_V$ and and equation with the same numerator but slightly different denominator for **I~s~**  (the subscript _s_ denotes that these are the steady-state values of the variables). If you haven't done algebra in a while, or if you find doing math by hand too tedious, modern computer software often helps. R cannot solve such equations analytically, but other software packages can. The main ones used for analytic math are Mathematica and Maple. Both are powerful and expensive. If you only need to solve simple equations occasionally, there is [Maxima](http://maxima.sourceforge.net/), which is free. You can download it and enter the equations above and it will solve it for you. Note that once you go beyond 4-5 variables, the steady state equations are usually very complicated, often so much so that they are not useful anymore. And once you go beyond 5 variables, in most cases your software will struggle to give you something meaningful. Fortunately, while it is less quick and elegant, you can always simulate your model and see what (if any) steady state it reaches. 
+
+\nOnce you found the steady state equations, either by hand or with the help of some computer software, check that your equations agree with the simulations. Plug the values for the parameters into each of the equations and see if the steady state values **U~s~**, **I~s~** and **V~s~** you computed with the equations is the same as you get as steady state value from the simulation. If that's not the case, it means your equations aren't right yet. It is useful to note that while the total numbers for each variable do not change at steady state, this is a dynamic equilibrium. There are still constantly cells and virus being produced and destroyed, it just so happens that the production and destruction mechanisms are equally strong and thus the overall numbers do not change."
+nrec = 1 # number of items to record
+out_records = c("TRUE or FALSE: There is only a single, unique combination of the parameters _b_, _p_, _d~V~_, and _d~I~_ that can produce a steady state.")
+out_types = rep("Logical",nrec)
+out_notes = rep("Report either TRUE or FALSE",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 8
+#########################
+tid = tid + 1
+tasktext = "Continue to explore the model. Even though it's a fairly simple model, you can get interesting dynamics from it, such as acute infections and chronic infections. Contemplate what specific pathogens this model could represent. Also note that this model does not contain an immune response. The interactions between cells and virus are enough to produce patterns of infection dynamics that broadly agree with patterns we can see for real infections. This of course does not mean the immune response is not important. But it does illustrate that if all we have is (noisy) virus kinetics data, we are likely able to capture that dynamics with many different types of models, including a simple one like this that is likely not too realistic for any given pathogen."
+nrec = 1 # number of items to record
+out_records = c("*Nothing*")
+out_types = rep("None",nrec)
+out_notes = rep("",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+```
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+
+## Further Information {#shinytab4}
+
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results.
+  
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes. Of course to modify these functions, you'll need to do some coding. For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+This model is based on one of the models discussed in [@li14]. See also for instance [@beauchemin11; @smith11] and references in the other apps in this section. 
+
+
+### References
+
+

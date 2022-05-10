@@ -23,7 +23,7 @@ test_that("test that stochastic virus app works",
 
             modelsettings$nplots = 1
             modelsettings$nreps = 5
-            modelsettings$simfunction = c('simulate_Basic_Virus_Model_stochastic', 'simulate_Basic_Virus_Model_ode')
+            modelsettings$simfunction = c('simulate_basicvirus_stochastic', 'simulate_basicvirus_ode')
             modelsettings$plotscale = 'y'
 
             modelsettings$modeltype = '_ode_and_stochastic_'

@@ -88,7 +88,7 @@ simulate_basicvirus_modelexploration <- function(U = 1e+05, I = 0, V = 1, n = 10
         #this runs the bacteria ODE model for each parameter sample
         #all other parameters remain fixed
 
-        odeout <- simulate_Basic_Virus_Model_ode(U = U, I = I, V = V,
+        odeout <- simulate_basicvirus_ode(U = U, I = I, V = V,
                                                  n = n, dU = dU, dI = dI, dV = dV,
                                                  b = b, p = p, g = g,
                                                  tstart = tstart, tfinal = tfinal, dt = dt)

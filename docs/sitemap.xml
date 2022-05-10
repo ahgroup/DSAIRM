@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/404.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/articles/DSAIRM.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/authors.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/news/index.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/DSAIRM.html</loc>
@@ -31,7 +46,13 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/hayden96flu.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/index.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/run_model.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_acutevirusir_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_discrete.html</loc>
@@ -49,10 +70,19 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_modelexploration.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_ode.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_stochastic.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_Basic_Virus_Model_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_Basic_Virus_Model_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_chronicvirusir_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_confint_fit.html</loc>
@@ -80,8 +110,5 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_virusandtx_ode.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/articles/DSAIRM.html</loc>
   </url>
 </urlset>

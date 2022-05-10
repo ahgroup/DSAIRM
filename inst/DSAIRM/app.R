@@ -388,11 +388,18 @@ ui <- fluidPage(
   tags$div(id = "infotext", "More information can be found", a("on the package website.",  href="https://ahgroup.github.io/DSAIRM/", target="_blank")),
   navbarPage(title = packagename, id = packagename, selected = 'Menu',
              tabPanel(title = "Menu",
-                      tags$div(class='mainsectionheader', 'The Basics'),
+                      tags$div(class='mainsectionheader', 'Basic Virus Models'),
+                      fluidRow(
+                        make_button(at,"basicvirus"),
+                        make_button(at,"acutevirusir"),
+                        make_button(at,"chronicvirusir"),
+                        make_button(at,"virusandir"),
+                        class = "mainmenurow"
+                      ), #close fluidRow structure for input
+                      tags$div(id = "shinyheadertext", "IR = Immune Response"),
+                      tags$div(class='mainsectionheader', 'Basic Bacteria Models'),
                       fluidRow(
                         make_button(at,"basicbacteria"),
-                        make_button(at,"basicvirus"),
-                        make_button(at,"virusandir"),
                         class = "mainmenurow"
                       ), #close fluidRow structure for input
 
