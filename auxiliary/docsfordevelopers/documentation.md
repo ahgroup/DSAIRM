@@ -15,7 +15,7 @@
 * All simulators, which can be called directly by advanced users start with simulate_. 
 * The functions/files generate_text, generate_ggplot and generate_plotly can take results returned from the simulator functions and generate plots. Users might want to use those combined with running the simulate_ functions. 
 * All other functions/files are only needed for the package/UI to work. They are public/exported, but are generally not meant to be directly accessed by users.
-* While some of the functions are meant to be used as part of a shiny app, none directly handle reactive onjects, all inputs and outputs are non-reactive objects/variables.
+* While some of the functions are meant to be used as part of a shiny app, none directly handle reactive objects, all inputs and outputs are non-reactive objects/variables.
 
 ### App materials
 * The /inst folder contains several subfolders: 
@@ -51,6 +51,38 @@ To build a new app, you need to create the following:
 
 If you contribute/send those files, I will - after testing - include them into the package. You'll of course receive full credit as package contributor.
 
+### Style Guide
+
+* Documentation Sectioning
+    + Overview
+        - Learning Objectives (stated imperatively)
+    + The Model 
+        - Model Overview (number processes)
+        - Model Diagram
+        - Model Equations ({+} optional subsections, use aligned equations)
+        - Model Concepts ({-} optional section)
+        - Notes
+    + What To Do
+        - Unit description ({-} not section; bolded)
+        - Tasks
+    + Further Information
+        - References
+
+#### Suggestions for Consistency in Formatting
+* Capitalization rules to follow title rules ("To"" when an infinitive also)
+* Documentation: bullets for lists only and notes section)
+* Emphasizing or Referring to Concepts or App Components
+    + Apps referenced in bold italics
+    + App tabs referenced in italics
+    + When outside equations, parameters in italics, using appropriate subscript / superscript, or plain text when written out
+    + When outside equations, variables in bold when single letter, or plain text when written out (e.g., **I** versus immune response)
+        - initial values (subscript naught), 
+        - max values (subscript peak?, superscript \*) just write out, 
+        - min values (subscript \*?) just write out, 
+        - final values (subscript final or time number?) just write out, 
+        - steady state (subscript s)
+    + Subscripts / superscripts should be lowercase except when referencing a variable (e.g., _d~I~_)
+    + Concepts or keywords or vocabulary in bold italics at least upon first introduction
 
 ## Information for package development
 
@@ -58,7 +90,7 @@ If you contribute/send those files, I will - after testing - include them into t
 * Fork and clone package from Rstudio.
 * Load DSAIDE.Rproj in RStudio. Edit files as needed.
 * Use devtools/roxygen to build and document the package. Either use RStudio's functionality (or command line) to test/build packages using devtools. The package follows Hadley's recommendations and workflow described here: http://r-pkgs.had.co.nz/
-* Optionally, use RStudio tie-in with github to sync project to github (the 'git' tab). Alternativley, use your favorite git client.
+* Optionally, use RStudio tie-in with github to sync project to github (the 'git' tab). Alternatively, use your favorite git client.
 * Rtools needs to be installed (on Windows).
 
 ### Dependency packages 

@@ -7,11 +7,22 @@
 
 # To-do Cody
 
-* work through all comments at bottom
-* implement "download scenario" button?
-* videos or other teaching materials?
-* review new apps once ready
+## Pending
+* Videos or other teaching materials?
+    + Ideas
+        - pipeline to contribute, modelbuilder to DSAIRM/DSAIDE
+* Review new apps once ready
 * Check that tasks/solutions are still correct, especially fitting/nloptr related
+
+## Currently
+* Reacquaint with app framework
+* Work through all comments at bottom
+* Implement "download scenario" button?
+
+## Completed
+* Created style guide section in docsfordevelopers/documentation.md
+    + put consistency notes from below, likely could use rephrasing/examples, but low priority
+
 
 
 
@@ -57,41 +68,6 @@
 
 
 # Old comments, probably from Cody
-
-## Consistency
-* Sectioning
-  + Capitalization rules to follow title rules ("To"" when an infinitive also)
-  + Documentation (bullets for lists only and notes section)
-    - Overview
-      > Learning Objectives (stated imperatively)
-    - The Model 
-      > Model Overview (number processes)
-      > Model Diagram
-      > Model Equations ({+} varying subsections, use aligned equations)
-      > Model Concepts ({-})
-      > Notes
-    - What To Do
-      > Unit description ({-} not section; bolded)
-      > Tasks
-    - Further Information
-      > References
-      
-* In-text references
-  + Apps referenced in bold italics
-  + App tabs referenced in italics
-  + When outside equations, parameters in italics, using appropriate subscript / superscript, or plain text when written out
-  + When outside equations, variables in bold when single letter, or plain text when written out (e.g., **I** versus immune response)
-    - including 
-      > initial values (subscript naught), 
-      > max values (subscript peak?, superscript \*) just write out, 
-      > min values (subscript \*?) just write out, 
-      > final values (subscript final or time number?) just write out, 
-      > steady state (subscript s)
-  + Subscripts / superscripts should be lowercase except when referencing a variable (e.g., _d~I~_)
-  
-* Concepts or keywords or vocabulary in bold italics
-  + first time introduced? maybe a couple after if within same doc
-  
 
 ## App specific
 
