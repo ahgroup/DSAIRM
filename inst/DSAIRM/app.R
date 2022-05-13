@@ -125,11 +125,13 @@ server <- function(input, output, session)
 
       last.ran.sim <- sapply(model.types, function(x){
         modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
-        paste0("\n\nmy.result", x, " <- ",
+        paste0("# R code to run current DSAIRM scenario\n",
+               "library(DSAIRM)\n",
+               "result", x, " <- ",
                deparse1(generate_fctcall(modelsettings)),
                "\ngenerate_",
                modelsettings$plotengine,
-               "(list(my.result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(my.result", x, "))))")
+               "(list(result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(result", x, "))))")
       })
 
       # if(length(model.types)>1){
@@ -150,7 +152,7 @@ server <- function(input, output, session)
       # writeLines(paste(last.ran.simfunction, last.ran.vizfunctions, sep = "\n"), file)
 
       writeLines(paste(last.ran.sim, collapse = ""), file)
-    }
+    } #end content statement
     ,
     contentType= "application/zip"
   )
@@ -159,7 +161,8 @@ server <- function(input, output, session)
   #######################################################
 
   #######################################################
-  #code that allows download of all files
+  #code that allows download of all simulation files
+  #is triggered when user clicks on "download R code" button on main screen
   output$modeldownload <- downloadHandler(
     filename <- function() {
       "simulatorfunctions.zip"
@@ -375,10 +378,11 @@ server <- function(input, output, session)
                        output$text <- renderText({ generate_text(result) })
                      }
                    }) #end with-progress wrapper
-      #activate the download code button when scenario run
-      shinyjs::enable("download_code")
+      #if user checked the code download box, start that routine
+      #if (input$download_code == TRUE) {}
+
     } #end the expression being evaluated by observeevent
-    ) #end observe-event for analyze model submit button
+    ) #end observe-event for run model button
 
     #######################################################
     #end code that listens to the 'run simulation' button and runs a model for the specified settings
