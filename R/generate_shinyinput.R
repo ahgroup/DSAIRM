@@ -194,7 +194,9 @@ generate_shinyinput <- function(use_mbmodel = FALSE, mbmodel = NULL,
                 #shiny::downloadButton(outputId = "download_code", label = "Download Code", class = "submitbutton"),
                 align = 'center'),
             modelargs,
-            otherargs
+            otherargs,
+            p(shinyjs::disabled(shiny::downloadButton(outputId = "download_code", label = "Download Code for Last Run Scenario", class = "submitbutton")),
+              align = 'right')
         ) #end tagList
 
     return(modelinputs)

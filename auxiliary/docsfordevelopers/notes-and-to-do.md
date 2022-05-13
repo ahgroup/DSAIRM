@@ -3,6 +3,7 @@
 * Implement new acute virus with simple IR app - level 1, show GUI approach. similar to virus and IR model, but simpler (no chronic, only 1 or 2 IR equations).
 * Implement chronic virus with simple IR app - level 2, show systematic model exploration. similar to virus model exploration but with IR.
 * Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
+* Review/critique download scenario button
 
 
 # To-do Cody
@@ -17,12 +18,24 @@
 ## Currently
 * Reacquaint with app framework
 * Work through all comments at bottom
-* Implement "download scenario" button?
 
 ## Completed
 * Created style guide section in docsfordevelopers/documentation.md
     + put consistency notes from below, likely could use rephrasing/examples, but low priority
-
+* Implement "download scenario" button
+    + generate_shinyinput.R edits
+        - to show download button in app window
+        - to place at bottom right of panel
+    + app.R edits
+        - to store modelsettings in global environment
+        - to write content for downloadHandler()
+        - to include shinyjs for disabling button before first run (wouldn't be needed for directly grabbing shiny gui inputs)
+    + current version tries to replicate each fctcall in run_model(), but integrating multiple results without actually calling run_model() doesn't seem worth it
+        - can easily enough pass to rbind(), but subsequent passes to generate_PLOT() fail 
+        - list() of each result does not integrate/overlay, no better than plotting each separate
+        - post processing of results in run_model() missing, is it needed?
+        - would extracting shiny gui inputs and parsing face same issues?
+        - generating the reproducible code during run_model() would be just as tedious?; collections of each fctcall would simplify backend; perhaps making run_model() more generic less modular would help; maybe compartmentalize model setup, simulation runs, results post-processing
 
 
 

@@ -101,24 +101,55 @@ server <- function(input, output, session)
       "output.R"
     },
     content = function(file) {
-      #extract current model settings from UI input elements
-      x1=reactiveValuesToList(input, all.names=TRUE) #get all shiny inputs
-      #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
-      x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-      x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-      modelsettings <- x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-      modelsettings <- c(modelsettings, appsettings)
-      modelfunction = modelsettings$simfunction
-      if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-      #if no random seed is set in UI, set it to 123.
-      if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+      # #extract current model settings from UI input elements
+      # x1=reactiveValuesToList(input, all.names=TRUE) #get all shiny inputs
+      # #x1=as.list( c(g = 1, U = 100)) #get all shiny inputs
+      # x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
+      # x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
+      # modelsettings <- x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+      # modelsettings <- c(modelsettings, appsettings)
+
+
+      # modelfunction = modelsettings$simfunction
+      # if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+      # #if no random seed is set in UI, set it to 123.
+      # if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
 
       # output <- paste(modelsettings, modelfunction)
       # writeLines(output, file)
 
-      output <- download_code(modelsettings, modelfunction)
+      # output <- download_code(modelsettings, modelfunction)
+      model.types <- c("_stochastic", "_ode", "_discrete", "_usanalysis", "_fit", "_modelexploration")
+      model.types <- model.types[which(sapply(model.types, function(x){grepl(paste0(x,"_"), modelsettings$modeltype)}))]
 
-      writeLines(output, file)
+
+      last.ran.sim <- sapply(model.types, function(x){
+        modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
+        paste0("\n\nmy.result", x, " <- ",
+               deparse1(generate_fctcall(modelsettings)),
+               "\ngenerate_",
+               modelsettings$plotengine,
+               "(list(my.result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(my.result", x, "))))")
+      })
+
+      # if(length(model.types)>1){
+      #   last.ran.sim <- paste0(paste(last.ran.sim, collapse = ""),
+      #                          "\n\n",
+      #                          "my.result <- rbind(", paste0("my.result", model.types, collapse = ", "), ")\n",
+      #                          "generate_", modelsettings$plotengine, "(my.result)\ngenerate_text(my.result)")
+      #   }
+
+
+      # last.ran.simfunction <- paste0("my.result <- ",
+      #                                deparse1(generate_fctcall(modelsettings)))
+      #
+      # last.ran.vizfunctions <- paste0("generate_",
+      #                                 modelsettings$plotengine,
+      #                                 "(my.result)\ngenerate_text(my.result)")
+
+      # writeLines(paste(last.ran.simfunction, last.ran.vizfunctions, sep = "\n"), file)
+
+      writeLines(paste(last.ran.sim, collapse = ""), file)
     }
     ,
     contentType= "application/zip"
@@ -246,7 +277,6 @@ server <- function(input, output, session)
                                                       otherinputs = appsettings$otherinputs, packagename = packagename)
                    output$modelinputs <- renderUI({modelinputs})
 
-
                    #display all inputs and outputs on the analyze tab
                    output$analyzemodel <- renderUI({
                      tagList(
@@ -313,8 +343,14 @@ server <- function(input, output, session)
                      if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
                      #if no random seed is set in UI, set it to 123.
                      if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+
+
+                     #store model settings in global environment for download_code
+                     modelsettings <<- modelsettings
                      #run model, process inside run_model function based on settings
                      result <- run_model(modelsettings)
+
+
                      #if things worked, result contains a list structure for processing with the plot and text functions
                      #if things failed, result contains a string with an error message
                      if (is.character(result))
@@ -339,6 +375,8 @@ server <- function(input, output, session)
                        output$text <- renderText({ generate_text(result) })
                      }
                    }) #end with-progress wrapper
+      #activate the download code button when scenario run
+      shinyjs::enable("download_code")
     } #end the expression being evaluated by observeevent
     ) #end observe-event for analyze model submit button
 
@@ -360,6 +398,7 @@ server <- function(input, output, session)
 #######################################################
 
 ui <- fluidPage(
+  shinyjs::useShinyjs(),
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   tags$head(tags$script('window.onbeforeunload = function() { return "Please use the button on the webpage"; };')), #warning message if user hits browser back button
   includeCSS("packagestyle.css"), #use custom styling
