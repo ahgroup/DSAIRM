@@ -1,5 +1,5 @@
 "QuizID"	"AppID"	"AppTitle"	"TaskID"	"TaskText"	"RecordID"	"Record"	"Type"	"Note"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	1	"Start with 10^5^ uninfected cells, no infected cells, 10 virus particles, and no initial B-cells, T-cells, or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded; if you wanted to change this, you will have to edit the underlying simulation code. Set birth and death rate of uninfected cells to 0. Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours. Also, assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^. Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	1	"Start with 10^5^ uninfected cells, no infected cells, 10 virus particles, and no initial B-cells, T-cells, or antibodies. Note that the initial condition for the innate response is set to its steady state value in the absence of a pathogen, *p~F~*/*d~F~*. This is hard-coded; if you wanted to change this, you will have to edit the underlying simulation code. Set birth and death rate of uninfected cells to 0. Assume that infected cells have a life-span of 1 day, and virus has a life-span of 6 hours. Also, assume that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-5^. Turn off all immune response components for now by setting production rate and growth rate of the innate response to 0. (The death rate needs to be non-zero, otherwise you get an error message because of the way the steady state is computed.)
 
 
 By looking at the equations, convince yourself that if you have no T- or B-cells and no baseline production and extra induction of the innate response (*p~F~*=*g~F~*=0), all immune response quantities will be and remain at 0, no matter what you set the remaining parameters to.
@@ -9,7 +9,7 @@ Run your model for 30 days, start at 0 and set the time step for which solutions
 
 
 If you run the simulation with the settings above, you should get a single acute infection with a peak number of infected cells of around 70217. Confirm that the immune response quantities were zero throughout."	"T1R1"	"Day at which the viral load peaks"	"Integer"	"Report the integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	2	"Now we'll slowly add immune response components. We start with the innate response.
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	2	"Now we'll slowly add immune response components. We start with the innate response.
 
 
 Set innate response production rate to 100, removal rate to 1. Leave innate growth rate at 0. Set T-cell induction rate to 0. Set the suppression of virus production by innate response parameter to 10^-12^ (almost 0). Leave everything else as before.
@@ -19,7 +19,7 @@ By looking at the equations, convince yourself that while there will now be an i
 
 
 Run the simulation to confirm/test. You should find the innate at a steady level of 100, and an infection that is as before, with again a peak of around 70217 infected cells."	"T2R1"	"Day at which the number of infected cells peaks"	"Integer"	"Report the integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	3	"Allow the innate response to impact virus production by increasing *s~F~* to 0.01. Contemplate what you expect to see, then check with the simulation. 
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	3	"Allow the innate response to impact virus production by increasing *s~F~* to 0.01. Contemplate what you expect to see, then check with the simulation. 
 
 
 Now, allow the innate response to also grow in the presence of the virus by setting innate response growth to 1. Contemplate what you expect to see, check with the simulation.
@@ -29,7 +29,7 @@ Explore the innate response by trying different values for all innate response r
 
 
 If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response)."	"T3R1"	"Day at which viral load peaks with *s~F~* = 0.01 and *g~F~* = 0"	"Integer"	"Report the integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	3	"Allow the innate response to impact virus production by increasing *s~F~* to 0.01. Contemplate what you expect to see, then check with the simulation. 
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	3	"Allow the innate response to impact virus production by increasing *s~F~* to 0.01. Contemplate what you expect to see, then check with the simulation. 
 
 
 Now, allow the innate response to also grow in the presence of the virus by setting innate response growth to 1. Contemplate what you expect to see, check with the simulation.
@@ -39,7 +39,7 @@ Explore the innate response by trying different values for all innate response r
 
 
 If you are somewhat familiar with a specific virus and know how the kinetics of (some component of) the innate response should look, try to find parameter values that give you something that might be a reasonable approximation to the real system for all variables (uninfected cells, infected cells, virus, innate response)."	"T3R2"	"Day at which viral load peaks with *s~F~* = 0.01 and *g~F~* = 1"	"Integer"	"Report the integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	4	"Now instead of having the innate response reduce virus production, let's consider its effect on T-cell activation.
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	4	"Now instead of having the innate response reduce virus production, let's consider its effect on T-cell activation.
 
 
 Set everything as in task 2. Then, set T-cell induction rate to 0.1 and T-cell growth rate to 0.5. Set T-cell killing rate close to 0 (e.g. 10^-20^). Contemplate what you'd expect to see; run the simulation to confirm.
@@ -52,18 +52,18 @@ Now, allow T-cells to kill infected cells by increasing the killing rate. First,
 
 
 Play around with the parameters that directly govern T-cell kinetics and impact (*r~T~*, *g~T~*, *k~T~*), as well as any parameters that indirectly impact T-cells through changing the innate response strength (i.e. everything you explored in the previous task)."	"T4R1"	"TRUE or FALSE: It is possible to prevent any cells from being infected by setting the T-cell killing rate arbitrarily high."	"Logical"	"Report TRUE or FALSE"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	5	"Let's now explore B-cell/antibody response. Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^. Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^. Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? *Hint: Look at the equations and the initial conditions.*
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	5	"Let's now explore B-cell/antibody response. Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^. Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^. Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? *Hint: Look at the equations and the initial conditions.*
 
 
 Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation. The maximum number of infected cells is as before. I'm sure it's clear why: while the B-cells and antibodies are there now, they don't *do* anything just yet.
 
 
 Allow the antibodies to impact virus by slowly increasing the virus removal rate, *k~A~*. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens."	"T5R1"	"Number of B-cells after 20 days with *k~A~* = 0.1"	"Rounded_Integer"	"Report the rounded integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	5	"Let's now explore B-cell/antibody response. Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^. Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^. Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? *Hint: Look at the equations and the initial conditions.*
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	5	"Let's now explore B-cell/antibody response. Set everything as in task 2, B-cell growth rate to 0.5 and saturation constant to 10^2^. Assume B-cells produce antibodies at a rate of 100 per day, and antibodies live an average of 1 day. Assume virus removal by antibodies is negligible, i.e. set it to 10^-20^. Run the simulation. Why don't you see any increasing numbers of B-cells and antibodies? *Hint: Look at the equations and the initial conditions.*
 
 
 Remedy the previous problem by setting the initial number of B-cells to 1. You should now see both B-cells and antibodies grow. If you run the simulation for 20 days, you should have around 4048 B-cells at the end of the simulation. The maximum number of infected cells is as before. I'm sure it's clear why: while the B-cells and antibodies are there now, they don't *do* anything just yet.
 
 
 Allow the antibodies to impact virus by slowly increasing the virus removal rate, *k~A~*. You will see an interesting pattern for the antibodies with a pronounced dip. Try to understand why that happens."	"T5R2"	"Peak number of infected cells with *k~A~* = 0.1"	"Rounded_Integer"	"Report the rounded integer"
-"DSAIRM_virusandir"	"virusandir"	"Virus and Immune Response Model"	6	"So far, we have only had a single immune response component at a time act on the virus or infected cells. Now, it's time to look at 'everything'. This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model, while still in some sense fairly small and simple, is nevertheless already fairly complex, with lots of 'knobs to turn' and parameters to adjust and things going on. This is a challenge when building models: smaller models are less realistic but easier to build and study. Larger models are potentially more realistic but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That's often tricky."	"T6R1"	"Nothing"	"None"	""
+"DSAIRM_virusandir"	"virusandir"	"Extended Virus and IR Model"	6	"So far, we have only had a single immune response component at a time act on the virus or infected cells. Now, it's time to look at 'everything'. This is a free and open exploration. Turn on any and all immune response components you like, play around with any other parameters, and see what happens. You might notice that the model, while still in some sense fairly small and simple, is nevertheless already fairly complex, with lots of 'knobs to turn' and parameters to adjust and things going on. This is a challenge when building models: smaller models are less realistic but easier to build and study. Larger models are potentially more realistic but harder to build, harder to study, and if you want to apply the model to a specific pathogen, you will need to find values for all the model parameters somewhere in the literature. That's often tricky."	"T6R1"	"Nothing"	"None"	""

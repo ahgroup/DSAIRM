@@ -45,7 +45,7 @@
 #' @section Code creation date: 2022-05-09
 #' @export
 
-simulate_acutevirusir_ode <- function(U = 1e+05, I = 0, V = 1, F = 1, T = 1, dI = 1, dV = 2, b = 2e-05, p = 5, g = 1, rF = 0.001, dF = 1, kF = 0.01, rT = 0.001, dT = 1, kT = 0.01, tstart = 0, tfinal = 30, dt = 0.1)
+simulate_acutevirusir_ode <- function(U = 1e+05, I = 0, V = 1, F = 1, T = 1, dI = 1, dV = 2, b = 1e-06, p = 100, g = 1, rF = 0.001, dF = 1, kF = 0.01, rT = 0.001, dT = 1, kT = 0.01, tstart = 0, tfinal = 30, dt = 0.1)
 {
   ##############################
   #Block of ODE equations for deSolve
@@ -63,7 +63,7 @@ simulate_acutevirusir_ode <- function(U = 1e+05, I = 0, V = 1, F = 1, T = 1, dI 
     #Innate Response : innate response growth : innate response decline :
     dF_mb = +rF*I -dF*F
     #Adaptive Response : adaptive response growth : adaptive response decline :
-    dT_mb = +rT*T*V -dT*T
+    dT_mb = +rT*T*F -dT*T
     #EndODES
     list(c(dU_mb,dI_mb,dV_mb,dF_mb,dT_mb))
   } ) } #close with statement, end ODE code block
