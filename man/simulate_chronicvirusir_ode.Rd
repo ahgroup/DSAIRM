@@ -7,15 +7,15 @@
 simulate_chronicvirusir_ode(
   U = 1e+05,
   I = 0,
-  V = 1,
+  V = 10,
   F = 1,
   T = 1,
-  n = 0,
-  dU = 0,
+  n = 10000,
+  dU = 0.1,
   dI = 1,
-  dV = 2,
-  b = 2e-05,
-  p = 5,
+  dV = 4,
+  b = 1e-06,
+  p = 100,
   g = 1,
   rF = 0.001,
   dF = 1,
@@ -24,7 +24,7 @@ simulate_chronicvirusir_ode(
   dT = 1,
   kT = 0.01,
   tstart = 0,
-  tfinal = 100,
+  tfinal = 200,
   dt = 0.1
 )
 }

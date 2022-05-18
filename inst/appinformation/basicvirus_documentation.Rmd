@@ -54,7 +54,7 @@ For our system, we specify the following processes/flows:
 The diagram illustrating this compartmental model is shown in the figure.
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 
@@ -146,7 +146,7 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 4
 #########################
 tid = tid + 1
-tasktext = "A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. _n=d~U~=0_), *R~0~* = *bpU~0~*/(*d~V~ d~I~*). 
+tasktext = "A well-studied quantity in infectious disease epidemiology is the basic reproductive number (*R~0~*), which determines if a pathogen can cause an outbreak at the population level. In the absence of any interventions or other changes, the basic reproductive number also determines the size of the outbreak. An equivalent *R~0~* can be defined for a within-host model to determine if you get an infection or not. For this virus model (with no births and deaths of uninfected cells, i.e. _n=d~U~=0_), *R~0~* = *bpU~0~*/(*d~V~ d~I~*). 
 
 \nPlug numbers for the parameters from your simulations in task 2 and 3 into the equation for *R~0~* to figure out what value *R~0~* needs to be for there (not) to be an infection. Figure out the threshold value for *R~0~* at which you go from no infection to having an infection. 
 

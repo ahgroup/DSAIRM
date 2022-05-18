@@ -66,7 +66,7 @@ For simplicity, we ignore the possibility that a cell might be infected by both 
 
 
 ```{r resistancemodeldiagram,  fig.cap='Flow diagram for the drug resistance model.',  echo=FALSE}
-knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

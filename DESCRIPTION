@@ -32,7 +32,7 @@ Imports:
     nloptr,
     plotly,
     rlang,
-	  stats,
+	stats,
     utils, 
     XML
 Depends:

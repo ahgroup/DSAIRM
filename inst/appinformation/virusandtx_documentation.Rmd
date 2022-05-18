@@ -53,7 +53,7 @@ The diagram illustrating this compartmental model is shown in the figure. The tw
 
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE}
-knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 
