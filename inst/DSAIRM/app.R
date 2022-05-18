@@ -119,20 +119,24 @@ server <- function(input, output, session)
       # writeLines(output, file)
 
       # output <- download_code(modelsettings, modelfunction)
-      model.types <- c("_stochastic", "_ode", "_discrete", "_usanalysis", "_fit", "_modelexploration")
-      model.types <- model.types[which(sapply(model.types, function(x){grepl(paste0(x,"_"), modelsettings$modeltype)}))]
 
 
-      last.ran.sim <- sapply(model.types, function(x){
-        modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
-        paste0("# R code to run current DSAIRM scenario\n",
-               "library(DSAIRM)\n",
-               "result", x, " <- ",
-               deparse1(generate_fctcall(modelsettings)),
-               "\ngenerate_",
-               modelsettings$plotengine,
-               "(list(result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(result", x, "))))")
-      })
+
+
+      # model.types <- c("_stochastic", "_ode", "_discrete", "_usanalysis", "_fit", "_modelexploration")
+      # model.types <- model.types[which(sapply(model.types, function(x){grepl(paste0(x,"_"), modelsettings$modeltype)}))]
+      #
+      #
+      # last.ran.sim <- sapply(model.types, function(x){
+      #   modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
+      #   paste0("# R code to run current DSAIRM scenario\n",
+      #          "library(DSAIRM)\n",
+      #          "result", x, " <- ",
+      #          deparse1(generate_fctcall(modelsettings)),
+      #          "\ngenerate_",
+      #          modelsettings$plotengine,
+      #          "(list(result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(result", x, "))))")
+      # })
 
       # if(length(model.types)>1){
       #   last.ran.sim <- paste0(paste(last.ran.sim, collapse = ""),
@@ -140,6 +144,9 @@ server <- function(input, output, session)
       #                          "my.result <- rbind(", paste0("my.result", model.types, collapse = ", "), ")\n",
       #                          "generate_", modelsettings$plotengine, "(my.result)\ngenerate_text(my.result)")
       #   }
+
+
+
 
 
       # last.ran.simfunction <- paste0("my.result <- ",
@@ -151,7 +158,17 @@ server <- function(input, output, session)
 
       # writeLines(paste(last.ran.simfunction, last.ran.vizfunctions, sep = "\n"), file)
 
-      writeLines(paste(last.ran.sim, collapse = ""), file)
+
+
+
+      modelsettings <- construct_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
+      simulation_code <- construct_simulation_code(modelsettings)
+      sim_modeltype <- simulation_code[[1]]
+      sim_fctcalls <- simulation_code[[2]]
+      sim_fctcalls_code <- lapply(sim_fctcalls, deparse1)
+      sim_fctcalls_code <- unlist(sim_fctcalls_code)
+      writeLines(paste0(sim_modeltype, '\n\n', paste0(sim_fctcalls_code, collapse = "\n")), file)
+      # writeLines(paste(last.ran.sim, collapse = ""), file)
     } #end content statement
     ,
     contentType= "application/zip"
@@ -333,23 +350,34 @@ server <- function(input, output, session)
                      output$ggplot <- NULL
                      output$plotly <- NULL
                      output$text <- NULL
-                     #extract current model settings from UI input elements
-                     x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-                     #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-                     modelsettings = x3
-                     #remove nested list of shiny input tags
-                     appsettings$otherinputs <- NULL
-                     #add settings information from appsettings list
-                     modelsettings = c(appsettings, modelsettings)
-                     if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-                     #if no random seed is set in UI, set it to 123.
-                     if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
 
 
-                     #store model settings in global environment for download_code
-                     modelsettings <<- modelsettings
+
+                     app_input <- isolate(reactiveValuesToList(input))
+
+                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
+
+                     # #extract current model settings from UI input elements
+                     # x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+                     # x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
+                     # x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
+                     # #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+                     # modelsettings = x3
+                     # #remove nested list of shiny input tags
+                     # appsettings$otherinputs <- NULL
+                     # #add settings information from appsettings list
+                     # modelsettings = c(appsettings, modelsettings)
+                     # if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+                     # #if no random seed is set in UI, set it to 123.
+                     # if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+                     #
+                     #
+                     # #store model settings in global environment for download_code
+                     # modelsettings <<- modelsettings
+
+
+
+
                      #run model, process inside run_model function based on settings
                      result <- run_model(modelsettings)
 
