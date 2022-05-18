@@ -1,7 +1,5 @@
 # To-do Andreas
 
-* Implement new acute virus with simple IR app - level 1, show GUI approach. similar to virus and IR model, but simpler (no chronic, only 1 or 2 IR equations).
-* Implement chronic virus with simple IR app - level 2, show systematic model exploration. similar to virus model exploration but with IR.
 * Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
 
 
@@ -9,10 +7,15 @@
 
 # To-do Cody
 
+Most important:
+* Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
+* Do a quick review of the basic virus app, just to make sure things work.
+
+Other:
 * Review/critique download scenario button
 - do we need shinyjs? I prefer to keep package dependencies at a minimum, so unless we really need it, I'd rather not use it. i took it out for now. willing to include if you can make a convincing case that we need it :)
 - i tried to use checkboxInput() for the download with download triggered at end of "run simulation" routine if box is checked. But I'm not sure how to trigger the download/downloadhandler routine without a downloadButton(). so sticking with that for now. can potentially revisit. 
-- things don't quite work for the more complex models. the code that's produced is not quite right. for those models, the output returned from the simulate_ function generally needs processing before sent to the generate_ functions. Take a look at the various DSAIRM solution files, those show how the code should approximately look like for the various functions. it's not straightfoward for the more complex models. Since the whole 'download code' routine will likely be somewhat long, I suggest placing it into a separate function, not inside app.R. The stuff in the exsiting dowload_code.R function (currently in auxiliary/oldfiles) might or might not be useful.
+- things don't quite work for the more complex models. the code that's produced is not quite right. for those models, the output returned from the simulate_ function generally needs processing before sent to the generate_ functions. Take a look at the various DSAIRM solution files, those show how the code should approximately look like for the various functions. it's not straightfoward for the more complex models. Since the whole 'download code' routine will likely be somewhat long, I suggest placing it into a separate function, not inside app.R. The stuff in the existing dowload_code.R function (currently in auxiliary/oldfiles) might or might not be useful.
 - also, not sure I stated, but I don't want the run_model() function in the downloaded code. that's one level too abstract. i want it to look like the solutions, meaning only calls to the simulate_ and generate_ functions.
 
 

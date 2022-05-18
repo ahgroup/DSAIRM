@@ -52,14 +52,16 @@ For our system, we specify the following processes/flows:
 * The innate (interferon) response is induced proportional to the number of infected cells at rate _r~F~_ and decays at rate _d~F~_. The innate response lowers the rate of virus production by infected cells, with strength of reduction controlled by parameter _k_.
 * The adaptive (CD8 T-cell) response grows exponentially, proportional to the virus load at rate _r~T~_ and decays at rate _d~T~_. T-cells kill infected cells at rate _k~T~_. 
 
-Note that the choice of growth dynamics is slightly different from the acute virus model. There, we assumed the growth was proportional to the innate response ~F~. Here, we assume it is driven by virus/antigen load, ~V~. Both assumptions are reasonable approximations. In reality, it is likely a complex interaction between virus/antigen load and innate response that drives adaptive responses. Trying to model this in detail is beyond the goal of this app. We want to keep it reasonably simple here so we can get some intuition in these kinds of models. For any real problem, you need to decide which components and processes to include and how to model them.
+**Note that the choice of growth dynamics for the adaptive response is slightly different from the acute virus model.** There, we assumed the growth was proportional to the innate response _F_. Here, we assume it is driven by virus/antigen load, _V_. Both assumptions are potentially reasonable approximations. In reality, it is likely a complex interaction between virus/antigen load and innate response that drives adaptive responses. Trying to model this in detail is beyond the goal of this app. We want to keep it reasonably simple here so we can get some intuition in these kinds of models. For any real problem, you need to decide which components and processes to include and how to model them. The idea of modeling the system in different ways is explored and discussed in the __Model Variant Exploration__ apps.
+
+
 
 
 ### Model Diagram
 The diagram illustrating this compartmental model is shown in the figure.
 
-```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%", warning=FALSE, message=FALSE}
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 
@@ -84,7 +86,7 @@ Implementing this model as a ***continuous-time, deterministic model*** leads to
 
 
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE, warning=FALSE, message=FALSE}
 #this is the running counter for the records which starts at 1 
 rc=1
 
@@ -95,11 +97,11 @@ alloutcomes = NULL
 # Task 1
 #########################
 tid = 1
-tasktext = "Let's start by considering an acute viral infection. Set the initial conditions to 10^5^ uninfected cells, no infected cells, and 10 virus particles. We make the assumption that on the timescale of an acute infection (several days), the processes of natural, uninfected cell turnover are so slow that they can be ignored. Set values for the uninfected cell birth and death rates to reflect this assumption. Assume also that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1). 
-
-\nRun the simulation for 50 days; produce plots with and without log-scales. You should get a single, acute infection with virus and infected cells rising at first and then declining. At the end you should be left with around 11069 uninfected cells and no infected cells or virus."
-nrec = 1 # number of items to record
-out_records = c("Number of infected cells at the peak of infection")
+tasktext = "Let's start by considering a chronic viral infection in the absence of the immune response. 
+Set the initial conditions to 10^5^ uninfected cells, no infected cells, and 10 virus particles. Assume also that infected cells have an average life-span of 1 day, and virus has a life-span of 6 hours (remember that the inverse of the lifespan is the rate of death, and make sure you convert to the right units). Set that the virus production by an infected cell is 100 virions per day and that the rate at which new cells become infected is 10^-6^. Assume there is no need to do any unit adjustment/conversion (i.e. the value of that parameter is 1). Set the birth rate of uninfected cells to 10^4^, and the life span od the uninfected cells to 10 days.
+Set the starting values for the immune response variables _F_ and _T_ to 0, and also set the two immune response induction rates to 0. With those choices, the values for the other immune response related parameters do not matter. If you want, you can also set them all to 0. \nRun the simulation for 200 days. You should get one major rise in virus, followed by a few minor peaks and then settling down to a steady state where the virus levels are at around 147500."
+nrec = 2 # number of items to record
+out_records = c("Number of uninfected cells at the end of the simulation", "Number of infected cells at the end of the simulation")
 out_types = rep("Rounded_Integer",nrec)
 out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
@@ -115,11 +117,11 @@ rc = rc + nrec #increment record counter by number of outcomes to record for thi
 # Task 2
 #########################
 tid = tid + 1
-tasktext = "Slowly increase the virus death rate in increments of 0.5. Contemplate what you expect to see, then run the simulation to compare. Keep increasing until you get essentially no more infection (i.e., < 1% initial uninfected cells become infected). You will have to adjust the simulation time for that, too."
+tasktext = "As you might expect, and as discussed in the __Basic Virus__ app, changing the parameters associated with the virus and cell kinetics can change the results. How a certain parameter impacts the steady/chronic level is not always intuitively obvious. Give that a quick try. Double the rate at which uninfected cells are produced, i.e. set _n = 2x10^4^_. One might expect that this should increase the number of uninfected cells at steady state. Run the simulation to determine that this is NOT the case, that instead the number of infected cells changes. Revisit the __Basic Virus__ app if it is unclear to you why this happens."
 nrec = 2 # number of items to record
-out_records = c("Virus death rate at which no infection occurs", "Virus lifespan (in days) corresponding to the death rate at which no infection occurs")
-out_types = rep("Numeric", nrec)
-out_notes = rep("Round to two significant digits, report as non-scientic notation (as X.YZ)",nrec)
+out_records = c("Number of uninfected cells at the end of the simulation", "Number of infected cells at the end of the simulation")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
 outcomes = data.frame( TaskID = rep(tid,nrec),
                        TaskText = rep(tasktext,nrec),
                       RecordID = paste0('T',tid,'R',(1:nrec)),
@@ -129,6 +131,101 @@ outcomes = data.frame( TaskID = rep(tid,nrec),
 alloutcomes = rbind(alloutcomes,outcomes)
 rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 
+
+#########################
+# Task 3
+#########################
+tid = tid + 1
+tasktext = "Now turn on the immune response. Set everything as you did for the first task. Then change the starting value for _T_ to 1, set _r~T~_ = 10^-6^, _d~T~_ = 0.01 and _k~T~_ = 0. Keep the innate response turned off. Run the simulation for 200 days. You might need to change the plot to a log y-axis so you can see all variables. You will see that - in contrast to the __Acute Virus__ model, the adaptive response is triggered. However, since we set its action to 0, it does not yet impact the virus and cell kinetics. 
+Let's change that. Set _k~T~_ = 10^-5^. Run the simulation. You should see the adaptive response slowly coming in and clearing infected cells, which leads to a reduction in virus load and a recovery of the uninfected cells."
+nrec = 2 # number of items to record
+out_records = c("Number of uninfected cells at the end of the simulation, non-zero _k~T~_", "Number of infected cells at the end of the simulation, non-zero _k~T~_")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 4
+#########################
+tid = tid + 1
+tasktext = "Explore how different strengths of the adaptive response impact the results. Keep all settings at the values you just had. Then run the model for _k~T~_ = 10^-2^, 10^-3^, 10^-4^,... all the way to 10^-12^ (that's 11 different values). Each time, run for 200 days and record final number of infected cells and virus. Then make two plots, both with the _k~T~_ values on the x-axis and the first with infected cell on the y-axis, the second with virus numbers on the y-axis. From these plots, determine (approximately) the values of _k~T~_ for which infected cell numbers are at 500, and the value at which virus load is at 20,000. Ideally, you would do this task writing a bit of R code to run a loop over the values and draw the plots. But of course you can also do it manually."
+nrec = 1 # number of items to record
+out_records = c("True or False: The value of _k~T~_ at which virus load is 20,000 is greater than 1.5 x 10^-10^")
+out_types = rep("Logical",nrec)
+out_notes = rep("Report True or False",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 5
+#########################
+tid = tid + 1
+tasktext = "Now let's add the innate response to the model. Keep everything as you just had it. That means _U = 10^5^_, _I = 0_, _V = 10_, _F = 0_, _T = 1_, _n = 10^4^_, _d~U~ = 0.1_, _d~I~ = 1_, _d~V~ = 4_, _b = 10^-6^_, _p = 100_, _g = 1_, _r~T~_ = 10^-6^, _d~T~_ = 0.01 and _k~T~_ = 10^-5^. The set _F = 1_, _r~F~_ = 10, _d~F~_ = 1. Start with _k~F~_ = 0 and run the simulation for 200 days. You see the inate response coming up, but since it doesn't have an effect yet, the virus and cell kinetics doesn't change from the results you got above in the absence of the innate response. Now re-run with _k~F~_ = 10^-5^. You should see that the peak virus load is lower. Maybe surprisingly, the virus load at the end is actually higher. The reason is that the reduced virus load leads to a slower induction of the adaptive response, and the weaker adaptive response in turn does not clear infected cells as well (by day 200, if you run it longer the adaptive response will do its job)."
+nrec = 4 # number of items to record
+out_records = c("Peak virus load with _k~F~_ = 0","Final virus load with with _k~F~_ = 0","Peak virus load with _k~F~_ = 10^-5^","Final virus load with with _k~F~_ = 10^-5^")
+out_types = rep("Rounded_Integer",nrec)
+out_notes = rep("Report the rounded integer",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 6
+#########################
+tid = tid + 1
+tasktext = "We finish with one more systematic exploration. Keep all settings as in the previous task, but change simulation time to 300 days. Run the model for these _k~F~_ values: 10^-8^, 10^-7^, ... , 10^-3^ (6 values). For each value, record peak and final virus load. Repeat all of these runs, but now with _r~T~_ = 10^-7^. Make a plot with the _k~F~_ values on the x-axis and the peak virus values on the y-axis, for both levels of _r~T~_. Then make a second plot, now with final virus load on the y-axis."
+nrec = 1 # number of items to record
+out_records = c("True or False: The final virus load decreases monotonically as _k~F~_ increases, for both values of _r~T~_")
+out_types = rep("Logical",nrec)
+out_notes = rep("Report True or False",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 7
+#########################
+tid = tid + 1
+tasktext = "Continue to explore how different strengths of innate and adaptive response kinetics impact the virus and infected cell dynamics, both during the acute and the chronic phase."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = rep("",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
 ```
 
 

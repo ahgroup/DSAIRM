@@ -45,7 +45,7 @@ This app uses the same model and follows the same overall setup as the ___Antivi
 The model is represented by this flow diagram:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

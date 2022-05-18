@@ -44,7 +44,7 @@ The underlying model that is being fit to the data is again the ___Basic Virus M
 The model is represented by this flow diagram:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

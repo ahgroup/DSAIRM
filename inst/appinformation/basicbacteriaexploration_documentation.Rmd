@@ -40,7 +40,7 @@ The model used here is the one introduced in the ___Basic Bacteria Model___ app.
 As mentioned, the underlying model is the continuous-time, ODE version of the model from the  ___Basic Bacteria Model___ app. Details can be found there. For ease of reference, the flow diagram is shown again here:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

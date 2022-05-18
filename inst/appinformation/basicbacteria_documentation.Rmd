@@ -59,7 +59,7 @@ A very good way to describe compartmental models and move from a verbal descript
 The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment/variable (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 For the diagrams in this R package, solid arrows indicate physical flows, i.e. movement from a compartment to another (e.g. bacteria moving out of the compartment because of death, or bacteria increasing in the compartment due to growth), while dashed arrows indicate interactions without physical flow (e.g. infected cells killing bacteria). This notation is not universal and it is common in the literature to see no distinction made between these 2 types of flows and only solid arrows being used.

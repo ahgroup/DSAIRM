@@ -77,7 +77,7 @@ The following processes/flows are included in the model:
 The diagram illustrates both compartmental models, with colors to indicate mechanisms that are part of either model 1 or model 2.
 
 ```{r twomodeldiagram,  fig.cap='Flow diagram for the 2 models.',  echo=FALSE}
-knitr::include_graphics(system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

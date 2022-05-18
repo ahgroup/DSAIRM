@@ -47,7 +47,7 @@ As mentioned, this is the same model as used in the ___Basic Virus Model___ app.
 
 
 ```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics( system.file(figuredir,appsettings$modelfigname,package=packagename))
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
 ```
 
 

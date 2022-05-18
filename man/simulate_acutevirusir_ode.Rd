@@ -7,7 +7,7 @@
 simulate_acutevirusir_ode(
   U = 1e+05,
   I = 0,
-  V = 1,
+  V = 10,
   F = 1,
   T = 1,
   dI = 1,
@@ -22,7 +22,7 @@ simulate_acutevirusir_ode(
   dT = 1,
   kT = 0.01,
   tstart = 0,
-  tfinal = 30,
+  tfinal = 50,
   dt = 0.1
 )
 }
