@@ -20,8 +20,8 @@
 #' If not provided, a single plot is assumed.  \cr
 #' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 #' If not provided, a single run will be done. \cr
-#' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
-#' @details This function runs a model for specific settings.
+#' @return A list with two elements: the first is the modelsettings$modeltype; the second is a nested list of function calls generated according to the modelsettings.
+#' @details This function provides a list of function calls necessary in constructing code for download from the shiny GUI.
 #' @importFrom utils head tail
 #' @importFrom stats reshape
 #' @export
@@ -63,7 +63,6 @@ construct_simulation_code <- function(modelsettings) {
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
     modelsettings$currentmodel = simfunction[grep('_stochastic',simfunction)] # get the stochastic function
-    noutbreaks = 0
     nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
     for (nn in 1:nreps)
     {
@@ -148,26 +147,6 @@ construct_simulation_code <- function(modelsettings) {
   }
 
 
-
-
-
-
-
-
-
-
-
-  # ##################################
-  # #take data from all simulations and turn into list structure format
-  # #needed to generate plots and text
-  # #this applies to simulators that run dynamical models
-  # #other simulation functions need output processed differently and will overwrite some of these settings
-  # #each other simulator function has its own code block below
-  # ##################################
-  #
-  # #save all results to a list for processing plots and text
-  # listlength = ifelse(is.null(modelsettings$nplots),1,modelsettings$nplots)
-  # result = vector("list", listlength) #create empty list of right size for results
 
 
 

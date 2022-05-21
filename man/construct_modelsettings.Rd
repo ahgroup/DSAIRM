@@ -2,8 +2,7 @@
 % Please edit documentation in R/construct_modelsettings.R
 \name{construct_modelsettings}
 \alias{construct_modelsettings}
-\title{A function that takes shiny GUI input and generates intermediate code used
-to run simulations and process results}
+\title{A function to parse modelsettings for simulation runs}
 \usage{
 construct_modelsettings(app_input, appsettings, appNames)
 }
@@ -11,6 +10,8 @@ construct_modelsettings(app_input, appsettings, appNames)
 \item{app_input}{a list of shiny GUI input}
 
 \item{appsettings}{current appsettings}
+
+\item{appNames}{character vector of app names, available in shiny server global environment upon app initialization}
 }
 \value{
 modelsettings a list with model settings. Required list elements are: \cr
@@ -35,5 +36,5 @@ This function is based on run_model() but instead of running the models
 it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
 }
 \details{
-This function runs a model for specific settings.
+This function returns specific settings for simulation.
 }

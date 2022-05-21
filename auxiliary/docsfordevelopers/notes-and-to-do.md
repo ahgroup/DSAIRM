@@ -1,6 +1,7 @@
 # To-do Andreas
 
 * Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
+* Review/critique download scenario button
 
 
 
@@ -8,15 +9,10 @@
 # To-do Cody
 
 Most important:
-* Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
 * Do a quick review of the basic virus app, just to make sure things work.
 
 Other:
-* Review/critique download scenario button
-- do we need shinyjs? I prefer to keep package dependencies at a minimum, so unless we really need it, I'd rather not use it. i took it out for now. willing to include if you can make a convincing case that we need it :)
-- i tried to use checkboxInput() for the download with download triggered at end of "run simulation" routine if box is checked. But I'm not sure how to trigger the download/downloadhandler routine without a downloadButton(). so sticking with that for now. can potentially revisit. 
-- things don't quite work for the more complex models. the code that's produced is not quite right. for those models, the output returned from the simulate_ function generally needs processing before sent to the generate_ functions. Take a look at the various DSAIRM solution files, those show how the code should approximately look like for the various functions. it's not straightfoward for the more complex models. Since the whole 'download code' routine will likely be somewhat long, I suggest placing it into a separate function, not inside app.R. The stuff in the existing dowload_code.R function (currently in auxiliary/oldfiles) might or might not be useful.
-- also, not sure I stated, but I don't want the run_model() function in the downloaded code. that's one level too abstract. i want it to look like the solutions, meaning only calls to the simulate_ and generate_ functions.
+* Work through all comments at bottom
 
 
 
@@ -27,27 +23,23 @@ Other:
 * Review new apps once ready
 * Check that tasks/solutions are still correct, especially fitting/nloptr related
 
-## Currently
-* Reacquaint with app framework
-* Work through all comments at bottom
 
 ## Completed
 * Created style guide section in docsfordevelopers/documentation.md
     + put consistency notes from below, likely could use rephrasing/examples, but low priority
+* Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
 * Implement "download scenario" button
-    + generate_shinyinput.R edits
-        - to show download button in app window
-        - to place at bottom right of panel
-    + app.R edits
-        - to store modelsettings in global environment
-        - to write content for downloadHandler()
-        - to include shinyjs for disabling button before first run (wouldn't be needed for directly grabbing shiny gui inputs)
-    + current version tries to replicate each fctcall in run_model(), but integrating multiple results without actually calling run_model() doesn't seem worth it
-        - can easily enough pass to rbind(), but subsequent passes to generate_PLOT() fail 
-        - list() of each result does not integrate/overlay, no better than plotting each separate
-        - post processing of results in run_model() missing, is it needed?
-        - would extracting shiny gui inputs and parsing face same issues?
-        - generating the reproducible code during run_model() would be just as tedious?; collections of each fctcall would simplify backend; perhaps making run_model() more generic less modular would help; maybe compartmentalize model setup, simulation runs, results post-processing
+    + three new functions to help
+        - construct_modelsettings.R takes shiny input and other relevant objects to create modelsettings list used in simulation runs
+        - construct_simulation_code.R takes a modelsettings list and returns a list of simulation function calls encoded within the modelsettings; this is the first half of run_model()
+        - generate_output.R takes a modelsettings list and a list of results that should be generated from individual function calls encoded within the provided modelsettings, these are used to process the set of results in a way that allows them to be passed on to the generate_ plotting functions
+    + clunky coding for now, still various options in implementation
+    + currently, construct_modelsettings() is only one integrated directly into app, though possible for all
+        - construct_simulation_code() only executed when download button hit
+        - generate_output() designed for use in the downloaded script, not as part of app
+    + could be used in solutions
+    + not thoroughly tested
+    
 
 
 
