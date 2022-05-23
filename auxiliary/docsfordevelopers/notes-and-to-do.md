@@ -10,6 +10,16 @@
 
 Most important:
 * Do a quick review of the basic virus app, just to make sure things work.
+* Create updated figures for the new acute (and if needed chronic virus) apps using the flowdiagramr package:
+https://andreashandel.github.io/flowdiagramr/ (if it fails, we can do it by hand)
+
+* rewrite run_model.R such that it calls construct_simulation_code instead of repeating code. as suitable, save a version of run_model in the auxiliary/oldfiles folder in case we need to go back.
+* there seems to be some "junk" in app.R, e.g. commented out block starting on line 104 and again line 195. can you clean up that file such that only used code and comments are present.
+* move all code that is related to writing the R script from app.R into a generate_downloadcode function. 
+* improve formatting of output code by adding line breaks, e.g. every modelsetting entry in its own line. 
+* Don't use colons in variable names (no my.result). Instead just call it 'result' or such.
+
+
 
 Other:
 * Work through all comments at bottom
@@ -28,6 +38,7 @@ Other:
 * Created style guide section in docsfordevelopers/documentation.md
     + put consistency notes from below, likely could use rephrasing/examples, but low priority
 * Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
+
 * Implement "download scenario" button
     + three new functions to help
         - construct_modelsettings.R takes shiny input and other relevant objects to create modelsettings list used in simulation runs

@@ -414,31 +414,13 @@ server <- function(input, output, session)
                      output$plotly <- NULL
                      output$text <- NULL
 
-
-
+                     #isolate UI inputs to make them non-reactive
                      app_input <- isolate(reactiveValuesToList(input))
 
-                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
-
-                     # #extract current model settings from UI input elements
-                     # x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     # x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-                     # x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-                     # #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-                     # modelsettings = x3
-                     # #remove nested list of shiny input tags
-                     # appsettings$otherinputs <- NULL
-                     # #add settings information from appsettings list
-                     # modelsettings = c(appsettings, modelsettings)
-                     # if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-                     # #if no random seed is set in UI, set it to 123.
-                     # if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-                     #
-                     #
-                     # #store model settings in global environment for download_code
-                     # modelsettings <<- modelsettings
-
-
+                     # this function parses the inputs and app settings
+                     # to generate a list of model settings
+                     # these specify the settings for which a simulation should be run
+                     modelsettings <<- construct_modelsettings(app_input, appsettings, appNames)
 
 
                      #run model, process inside run_model function based on settings

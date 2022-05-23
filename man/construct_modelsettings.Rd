@@ -14,7 +14,8 @@ construct_modelsettings(app_input, appsettings, appNames)
 \item{appNames}{character vector of app names, available in shiny server global environment upon app initialization}
 }
 \value{
-modelsettings a list with model settings. Required list elements are: \cr
+modelsettings a list with model settings. List elements are: \cr
+modelsettings$apptitle - The name of the app that's being run.  \cr
 modelsettings$simfunction - name of simulation function(s) as string.  \cr
 modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 modelsettings$modeltype - specify what kind of model should be run.
@@ -32,9 +33,10 @@ modelsettings$nreps - required for stochastic models to indicate numer of repeat
 If not provided, a single run will be done. \cr
 }
 \description{
-This function is based on run_model() but instead of running the models
-it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
+This function parses the shiny UI and gets input settings
+and combines those with other settings for a full definition of the model and
+settings that should be executed. This is a helper function.
 }
 \details{
-This function returns specific settings for simulation.
+This function returns specific settings for simulation runs.
 }

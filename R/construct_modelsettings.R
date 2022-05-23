@@ -1,12 +1,14 @@
 #' @title A function to parse modelsettings for simulation runs
 #'
-#' @description This function is based on run_model() but instead of running the models
-#' it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
+#' @description This function parses the shiny UI and gets input settings
+#' and combines those with other settings for a full definition of the model and
+#' settings that should be executed. This is a helper function.
 #'
 #' @param app_input a list of shiny GUI input
 #' @param appsettings current appsettings
 #' @param appNames character vector of app names, available in shiny server global environment upon app initialization
-#' @return modelsettings a list with model settings. Required list elements are: \cr
+#' @return modelsettings a list with model settings. List elements are: \cr
+#' modelsettings$apptitle - The name of the app that's being run.  \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
 #' modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 #' modelsettings$modeltype - specify what kind of model should be run.
@@ -22,9 +24,7 @@
 #' If not provided, a single plot is assumed.  \cr
 #' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 #' If not provided, a single run will be done. \cr
-#' @details This function returns specific settings for simulation.
-#' @importFrom utils head tail
-#' @importFrom stats reshape
+#' @details This function returns specific settings for simulation runs.
 #' @export
 
 construct_modelsettings <- function(app_input, appsettings, appNames) {
@@ -37,6 +37,7 @@ construct_modelsettings <- function(app_input, appsettings, appNames) {
   modelsettings = x3
   #remove nested list of shiny input tags
   appsettings$otherinputs <- NULL
+  #choose specific variables to add to modelsettings
   y1 <- appsettings[which(!names(appsettings)%in%c("appid", "docname", "modelfigname",
                                                    "underlying_function", "mbmodel_possible", "use_mbmodel",
                                                    "use_doc", "mbmodelname", "filepath"))]
@@ -45,7 +46,6 @@ construct_modelsettings <- function(app_input, appsettings, appNames) {
   if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
   #if no random seed is set in UI, set it to 123.
   if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
-
 
 
   return(modelsettings)
