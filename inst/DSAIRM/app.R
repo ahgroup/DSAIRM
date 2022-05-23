@@ -119,20 +119,24 @@ server <- function(input, output, session)
       # writeLines(output, file)
 
       # output <- download_code(modelsettings, modelfunction)
-      model.types <- c("_stochastic", "_ode", "_discrete", "_usanalysis", "_fit", "_modelexploration")
-      model.types <- model.types[which(sapply(model.types, function(x){grepl(paste0(x,"_"), modelsettings$modeltype)}))]
 
 
-      last.ran.sim <- sapply(model.types, function(x){
-        modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
-        paste0("# R code to run current DSAIRM scenario\n",
-               "library(DSAIRM)\n",
-               "result", x, " <- ",
-               deparse1(generate_fctcall(modelsettings)),
-               "\ngenerate_",
-               modelsettings$plotengine,
-               "(list(result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(result", x, "))))")
-      })
+
+
+      # model.types <- c("_stochastic", "_ode", "_discrete", "_usanalysis", "_fit", "_modelexploration")
+      # model.types <- model.types[which(sapply(model.types, function(x){grepl(paste0(x,"_"), modelsettings$modeltype)}))]
+      #
+      #
+      # last.ran.sim <- sapply(model.types, function(x){
+      #   modelsettings$currentmodel <- modelsettings$simfunction[grep(x, modelsettings$simfunction)]
+      #   paste0("# R code to run current DSAIRM scenario\n",
+      #          "library(DSAIRM)\n",
+      #          "result", x, " <- ",
+      #          deparse1(generate_fctcall(modelsettings)),
+      #          "\ngenerate_",
+      #          modelsettings$plotengine,
+      #          "(list(result", x, "))\ncat(gsub('<br/>', '\\n', generate_text(list(result", x, "))))")
+      # })
 
       # if(length(model.types)>1){
       #   last.ran.sim <- paste0(paste(last.ran.sim, collapse = ""),
@@ -140,6 +144,9 @@ server <- function(input, output, session)
       #                          "my.result <- rbind(", paste0("my.result", model.types, collapse = ", "), ")\n",
       #                          "generate_", modelsettings$plotengine, "(my.result)\ngenerate_text(my.result)")
       #   }
+
+
+
 
 
       # last.ran.simfunction <- paste0("my.result <- ",
@@ -151,7 +158,80 @@ server <- function(input, output, session)
 
       # writeLines(paste(last.ran.simfunction, last.ran.vizfunctions, sep = "\n"), file)
 
-      writeLines(paste(last.ran.sim, collapse = ""), file)
+
+
+
+      modelsettings <- construct_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
+      simulation_code <- construct_simulation_code(modelsettings)
+      sim_modeltype <- simulation_code[[1]]
+      sim_fctcalls <- simulation_code[[2]]
+      sim_fctcalls_code <- lapply(sim_fctcalls, deparse1)
+      sim_fctcalls_code <- unlist(sim_fctcalls_code)
+
+      # writeLines(paste0(sim_modeltype, '\n\n', paste0(paste0(names(modelsettings), unlist(modelsettings)), collapse = '\n'), '\n\n', paste0(sim_fctcalls_code, collapse = '\n')), file)
+
+      writeLines(paste0("# R code to run current DSAIRM scenario\n",
+                        "## model type = ", sim_modeltype, "\n\n",
+
+
+                        "library(DSAIRM)\n\n",
+                        paste0("modelsettings <- ",
+                               deparse1(modelsettings),
+                               collapse = '\n'),
+                        '\n\n',
+                        paste0(paste0("res_",
+                                      1:length(sim_fctcalls_code),
+                                      " <- ",
+                                      sim_fctcalls_code),
+                               collapse = '\n'),
+                        '\n\n',
+                        '# to have results similar to shiny GUI\n',
+                        'my.results <- generate_output(modelsettings, list(', paste0("res_", 1:length(sim_fctcalls_code), collapse = ", "), '))\n',
+                        "generate_", modelsettings$plotengine, "(my.results)\ncat(gsub('<br/>', '\\n', generate_text(my.results)))"
+                        ),
+                 file)
+      # writeLines(paste(last.ran.sim, collapse = ""), file)
+
+      # list(I = 0L, basicvirus = structure(1L, class = c("integer",
+      #                                                   "shinyActionButtonValue")), pkpdmodel = structure(0L, class = c("integer",
+      #                                                                                                                   "shinyActionButtonValue")), destroytasks = structure(0L, class = c("integer",
+      #                                                                                                                                                                                      "shinyActionButtonValue")), n = 0L, fitconfint = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                               "shinyActionButtonValue")), chronicvirusir = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                    "shinyActionButtonValue")), basicvirusstochastic = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                               "shinyActionButtonValue")), plotengine = "ggplot", V = 1L, acutevirusir = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 "shinyActionButtonValue")), dV = 2L, fitmodelcomparison = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "shinyActionButtonValue")), plotscale = "none", tfinal = 30L,
+      #      dt = 0.1, DSAIRM = "Analyze", p = 5L, tstart = 0L, submitBtn = structure(0L, class = c("integer",
+      #                                                                                             "shinyActionButtonValue")), g = 1L, Exit = structure(0L, class = c("integer",
+      #                                                                                                                                                                "shinyActionButtonValue")), basicvirusexploration = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                            "shinyActionButtonValue")), drugresistance = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                 "shinyActionButtonValue")), modelvariants = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                     "shinyActionButtonValue")), basicbacteria = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                         "shinyActionButtonValue")), U = 100000L, virusandtx = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "shinyActionButtonValue")), reset = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "shinyActionButtonValue")), virusandir = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "shinyActionButtonValue")), fitbasicmodel = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        "shinyActionButtonValue")), basicbacteriaexploration = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       "shinyActionButtonValue")), detachtasks = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         "shinyActionButtonValue")), dI = 1L, fitfludrug = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   "shinyActionButtonValue")), usanalysis = structure(0L, class = c("integer",
+      #                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "shinyActionButtonValue")), dU = 0L, b = 2e-05)
+      # list(appid = "basicvirus", apptitle = "Basic Virus Model", docname = "basicvirus_documentation.html",
+      #      modelfigname = "virusmodel.png", simfunction = "simulate_basicvirus_ode",
+      #      simfunction2 = "", underlying_function = "", mbmodel_possible = "Y",
+      #      use_mbmodel = FALSE, use_doc = TRUE, mbmodelname = "", nplots = 1,
+      #      modeltype = "_ode_", otherinputs = "", filepath = "C:/Users/daile/AppData/Local/R/win-library/4.2/DSAIRM/simulatorfunctions/simulate_basicvirus_ode.R")
+      # list(appid = "basicvirus", apptitle = "Basic Virus Model", docname = "basicvirus_documentation.html",
+      #      modelfigname = "virusmodel.png", simfunction = "simulate_basicvirus_ode",
+      #      simfunction2 = "", underlying_function = "", mbmodel_possible = "Y",
+      #      use_mbmodel = FALSE, use_doc = TRUE, mbmodelname = "", nplots = 1,
+      #      modeltype = "_ode_", filepath = "C:/Users/daile/AppData/Local/R/win-library/4.2/DSAIRM/simulatorfunctions/simulate_basicvirus_ode.R",
+      #      I = 0L, n = 0L, plotengine = "ggplot", V = 1L, dV = 2L, plotscale = "none",
+      #      tfinal = 30L, dt = 0.1, DSAIRM = "Analyze", p = 5L, tstart = 0L,
+      #      g = 1L, U = 100000L, dI = 1L, dU = 0L, b = 2e-05, nreps = 1,
+      #      rngseed = 123)
+
+
     } #end content statement
     ,
     contentType= "application/zip"
@@ -333,23 +413,34 @@ server <- function(input, output, session)
                      output$ggplot <- NULL
                      output$plotly <- NULL
                      output$text <- NULL
-                     #extract current model settings from UI input elements
-                     x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
-                     x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
-                     x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
-                     #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
-                     modelsettings = x3
-                     #remove nested list of shiny input tags
-                     appsettings$otherinputs <- NULL
-                     #add settings information from appsettings list
-                     modelsettings = c(appsettings, modelsettings)
-                     if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
-                     #if no random seed is set in UI, set it to 123.
-                     if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
 
 
-                     #store model settings in global environment for download_code
-                     modelsettings <<- modelsettings
+
+                     app_input <- isolate(reactiveValuesToList(input))
+
+                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
+
+                     # #extract current model settings from UI input elements
+                     # x1=isolate(reactiveValuesToList(input)) #get all shiny inputs
+                     # x2 = x1[! (names(x1) %in% appNames)] #remove inputs that are action buttons for apps
+                     # x3 = (x2[! (names(x2) %in% c('submitBtn','Exit') ) ]) #remove further inputs
+                     # #modelsettings = x3[!grepl("*selectized$", names(x3))] #remove any input with selectized
+                     # modelsettings = x3
+                     # #remove nested list of shiny input tags
+                     # appsettings$otherinputs <- NULL
+                     # #add settings information from appsettings list
+                     # modelsettings = c(appsettings, modelsettings)
+                     # if (is.null(modelsettings$nreps)) {modelsettings$nreps <- 1} #if there is no UI input for replicates, assume reps is 1
+                     # #if no random seed is set in UI, set it to 123.
+                     # if (is.null(modelsettings$rngseed)) {modelsettings$rngseed <- 123}
+                     #
+                     #
+                     # #store model settings in global environment for download_code
+                     # modelsettings <<- modelsettings
+
+
+
+
                      #run model, process inside run_model function based on settings
                      result <- run_model(modelsettings)
 
@@ -402,7 +493,6 @@ server <- function(input, output, session)
 #######################################################
 
 ui <- fluidPage(
-  shinyjs::useShinyjs(),
   tags$head(includeHTML(("google-analytics.html"))), #this is only needed for Google analytics when deployed as app to the UGA server. Should not affect R package use.
   tags$head(tags$script('window.onbeforeunload = function() { return "Please use the button on the webpage"; };')), #warning message if user hits browser back button
   includeCSS("packagestyle.css"), #use custom styling
