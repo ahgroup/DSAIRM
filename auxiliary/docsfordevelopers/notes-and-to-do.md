@@ -8,11 +8,31 @@
 
 First:
 * Do a quick review of the basic virus app and the model variant exploration app, just to make sure things work.
+  + basic virus and model variant exploration seem okay
+
 * Do another round of review of the new ones: acute virus and IR, chronic virus and IR, extended bacteria, bacteria fitting
+  + acute virus and IR, chronic virus and IR seem okay
+  + extended bacteria 
+    - model diagram missing A compartment entirely, maybe overwritten when made the fitting diagram?
+    - also initial description says still 2 compartment model, fixed
+    - app seems to take just a tad bit longer to open from main menu, happened a few times consistently, now can't reproduce, maybe just my computer
+  + bacteria fitting
+    - warning of missing data printed in console
+      - Warning: Removed 2 row(s) containing missing values (geom_path).
+      - Warning: Removed 10 rows containing missing values (geom_point).
 
 
 Later:
 * If time and interested: add tasks to extended bacteria and bacteria model fitting
+  + extended bacteria topic / flow ideas
+    - steady state (basic bacteria introduces briefly)
+    - IR turn on each separately (mirror other IR apps)
+    
+  + bacteria fitting
+    - quick concept checkmark of what model components are and are not being estimated (initial values for variables/compartments)
+    - how to "turn off" estimation for parameter (e.g., set initial&range to zero, set range to match initial)
+    
+
 
 
 download_code related (probably not for now):

@@ -29,7 +29,7 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename)
 ## Overview {#shinytab1}
 This app allows exploration of a somewhat extended bacteria (or other extracellular pathogens) infection model. 
 
-The model still has two compartments, but a few more processes.
+Compared with the ***Basic Bacteria*** app, this model has one additional compartment and a few more processes.
 
 Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
 
