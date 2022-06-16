@@ -37,10 +37,7 @@ Later:
 
 download_code related (probably not for now):
 * rewrite run_model.R such that it calls construct_simulation_code instead of repeating code. as suitable, save a version of run_model in the auxiliary/oldfiles folder in case we need to go back.
-* there seems to be some "junk" in app.R, e.g. commented out block starting on line 104 and again line 195. can you clean up that file such that only used code and comments are present.
-* move all code that is related to writing the R script from app.R into a generate_downloadcode function. 
-* improve formatting of output code by adding line breaks, e.g. every modelsetting entry in its own line. 
-* Don't use colons in variable names (no my.result). Instead just call it 'result' or such.
+
 
 
 
@@ -49,17 +46,7 @@ download_code related (probably not for now):
     + put consistency notes from below, likely could use rephrasing/examples, but low priority
 * Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
 
-* Implement "download scenario" button
-    + three new functions to help
-        - construct_modelsettings.R takes shiny input and other relevant objects to create modelsettings list used in simulation runs
-        - construct_simulation_code.R takes a modelsettings list and returns a list of simulation function calls encoded within the modelsettings; this is the first half of run_model()
-        - generate_output.R takes a modelsettings list and a list of results that should be generated from individual function calls encoded within the provided modelsettings, these are used to process the set of results in a way that allows them to be passed on to the generate_ plotting functions
-    + clunky coding for now, still various options in implementation
-    + currently, construct_modelsettings() is only one integrated directly into app, though possible for all
-        - construct_simulation_code() only executed when download button hit
-        - generate_output() designed for use in the downloaded script, not as part of app
-    + could be used in solutions
-    + not thoroughly tested
+
     
 
 
