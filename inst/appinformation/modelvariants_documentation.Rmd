@@ -21,26 +21,29 @@ appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings f
 
 
 ## Overview {#shinytab1}
-This app allows exploration of the impact of different model formulations on the results obtained from a simulation. Read about the model in ***The Model*** tab. Then, work through the tasks described in the ***What To Do*** tab.
+This app allows exploration of the impact of different model formulations on simulation results. Read about the model in ***The Model*** tab. Then, work through the tasks described in the ***What To Do*** tab.
 
 
 
 ### Learning Objectives
-* Explore structural uncertainty for model parameterization.
-
+* Explore the impact of alternative model formulations on outcomes.
+* Understand that sometimes, different reasonable model formulations can produce qualitatively different results.
 
 
 ## The Model {#shinytab2}
 
+
 ### Model Overview
-This model consists of several compartments that capture some of the basic dynamics of virus and immune response during an infection. In this model, we track the following entities, by assigning each to a compartment:
+
+For this model, we track uninfected cells, infected cells and (free) virus. Additionally we model the innate and adaptive immune response - which is of course a very simplified approximation to the real immune response.
+
+We track the following entities by assigning each to a compartment:
 
 * **U** - uninfected cells 
 * **I** - infected cells
 * **V** - (free) virus
 * **F** - innate immune response
 * **A** - adaptive immune response
-
 
 
 In addition to specifying the compartments of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are processes that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
@@ -70,20 +73,18 @@ We specify the following processes/flows:
     C) By killing virus at rate *k~6~*.
 8. The adaptive immune response decays at a rate *d~A~*.
 
+### Model Concepts
 
+Both the innate and adaptive response are modeled in a rather abstract manner. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon for the innate and CD8 T-cells for the adaptive response. 
 
+The idea explored in this app and implemented by this model is that results sometimes, but not always, change depending on different (biologically reasonable) ways the immune response is modeled. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
 
-
-### Model Diagram
-
-```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
-knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
-```
+Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
 
 
 ### Model Equations
 
-The model is implemented as a set of ordinary differential equations:
+Implementing the above described processes as a set of ordinary differential equations leads to the following model:
 
 \begin{align}
 \dot U &= n - d_U U - bVU - k_1FU \\
@@ -94,17 +95,22 @@ The model is implemented as a set of ordinary differential equations:
 \end{align}
 
 
-### Model Concepts
+### Model Diagram
 
-Both the innate and adaptive response are modeled in a rather abstract manner. We could think of them as some kind of cumulative representation of each arm of the immune response, or alternatively a single dominant innate response component, e.g. interferon for the innate and CD8 T-cells for the adaptive response. 
+The rather messy looking model diagram is here:
 
-The idea explored in this app and implemented by this model is that results sometimes, but not always, change depending on different (biologically reasonable) ways the immune response is modeled. We can explore those different models by setting certain parameters describing alternative processes to a non-zero value, and all others to zero. We can then study how different model alternatives affect the outcome.
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
+```
 
-Obviously, the number of alternative models we could make that are biologically reasonable is virtually endless. The better the underlying biology of a given infection is known, the easier it is to pick one model formulation over another. In the end, for most infections, we still don't know enough to pick the "right" model. We often have to choose one or a few reasonable model candidates and hope that they approximate the underlying processes reasonably well.
+
+Since this is already a fairly complex model, it is worth spending some time mapping each component in the equations to the arrows and boxes in the diagram and the written description. By going back and forth between verbal formulation and mathematical notation, you will start to build some expertise in going from one to the other.
+
+
 
 ### Notes
 
-* It is recommended that before you work your way through this app and tasks, you first explore and do the tasks in the ***Basic Virus Model*** and ***Virus and Immune Response Model*** apps.
+* It is recommended that before you work your way through this app and tasks, you first explore and do the tasks of the apps in the __Basic Virus Models__ section, especially the ***Basic Virus Model*** app. Otherwise, this model and app will likely be too overwhelming.
 
 
 

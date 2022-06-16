@@ -1,7 +1,13 @@
+# DSAIRM 0.9.5 (2022-06-21)
+
+* added 4 new apps
+* minor other bugfixes and enhancements
+
+
 # DSAIRM 0.9.3 (2021-07-28)
 
-* Updated documentation to include more explicit reporting, DSAIDE style
-* Created full solutions to all apps
+* updated documentation to include more explicit reporting, DSAIDE style
+* created full solutions to all apps
 * general bug-fixes and updates
 
 
@@ -12,8 +18,8 @@
 
 # DSAIRM 0.8.7 (2021-03-19)
 
-* Fixes to pass CRAN checks on old R
-* Minor other bugfixes and enhancements
+* fixes to pass CRAN checks on old R
+* minor other bugfixes and enhancements
 
 
 # DSAIRM 0.8.6 (2020-07-14)
@@ -42,8 +48,8 @@
 
 # DSAIRM 0.8.1
 
-* Fixed a few bugs 
-* Updated readme.md and package vignette/tutorial
+* fixed a few bugs 
+* updated readme.md and package vignette/tutorial
 
 
 # DSAIRM 0.8 (2019-04-04)
@@ -56,25 +62,25 @@
 
 # DSAIRM 0.6
 
-* User can switch between ggplot and plotly for figures
-* The list of "what to do" tasks can be floated
-* Additional UI improvement
-* More unit tests
+* user can switch between ggplot and plotly for figures
+* the list of "what to do" tasks can be floated
+* additional UI improvement
+* more unit tests
 
 
 # DSAIRM 0.5.5 (2019-02-11)
 
-* Released to CRAN
-* Improved way to download simulator functions
-* Fixed typos and other minor mistakes in app documentations
-* Included functionality that allows shinyappsio deployment
+* released to CRAN
+* improved way to download simulator functions
+* fixed typos and other minor mistakes in app documentations
+* included functionality that allows shinyappsio deployment
 
 
 # DSAIRM 0.5.0 (2019-01-17)
 
-* Complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one
-* Some user-facing updates and enhancements
-* Fixed typos and other minor mistakes in app documentations
+* complete rebuild of back-end and structure, changing from multiple independent shiny apps to a single one
+* some user-facing updates and enhancements
+* fixed typos and other minor mistakes in app documentations
 
 
 # DSAIRM 0.4.0 (2018-08-13)

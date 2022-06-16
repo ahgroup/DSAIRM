@@ -21,3 +21,34 @@
 #' }
 #'
 "hayden96flu"
+
+
+#' Streptococcus pneumoniae infection data
+#'
+#' Time series data from Streptococcus pneumoniae infection in mice
+#'
+#'
+#' Data is from Schirm et al 2020 PLoS One:
+#' https://doi.org/10.1371/journal.pone.0243147
+#'
+#' Specifically, data used here are time-series of bacteria and neutrophils
+#' in BAL, as shown in panels a) and c) of Figure 4.
+#' The original data uses P for the bacteria, and N for neutrophils.
+#' For consistency with other DSAIRM models,
+#' we use B for bacteria and I for neutrophils (immune response).
+#' See the original article and citations therein for more details on the data.
+#'
+#' @docType data
+#'
+#' @usage data(schirm20strep)
+#'
+#' @format A data frame with these variables:
+#' \describe{
+#' \item{time}{Hours post infection.}
+#' \item{value}{Amount of bacteria and neutrophils. See original paper for units.}
+#' \item{quantity}{B = Streptococcus pneumoniae bacteria, I = neutrophils.}
+#' }
+#'
+"schirm20strep"
+
+

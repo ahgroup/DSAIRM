@@ -19,6 +19,12 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/news/index.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/construct_modelsettings.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/construct_simulation_code.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/DSAIRM.html</loc>
   </url>
   <url>
@@ -32,6 +38,9 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_ggplot.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_output.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_plotly.html</loc>
@@ -52,7 +61,13 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/run_model.html</loc>
   </url>
   <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/schirm20strep.html</loc>
+  </url>
+  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_acutevirusir_ode.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_bacteria_fit.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicbacteria_discrete.html</loc>
@@ -89,6 +104,9 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_drugresistance_stochastic.html</loc>
+  </url>
+  <url>
+    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_extendedbacteria_ode.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_fludrug_fit.html</loc>

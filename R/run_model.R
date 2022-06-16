@@ -401,7 +401,7 @@ run_model <- function(modelsettings) {
     ####################################################
     #different choices for text display for different fit models
     #both DSAIDE and DSAIRM models
-    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction))
+    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction) || grepl('bacteria_fit',simfunction))
     {
       txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))

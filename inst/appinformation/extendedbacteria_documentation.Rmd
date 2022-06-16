@@ -1,0 +1,168 @@
+---
+title: Extended Bacteria Model
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: dsairm_references.bib
+---
+
+```{r startup, include = FALSE}
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+#source helper functions (defined in the startup script)
+#needs to happen inside each Rmd file since knitr starts a new environment
+sapply(files_to_source, source) 
+#load the settings file for the current app 
+#so we can automatically include figure, list the functions in the further information section
+#and use other information specific to the current app for the task table generation
+currentrmdfile = knitr::current_input() 
+#currentrmdfile = "basicbacteria_documentation.Rmd" #for debugging
+appsettings = get_settings(currentrmdfile,appdocdir,packagename)
+```
+
+
+## Overview {#shinytab1}
+This app allows exploration of a somewhat extended bacteria (or other extracellular pathogens) infection model. 
+
+The model still has two compartments, but a few more processes.
+
+Read about the model in _The Model_ tab. Then, work through the tasks described in the _What To Do_ tab.
+
+### Learning Objectives
+* Explore a bacteria infection model with both innate and adaptive response present.
+
+
+## The Model {#shinytab2}
+
+### Model Overview
+
+In this simple model, we track bacteria and some (fairly abstract) notion of innate and adaptive immune response, using the following notation:
+
+* **B** - bacteria 
+* **I** - innate immune response
+* **A** - adaptive immune response
+
+
+In addition to specifying the ***compartments*** or variables of a model, we need to specify the dynamics determining the changes for each compartment. Broadly speaking, there are ***processes*** or ***flows*** that increase the numbers in a given compartment/stage, and processes that lead to a reduction. Those processes are sometimes called in-flows and out-flows. 
+
+For our system, we specify the following processes/flows: 
+
+1. Bacteria grow/divide at some maximum rate, _g_, and saturate as they approach some maximum carrying capacity, _B~max~_. 
+2. Bacteria die at a natural death rate, _d~B~_.
+3. Bacteria are killed/removed by the innate and adaptive response at rates, _k~I~_ and _k~A~_.
+4. The innate response grows proportional to the number of bacteria at rate, _r~I~_. The growth slows as it approaches carrying capacity _I~max~_. Decay occurs at rate, _d~I~_.
+5. The adaptive response grows at maximum rate, _r~A~_, and depends on the innate response in a sigmoid manner, with half-growth if the innate response is at ~h~. As common, we assume the innate response impacts the adaptive on a log scale. Decay occurs at rate, _d~A~_.
+
+
+
+
+### Model Diagram
+A very good way to describe compartmental models and move from a verbal description toward a mathematical/computational formulation is by using diagrams. Being able to go back and forth between verbal description, diagram and mathematical/computational model is a crucial skill when building models. 
+The diagram for a compartmental model is often called flow diagram. It consists of a box for each compartment/variable (here **B** and **I**), and arrows pointing in and out of boxes to describe flows and interactions. For the model described above, the flow diagram looks as follows:
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
+```
+
+For the diagrams in this R package, solid arrows indicate physical flows, i.e. movement from a compartment to another (e.g. bacteria moving out of the compartment because of death, or bacteria increasing in the compartment due to growth), while dashed arrows indicate interactions without physical flow (e.g. infected cells killing bacteria). This notation is not universal and it is common in the literature to see no distinction made between these 2 types of flows and only solid arrows being used.
+
+
+#### Implementation 
+
+The most common way to implement compartmental models is as a ***continuous-time, deterministic process, formulated as a set of ordinary differential equations (ODEs)***. Each compartment/variable gets an equation. The right side of each equations specifies the processes going on in the system and how they change the numbers in each compartment via inflows and outflows. For the model described above, the equations look like this:
+
+\begin{align}
+\dot B &= g B (1-\frac{B}{B_{max}}) - d_B B - k_I B I - k_A B A \\
+\dot I &= r_I B (1 -\frac{I}{I_{max}} )  - d_I I \\
+\dot A &= r_A \frac{\log(I)}{h+\log(I)} A  - d_A A
+\end{align}
+
+
+## What To Do {#shinytab3}
+
+**The tasks below are described in a way that assumes everything is in units of days (rate parameters, therefore, have units of inverse days). If any quantity is not given in those units, you need to convert it first (e.g. if it says a cell lives for a week, you need to convert it to 7 days, then take the inverse if you want a death rate, which is what usually goes into the model).**
+
+
+```{r, echo=FALSE, eval=TRUE}
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "No tasks written yet. For now, just explore freely."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+#########################
+# Task 2
+#########################
+# tid = tid + 1
+# tasktext = "Play around with the plot settings. Switch the plotting to have x-axis, y-axis or both plotted on a log scale. Also try plotly as the plot engine. Leave all other settings as before. You should see that while the look of the plot changes, the underlying numbers do not. This is something to be aware of when you see plots in papers or produce your own. The best plot to use is the one that shows results of interest in the clearest form. Usually, the x-axis is linear and the y-axis is either linear or logarithmic. One nice feature about plotly is that the plot is interactive and you can read off numbers. Use this feature to determine the day at which the bacteria and immune response have their second peak. (*Hint: day 32 for bacteria, a bit later for the immune response.*)"
+# nrec = 1 # number of items to record
+# out_records = c("Day of second peak for the immune response")
+# out_types = rep("Rounded_Integer",nrec)
+# out_notes = rep("Report the rounded integer",nrec)
+# outcomes = data.frame( TaskID = rep(tid,nrec),
+#                        TaskText = rep(tasktext,nrec),
+#                       RecordID = paste0('T',tid,'R',(1:nrec)),
+#                       Record = out_records, 
+#                       Type = out_types, 
+#                       Note = out_notes)
+# alloutcomes = rbind(alloutcomes,outcomes)
+# rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+``` 
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+## Further Information {#shinytab4}
+
+This app (and all others) are structured such that the Shiny part (the graphical interface you see and the server-side function that goes with it) calls an underlying R script (or several) which runs the simulation for the model of interest and returns the results. For this app, the underlying function running the simulation is called ``r appsettings$simfunction[1]``. You can call it directly, without going through the shiny app. Use the `help()` command for more information on how to use the function directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+For further reading on some simple bacteria models, see the references in the basic bacteria app. 
+
+### References
+
+
