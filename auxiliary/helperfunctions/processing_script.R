@@ -1,35 +1,14 @@
-#run this script after major changes to do some cleaning and processing automatically
+library('here')
+library('devtools')
+library('pkgdown')
+library('zip')
+library('dplyr')
 
-  library('here')
-  library('devtools')
-  library('pkgdown')
-  library('zip')
-  library('dplyr')
+basepath = here::here()
 
-
-  basepath = here::here()
-
-  ###################################################
-  # build all html documentation files from Rmd files
-  ###################################################
-
-
-  #source several helper functions
-  startupfile = paste0(basepath, "/inst/appinformation/startup_script.R")
-  source(startupfile)
-
-  #get path to Rmd files containing documentation
-  #Note: path inst/NNN will become NNN in installed package
-  files = list.files(path = paste0(basepath, "/inst/appinformation/"), recursive=FALSE, pattern = "\\.Rmd$", full.names = TRUE)
-
-  #remove all html documentation files before recreating
-  html_files = list.files(path = paste0(basepath, "/inst/appinformation/"), recursive=FALSE, pattern = "\\.html$", full.names = TRUE)
-  file.remove(html_files)
-
-
-  #re-build all html documentation files from the rmd files at once
-  for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(2)}
-
+#source several helper functions
+startupfile = paste0(basepath, "/inst/appinformation/startup_script.R")
+source(startupfile)
 
 
   ###################################################
@@ -42,7 +21,7 @@
   simulation_copies = list.files(path = paste0(basepath,"/inst/simulatorfunctions/"), recursive=TRUE, pattern = "^simulate", full.names = TRUE)
 
   #remove zip file and copy of simulators
-  file.remove(zipfilename)
+  file.remove(zipfilename)#run this script after major changes to do some cleaning and processing automatically
   file.remove(simulation_copies)
 
   #copy files
@@ -50,6 +29,22 @@
 
   # create zip file
   zip::zipr(zipfile = zipfilename, files = simulation_originals, recurse = FALSE, include_directories = FALSE)
+
+
+  ###################################################
+  # build all html documentation files from Rmd files
+  ###################################################
+
+  #get path to Rmd files containing documentation
+  #Note: path inst/NNN will become NNN in installed package
+  files = list.files(path = paste0(basepath, "/inst/appinformation/"), recursive=FALSE, pattern = "\\.Rmd$", full.names = TRUE)
+
+  #remove all html documentation files before recreating
+  html_files = list.files(path = paste0(basepath, "/inst/appinformation/"), recursive=FALSE, pattern = "\\.html$", full.names = TRUE)
+  file.remove(html_files)
+
+  #re-build all html documentation files from the rmd files at once
+  for (n in 1: length(files)) {rmarkdown::render(files[n]); Sys.sleep(2)}
 
 
   ###################################################
@@ -64,9 +59,13 @@
   ##################################################
   devtools::document(roclets = c('rd', 'collate', 'namespace'))
 
-  # re-build vignette
+  ##################################################
+  # re-build vignettes
+  ##################################################
   devtools::build_vignettes()
 
+  ##################################################
   #update the pkgdown website
+  ##################################################
   pkgdown::build_site()
 

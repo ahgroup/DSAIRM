@@ -5,8 +5,8 @@ Description: Simulation models (apps) of various within-host immune response sce
     The purpose of the package is to help individuals learn 
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
-Version: 0.9.3
-Date: 2021-07-26
+Version: 0.9.5
+Date: 2022-06-21
 Authors@R: c(
     person("Andreas", "Handel", email = "ahandel@uga.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Cody", "Dailey",  role = "ctb"), 
@@ -32,7 +32,7 @@ Imports:
     nloptr,
     plotly,
     rlang,
-	stats,
+	  stats,
     utils, 
     XML
 Depends:

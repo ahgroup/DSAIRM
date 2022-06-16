@@ -24,7 +24,7 @@ dsairmmenu <- function() {
 #needed to prevent NOTE messages on CRAN checks
 #comes because the data has that name
 #not sure how to prevent otherwise
-utils::globalVariables(c("hayden96flu","txtime"))
+utils::globalVariables(c("hayden96flu","txtime","schirm20strep"))
 
 
 .onAttach <- function(libname, pkgname){

@@ -1,0 +1,174 @@
+---
+title: Bacteria Model Fitting 
+output:
+  html_document:
+    theme: null
+    highlight: null
+    fig_retina: null
+    fig_caption: true
+    mathjax: default 
+    keep_md: false
+bibliography: dsairm_references.bib
+---
+
+
+```{r, include = FALSE}
+#load various variable definitions that are the same for each app
+source('startup_script.R')
+sapply(files_to_source, source) #source some helper files defined in the files_to_source variable
+currentrmdfile = knitr::current_input()  #get current file name
+appsettings = get_settings(currentrmdfile,appdocdir,packagename) #get settings for current app
+```
+
+
+
+## Overview {#shinytab1}
+This app illustrates how to fit a mechanistic dynamical model to data and how to use simulated data to evaluate if it is possible to fit a specific model. It is assumed that you have worked through the __Basic Virus Model Fitting__ app.
+
+
+### Learning Objectives
+* See an example of fitting multiple measurements to a model.
+* Understand the decision about weighting for each data component.
+
+## The Model {#shinytab2}
+
+### Model Overview
+The underlying model that is being fit to the data is a version of the ___Extended Bacteria Model___ used in the app of that name (and some of the others). See that app for a detailed description of the model.
+
+### Model Equations
+
+While we use the underlying ___Extended Bacteria Model___ code, for the purpose of this app, we make a simplification by ignoring the adaptive response. In the code, this is implemented by setting all quantities related to the adpative response to 0. This leads to these simplified equations.
+
+The model is implemented as a set of ordinary differential equations:
+
+\begin{align}
+\dot B &= g B (1-\frac{B}{B_{max}}) - d_B B - k_I B I \\
+\dot I &= r_I B (1 -\frac{I}{I_{max}} )  - d_I I \\
+\end{align}
+
+
+### Model Diagram
+
+The model is represented by this flow diagram, with the understanding that the adaptive response, **A**, and all its processes are not present:
+
+```{r modeldiagram,  fig.cap='Model Diagram',  echo=FALSE, out.width = "70%"}
+knitr::include_graphics(path = paste0("../media/",appsettings$modelfigname))
+```
+
+
+
+### Data
+
+For this app, data from Streptococcus pneumoniae infection in mice is used. The data comes from this paper [@schirm20]. 
+The original study reports are large number of measurements under different conditions. For our purpose, we only use the Strep pneumo bacteria load and the neutrophils in BAL following an untreated infection, which corresponds to panels a) and c) in Figure 4 of the original study. 
+In the original study, those quantities are labeled as P and N. For consistency with our models, we use the labels B for the bacteria and I for the neutrophils.
+
+
+### Model Fitting 
+
+For this example, we have data on both (all) model variables. That is rare! We can thus fit the model to both the __B__ and __I__ variables at the same time. When we do that, we need to decide how to weight them. We usually can't just add them, since they are different quantities measured with different assays, often also having different units. To prevent us adding "apples and oranges", we need to standardize. The way we do it here is to divide by the maximum measured value for each variable. There are other ways, e.g. by dividing with the standard deviation/variance. 
+
+We are again fitting in a frequentist framework and minimize the sum of square errors between data and model. This gives us the following equation which we numerically try to minimize by finding the model parameter values which achieve the best match between model and data:
+
+$$ SSR= \sum_t \left( \frac{Bm_t - Bd_t}{max(Bd_t)}\right) ^2 +  \sum_t \left( \frac{Im_t - Id_t}{max(Id_t)}\right) ^2 $$
+
+In our notation, $Bm_t$ and $Im_t$ are model-predicted results for bacteria and immune response (neutrophils), while $Bd_t$ and $Id_t$ are the data. As is customary, we do the fitting in log-transformed units.
+
+
+### Notes
+
+In prior apps, we discussed the idea of overfitting, i.e. trying to estimate too many parameters given the available data. This is likely happening here. We allow all the parameters to be fit, and the model is fairly flexible. That means there are likely multiple combinations of parameter values that produce (almost) equally good fits (as measured by SSR). In practice, this is a problem one needs to decide how to deal with. One can fix some parameters, simplify the model, or get more data. For this teaching example, we just acknowledge that we might be trying to estimate too many parameters given the data, but we'll go with it anyway `r emoji::emoji('grin')`.
+
+
+
+## What To Do {#shinytab3}
+
+**The model is assumed to run in units of hours.**
+
+
+```{r, echo=FALSE, eval=TRUE}
+
+#this is the running counter for the records which starts at 1 
+rc=1
+
+#empty object, will hold all outcomes
+alloutcomes = NULL
+
+#########################
+# Task 1
+#########################
+tid = 1
+tasktext = "Start with the default settings. Run the model for 100 iterations for all 3 solvers (1-3). At the end of each fit, take a look at both the visual agreement between model and data, and the reported SSR. You'll probably want to have the plots with a y-axis on the log scale. Note that for this example, we have multiple measurements for each quantity for each time point. In our fitting approach, each such data point contributes to the SSR, so we are in some sense trying to fit average trajectories to the data. 
+You should find that after the fitting, solver 2 produces the lowest SSR. However, the predicted model shows ups and downs in the bacteria variable that we don't really see in the data. While we'll find a better model later, it can sometimes happen that the model which fits best based on some statistical quantity, such as SSR, does not look good when doing e.g. visual checks. It's up to the modeler to decide what to conclude from that. My general suggestion is to try and further improve/tweak the model."
+
+nrec = 1 # number of items to record
+out_records = c("SSR after 100 interations for solvertype 2.")
+out_types = rep("Rounded_Numeric",nrec)
+out_notes = rep("Round to two significant digits",nrec)
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+
+
+#########################
+# Task 2
+#########################
+tid = tid + 1
+tasktext = "Further tasks to come. For now, you are free to explore on your own."
+nrec = 1 # number of items to record
+out_records = c("Nothing")
+out_types = rep("None",nrec)
+out_notes = c("")
+outcomes = data.frame( TaskID = rep(tid,nrec),
+                       TaskText = rep(tasktext,nrec),
+                      RecordID = paste0('T',tid,'R',(1:nrec)),
+                      Record = out_records, 
+                      Type = out_types, 
+                      Note = out_notes)
+alloutcomes = rbind(alloutcomes,outcomes)
+rc = rc + nrec #increment record counter by number of outcomes to record for this task 
+```
+
+
+
+
+
+```{r echo=FALSE}
+#save the fully filled task table to a tsv file
+alloutcomes$QuizID = paste0(packagename,"_",appsettings$appid)
+alloutcomes$AppTitle = appsettings$apptitle
+alloutcomes$AppID = appsettings$appid
+#remove a few variables from the data frame
+savedoutcomes <- dplyr::select(alloutcomes,QuizID,AppID,AppTitle,TaskID,TaskText,RecordID,Record,Type,Note)		
+write.table(savedoutcomes, paste0(appsettings$appid,"_tasktable.tsv"), append = FALSE, sep = "\t", row.names = F, col.names = TRUE)
+```
+
+
+```{r, echo=FALSE, results='asis'}
+# Take all the text stored in the table and print the tasks and items to record
+write_tasktext(alloutcomes)
+```
+
+
+
+
+## Further Information {#shinytab4}
+For this app, the underlying function running the simulation is called ``r appsettings$simfunction``. That function repeatedly calls ``r appsettings$underlying_function``. 
+  
+This app (and all others) are structured such that the Shiny part (the graphical interface you are using) calls one or several underlying R functions which run the simulation for the model of interest and return the results. You can call them directly, without going through the shiny app. Use the `help()` command for more information on how to use the functions directly. If you go that route, you need to use the results returned from this function and produce useful output (such as a plot) yourself. 
+  
+You can also download all simulator functions and modify them for your own purposes.  Of course to modify these functions, you'll need to do some coding.
+  
+For examples on using the simulators directly and how to modify them, read the package vignette by typing `vignette('DSAIRM')` into the R console.
+  
+The data for this app comes from [@schirm20]. In that paper, the authors fit a much more complex model to a richer dataset. If you want to learn more about _Streptococcus pneumoniae_ infections in mice and how to model them, or are just generally curious to see a more complex model being fit to data, you should check out that paper.
+
+
+### References
+
+

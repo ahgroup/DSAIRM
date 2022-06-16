@@ -1,37 +1,27 @@
 # To-do Andreas
 
-* Implement basic bacteria fitting app - use as level 3, show fitting to data. data?
-* Review/critique download scenario button
-
-
+* Create diagrams for new apps with flowdiagamr: acute virus and IR, chronic virus and IR, extended bacteria, bacteria fitting
+* make tasks for extended bacteria and bacteria model fitting
 
 
 # To-do Cody
 
-Most important:
-* Do a quick review of the basic virus app, just to make sure things work.
-* Create updated figures for the new acute (and if needed chronic virus) apps using the flowdiagramr package:
-https://andreashandel.github.io/flowdiagramr/ (if it fails, we can do it by hand)
+First:
+* Do a quick review of the basic virus app and the model variant exploration app, just to make sure things work.
+* Do another round of review of the new ones: acute virus and IR, chronic virus and IR, extended bacteria, bacteria fitting
 
+
+Later:
+* If time and interested: add tasks to extended bacteria and bacteria model fitting
+
+
+download_code related (probably not for now):
 * rewrite run_model.R such that it calls construct_simulation_code instead of repeating code. as suitable, save a version of run_model in the auxiliary/oldfiles folder in case we need to go back.
 * there seems to be some "junk" in app.R, e.g. commented out block starting on line 104 and again line 195. can you clean up that file such that only used code and comments are present.
 * move all code that is related to writing the R script from app.R into a generate_downloadcode function. 
 * improve formatting of output code by adding line breaks, e.g. every modelsetting entry in its own line. 
 * Don't use colons in variable names (no my.result). Instead just call it 'result' or such.
 
-
-
-Other:
-* Work through all comments at bottom
-
-
-
-## Pending
-* Videos or other teaching materials?
-    + Ideas
-        - pipeline to contribute, modelbuilder to DSAIRM/DSAIDE
-* Review new apps once ready
-* Check that tasks/solutions are still correct, especially fitting/nloptr related
 
 
 ## Completed
@@ -85,6 +75,7 @@ Other:
 * Create more docs
 * Find classes/instructors who could use package.
 * Make videos for levels 1/2/3 for packages 
+
 
 ## General thoughts and comments
 * Maybe change name of package

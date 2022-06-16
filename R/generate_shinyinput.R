@@ -189,10 +189,10 @@ generate_shinyinput <- function(use_mbmodel = FALSE, mbmodel = NULL,
     #return structure
     modelinputs <- tagList(
             p(
-                shiny::actionButton(inputId = "reset", label = "Reset Inputs", class = "submitbutton"),
-                shiny::actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
+              shiny::actionButton("submitBtn", "Run Simulation", class = "submitbutton"),
+              shiny::actionButton(inputId = "reset", label = "Reset Inputs", class = "submitbutton"),
                 #shiny::checkboxInput(inputId = "download_code", label = "Download Code", value = FALSE, width = NULL),
-                shiny::downloadButton(outputId = "download_code", label = "Download Code", class = "submitbutton"),
+                #shiny::downloadButton(outputId = "download_code", label = "Download Code", class = "submitbutton"),
                 align = 'center'),
             modelargs,
             otherargs,
