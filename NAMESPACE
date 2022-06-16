@@ -2,6 +2,7 @@
 
 export(construct_modelsettings)
 export(construct_simulation_code)
+export(construct_simulation_script)
 export(dsairmmenu)
 export(generate_documentation)
 export(generate_fctcall)

@@ -272,7 +272,7 @@ server <- function(input, output, session)
                      # this function parses the inputs and app settings
                      # to generate a list of model settings
                      # these specify the settings for which a simulation should be run
-                     modelsettings <<- construct_modelsettings(app_input, appsettings, appNames)
+                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
 
 
                      #run model, process inside run_model function based on settings
@@ -312,6 +312,33 @@ server <- function(input, output, session)
     #######################################################
     #end code that listens to the 'run simulation' button and runs a model for the specified settings
     #######################################################
+
+
+
+  #######################################################
+  #start code that listens to the "download code" button
+  #not currently implemented/activated
+  #######################################################
+  output$download_code <- downloadHandler(
+    filename = function() {
+      "output.R"
+    },
+    content = function(file) {
+
+      modelsettings <- construct_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
+      simulation_script <- construct_simulation_script(modelsettings)
+
+      write(simulation_script,
+            file)
+
+    } #end content statement
+    ,
+    contentType= "application/zip"
+  )
+  #######################################################
+  #end code that listens to the "download code" button
+  #######################################################
+
 
 
   #######################################################

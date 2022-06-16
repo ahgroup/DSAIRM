@@ -8,19 +8,36 @@
 
 First:
 * Do a quick review of the basic virus app and the model variant exploration app, just to make sure things work.
+  + basic virus and model variant exploration seem okay
+
 * Do another round of review of the new ones: acute virus and IR, chronic virus and IR, extended bacteria, bacteria fitting
+  + acute virus and IR, chronic virus and IR seem okay
+  + extended bacteria 
+    - model diagram missing A compartment entirely, maybe overwritten when made the fitting diagram?
+    - also initial description says still 2 compartment model, fixed
+    - app seems to take just a tad bit longer to open from main menu, happened a few times consistently, now can't reproduce, maybe just my computer
+  + bacteria fitting
+    - warning of missing data printed in console
+      - Warning: Removed 2 row(s) containing missing values (geom_path).
+      - Warning: Removed 10 rows containing missing values (geom_point).
 
 
 Later:
 * If time and interested: add tasks to extended bacteria and bacteria model fitting
+  + extended bacteria topic / flow ideas
+    - steady state (basic bacteria introduces briefly)
+    - IR turn on each separately (mirror other IR apps)
+    
+  + bacteria fitting
+    - quick concept checkmark of what model components are and are not being estimated (initial values for variables/compartments)
+    - how to "turn off" estimation for parameter (e.g., set initial&range to zero, set range to match initial)
+    
+
 
 
 download_code related (probably not for now):
 * rewrite run_model.R such that it calls construct_simulation_code instead of repeating code. as suitable, save a version of run_model in the auxiliary/oldfiles folder in case we need to go back.
-* there seems to be some "junk" in app.R, e.g. commented out block starting on line 104 and again line 195. can you clean up that file such that only used code and comments are present.
-* move all code that is related to writing the R script from app.R into a generate_downloadcode function. 
-* improve formatting of output code by adding line breaks, e.g. every modelsetting entry in its own line. 
-* Don't use colons in variable names (no my.result). Instead just call it 'result' or such.
+
 
 
 
@@ -29,17 +46,7 @@ download_code related (probably not for now):
     + put consistency notes from below, likely could use rephrasing/examples, but low priority
 * Review the new acute virus and chronic virus apps. Review/check both DSAIRM and DSAIRMsolutions for those 2 apps. Flag/fix as needed.
 
-* Implement "download scenario" button
-    + three new functions to help
-        - construct_modelsettings.R takes shiny input and other relevant objects to create modelsettings list used in simulation runs
-        - construct_simulation_code.R takes a modelsettings list and returns a list of simulation function calls encoded within the modelsettings; this is the first half of run_model()
-        - generate_output.R takes a modelsettings list and a list of results that should be generated from individual function calls encoded within the provided modelsettings, these are used to process the set of results in a way that allows them to be passed on to the generate_ plotting functions
-    + clunky coding for now, still various options in implementation
-    + currently, construct_modelsettings() is only one integrated directly into app, though possible for all
-        - construct_simulation_code() only executed when download button hit
-        - generate_output() designed for use in the downloaded script, not as part of app
-    + could be used in solutions
-    + not thoroughly tested
+
     
 
 

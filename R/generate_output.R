@@ -32,18 +32,32 @@ generate_output <- function(modelsettings, resultslist) {
   #assumed order of results in results list
   ##ordered to match order in construct_simulation_code()
   ###inherited from run_model()
-  the.model.types <- c("_stochastic_", "_ode_", "_discrete_", "_usanalysis_", "_fit_", "_modelexploration_")
+  the_model_types <- c("_stochastic_", "_ode_", "_discrete_", "_usanalysis_", "_fit_", "_modelexploration_")
+
+
+  #if the user sets the model type, apply that choice
+  #that happens for any models that have an "_and_" in their modeltype variable as defined in the apptable.tsv spreadsheet
+  if (grepl('_and_',modelsettings$modeltype))
+  {
+    modelsettings$modeltype = modelsettings$modeltypeUI
+  }
+
 
   #match modelsettings$modeltype to get expect frequencies of results in resultslist based on modelsettings
-  result.mts <- the.model.types[which(sapply(the.model.types,
+  result_mts <- the_model_types[which(sapply(the_model_types,
                                              function(x){
                                                grepl(x, modelsettings$modeltype)
                                                }))]
 
   #account for nreps in stochastic sims
-  expected.sim.results <- result.mts[c(rep(which(grepl("_stochastic_", result.mts)), modelsettings$nreps), which(!grepl("_stochastic_", result.mts)))]
+  expected_sim_results <- result_mts[c(rep(which(grepl("_stochastic_", result_mts)),
+                                           modelsettings$nreps),
+                                       which(!grepl("_stochastic_", result_mts)))]
 
-  if(length(expected.sim.results)!=length(resultslist)){
+
+  #check provided results match model settings
+  ##very rudimentary check
+  if(length(expected_sim_results)!=length(resultslist)){
     return('Error: Model Settings and Results mismatch.')
   }
 
@@ -99,12 +113,12 @@ generate_output <- function(modelsettings, resultslist) {
     noutbreaks = 0
     nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
 
-    res.sto <- resultslist[which(grepl("_stochastic_", expected.sim.results))]
+    res_sto <- resultslist[which(grepl("_stochastic_", expected_sim_results))]
 
     for (nn in 1:nreps)
     {
       #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-      simresult = res.sto[[nn]]
+      simresult = res_sto[[nn]]
       checkres <- check_results(simresult)
       if (!is.null(checkres)) {return(checkres)}
 
@@ -151,7 +165,7 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
-    simresult = resultslist[[which(grepl("_ode_", expected.sim.results))]]
+    simresult = resultslist[[which(grepl("_ode_", expected_sim_results))]]
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
 
@@ -188,7 +202,7 @@ generate_output <- function(modelsettings, resultslist) {
   if (grepl('_discrete_',modelsettings$modeltype))
   {
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_discrete_", expected.sim.results))]]
+    simresult = resultslist[[which(grepl("_discrete_", expected_sim_results))]]
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
@@ -281,7 +295,7 @@ generate_output <- function(modelsettings, resultslist) {
   if (grepl('_usanalysis_',modelsettings$modeltype))
   {
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_usanalysis_", expected.sim.results))]]
+    simresult = resultslist[[which(grepl("_usanalysis_", expected_sim_results))]]
 
 
     checkres <- check_results(simresult)
@@ -345,7 +359,7 @@ generate_output <- function(modelsettings, resultslist) {
   if (grepl('_fit_',modelsettings$modeltype))
   {
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_fit_", expected.sim.results))]]
+    simresult = resultslist[[which(grepl("_fit_", expected_sim_results))]]
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
@@ -401,7 +415,7 @@ generate_output <- function(modelsettings, resultslist) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction))
+    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction) || grepl('bacteria_fit',simfunction))
     {
       txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
@@ -420,7 +434,7 @@ generate_output <- function(modelsettings, resultslist) {
   if (grepl('_modelexploration_',modelsettings$modeltype))
   {
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_modelexploration_", expected.sim.results))]]
+    simresult = resultslist[[which(grepl("_modelexploration_", expected_sim_results))]]
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
