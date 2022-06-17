@@ -1,8 +1,7 @@
-#' @title A function that takes shiny GUI input and generates intermediate code used
-#' to run simulations and process results
+#' @title A function that runs an app for specific settings and processes results for plot and text generation
 #'
-#' @description This function is based on run_model() but instead of running the models
-#' it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
+#' @description This function runs a model based on information
+#' provided in the modelsettings list passed into it.
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
@@ -20,48 +19,13 @@
 #' If not provided, a single plot is assumed.  \cr
 #' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 #' If not provided, a single run will be done. \cr
-#' @param resultslist a list of results corresponding to individual calls to simulation functions generated from the provided modelsettings
 #' @return A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
-#' @details This function processes and aggregates simulation results generated from a single set of modelsettings.
+#' @details This function runs a model for specific settings.
 #' @importFrom utils head tail
 #' @importFrom stats reshape
 #' @export
 
-generate_output <- function(modelsettings, resultslist) {
-
-  #assumed order of results in results list
-  ##ordered to match order in construct_simulation_code()
-  ###inherited from run_model()
-  the_model_types <- c("_stochastic_", "_ode_", "_discrete_", "_usanalysis_", "_fit_", "_modelexploration_")
-
-
-  #if the user sets the model type, apply that choice
-  #that happens for any models that have an "_and_" in their modeltype variable as defined in the apptable.tsv spreadsheet
-  if (grepl('_and_',modelsettings$modeltype))
-  {
-    modelsettings$modeltype = modelsettings$modeltypeUI
-  }
-
-
-  #match modelsettings$modeltype to get expect frequencies of results in resultslist based on modelsettings
-  result_mts <- the_model_types[which(sapply(the_model_types,
-                                             function(x){
-                                               grepl(x, modelsettings$modeltype)
-                                               }))]
-
-  #account for nreps in stochastic sims
-  expected_sim_results <- result_mts[c(rep(which(grepl("_stochastic_", result_mts)),
-                                           ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)),
-                                       which(!grepl("_stochastic_", result_mts)))]
-
-
-  #check provided results match model settings
-  ##very rudimentary check
-  if(length(expected_sim_results)!=length(resultslist)){
-    return('Error: Model Settings and Results mismatch.')
-  }
-
-
+run_model <- function(modelsettings) {
 
   #check if a simresult function ran ok
   #if error occurs we exit run_model function
@@ -86,39 +50,52 @@ generate_output <- function(modelsettings, resultslist) {
   }
 
 
-  # #check to make sure inputs to function provide information needed for code to run
-  # if (is.null(modelsettings$simfunction)) { return("List element simfunction must be provided.") }
+  #check to make sure inputs to function provide information needed for code to run
+  if (is.null(modelsettings$simfunction)) { return("List element simfunction must be provided.") }
   if (is.null(modelsettings$modeltype)) { return("List element modeltype must be provided.") }
 
 
 
-
+  #if the user sets the model type, apply that choice
+  #that happens for any models that have an "_and_" in their modeltype variable as defined in the apptable.tsv spreadsheet
+  if (grepl('_and_',modelsettings$modeltype))
+  {
+    modelsettings$modeltype = modelsettings$modeltypeUI
+  }
 
   datall = NULL #will hold data for all different models and replicates
   finaltext = NULL
   simfunction = modelsettings$simfunction #name(s) for model function(s) to run
-
-
-
-
-
-
 
   ##################################
   #stochastic dynamical model execution
   ##################################
   if (grepl('_stochastic_',modelsettings$modeltype))
   {
-
+    modelsettings$currentmodel = simfunction[grep('_stochastic',simfunction)] # get the stochastic function
     noutbreaks = 0
     nreps = ifelse(is.null(modelsettings$nreps),1,modelsettings$nreps)
-
-    res_sto <- resultslist[which(grepl("_stochastic_", expected_sim_results))]
-
     for (nn in 1:nreps)
     {
+      #extract modelsettings inputs needed for simulator function
+
+      #all models should be using tfinal so turn this off
+      #if (is.null(modelsettings$tmax) & !is.null(modelsettings$tfinal) )
+      #{
+        #modelsettings$tmax = modelsettings$tfinal
+      #}
+
+      #create function call, then evaluate it to run model
+      fctcall = generate_fctcall(modelsettings)
+      # this means an error occurred making the call
+      if (!is.call(fctcall))
+      {
+        #return error message generated when trying to build the function call
+        return(fctcall)
+      }
+      #wrap in try command to catch errors
       #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-      simresult = res_sto[[nn]]
+      simresult = try(eval(fctcall))
       checkres <- check_results(simresult)
       if (!is.null(checkres)) {return(checkres)}
 
@@ -138,7 +115,7 @@ generate_output <- function(modelsettings, resultslist) {
       dat$IDvar = paste(dat$varnames,nn,sep='') #make a variable for plotting same color lines for each run in ggplot2
       dat$nreps = nn
       datall = rbind(datall,dat)
-
+      modelsettings$rngseed = modelsettings$rngseed + 1 #need to update RNG seed each time to get different runs
       #keep track of outbreaks occurence among stochastic simulations
       S0=head(simresult[,2],1)
       Sfinal=tail(simresult[,2],1)
@@ -147,25 +124,30 @@ generate_output <- function(modelsettings, resultslist) {
     finaltext = paste('For stochastic simulation scenarios, values shown are the mean over all simulations.', noutbreaks,' simulations produced an outbreak (susceptible/uninfected dropped by at least 20%)')
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   ##################################
   #ode dynamical model execution
   ##################################
   if (grepl('_ode_',modelsettings$modeltype)) #need to always start with ode_ in model specification
   {
-    simresult = resultslist[[which(grepl("_ode_", expected_sim_results))]]
+
+    # stochastic doesn't support tstart and dt as inputs, thus they are not in the UI
+    # but they are needed if we run ode models at the same time
+    # therefore set here if they don't exist
+    if (is.null(modelsettings$tstart) ) {modelsettings$tstart = 0 }
+    if (is.null(modelsettings$dt) ) {modelsettings$dt = modelsettings$tfinal/1000 }
+
+    modelsettings$currentmodel = simfunction[grep('_ode',simfunction)] #list of model functions, get the ode function
+
+    #make the call to the simulator function by parsing inputs
+    fctcall = generate_fctcall(modelsettings)
+    # this means an error occurred making the call
+    if (!is.call(fctcall))
+    {
+      #return error message generated when trying to build the function call
+      return(fctcall)
+    }
+    #run model
+    simresult = try(eval(fctcall))
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
 
@@ -186,23 +168,24 @@ generate_output <- function(modelsettings, resultslist) {
   }
 
 
-
-
-
-
-
-
-
-
-
-
   ##################################
   #discrete dynamical model execution
   ##################################
   if (grepl('_discrete_',modelsettings$modeltype))
   {
+    modelsettings$currentmodel = simfunction[grep('_discrete',simfunction)] #list of model functions, get the ode function
+
+    #create function call, then evaluate it to run model
+    fctcall = generate_fctcall(modelsettings)
+    # this means an error occurred making the call
+    if (!is.call(fctcall))
+    {
+      #return error message generated when trying to build the function call
+      return(fctcall)
+    }
+    #wrap in try command to catch errors
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_discrete_", expected_sim_results))]]
+    simresult = try(eval(fctcall))
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
@@ -221,13 +204,6 @@ generate_output <- function(modelsettings, resultslist) {
     dat$nreps = 1
     datall = rbind(datall,dat)
   }
-
-
-
-
-
-
-
 
   ##################################
   #take data from all simulations and turn into list structure format
@@ -294,8 +270,19 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   if (grepl('_usanalysis_',modelsettings$modeltype))
   {
+    modelsettings$currentmodel = simfunction
+
+    #create function call, then evaluate it to run model
+    fctcall = generate_fctcall(modelsettings)
+    # this means an error occurred making the call
+    if (!is.call(fctcall))
+    {
+      #return error message generated when trying to build the function call
+      return(fctcall)
+    }
+    #wrap in try command to catch errors
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_usanalysis_", expected_sim_results))]]
+    simresult = try(eval(fctcall))
 
 
     checkres <- check_results(simresult)
@@ -358,8 +345,21 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   if (grepl('_fit_',modelsettings$modeltype))
   {
+
+
+    modelsettings$currentmodel = simfunction
+
+    #create function call, then evaluate it to run model
+    fctcall = generate_fctcall(modelsettings)
+    # this means an error occurred making the call
+    if (!is.call(fctcall))
+    {
+      #return error message generated when trying to build the function call
+      return(fctcall)
+    }
+    #wrap in try command to catch errors
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_fit_", expected_sim_results))]]
+    simresult = try(eval(fctcall))
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
@@ -401,7 +401,7 @@ generate_output <- function(modelsettings, resultslist) {
     ####################################################
     #different choices for text display for different fit models
     #both DSAIDE and DSAIRM models
-    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction))
+    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction) || grepl('bacteria_fit',simfunction))
     {
       txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
@@ -415,7 +415,7 @@ generate_output <- function(modelsettings, resultslist) {
       txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
       result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
     }
-    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction) || grepl('bacteria_fit',simfunction))
+    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction))
     {
       txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
       txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
@@ -433,8 +433,19 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   if (grepl('_modelexploration_',modelsettings$modeltype))
   {
+    modelsettings$currentmodel = simfunction
+
+    #create function call, then evaluate it to run model
+    fctcall = generate_fctcall(modelsettings)
+    # this means an error occurred making the call
+    if (!is.call(fctcall))
+    {
+      #return error message generated when trying to build the function call
+      return(fctcall)
+    }
+    #wrap in try command to catch errors
     #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_modelexploration_", expected_sim_results))]]
+    simresult = try(eval(fctcall))
 
     checkres <- check_results(simresult)
     if (!is.null(checkres)) {return(checkres)}
@@ -459,13 +470,6 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   #end model exploration code block
   ##################################
-
-
-
-
-
-
-
 
   #return result structure to calling function (app.R)
   #results need to be in a form that they
