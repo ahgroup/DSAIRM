@@ -29,7 +29,8 @@ A vectored list named "result" with each main list element containing the simula
 }
 \description{
 This function runs a model based on information
-provided in the modelsettings list passed into it.
+provided in the modelsettings list passed into it. The main work is split
+and outsourced to different functions
 }
 \details{
 This function runs a model for specific settings.

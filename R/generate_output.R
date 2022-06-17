@@ -1,8 +1,7 @@
 #' @title A function that takes shiny GUI input and generates intermediate code used
 #' to run simulations and process results
 #'
-#' @description This function is based on run_model() but instead of running the models
-#' it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
+#' @description
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
@@ -30,10 +29,9 @@
 generate_output <- function(modelsettings, resultslist) {
 
   #assumed order of results in results list
-  ##ordered to match order in construct_simulation_code()
+  ##ordered to match order in generate_simulationcode()
   ###inherited from run_model()
   the_model_types <- c("_stochastic_", "_ode_", "_discrete_", "_usanalysis_", "_fit_", "_modelexploration_")
-
 
   #if the user sets the model type, apply that choice
   #that happens for any models that have an "_and_" in their modeltype variable as defined in the apptable.tsv spreadsheet
@@ -91,16 +89,9 @@ generate_output <- function(modelsettings, resultslist) {
   if (is.null(modelsettings$modeltype)) { return("List element modeltype must be provided.") }
 
 
-
-
-
   datall = NULL #will hold data for all different models and replicates
   finaltext = NULL
   simfunction = modelsettings$simfunction #name(s) for model function(s) to run
-
-
-
-
 
 
 
@@ -186,16 +177,6 @@ generate_output <- function(modelsettings, resultslist) {
   }
 
 
-
-
-
-
-
-
-
-
-
-
   ##################################
   #discrete dynamical model execution
   ##################################
@@ -221,12 +202,6 @@ generate_output <- function(modelsettings, resultslist) {
     dat$nreps = 1
     datall = rbind(datall,dat)
   }
-
-
-
-
-
-
 
 
   ##################################
@@ -459,13 +434,6 @@ generate_output <- function(modelsettings, resultslist) {
   ##################################
   #end model exploration code block
   ##################################
-
-
-
-
-
-
-
 
   #return result structure to calling function (app.R)
   #results need to be in a form that they

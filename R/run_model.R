@@ -1,7 +1,8 @@
 #' @title A function that runs an app for specific settings and processes results for plot and text generation
 #'
 #' @description This function runs a model based on information
-#' provided in the modelsettings list passed into it.
+#' provided in the modelsettings list passed into it. The main work is split
+#' and outsourced to different functions
 #'
 #' @param modelsettings a list with model settings. Required list elements are: \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
@@ -27,18 +28,28 @@
 
 run_model <- function(modelsettings){
 
-  simulation_code <- construct_simulation_code(modelsettings)
+  # this function take the modelsettings information from the shiny UI and
+  # turns them into a function call for the underlying simulation function
+  # that can then be executed
+  simulation_code <- generate_simulationcode(modelsettings)
 
   #error handling
+  #we expect a list if things worked ok, otherwise an error string is returned
+  #which will be passed to caller
   if(!is.list(simulation_code)){
     return(simulation_code)
   }
 
-  #function calls
+  #this executes the call to the function(s) to be run
+  #results are returned as list, the exact structure of the list depends
+  #on the models/app that is executed
+  #generate_output processes that further
   resultslist <- lapply(simulation_code[[2]],
                         function(this_fctcall){try(eval(this_fctcall))})
 
-  #processed results
+  #this takes results from the executed model calls,
+  #as well as initial model settings, and generates output as needed
+  #the result will be a list in a format needed to generate figures/text.
   result <- generate_output(modelsettings, resultslist)
 
   return(result)

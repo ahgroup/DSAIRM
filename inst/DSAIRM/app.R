@@ -272,10 +272,12 @@ server <- function(input, output, session)
                      # this function parses the inputs and app settings
                      # to generate a list of model settings
                      # these specify the settings for which a simulation should be run
-                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
+                     modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
 
-
-                     #run model, process inside run_model function based on settings
+                     #take the model settings, execute/run the model(s)
+                     #then process model results into a form based on user supplied settings
+                     #that can be used to generate text and figures below
+                     #a list is returned, see run_model() for details
                      result <- run_model(modelsettings)
 
 
@@ -324,9 +326,10 @@ server <- function(input, output, session)
       "output.R"
     },
     content = function(file) {
-
-      modelsettings <- construct_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
-      simulation_script <- construct_simulation_script(modelsettings)
+      # take current UI settings and process to generate a list containing all current model inputs/settings
+      modelsettings <- generate_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
+      # create an R script that contains the current code corresponding to the current app inputs
+      simulation_script <- generate_simulationscript(modelsettings)
 
       write(simulation_script,
             file)

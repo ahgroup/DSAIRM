@@ -42,8 +42,6 @@ test_that("run_model correctly runs different models",
 
             testthat::expect_equal(Bpeak, 49505)
 
-
-
             ########################################
             #run basic virus model
             modelsettings =  list()
@@ -58,6 +56,8 @@ test_that("run_model correctly runs different models",
             result = run_model(modelsettings)
             #check that simulation ran until max time
             testthat::expect_equal(max(result[[1]]$dat$xvals), modelsettings$tfinal)
+
+
 
             ########################################
             #run basic bacteria model

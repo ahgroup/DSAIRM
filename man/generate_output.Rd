@@ -31,8 +31,7 @@ If not provided, a single run will be done. \cr}
 A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.
 }
 \description{
-This function is based on run_model() but instead of running the models
-it outputs code equivalent to DSAIRM back-end, server processes initiated from shiny GUI.
+
 }
 \details{
 This function processes and aggregates simulation results generated from a single set of modelsettings.
