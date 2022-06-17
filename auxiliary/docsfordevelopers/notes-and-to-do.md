@@ -6,13 +6,9 @@
 
 # To-do Cody
 
-First:
+Now:
 * Do a quick review of the basic virus app and the model variant exploration app, just to make sure things work.
 * Do another round of review of the new ones: acute virus and IR, chronic virus and IR, extended bacteria, bacteria fitting
-
-
-Later:
-* If time and interested: add tasks to extended bacteria and bacteria model fitting
 
 
 download_code related (probably not for now):
