@@ -29,23 +29,19 @@
 run_model <- function(modelsettings){
 
   # this function take the modelsettings information from the shiny UI and
-  # turns them into a function call for the underlying simulation function
+  # turns them into a list of function calls for the underlying simulation function
   # that can then be executed
-  simulation_code <- generate_simulationcode(modelsettings)
+  fctcalls <- generate_fctcalls(modelsettings)
 
   #error handling
   #we expect a list if things worked ok, otherwise an error string is returned
   #which will be passed to caller
-  if(!is.list(simulation_code)){
-    return(simulation_code)
-  }
+  if(!is.list(fctcalls)){ return(fctcalls) }
 
-  #this executes the call to the function(s) to be run
-  #results are returned as list, the exact structure of the list depends
+  #this executes the call(s) to the function(s) to be run
+  #results are returned as nested list, the exact structure of the list depends
   #on the models/app that is executed
-  #generate_output processes that further
-  resultslist <- lapply(simulation_code[[2]],
-                        function(this_fctcall){try(eval(this_fctcall))})
+  resultslist <- lapply(fctcalls[[2]], function(this_fctcall){try(eval(this_fctcall))})
 
   #this takes results from the executed model calls,
   #as well as initial model settings, and generates output as needed

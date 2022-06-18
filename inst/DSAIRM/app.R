@@ -269,7 +269,7 @@ server <- function(input, output, session)
                      #isolate UI inputs to make them non-reactive
                      app_input <- isolate(reactiveValuesToList(input))
 
-                     # this function parses the inputs and app settings
+                     # this function parses the inputs and app settings of the UI
                      # to generate a list of model settings
                      # these specify the settings for which a simulation should be run
                      modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
@@ -326,8 +326,11 @@ server <- function(input, output, session)
       "output.R"
     },
     content = function(file) {
+
+      #isolate UI inputs to make them non-reactive
+      app_input <- isolate(reactiveValuesToList(input))
       # take current UI settings and process to generate a list containing all current model inputs/settings
-      modelsettings <- generate_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
+      modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
       # create an R script that contains the current code corresponding to the current app inputs
       simulation_script <- generate_simulationscript(modelsettings)
 

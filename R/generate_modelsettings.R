@@ -10,6 +10,7 @@
 #' @return modelsettings a list with model settings. List elements are: \cr
 #' modelsettings$apptitle - The name of the app that's being run.  \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
+#' modelsettings$simfunction2 - name of simulation function(s) as string.  \cr
 #' modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 #' modelsettings$modeltype - specify what kind of model should be run.
 #' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
@@ -24,7 +25,7 @@
 #' If not provided, a single plot is assumed.  \cr
 #' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 #' If not provided, a single run will be done. \cr
-#' @details This function returns specific settings for simulation runs.
+#' @details This function returns specific settings for simulation runs as a list.
 #' @export
 
 generate_modelsettings <- function(app_input, appsettings, appNames) {

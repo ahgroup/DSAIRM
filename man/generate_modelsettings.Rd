@@ -17,6 +17,7 @@ generate_modelsettings(app_input, appsettings, appNames)
 modelsettings a list with model settings. List elements are: \cr
 modelsettings$apptitle - The name of the app that's being run.  \cr
 modelsettings$simfunction - name of simulation function(s) as string.  \cr
+modelsettings$simfunction2 - name of simulation function(s) as string.  \cr
 modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 modelsettings$modeltype - specify what kind of model should be run.
 Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
@@ -38,5 +39,5 @@ and combines those with other settings for a full definition of the model and
 settings that should be executed. This is a helper function.
 }
 \details{
-This function returns specific settings for simulation runs.
+This function returns specific settings for simulation runs as a list.
 }
