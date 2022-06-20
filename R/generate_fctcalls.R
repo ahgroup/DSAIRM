@@ -3,8 +3,9 @@
 #' @description This function takes a modelsettings structure and uses that information
 #' to create an unevaluated function call that runs the simulator function with the specified settings
 #'
-#'
-#' @param modelsettings a list with model settings. Required list elements are: \cr
+#' @param modelsettings a list with model settings. \cr
+#' Generally, this list is produced by calling generate_modelsettings() \cr
+#' Required list elements are: \cr
 #' modelsettings$simfunction - name of simulation function(s) as string.  \cr
 #' modelsettings$modeltype - specify what kind of model should be run.
 #' Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
@@ -19,7 +20,7 @@
 #' If not provided, a single plot is assumed.  \cr
 #' modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 #' If not provided, a single run will be done. \cr
-#' @return A list of strings containing one or multiple unevaluated function calls with the specified settings, or an error message
+#' @return A list containing one or multiple unevaluated function calls with the specified settings, or string with an error message
 #' @details This function produces function call(s) for specific settings.
 #' @export
 

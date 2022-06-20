@@ -37,6 +37,8 @@ test_that("run_model correctly runs different models",
               pardist = 'lin'
             )
             modelsettings = c(appsettings, modelsettings)
+
+
             result = run_model(modelsettings)
             Bpeak = round(result[[1]]$dat$Bpeak[1])
 

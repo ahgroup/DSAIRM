@@ -274,11 +274,41 @@ server <- function(input, output, session)
                      # these specify the settings for which a simulation should be run
                      modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
 
-                     #take the model settings, execute/run the model(s)
-                     #then process model results into a form based on user supplied settings
-                     #that can be used to generate text and figures below
-                     #a list is returned, see run_model() for details
-                     result <- run_model(modelsettings)
+
+                     #take the model settings produced by gnerate_modelsettings
+                     # generate function calls for execution
+                     # this function take the modelsettings information and
+                     # turns them into a list of function calls for the underlying simulation function(s)
+                     # that can then be executed
+                     fctcalls <- generate_fctcalls(modelsettings)
+
+                     #error handling
+                     #we expect a list if things worked ok, otherwise an error string is returned
+                     #which will be passed to caller
+                     if(!is.list(fctcalls)){ return(fctcalls) }
+
+                     #this executes the call(s) to the function(s) to be run
+                     #results are returned as nested list, the exact structure of the list depends
+                     #on the models/app that is executed
+                     simlist <- lapply(fctcalls, function(this_fctcall){try(eval(this_fctcall))})
+
+                     #error handling
+                     #check if a simresult function ran ok
+                     #we expect a list if things worked ok, otherwise an error string is returned
+                     #which will be passed to caller
+                     for (n in 1:length(simlist))
+                     {
+                        checksim <- check_simresults(simlist[[n]])
+                        # an error occured
+                        if (is.character(checksim)) {return(checksim)}
+                     }
+
+
+                     #this takes the raw results from the simulation runs,
+                     #and processes these results into
+                     # a list in a format needed to generate figures/text.
+                     result <- generate_results(simlist)
+
 
 
                      #if things worked, result contains a list structure for processing with the plot and text functions
