@@ -7,7 +7,7 @@
 
 [![R-CMD-check](https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![Coverage
-status](https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
+status](https://codecov.io/gh/ahgroup/DSAIRM/branch/main/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
 [![test-coverage](https://github.com/ahgroup/DSAIRM/workflows/test-coverage/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
@@ -74,7 +74,7 @@ package [see the *Get Started* tutorial
     the materials.
 -   Contributions to the package are very welcome! If you want to take a
     deeper look at the package, see [this Markdown
-    file](https://github.com/ahgroup/DSAIRM/blob/master/auxiliary/docsfordevelopers/documentation.md)
+    file](https://github.com/ahgroup/DSAIRM/blob/main/auxiliary/docsfordevelopers/documentation.md)
     which provides further information on the details of the package
     structure. I’d be excited to receive any contributions from
     individuals who want to help improve the package. If you plan to
