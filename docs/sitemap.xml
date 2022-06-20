@@ -19,12 +19,6 @@
     <loc>https://ahgroup.github.io/DSAIRM/index.html/news/index.html</loc>
   </url>
   <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/construct_modelsettings.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/construct_simulation_code.html</loc>
-  </url>
-  <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/DSAIRM.html</loc>
   </url>
   <url>
@@ -41,9 +35,6 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_modelsettings.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_output.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/generate_plotly.html</loc>
@@ -92,12 +83,6 @@
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_basicvirus_stochastic.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_Basic_Virus_Model_ode.html</loc>
-  </url>
-  <url>
-    <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_Basic_Virus_Model_stochastic.html</loc>
   </url>
   <url>
     <loc>https://ahgroup.github.io/DSAIRM/index.html/reference/simulate_chronicvirusir_ode.html</loc>

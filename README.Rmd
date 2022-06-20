@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
-[![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/master/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
+[![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/main/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
 [![test-coverage](https://github.com/ahgroup/DSAIRM/workflows/test-coverage/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
 [![CRAN checks](https://cranchecks.info/badges/summary/DSAIRM)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
@@ -50,7 +50,7 @@ For an introduction to the package, step-by-step instructions on getting started
 * [I published a paper describing the package](https://doi.org/10.1186/s12865-019-0321-0). The package has since been updated and changed, but the paper still describes the overall idea and context well.  
 * Several live-coding video recordings showing the different ways of using DSAIRM are available on the website [Simulation Modeling in Immunology (SMI)](https://andreashandel.github.io/SMIcourse/). See the _DSAIRM_ section under _Modeling_. That website also contains a lot of other potentially interesting materials.
 * I have full solutions and quiz sheets for all of the __What to do__ tasks for each app. If you are an instructor using this package as part of a class, email me if you are interested in having access to the materials.
-* Contributions to the package are very welcome! If you want to take a deeper look at the package, see [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/master/auxiliary/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. I'd be excited to receive any contributions from individuals who want to help improve the package. If you plan to develop new apps, or make other substantial contributions, it might be best to get in touch with me first.
+* Contributions to the package are very welcome! If you want to take a deeper look at the package, see [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/main/auxiliary/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. I'd be excited to receive any contributions from individuals who want to help improve the package. If you plan to develop new apps, or make other substantial contributions, it might be best to get in touch with me first.
 * A companion package to this one, called _Dynamical Systems Approaches to Infectious Disease Epidemiology (DSAIDE)_, focuses on models at the population level. It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/)
 * I send out a monthly newsletter in which I announce any noteworthy updates to my R packages. If you want to stay updated, [you can sign up here](https://www.andreashandel.com/susbscribe/).
 
