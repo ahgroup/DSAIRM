@@ -39,7 +39,7 @@ generate_simulationscript <- function(modelsettings) {
    }
 
   # Generate the set of simulation function calls specified in the model settings
-  simulation_code <- generate_simulationcode(modelsettings)
+  #simulation_code <- generate_simulationcode(modelsettings)
 
   # Set up character vectors to write script
   sim_modeltype <- simulation_code[[1]]

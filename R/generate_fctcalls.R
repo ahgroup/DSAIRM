@@ -56,7 +56,8 @@ generate_fctcalls <- function(modelsettings)
   #this will contain all function calls to be constructed
   #it's an empty data frame that contains the model,
   #a random seed and the constructed call
-  fctcalls = data.frame(model = NULL, rngseed = NULL, call = NULL)
+  fctcalls = data.frame(model = "", rngseed = 0, call = "")
+  allfctcalls = list()
 
   # for most apps, a single model is run as specified in simfunction
   # the only exceptions are stochastic apps, and those when user runs both models
@@ -76,6 +77,7 @@ generate_fctcalls <- function(modelsettings)
     seed = modelsettings$rngseed
     # data frame with different random seeds
     fctcalls <- c(rep(simfunction,nreps), seed+(0:(nreps-1)), "")
+
   }
 
   ###################################
@@ -98,6 +100,7 @@ generate_fctcalls <- function(modelsettings)
     fctcalls <- c(rep(simfunction,nreps), seed+(0:(nreps-1)), "")
     fctcalls <- cbind(fctcalls,c(simfunction2, NA, ""))
   }
+
 
 
   ###################################
@@ -135,13 +138,15 @@ generate_fctcalls <- function(modelsettings)
     numind = suppressWarnings(!is.na(as.numeric(arglist))) #find numeric values
     arglist[numind] = as.numeric(currentargs[numind])
     #add function name as first element to list
-    fctlist = append(parse(text = currentmodel), arglist)
-    #make fct call
-    fctcalls$call[n] <- as.call(fctlist)
+    fctlist = append(parse(text = fctcalls$model[n]), arglist)
+
+    #make and save fct call
+    allfctcalls[[n]] <- as.call(fctlist)
+
   }
 
   # return the data frame of all necessary function calls
-  return(fctcalls)
+  return(allfctcalls)
 }
 
 

@@ -41,7 +41,7 @@ run_model <- function(modelsettings){
   #this executes the call(s) to the function(s) to be run
   #results are returned as nested list, the exact structure of the list depends
   #on the models/app that is executed
-  resultslist <- lapply(fctcalls[[2]], function(this_fctcall){try(eval(this_fctcall))})
+  resultslist <- lapply(fctcalls, function(this_fctcall){try(eval(this_fctcall))})
 
   #this takes results from the executed model calls,
   #as well as initial model settings, and generates output as needed
