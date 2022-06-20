@@ -272,7 +272,7 @@ server <- function(input, output, session)
                      # this function parses the inputs and app settings
                      # to generate a list of model settings
                      # these specify the settings for which a simulation should be run
-                     modelsettings <<- construct_modelsettings(app_input, appsettings, appNames)
+                     modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
 
 
                      #run model, process inside run_model function based on settings
@@ -303,8 +303,6 @@ server <- function(input, output, session)
                        output$text <- renderText({ generate_text(result) })
                      }
                    }) #end with-progress wrapper
-      #if user checked the code download box, start that routine
-      #if (input$download_code == TRUE) {}
 
     } #end the expression being evaluated by observeevent
     ) #end observe-event for run model button
