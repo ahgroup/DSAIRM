@@ -4,12 +4,12 @@
 #' function and checks that no errors occured.
 #' If something goes wrong, an error message is returned
 #'
-#' @param simlist a list of results from a single call to the simulation functions
+#' @param simresult a list of results from a single call to the simulation functions
 #' @return Ane error message string or NULL
 #' @details This function checks simulation results generated from a single call to a simulate_ function.
 #' @export
 
-generate_output <- function(simresult) {
+check_simresult <- function(simresult) {
 
   checkres = NULL
     if (class(simresult)!="list") #if the return from the simulator function is not a list, something went wrong

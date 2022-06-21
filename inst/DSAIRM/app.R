@@ -298,7 +298,7 @@ server <- function(input, output, session)
                      #which will be passed to caller
                      for (n in 1:length(simlist))
                      {
-                        checksim <- check_simresults(simlist[[n]])
+                        checksim <- check_simresult(simlist[[n]])
                         # an error occured
                         if (is.character(checksim)) {return(checksim)}
                      }
