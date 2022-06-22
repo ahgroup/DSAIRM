@@ -269,14 +269,46 @@ server <- function(input, output, session)
                      #isolate UI inputs to make them non-reactive
                      app_input <- isolate(reactiveValuesToList(input))
 
-                     # this function parses the inputs and app settings
+                     # this function parses the inputs and app settings of the UI
                      # to generate a list of model settings
                      # these specify the settings for which a simulation should be run
-                     modelsettings <- construct_modelsettings(app_input, appsettings, appNames)
+                     modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
 
 
-                     #run model, process inside run_model function based on settings
-                     result <- run_model(modelsettings)
+                     #take the model settings produced by gnerate_modelsettings
+                     # generate function calls for execution
+                     # this function take the modelsettings information and
+                     # turns them into a list of function calls for the underlying simulation function(s)
+                     # that can then be executed
+                     fctcalls <- generate_fctcalls(modelsettings)
+
+                     #error handling
+                     #we expect a list if things worked ok, otherwise an error string is returned
+                     #which will be passed to caller
+                     if(!is.list(fctcalls)){ return(fctcalls) }
+
+                     #this executes the call(s) to the function(s) to be run
+                     #results are returned as nested list, the exact structure of the list depends
+                     #on the models/app that is executed
+                     simlist <- lapply(fctcalls, function(this_fctcall){try(eval(this_fctcall))})
+
+                     #error handling
+                     #check if a simresult function ran ok
+                     #we expect a list if things worked ok, otherwise an error string is returned
+                     #which will be passed to caller
+                     for (n in 1:length(simlist))
+                     {
+                        checksim <- check_simresult(simlist[[n]])
+                        # an error occured
+                        if (is.character(checksim)) {return(checksim)}
+                     }
+
+
+                     #this takes the raw results from the simulation runs,
+                     #and processes these results into
+                     # a list in a format needed to generate figures/text.
+                     result <- generate_results(simlist)
+
 
 
                      #if things worked, result contains a list structure for processing with the plot and text functions
@@ -325,8 +357,12 @@ server <- function(input, output, session)
     },
     content = function(file) {
 
-      modelsettings <- construct_modelsettings(isolate(reactiveValuesToList(input)), appsettings, appNames)
-      simulation_script <- construct_simulation_script(modelsettings)
+      #isolate UI inputs to make them non-reactive
+      app_input <- isolate(reactiveValuesToList(input))
+      # take current UI settings and process to generate a list containing all current model inputs/settings
+      modelsettings <- generate_modelsettings(app_input, appsettings, appNames)
+      # create an R script that contains the current code corresponding to the current app inputs
+      simulation_script <- generate_simulationscript(modelsettings)
 
       write(simulation_script,
             file)
