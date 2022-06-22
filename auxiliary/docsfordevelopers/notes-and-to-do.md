@@ -82,6 +82,7 @@ download_code related (probably not for now):
 * Create more docs
 * Find classes/instructors who could use package.
 * Make videos for levels 1/2/3 for packages 
+* (webshot::appshot)[https://github.com/cran/webshot#screenshots-of-shiny-applications] could be useful packages for making static documents, vignettes
 
 
 ## General thoughts and comments

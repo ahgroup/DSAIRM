@@ -307,7 +307,7 @@ server <- function(input, output, session)
                      #this takes the raw results from the simulation runs,
                      #and processes these results into
                      # a list in a format needed to generate figures/text.
-                     result <- generate_results(simlist)
+                     result <- generate_results(simlist, fctcalls)
 
 
 

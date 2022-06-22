@@ -12,10 +12,10 @@
 #' @importFrom stats reshape
 #' @export
 
-generate_output <- function(simlist,modelsettings) {
+generate_results <- function(simlist,fctcalls) {
 
   # will hold information to be returned
-  result <- vector(list(),length(simlist))
+  result <- vector("list",length(simlist))
 
   ##################################
   #default for text display, used by most basic simulation models
@@ -44,6 +44,10 @@ generate_output <- function(simlist,modelsettings) {
 
 
 
+  result[[1]]$dat <- NULL
+
+
+
   noutbreaks = 0 #tracking fraction of outbreaks for stochastic models
 
   # loop over each simulation call, process as needed
@@ -55,7 +59,7 @@ generate_output <- function(simlist,modelsettings) {
     ##################################
     #ode model
     ##################################
-    if (grepl('_ode',modelsettings[[n]]))
+    if (grepl('_ode',deparse1(fctcalls[[n]])))
     {
       simresult <- sim$ts
       if (length(simlist)>1) #this means another model was also run, relabel variables to indicate ODE
@@ -70,13 +74,13 @@ generate_output <- function(simlist,modelsettings) {
       dat$id <- NULL
       #dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for ode.
       dat$nreps = 1
-      datall[[n]] = dat
+      result[[1]]$dat = rbind(result[[1]]$dat,dat)
     }
 
     ##################################
     #discrete model
     ##################################
-    if (grepl('_discrete',fctcalls[[n]]))
+    if (grepl('_discrete',deparse1(fctcalls[[n]])))
     {
       simresult <- sim$ts
       if (length(simlist)>1) #this means another model was also run, relabel variables to indicate ODE
@@ -91,14 +95,14 @@ generate_output <- function(simlist,modelsettings) {
       dat$id <- NULL
       #dat$IDvar = dat$varnames #make variables in case data is combined with stochastic runs. not used for discrete.
       dat$nreps = 1
-      datall[[n]] = dat
+      result[[1]]$dat = rbind(result[[1]]$dat,dat)
     }
 
 
     ##################################
     #stochastic model
     ##################################
-    if (grepl('_stochastic',fctcalls[[n]]))
+    if (grepl('_stochastic',deparse1(fctcalls[[n]])))
     {
         simresult <- sim$ts
         colnames(simresult)[1] = 'xvals' #rename time to xvals for consistent plotting
@@ -109,7 +113,7 @@ generate_output <- function(simlist,modelsettings) {
         dat$id <- NULL
         #dat$IDvar = dat$varnames #make a variable for plotting same color lines for each run in ggplot2
         dat$nreps = n
-        datall[[n]] = dat
+        result[[1]]$dat = rbind(result[[1]]$dat,dat)
 
         #keep track of outbreaks occurrence among stochastic simulations
         S0=head(simresult[,2],1)
@@ -122,7 +126,7 @@ generate_output <- function(simlist,modelsettings) {
     ##################################
     #model exploration
     ##################################
-    if (grepl('_modelexploration',fctcalls[[n]]))
+    if (grepl('_modelexploration',deparse1(fctcalls[[n]])))
     {
 
       simresult <- sim
@@ -147,7 +151,7 @@ generate_output <- function(simlist,modelsettings) {
     ##################################
     #Code block for US analysis
     ##################################
-    if (grepl('_usanalysis',fctcalls[[n]]))
+    if (grepl('_usanalysis',deparse1(fctcalls[[n]])))
     {
       simresult <- sim
       #pull the indicator for non-steady state out of the dataframe, process separately
@@ -203,7 +207,89 @@ generate_output <- function(simlist,modelsettings) {
 
 
 
+    ##################################
+    #model fitting code block
+    ##################################
+    if (grepl('_fit',deparse1(fctcalls[[n]])))
+    {
+      simresult <- sim
+
+      colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
+      #reformat data to be in the right format for plotting
+      #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratification for each plot
+      rawdat = as.data.frame(simresult$ts)
+      #using basic reshape function to reformat data
+      dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
+
+      dat$style = 'line'
+
+      #next, add data that's being fit to data frame
+      fitdata  = simresult$data
+      fitdata$style = 'point'
+      datall = rbind(dat,fitdata)
+
+      #code variable names as factor and level them so they show up right in plot
+      mylevels = unique(datall$varnames)
+      datall$varnames = factor(datall$varnames, levels = mylevels)
+
+      #data for plots and text
+      #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
+      #each variable listed in varnames will also be processed to produce text
+      result[[1]]$dat = datall
+
+
+      #Meta-information for each plot
+      result[[1]]$plottype = "Mixedplot"
+      result[[1]]$xlab = "Time"
+      result[[1]]$ylab = "Numbers"
+      result[[1]]$legend = "Compartments"
+
+      result[[1]]$maketext = FALSE
+      result[[1]]$showtext = NULL
+
+      ####################################################
+      #different choices for text display for different fit models
+      #both DSAIDE and DSAIRM models
+      if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction))
+      {
+        txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+        txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
+        result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+      }
+      if (grepl('confint_fit',simfunction))
+      {
+        txt1 <- paste('Best fit values for parameters', paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+        txt2 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[1]), collapse = '/'), ' are ', paste(format(simresult$confint[1:2],  digits =2, nsmall = 2), collapse = '/' ))
+        txt3 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[2]), collapse = '/'), ' are ', paste(format(simresult$confint[3:4],  digits =2, nsmall = 2), collapse = '/' ))
+        txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
+        result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
+      }
+      if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction) || grepl('bacteria_fit',simfunction))
+      {
+        txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
+        txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
+        result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
+      }
+
+    }
+    ##################################
+    #end model fitting code block
+    ##################################
+
+
+
+
+
+
+
+
+
+
   } #end loop over all simulations in simlist
+
+  if(exists("finaltext")){
+    result[[1]]$finaltext <- paste(result[[1]]$finaltext, finaltext)
+  }
 
   #return result structure to calling function
   #results need to be in a form that they
@@ -214,80 +300,6 @@ generate_output <- function(simlist,modelsettings) {
 
 
 
-
-  ##################################
-  #model fitting code block
-  ##################################
-  if (grepl('_fit_',modelsettings$modeltype))
-  {
-    #send result from simulator to a check function. If that function does not return null, exit run_model with error message
-    simresult = resultslist[[which(grepl("_fit_", expected_sim_results))]]
-
-    checkres <- check_results(simresult)
-    if (!is.null(checkres)) {return(checkres)}
-
-
-    colnames(simresult$ts)[1] = 'xvals' #rename time to xvals for consistent plotting
-    #reformat data to be in the right format for plotting
-    #each plot/text output is a list entry with a data frame in form xvals, yvals, extra variables for stratification for each plot
-    rawdat = as.data.frame(simresult$ts)
-    #using basic reshape function to reformat data
-    dat = stats::reshape(rawdat, varying = colnames(rawdat)[-1], v.names = 'yvals', timevar = "varnames", times = colnames(rawdat)[-1], direction = 'long', new.row.names = NULL); dat$id <- NULL
-
-    dat$style = 'line'
-
-    #next, add data that's being fit to data frame
-    fitdata  = simresult$data
-    fitdata$style = 'point'
-    datall = rbind(dat,fitdata)
-
-    #code variable names as factor and level them so they show up right in plot
-    mylevels = unique(datall$varnames)
-    datall$varnames = factor(datall$varnames, levels = mylevels)
-
-    #data for plots and text
-    #each variable listed in the varnames column will be plotted on the y-axis, with its values in yvals
-    #each variable listed in varnames will also be processed to produce text
-    result[[1]]$dat = datall
-
-
-    #Meta-information for each plot
-    result[[1]]$plottype = "Mixedplot"
-    result[[1]]$xlab = "Time"
-    result[[1]]$ylab = "Numbers"
-    result[[1]]$legend = "Compartments"
-
-    result[[1]]$maketext = FALSE
-    result[[1]]$showtext = NULL
-
-    ####################################################
-    #different choices for text display for different fit models
-    #both DSAIDE and DSAIRM models
-    if (grepl('flu_fit',simfunction) || grepl('basicvirus_fit',simfunction))
-    {
-      txt1 <- paste('Best fit values for parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
-      txt2 <- paste('Final SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
-      result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
-    }
-    if (grepl('confint_fit',simfunction))
-    {
-      txt1 <- paste('Best fit values for parameters', paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
-      txt2 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[1]), collapse = '/'), ' are ', paste(format(simresult$confint[1:2],  digits =2, nsmall = 2), collapse = '/' ))
-      txt3 <- paste('Lower and upper bounds for parameter', paste(names(simresult$bestpars[2]), collapse = '/'), ' are ', paste(format(simresult$confint[3:4],  digits =2, nsmall = 2), collapse = '/' ))
-      txt4 <- paste('SSR is ', format(simresult$SSR, digits =2, nsmall = 2))
-      result[[1]]$finaltext = paste(txt1,txt2,txt3,txt4, sep = "<br/>")
-    }
-    if (grepl('noro_fit',simfunction) || grepl('fludrug_fit',simfunction) || grepl('modelcomparison_fit',simfunction) || grepl('bacteria_fit',simfunction))
-    {
-      txt1 <- paste('Best fit values for model', modelsettings$fitmodel, 'parameters',paste(names(simresult$bestpars), collapse = '/'), ' are ', paste(format(simresult$bestpars,  digits =2, nsmall = 2), collapse = '/' ))
-      txt2 <- paste('SSR and AICc are ',format(simresult$SSR, digits =2, nsmall = 2),' and ',format(simresult$AICc, digits =2, nsmall = 2))
-      result[[1]]$finaltext = paste(txt1,txt2, sep = "<br/>")
-    }
-
-  }
-  ##################################
-  #end model fitting code block
-  ##################################
 
 
 
