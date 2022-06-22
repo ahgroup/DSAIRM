@@ -7,7 +7,9 @@
 generate_fctcalls(modelsettings)
 }
 \arguments{
-\item{modelsettings}{a list with model settings. Required list elements are: \cr
+\item{modelsettings}{a list with model settings. \cr
+Generally, this list is produced by calling generate_modelsettings() \cr
+Required list elements are: \cr
 modelsettings$simfunction - name of simulation function(s) as string.  \cr
 modelsettings$modeltype - specify what kind of model should be run.
 Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. \cr
@@ -24,7 +26,7 @@ modelsettings$nreps - required for stochastic models to indicate numer of repeat
 If not provided, a single run will be done. \cr}
 }
 \value{
-A list of strings containing one or multiple unevaluated function calls with the specified settings, or an error message
+A list containing one or multiple unevaluated function calls with the specified settings, or string with an error message
 }
 \description{
 This function takes a modelsettings structure and uses that information
