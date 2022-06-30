@@ -12,7 +12,7 @@
 check_simresults <- function(simresult) {
 
   checkres = NULL
-    if (class(simresult)!="list") #if the return from the simulator function is not a list, something went wrong
+    if (!is.list(simresult)) #if the return from the simulator function is not a list, something went wrong
     {
       checkres <- 'Model run failed. Maybe unreasonable parameter values?'
       return(checkres)

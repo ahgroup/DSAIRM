@@ -8,7 +8,7 @@ Description: Simulation models (apps) of various within-host immune response sce
 Version: 0.9.5
 Date: 2022-06-29
 Authors@R: c(
-    person("Andreas", "Handel", email = "ahandel@uga.edu", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
+    person("Andreas", "Handel", email = "andreas.handel@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Cody", "Dailey",  role = "ctb"), 
     person("Yang", "Ge",  role = "ctb"),
     person("Spencer", "Hall",  role = "ctb"),
