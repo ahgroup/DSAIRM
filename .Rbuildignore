@@ -13,3 +13,4 @@
 ^_pkgdown\.yml$
 ^\.github$
 ^README.Rmd
+^CRAN-SUBMISSION$
