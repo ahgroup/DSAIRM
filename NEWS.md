@@ -1,4 +1,4 @@
-# DSAIRM 0.9.5 (2022-06-21)
+# DSAIRM 0.9.5 (2022-06-29)
 
 * added 4 new apps
 * minor other bugfixes and enhancements

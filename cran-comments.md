@@ -11,6 +11,8 @@
 
 ## Submission History
 
+version 0.9.5: four new apps, small bug fixes and other enhancements.
+
 version 0.9.3: major updates to app tasks, small bug fixes and other enhancements.
 
 version 0.8.7: bug fixes for CRAN, small other enhancements.
