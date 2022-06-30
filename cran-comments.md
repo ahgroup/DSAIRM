@@ -9,6 +9,10 @@
 0 errors v | 0 warnings v | 0 notes v
 
 
+
+I changed the email address from my work to my personal one.
+
+ 
 ## Submission History
 
 version 0.9.5: four new apps, small bug fixes and other enhancements.
