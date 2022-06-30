@@ -74,67 +74,102 @@ inspired by a study on HCV and IFN treatment (Neumann et al. 1998, Science)</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_virusandtx_ode</span><span class="op">(</span>
-  U <span class="op">=</span> <span class="fl">1e+05</span>,
-  I <span class="op">=</span> <span class="fl">0</span>,
-  V <span class="op">=</span> <span class="fl">10</span>,
-  n <span class="op">=</span> <span class="fl">10000</span>,
-  dU <span class="op">=</span> <span class="fl">0.001</span>,
-  dI <span class="op">=</span> <span class="fl">1</span>,
-  dV <span class="op">=</span> <span class="fl">2</span>,
-  b <span class="op">=</span> <span class="fl">1e-05</span>,
-  p <span class="op">=</span> <span class="fl">10</span>,
-  g <span class="op">=</span> <span class="fl">1</span>,
-  f <span class="op">=</span> <span class="fl">0</span>,
-  e <span class="op">=</span> <span class="fl">0</span>,
-  tstart <span class="op">=</span> <span class="fl">0</span>,
-  tfinal <span class="op">=</span> <span class="fl">30</span>,
-  dt <span class="op">=</span> <span class="fl">0.1</span>,
-  steadystate <span class="op">=</span> <span class="cn">FALSE</span>,
-  txstart <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_virusandtx_ode</span><span class="op">(</span></span>
+<span>  U <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  I <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  V <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>  dU <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  dI <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dV <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  b <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  g <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  f <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  e <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tstart <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tfinal <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  dt <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  steadystate <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  txstart <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>U</dt>
 <dd><p>: initial number of uninfected target cells : numeric</p></dd>
+
+
 <dt>I</dt>
 <dd><p>: initial number of infected target cells : numeric</p></dd>
+
+
 <dt>V</dt>
 <dd><p>: initial number of infectious virions : numeric</p></dd>
+
+
 <dt>n</dt>
 <dd><p>: rate of uninfected cell replenishment : numeric</p></dd>
+
+
 <dt>dU</dt>
 <dd><p>: rate at which uninfected cells die : numeric</p></dd>
+
+
 <dt>dI</dt>
 <dd><p>: rate at which infected cells die : numeric</p></dd>
+
+
 <dt>dV</dt>
 <dd><p>: rate at which infectious virus is cleared : numeric</p></dd>
+
+
 <dt>b</dt>
 <dd><p>: rate at which virus infects cells : numeric</p></dd>
+
+
 <dt>p</dt>
 <dd><p>: rate at which infected cells produce virus : numeric</p></dd>
+
+
 <dt>g</dt>
 <dd><p>: conversion between experimental and model virus units : numeric</p></dd>
+
+
 <dt>f</dt>
 <dd><p>: strength of cell infection reduction by drug : numeric</p></dd>
+
+
 <dt>e</dt>
 <dd><p>: strength of virus production reduction by drug : numeric</p></dd>
+
+
 <dt>tstart</dt>
 <dd><p>: Start time of simulation : numeric</p></dd>
+
+
 <dt>tfinal</dt>
 <dd><p>: Final time of simulation : numeric</p></dd>
+
+
 <dt>dt</dt>
 <dd><p>: times for which result is returned : numeric</p></dd>
+
+
 <dt>steadystate</dt>
 <dd><p>: start simulation at steady state : logical</p></dd>
+
+
 <dt>txstart</dt>
 <dd><p>: time at which treatment starts : numeric</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list. The list has only one element called ts.
+    
+
+<p>A list. The list has only one element called ts.
 ts contains the time-series of the simulation.
 The 1st column of ts is Time, the other columns are the model variables.</p>
     </div>
@@ -159,12 +194,12 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># To run the simulation with default parameters just call the function:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandtx_ode</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandtx_ode</span><span class="op">(</span>V <span class="op">=</span> <span class="fl">100</span>, tfinal <span class="op">=</span> <span class="fl">100</span>, n <span class="op">=</span> <span class="fl">1e5</span>, dU <span class="op">=</span> <span class="fl">1e-2</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># You should then use the simulation result returned from the function, like this:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"V"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Virus'</span>,type<span class="op">=</span><span class="st">'l'</span>,log<span class="op">=</span><span class="st">'y'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># To run the simulation with default parameters just call the function:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandtx_ode</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandtx_ode</span><span class="op">(</span>V <span class="op">=</span> <span class="fl">100</span>, tfinal <span class="op">=</span> <span class="fl">100</span>, n <span class="op">=</span> <span class="fl">1e5</span>, dU <span class="op">=</span> <span class="fl">1e-2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># You should then use the simulation result returned from the function, like this:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"V"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Virus'</span>,type<span class="op">=</span><span class="st">'l'</span>,log<span class="op">=</span><span class="st">'y'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="simulate_virusandtx_ode-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -180,7 +215,7 @@ For additional model details, see the corresponding app in the DSAIRM package.</
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

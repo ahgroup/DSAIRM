@@ -1,2 +1,3 @@
 "QuizID"	"AppID"	"AppTitle"	"TaskID"	"TaskText"	"RecordID"	"Record"	"Type"	"Note"
-"DSAIRM_extendedbacteria"	"extendedbacteria"	"Extended Bacteria Model"	1	"No tasks written yet. For now, just explore freely."	"T1R1"	"Nothing"	"None"	""
+"DSAIRM_extendedbacteria"	"extendedbacteria"	"Extended Bacteria Model"	1	"This app and the ***Basic Bacteria*** app are very similar. Compare the model equations between the two apps."	"T1R1"	"TRUE or FALSE: The models for this app and ***Basic Bacteria*** are exactly the same when processes related to the adaptive immune response are turned off (i.e., set to zero). "	"Logical"	"Report TRUE or FALSE"
+"DSAIRM_extendedbacteria"	"extendedbacteria"	"Extended Bacteria Model"	2	"Further tasks to come. For now, you are free to explore on your own."	"T2R1"	"Nothing"	"None"	""

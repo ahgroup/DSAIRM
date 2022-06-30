@@ -68,67 +68,102 @@ and growth and decay of each immune response component.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span>
-  B <span class="op">=</span> <span class="fl">100</span>,
-  I <span class="op">=</span> <span class="fl">1</span>,
-  A <span class="op">=</span> <span class="fl">1</span>,
-  g <span class="op">=</span> <span class="fl">1</span>,
-  Bmax <span class="op">=</span> <span class="fl">1e+05</span>,
-  dB <span class="op">=</span> <span class="fl">0.5</span>,
-  kI <span class="op">=</span> <span class="fl">1e-04</span>,
-  kA <span class="op">=</span> <span class="fl">1e-04</span>,
-  rI <span class="op">=</span> <span class="fl">1</span>,
-  Imax <span class="op">=</span> <span class="fl">1e+05</span>,
-  dI <span class="op">=</span> <span class="fl">1</span>,
-  rA <span class="op">=</span> <span class="fl">1</span>,
-  h <span class="op">=</span> <span class="fl">1000</span>,
-  dA <span class="op">=</span> <span class="fl">0.1</span>,
-  tstart <span class="op">=</span> <span class="fl">0</span>,
-  tfinal <span class="op">=</span> <span class="fl">100</span>,
-  dt <span class="op">=</span> <span class="fl">0.01</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span></span>
+<span>  B <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  I <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  A <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  g <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  Bmax <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  dB <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  kI <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  kA <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  rI <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  Imax <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  dI <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  rA <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  h <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  dA <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  tstart <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tfinal <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  dt <span class="op">=</span> <span class="fl">0.01</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B</dt>
 <dd><p>: starting value for bacteria : numeric</p></dd>
+
+
 <dt>I</dt>
 <dd><p>: starting value for innate immune response : numeric</p></dd>
+
+
 <dt>A</dt>
 <dd><p>: starting value for adaptive immune response : numeric</p></dd>
+
+
 <dt>g</dt>
 <dd><p>: maximum rate of bacteria growth : numeric</p></dd>
+
+
 <dt>Bmax</dt>
 <dd><p>: bacteria carrying capacity : numeric</p></dd>
+
+
 <dt>dB</dt>
 <dd><p>: bacteria death rate : numeric</p></dd>
+
+
 <dt>kI</dt>
 <dd><p>: rate of bacteria killing by innate response : numeric</p></dd>
+
+
 <dt>kA</dt>
 <dd><p>: rate of bacteria killing by adaptive response : numeric</p></dd>
+
+
 <dt>rI</dt>
 <dd><p>: innate response growth rate : numeric</p></dd>
+
+
 <dt>Imax</dt>
 <dd><p>: innate response carrying capacity : numeric</p></dd>
+
+
 <dt>dI</dt>
 <dd><p>: innate response decay rate : numeric</p></dd>
+
+
 <dt>rA</dt>
 <dd><p>: adaptive response growth rate : numeric</p></dd>
+
+
 <dt>h</dt>
 <dd><p>: adaptive response half-growth : numeric</p></dd>
+
+
 <dt>dA</dt>
 <dd><p>: adaptive response decay rate : numeric</p></dd>
+
+
 <dt>tstart</dt>
 <dd><p>: start time of simulation : numeric</p></dd>
+
+
 <dt>tfinal</dt>
 <dd><p>: final time of simulation : numeric</p></dd>
+
+
 <dt>dt</dt>
 <dd><p>: times for which result is returned : numeric</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns the output as a list.
+    
+
+<p>The function returns the output as a list.
 The time-series from the simulation is returned as a dataframe saved as list element <code>ts</code>.
 The <code>ts</code> dataframe has one column per compartment/variable. The first column is time.</p>
     </div>
@@ -156,12 +191,12 @@ the code will likely abort with an error message.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># To run the simulation with default parameters:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># To run the simulation with different parameter or starting values,</span></span>
-<span class="r-in"><span class="co"># supply the ones you want to change.</span></span>
-<span class="r-in"><span class="co"># all other parameters will be kept at their default values shown in the function call above</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span>B <span class="op">=</span> <span class="fl">100</span>, g <span class="op">=</span> <span class="fl">0.5</span>, dI <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># To run the simulation with default parameters:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To run the simulation with different parameter or starting values,</span></span></span>
+<span class="r-in"><span><span class="co"># supply the ones you want to change.</span></span></span>
+<span class="r-in"><span><span class="co"># all other parameters will be kept at their default values shown in the function call above</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_extendedbacteria_ode</span><span class="op">(</span>B <span class="op">=</span> <span class="fl">100</span>, g <span class="op">=</span> <span class="fl">0.5</span>, dI <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -176,7 +211,7 @@ the code will likely abort with an error message.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

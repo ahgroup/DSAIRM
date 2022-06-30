@@ -62,52 +62,77 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span>
-  U <span class="op">=</span> <span class="fl">1e+05</span>,
-  I <span class="op">=</span> <span class="fl">0</span>,
-  V <span class="op">=</span> <span class="fl">1</span>,
-  n <span class="op">=</span> <span class="fl">0</span>,
-  dU <span class="op">=</span> <span class="fl">0</span>,
-  dI <span class="op">=</span> <span class="fl">1</span>,
-  dV <span class="op">=</span> <span class="fl">2</span>,
-  b <span class="op">=</span> <span class="fl">2e-05</span>,
-  p <span class="op">=</span> <span class="fl">5</span>,
-  g <span class="op">=</span> <span class="fl">1</span>,
-  tfinal <span class="op">=</span> <span class="fl">30</span>,
-  rngseed <span class="op">=</span> <span class="fl">123</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span></span>
+<span>  U <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  I <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  V <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  dU <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  dI <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dV <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  b <span class="op">=</span> <span class="fl">2e-05</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  g <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  tfinal <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  rngseed <span class="op">=</span> <span class="fl">123</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>U</dt>
 <dd><p>: starting value for Uninfected cells : numeric</p></dd>
+
+
 <dt>I</dt>
 <dd><p>: starting value for Infected cells : numeric</p></dd>
+
+
 <dt>V</dt>
 <dd><p>: starting value for Virus : numeric</p></dd>
+
+
 <dt>n</dt>
 <dd><p>: rate of new uninfected cell replenishment : numeric</p></dd>
+
+
 <dt>dU</dt>
 <dd><p>: rate at which uninfected cells die : numeric</p></dd>
+
+
 <dt>dI</dt>
 <dd><p>: rate at which infected cells die : numeric</p></dd>
+
+
 <dt>dV</dt>
 <dd><p>: rate at which virus is cleared : numeric</p></dd>
+
+
 <dt>b</dt>
 <dd><p>: rate at which virus infects cells : numeric</p></dd>
+
+
 <dt>p</dt>
 <dd><p>: rate at which infected cells produce virus : numeric</p></dd>
+
+
 <dt>g</dt>
 <dd><p>: possible conversion factor for virus units : numeric</p></dd>
+
+
 <dt>tfinal</dt>
 <dd><p>: Final time of simulation : numeric</p></dd>
+
+
 <dt>rngseed</dt>
 <dd><p>: set random number seed for reproducibility : numeric</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns the output as a list.
+    
+
+<p>The function returns the output as a list.
 The time-series from the simulation is returned as a dataframe saved as list element <code>ts</code>.
 The <code>ts</code> dataframe has one column per compartment/variable. The first column is time.</p>
     </div>
@@ -141,14 +166,14 @@ The following R packages need to be loaded for the function to work: adpativetau
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># To run the simulation with default parameters:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># To choose values other than the standard one, specify them like this:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span>U <span class="op">=</span> <span class="fl">2e+05</span>,I <span class="op">=</span> <span class="fl">0</span>,V <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># You can display or further process the result, like this:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'time'</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'U'</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Numbers'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># To run the simulation with default parameters:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To choose values other than the standard one, specify them like this:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicvirus_stochastic</span><span class="op">(</span>U <span class="op">=</span> <span class="fl">2e+05</span>,I <span class="op">=</span> <span class="fl">0</span>,V <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># You can display or further process the result, like this:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'time'</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'U'</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Numbers'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="simulate_basicvirus_stochastic-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">'Max number of U: '</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'U'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">'Max number of U: '</span>,<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">'U'</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Max number of U:  2e+05"</span>
 </code></pre></div>
     </div>
@@ -164,7 +189,7 @@ The following R packages need to be loaded for the function to work: adpativetau
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

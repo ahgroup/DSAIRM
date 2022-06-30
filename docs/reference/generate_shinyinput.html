@@ -64,37 +64,52 @@ This is a helper function called by the shiny app.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">generate_shinyinput</span><span class="op">(</span>
-  use_mbmodel <span class="op">=</span> <span class="cn">FALSE</span>,
-  mbmodel <span class="op">=</span> <span class="cn">NULL</span>,
-  use_doc <span class="op">=</span> <span class="cn">FALSE</span>,
-  model_file <span class="op">=</span> <span class="cn">NULL</span>,
-  model_function <span class="op">=</span> <span class="cn">NULL</span>,
-  otherinputs <span class="op">=</span> <span class="cn">NULL</span>,
-  packagename <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_shinyinput</span><span class="op">(</span></span>
+<span>  use_mbmodel <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  mbmodel <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use_doc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  model_file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  model_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  otherinputs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  packagename <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>use_mbmodel</dt>
 <dd><p>TRUE/FALSE if mbmodel list should be used to generate UI</p></dd>
+
+
 <dt>mbmodel</dt>
 <dd><p>a valid mbmodel object</p></dd>
+
+
 <dt>use_doc</dt>
 <dd><p>TRUE/FALSE if doc of a model file should be parsed to make UI</p></dd>
+
+
 <dt>model_file</dt>
 <dd><p>name/path to function file for parsing doc</p></dd>
+
+
 <dt>model_function</dt>
 <dd><p>name of function who's formals are parsed to make UI</p></dd>
+
+
 <dt>otherinputs</dt>
 <dd><p>a text string that specifies a list of other shiny inputs to include in the UI</p></dd>
+
+
 <dt>packagename</dt>
 <dd><p>name of package using this function</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A renderUI object that can be added to the shiny output object for display in a Shiny UI</p>
+    
+
+<p>A renderUI object that can be added to the shiny output object for display in a Shiny UI</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -123,7 +138,7 @@ Non-numeric arguments of functions are removed and need to be included in the ot
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

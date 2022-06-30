@@ -66,103 +66,162 @@ The model is implemented as set of ordinary differential equations using the deS
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_virusandir_ode</span><span class="op">(</span>
-  U <span class="op">=</span> <span class="fl">1e+05</span>,
-  I <span class="op">=</span> <span class="fl">0</span>,
-  V <span class="op">=</span> <span class="fl">10</span>,
-  T <span class="op">=</span> <span class="fl">0</span>,
-  B <span class="op">=</span> <span class="fl">0</span>,
-  A <span class="op">=</span> <span class="fl">0</span>,
-  n <span class="op">=</span> <span class="fl">0</span>,
-  dU <span class="op">=</span> <span class="fl">0</span>,
-  dI <span class="op">=</span> <span class="fl">1</span>,
-  dV <span class="op">=</span> <span class="fl">4</span>,
-  b <span class="op">=</span> <span class="fl">1e-05</span>,
-  p <span class="op">=</span> <span class="fl">1000</span>,
-  sF <span class="op">=</span> <span class="fl">0.01</span>,
-  kA <span class="op">=</span> <span class="fl">1e-05</span>,
-  kT <span class="op">=</span> <span class="fl">1e-05</span>,
-  pF <span class="op">=</span> <span class="fl">1</span>,
-  dF <span class="op">=</span> <span class="fl">1</span>,
-  gF <span class="op">=</span> <span class="fl">1</span>,
-  Fmax <span class="op">=</span> <span class="fl">1000</span>,
-  hV <span class="op">=</span> <span class="fl">1e-06</span>,
-  hF <span class="op">=</span> <span class="fl">1e-05</span>,
-  gB <span class="op">=</span> <span class="fl">1</span>,
-  gT <span class="op">=</span> <span class="fl">1e-04</span>,
-  rT <span class="op">=</span> <span class="fl">0.5</span>,
-  rA <span class="op">=</span> <span class="fl">10</span>,
-  dA <span class="op">=</span> <span class="fl">0.2</span>,
-  tstart <span class="op">=</span> <span class="fl">0</span>,
-  tfinal <span class="op">=</span> <span class="fl">30</span>,
-  dt <span class="op">=</span> <span class="fl">0.05</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_virusandir_ode</span><span class="op">(</span></span>
+<span>  U <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  I <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  V <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  T <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  B <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  A <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  dU <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  dI <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dV <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  b <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  p <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  sF <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  kA <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  kT <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  pF <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dF <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  gF <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  Fmax <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  hV <span class="op">=</span> <span class="fl">1e-06</span>,</span>
+<span>  hF <span class="op">=</span> <span class="fl">1e-05</span>,</span>
+<span>  gB <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  gT <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  rT <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  rA <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  dA <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  tstart <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tfinal <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  dt <span class="op">=</span> <span class="fl">0.05</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>U</dt>
 <dd><p>: initial number of uninfected target cells : numeric</p></dd>
+
+
 <dt>I</dt>
 <dd><p>: initial number of infected target cells : numeric</p></dd>
+
+
 <dt>V</dt>
 <dd><p>: initial number of infectious virions : numeric</p></dd>
+
+
 <dt>T</dt>
 <dd><p>: initial number of T cells : numeric</p></dd>
+
+
 <dt>B</dt>
 <dd><p>: initial number of B cells : numeric</p></dd>
+
+
 <dt>A</dt>
 <dd><p>: initial number of antibodies : numeric</p></dd>
+
+
 <dt>n</dt>
 <dd><p>: rate of new uninfected cell replenishment : numeric</p></dd>
+
+
 <dt>dU</dt>
 <dd><p>: rate at which uninfected cells die : numeric</p></dd>
+
+
 <dt>dI</dt>
 <dd><p>: rate at which infected cells die : numeric</p></dd>
+
+
 <dt>dV</dt>
 <dd><p>: rate at which infectious virus is cleared : numeric</p></dd>
+
+
 <dt>b</dt>
 <dd><p>: rate at which virus infects cells : numeric</p></dd>
+
+
 <dt>p</dt>
 <dd><p>: rate at which infected cells produce virus : numeric</p></dd>
+
+
 <dt>sF</dt>
 <dd><p>: strength of innate response at reducing virus production : numeric</p></dd>
+
+
 <dt>kA</dt>
 <dd><p>: rate of virus removal by antibodies : numeric</p></dd>
+
+
 <dt>kT</dt>
 <dd><p>: rate of infected cell killing by T cells : numeric</p></dd>
+
+
 <dt>pF</dt>
 <dd><p>: rate of innate response production in absence of infection : numeric</p></dd>
+
+
 <dt>dF</dt>
 <dd><p>: rate of innate response removal in absence of infection : numeric</p></dd>
+
+
 <dt>gF</dt>
 <dd><p>: rate of innate response growth during infection : numeric</p></dd>
+
+
 <dt>Fmax</dt>
 <dd><p>: maximum level of innate response : numeric</p></dd>
+
+
 <dt>hV</dt>
 <dd><p>: innate growth saturation constant : numeric</p></dd>
+
+
 <dt>hF</dt>
 <dd><p>: B-cell growth saturation constant : numeric</p></dd>
+
+
 <dt>gB</dt>
 <dd><p>: maximum growth rate of B cells : numeric</p></dd>
+
+
 <dt>gT</dt>
 <dd><p>: T-cell induction rate : numeric</p></dd>
+
+
 <dt>rT</dt>
 <dd><p>: T-cell expansion rate : numeric</p></dd>
+
+
 <dt>rA</dt>
 <dd><p>: rate of antibody production by B cells : numeric</p></dd>
+
+
 <dt>dA</dt>
 <dd><p>: rate of antibody decay : numeric</p></dd>
+
+
 <dt>tstart</dt>
 <dd><p>: start time of simulation : numeric</p></dd>
+
+
 <dt>tfinal</dt>
 <dd><p>: final time of simulation : numeric</p></dd>
+
+
 <dt>dt</dt>
 <dd><p>: times for which result is returned : numeric</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list. The list has only one element, called ts.
+    
+
+<p>A list. The list has only one element, called ts.
 ts contains the time-series of the simulation.
 The 1st column of ts is time, the other columns are the model variables.</p>
     </div>
@@ -192,12 +251,12 @@ package for details on the underlying ODE simulator algorithm.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># To run the simulation with default parameters just call the function:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandir_ode</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span>
-<span class="r-in"><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandir_ode</span><span class="op">(</span>V <span class="op">=</span> <span class="fl">100</span>, tfinal <span class="op">=</span> <span class="fl">50</span>, n <span class="op">=</span> <span class="fl">1e5</span>, dU <span class="op">=</span> <span class="fl">1e-2</span>, kT<span class="op">=</span><span class="fl">1e-7</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># You should then use the simulation result returned from the function, like this:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"V"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Virus'</span>,type<span class="op">=</span><span class="st">'l'</span>,log<span class="op">=</span><span class="st">'y'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># To run the simulation with default parameters just call the function:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandir_ode</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span></span>
+<span class="r-in"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">simulate_virusandir_ode</span><span class="op">(</span>V <span class="op">=</span> <span class="fl">100</span>, tfinal <span class="op">=</span> <span class="fl">50</span>, n <span class="op">=</span> <span class="fl">1e5</span>, dU <span class="op">=</span> <span class="fl">1e-2</span>, kT<span class="op">=</span><span class="fl">1e-7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># You should then use the simulation result returned from the function, like this:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"time"</span><span class="op">]</span>,<span class="va">result</span><span class="op">$</span><span class="va">ts</span><span class="op">[</span>,<span class="st">"V"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Time'</span>,ylab<span class="op">=</span><span class="st">'Virus'</span>,type<span class="op">=</span><span class="st">'l'</span>,log<span class="op">=</span><span class="st">'y'</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>271 y values &lt;= 0 omitted from logarithmic plot</span>
 <span class="r-plt img"><img src="simulate_virusandir_ode-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
@@ -214,7 +273,7 @@ package for details on the underlying ODE simulator algorithm.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

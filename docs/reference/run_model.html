@@ -64,7 +64,7 @@ provided in the modelsettings list passed into it.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">run_model</span><span class="op">(</span><span class="va">modelsettings</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">run_model</span><span class="op">(</span><span class="va">modelsettings</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,10 +86,13 @@ modelsettings$nplots -  indicate number of plots that should be produced (number
 If not provided, a single plot is assumed.  <br>
 modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 If not provided, a single run will be done. <br></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.</p>
+    
+
+<p>A vectored list named "result" with each main list element containing the simulation results in a dataframe called dat and associated metadata required for generate_plot and generate_text functions. Most often there is only one main list entry (result[[1]]) for a single plot/text.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -108,7 +111,7 @@ If not provided, a single run will be done. <br></p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

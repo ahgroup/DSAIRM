@@ -17,7 +17,7 @@ Authors@R: c(
     person("Alexis", "Vittengl",  role = "ctb"),
     person("Henok", "Woldu",  role = "ctb") 
     )
-Maintainer: Andreas Handel <ahandel@uga.edu>
+Maintainer: Andreas Handel <andreas.handel@gmail.com>
 License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE
@@ -41,12 +41,13 @@ Depends:
 Suggests:
     covr,
     devtools,
+    emoji,
     knitr,
     pkgdown,
     rmarkdown,
     roxygen2,
     testthat
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 VignetteBuilder: knitr
 URL: https://ahgroup.github.io/DSAIRM/, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues

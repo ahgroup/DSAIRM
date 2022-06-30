@@ -30,6 +30,4 @@ This function is called by the Shiny server to produce output returned to the Sh
 }
 \author{
 Andreas Handel
-
-Andreas Handel
 }

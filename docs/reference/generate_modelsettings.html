@@ -66,27 +66,69 @@ settings that should be executed. This is a helper function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">generate_modelsettings</span><span class="op">(</span><span class="va">app_input</span>, <span class="va">appsettings</span>, <span class="va">appNames</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">generate_modelsettings</span><span class="op">(</span><span class="va">app_input</span>, <span class="va">appsettings</span>, <span class="va">appNames</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>app_input</dt>
 <dd><p>a list of shiny GUI input</p></dd>
+
+
 <dt>appsettings</dt>
 <dd><p>current appsettings</p></dd>
+
+
 <dt>appNames</dt>
 <dd><p>character vector of app names, available in shiny server global environment upon app initialization</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>modelsettings a list with model settings. List elements are: <br>modelsettings$apptitle - The name of the app that's being run.  <br>modelsettings$simfunction - name of simulation function(s) as string.  <br>modelsettings$simfunction2 - name of simulation function(s) as string.  <br>modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
+    
+
+<p>modelsettings a list with model settings. List elements are: <br></p>
+
+
+<p>modelsettings$apptitle - The name of the app that's being run.  <br></p>
+
+
+<p>modelsettings$simfunction - name of simulation function(s) as string.  <br></p>
+
+
+<p>modelsettings$simfunction2 - name of simulation function(s) as string.  <br></p>
+
+
+<p>modelsettings$is_mbmodel - indicate of simulation function has mbmodel structure
 modelsettings$modeltype - specify what kind of model should be run.
-Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. <br>For more than one model type, place _and_ between them. <br>modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app <br>Optinal list elements are: <br>List elements with names and values for inputs expected by simulation function.
-If not provided, defaults of simulator function are used.<br>modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
-If not provided or set to '', no log scales are used. <br>modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
-If not provided, a single plot is assumed.  <br>modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
+Currently one of: _ode_, _discrete_, _stochastic_, _usanalysis_, _modelexploration_, _fit_. <br></p>
+
+
+<p>For more than one model type, place _and_ between them. <br></p>
+
+
+<p>modelsettings$plottype - 'Boxplot' or 'Scatterplot' , required for US app <br></p>
+
+
+<p>Optinal list elements are: <br></p>
+
+
+<p>List elements with names and values for inputs expected by simulation function.
+If not provided, defaults of simulator function are used.<br></p>
+
+
+<p>modelsettings$plotscale - indicate which axis should be on a log scale (x, y or both).
+If not provided or set to '', no log scales are used. <br></p>
+
+
+<p>modelsettings$nplots -  indicate number of plots that should be produced (number of top list elements in result).
+If not provided, a single plot is assumed.  <br></p>
+
+
+<p>modelsettings$nreps - required for stochastic models to indicate numer of repeat simulations.
 If not provided, a single run will be done. <br></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -105,7 +147,7 @@ If not provided, a single run will be done. <br></p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

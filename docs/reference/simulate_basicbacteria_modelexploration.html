@@ -67,64 +67,97 @@ The function returns a data frame containing the parameter that has been varied 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span>
-  B <span class="op">=</span> <span class="fl">100</span>,
-  I <span class="op">=</span> <span class="fl">10</span>,
-  g <span class="op">=</span> <span class="fl">2</span>,
-  Bmax <span class="op">=</span> <span class="fl">1e+05</span>,
-  dB <span class="op">=</span> <span class="fl">1</span>,
-  k <span class="op">=</span> <span class="fl">1e-04</span>,
-  r <span class="op">=</span> <span class="fl">1e-04</span>,
-  dI <span class="op">=</span> <span class="fl">2</span>,
-  tstart <span class="op">=</span> <span class="fl">0</span>,
-  tfinal <span class="op">=</span> <span class="fl">300</span>,
-  dt <span class="op">=</span> <span class="fl">0.1</span>,
-  samples <span class="op">=</span> <span class="fl">10</span>,
-  parmin <span class="op">=</span> <span class="fl">2</span>,
-  parmax <span class="op">=</span> <span class="fl">10</span>,
-  samplepar <span class="op">=</span> <span class="st">"g"</span>,
-  pardist <span class="op">=</span> <span class="st">"lin"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span></span>
+<span>  B <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  I <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  g <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  Bmax <span class="op">=</span> <span class="fl">1e+05</span>,</span>
+<span>  dB <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  k <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  r <span class="op">=</span> <span class="fl">1e-04</span>,</span>
+<span>  dI <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  tstart <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tfinal <span class="op">=</span> <span class="fl">300</span>,</span>
+<span>  dt <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  samples <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  parmin <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  parmax <span class="op">=</span> <span class="fl">10</span>,</span>
+<span>  samplepar <span class="op">=</span> <span class="st">"g"</span>,</span>
+<span>  pardist <span class="op">=</span> <span class="st">"lin"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>B</dt>
 <dd><p>: Starting value for bacteria : numeric</p></dd>
+
+
 <dt>I</dt>
 <dd><p>: Starting value for immune response : numeric</p></dd>
+
+
 <dt>g</dt>
 <dd><p>: Maximum rate of bacteria growth : numeric</p></dd>
+
+
 <dt>Bmax</dt>
 <dd><p>: Bacteria carrying capacity : numeric</p></dd>
+
+
 <dt>dB</dt>
 <dd><p>: Bacteria death rate : numeric</p></dd>
+
+
 <dt>k</dt>
 <dd><p>: Bacteria kill rate : numeric</p></dd>
+
+
 <dt>r</dt>
 <dd><p>: Immune response growth rate : numeric</p></dd>
+
+
 <dt>dI</dt>
 <dd><p>: Immune response decay rate : numeric</p></dd>
+
+
 <dt>tstart</dt>
 <dd><p>: Start time of simulation : numeric</p></dd>
+
+
 <dt>tfinal</dt>
 <dd><p>: Final time of simulation : numeric</p></dd>
+
+
 <dt>dt</dt>
 <dd><p>: Times for which result is returned : numeric</p></dd>
+
+
 <dt>samples</dt>
 <dd><p>: Number of values to run between pmin and pmax : numeric</p></dd>
+
+
 <dt>parmin</dt>
 <dd><p>: Lower value for varied parameter : numeric</p></dd>
+
+
 <dt>parmax</dt>
 <dd><p>: Upper value for varied parameter : numeric</p></dd>
+
+
 <dt>samplepar</dt>
 <dd><p>: Name of parameter to be varied : character</p></dd>
+
+
 <dt>pardist</dt>
 <dd><p>: spacing of parameter values, can be either 'lin' or 'log' : character</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns the output as a list,
+    
+
+<p>The function returns the output as a list,
 list element 'dat' contains the data frame with results of interest.
 The first column is called xvals and contains the values of the
 parameter that has been varied as specified by 'samplepar'.
@@ -166,12 +199,12 @@ function for more details on this model.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># To run the simulation with default parameters just call the function:</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span>, samplepar<span class="op">=</span><span class="st">'dI'</span>, parmin<span class="op">=</span><span class="fl">1</span>, parmax<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># You should then use the simulation result returned from the function, like this:</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">dat</span><span class="op">[</span>,<span class="st">"xvals"</span><span class="op">]</span>,<span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">[</span>,<span class="st">"Bpeak"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Parameter values'</span>,ylab<span class="op">=</span><span class="st">'Peak Bacteria'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># To run the simulation with default parameters just call the function:</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># To choose parameter values other than the standard one, specify them, like such:</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">simulate_basicbacteria_modelexploration</span><span class="op">(</span>samples<span class="op">=</span><span class="fl">5</span>, samplepar<span class="op">=</span><span class="st">'dI'</span>, parmin<span class="op">=</span><span class="fl">1</span>, parmax<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># You should then use the simulation result returned from the function, like this:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">dat</span><span class="op">[</span>,<span class="st">"xvals"</span><span class="op">]</span>,<span class="va">res</span><span class="op">$</span><span class="va">data</span><span class="op">[</span>,<span class="st">"Bpeak"</span><span class="op">]</span>,xlab<span class="op">=</span><span class="st">'Parameter values'</span>,ylab<span class="op">=</span><span class="st">'Peak Bacteria'</span>,type<span class="op">=</span><span class="st">'l'</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="simulate_basicbacteria_modelexploration-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -187,7 +220,7 @@ function for more details on this model.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
