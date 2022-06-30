@@ -8,7 +8,7 @@
    id="svg8179"
    version="1.1"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
-   sodipodi:docname="bacteriamodel.svg"
+   sodipodi:docname="extendedbacteriamodel.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -608,9 +608,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4254587"
-     inkscape:cx="162.0531"
-     inkscape:cy="135.04425"
+     inkscape:zoom="0.71272935"
+     inkscape:cx="252.55028"
+     inkscape:cy="333.22607"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -710,6 +710,16 @@
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"
        inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png" />
+    <rect
+       style="opacity:0.3;fill:#0089ff;fill-opacity:1;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect8292-1-1-1-6"
+       width="136.49236"
+       height="80"
+       x="158.65446"
+       y="747.73755"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"
+       inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -731,6 +741,25 @@
          id="tspan8962">Response, I</tspan></text>
     <text
        xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="226.63148"
+       y="781.40155"
+       id="text8294-3-1-1-8"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"
+       inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"><tspan
+         sodipodi:role="line"
+         x="226.63148"
+         y="781.40155"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1px"
+         id="tspan8348-5-3-1">Adaptive </tspan><tspan
+         sodipodi:role="line"
+         x="226.63148"
+         y="803.27655"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1px"
+         id="tspan8962-0">Response, A</tspan></text>
+    <text
+       xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="194.40346"
        y="564.1828"
@@ -745,6 +774,22 @@
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px">k<tspan
    style="font-size:65%;baseline-shift:sub"
    id="tspan493">I</tspan>BI</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="197.36775"
+       y="717.67126"
+       id="text13516-4"
+       inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"><tspan
+         sodipodi:role="line"
+         id="tspan13522-9"
+         x="197.36775"
+         y="717.67126"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px">k<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan545">A</tspan>BA</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -804,6 +849,22 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="81.841072"
+       y="812.68243"
+       id="text13516-6-3-4-5"
+       inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"><tspan
+         sodipodi:role="line"
+         id="tspan13542-8-7-3"
+         x="81.841072"
+         y="812.68243"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px">d<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan738">A</tspan>A</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="276.60178"
        y="720.82892"
        id="text13516-7"
@@ -819,6 +880,22 @@
    id="tspan547">I</tspan>B(1-I/I<tspan
    style="font-size:65%;baseline-shift:sub"
    id="tspan551">max</tspan>)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12px;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="195.03473"
+       y="882.83868"
+       id="text13516-7-9"
+       inkscape:export-filename="C:\data\Dropbox\2016-3-fall-epid8510\media\SIRdiagram.png"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"><tspan
+         sodipodi:role="line"
+         id="tspan13522-7-7"
+         x="195.03473"
+         y="882.83868"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.5px;line-height:125%;font-family:'Palatino Linotype';-inkscape-font-specification:'Palatino Linotype, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start;stroke-width:1px">r<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan736">A</tspan>log(I)/(h+log(I))A</tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.49999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8805-7-9-8-6-8-8)"
        d="m 328.125,677.36221 c -6.52889,30.92803 -52.5,33.7737 -56.25,0"
@@ -827,6 +904,24 @@
        sodipodi:nodetypes="cc"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8805-7-9-8-6-8-8-5)"
+       d="m 242.76818,838.49347 c -6.52889,30.92803 -52.5,33.7737 -56.25,0"
+       id="path8643-3-2-0-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:7.50001, 1.875;stroke-dashoffset:0.937504;stroke-opacity:1;marker-start:url(#marker8805-7-9-8-6-8-8-5-4)"
+       d="m 245.87568,854.35127 c 116.3836,6.74691 139.05057,-72.07333 130.07055,-184.53837"
+       id="path8643-3-2-0-5-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207"
+       inkscape:transform-center-x="9.1157288"
+       inkscape:transform-center-y="3.6610486" />
     <path
        style="fill:#000000;fill-rule:evenodd;stroke:#000000;stroke-width:1.87500024;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:7.50000066, 1.87500018;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Mend-6-6-9)"
        d="m 176.24999,649.63108 91.875,33.75001"
@@ -842,12 +937,28 @@
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207" />
     <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.88917;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:7.55659, 1.88917;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow1Mend-4-7-6-8-7)"
+       d="m 178.18921,743.91018 11.51596,-50.33077"
+       id="path10190-4-3"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207" />
+    <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8623-3-3-5)"
        d="m 357.90123,572.5014 -42.90125,14.98919 v 0"
        id="path9572-9-3"
        inkscape:connector-curvature="0"
        inkscape:transform-center-x="-143.06749"
        inkscape:transform-center-y="86.045065"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8623-3-3-5-9)"
+       d="m 113.71507,795.62183 42.90125,-14.98919 v 0"
+       id="path9572-9-3-3"
+       inkscape:connector-curvature="0"
+       inkscape:transform-center-x="143.06749"
+       inkscape:transform-center-y="-86.045064"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207" />
     <path
@@ -860,6 +971,15 @@
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207" />
     <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8623-3-3-1-3-8)"
+       d="m 206.62169,701.24938 -32.05882,-32.20912 v 0"
+       id="path9572-9-3-2-8"
+       inkscape:connector-curvature="0"
+       inkscape:transform-center-x="-8.3808308"
+       inkscape:transform-center-y="-4.218553"
+       inkscape:export-xdpi="300.207"
+       inkscape:export-ydpi="300.207" />
+    <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.875;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker8623-3-3-0-0)"
        d="m 146.02623,570.52835 -42.90126,14.98919 v 0"
        id="path9572-9-3-1"
@@ -868,6 +988,6 @@
        inkscape:transform-center-y="86.045065"
        inkscape:export-xdpi="300.207"
        inkscape:export-ydpi="300.207"
-       inkscape:export-filename="bacteriamodel.png" />
+       inkscape:export-filename="extendedbacteriamodel.png" />
   </g>
 </svg>
