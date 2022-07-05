@@ -30,7 +30,7 @@
 #4. comment out the library command again
 #5. as needed, update package on server by running: sudo su - -c "R -e \"devtools::install_github('ahgroup/DSAIDE')\""
 
-#library('DSAIRM')
+library('DSAIRM')
 
 ##############################################
 #This is the Shiny App for the main menu of DSAIRM

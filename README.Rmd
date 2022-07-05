@@ -52,7 +52,7 @@ For an introduction to the package, step-by-step instructions on getting started
 * I have full solutions and quiz sheets for all of the __What to do__ tasks for each app. If you are an instructor using this package as part of a class, email me if you are interested in having access to the materials.
 * Contributions to the package are very welcome! If you want to take a deeper look at the package, see [this Markdown file](https://github.com/ahgroup/DSAIRM/blob/main/auxiliary/docsfordevelopers/documentation.md) which provides further information on the details of the package structure. I'd be excited to receive any contributions from individuals who want to help improve the package. If you plan to develop new apps, or make other substantial contributions, it might be best to get in touch with me first.
 * A companion package to this one, called _Dynamical Systems Approaches to Infectious Disease Epidemiology (DSAIDE)_, focuses on models at the population level. It has the same structure as DSAIRM. [See the DSAIDE site for more information.](https://ahgroup.github.io/DSAIDE/)
-* I send out a monthly newsletter in which I announce any noteworthy updates to my R packages. If you want to stay updated, [you can sign up here](https://www.andreashandel.com/susbscribe/).
+* I send out a monthly newsletter in which I announce any noteworthy updates to my R packages. If you want to stay updated, [you can sign up here](https://www.andreashandel.com/subscribe/).
 
 ## Citation and Contributors
 If the package does in any way help you with your work such that it warrants citing it, please cite [this publication in BMC Immunology](https://doi.org/10.1186/s12865-019-0321-0). 
