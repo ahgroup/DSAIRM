@@ -40,6 +40,17 @@
 generate_plotly <- function(res)
 {
 
+    # change ggplot color palette to color-blind friendly
+    # http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#a-colorblind-friendly-palette
+    # I added more colors at the end to have 12, enough for all simulations
+    # the ones I added are likely not color-blind friendly but rarely used in the app
+    # ****************
+    # this is currently not used, unclear how to get plotly to use this color palette
+    # needs addressing. See generate_ggplot for how to do it with ggplot2
+    # ****************
+    cbfpalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#00523B","#D5C711","#0019B2","#cc0000")
+
+
     #nplots contains the number of plots to be produced.
     nplots = length(res) #length of list
 
@@ -120,6 +131,13 @@ generate_plotly <- function(res)
       }
 
 
+      #default palette is set, overwritten if user provided
+      #this is currently not used, unclear how to get plotly to use this color palette
+      #needs addressing
+      plotpalette = cbfpalette
+      if (!is.null(resnow$palette)) {plotpalette = resnow$palette }
+
+
       #set line size as given by app or to some default
       linesize = ifelse(is.null(resnow$linesize), 3, resnow$linesize)
 
@@ -194,6 +212,7 @@ generate_plotly <- function(res)
       {
         py4 = plotly::layout(py4, title = resnow$title)
       }
+
 
 
       #do legend if TRUE or not provided

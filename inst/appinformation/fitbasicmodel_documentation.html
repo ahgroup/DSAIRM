@@ -184,12 +184,14 @@ files for the <code>nloptr</code> package and especially the <a href="https://nl
 <div id="notes" class="section level3">
 <h3>Notes</h3>
 <ul>
-<li><p>For this dataset, there is a lower limit of detection (LOD) for
-the virus load. To account for this, if the data is at the LOD, we set
-any model prediction which is below the LOD to the LOD. This means we do
-not penalize the model if it predicts virus load to be at the LOD or any
-lower value. This is done before computing the SSR using the equation
-above.</p></li>
+<li><p>For this dataset, there is a lower limit of detection (LOD, also
+sometimes called limit of quantification LQD) for the virus load. To
+account for this, if the data is at the LOD, we set any model prediction
+which is below the LOD to the LOD. This means we do not penalize the
+model if it predicts virus load to be at the LOD or any lower value.
+This is done before computing the SSR using the equation above. This
+approach to treating the values below LOD is alos implemented in all the
+other fitting apps.</p></li>
 <li><p>While minimizing the sum of square difference between data and
 model prediction is a very common approach, it is not the only one. A
 more flexible formulation of the problem is to define a likelihood

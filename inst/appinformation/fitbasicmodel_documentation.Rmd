@@ -79,7 +79,7 @@ A computer routine does the minimization of the sum of squares. Many such routin
 
 ### Notes
 
-* For this dataset, there is a lower limit of detection (LOD) for the virus load. To account for this, if the data is at the LOD, we set any model prediction which is below the LOD to the LOD. This means we do not penalize the model if it predicts virus load to be at the LOD or any lower value. This is done before computing the SSR using the equation above.
+* For this dataset, there is a lower limit of detection (LOD, also sometimes called limit of quantification LQD) for the virus load. To account for this, if the data is at the LOD, we set any model prediction which is below the LOD to the LOD. This means we do not penalize the model if it predicts virus load to be at the LOD or any lower value. This is done before computing the SSR using the equation above. This approach to treating the values below LOD is alos implemented in all the other fitting apps. 
 
 * While minimizing the sum of square difference between data and model prediction is a very common approach, it is not the only one. A more flexible formulation of the problem is to define a likelihood function, which is a mathematical object that compares the difference between model and data and has its maximum for the model settings that most closely describe the data. Under certain assumptions, maximizing the likelihood and minimizing the sum of squares are the same problem. Further details on this are beyond the basic introduction we want to provide here. Interested readers are recommended to look further into this topic, e.g. by reading about (maximum) likelihood on Wikipedia.
 

@@ -218,10 +218,10 @@ conversion factor to <em>g=0</em>. Set upper and lower bounds for each
 of these parameters to 0 and 100. For a discussion on parameter bounds,
 see some of the other fitting apps. The bounds for the treatment
 strength are hard coded to be 0 and 1.</p>
-<p>Start with the drug turned off. Run 1 iteration of model 1. I suggest
-you choose a log scale for the y-axis and plotly as the plot engine.
-Using plotly allows you to click on the rather busy figure and turn
-on/off specific model components. You should see all 3 curves (no
+<p>Start with the drug turned off (k=0). Run 1 iteration of model 1. I
+suggest you choose a log scale for the y-axis and plotly as the plot
+engine. Using plotly allows you to click on the rather busy figure and
+turn on/off specific model components. You should see all 3 curves (no
 treatment, early treatment, late treatment) on top of each other and an
 SSR of around 39.</p>
 <p>Now set drug efficacy to 1, run model 1 for 1 iteration, and then
@@ -236,10 +236,14 @@ little while. SSR will have decreased to a bit over 4. Take a look at
 the numbers below the plot. Those are the estimated values for the
 parameters at the final iteration of the model (this might or might not
 be the overall best fit, we’ll get back to this). For now, focus on the
-value for drug efficacy (<em>f</em> for model 1). You should find it to
-be 1, i.e. a perfect drug. Next, fit model 2 for 500 iterations. You’ll
-find that it performs slightly better than model 1, and the best fit
-estimate for the drug efficacy is again 1.</p>
+value for drug efficacy (<em>f</em> for model 1). Remember that for the
+input, you set drug efficacy with the parameter <em>k</em>, which then
+is mapped to either <em>f</em> or <em>e</em> based on the model.
+Therefore you will see the best reported for either <em>f</em> or
+<em>e</em>, based on the model you run. You should find it to be 1,
+i.e. a perfect drug. Next, fit model 2 for 500 iterations. You’ll find
+that it performs slightly better than model 1, and the best fit estimate
+for the drug efficacy is again 1.</p>
 <p>If your computer is fast enough, you can increase to 1000 or more
 iterations for both models. Results should not change. Based on this, we
 might conclude that the mechanism of the drug preventing virus
