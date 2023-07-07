@@ -57,7 +57,7 @@ simulate_pkpdmodel_ode <- function(U = 1e5, I = 0, V = 10,
                                    txstart = 10, txinterval = 1, tstart = 0, tfinal = 20, dt = 0.01)
 {
 
-  #function that specificies the ode model
+  #function that specifies the ode model
   pkpdode <- function(t, y, parms)
   {
     with(
