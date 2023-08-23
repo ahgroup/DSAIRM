@@ -18,7 +18,6 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
 [![CRAN checks](https://cranchecks.info/badges/summary/DSAIRM)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
 [![R-CMD-check](https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
-[![R-CMD-check](https://github.com/ahgroup/DSAIRM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ahgroup/DSAIRM/actions/workflows/R-CMD-check.yaml)
 [![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/main/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
 [![test-coverage](https://github.com/ahgroup/DSAIRM/workflows/test-coverage/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![metacran monthly downloads](http://cranlogs.r-pkg.org/badges/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
