@@ -13,11 +13,6 @@ Duration: 1m 56.1s
 R CMD check succeeded
 
 
-## Notes
-
-I changed the email address from my work to my personal one.
-
-
  
 ## Submission History
 
