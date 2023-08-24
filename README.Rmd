@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
-[![CRAN checks](https://cranchecks.info/badges/summary/DSAIRM)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
+[![CRAN checks](https://badges.cranchecks.info/worst/DSAIRM.svg)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
 [![R-CMD-check](https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![Coverage status](https://codecov.io/gh/ahgroup/DSAIRM/branch/main/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
 [![test-coverage](https://github.com/ahgroup/DSAIRM/workflows/test-coverage/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
