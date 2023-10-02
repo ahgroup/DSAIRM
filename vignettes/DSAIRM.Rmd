@@ -32,7 +32,7 @@ The main audience are individuals who want to learn how mechanistic simulation m
 
 ## Installation
 
-I assume you have [R](https://www.r-project.org/) installed. I also highly recommend [RStudio](https://www.rstudio.com/products/rstudio/download/), though it is not required. After having opened R/Rstudio, you can install the package from CRAN by typing the following into the R console (the bottom left window if you are using RStudio):
+I assume you have [R](https://www.r-project.org/) installed. I also highly recommend [RStudio](https://posit.co/download/rstudio-desktop/), though it is not required. After having opened R/Rstudio, you can install the package from CRAN by typing the following into the R console (the bottom left window if you are using RStudio):
 
 
 ```r

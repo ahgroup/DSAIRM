@@ -87,7 +87,7 @@
                         <h4 data-toc-skip class="author"><a href="http://handelgroup.uga.edu" class="external-link">Andreas
 Handel</a></h4>
             
-            <h4 data-toc-skip class="date">2022-07-25</h4>
+            <h4 data-toc-skip class="date">2023-08-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ahgroup/DSAIRM/blob/HEAD/vignettes/DSAIRM.Rmd" class="external-link"><code>vignettes/DSAIRM.Rmd</code></a></small>
       <div class="hidden name"><code>DSAIRM.Rmd</code></div>
@@ -142,10 +142,10 @@ teach yourself the beginnings of within-host modeling on your own.</p>
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>I assume you have <a href="https://www.r-project.org/" class="external-link">R</a>
-installed. I also highly recommend <a href="https://www.rstudio.com/products/rstudio/download/" class="external-link">RStudio</a>,
-though it is not required. After having opened R/Rstudio, you can
-install the package from CRAN by typing the following into the R console
-(the bottom left window if you are using RStudio):</p>
+installed. I also highly recommend <a href="https://posit.co/download/rstudio-desktop/" class="external-link">RStudio</a>, though it
+is not required. After having opened R/Rstudio, you can install the
+package from CRAN by typing the following into the R console (the bottom
+left window if you are using RStudio):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'DSAIRM'</span><span class="op">)</span></span></code></pre></div>
 <p>Alternatively, you can install the latest development version (with
@@ -182,15 +182,18 @@ Now you can open the main menu by typing the following into the
 <p>If successful, you should see a graphical menu open in your browser
 that looks something like this:</p>
 <div class="figure">
-<img src="mainmenu.png" alt=""><p class="caption">Main menu of the DSAIRM package.</p>
+<img src="mainmenu.png" alt="Main menu of the DSAIRM package." width="478"><p class="caption">
+Main menu of the DSAIRM package.
+</p>
 </div>
 <p>From the main menu, you can choose the different apps corresponding
 to different modeling topics and scenarios. Each app has the inputs you
 can set on the left and the outputs (figures and text) on the right.
 This is an example of one of the apps:</p>
 <div class="figure">
-<img src="appexample.png" alt=""><p class="caption">Screenshot of the input-output elements of one of the
-apps.</p>
+<img src="appexample.png" alt="Screenshot of the input-output elements of one of the apps." width="609"><p class="caption">
+Screenshot of the input-output elements of one of the apps.
+</p>
 </div>
 <p>As seen in the figure, below each app are four tabs with different
 sections providing information and instruction. The <em>Overview</em>
@@ -203,16 +206,18 @@ provides any other further information needed to understand what is
 going on. The following figure shows an example of this for one of the
 apps.</p>
 <div class="figure">
-<img src="modelexample.png" alt=""><p class="caption">Screenshot of the <em>Model</em> section of one of
-the apps.</p>
+<img src="modelexample.png" alt="Screenshot of the _Model_ section of one of the apps." width="682"><p class="caption">
+Screenshot of the <em>Model</em> section of one of the apps.
+</p>
 </div>
 <p>The <em>What to do</em> tab contains a list of suggested tasks you
 might want to go through. By doing those tasks, you will learn the topic
 a specific app is meant to teach. The following figure shows an example
 for part of one of those <em>What to do</em> sections.</p>
 <div class="figure">
-<img src="whattodoexample.png" alt=""><p class="caption">Screenshot of the <em>What to do</em> section of one
-of the apps.</p>
+<img src="whattodoexample.png" alt="Screenshot of the _What to do_ section of one of the apps." width="603"><p class="caption">
+Screenshot of the <em>What to do</em> section of one of the apps.
+</p>
 </div>
 <p>Once you finished exploring a specific app, you can return to the
 main menu. Eventually, you can exit back to the <code>R</code> console
@@ -374,9 +379,9 @@ rename it (we call it <code>mysimulator.R</code> here).</p>
 <p>Then open the file (ideally in RStudio) and make the following
 modifications to the code:</p>
 <p>old:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>simulate_basicbacteria_ode <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r =</span> <span class="fl">0.001</span>, <span class="at">dI =</span> <span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>simulate_basicbacteria_ode <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r =</span> <span class="fl">0.001</span>, <span class="at">dI =</span> <span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>)</span></code></pre></div>
 <p>new:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mysimulator <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r=</span><span class="fl">1e3</span>, <span class="at">dI=</span><span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>, <span class="at">s=</span><span class="fl">1E3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>mysimulator <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">B =</span> <span class="dv">10</span>, <span class="at">I =</span> <span class="dv">1</span>, <span class="at">g =</span> <span class="dv">1</span>, <span class="at">Bmax =</span> <span class="fl">1e+05</span>, <span class="at">dB =</span> <span class="fl">0.1</span>, <span class="at">k =</span> <span class="fl">1e-06</span>, <span class="at">r=</span><span class="fl">1e3</span>, <span class="at">dI=</span><span class="dv">1</span>, <span class="at">tstart =</span> <span class="dv">0</span>, <span class="at">tfinal =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="fl">0.05</span>, <span class="at">s=</span><span class="fl">1E3</span>)</span></code></pre></div>
 <p>Note the changed default value for <em>r</em> to ensure the immune
 response is sufficiently triggered.</p>
 <p>old:</p>
@@ -490,7 +495,7 @@ Immunology</a>.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

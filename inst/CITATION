@@ -1,6 +1,6 @@
 citHeader("To cite package 'DSAIRM' in publications use:")
 
-citEntry(entry="Article",
+bibentry("Article",
   title         = "A software package for immunologists to learn simulation modeling",
   author        = as.person("Andreas Handel"),
   journal       = "BMC Immunology",

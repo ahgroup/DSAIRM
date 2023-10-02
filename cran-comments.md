@@ -1,21 +1,22 @@
 ## Test environments
 
-* local Windows 10.1 x86_64, R 4.1
+* local Windows 11 x86_64, R 4.3.1
 * R-CMD-Check (local, Github actions) 
 * devtools: check_rhub(), check_win_release(), check_win_devel()
 
 ## R CMD check results
 
-0 errors v | 0 warnings v | 0 notes v
+Duration: 1m 56.1s
 
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
-## Notes
-
-I changed the email address from my work to my personal one.
+R CMD check succeeded
 
 
  
 ## Submission History
+
+version 0.9.6: small bug fixes and feature improvements.
 
 version 0.9.5: four new apps, small bug fixes and other enhancements.
 

@@ -6,7 +6,7 @@ Description: Simulation models (apps) of various within-host immune response sce
     about within-host infection and immune response modeling from a dynamical systems perspective.
     All apps include explanations of the underlying models and instructions on what to do with the models. 
 Version: 0.9.6
-Date: 2022-07-25
+Date: 2023-08-23
 Authors@R: c(
     person("Andreas", "Handel", email = "andreas.handel@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4622-1146") ),
     person("Cody", "Dailey",  role = "ctb"), 
@@ -37,7 +37,7 @@ Imports:
     XML
 Depends:
     R (>= 4.0.0),
-    shiny (>= 1.0)
+    shiny (>= 1.2)
 Suggests:
     covr,
     devtools,
@@ -47,7 +47,7 @@ Suggests:
     rmarkdown,
     roxygen2,
     testthat
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 URL: https://ahgroup.github.io/DSAIRM/, https://github.com/ahgroup/DSAIRM/
 BugReports: https://github.com/ahgroup/DSAIRM/issues
