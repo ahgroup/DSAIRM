@@ -2,6 +2,7 @@
 ^doc$
 ^docs$
 ^Meta$
+^.*\.nojekyll$
 ^pkgdown$
 ^inst/media$
 ^.*\.Rproj$

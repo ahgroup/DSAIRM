@@ -69,7 +69,7 @@ If you contribute/send those files, I will - after testing - include them into t
         - References
 
 #### Suggestions for Consistency in Formatting
-* Capitalization rules to follow title rules ("To"" when an infinitive also)
+* Capitalization rules to follow title rules 
 * Documentation: bullets for lists only and notes section)
 * Emphasizing or Referring to Concepts or App Components
     + Apps referenced in bold italics
