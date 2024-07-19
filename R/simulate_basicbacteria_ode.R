@@ -49,11 +49,11 @@ simulate_basicbacteria_ode <- function(B = 100, I = 1, g = 1, Bmax = 1e+05, dB =
     with( as.list(c(y,parms)), { #lets us access variables and parameters stored in y and parms by name
     #StartODES
     #Bacteria : bacteria growth : bacteria death : immune response killing :
-    dB = g*B*(1-B/Bmax) - dB*B - k*B*I
+    dBdt = g*B*(1-B/Bmax) - dB*B - k*B*I
     #Immune Response : immune response growth : immune response decay :
-    dI = r*B*I - dI*I
+    dIdt = r*B*I - dI*I
     #EndODES
-    list(c(dB,dI))
+    list(c(dBdt,dIdt))
   } ) } #close with statement, end ODE function code block
 
   #Main function code block
