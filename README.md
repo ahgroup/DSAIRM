@@ -8,7 +8,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/DSAIRM)](https://cran.r-project.org/package=DSAIRM)
 [![CRAN
-checks](https://cranchecks.info/badges/summary/DSAIRM)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
+checks](https://badges.cranchecks.info/worst/DSAIRM.svg)](https://cran.r-project.org/web/checks/check_results_DSAIRM.html)
 [![R-CMD-check](https://github.com/ahgroup/DSAIRM/workflows/R-CMD-check/badge.svg)](https://github.com/ahgroup/DSAIRM/actions)
 [![Coverage
 status](https://codecov.io/gh/ahgroup/DSAIRM/branch/main/graph/badge.svg?token=OGO3sVEcPD)](https://codecov.io/gh/ahgroup/DSAIRM)
@@ -84,19 +84,17 @@ package [see the *Get Started* tutorial
   to Infectious Disease Epidemiology (DSAIDE)*, focuses on models at the
   population level. It has the same structure as DSAIRM. [See the DSAIDE
   site for more information.](https://ahgroup.github.io/DSAIDE/)
-- I send out a monthly newsletter in which I announce any noteworthy
-  updates to my R packages. If you want to stay updated, [you can sign
-  up here](https://www.andreashandel.com/subscribe/).
 
 ## Citation and Contributors
 
 If the package does in any way help you with your work such that it
 warrants citing it, please cite [this publication in BMC
-Immunology](https://doi.org/10.1186/s12865-019-0321-0). This R package
-is developed and maintained by [Andreas
+Immunology](https://doi.org/10.1186/s12865-019-0321-0).
+
+This R package is developed and maintained by [Andreas
 Handel](https://www.andreashandel.com/). A full list of contributors and
 a Bibtex entry for the citation [can be found
 here](https://ahgroup.github.io/DSAIRM/authors.html).
 
 This project was/is partially supported by NIH grants U19AI117891,
-U01AI150747, R25AI147391 and R25GM089694.
+U01AI150747, R01AI170116, R25AI147391 and R25GM089694.
