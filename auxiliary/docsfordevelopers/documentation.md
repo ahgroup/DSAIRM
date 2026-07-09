@@ -139,7 +139,7 @@ to deploy, follow these steps (also listed in the main app.R file): 1. go into t
 - Run devtools::check_win_devel(), devtools::check_mac_release()
 - Check for reverse dependencies (I don't think there are any): revdepcheck::revdep_check()
 - Do a test run of devtools::release() - fix any remaining issues, then re-run and release
-- 
+- Run: devtools::submit_cran() to submit
 
 ### Trouble-shooting
 
