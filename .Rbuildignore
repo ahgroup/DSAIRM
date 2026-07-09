@@ -15,3 +15,5 @@
 ^\.github$
 ^README.Rmd
 ^CRAN-SUBMISSION$
+^\.positai$
+^\.claude$

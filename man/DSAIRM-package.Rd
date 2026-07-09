@@ -33,6 +33,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Andreas Handel \email{andreas.handel@gmail.com} (\href{https://orcid.org/0000-0002-4622-1146}{ORCID})
 
+Authors:
+\itemize{
+  \item Andreas Handel \email{andreas.handel@gmail.com} (\href{https://orcid.org/0000-0002-4622-1146}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Cody Dailey [contributor]

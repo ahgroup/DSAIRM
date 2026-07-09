@@ -1,3 +1,8 @@
+# DSAIRM 1.0.0 (2026-07-08)
+
+* Small bug fixes.
+* Other minor updates and improvements.
+
 # DSAIRM 0.9.7 (2024-07-19)
 
 * Small bug fixes and feature enhancements.

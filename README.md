@@ -62,7 +62,7 @@ package [see the *Get Started* tutorial
 - [I published a paper describing the
   package](https://doi.org/10.1186/s12865-019-0321-0). The package has
   since been updated and changed, but the paper still describes the
-  overall idea and context well.  
+  overall idea and context well.\
 - Several live-coding video recordings showing the different ways of
   using DSAIRM are available on the website [Simulation Modeling in
   Immunology (SMI)](https://andreashandel.github.io/SMIcourse/). See the

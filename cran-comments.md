@@ -1,12 +1,12 @@
 ## Test environments
 
-* local Windows 11 x86_64, R 4.3.1
-* R-CMD-Check (local, Github actions) 
-* devtools: check_rhub(), check_win_release(), check_win_devel()
+* local Windows 11 x86_64, R 4.6
+* R-CMD-Check (local) 
+* other checks: check_rhub(), check_win_release(), check_win_devel()
 
 ## R CMD check results
 
-Duration: 1m 56.1s
+Duration: 2m 58.4s
 
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
@@ -15,6 +15,8 @@ R CMD check succeeded
 
  
 ## Submission History
+
+version 1.0.0: small bug fixes and improvements.
 
 version 0.9.6: small bug fixes and feature improvements.
 

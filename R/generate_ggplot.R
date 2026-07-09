@@ -136,21 +136,21 @@ generate_ggplot <- function(res)
       ###choose between different types of plots
       if (plottype == 'Scatterplot')
       {
-        p2 = p1 + ggplot2::geom_point(data = dat, aes(y = .data$yvals, color = factor(.data$varnames, ordered = FALSE), shape = factor(.data$varnames, ordered = FALSE)), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_point(data = dat, aes(y = .data$yvals, color = factor(.data$varnames, ordered = FALSE), shape = factor(.data$varnames, ordered = FALSE)), linewidth = linesize, na.rm=TRUE)
       }
       if (plottype == 'Boxplot')
       {
-        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames)), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_boxplot(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames)), linewidth = linesize, na.rm=TRUE)
       }
       if (plottype == 'Lineplot')
       {
-        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), size = linesize, na.rm=TRUE)
+        p2 = p1 + ggplot2::geom_line(data = dat, aes( y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), linewidth = linesize, na.rm=TRUE)
       }
       if (plottype == 'Mixedplot')
       {
         #a mix of lines and points. for this, the dataframe needs to contain an extra column indicating line or point
-        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), aes( y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), size = linesize)
-        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), aes( y = .data$yvals, color = as.factor(.data$varnames), shape = factor(.data$varnames, ordered = FALSE)), size = 2.5*linesize)
+        p1a = p1 + ggplot2::geom_line(data = dplyr::filter(dat,style == 'line'), aes( y = .data$yvals, color = as.factor(.data$varnames), linetype = as.factor(.data$varnames)), linewidth = linesize)
+        p2 = p1a + ggplot2::geom_point(data = dplyr::filter(dat,style == 'point'), aes( y = .data$yvals, color = as.factor(.data$varnames), shape = factor(.data$varnames, ordered = FALSE)), linewidth = 2.5*linesize)
       }
 
 
