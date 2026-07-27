@@ -1,7 +1,10 @@
-# Former DSAIRM repository and website
+---
+title: "Former DSAIRM repository and website"
+---
 
 This is the former home of the **DSAIRM - Dynamical Systems Approach to Immune Response Modeling** R package.
 
 The package has moved to the repository [https://github.com/andreashandel/DSAIRM/](https://github.com/andreashandel/DSAIRM/).
 
 The `DSAIRM` website can now be found at [https://andreashandel.github.io/DSAIRM/](https://andreashandel.github.io/DSAIRM/).
+
